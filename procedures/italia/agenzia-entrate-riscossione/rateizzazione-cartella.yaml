@@ -1,0 +1,633 @@
+schema_version: 0
+id: italia/agenzia-entrate-riscossione/rateizzazione-cartella
+title: Rateizzazione di cartelle e avvisi di Agenzia delle entrate-Riscossione
+summary: >-
+  Chi ha ricevuto una cartella di pagamento (o un avviso di accertamento esecutivo o un avviso di
+  addebito INPS) affidato ad Agenzia delle entrate-Riscossione e non riesce a pagare tutto subito
+  può chiedere di pagare a rate. Fino a 120.000 euro per richiesta basta dichiarare una temporanea
+  difficoltà economica e si ottengono fino a 84 rate mensili (richieste del 2025 e del 2026), anche
+  online con "Rateizza adesso". Vale per persone fisiche, ditte individuali e società.
+ente:
+  name: Agenzia delle entrate-Riscossione
+  office: Per la provincia di Napoli, area territoriale di Napoli (richieste su modello RS)
+applies_to:
+  events: [letter]
+  audience: [business, resident]
+  conditions:
+    - text: >-
+        Si possono rateizzare le somme iscritte a ruolo indicate in cartelle di pagamento, avvisi di
+        accertamento esecutivi dell'Agenzia delle Entrate o delle Dogane e Monopoli e avvisi di
+        addebito dell'INPS.
+      status: verified
+      source: mod-rs
+    - text: >-
+        "A semplice richiesta" (senza documenti): somme iscritte a ruolo di importo inferiore o pari a
+        120.000 euro comprese in ciascuna richiesta, fino a un massimo di 84 rate mensili per le
+        richieste presentate negli anni 2025 e 2026 (96 nel 2027 e 2028, 108 dal 1° gennaio 2029).
+        Basta dichiarare di versare in una temporanea situazione di obiettiva difficoltà
+        economico-finanziaria.
+      status: verified
+      source: ader-rateizzazione
+    - text: >-
+        La soglia di 120.000 euro è calcolata sulla somma degli importi residui delle sole
+        cartelle/avvisi inseriti nella richiesta.
+      status: verified
+      source: mod-rs
+    - text: >-
+        Richiesta "documentata" (modelli RDF o RDG, con ISEE o indici di bilancio): obbligatoria oltre
+        120.000 euro (fino a 120 rate), oppure fino a 120.000 euro se si vogliono da 85 a 120 rate
+        (richieste del 2025 e 2026). Se l'esame dei documenti non giustifica più di 84 rate, ADER
+        concede comunque fino a 84 rate.
+      status: verified
+      source: vademecum
+    - text: >-
+        In ogni caso ciascuna rata non può essere inferiore a 50 euro.
+      status: verified
+      source: ader-rateizzazione
+    - text: >-
+        Non sono rateizzabili da ADER: i debiti di enti che non l'hanno autorizzata (bisogna rivolgersi
+        all'ente), i tributi e tipi di imposta nell'elenco dei "non rateizzabili", i debiti di una
+        rateizzazione decaduta chiesta dal 16 luglio 2022 in poi, e certi debiti di Rottamazione-ter o
+        "saldo e stralcio" diventati inefficaci.
+      status: verified
+      source: vademecum
+    - text: >-
+        Nell'elenco degli enti che hanno autorizzato ADER a rateizzare (aggiornato al 16 settembre 2026)
+        compaiono "Comune di Napoli" e "S.A.P.NA. per il Comune di Napoli". Controllare comunque l'ente
+        indicato sulla cartella negli elenchi aggiornati.
+      status: verified
+      source: enti-autorizzati-xlsx
+    - text: >-
+        Non può chiedere la rateizzazione chi ha depositato un accordo di ristrutturazione, una
+        transazione fiscale, una domanda di concordato preventivo o una proposta per la crisi da
+        sovraindebitamento (D.Lgs. 14/2019): il modello RS fa dichiarare il contrario.
+      status: verified
+      source: mod-rs
+legal_basis:
+  - text: >-
+      Art. 19 del DPR 602/1973, come modificato dall'art. 13 del D.Lgs. 110/2024, per le richieste
+      presentate dal 1° gennaio 2025. Alle richieste fino al 31 dicembre 2024 si applica il testo
+      precedente (massimo 72 rate a semplice richiesta).
+    status: verified
+    source: ader-rateizzazione
+  - text: >-
+      Decreto del Vice Ministro dell'economia e delle finanze del 27 dicembre 2024: parametri (ISEE,
+      Indice di liquidità, Indice Alfa, Indice Beta) per le richieste documentate e le proroghe.
+    status: verified
+    source: ader-rateizzazione
+  - text: >-
+      Su Normattiva il testo dell'art. 19 consultato risulta vigente fino al 31 dicembre 2026: dal 2027
+      la norma potrebbe cambiare. Ricontrollare prima di usare questa scheda nel 2027.
+    status: unverified
+deadline:
+  rules:
+    - text: >-
+        Le fonti consultate non fissano un termine per chiedere la rateizzazione. La cartella va però
+        pagata nei termini che decorrono dalla notifica: se non si paga e non si chiede in tempo la
+        rateizzazione o la sospensione, ADER avvia le procedure cautelari o esecutive.
+      status: verified
+      source: ader-cartella
+    - text: >-
+        Il termine di pagamento indicato sulle cartelle è di 60 giorni dalla notifica (la pagina ADER
+        lo cita a proposito di aggio e sospensione; il termine generale non è stato letto nella norma).
+      status: unverified
+    - text: >-
+        Decadenza: per le rateizzazioni chieste dal 16 luglio 2022 si decade se non si pagano 8 rate,
+        anche non consecutive. Se tra le rate non pagate c'è l'ultima, si decade anche con meno rate
+        non pagate.
+      status: verified
+      source: vademecum
+    - text: >-
+        Dopo la decadenza il residuo è dovuto tutto in una volta, il recupero riprende subito e, per le
+        richieste presentate dal 16 luglio 2022, quegli stessi debiti non sono più rateizzabili. La
+        decadenza non impedisce di rateizzare debiti diversi.
+      status: verified
+      source: ader-decadenza
+    - text: >-
+        Se ADER invia un preavviso di rigetto, il contribuente ha 10 giorni per rispondere e sanare.
+      status: verified
+      source: vademecum
+    - text: >-
+        La prima rata scade non prima di 8 giorni lavorativi dall'emissione del provvedimento di
+        accoglimento.
+      status: verified
+      source: vademecum
+  lateness:
+    text: >-
+      Pagando una rata dopo la scadenza si devono anche gli interessi di mora per i giorni di ritardo
+      (e, per i carichi affidati fino al 31 dicembre 2021, l'eventuale aggio). Non stimare gli importi:
+      chiedere il calcolo ad ADER (060101, sportello o area riservata).
+    status: verified
+    source: vademecum
+channels:
+  - type: portal
+    name: Area riservata ADER – servizio "Rateizza adesso" (sezione "Rateizza il debito")
+    url: https://servizi.agenziaentrateriscossione.gov.it/equitaliaServiziWeb/home/login.do
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: vademecum
+    notes: >-
+      Solo per la semplice richiesta (fino a 120.000 euro e 84 rate), senza allegare documenti; se
+      ci sono i requisiti il piano si ottiene subito. Imprese e professionisti possono entrare anche
+      con le credenziali dell'Agenzia delle Entrate. Lo possono usare anche una persona di fiducia o
+      un intermediario fiscale delegati.
+  - type: app
+    name: App Equiclick
+    auth: [spid, cie, cns]
+    source: vademecum
+    notes: Offre lo stesso servizio "Rateizza adesso".
+  - type: pec
+    name: Casella rateazioni dell'area territoriale di Napoli (solo modello RS)
+    address: rateazioni.na@pec.agenziariscossione.gov.it
+    receipt: legal
+    source: mod-rs
+    notes: >-
+      Va usata la casella della provincia che ha emesso la cartella/avviso, non quella di residenza.
+      Allegare copia del documento d'identità.
+  - type: pec
+    name: Casella rateazioni della Campania (modelli RDF e RDG, richieste documentate)
+    address: CAM.rateazioni@pec.agenziariscossione.gov.it
+    receipt: legal
+    source: mod-rdf
+  - type: desk
+    name: Sportelli territoriali ADER (su appuntamento)
+    url: https://www.agenziaentrateriscossione.gov.it/it/servizi/prenota-un-appuntamento/prenota-un-appuntamento-allo-sportello-territoriale/?idServizio=S3
+    booking: >-
+      Online con "Trova lo sportello e prenota" (giornata in corso e 9 lavorative successive) o tramite
+      operatore al 060101.
+    source: ader-prenota
+    notes: >-
+      Giorni e orari vanno controllati sulla pagina del singolo sportello; per l'elenco degli sportelli
+      di Napoli usare il servizio di ricerca.
+  - type: desk
+    name: Sportello ADER di Napoli – Vomero
+    address: Via San Gennaro al Vomero 12, Napoli
+    source: ader-vomero
+    notes: >-
+      Indirizzo citato in un avviso ADER del 21/10/2026 (sportello chiuso dal 22 al 26 ottobre 2026);
+      orari non indicati. Solo su appuntamento. Altri sportelli napoletani non sono stati verificati.
+  - type: desk
+    name: Sportello online (videochiamata)
+    url: https://www.agenziaentrateriscossione.gov.it/it/servizi/prenota-un-appuntamento/
+    auth: [spid, cie]
+    source: ader-prenota
+  - type: phone
+    name: Contact center ADER (informazioni e prenotazioni)
+    address: 06 01 01
+    hours: operatore lunedì–venerdì 8:00–18:00; risponditore automatico negli altri orari
+    source: ader-contatti
+payment:
+  method: pagopa
+  rateazione: >-
+    Fino a 84 rate mensili a semplice richiesta (richieste 2025–2026), fino a 120 con richiesta
+    documentata; rata minima 50 euro; rate costanti o crescenti anno per anno.
+  calculator_url: https://servizi.agenziaentrateriscossione.gov.it/bollettini/simulazione-rate/home
+  notes:
+    - text: >-
+        Con il provvedimento di accoglimento arrivano il piano di ammortamento e i moduli pagoPA delle
+        prime 12 rate; i successivi vengono spediti al domicilio indicato o si richiedono con il servizio
+        "Rateizzazione – Richiedi i moduli di pagamento" o dall'area riservata.
+      status: verified
+      source: vademecum
+    - text: >-
+        Le rate si pagano con i moduli pagoPA (area riservata, app, banche, Poste, tabaccai e altri PSP),
+        con addebito diretto SDD attivato nell'area riservata o allo sportello (addebito dalla rata che
+        scade dopo 30 giorni dal mandato), oppure agli sportelli ADER.
+      status: verified
+      source: vademecum
+    - text: >-
+        La rata comprende il residuo del carico, gli interessi di mora maturati alla data della
+        richiesta, l'aggio (solo carichi affidati fino al 31/12/2021) e gli interessi di rateizzazione;
+        diritti di notifica e spese per azioni cautelari o esecutive già fatte vanno tutti sulla prima
+        rata.
+      status: verified
+      source: vademecum
+    - text: >-
+        Interessi di rateizzazione indicati da ADER: 4,5% annuo per i debiti erariali (art. 21 DPR
+        602/1973), 4,65% annuo per quelli previdenziali e assistenziali; per gli altri il tasso dell'art.
+        21 salvo diversa determinazione dell'ente creditore (elenco degli enti con i loro tassi). Non
+        calcolare da sé gli interessi: li riporta il piano di ammortamento.
+      status: verified
+      source: ader-enti-autorizzati
+    - text: >-
+        Il simulatore indicato serve solo per le richieste documentate (oltre 84 rate o oltre 120.000
+        euro): con ISEE o indici di bilancio stima il numero massimo di rate e l'importo indicativo
+        della rata.
+      status: verified
+      source: ader-simulatore
+documents:
+  - name: Modello RS compilato e firmato (solo se non si usa "Rateizza adesso")
+    required: false
+  - name: Copia del documento d'identità del richiedente
+    required: false
+    notes: >-
+      Obbligatoria se il modello RS si invia via PEC; non serve se si firma allo sportello. Senza
+      documento l'istanza non viene lavorata.
+  - name: Copia dei documenti d'identità di delegante e delegato
+    required: false
+    notes: Solo se la richiesta è presentata da un'altra persona (riquadro "Delega alla presentazione").
+  - name: Certificazione ISEE del nucleo familiare (modello RDF) o prospetti e bilancio (modello RDG)
+    required: false
+    notes: Solo per la richiesta documentata (oltre 84 rate o oltre 120.000 euro).
+forms:
+  - id: mod-rs
+    name: Mod. RS – Richiesta di rateizzazione per importi fino a 120.000 euro (fino a 84 rate) – Tutti i soggetti
+    url: https://www.agenziaentrateriscossione.gov.it/export/.files/it/modulistica/RS.pdf
+    source: mod-rs
+    sha256: 28ff54ebe9b9c903620b85306ff182f69f21484cf95e9a31973cc39cccd16db8
+    signature_required: true
+    fields:
+      - label: Il/La sottoscritto/a
+        map: { concat: [identity.last_name, identity.first_name] }
+      - { label: nato/a il, map: { direct: identity.date_of_birth } }
+      - label: a (luogo di nascita)
+        map: { fallback: [identity.birth_comune, identity.birth_country] }
+      - { label: (Prov) di nascita, map: { direct: identity.birth_province } }
+      - { label: codice fiscale, map: { direct: identity.codice_fiscale } }
+      - label: in proprio (persone fisiche)
+        map: { ask: "La richiesta riguarda debiti propri come persona fisica? (barrare questa casella oppure quella successiva)" }
+      - label: in qualità di (titolare di ditta individuale / legale rappresentante / tutore / curatore / altro)
+        map: { direct: business.qualita_dichiarante }
+        notes: Solo se si chiede per una ditta, società, associazione o ente.
+      - { label: del/della, map: { direct: business.denominazione } }
+      - label: codice fiscale (del/della)
+        map: { fallback: [business.codice_fiscale, business.partita_iva] }
+      - label: Domicilio per la richiesta – Comune
+        map: { direct: residenza.comune }
+        notes: >-
+          È l'indirizzo dove ADER manda comunicazioni e moduli di pagamento: se si preferisce un altro
+          domicilio (per esempio la sede dell'impresa), indicare quello in tutte le righe del domicilio.
+      - { label: Domicilio – (Prov), map: { direct: residenza.provincia } }
+      - label: Domicilio – Indirizzo
+        map: { concat: [residenza.indirizzo, residenza.civico] }
+      - { label: Domicilio – CAP, map: { direct: residenza.cap } }
+      - label: presso (eventuale domiciliatario)
+        map: { ask: "Le comunicazioni vanno inviate presso qualcuno (per esempio un commercialista)? Se no, lasciare vuoto" }
+      - label: e-mail/PEC
+        map: { fallback: [business.pec, identity.pec, identity.email] }
+      - { label: tel, map: { direct: identity.phone } }
+      - label: CHIEDE – la dilazione delle somme indicate nei seguenti avvisi/cartelle (casella)
+        map: { ask: "Barrare la casella: si chiede la dilazione" }
+      - label: n. (sei spazi per i numeri di cartelle/avvisi)
+        map: { ask: "Numeri delle cartelle o degli avvisi da rateizzare (dalla cartella o dalla Situazione debitoria)" }
+      - label: per un importo complessivo di euro
+        map: { ask: "Importo complessivo residuo delle cartelle/avvisi indicati (dalla Situazione debitoria)" }
+      - label: secondo un piano di rateizzazione in … rate
+        map: { ask: "Numero di rate richieste (massimo 84; ogni rata almeno 50 euro)" }
+      - label: rate di importo costante / variabile crescente anno per anno (barrare una sola casella)
+        map: { ask: "Rate costanti o crescenti anno per anno?" }
+      - label: DICHIARA – di trovarsi in una temporanea situazione di obiettiva difficoltà economico-finanziaria
+        map: { blank_with_reason: "Casella già barrata sul modulo." }
+      - label: DICHIARA ALTRESÌ – che non è stato depositato un accordo di ristrutturazione, una transazione, un concordato o una proposta per il sovraindebitamento
+        map: { blank_with_reason: "Casella già barrata sul modulo; se una di queste procedure è stata depositata, la richiesta non va firmata." }
+      - label: di essere … della ditta/società/associazione/ente/soggetto sopra indicato/a (casella e qualità)
+        map: { direct: business.qualita_dichiarante }
+        notes: Obbligatoria solo se firma il titolare, legale rappresentante, tutore, curatore o altro per conto di un soggetto.
+      - label: Luogo e data
+        map: { ask: "Luogo e data della firma" }
+      - label: Firma
+        map: { blank_with_reason: "Firma del richiedente, a mano o digitale: la appone solo la persona." }
+      - label: Delega alla presentazione – Io sottoscritto/a
+        map: { concat: [identity.last_name, identity.first_name] }
+        notes: Da compilare solo se la richiesta viene consegnata o inviata da un'altra persona.
+      - label: Delega – in proprio
+        map: { ask: "Il delegante agisce in proprio? (barrare questa casella oppure quella successiva)" }
+      - label: Delega – in qualità di
+        map: { direct: business.qualita_dichiarante }
+      - label: Delega – del/della
+        map: { direct: business.denominazione }
+      - label: Delega – delego il/la Sig./Sig.ra
+        map: { ask: "Nome e cognome della persona delegata" }
+      - label: Delega – a consegnare / a modificare / a ritirare comunicazioni e provvedimenti (caselle)
+        map: { ask: "Per quali attività si delega (consegna già barrata; modifica; ritiro di comunicazioni e provvedimenti)?" }
+      - label: Delega – Luogo e data
+        map: { ask: "Luogo e data della firma della delega" }
+      - label: Delega – Firma del delegante
+        map: { blank_with_reason: "Firma del delegante: la appone solo la persona." }
+      - label: Spazio riservato al personale
+        map: { blank_with_reason: "Lo compila l'operatore ADER allo sportello." }
+steps:
+  - do: >-
+      Verificare che la comunicazione sia autentica: entrare nell'area riservata ADER (Situazione
+      debitoria – consulta e paga) e controllare che la cartella risulti lì, senza usare link o
+      allegati arrivati per e-mail
+    who: owner
+  - do: >-
+      Controllare l'importo residuo, l'ente creditore e se ci sono altri debiti o piani in corso nella
+      Situazione debitoria; se l'importo sembra sbagliato, chiedere chiarimenti all'ente creditore (la
+      rateizzazione non corregge gli errori)
+    who: anyone
+  - do: >-
+      Controllare che l'ente creditore abbia autorizzato ADER a rateizzare e che il tributo non sia
+      nell'elenco dei non rateizzabili
+    who: anyone
+  - do: >-
+      Scegliere il canale: "Rateizza adesso" nell'area riservata o nell'app (fino a 120.000 euro e 84
+      rate, nessun documento), oppure modello RS via PEC o allo sportello; RDF/RDG per oltre 84 rate o
+      oltre 120.000 euro
+    who: anyone
+  - do: >-
+      Online: accedere con la propria identità digitale e completare "Rateizza adesso"
+    who: owner
+    human_only: true
+  - do: In alternativa, compilare il modello RS con i dati della tabella dei campi
+    who: anyone
+  - { do: Firmare il modello RS (ed eventualmente la delega), who: owner, human_only: true }
+  - do: >-
+      Inviare il modello firmato con copia del documento d'identità alla PEC rateazioni.na (cartelle
+      emesse per la provincia di Napoli), oppure consegnarlo allo sportello su appuntamento
+    who: owner
+    human_only: true
+  - do: >-
+      Se arriva un preavviso di rigetto, rispondere entro 10 giorni sanando quanto richiesto
+    who: owner
+    human_only: true
+  - do: >-
+      Ricevuto il provvedimento di accoglimento, pagare la prima rata entro la scadenza del piano e le
+      successive ogni mese (o attivare l'addebito SDD)
+    who: owner
+    human_only: true
+after:
+  - Conservare il provvedimento di accoglimento, il piano di ammortamento e le ricevute di ogni rata.
+  - >-
+    Annotare il numero e la data del provvedimento: servono per richiedere online i moduli di
+    pagamento delle rate successive.
+  - >-
+    Con il pagamento della prima rata ADER sospende un eventuale fermo amministrativo, se tutti i
+    debiti del fermo sono nel piano (il veicolo si può usare ma non vendere né rottamare), ed
+    estingue i pignoramenti in corso se non si è ancora alla fase di vendita o assegnazione.
+  - >-
+    Con l'accoglimento si può ottenere il DURC regolare, se non ci sono altri debiti previdenziali
+    scaduti e non rateizzati.
+  - >-
+    Se la situazione economica peggiora, si può chiedere una sola volta la proroga del piano
+    (modello RDP), purché non si sia già decaduti.
+  - >-
+    Non lasciare scadere 8 rate (anche non consecutive): dopo la decadenza quei debiti non sono più
+    rateizzabili.
+pitfalls:
+  - text: >-
+      Per sapere quanto si deve davvero, il servizio "Situazione debitoria – consulta e paga"
+      nell'area riservata (SPID, CIE, CNS; imprese e professionisti anche credenziali dell'Agenzia
+      delle Entrate) elenca i documenti da saldare e saldati dal 2000, con ente creditore, data di
+      notifica, residuo, interessi, procedure attive e piani di rateizzazione; si può scaricare un
+      prospetto. Gli sportelli territoriali offrono la stessa consultazione su appuntamento.
+    status: verified
+    source: ader-situazione-debitoria
+  - text: >-
+      Dalla presentazione della richiesta, e finché si pagano le rate, ADER non iscrive nuovi fermi o
+      ipoteche e non avvia nuove procedure esecutive. Fermi e ipoteche già iscritti però restano, le
+      procedure esecutive in corso proseguono fino al pagamento della prima rata e restano possibili
+      le azioni revocatorie e gli interventi in procedure promosse da altri.
+    status: verified
+    source: vademecum
+  - text: >-
+      La richiesta non blocca i pignoramenti di crediti verso la PA già segnalati per inadempienza
+      (art. 48-bis DPR 602/1973): la rateizzazione è concessa al netto di quelle somme.
+    status: verified
+    source: ader-effetti
+  - text: >-
+      I debiti scaduti non inseriti nella richiesta possono essere oggetto di azioni cautelari ed
+      esecutive in qualsiasi momento: inserire tutte le cartelle che si vogliono proteggere.
+    status: verified
+    source: mod-rs
+  - text: >-
+      L'ipoteca iscritta prima della richiesta non viene cancellata dalla rateizzazione: dopo aver
+      pagato parte del debito si può chiederne la riduzione o restrizione, a proprie spese e a certe
+      condizioni.
+    status: verified
+    source: vademecum
+  - text: >-
+      Il modello RS va alla casella PEC dell'area territoriale della provincia che ha emesso la
+      cartella (rateazioni.na per Napoli); i modelli RDF e RDG vanno invece alla casella regionale
+      (CAM.rateazioni per la Campania).
+    status: verified
+    source: mod-rdf
+  - text: >-
+      Le regole con massimo 72 rate valgono solo per le richieste presentate fino al 31 dicembre 2024;
+      dal 2025 i modelli sono RS, RDF, RDG e RDP (datati 01/01/2025).
+    status: verified
+    source: vademecum
+  - text: >-
+      ADER segnala e-mail false a suo nome (per esempio "Avviso Raccomandata", "Notifica cartella di
+      pagamento", "Rateizzazione del debito") con link o allegati Excel. ADER precisa che le
+      notifiche di cartelle via PEC e l'accoglimento delle rateizzazioni non arrivano con file Excel
+      allegati: non cliccare link, non inserire credenziali, eliminare gli allegati.
+    status: verified
+    source: ader-phishing
+  - text: >-
+      Per notificare le cartelle via PEC le Direzioni regionali di ADER usano indirizzi PEC specifici,
+      pubblicati in un elenco sul sito; quegli indirizzi non servono per inviare istanze.
+    status: verified
+    source: ader-pec-notifica
+  - text: >-
+      L'avviso anti-phishing di ADER dice che all'area riservata si accede solo con SPID, CIE o CNS;
+      la pagina di accesso e il modello RS ammettono anche le credenziali dell'Agenzia delle Entrate
+      (per professionisti e imprese).
+    status: disputed
+    source: ader-phishing
+  - text: >-
+      Rottamazione-quinquies degli enti territoriali: domande di adesione aperte fino al 15 dicembre
+      2026, solo online, per i debiti degli enti che hanno adottato il provvedimento. Prima di
+      scegliere tra rottamazione e rateizzazione si può richiedere il prospetto informativo dei debiti
+      rottamabili.
+    status: verified
+    source: ader-rottamazione-et
+  - text: >-
+      La Rottamazione-quinquies degli enti territoriali riguarda i carichi affidati ad ADER dal 1°
+      gennaio 2000 al 31 dicembre 2023. Nell'elenco degli enti che l'hanno adottata compaiono Regione
+      Campania e Comune di Napoli (con "S.A.P.NA. per il Comune di Napoli").
+    status: verified
+    source: elenco-enti-rottamazione
+  - text: >-
+      La rottamazione degli enti territoriali vale solo per i carichi affidati ad ADER, non per i
+      tributi locali riscossi direttamente dall'ente o da concessionari privati.
+    status: verified
+    source: comunicato-15102026
+  - text: >-
+      Se la Rottamazione-quinquies diventa inefficace (rate non pagate), quei carichi non sono più
+      rateizzabili con l'art. 19.
+    status: verified
+    source: ader-quinquies
+  - text: >-
+      Per la Rottamazione-quinquies dei carichi statali (Legge 199/2025) il sito ADER parla ormai solo
+      dei pagamenti delle rate: la finestra per le nuove domande sembra chiusa.
+    status: unverified
+  - text: >-
+      Rateizzare non serve a contestare il debito: per un pagamento già fatto, uno sgravio, la
+      prescrizione o una sentenza favorevole si può chiedere la sospensione entro 60 giorni dalla
+      notifica (modello SL1 o area riservata).
+    status: verified
+    source: ader-cartella
+sources:
+  - id: ader-rateizzazione
+    label: ADER – La rateizzazione dal 1° gennaio 2025
+    url: https://www.agenziaentrateriscossione.gov.it/it/cittadini/Rateizzazione/la-rateizzazione/
+    retrieved: 2026-10-25
+    official: true
+  - id: ader-semplice
+    label: ADER – Istanze "a semplice richiesta"
+    url: https://www.agenziaentrateriscossione.gov.it/it/cittadini/Rateizzazione/istanze-a-semplice-richiesta/
+    retrieved: 2026-10-25
+    official: true
+    notes: >-
+      La frase introduttiva dice "inferiore a 120 mila euro", il testo "fino a 120 mila euro"; la
+      norma e la pagina sulla rateizzazione dicono "inferiore o pari".
+  - id: ader-documentate
+    label: ADER – Istanze "documentate" (Imprese e Professionisti)
+    url: https://www.agenziaentrateriscossione.gov.it/it/imprese/Rateizzazione/istanze-documentate/
+    retrieved: 2026-10-25
+    official: true
+  - id: ader-simulatore
+    label: ADER – Istanze "documentate", Simula il numero delle rate
+    url: https://www.agenziaentrateriscossione.gov.it/it/cittadini/Rateizzazione/istanze-documentate-simula-il-numero-delle-rate/
+    retrieved: 2026-10-25
+    official: true
+  - id: ader-proroga
+    label: ADER – Proroga del piano di rateizzazione
+    url: https://www.agenziaentrateriscossione.gov.it/it/cittadini/Rateizzazione/Proroga/
+    retrieved: 2026-10-25
+    official: true
+  - id: ader-effetti
+    label: ADER – Cosa succede con la presentazione della richiesta di rateizzazione
+    url: https://www.agenziaentrateriscossione.gov.it/it/cittadini/Rateizzazione/cosa-succede-con-la-presentazione-della-richiesta-di-rateizzazione/
+    retrieved: 2026-10-25
+    official: true
+  - id: ader-decadenza
+    label: ADER – Decadenza dal piano di rateizzazione
+    url: https://www.agenziaentrateriscossione.gov.it/it/cittadini/Rateizzazione/decadenza-dal-piano-di-rateizzazione/
+    retrieved: 2026-10-25
+    official: true
+  - id: ader-enti-non-autorizzati
+    label: ADER – Enti che non hanno autorizzato alla rateizzazione e tributi non rateizzabili (elenchi al 16 settembre 2026)
+    url: https://www.agenziaentrateriscossione.gov.it/it/cittadini/Rateizzazione/EntiCheNonHannoAutorizzatoRateizzazioneETributiNonRateizzabili/
+    retrieved: 2026-10-25
+    official: true
+  - id: ader-enti-autorizzati
+    label: ADER – Enti che hanno autorizzato l'Agente della riscossione a concedere la rateizzazione (tassi di interesse)
+    url: https://www.agenziaentrateriscossione.gov.it/it/cittadini/Rateizzazione/Enti-Rateizzazione/
+    retrieved: 2026-10-25
+    official: true
+  - id: enti-autorizzati-xlsx
+    label: Elenco enti che hanno autorizzato AdER a concedere la rateazione al 16 settembre 2026 (xlsx)
+    url: https://www.agenziaentrateriscossione.gov.it/export/.files/it/cittadini/Enti-che-hanno-autorizzato-AdER-a-concedere-la-rateazione-al-16-settembre-2026.xlsx
+    retrieved: 2026-10-25
+    sha256: e1d436794074aca04fc4aa14606b906ff707003318e605e5db1f73e7daaac8a2
+    official: true
+  - id: mod-rs
+    label: Mod. RS del 01/01/2025 – Richiesta di rateizzazione fino a 120.000 euro, con elenco delle caselle PEC
+    url: https://www.agenziaentrateriscossione.gov.it/export/.files/it/modulistica/RS.pdf
+    retrieved: 2026-10-25
+    sha256: 28ff54ebe9b9c903620b85306ff182f69f21484cf95e9a31973cc39cccd16db8
+    official: true
+    notes: >-
+      A pagina 4 il livello di testo contiene ancora l'intestazione del vecchio allegato "R1" (72 rate,
+      importi fino a 100.000 euro), non visibile nella stampa.
+  - id: mod-rdf
+    label: Mod. RDF del 01/01/2025 – Richiesta di rateizzazione documentata (persone fisiche e ditte in regime semplificato)
+    url: https://www.agenziaentrateriscossione.gov.it/export/.files/it/modulistica/RDF.pdf
+    retrieved: 2026-10-25
+    sha256: 5c0af4f51a0049a28aaa306ad6b5bfb8ca29b3b264bb277a40025e011ceca400
+    official: true
+    notes: Letti intestazione, modalità di presentazione ed elenco PEC; modulo non mappato.
+  - id: mod-rdg
+    label: Mod. RDG del 01/01/2025 – Richiesta di rateizzazione documentata (altri soggetti)
+    url: https://www.agenziaentrateriscossione.gov.it/export/.files/it/modulistica/RDG.pdf
+    retrieved: 2026-10-25
+    sha256: 893f1d3d4124ff3fd6d5afded9659a6e6fb9d890b63170180f3473886b43b8d4
+    official: true
+    notes: Letti allegati richiesti ed elenco PEC; modulo non mappato.
+  - id: vademecum
+    label: Guida ADER "La nuova rateizzazione delle cartelle di pagamento" (gennaio 2025)
+    url: https://www.agenziaentrateriscossione.gov.it/export/.files/it/gruppo/Rateizzazione_delle_cartelle_di_pagamento-Vademecum.pdf
+    retrieved: 2026-10-25
+    page_updated: 2025-01-17
+    sha256: 33a7d1e2686c586c8c85380279f60f93a8781ac9a0ac7868c30849199fe77528
+    official: true
+  - id: normattiva-art19
+    label: DPR 602/1973, art. 19 (testo vigente su Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.presidente.repubblica:1973;602~art19!vig=
+    retrieved: 2026-10-25
+    official: true
+    notes: Normattiva indica il testo come vigente dall'8/8/2024 al 31/12/2026.
+  - id: ader-cartella
+    label: ADER – Cartella di pagamento
+    url: https://www.agenziaentrateriscossione.gov.it/it/Per-saperne-di-piu/documenti-della-riscossione/cartella/
+    retrieved: 2026-10-25
+    official: true
+    notes: La tabella dei tassi degli interessi di mora si ferma al 2019.
+  - id: ader-situazione-debitoria
+    label: ADER – "La nuova situazione debitoria", guida alla navigazione (aprile 2026)
+    url: https://www.agenziaentrateriscossione.gov.it/export/.files/it/gruppo/La_nuova_situazione_debitoria.pdf
+    retrieved: 2026-10-25
+    page_updated: 2026-04-07
+    sha256: d8ddf6a7d895b53238abc3572f328cd8952fb0c97ce4cd892821d4f8b22ee0f6
+    official: true
+  - id: ader-prenota
+    label: ADER – Prenota un appuntamento allo sportello territoriale (rateizzazioni e procedure di riscossione)
+    url: https://www.agenziaentrateriscossione.gov.it/it/servizi/prenota-un-appuntamento/prenota-un-appuntamento-allo-sportello-territoriale/?idServizio=S3
+    retrieved: 2026-10-25
+    official: true
+  - id: ader-vomero
+    label: ADER – Sportello di Napoli - Vomero chiuso dal 22 al 26 ottobre
+    url: https://www.agenziaentrateriscossione.gov.it/it/il-gruppo/lagenzia-comunica/novita/news-dagli-sportelli/Sportello-di-Napoli-Vomero-chiuso-dal-22-al-26-ottobre
+    retrieved: 2026-10-25
+    page_updated: 2026-10-21
+    official: true
+  - id: ader-contatti
+    label: ADER – Contact center, numero unico
+    url: https://www.agenziaentrateriscossione.gov.it/it/Contatti/NumeroUnico/
+    retrieved: 2026-10-25
+    official: true
+  - id: ader-phishing
+    label: ADER – Attenzione, nuovi tentativi di truffa tramite false e-mail
+    url: https://www.agenziaentrateriscossione.gov.it/it/il-gruppo/lagenzia-comunica/novita/Attenzione-nuovi-tentativi-di-truffa-tramite-false-e-mail-00001/
+    retrieved: 2026-10-25
+    page_updated: 2026-03-27
+    official: true
+  - id: ader-pec-notifica
+    label: ADER – Notifiche a mezzo PEC (Imprese e Professionisti)
+    url: https://www.agenziaentrateriscossione.gov.it/it/imprese/notifica-a-mezzo-pec/
+    retrieved: 2026-10-25
+    official: true
+  - id: ader-area-riservata
+    label: ADER – Area riservata Cittadini e Imprese (pagina di accesso)
+    url: https://servizi.agenziaentrateriscossione.gov.it/equitaliaServiziWeb/home/login.do
+    retrieved: 2026-10-25
+    official: true
+  - id: ader-rottamazione-et
+    label: ADER – Rottamazione-quinquies enti territoriali, domanda di adesione
+    url: https://www.agenziaentrateriscossione.gov.it/it/Per-saperne-di-piu/definizione-agevolata-rottamazione-quinquies-enti-territoriali/domanda-di-adesione/
+    retrieved: 2026-10-25
+    official: true
+  - id: elenco-enti-rottamazione
+    label: Elenco delle Regioni e degli Enti locali che hanno adottato la Rottamazione-quinquies (pubblicato il 25/09/2026)
+    url: https://www.agenziaentrateriscossione.gov.it/export/.files/it/gruppo/Elenco-regioni-ed-enti-locali-rottamazione-quinquies.pdf
+    retrieved: 2026-10-25
+    sha256: 59094694f00b0039e77ddc97ac915737b8d6327d4137c7423305da8cd17d7ab5
+    official: true
+  - id: comunicato-15102026
+    label: Comunicato stampa ADER del 15/10/2026 – Al via la Rottamazione-quinquies degli enti territoriali
+    url: https://www.agenziaentrateriscossione.gov.it/export/.files/it/comunicati/Comunicato-Agenzia-delle-entrate-Riscossione_15102026.pdf
+    retrieved: 2026-10-25
+    page_updated: 2026-10-15
+    sha256: e1f3eb33e33ccdceea0a40001fc62061c2ac10143ab7fd7e69ba738b02e6fa93
+    official: true
+  - id: ader-quinquies
+    label: ADER – Rottamazione-quinquies (Legge 199/2025), ambito applicativo
+    url: https://www.agenziaentrateriscossione.gov.it/it/Per-saperne-di-piu/definizione-agevolata-rottamazione-quinquies/ambito-applicativo/
+    retrieved: 2026-10-25
+    official: true
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: lette le pagine ADER sulla rateizzazione (regole dal 2025, semplice richiesta, documentate,
+    simulatore, proroga, effetti, decadenza, enti autorizzati e non, con l'elenco xlsx al 16/09/2026),
+    il modello RS (mappato), le parti rilevanti dei modelli RDF e RDG, la guida ADER di gennaio 2025,
+    la pagina sulla cartella, la guida alla Situazione debitoria (aprile 2026), le pagine su
+    prenotazione sportelli, contact center, notifiche PEC e phishing (27/03/2026), l'avviso sullo
+    sportello di Napoli - Vomero e le pagine e i documenti sulla Rottamazione-quinquies. L'art. 19
+    DPR 602/1973 su Normattiva è stato letto tramite un estratto.

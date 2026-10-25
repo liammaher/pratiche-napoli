@@ -1,0 +1,859 @@
+schema_version: 0
+id: napoli/comune/imposta-di-soggiorno-gestori
+title: Imposta di soggiorno – obblighi del gestore della struttura ricettiva (Comune di Napoli)
+summary: >-
+  Chi gestisce a Napoli un albergo, un B&B, un affittacamere, una casa vacanze o una locazione
+  breve deve iscriversi sul portale GEIS del Comune, far pagare l'imposta di soggiorno agli
+  ospiti, presentare ogni trimestre la dichiarazione su GEIS e versare l'imposta con pagoPA entro
+  il 15 del mese successivo. Ogni anno, entro il 30 giugno, presenta anche la dichiarazione
+  nazionale sul modello del Ministero dell'Economia e delle Finanze.
+ente:
+  name: Comune di Napoli
+  office: Area Entrate – Servizio Gestione Canoni e Altri Tributi – Ufficio Imposta di Soggiorno
+  ipa: c_f839
+applies_to:
+  events: [open, annual]
+  audience: [business]
+  sectors:
+    - alberghi
+    - strutture ricettive extralberghiere (B&B, affittacamere, case e appartamenti per vacanze, case per ferie, agriturismi)
+    - locazioni brevi (affitti turistici fino a 30 giorni)
+  conditions:
+    - text: >-
+        Riguarda le strutture ricettive alberghiere ed extralberghiere situate nel Comune di Napoli:
+        alberghi, residenze turistico-alberghiere, case per ferie, affittacamere, case e appartamenti
+        per vacanze, appartamenti ammobiliati per uso turistico, bed & breakfast, agriturismi. Gli
+        ostelli della gioventù sono esclusi (art. 2, c. 1 del regolamento).
+      status: verified
+      source: regolamento
+    - text: >-
+        L'imposta è dovuta anche per i pernottamenti in immobili a uso abitativo per periodi
+        inferiori a 30 giorni (locazioni brevi), che ai fini dell'imposta sono equiparate alle
+        strutture extralberghiere.
+      status: verified
+      source: comune-2026
+    - text: >-
+        Pagano l'imposta gli ospiti di età superiore a 14 anni, non residenti e non iscritti
+        all'anagrafe del Comune di Napoli, per persona e per notte, fino a un massimo di 14
+        pernottamenti consecutivi.
+      status: verified
+      source: comune-2026
+    - text: >-
+        Il gestore della struttura ricettiva è responsabile del pagamento dell'imposta, con diritto di
+        rivalsa sugli ospiti, e della presentazione della dichiarazione (art. 4, c. 1-ter, D.Lgs.
+        23/2011). Per le locazioni brevi la stessa responsabilità ricade su chi incassa il canone o
+        interviene nel pagamento (art. 4, c. 5-ter, D.L. 50/2017), per esempio una piattaforma o
+        un'agenzia.
+      status: verified
+      source: mef-istruzioni
+legal_basis:
+  - text: >-
+      D.Lgs. 14 marzo 2011, n. 23, art. 4 (istituzione dell'imposta; c. 1-ter: responsabilità del
+      gestore, dichiarazione annuale telematica entro il 30 giugno, sanzioni).
+    status: verified
+    source: dlgs-23-art4
+  - text: >-
+      D.L. 24 aprile 2017, n. 50, art. 4, c. 5-ter (locazioni brevi: responsabile chi incassa il
+      canone o interviene nel pagamento).
+    status: verified
+    source: mef-istruzioni
+  - text: >-
+      Regolamento comunale sull'imposta di soggiorno: testo coordinato approvato con delibera C.C.
+      20/2012 e modificato da ultimo con delibera C.C. 13 del 29/03/2019 (artt. 7 esenzioni, 8
+      obblighi del gestore, 9 sanzioni).
+    status: verified
+    source: regolamento
+  - text: >-
+      Delibera C.C. 12 del 04/08/2020: dichiarazione e versamento trimestrali per tutte le strutture
+      dal 1° luglio 2020; abrogati i commi 4 e 5 dell'art. 9 del regolamento (sanzioni comunali per
+      dichiarazione e riversamento), sostituiti dalle sanzioni di legge.
+    status: verified
+    source: dcc-12-2020
+  - text: >-
+      D.M. Economia e Finanze 29 aprile 2022: modello, istruzioni e specifiche tecniche della
+      dichiarazione annuale dell'imposta di soggiorno.
+    status: verified
+    source: mef-decreto
+  - text: Delibera di Giunta n. 89 del 12/03/2026 (tariffe in vigore dal 1° maggio 2026).
+    status: verified
+    source: comune-2026
+deadline:
+  rules:
+    - text: >-
+        Iscrizione su GEIS Portal contemporaneamente all'inizio dell'attività (obbligo in vigore dal
+        1° aprile 2019). L'obbligo resta anche per chi usa piattaforme o intermediari convenzionati
+        con il Comune.
+      status: verified
+      source: comune-2026
+    - text: >-
+        Dichiarazione trimestrale su GEIS e riversamento dell'imposta riscossa entro il 15 del mese
+        successivo al trimestre: entro il 15 aprile, 15 luglio, 15 ottobre e 15 gennaio. La
+        dichiarazione si inserisce in corrispondenza dell'ultimo mese del trimestre (marzo, giugno,
+        settembre, dicembre).
+      status: verified
+      source: modalita
+    - text: >-
+        La dichiarazione trimestrale va presentata anche se nel trimestre non è dovuto alcun
+        riversamento (art. 8, c. 1, lett. h, come modificato dalla delibera C.C. 12/2020).
+      status: verified
+      source: dcc-12-2020
+    - text: >-
+        Dichiarazione annuale sul modello ministeriale, esclusivamente in via telematica, entro il 30
+        giugno dell'anno successivo a quello dei pernottamenti (per l'anno 2026: entro il 30 giugno
+        2027).
+      status: verified
+      source: dlgs-23-art4
+    - text: >-
+        Modello 21 (conto di gestione): il regolamento (art. 8, c. 2) lo chiede entro il 30 gennaio al
+        gestore "in qualità di Agente Contabile". Dopo la sentenza delle Sezioni Unite della
+        Cassazione n. 1527/2026 il Comune scrive di ritenerlo "non più doveroso" ed elabora solo i
+        modelli arrivati entro il 30/01/2026; la stessa pagina però ripete che va presentato entro il
+        30/01, e la pagina "Imposta di Soggiorno 2025" lo indica ancora come obbligo. Chiedere
+        all'Ufficio Imposta di Soggiorno prima del 30 gennaio 2027.
+      status: disputed
+      source: modello-21
+  lateness:
+    text: >-
+      Sanzioni di legge, da non calcolare da soli. Per le violazioni commesse fino al 31/12/2026
+      l'art. 4, c. 1-ter, D.Lgs. 23/2011 prevede, per l'omessa o infedele dichiarazione, una
+      sanzione "dal 100 al 200 per cento dell'importo dovuto" e, per l'omesso, ritardato o parziale
+      versamento, la sanzione dell'art. 13 del D.Lgs. 471/1997. Per le violazioni dal 1° gennaio 2027
+      (D.Lgs. 147/2026) l'omessa dichiarazione è punita con il 100% del tributo non versato e
+      l'infedele con il 40%, in entrambi i casi non meno di 50 euro. Il ravvedimento si calcola con la
+      funzione "Ravvedimento" di GEIS o con l'ufficio.
+    status: verified
+    source: dlgs-23-art4
+channels:
+  - type: portal
+    name: GEIS Portal – Portale Multiservizi del Comune di Napoli
+    url: https://cizrm.municipia.eng.it/?ente=NAPO
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: geis-info
+    notes: >-
+      Per iscrizione, dichiarazioni trimestrali, pagamento pagoPA, delegati, variazioni e cessazione
+      della struttura. La pagina del Comune indica SPID, CIE o TS-CNS; il manuale cita SPID o CIE,
+      le FAQ solo SPID. Ogni dichiarazione inviata riceve numero e protocollo e una ricevuta PDF.
+  - type: pec
+    address: entrate.impostasoggiorno@pec.comune.napoli.it
+    receipt: legal
+    source: modalita
+    notes: >-
+      Solo se è oggettivamente impossibile usare GEIS: dichiarazione trimestrale sul modulo del
+      Comune, con motivo, copia del versamento e documento del legale rappresentante, entro le stesse
+      scadenze. Anche per il Modello 21 firmato digitalmente.
+  - type: email
+    address: entrate.impostasoggiorno@comune.napoli.it
+    receipt: informal
+    source: modalita
+    notes: Alternativa alla PEC per la dichiarazione di emergenza quando GEIS non funziona.
+  - type: desk
+    name: Ufficio Imposta di Soggiorno (Servizio Gestione Canoni e Altri Tributi)
+    address: Via Diocleziano 330, 1° piano, 80124 Napoli
+    source: comune-2026
+    notes: >-
+      Orario incerto: la pagina generale indica lunedì–venerdì 8:30–12:30, la pagina degli accordi
+      con gli intermediari 9:00–13:00.
+  - type: phone
+    address: 081 7953749 – 081 7956901
+    source: comune-index
+    notes: Numeri indicati sulla pagina generale dell'imposta "per chiarimenti", subito dopo l'avviso sul CIN.
+  - type: portal
+    name: Agenzia delle Entrate – area riservata (dichiarazione annuale imposta di soggiorno)
+    url: https://portale.agenziaentrate.gov.it/PortaleWeb/home
+    receipt: legal
+    source: mef-dichiarazione
+    notes: >-
+      Il link "Dichiarazione" della pagina del Dipartimento delle Finanze porta qui. Si può far
+      trasmettere da un intermediario abilitato (commercialista, CAF, associazione di categoria).
+payment:
+  method: pagopa
+  calculator_url: https://cizrm.municipia.eng.it/?ente=NAPO
+  schedule:
+    - { label: "Dichiarazione e riversamento IV trimestre 2026 (data calcolata: entro il 15 del mese dopo il trimestre)", due: 2027-01-15, source: modalita, status: unverified }
+    - { label: "Dichiarazione e riversamento I trimestre 2027 (data calcolata: entro il 15 del mese dopo il trimestre)", due: 2027-04-15, source: modalita, status: unverified }
+    - { label: "Dichiarazione e riversamento II trimestre 2027 (data calcolata: entro il 15 del mese dopo il trimestre)", due: 2027-07-15, source: modalita, status: unverified }
+    - { label: "Dichiarazione e riversamento III trimestre 2027 (data calcolata: entro il 15 del mese dopo il trimestre)", due: 2027-10-15, source: modalita, status: unverified }
+  notes:
+    - text: >-
+        Tariffe per persona e per notte. Dal 01/01/2026: albergo 5 stelle e 5 stelle lusso € 5,00;
+        4 stelle € 5,00; 3 stelle € 4,50; 2 stelle € 3,50; 1 stella € 3,00; strutture ricettive
+        extra alberghiere € 4,50; locazioni brevi € 5,00. Dal 01/05/2026 (delibera di Giunta n. 89
+        del 12/03/2026): albergo 5 stelle e 5 stelle lusso € 6,00; 4 stelle € 6,00; 3 stelle €
+        5,50; 2 stelle € 4,50; 1 stella € 4,00; strutture ricettive extra alberghiere € 5,50;
+        locazioni brevi € 6,00. Il Comune non indica regole di arrotondamento.
+      status: verified
+      source: comune-2026
+    - text: >-
+        L'aumento 2026 è basato sulla Legge di Bilancio 2026 (L. 199/2025), che consente ai
+        capoluoghi di mantenere le misure incrementali adottate per il Giubileo 2025.
+      status: verified
+      source: notizia-tariffe-2026
+    - text: >-
+        Il riversamento si fa dentro GEIS: si sceglie l'importo, si genera l'avviso pagoPA e si paga
+        online o presso un punto abilitato. Non serve comunicare gli estremi al Comune; la
+        registrazione del pagamento richiede 24–72 ore.
+      status: verified
+      source: geis-faq
+    - text: >-
+        Il regolamento ammette, solo se pagoPA non è possibile, il bonifico sul conto corrente del
+        Comune dedicato all'imposta, con causale: denominazione e codice fiscale della struttura,
+        "versamento imposta di soggiorno", periodo e anno. Le pagine del Comune non pubblicano
+        l'IBAN: chiederlo all'ufficio.
+      status: verified
+      source: regolamento
+    - text: >-
+        L'imposta riversata in eccesso si può compensare con i versamenti successivi, indicandolo nella
+        dichiarazione, o chiedere a rimborso entro cinque anni; non si rimborsano importi fino a €
+        12,00 (art. 12).
+      status: verified
+      source: regolamento
+    - text: >-
+        Le prime tre scadenze del 2026 sono passate; per il III trimestre 2025 il Comune aveva
+        prorogato dichiarazione e versamento dal 15/10/2025 al 15/11/2025 (disposizione
+        dirigenziale n. 294 del 14/10/2025). Nessuna proroga trovata per il 2026.
+      status: verified
+      source: proroga-2025
+documents:
+  - name: Quietanza rilasciata all'ospite per l'imposta pagata
+    required: true
+    notes: Art. 8, c. 1, lett. b del regolamento.
+  - name: Documentazione delle esenzioni (certificati, autocertificazioni, moduli A–J del Comune)
+    required: true
+    notes: Da conservare per 5 anni presso la struttura (art. 7, c. 5).
+  - name: Documentazione su imposta applicata, dichiarazioni e riversamenti
+    required: true
+    notes: Da conservare per 5 anni ed esibire su richiesta del Comune (art. 8, c. 3; art. 10, c. 3).
+  - name: Codici CUSR e CIN della struttura
+    required: false
+    notes: GEIS li chiede nella scheda della struttura e segnala se mancano; non sono obbligatori per l'iscrizione.
+  - name: Copia del documento d'identità del legale rappresentante
+    required: false
+    notes: Solo per la dichiarazione di emergenza via e-mail/PEC e per il Modello 21.
+forms:
+  - id: dichiarazione-trimestrale-comune
+    name: Imposta di soggiorno – Dichiarazione trimestrale (modulo del Comune, agg. 27/02/2025)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/06/ModelloDichiarazione_27022025.pdf
+    source: modello-dichiarazione
+    sha256: 33dc447893492af5af40573eb1fd64182692afbcc36334c09fe404e66eb57b0d
+    signature_required: true
+    fields:
+      - label: Il/La sottoscritto/a
+        map: { concat: [identity.last_name, identity.first_name] }
+      - label: Nato/a a
+        map: { fallback: [identity.birth_comune, identity.birth_country] }
+      - label: Prov. (di nascita)
+        map: { direct: identity.birth_province }
+      - label: Il (data di nascita)
+        map: { direct: identity.date_of_birth }
+      - label: Residente a
+        map: { direct: residenza.comune }
+      - label: Prov. (di residenza)
+        map: { direct: residenza.provincia }
+      - label: Via/Piazza (residenza)
+        map: { direct: residenza.indirizzo }
+      - label: N. (residenza)
+        map: { direct: residenza.civico }
+      - label: CAP (residenza)
+        map: { direct: residenza.cap }
+      - label: Tel
+        map: { direct: identity.phone }
+      - label: Fax
+        map: { blank_with_reason: Facoltativo; da compilare solo se si ha un fax. }
+      - label: E-mail
+        map: { direct: identity.email }
+      - label: Codice fiscale (del dichiarante)
+        map: { direct: identity.codice_fiscale }
+      - label: In qualità di legale rappresentante di
+        map: { direct: business.denominazione }
+        notes: Per una ditta individuale o una locazione breve gestita da privato, il nome del gestore.
+      - label: Codice fiscale (del gestore)
+        map: { fallback: [business.codice_fiscale, business.partita_iva] }
+      - label: Partita IVA
+        map: { direct: business.partita_iva }
+        notes: Vuoto per la locazione breve non imprenditoriale.
+      - label: Sede legale a
+        map: { direct: business.sede_legale_comune }
+      - label: Prov. (sede legale)
+        map: { direct: business.sede_legale_provincia }
+      - label: Via/Piazza (sede legale)
+        map: { concat: [business.sede_legale_indirizzo, business.sede_legale_civico] }
+      - label: CAP (sede legale)
+        map: { direct: business.sede_legale_cap }
+      - label: Struttura ricettiva ubicata in Via/Piazza
+        map: { direct: locale.indirizzo }
+      - label: N. (struttura)
+        map: { direct: locale.civico }
+      - label: CAP (struttura)
+        map: { direct: locale.cap }
+      - label: Classificazione alberghiera
+        map: { ask: "Tipo di struttura (albergo, residenza turistico-alberghiera, B&B, affittacamere, casa vacanze, locazione breve…)" }
+      - label: Stelle
+        map: { ask: Numero di stelle dell'albergo (vuoto se non è un albergo) }
+      - label: Con riferimento al trimestre solare
+        map: { ask: "Trimestre dichiarato (I, II, III o IV)" }
+      - label: Anno
+        map: { ask: Anno del trimestre dichiarato }
+      - label: A) Totale trimestre – n° ospiti soggetti ad imposta
+        map: { ask: Numero di ospiti soggetti all'imposta nel trimestre (dal registro presenze) }
+      - label: A) Totale trimestre – n° pernottamenti complessivi
+        map: { ask: "Numero totale dei pernottamenti del trimestre, compresi quelli oltre i 14 giorni" }
+      - label: A) Totale trimestre – n° pernottamenti soggetti ad imposta
+        map: { ask: Pernottamenti soggetti all'imposta (al massimo 14 consecutivi per ospite) }
+      - label: B) Euro a notte
+        map: { ask: Tariffa per notte della categoria nel periodo (tabella tariffe del Comune) }
+        notes: Nel 2026 la tariffa cambia dal 1° maggio; per il II trimestre 2026 un solo importo non basta, chiedere all'ufficio come compilare.
+      - label: C) Totale imposta da riversare al Comune = [A x B] euro
+        map: { ask: Totale dell'imposta da riversare (pernottamenti soggetti × tariffa) }
+      - label: Soggetti e pernottamenti non imponibili – oltre il limite di 14 giorni (n° ospiti, n° pernottamenti)
+        map: { ask: Ospiti e pernottamenti oltre il quattordicesimo consecutivo }
+      - label: Esenti a) Minori entro il quattordicesimo anno di età (ospiti, pernottamenti, pernottamenti fino a 14 giorni)
+        map: { ask: Ospiti minori di 14 anni e relativi pernottamenti }
+      - label: Esenti b) Residenti del Comune di Napoli (ospiti, pernottamenti, pernottamenti fino a 14 giorni)
+        map: { ask: Ospiti residenti a Napoli e relativi pernottamenti }
+      - label: Esenti c) Pazienti in day-hospital (ospiti, pernottamenti, pernottamenti fino a 14 giorni)
+        map: { ask: Ospiti esenti come pazienti in day-hospital e relativi pernottamenti }
+      - label: Esenti d) Accompagnatori di degenti (ospiti, pernottamenti, pernottamenti fino a 14 giorni)
+        map: { ask: Ospiti esenti come accompagnatori di degenti e relativi pernottamenti }
+      - label: Esenti e) Genitori accompagnatori di malati minori di diciotto anni (ospiti, pernottamenti, pernottamenti fino a 14 giorni)
+        map: { ask: Genitori accompagnatori di malati minorenni e relativi pernottamenti }
+      - label: Esenti f) Rifugiati politici (ospiti, pernottamenti, pernottamenti fino a 14 giorni)
+        map: { ask: Ospiti esenti come rifugiati e relativi pernottamenti }
+      - label: Esenti g) Appartenenti alle Forze dell'Ordine (ospiti, pernottamenti, pernottamenti fino a 14 giorni)
+        map: { ask: Ospiti esenti delle Forze dell'Ordine e relativi pernottamenti }
+      - label: Esenti h) Volontari Protezione Civile, Croce Rossa e ONLUS in caso di calamità (ospiti, pernottamenti, pernottamenti fino a 14 giorni)
+        map: { ask: Volontari esenti e relativi pernottamenti }
+      - label: Esenti i) Persone con disabilità non inferiore all'80% (ospiti, pernottamenti, pernottamenti fino a 14 giorni)
+        map: { ask: Ospiti con disabilità certificata (e accompagnatore) e relativi pernottamenti }
+      - label: Esenti j) Autisti di pullman e accompagnatori turistici (ospiti, pernottamenti, pernottamenti fino a 14 giorni)
+        map: { ask: Autisti e accompagnatori turistici esenti e relativi pernottamenti }
+      - label: Esenti k) Personale dipendente della struttura ricettiva (ospiti, pernottamenti, pernottamenti fino a 14 giorni)
+        map: { ask: Dipendenti della struttura alloggiati e relativi pernottamenti }
+      - label: Esenti l) Persone ospitate gratuitamente su richiesta del Comune o di altro ente pubblico (ospiti, pernottamenti, pernottamenti fino a 14 giorni)
+        map: { ask: Ospiti a titolo gratuito su richiesta di un ente pubblico e relativi pernottamenti }
+      - label: Prenotazioni con piattaforme e/o intermediari convenzionati – denominazione, n° ospiti, n° pernottamenti
+        map: { ask: "Piattaforme convenzionate usate nel trimestre (es. Airbnb) con ospiti e pernottamenti, la cui imposta ha riscosso e versato la piattaforma" }
+      - label: Note
+        map: { ask: "Note per l'ufficio, compreso il motivo per cui non si è potuto usare GEIS (obbligatorio)" }
+      - label: Data
+        map: { ask: Data di sottoscrizione }
+      - label: Firma
+        map: { blank_with_reason: Firma del dichiarante. }
+  - id: dichiarazione-annuale-mef
+    name: Dichiarazione imposta di soggiorno (modello ministeriale, D.M. 29 aprile 2022)
+    url: https://www.finanze.gov.it/export/sites/finanze/.galleries/Documenti/Fiscalita-locale/IMPOSTA_SOGGIORNO_MODELLO_DEFINITIVO_31.03.2022.pdf
+    source: mef-modello
+    sha256: fdcd15a05ecfe457d8bc4eaea988a408a96451b6043b74cdb0c4ea945f226c79
+    signature_required: false
+    fields:
+      - label: Anno d'imposta
+        map: { ask: Anno dei pernottamenti dichiarati }
+      - label: Tipologia di dichiarazione (nuova, sostitutiva, multipla)
+        map: { ask: "Nuova dichiarazione, sostitutiva (rettifica) o multipla (più invii)?" }
+      - label: Comune
+        map: { direct: locale.comune }
+      - label: Provincia (sigla)
+        map: { direct: locale.provincia }
+      - label: Codice catastale del Comune
+        map: { ask: "Codice catastale del comune della struttura (Napoli: F839)" }
+      - label: Tipologia del dichiarante (gestore, mediatore della locazione, dichiarante diverso, intermediario)
+        map: { ask: "Chi presenta: il gestore, il mediatore della locazione, un dichiarante diverso o un intermediario?" }
+      - label: Attività d'impresa (sì/no)
+        map: { ask: La struttura è gestita come attività d'impresa? }
+      - label: Partita IVA
+        map: { direct: business.partita_iva }
+      - label: Codice fiscale (del gestore/mediatore)
+        map: { fallback: [business.codice_fiscale, identity.codice_fiscale] }
+      - label: Indirizzo di posta elettronica ordinaria PEO
+        map: { fallback: [business.email, identity.email] }
+      - label: Telefono
+        map: { direct: identity.phone }
+      - label: Indirizzo di posta elettronica certificata PEC
+        map: { fallback: [business.pec, identity.pec] }
+      - label: Persone fisiche – Cognome
+        map: { direct: identity.last_name }
+      - label: Persone fisiche – Nome
+        map: { direct: identity.first_name }
+      - label: Persone fisiche – Sesso
+        map: { direct: identity.sex }
+      - label: Persone fisiche – Data di nascita
+        map: { direct: identity.date_of_birth }
+      - label: Persone fisiche – Comune (o Stato estero) di nascita
+        map: { fallback: [identity.birth_comune, identity.birth_country] }
+      - label: Persone fisiche – Provincia (sigla) di nascita
+        map: { direct: identity.birth_province }
+      - label: Persone fisiche – Domicilio fiscale in Italia – Via/Piazza
+        map: { direct: residenza.indirizzo }
+      - label: Persone fisiche – Domicilio fiscale in Italia – N. civico
+        map: { direct: residenza.civico }
+      - label: Persone fisiche – Domicilio fiscale in Italia – C.A.P.
+        map: { direct: residenza.cap }
+      - label: Persone fisiche – Domicilio fiscale in Italia – Comune
+        map: { direct: residenza.comune }
+      - label: Persone fisiche – Domicilio fiscale in Italia – Provincia (sigla)
+        map: { direct: residenza.provincia }
+      - label: Persone fisiche – Domicilio fiscale in Italia – Frazione, Località
+        map: { blank_with_reason: Solo se l'indirizzo è in una frazione o località. }
+      - label: Persone fisiche – Domicilio fiscale in uno Stato estero
+        map: { blank_with_reason: Solo per chi ha il domicilio fiscale all'estero. }
+      - label: Soggetti diversi dalle persone fisiche – Denominazione o Ragione sociale
+        map: { direct: business.denominazione }
+      - label: Soggetti diversi – Sede legale in Italia – Via/Piazza
+        map: { direct: business.sede_legale_indirizzo }
+      - label: Soggetti diversi – Sede legale in Italia – N. civico
+        map: { direct: business.sede_legale_civico }
+      - label: Soggetti diversi – Sede legale in Italia – C.A.P.
+        map: { direct: business.sede_legale_cap }
+      - label: Soggetti diversi – Sede legale in Italia – Comune
+        map: { direct: business.sede_legale_comune }
+      - label: Soggetti diversi – Sede legale in Italia – Provincia (sigla)
+        map: { direct: business.sede_legale_provincia }
+      - label: Soggetti diversi – Frazione, Località
+        map: { blank_with_reason: Solo se la sede è in una frazione o località. }
+      - label: Soggetti diversi – Sede legale in uno Stato estero
+        map: { blank_with_reason: Solo per società con sede all'estero. }
+      - label: Dichiarante diverso – Codice fiscale del sottoscrittore
+        map: { direct: identity.codice_fiscale }
+        notes: Solo se firma un rappresentante (per esempio il legale rappresentante di una società).
+      - label: Dichiarante diverso – Codice di carica
+        map: { ask: "Codice di carica della tabella ministeriale (1 = rappresentante legale)" }
+      - label: Dichiarante diverso – Codice fiscale società dichiarante
+        map: { blank_with_reason: Facoltativo; solo se la carica è ricoperta da una società. }
+      - label: Dichiarante diverso – Cognome
+        map: { direct: identity.last_name }
+      - label: Dichiarante diverso – Nome
+        map: { direct: identity.first_name }
+      - label: Dichiarante diverso – Sesso
+        map: { direct: identity.sex }
+      - label: Dichiarante diverso – Data di nascita
+        map: { direct: identity.date_of_birth }
+      - label: Dichiarante diverso – Comune (o Stato estero) di nascita
+        map: { fallback: [identity.birth_comune, identity.birth_country] }
+      - label: Dichiarante diverso – Provincia (sigla)
+        map: { direct: identity.birth_province }
+      - label: Firma della dichiarazione – Presa di responsabilità
+        map: { blank_with_reason: Casella che chi trasmette barra personalmente. }
+      - label: Impegno alla presentazione telematica – Codice fiscale intermediario, N. iscrizione all'albo del CAF
+        map: { blank_with_reason: Solo se trasmette un intermediario; lo compila l'intermediario. }
+      - label: Riservato all'intermediario – Soggetto che ha predisposto la dichiarazione, Data dell'impegno, Firma dell'intermediario
+        map: { blank_with_reason: Lo compila l'intermediario. }
+      - label: Dati della struttura ricettiva – Codice fiscale
+        map: { fallback: [business.codice_fiscale, identity.codice_fiscale] }
+        notes: Codice fiscale del dichiarante riportato in testa al riquadro.
+      - label: Dati della struttura ricettiva – Progressivo
+        map: { ask: Numero progressivo della struttura nella dichiarazione (1 se è una sola) }
+      - label: Denominazione della struttura
+        map: { ask: Nome o insegna della struttura ricettiva }
+      - label: Struttura ricettiva commerciale (sì/no)
+        map: { ask: La struttura è commerciale (impresa) o no? }
+      - label: Codice attività della struttura (codice ATECO)
+        map: { direct: business.codice_ateco }
+      - label: Codice fiscale della struttura
+        map: { fallback: [business.codice_fiscale, identity.codice_fiscale] }
+      - label: Partita IVA della struttura
+        map: { direct: business.partita_iva }
+      - label: Struttura – Via/Piazza
+        map: { direct: locale.indirizzo }
+      - label: Struttura – N. civico
+        map: { direct: locale.civico }
+      - label: Struttura – C.A.P.
+        map: { direct: locale.cap }
+      - label: Struttura – Comune
+        map: { direct: locale.comune }
+      - label: Struttura – Provincia (sigla)
+        map: { direct: locale.provincia }
+      - label: Struttura – Frazione, Località
+        map: { blank_with_reason: Solo se l'indirizzo è in una frazione o località. }
+      - label: Struttura – Indirizzo di posta elettronica ordinaria PEO
+        map: { fallback: [business.email, identity.email] }
+      - label: Struttura – Telefono
+        map: { direct: identity.phone }
+      - label: Struttura – Indirizzo PEC
+        map: { fallback: [business.pec, identity.pec] }
+      - label: Periodo primo trimestre – 1 imposta a notte, 2 imposta ridotta, 3 presenze a tariffa ordinaria, 4 presenze esenti, 5 presenze con riduzione
+        map: { ask: Dati del I trimestre (dalle dichiarazioni GEIS) }
+        notes: Le presenze riscosse e versate da una piattaforma non vanno indicate dal gestore, neppure come esenti (FAQ MEF n. 2–3).
+      - label: Periodo secondo trimestre – colonne 1–5
+        map: { ask: Dati del II trimestre (dalle dichiarazioni GEIS) }
+        notes: Nel 2026 la tariffa cambia dal 1° maggio; per due tariffe nello stesso trimestre chiedere all'intermediario o all'ufficio come compilare.
+      - label: Periodo terzo trimestre – colonne 1–5
+        map: { ask: Dati del III trimestre (dalle dichiarazioni GEIS) }
+      - label: Periodo quarto trimestre – colonne 1–5
+        map: { ask: Dati del IV trimestre (dalle dichiarazioni GEIS) }
+      - label: Versamenti – Estremi del/dei versamenti
+        map: { ask: Estremi dei riversamenti pagoPA dell'anno (date e identificativi) }
+      - label: Versamenti – Importo annuale (cumulativo) versato al comune
+        map: { ask: Totale riversato al Comune nell'anno per tutte le strutture dichiarate }
+      - label: Annotazioni generali
+        map: { ask: Annotazioni facoltative }
+steps:
+  - do: >-
+      Se la struttura o la locazione breve non è ancora avviata, completare prima gli adempimenti di
+      apertura (SCIA o comunicazione al SUAP, codice CIN): sono procedure separate.
+    who: owner
+  - do: >-
+      Iscriversi su GEIS all'inizio dell'attività: accedere a https://cizrm.municipia.eng.it/?ente=NAPO
+      con SPID/CIE, "Domande Online" → "Procedimenti Tributi Comune di Napoli" → "Nuovo gestore
+      struttura", e seguire la procedura (dati del gestore, della struttura, ubicazione e dati
+      catastali, camere e posti letto). Chi era già iscritto al vecchio portale è stato migrato e non
+      deve iscriversi di nuovo.
+    who: owner
+  - do: Accedere personalmente con la propria identità digitale e accettare l'informativa privacy di GEIS
+    who: owner
+    human_only: true
+  - do: Inserire CUSR e CIN nella scheda "Strutture"; abbinare eventuali delegati (per esempio un collaboratore o il commercialista)
+    who: owner
+  - do: >-
+      Esporre agli ospiti le informazioni sull'imposta (tariffe, esenzioni) in appositi spazi; a fine
+      soggiorno chiedere il pagamento e rilasciare quietanza; raccogliere la documentazione delle
+      esenzioni (moduli A–J del Comune).
+    who: owner
+    human_only: true
+  - do: >-
+      Tenere un registro per mese di ospiti, pernottamenti, esenti, oltre 14 notti e prenotazioni
+      tramite piattaforme convenzionate (riga "AIRBNB" in GEIS).
+    who: anyone
+  - do: >-
+      Entro il 15 del mese dopo ogni trimestre: in GEIS "Comunicazione periodica" → struttura e
+      trimestre → numero di soggetti e pernottamenti per tipo di tariffa ed esenzione → salvare e
+      inviare; scaricare la ricevuta.
+    who: anyone
+  - do: Generare dalla dichiarazione l'avviso pagoPA e pagarlo entro la stessa scadenza
+    who: owner
+    human_only: true
+  - do: >-
+      Solo se GEIS è inutilizzabile: compilare il modulo di dichiarazione trimestrale del Comune,
+      firmarlo e inviarlo per PEC o e-mail con motivo, copia del versamento e documento d'identità,
+      entro la scadenza.
+    who: owner
+    human_only: true
+  - do: >-
+      Entro il 30 giugno dell'anno successivo: presentare la dichiarazione annuale sul modello
+      ministeriale nell'area riservata dell'Agenzia delle Entrate, direttamente o tramite un
+      intermediario abilitato.
+    who: owner
+    human_only: true
+  - do: >-
+      Prima del 30 gennaio: chiedere all'Ufficio Imposta di Soggiorno se il Modello 21 è ancora
+      richiesto (vedi scadenze).
+    who: owner
+  - do: >-
+      In caso di variazioni (categoria, camere, posti letto) o di fine attività, presentare in GEIS la
+      domanda "Modifica Struttura Imposta di Soggiorno", indicando la data di fine attività quando si
+      chiude.
+    who: owner
+after:
+  - Conservare per 5 anni ricevute GEIS, ricevute pagoPA, quietanze agli ospiti e documenti delle esenzioni.
+  - >-
+    Controllare in GEIS "Elenco Dichiarazioni" gli avvisi di anomalia (versamento mancante, avvisi
+    pagoPA non pagati, CUSR o CIN mancanti).
+  - >-
+    Per correggere una dichiarazione già inviata: prima della scadenza "Comun. Sost./Ripresenta";
+    dopo la scadenza domanda online "Riporta in Bozza Dichiarazione", che l'ufficio deve approvare.
+  - >-
+    Per correggere la dichiarazione annuale si presenta una "Dichiarazione sostitutiva", anche dopo
+    il 30 giugno.
+pitfalls:
+  - text: >-
+      La Risoluzione 1/DF del 2023 del Dipartimento delle Finanze afferma che il modello ministeriale
+      è "l'unica modalità" per l'adempimento dichiarativo e che i comuni non possono predisporre
+      propri modelli di dichiarazione.
+    status: verified
+    source: mef-risoluzione-2023
+  - text: >-
+      Il Comune di Napoli continua invece a chiedere la dichiarazione trimestrale su GEIS (regolamento
+      art. 8; pagina modalità aggiornata all'11/12/2025; avviso del 20/05/2026). Le due cose
+      convivono: fare entrambe finché il Comune non cambia il regolamento.
+    status: disputed
+    source: modalita
+  - text: >-
+      Piattaforme e società di intermediazione convenzionate con il Comune, che riscuotono e
+      riversano l'imposta al posto del gestore: Airbnb, Boundless Housing, Di Morra, Domus Extra,
+      Mister B&B, MyBnB (elenco della pagina aggiornata al 15/10/2025). Per queste prenotazioni il
+      gestore non incassa né versa, ma resta obbligato all'iscrizione su GEIS e le indica nella
+      dichiarazione trimestrale nella riga della piattaforma.
+    status: verified
+    source: accordi
+  - text: >-
+      Le piattaforme non convenzionate (per esempio Booking.com, che non è nell'elenco) non riscuotono
+      per conto del Comune: l'imposta la chiede, dichiara e versa il gestore.
+    status: unverified
+  - text: >-
+      Nella dichiarazione annuale ministeriale, i pernottamenti per cui ha riscosso e versato
+      l'intermediario non vanno dichiarati dal gestore, nemmeno come esenti: li dichiara
+      l'intermediario. Il gestore dichiara solo i soggiorni gestiti direttamente.
+    status: verified
+    source: mef-faq
+  - text: >-
+      Esenti (art. 7): minori entro il quattordicesimo anno; pazienti in day-hospital; un
+      accompagnatore per degente (entrambi i genitori se il paziente è minore); rifugiati politici;
+      Forze dell'Ordine alloggiate per emergenze o soccorso disposti da autorità pubbliche;
+      volontari di Protezione Civile e Croce Rossa in occasione di calamità; persone con disabilità
+      non inferiore all'80% più un accompagnatore; autisti di pullman e un accompagnatore turistico
+      ogni 25 partecipanti di gruppi organizzati; personale dipendente che lavora nella struttura;
+      ospiti gratuiti su richiesta del Comune o di altro ente pubblico. Ogni esenzione richiede il
+      documento indicato dall'art. 7.
+    status: verified
+    source: regolamento
+  - text: >-
+      Il modulo di dichiarazione del Comune rinvia alle lettere dell'art. 7 con una numerazione
+      diversa da quella del testo coordinato 2019 (per esempio i rifugiati sono "lettera e" nel
+      modulo e "lettera d" nel regolamento) e aggiunge una riga per gli esenti genitori di minori
+      che il regolamento comprende nella lettera c.
+    status: verified
+    source: modello-dichiarazione
+  - text: >-
+      Il regolamento (art. 8) parla ancora del "portale Tourist Tax"; oggi il Comune usa GEIS
+      Portal.
+    status: verified
+    source: regolamento
+  - text: >-
+      Sanzioni comunali ancora in vigore (art. 9 del regolamento, non abrogate dalla delibera
+      12/2020): mancata iscrizione al portale da € 200,00 a € 500,00; mancata informazione agli
+      ospiti da € 100,00 a € 500,00.
+    status: verified
+    source: regolamento
+  - text: >-
+      La pagina generale del Comune e l'art. 6 del regolamento indicano per l'omesso, tardivo o
+      parziale versamento una sanzione del 30%; l'art. 13 del D.Lgs. 471/1997 a cui rinvia la legge
+      prevede il 25% per le violazioni commesse dal 1° settembre 2024. Far calcolare l'importo
+      all'ufficio.
+    status: disputed
+    source: comune-index
+  - text: >-
+      I moduli C (dichiarazione dell'ospite che non paga) e D (dichiarazione del gestore) sono ancora
+      sulla pagina modulistica, ma sono indirizzati a Corso Arnaldo Lucci 66-82 e citano il
+      regolamento modificato nel 2013.
+    status: verified
+    source: modulo-d
+  - text: >-
+      Dal 2020 la legge rende il gestore responsabile del pagamento, con rivalsa sull'ospite: non è
+      detto che il modulo D lo esoneri quando l'ospite non paga. Chiedere all'ufficio.
+    status: unverified
+  - text: >-
+      Per l'omesso, ritardato o parziale versamento l'art. 13 del D.Lgs. 471/1997 prevede oggi il
+      25% di ogni importo non versato, ridotto alla metà per ritardi fino a 90 giorni e a un
+      quindicesimo per giorno di ritardo fino a 15 giorni; l'articolo è abrogato dal 1° gennaio 2027
+      e sostituito dal testo unico delle sanzioni tributarie.
+    status: verified
+    source: dlgs-471-art13
+  - text: >-
+      Chi era già iscritto al vecchio portale è stato migrato automaticamente su GEIS e non deve
+      iscriversi di nuovo; solo i nuovi gestori presentano la domanda "Nuovo gestore struttura".
+    status: verified
+    source: geis-iscrizione
+  - text: >-
+      In GEIS il gestore può modificare da solo solo convenzione, CUSR e CIN; ogni altra variazione
+      (categoria, nome, camere, posti letto, data di fine attività) passa da una domanda online che
+      l'ufficio approva.
+    status: verified
+    source: geis-manuale
+  - text: >-
+      La pagina "Imposta di Soggiorno 2025" (aggiornata il 14/07/2026) descrive ancora il gestore
+      come agente contabile tenuto al Modello 21 entro il 30 gennaio, in contrasto con la pagina sul
+      Modello 21.
+    status: verified
+    source: comune-2025
+  - text: >-
+      L'avviso del 20/05/2026 rinvia per le sanzioni alla "D.C.C. n. 12 del 4/08/2020", che in realtà
+      ha abrogato le sanzioni comunali per dichiarazione e riversamento rinviando a quelle di legge.
+    status: verified
+    source: avviso-2026
+  - text: >-
+      Le FAQ di GEIS dicono che i versamenti sono "solitamente mensili o trimestrali"; dal 1° luglio
+      2020 sono trimestrali per tutte le strutture. Sulla pagina modulistica restano anche i vecchi
+      modelli mensili e bimestrali, da non usare.
+    status: verified
+    source: dcc-12-2020
+  - text: >-
+      In GEIS il numero dei pernottamenti non può essere inferiore al numero degli ospiti, e le
+      dichiarazioni vanno caricate per singola struttura: chi gestisce più strutture fa una
+      dichiarazione per ciascuna.
+    status: verified
+    source: geis-faq
+  - text: >-
+      Se il civico della struttura non compare nell'elenco di GEIS, le FAQ dicono di inserire il
+      civico 0.
+    status: verified
+    source: geis-faq
+related:
+  - napoli/comune/tari-iscrizione-non-domestica
+  - napoli/comune/tari-iscrizione-uso-abitativo
+  - napoli/comune/avvio-bed-and-breakfast
+sources:
+  - id: comune-2026
+    label: Imposta di Soggiorno 2026 – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/imposta-di-soggiorno/imposta-di-soggiorno-2026/
+    retrieved: 2026-10-25
+    page_updated: 2026-01-14
+    official: true
+    notes: La data di aggiornamento (14/01/2026) è precedente alla delibera di Giunta 89 del 12/03/2026 citata nella pagina.
+  - id: comune-index
+    label: Imposta di Soggiorno – pagina generale (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/imposta-di-soggiorno/
+    retrieved: 2026-10-25
+    official: true
+    notes: Senza data di aggiornamento; riporta le tariffe 2026, il quadro sanzionatorio dopo la delibera C.C. 12/2020 e i recapiti.
+  - id: modalita
+    label: Modalità presentazione dichiarazioni e versamenti – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/imposta-di-soggiorno/modalita-presentazione-dichiarazioni-e-versamenti/
+    retrieved: 2026-10-25
+    page_updated: 2025-12-11
+    official: true
+  - id: geis-iscrizione
+    label: Iscrizione a GEIS Portal per nuovo gestore – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/imposta-di-soggiorno/iscrizione-a-geis-portal-per-nuovo-gestore/
+    retrieved: 2026-10-25
+    page_updated: 2025-11-11
+    official: true
+  - id: geis-info
+    label: Informazioni sull'utilizzo dell'applicativo GEIS Portal – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/imposta-di-soggiorno/informazioni-sullutilizzo-dellapplicativo-geis-portal/
+    retrieved: 2026-10-25
+    page_updated: 2026-01-23
+    official: true
+  - id: geis-manuale
+    label: Manuale Gestore GEIS Portal (pubblicato come V.0.7 agg. 23/01/2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2019/06/Manuale_Gestore_Geis_Portal_V.0.7.pdf
+    retrieved: 2026-10-25
+    sha256: 9c6c58ee86f460d5d09aa9db79ebb8e719906957404d4f4b161cec40d2dda291
+    official: true
+    notes: La copertina del file riporta ancora "Versione 0.6 – 07 ottobre 2025".
+  - id: geis-faq
+    label: FAQ GEIS Portal – Imposta di soggiorno (V.0.2, 07/10/2025)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2019/06/FAQ_Risposte_Dettagliate_20251007_V.0.2.pdf
+    retrieved: 2026-10-25
+    sha256: d256aa39d06bfd03cd180c17c18500737cfb01dc0abd0968e5d6cb45d8f71482
+    official: true
+  - id: modello-21
+    label: Modalità di presentazione del Modello 21 – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/imposta-di-soggiorno/modalita-di-presentazione-del-modello-21/
+    retrieved: 2026-10-25
+    page_updated: 2026-01-29
+    official: true
+  - id: comune-2025
+    label: Imposta di Soggiorno 2025 – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/imposta-di-soggiorno/imposta-di-soggiorno-2025/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-14
+    official: true
+    notes: Descrive ancora il gestore come agente contabile tenuto al Modello 21 entro il 30 gennaio.
+  - id: accordi
+    label: Accordi tra Comune di Napoli e intermediari turistici
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/imposta-di-soggiorno/accordi-tra-comune-di-napoli-e-intermediari-turistici/
+    retrieved: 2026-10-25
+    page_updated: 2025-10-15
+    official: true
+    notes: Accordo tipo approvato con delibera di Giunta 167 del 20/04/2018, durata 1 anno.
+  - id: modulistica
+    label: Imposta di soggiorno – Modulistica (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/imposta-di-soggiorno/modulistica/
+    retrieved: 2026-10-25
+    page_updated: 2026-01-09
+    official: true
+  - id: modulo-d
+    label: Modulo D – dichiarazione del gestore per omesso versamento
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/06/modello_D__dichiarazione_omesso_versamento_gestore_.pdf
+    retrieved: 2026-10-25
+    sha256: 4f107a6e9ca164050fe1ea759451253c96f866aefec9f269bf85a8b8660595ac
+    official: true
+  - id: modello-dichiarazione
+    label: Modello dichiarazione Imposta di Soggiorno – dichiarazione trimestrale (agg. 27/02/2025)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/06/ModelloDichiarazione_27022025.pdf
+    retrieved: 2026-10-25
+    sha256: 33dc447893492af5af40573eb1fd64182692afbcc36334c09fe404e66eb57b0d
+    official: true
+  - id: regolamento
+    label: Testo coordinato del regolamento sull'Imposta di Soggiorno (modificato da ultimo con delibera C.C. 13 del 29/03/2019)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/09/Testo_Coordinato_del_Regolamento_sull_Imposta_di_Soggiorno_2019.pdf
+    retrieved: 2026-10-25
+    sha256: 380ffd87cbcc677e0636a650d48197bf0f3d945097930266c4035b6900cf4285
+    official: true
+    notes: Non include le modifiche della delibera C.C. 12/2020 (dichiarazioni trimestrali, abrogazione art. 9 cc. 4–5).
+  - id: dcc-12-2020
+    label: Delibera C.C. n. 12 del 04/08/2020 – modifiche al regolamento sull'imposta di soggiorno (scansione)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/09/Delibera_C.C.n.12_del_4.8.2020.pdf
+    retrieved: 2026-10-25
+    sha256: 73177c75e786d68722daa8830441f245bdd1b4531eeaf70122ff72b7706944bf
+    official: true
+  - id: notizia-tariffe-2026
+    label: Napoli, aggiornate le tariffe dell'imposta di soggiorno per il 2026 (notizia del Comune)
+    url: https://www.comune.napoli.it/novita/napoli-aggiornate-le-tariffe-dellimposta-di-soggiorno-per-il-2026/
+    retrieved: 2026-10-25
+    page_updated: 2026-03-12
+    official: true
+  - id: proroga-2025
+    label: Disposizione dirigenziale n. 294 del 14/10/2025 – proroga III trimestre 2025
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2019/06/ProrogaScadenza_IDS.pdf
+    retrieved: 2026-10-25
+    sha256: 496c5ab3e698143c325978a9ebc567dab6be7210ba490072f5d0caa9a979a159
+    official: true
+  - id: avviso-2026
+    label: Avviso ai titolari o gestori di strutture ricettive extralberghiere e di attività di locazione breve
+    url: https://www.comune.napoli.it/novita/avviso-ai-titolari-o-gestori-di-strutture-ricettive-extralberghieree-di-attivita-di-locazione-breve/
+    retrieved: 2026-10-25
+    page_updated: 2026-05-20
+    official: true
+    notes: A cura del SUAP; ribadisce dichiarazione e versamento trimestrali entro il 15 del mese successivo.
+  - id: dlgs-23-art4
+    label: D.Lgs. 14 marzo 2011, n. 23, art. 4 (Normattiva; testo vigente al 01/07/2026 e testo aggiornato dal D.Lgs. 147/2026)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2011-03-14;23~art4
+    retrieved: 2026-10-25
+    official: true
+    notes: Il D.Lgs. 147/2026, art. 12 c. 9, applica le nuove sanzioni alle violazioni commesse dal 1° gennaio 2027.
+  - id: dlgs-471-art13
+    label: D.Lgs. 18 dicembre 1997, n. 471, art. 13 (Normattiva, testo vigente al 25/10/2026)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1997-12-18;471~art13!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+    notes: 25% dal D.Lgs. 87/2024 per le violazioni dal 1° settembre 2024; articolo abrogato dal 1° gennaio 2027 (D.Lgs. 173/2024).
+  - id: mef-dichiarazione
+    label: Dipartimento delle Finanze – Dichiarazione telematica imposta di soggiorno
+    url: https://www.finanze.gov.it/it/fiscalita/fiscalita-regionale-e-locale/TARI-Imposta-di-soggiorno-e-altri-tributi-comunali/imposta-di-soggiorno/dichiarazione-telematica-imposta-di-soggiorno/
+    retrieved: 2026-10-25
+    official: true
+  - id: mef-decreto
+    label: D.M. 29 aprile 2022 – approvazione del modello di dichiarazione dell'imposta di soggiorno
+    url: https://www.finanze.gov.it/export/sites/finanze/.galleries/Documenti/Fiscalita-locale/DECRETO_DICHIARAZIONE_IMPOSTA_DI_SOGGIORNO_Bollinato_signed__.pdf
+    retrieved: 2026-10-25
+    sha256: 705346f34c0dd89fa177e7b785d52786b49cbaf318e9bca935538def6a82aa1d
+    official: true
+  - id: mef-modello
+    label: Modello della dichiarazione imposta di soggiorno (31/03/2022)
+    url: https://www.finanze.gov.it/export/sites/finanze/.galleries/Documenti/Fiscalita-locale/IMPOSTA_SOGGIORNO_MODELLO_DEFINITIVO_31.03.2022.pdf
+    retrieved: 2026-10-25
+    sha256: fdcd15a05ecfe457d8bc4eaea988a408a96451b6043b74cdb0c4ea945f226c79
+    official: true
+  - id: mef-istruzioni
+    label: Istruzioni per la compilazione della dichiarazione imposta di soggiorno (31/03/2022)
+    url: https://www.finanze.gov.it/export/sites/finanze/.galleries/Documenti/Fiscalita-locale/IMPOSTA_SOGGIORNO_ISTRUZIONI_DEFINITIVE_31.03.2022.pdf
+    retrieved: 2026-10-25
+    sha256: 69059c83e28a9f39607954e669a47c936148093a9a11f9bebb2aee6dce23c05c
+    official: true
+  - id: mef-faq
+    label: FAQ – Dichiarazione imposta di soggiorno (Dipartimento delle Finanze, 19/09/2022)
+    url: https://www.finanze.gov.it/export/sites/finanze/.galleries/Documenti/Fiscalita-locale/FAQ-Dichiarazione-imposta-di-soggiorno.-19.09.2022.pdf
+    retrieved: 2026-10-25
+    sha256: 55ef5361798970def7fd7df367692390b1cfaf758d45dbe1d43bfc5a736a5648
+    official: true
+  - id: mef-risoluzione-2023
+    label: Risoluzione n. 1/DF del 9 febbraio 2023 – dichiarazione imposta di soggiorno, annualità successive
+    url: https://www.finanze.gov.it/export/sites/finanze/.galleries/Documenti/Fiscalita-locale/RISOLUZIONE-n.-1-del-2023-Dichiarazione-imposta-di-soggiorno-anni-2020-e-2021.pdf
+    retrieved: 2026-10-25
+    sha256: 17b39ee077cb7c4d80428b8cf657702c59dd5c6cfec7d373ec72402ff62ab115
+    official: true
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: lette le pagine del Comune di Napoli sull'imposta di soggiorno (generale, 2026, 2025,
+    modalità di dichiarazione e versamento, iscrizione e uso di GEIS, Modello 21, accordi con gli
+    intermediari, modulistica), la notizia sulle tariffe 2026, l'avviso SUAP del 20/05/2026, il
+    testo coordinato del regolamento, la delibera C.C. 12/2020 (scansione), la disposizione
+    dirigenziale 294/2025, il manuale e le FAQ di GEIS, il modulo di dichiarazione trimestrale;
+    l'art. 4 del D.Lgs. 23/2011 e l'art. 13 del D.Lgs. 471/1997 su Normattiva (versioni vigenti); la
+    pagina, il decreto, il modello, le istruzioni, le FAQ e la Risoluzione 1/DF 2023 del Dipartimento
+    delle Finanze. Il testo della delibera di Giunta 89/2026 non è stato trovato: le tariffe vengono
+    dalle pagine del Comune.

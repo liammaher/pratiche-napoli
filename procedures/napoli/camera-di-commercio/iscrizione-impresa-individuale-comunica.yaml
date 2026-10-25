@@ -1,0 +1,606 @@
+schema_version: 0
+id: napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica
+title: Iscrizione di un'impresa individuale al Registro delle Imprese con ComUnica – Camera di Commercio di Napoli
+summary: >-
+  Chi apre una ditta individuale con sede nella provincia di Napoli la iscrive al Registro delle
+  Imprese della Camera di Commercio con la Comunicazione Unica (ComUnica): una sola pratica
+  telematica che vale anche per la partita IVA (Agenzia delle Entrate), l'INPS, l'INAIL e,
+  se serve, porta con sé la SCIA per il SUAP del Comune. Si presenta online con firma digitale
+  e PEC dell'impresa, dal titolare o da un intermediario con procura, entro 30 giorni dall'inizio
+  dell'attività; la ricevuta arriva subito e, se ci sono i presupposti di legge, consente di
+  iniziare nello stesso giorno.
+ente:
+  name: Camera di Commercio, Industria, Artigianato e Agricoltura di Napoli
+  office: Area Anagrafe Economica – Registro Imprese
+applies_to:
+  events: [open]
+  audience: [business]
+  sectors:
+    - imprese individuali (commerciali, piccoli imprenditori, artigiane)
+  conditions:
+    - text: >-
+        L'iscrizione al Registro delle Imprese è obbligatoria anche per gli imprenditori
+        individuali: l'imprenditore commerciale individuale (art. 2195 c.c.) si iscrive nella
+        sezione ordinaria; i piccoli imprenditori e coltivatori diretti (art. 2083 c.c.) e gli
+        imprenditori agricoli nella sezione speciale, dove sono anche annotate le imprese
+        artigiane (L. 443/1985).
+      status: verified
+      source: na-sezione-speciale
+    - text: >-
+        L'iscrizione nella sezione ordinaria produce gli effetti di pubblicità legale dell'art. 2193
+        c.c.; quella nella sezione speciale produce effetti di pubblicità notizia (salvo che per gli
+        imprenditori agricoli).
+      status: verified
+      source: na-sezione-ordinaria
+    - text: >-
+        Nella domanda il titolare dichiara se è "imprenditore commerciale" (sezione ordinaria) o
+        "piccolo imprenditore" (sezione speciale, con la relativa qualifica). Non serve un atto
+        pubblico.
+      status: verified
+      source: ri-impresa-individuale
+    - text: >-
+        Si presenta al Registro delle Imprese della provincia in cui si stabilisce la sede: per una
+        sede nella provincia di Napoli, alla Camera di Commercio di Napoli.
+      status: verified
+      source: cc-2196
+    - text: >-
+        La Comunicazione Unica è una pratica informatica con un modello riepilogativo e i modelli
+        per Registro Imprese, Agenzia delle Entrate, INPS, INAIL ed eventuale SCIA per il SUAP;
+        si invia solo al Registro delle Imprese, che la smista agli altri enti.
+      status: verified
+      source: ri-comunica
+    - text: >-
+        Chi invia: il titolare con la propria firma digitale, oppure un intermediario incaricato
+        con procura (circolare MISE 3616/C del 2008). Servono l'adesione a Telemaco e un domicilio
+        digitale (PEC) a cui gli enti inviano ricevute ed esiti.
+      status: verified
+      source: ri-prerequisiti
+    - text: >-
+        Impresa artigiana: l'imprenditore deve esercitare personalmente e in prevalenza il proprio
+        lavoro, anche manuale, nell'impresa, avere i requisiti tecnico-professionali se l'attività
+        è regolamentata e rispettare i limiti dimensionali; può essere titolare di una sola impresa
+        artigiana. È incompatibile con la posizione di titolare o socio lavorante in prevalenza di
+        altre imprese e con un lavoro dipendente a tempo pieno o part-time superiore al 50%.
+      status: verified
+      source: sari-artigiana
+legal_basis:
+  - text: >-
+      Art. 9 D.L. 7/2007 (convertito dalla L. 40/2007): la comunicazione unica si presenta al
+      Registro delle Imprese per via telematica e vale per l'iscrizione e, sussistendo i
+      presupposti, ai fini previdenziali, assistenziali e fiscali e per codice fiscale e partita
+      IVA; si usa anche per modifiche e cessazione.
+    status: verified
+    source: dl-7-2007
+  - text: >-
+      Art. 2196 c.c.: entro trenta giorni dall'inizio dell'impresa l'imprenditore commerciale
+      chiede l'iscrizione al Registro delle Imprese; modifiche e cessazione vanno iscritte entro
+      trenta giorni.
+    status: verified
+    source: cc-2196
+  - text: >-
+      Art. 5 D.L. 179/2012: le imprese individuali che chiedono la prima iscrizione al Registro
+      delle Imprese o all'albo delle imprese artigiane devono indicare un domicilio digitale (PEC).
+    status: verified
+    source: dl-179-2012
+  - text: >-
+      Art. 5, c. 2, D.P.R. 160/2010: la SCIA contestuale alla comunicazione unica si presenta al
+      Registro delle Imprese, che la trasmette subito al SUAP.
+    status: verified
+    source: dpr-160-2010
+  - text: >-
+      Norme citate dalla scheda della Camera per l'iscrizione con inizio attività: art. 9 D.P.R.
+      581/1995, art. 9 L. 40/2007, artt. 4 e 5 D.P.R. 160/2010, art. 80 D.Lgs. 59/2010, artt.
+      2195 e 2135 c.c.; per le imprese artigiane anche art. 16 L.R. Campania 11/2015.
+    status: verified
+    source: sari-artigiana
+deadline:
+  rules:
+    - text: >-
+        Iscrizione entro 30 giorni dall'inizio dell'impresa (art. 2196 c.c.).
+      status: verified
+      source: cc-2196
+    - text: >-
+        I 30 giorni si contano dal giorno successivo a quello dell'evento; se il termine cade di
+        sabato o in un giorno festivo, la domanda presentata il primo giorno lavorativo successivo
+        è tempestiva (art. 3 D.P.R. 558/1999).
+      status: verified
+      source: na-sanzioni
+    - text: >-
+        Impresa artigiana: termine di 30 giorni per l'inizio attività; l'annotazione nella sezione
+        artigiana decorre comunque dalla data di invio della pratica e non può essere retrodatata.
+      status: verified
+      source: sari-artigiana
+    - text: >-
+        Secondo l'INPS, la domanda di iscrizione all'Albo imprese artigiane va presentata entro
+        30 giorni dall'inizio dell'attività artigiana; la Comunicazione Unica (quadro AA) vale
+        anche per l'Albo.
+      status: verified
+      source: inps-artigiani
+    - text: >-
+        Se l'impresa è iscritta prima come "inattiva", la denuncia di inizio attività al REA va
+        presentata entro 30 giorni dall'evento; oltre si applicano le sanzioni REA.
+      status: verified
+      source: na-sezione-speciale
+  lateness:
+    text: >-
+      La pagina "Sanzioni" della Camera indica, per le imprese individuali (iscrizioni, modifiche e
+      cessazioni dell'art. 2196 c.c.), una sanzione di 20,00 euro per il Registro Imprese, da
+      pagare con F23 (codice tributo 741T) entro 60 giorni dalla notifica, più spese di
+      procedimento e notifica indicate nel verbale. Per le denunce REA tardive (per esempio
+      l'inizio attività) indica 10,00 euro se presentate entro 30 giorni dalla scadenza e 51,33
+      euro oltre. Non calcolare l'importo da sé: fa fede il verbale; chiedere all'Ufficio Diritto
+      Annuale e Sanzioni del Registro Imprese.
+    status: verified
+    source: na-sanzioni
+channels:
+  - type: portal
+    name: DIRE – Depositi e Istanze al Registro imprese
+    url: https://dire.registroimprese.it
+    receipt: legal
+    preferred: true
+    source: ri-strumenti
+    notes: >-
+      Strumento gratuito del sistema camerale per compilare e inviare la Comunicazione Unica (in
+      alternativa, i software di mercato). Sostituisce Fedra e ComunicaStarweb; dal 12 febbraio
+      2026 il vecchio strumento ComUnica non è più disponibile e l'invio avviene dalla funzione
+      integrata in DIRE. Serve l'adesione gratuita a Telemaco con credito sul conto.
+  - type: pec
+    address: registroimprese@na.legalmail.camcom.it
+    receipt: legal
+    source: na-sedi
+    notes: >-
+      PEC dell'Area Anagrafe Economica (Registro Imprese), per comunicare con l'ufficio; la
+      pratica di iscrizione si invia in via telematica dal sistema del Registro Imprese.
+  - type: desk
+    name: Registro Imprese
+    address: Corso Meridionale 58, 80143 Napoli
+    hours: lunedì–giovedì 8:50–12:00; venerdì 8:50–11:00 (orari uffici)
+    source: na-sedi
+    notes: La pagina "Sanzioni" scrive CAP 80142 per lo stesso indirizzo.
+  - type: desk
+    name: Ufficio Artigianato (Albo e sezione imprese artigiane)
+    address: Corso Meridionale 58, Palazzo Borsa Merci, Napoli
+    hours: sportello martedì e giovedì lavorativi 10:30–11:30; informazioni dal martedì al venerdì 12:00–13:00 e 14:00–15:00
+    source: na-artigianato
+    notes: >-
+      Telefono 081 7607507. Le pagine della Camera scrivono la PEC dell'ufficio in tre modi
+      diversi (artigianato@na.legalmail.camcom.it, un link ad "artigianto@…" e
+      artigianato@na.legalmail.it): verificarla prima di scrivere.
+  - type: phone
+    name: URP Camera di Commercio
+    address: 081 7607712 / 081 7607716
+    hours: lunedì–venerdì 8:50–12:30
+    source: na-sedi
+  - type: portal
+    name: SARI – Supporto Specialistico Registro Imprese (Camera di Napoli)
+    url: https://supportospecialisticori.infocamere.it/sariWeb/na
+    auth: [none]
+    receipt: none
+    source: sari-iscrizione
+    notes: Schede della Camera con importi, allegati e passaggi in DIRE; da lì si contatta l'assistenza.
+payment:
+  method: f24
+  notes:
+    - text: >-
+        Iscrizione di impresa individuale con inizio attività (anche artigiana): imposta di bollo
+        € 17,50, diritti di segreteria € 18,00, più il diritto annuale.
+      status: verified
+      source: sari-iscrizione
+    - text: >-
+        Gli stessi importi (bollo € 17,50, diritti di segreteria € 18,00) valgono per l'iscrizione
+        senza immediato inizio dell'attività (impresa "inattiva").
+      status: verified
+      source: sari-senza-inizio
+    - text: >-
+        Impresa artigiana: se l'annotazione artigiana e l'inizio attività hanno date diverse sono
+        dovuti diritti di segreteria distinti.
+      status: verified
+      source: sari-artigiana
+    - text: >-
+        Bollo e diritti si scelgono nella pratica ("Completa e allega") e sono addebitati sul conto
+        Telemaco (prepagato, ricaricabile con carta di credito, oppure ICONTO). La registrazione a
+        Telemaco è gratuita.
+      status: verified
+      source: ri-registrazione
+    - text: >-
+        Diritto annuale 2026 per le nuove iscrizioni (importi arrotondati all'euro): impresa
+        individuale nella sezione speciale (piccoli imprenditori, artigiani, coltivatori diretti,
+        imprenditori agricoli) € 44,00 per la sede e € 9,00 per unità locale; impresa individuale
+        nella sezione ordinaria € 100,00 per la sede e € 20,00 per unità locale. Con unità locali
+        si sommano gli importi non arrotondati (sezione speciale: € 8,80 per unità locale) e si
+        arrotonda all'euro una sola volta sul totale (es. sede + 1 unità locale: € 52,80 → € 53).
+      status: verified
+      source: na-da-2026
+    - text: >-
+        Il diritto annuale delle nuove iscrizioni si paga al momento della domanda (prepagato
+        Telemaco) oppure con modello F24 entro 30 giorni dall'invio della domanda di iscrizione.
+      status: verified
+      source: na-da-2026
+documents:
+  - name: Dispositivo di firma digitale del titolare (o del delegato)
+    required: true
+  - name: Casella PEC dell'impresa (domicilio digitale) valida, attiva e riferita solo a questa impresa
+    required: true
+  - name: Adesione a Telemaco con credito sul conto prepagato o ICONTO
+    required: true
+  - name: Procura per la Comunicazione Unica, con copia del documento d'identità del titolare
+    required: false
+    notes: Solo se firma e invia un intermediario (commercialista, associazione di categoria).
+  - name: Documentazione richiesta per l'attività (requisiti, abilitazioni) secondo ateco.infocamere.it
+    required: false
+    notes: >-
+      Dipende dal codice ATECO. La Camera indica di verificare gli allegati sul sito
+      ateco.infocamere.it.
+  - name: Dichiarazione sostitutiva per attività di fabbricazione, produzione, riparazione o confezione non regolamentate
+    required: false
+    notes: >-
+      Modello della Camera di Napoli, da usare solo quando per l'ATECO non è prevista altra
+      documentazione da depositare al REA per queste attività.
+  - name: SCIA o comunicazione per il SUAP del Comune, se l'attività la richiede
+    required: false
+    notes: >-
+      A Napoli la pratica SUAP si compila su impresainungiorno e si importa nella pratica del
+      Registro Imprese (vedi le procedure SCIA del Comune).
+forms:
+  - id: procura-comunica
+    name: Incarico per la sottoscrizione digitale e presentazione telematica della Comunicazione Unica
+    url: https://www.registroimprese.it/documents/20195/4621042/ProcuraPerComunica.pdf/17f2080c-9904-4c97-8376-84ae8146c074
+    source: ri-procura
+    sha256: 1c323ccbb232282758d3fa74754065de6b24059326470f81e092d3954876df0d
+    signature_required: true
+    fields:
+      - label: Codice univoco di identificazione della pratica
+        map: { ask: "Codice della pratica generato da DIRE o dal software usato dall'intermediario" }
+      - label: conferire al sig.
+        map: { ask: "Nome e cognome dell'intermediario (procuratore) che firma e invia la pratica" }
+      - label: in qualità di (1)
+        map: { ask: "Qualifica dell'intermediario tra quelle previste dal D.M. 2/11/2007 (es. professionista incaricato)" }
+      - { label: COGNOME (riga 1), map: { direct: identity.last_name } }
+      - { label: NOME (riga 1), map: { direct: identity.first_name } }
+      - label: QUALIFICA (2) (riga 1)
+        map: { direct: business.qualita_dichiarante }
+        notes: Per un'impresa individuale, "titolare".
+      - label: FIRMA AUTOGRAFA (riga 1)
+        map: { blank_with_reason: "Firma a mano del titolare; il modulo va poi scansionato in PDF e allegato con firma digitale dall'intermediario." }
+      - label: Righe 2–5 (cognome, nome, qualifica, firma)
+        map: { blank_with_reason: "Per un'impresa individuale firma solo il titolare." }
+  - id: autocertificazione-attivita-non-regolamentate
+    name: Dichiarazione sostitutiva di certificazione e dell'atto di notorietà – attività non regolamentate (Registro Imprese di Napoli)
+    url: https://www.na.camcom.gov.it/old_site/www.na.camcom.gov.it/images/sezione-speciale/MODELLO_AUTOCERTIFICAZIONE_ATTIVITA_NON_REGOLAMENTATE.pdf
+    source: na-autocert
+    sha256: c7f7efcdee34ad2b0e62eeb3fbd6902dfc9e7c350b366245dea37ad46a24f133
+    signature_required: true
+    fields:
+      - { label: Cognome, map: { direct: identity.last_name } }
+      - { label: Nome, map: { direct: identity.first_name } }
+      - { label: C.F., map: { direct: identity.codice_fiscale } }
+      - { label: Data di Nascita, map: { direct: identity.date_of_birth } }
+      - { label: Cittadinanza, map: { direct: identity.citizenship } }
+      - { label: Sesso, map: { direct: identity.sex } }
+      - { label: "Luogo di Nascita: Stato", map: { direct: identity.birth_country } }
+      - { label: "Luogo di Nascita: Provincia", map: { direct: identity.birth_province } }
+      - { label: "Luogo di Nascita: Comune", map: { direct: identity.birth_comune } }
+      - { label: "Residenza: Provincia", map: { direct: residenza.provincia } }
+      - { label: "Residenza: Comune", map: { direct: residenza.comune } }
+      - { label: "Via, Piazza, ecc. (residenza)", map: { direct: residenza.indirizzo } }
+      - { label: N. (residenza), map: { direct: residenza.civico } }
+      - { label: CAP (residenza), map: { direct: residenza.cap } }
+      - label: "In qualità di: Titolare dell'omonima impresa individuale"
+        map: { direct: business.qualita_dichiarante }
+        notes: Per questa procedura si usa la voce "Titolare".
+      - label: Partita IVA (se già iscritto)
+        map: { direct: business.partita_iva }
+        notes: Vuota se la partita IVA viene chiesta con la stessa Comunicazione Unica.
+      - { label: Con sede nel Comune di, map: { direct: business.sede_legale_comune } }
+      - { label: Provincia (sede), map: { direct: business.sede_legale_provincia } }
+      - { label: "Via, Piazza, ecc. (sede)", map: { direct: business.sede_legale_indirizzo } }
+      - { label: N. (sede), map: { direct: business.sede_legale_civico } }
+      - { label: CAP (sede), map: { direct: business.sede_legale_cap } }
+      - label: Tel. (impresa individuale)
+        map: { direct: identity.phone }
+        notes: Il registro non ha un telefono dell'impresa; si usa quello del titolare.
+      - label: N. R.E.A. (se già iscritto)
+        map: { direct: business.rea }
+        notes: Vuoto per una prima iscrizione.
+      - label: CCIAA di (impresa individuale)
+        map: { blank_with_reason: "Solo se l'impresa è già iscritta al REA; per una prima iscrizione resta vuoto." }
+      - label: Indirizzo P.E.C. (dato obbligatorio)
+        map: { direct: business.pec }
+      - label: "Legale Rappresentante della Società: C.F."
+        map: { blank_with_reason: Riquadro riservato alle società. }
+      - label: Denominazione o Ragione Sociale
+        map: { blank_with_reason: Riquadro riservato alle società. }
+      - label: Con sede nel Comune di (società)
+        map: { blank_with_reason: Riquadro riservato alle società. }
+      - label: "Via, Piazza, ecc. / N. / CAP / Tel. (società)"
+        map: { blank_with_reason: Riquadro riservato alle società. }
+      - label: N. R.E.A. / CCIAA di (società)
+        map: { blank_with_reason: Riquadro riservato alle società. }
+      - { label: La sede dell'attività è nel Comune di, map: { direct: locale.comune } }
+      - { label: in via, map: { direct: locale.indirizzo } }
+      - { label: nr., map: { direct: locale.civico } }
+      - { label: cap, map: { direct: locale.cap } }
+      - { label: L'attività esercitata è, map: { direct: business.descrizione_attivita } }
+      - label: L'impresa è in possesso dei locali idonei e delle prescritte autorizzazioni amministrative nonché delle attrezzature necessarie
+        map: { ask: "Il titolare conferma di avere locali idonei, le autorizzazioni prescritte e le attrezzature necessarie?" }
+      - label: Data
+        map: { ask: Data di sottoscrizione della dichiarazione }
+      - label: Firma
+        map: { blank_with_reason: Firma del titolare dichiarante. }
+steps:
+  - do: >-
+      Stabilire la sezione: imprenditore commerciale (sezione ordinaria) o piccolo imprenditore
+      (sezione speciale); se l'attività è artigiana, verificare requisiti e incompatibilità per
+      l'annotazione nella sezione artigiana. La scelta incide sul diritto annuale (44 € o 100 €).
+    who: anyone
+  - do: >-
+      Verificare su ateco.infocamere.it codice ATECO e allegati richiesti; il codice deve
+      coincidere con quello dichiarato per la partita IVA.
+    who: anyone
+  - do: Attivare una PEC intestata all'impresa (non usata da altre imprese) e procurarsi la firma digitale
+    who: owner
+    human_only: true
+  - { do: Aderire gratuitamente a Telemaco e caricare il credito sul conto, who: owner, human_only: true }
+  - do: >-
+      Se l'attività richiede una SCIA o una comunicazione al SUAP di Napoli, compilarla su
+      impresainungiorno partendo dalla pratica in DIRE (pulsante SUAP) e importarla nella pratica
+      del Registro Imprese, così da inviarle insieme.
+    who: anyone
+  - do: >-
+      Compilare in DIRE la pratica "Iscrizione – Impresa individuale con inizio attività" (per le
+      artigiane: compilazione "ad adempimenti Albo Artigiani" – "Impresa individuale con inizio
+      attività artigiana"), con data di costituzione uguale alla data di invio, sezione e
+      qualifica, PEC, attività primaria e secondarie, partita IVA, quadri per INPS (AC per i
+      commercianti, AA per gli artigiani) e INAIL se dovuti, dati del dichiarante e allegati.
+    who: anyone
+  - do: Se presenta un intermediario, firmare a mano la procura e consegnarla con copia del documento d'identità
+    who: owner
+    human_only: true
+  - do: Selezionare bollo e diritti di segreteria, firmare digitalmente la pratica e inviarla al Registro Imprese di Napoli
+    who: owner
+    human_only: true
+  - do: Pagare il diritto annuale con il prepagato Telemaco all'invio, oppure con F24 entro 30 giorni dall'invio
+    who: owner
+    human_only: true
+  - do: >-
+      Controllare la PEC: ricevuta, codice fiscale e partita IVA, esiti degli altri enti ed
+      eventuali richieste di integrazione del Registro Imprese, a cui rispondere nel termine
+      indicato.
+    who: owner
+after:
+  - >-
+    La ricevuta del Registro Imprese è titolo per l'immediato avvio dell'attività, se ci sono i
+    presupposti di legge; gli enti comunicano per via telematica subito codice fiscale e partita
+    IVA ed entro i quattro giorni successivi gli altri dati delle posizioni registrate (art. 9
+    D.L. 7/2007).
+  - Conservare la ricevuta, il numero REA e copia della pratica inviata.
+  - >-
+    Gli artigiani sono iscritti d'ufficio negli elenchi INPS degli artigiani; i commercianti sono
+    iscritti alla Gestione Commercianti con il quadro AC della pratica. Vanno iscritti anche i
+    familiari che lavorano nell'impresa con abitualità e prevalenza.
+  - >-
+    Dall'anno successivo il diritto annuale si paga ogni anno alla scadenza ordinaria (vedi
+    napoli/camera-di-commercio/diritto-annuale); le comunicazioni arrivano alla PEC.
+  - >-
+    Modifiche (sede, attività, denominazione) e cessazione si comunicano con una nuova
+    Comunicazione Unica entro 30 giorni.
+  - >-
+    Se l'impresa occupa un locale a Napoli, presentare entro 90 giorni la dichiarazione TARI per
+    uso non abitativo (napoli/comune/tari-iscrizione-non-domestica).
+pitfalls:
+  - text: >-
+      La PEC comunicata al Registro Imprese deve essere valida, univoca (riconducibile a una sola
+      impresa) e già attiva al momento dell'invio.
+    status: verified
+    source: sari-iscrizione
+  - text: >-
+      Senza domicilio digitale il Registro Imprese non sanziona ma sospende la domanda di
+      iscrizione finché non viene integrata con la PEC.
+    status: verified
+    source: dl-179-2012
+  - text: >-
+      Per i commercianti, nella Comunicazione Unica va sempre compilato il quadro AC, che contiene
+      gli obblighi previdenziali verso la Gestione Commercianti INPS; vanno iscritti anche parenti
+      e affini entro il terzo grado che lavorano nell'impresa con abitualità e prevalenza.
+    status: verified
+    source: inps-commercianti
+  - text: >-
+      Se la pratica è rifiutata o archiviata, i diritti di segreteria non vengono restituiti,
+      perché l'istruttoria è stata svolta.
+    status: verified
+    source: sari-iscrizione
+  - text: >-
+      Data di inizio attività: con SCIA contestuale coincide con la data di invio; per le attività
+      soggette a SCIA non può essere anteriore all'invio al SUAP; per quelle soggette ad
+      autorizzazione non può precedere il rilascio (e l'inizio va comunicato entro 6 mesi dal
+      rilascio); per le attività libere è quella dell'effettivo inizio, non anteriore all'apertura
+      della partita IVA.
+    status: verified
+    source: sari-iscrizione
+  - text: >-
+      Per le attività regolamentate con SUAP autonomo, la SCIA va inviata al SUAP e al Registro
+      Imprese nello stesso giorno, allegando alla pratica camerale copia della SCIA con la
+      ricevuta.
+    status: verified
+    source: sari-artigiana
+  - text: >-
+      La scheda della Camera per l'iscrizione con inizio attività indica come termine "nessuno",
+      perché l'impresa si costituisce e inizia l'attività il giorno dell'invio; il codice civile
+      (art. 2196) e la scheda per le imprese artigiane fissano invece 30 giorni dall'inizio.
+      Contare comunque i 30 giorni dall'effettivo inizio.
+    status: disputed
+    source: sari-iscrizione
+  - text: >-
+      La pagina "Adempimenti" della Camera (aggiornata a ottobre 2026) descrive ancora
+      ComunicaStarweb e webtelemaco, e la scheda per le imprese artigiane (agosto 2025) cita
+      ComunicaStarweb; il Registro Imprese indica invece DIRE, che li ha sostituiti.
+    status: verified
+    source: na-adempimenti
+  - text: >-
+      L'annotazione come impresa artigiana è costitutiva (serve per le agevolazioni e per usare
+      riferimenti all'artigianato nella ditta o nell'insegna) e decorre dalla presentazione:
+      non si può far risalire a prima, anche se l'inizio attività viene denunciato retroattivamente.
+    status: verified
+    source: sari-artigiana
+related:
+  - napoli/camera-di-commercio/diritto-annuale
+  - napoli/comune/scia-esercizio-vicinato
+  - napoli/comune/scia-somministrazione-alimenti-bevande
+  - napoli/asl-napoli-1/registrazione-attivita-alimentare
+  - napoli/comune/tari-iscrizione-non-domestica
+  - napoli/comune/insegna-esercizio
+  - italia/agenzia-entrate/apertura-partita-iva-persona-fisica
+  - napoli/comune/scia-acconciatore-estetista
+sources:
+  - id: sari-iscrizione
+    label: SARI Camera di Napoli – Costituzione di impresa individuale con immediato inizio dell'attività economica (scheda 113674324)
+    url: https://supportospecialisticori.infocamere.it/sariWeb/na?apriSchedaMadre=113674324
+    retrieved: 2026-10-25
+    page_updated: 2025-04-18
+    official: true
+    notes: >-
+      Servizio di supporto specialistico del Registro Imprese della Camera di Napoli, realizzato da
+      InfoCamere e linkato dal sito camerale. Letto anche l'approfondimento "Termini per la
+      presentazione della pratica telematica: precisazioni" (FAQ 117740787), aperto dalla scheda.
+  - id: sari-senza-inizio
+    label: SARI Camera di Napoli – Costituzione di impresa individuale senza immediato inizio dell'attività economica (scheda 113675046)
+    url: https://supportospecialisticori.infocamere.it/sariWeb/na?apriSchedaMadre=113675046
+    retrieved: 2026-10-25
+    page_updated: 2025-09-02
+    official: true
+  - id: sari-artigiana
+    label: SARI Camera di Napoli – Costituzione di impresa individuale con immediato inizio di attività artigiana presso la sede (scheda 115299214)
+    url: https://supportospecialisticori.infocamere.it/sariWeb/na?apriSchedaMadre=115299214
+    retrieved: 2026-10-25
+    page_updated: 2025-08-06
+    official: true
+    notes: Letto anche l'approfondimento "Sezione speciale artigianato" (FAQ 115937315), aperto dalla scheda.
+  - id: na-sezione-speciale
+    label: Camera di Commercio di Napoli – Registro Imprese, Sezione speciale
+    url: https://www.na.camcom.gov.it/registro-imprese-e-albi/deposito-pratiche/sezione-speciale
+    retrieved: 2026-10-25
+    page_updated: 2025-11-21
+    official: true
+  - id: na-sezione-ordinaria
+    label: Camera di Commercio di Napoli – Registro Imprese, Sezione ordinaria
+    url: https://www.na.camcom.gov.it/registro-imprese-e-albi/deposito-pratiche/sezione-ordinaria
+    retrieved: 2026-10-25
+    page_updated: 2025-11-21
+    official: true
+  - id: na-sanzioni
+    label: Camera di Commercio di Napoli – Registro Imprese, Sanzioni
+    url: https://www.na.camcom.gov.it/registro-imprese-e-albi/deposito-pratiche/sanzioni
+    retrieved: 2026-10-25
+    page_updated: 2026-02-18
+    official: true
+  - id: na-artigianato
+    label: Camera di Commercio di Napoli – Artigianato
+    url: https://www.na.camcom.gov.it/registro-imprese-e-albi/artigianato
+    retrieved: 2026-10-25
+    page_updated: 2025-12-10
+    official: true
+  - id: na-sedi
+    label: Camera di Commercio di Napoli – Sedi e orari
+    url: https://www.na.camcom.gov.it/chi-siamo/sedi-e-orari
+    retrieved: 2026-10-25
+    page_updated: 2026-04-28
+    official: true
+  - id: na-adempimenti
+    label: Camera di Commercio di Napoli – Creare impresa, Adempimenti (SUAP camerale)
+    url: https://www.na.camcom.gov.it/creare-impresa/adempimenti
+    retrieved: 2026-10-25
+    page_updated: 2026-10-18
+    official: true
+    notes: Testo in gran parte del 2011 (ComunicaStarweb, webtelemaco, riunione del 6 giugno 2011).
+  - id: na-da-2026
+    label: Camera di Commercio di Napoli – Diritto annuale 2026 (importi per le nuove iscrizioni)
+    url: https://www.na.camcom.gov.it/registro-imprese-e-albi/diritto-annuale/diritto-annuale-2026
+    retrieved: 2026-10-25
+    page_updated: 2026-06-29
+    official: true
+  - id: na-autocert
+    label: Camera di Commercio di Napoli – Modello autocertificazione attività non regolamentate
+    url: https://www.na.camcom.gov.it/old_site/www.na.camcom.gov.it/images/sezione-speciale/MODELLO_AUTOCERTIFICAZIONE_ATTIVITA_NON_REGOLAMENTATE.pdf
+    retrieved: 2026-10-25
+    sha256: c7f7efcdee34ad2b0e62eeb3fbd6902dfc9e7c350b366245dea37ad46a24f133
+    official: true
+    notes: Linkato dalla pagina "Sezione speciale"; il file è nell'archivio del vecchio sito (PDF creato nel 2023).
+  - id: ri-comunica
+    label: registroimprese.it – Comunicazione Unica d'Impresa, Cos'è
+    url: https://www.registroimprese.it/comunicazione-unica-d-impresa
+    retrieved: 2026-10-25
+    official: true
+  - id: ri-prerequisiti
+    label: registroimprese.it – Comunicazione Unica, Prerequisiti
+    url: https://www.registroimprese.it/prerequisiti
+    retrieved: 2026-10-25
+    official: true
+  - id: ri-strumenti
+    label: registroimprese.it – Comunicazione Unica, Strumenti
+    url: https://www.registroimprese.it/strumenti
+    retrieved: 2026-10-25
+    official: true
+  - id: ri-impresa-individuale
+    label: registroimprese.it – Nuova impresa, Impresa individuale
+    url: https://www.registroimprese.it/impresa-individuale
+    retrieved: 2026-10-25
+    official: true
+  - id: ri-registrazione
+    label: registroimprese.it – Registrazione a Telemaco (costi e conto)
+    url: https://www.registroimprese.it/registrazione
+    retrieved: 2026-10-25
+    official: true
+  - id: ri-procura
+    label: registroimprese.it – Modello di procura per la Comunicazione Unica (circolare MISE 3616/C del 2008)
+    url: https://www.registroimprese.it/documents/20195/4621042/ProcuraPerComunica.pdf/17f2080c-9904-4c97-8376-84ae8146c074
+    retrieved: 2026-10-25
+    sha256: 1c323ccbb232282758d3fa74754065de6b24059326470f81e092d3954876df0d
+    official: true
+    notes: Linkato dalla pagina Prerequisiti; PDF del 2008.
+  - id: inps-commercianti
+    label: INPS – Iscrizione Gestione Commercianti
+    url: https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-servizi.50172.iscrizione-gestione-commercianti.html
+    retrieved: 2026-10-25
+    page_updated: 2025-08-12
+    official: true
+  - id: inps-artigiani
+    label: INPS – Iscrizione Gestione Artigiani
+    url: https://www.inps.it/it/it/dettaglio-approfondimento.schede-informative.iscrizione-gestione-artigiani.html
+    retrieved: 2026-10-25
+    page_updated: 2025-08-12
+    official: true
+  - id: dl-7-2007
+    label: D.L. 31 gennaio 2007, n. 7, art. 9 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2007-01-31;7~art9
+    retrieved: 2026-10-25
+    official: true
+  - id: dl-179-2012
+    label: D.L. 18 ottobre 2012, n. 179, art. 5 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2012-10-18;179~art5
+    retrieved: 2026-10-25
+    official: true
+  - id: dpr-160-2010
+    label: D.P.R. 7 settembre 2010, n. 160, art. 5 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2010-09-07;160~art5
+    retrieved: 2026-10-25
+    official: true
+  - id: cc-2196
+    label: Codice civile, art. 2196 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:regio.decreto:1942-03-16;262:2~art2196
+    retrieved: 2026-10-25
+    official: true
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: lette le schede SARI della Camera di Napoli 113674324, 113675046 e 115299214 (con le
+    FAQ 117740787 e 115937315), le pagine della Camera su sezione speciale, sezione ordinaria,
+    sanzioni, artigianato, sedi e orari, adempimenti e diritto annuale 2026, le pagine ComUnica
+    di registroimprese.it (cos'è, prerequisiti, strumenti, impresa individuale, registrazione),
+    le schede INPS Gestione Commercianti e Artigiani, gli artt. 9 D.L. 7/2007, 5 D.L. 179/2012,
+    5 D.P.R. 160/2010 e 2196 c.c. su Normattiva; scaricati e letti il modello di procura e il
+    modello di autocertificazione della Camera.
+  notes: >-
+    Non verificati: il testo dell'art. 16 L.R. Campania 11/2015 (citato dalla scheda artigiana) e
+    le modalità di accesso a DIRE.
