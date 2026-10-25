@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdtempSync, mkdirSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
@@ -382,4 +382,133 @@ test("CLI exit codes: valid, invalid, empty and missing directories", () => {
   const missing = runCli(path.join(tmpdir(), "does-not-exist-pratiche"));
   assert.equal(missing.status, 2);
   assert.match(missing.stderr, /procedures directory not found/);
+});
+
+// --- second review: regressions ---
+
+test("comments in CRLF and CR-only files are still scanned", () => {
+  for (const eol of ["\r\n", "\r"]) {
+    const dir = tempLibrary({ "napoli/comune/test.yaml": `# intestatario RSSMRA85T10A562S${eol}${VALID_YAML}${eol}` });
+    const [result] = validateDir(dir, ctx.registry, "2026-10-25");
+    assert.match(result.errors.join("\n"), /comment looks like it has a codice fiscale/, JSON.stringify(eol));
+  }
+});
+
+test("every credential word the vault knows is refused", () => {
+  for (const name of ["cie_pin1", "cie_puk2", "spid_pwd", "spid_pw", "spid_pass", "spid_passcode", "cieid_totp",
+    "spid_username", "spid_login", "cie_segreto", "spid_chiave", "api_token", "spid_password", "cie_otp"]) {
+    assert.match(checkFieldRef(`documents.${name}`, ctx.registry) ?? "", /secret/, name);
+  }
+  assert.match(errorsFor(withForm({ label: "X", map: { repeat: "nucleo_familiare.membro<N>_spid_username" } })), /secret/);
+});
+
+test("a wildcard over an open category is refused", () => {
+  assert.match(checkFieldRef("documents.*", ctx.registry) ?? "", /open category/);
+  assert.equal(checkFieldRef("residenza.*", ctx.registry), null);
+});
+
+test("ask and blank_with_reason can't request secrets, but form names like PIN 2.1 are fine", () => {
+  assert.match(errorsFor(withForm({ label: "X", map: { ask: "PIN della CIE e password SPID del titolare" } })), /must not ask for a PIN/);
+  assert.match(errorsFor(withForm({ label: "X", map: { blank_with_reason: "Inserire il codice OTP" } })), /must not ask for a PIN/);
+  assert.deepEqual(validateProcedure(withForm({ label: "X", map: { blank_with_reason: "Allegare il modulo PIN 2.1" } }), PATH, ctx), []);
+});
+
+test("URLs need a host", () => {
+  for (const url of ["https://", "http://", "https:///", "https://?x"]) {
+    const doc = minimal();
+    doc.sources[0].url = url;
+    assert.match(errorsFor(doc), /schema: \/sources\/0\/url must match pattern/, url);
+  }
+});
+
+test("blank codes and notes are rejected", () => {
+  const doc = minimal();
+  doc.payment = { method: "f24", codice_ente: " ", rateazione: "" };
+  doc.channels[0].notes = "  ";
+  const errors = errorsFor(doc);
+  assert.match(errors, /\/payment\/codice_ente/);
+  assert.match(errors, /\/payment\/rateazione/);
+  assert.match(errors, /\/channels\/0\/notes/);
+});
+
+test("two files with the same id are both reported", () => {
+  const dir = tempLibrary({ "napoli/comune/test.yaml": VALID_YAML, "napoli/comune/test.yml": VALID_YAML });
+  const results = validateDir(dir, ctx.registry, "2026-10-25");
+  assert.equal(results.length, 2);
+  for (const r of results) assert.match(r.errors.join("\n"), /another file has the same id/);
+});
+
+test("a byte-order mark doesn't hide a %YAML directive", () => {
+  const dir = tempLibrary({ "napoli/comune/test.yaml": `﻿%YAML 1.1\n---\n${VALID_YAML}\n` });
+  const [result] = validateDir(dir, ctx.registry, "2026-10-25");
+  assert.deepEqual(result.errors, ["remove the %YAML directive: procedures are read as YAML 1.2"]);
+});
+
+test("a broken symlink is reported and symlinked directories are followed", () => {
+  const dir = tempLibrary({ "napoli/comune/test.yaml": VALID_YAML });
+  symlinkSync(path.join(dir, "nowhere.yaml"), path.join(dir, "napoli/comune/broken.yaml"));
+  const other = tempLibrary({ "other.yaml": JSON.stringify({ ...minimal(), id: "napoli/linked/other" }) });
+  symlinkSync(other, path.join(dir, "napoli/linked"));
+  const byFile = Object.fromEntries(validateDir(dir, ctx.registry, "2026-10-25").map((r) => [r.rel.replace(/\\/g, "/"), r.errors.join("\n")]));
+  assert.match(byFile["napoli/comune/broken.yaml"], /can't read file/);
+  assert.equal(byFile["napoli/linked/other.yaml"], "");
+});
+
+test("validating part of the library keeps ids and links in context", () => {
+  const linking = { ...minimal(), id: "napoli/comune/test", related: ["napoli/altro/other"] };
+  const dir = tempLibrary({
+    "napoli/comune/test.yaml": JSON.stringify(linking),
+    "napoli/altro/other.yaml": JSON.stringify({ ...minimal(), id: "napoli/altro/other" }),
+  });
+  const results = validateDir(dir, ctx.registry, "2026-10-25", path.join(dir, "napoli/comune"));
+  assert.deepEqual(results.map((r) => [r.rel.replace(/\\/g, "/"), r.errors]), [["napoli/comune/test.yaml", []]]);
+});
+
+test("CLI: a subdirectory of the real library validates in context", () => {
+  const sub = runCli(path.join(ROOT, "procedures", "napoli", "comune"));
+  assert.equal(sub.status, 0, sub.stderr);
+  assert.doesNotMatch(sub.stdout + sub.stderr, /must match its path/);
+});
+
+test("registry ids all match the schema's field reference pattern", () => {
+  const schema = JSON.parse(readFileSync(path.join(ROOT, "contract", "procedure.schema.json"), "utf8"));
+  const pattern = new RegExp(schema.$defs.fieldRef.pattern);
+  for (const c of ctx.registry.categories) for (const f of c.fields) assert.match(f.id, pattern, f.id);
+});
+
+test("extension entries are validated", () => {
+  const schema = { version: "1", categories: [
+    { name: "business", description: "", fields: [{ id: "business.partita_iva", description: "", sensitivity: "standard" }] },
+    { name: "cie", description: "", fields: [
+      { id: "cie.numero", description: "", sensitivity: "sensitive" },
+      { id: "cie.pin", description: "", sensitivity: "critical" },
+    ] },
+  ] };
+  const ext = (categories: any[]) => () => buildRegistry(schema, { categories });
+  assert.throws(ext([{ name: "business", fields: [{ id: "business.E-mail", description: "" }] }]), /must look like category.field_name/);
+  assert.throws(ext([{ name: "business", fields: [{ id: "business.*", description: "" }] }]), /must look like category.field_name/);
+  assert.throws(ext([{ name: "locale2", description: "x", fields: [] }]), /lower-case name/);
+  assert.throws(ext([{ name: "business" }]), /fields list/);
+  assert.throws(ext([{ name: "business", fields: [{ id: "business.spid_pin1", description: "" }] }]), /looks like a credential/);
+  assert.throws(ext([{ name: "cie", fields: [{ id: "cie.pin", description: "" }] }]), /is a secret field in the vault/);
+});
+
+test("empty vault categories are secret unless listed as open", () => {
+  const reg = buildRegistry({ version: "1", categories: [
+    { name: "documents", description: "", fields: null },
+    { name: "carte", description: "", fields: [] },
+  ] });
+  assert.deepEqual(reg.categories.map((c) => c.name), ["documents"]);
+  assert.ok(reg.forbidden.categories.includes("carte"));
+  assert.match(checkFieldRef("carte.numero", reg) ?? "", /secret/);
+});
+
+test("gen-fields runs when invoked through a symlinked path", () => {
+  const link = path.join(mkdtempSync(path.join(tmpdir(), "genlink-")), "tools");
+  symlinkSync(path.join(ROOT, "tools"), link);
+  const before = readFileSync(FIELDS_PATH, "utf8");
+  const run = spawnSync(process.execPath, ["--import", "tsx", path.join(link, "gen-fields.ts")], { encoding: "utf8", cwd: ROOT });
+  assert.equal(run.status, 0, run.stderr);
+  assert.match(run.stdout, /wrote/);
+  assert.equal(readFileSync(FIELDS_PATH, "utf8"), before);
 });
