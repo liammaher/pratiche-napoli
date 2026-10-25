@@ -1,0 +1,507 @@
+schema_version: 0
+id: italia/pagopa/send-notifiche-digitali
+title: SEND – ricevere e leggere le notifiche a valore legale della pubblica amministrazione
+summary: >-
+  SEND (Servizio Notifiche Digitali, gestito da PagoPA) è la piattaforma con cui comuni, enti e
+  agenti della riscossione notificano atti a valore legale (multe, accertamenti, avvisi di
+  pagamento, esiti di pratiche). Questa scheda spiega come arriva una notifica (PEC/domicilio
+  digitale, app IO, e-mail o SMS di cortesia, raccomandata), da quando conta legalmente, quanto
+  costa, come vederla, delegare qualcuno e riconoscere i messaggi falsi. Vale per cittadini,
+  professionisti, ditte individuali e imprese.
+ente:
+  name: PagoPA S.p.A. (gestore della piattaforma SEND)
+  office: >-
+    L'atto lo invia l'ente mittente (es. Comune, ADER): per domande sul contenuto si contatta
+    l'ente, non SEND.
+applies_to:
+  events: [letter]
+  audience: [business, resident]
+  conditions:
+    - text: >-
+        SEND notifica a persone fisiche, giuridiche, enti e associazioni residenti o con sede in
+        Italia, o all'estero se hanno un codice fiscale italiano (art. 26, c. 2, lett. d).
+      status: verified
+      source: dl-76-2020-art-26
+    - text: >-
+        L'adesione a SEND è una scelta degli enti: alcuni continuano a notificare con la
+        raccomandata tradizionale.
+      status: verified
+      source: hc-cos-e-send
+    - text: >-
+        SEND non si usa per gli atti dei processi (civile, penale, amministrativo, tributario,
+        contabile), per gran parte degli atti di espropriazione forzata della riscossione e per gli
+        atti di pubblica sicurezza (art. 26, c. 17).
+      status: verified
+      source: dl-76-2020-art-26
+    - text: >-
+        Su SEND arrivano due tipi di messaggi: le notifiche a valore legale (etichetta "notifica a
+        valore legale" e dicitura "Notifica inviata tramite SEND, la piattaforma disciplinata
+        dall'art. 26 del D.L. 76/2020") e le altre comunicazioni (inviti, informative, bollette,
+        solleciti), che riportano "Questa comunicazione potrebbe produrre effetti giuridici".
+        Anche queste vanno lette: per esempio una messa in mora ignorata può portare a una
+        notifica.
+      status: verified
+      source: hc-valore-legale-o-comunicazione
+    - text: >-
+        Comune di Napoli: aderisce a SEND e notifica così gli avvisi di accertamento esecutivo
+        (AAE) dei crediti per la refezione scolastica (comunicato del 17 febbraio 2026). Le fonti lette non
+        dicono che il Comune usi SEND per altri atti (es. TARI): controllare sempre come è
+        arrivato l'atto.
+      status: verified
+      source: comune-napoli-send
+legal_basis:
+  - text: >-
+      Art. 26 del D.L. 16 luglio 2020, n. 76 (piattaforma per la notificazione digitale degli atti
+      della pubblica amministrazione), che rinvia all'art. 1, c. 402, della L. 160/2019.
+    status: verified
+    source: dl-76-2020-art-26
+  - text: >-
+      Costi di notifica e loro ripartizione: decreto della Presidenza del Consiglio dei Ministri –
+      Dipartimento per la trasformazione digitale del 30 maggio 2022 (G.U. n. 180 del 3 agosto
+      2022), citato dal centro assistenza SEND. Il decreto non è stato letto.
+    status: verified
+    source: hc-costi
+  - text: >-
+      Domicilio digitale: INI-PEC (art. 6-bis CAD) per imprese e professionisti iscritti in albi;
+      INAD (art. 6-quater CAD) per persone fisiche, professionisti non ordinistici ed enti privati
+      non tenuti all'INI-PEC. Anche SEND stesso è un servizio elettronico di recapito certificato
+      qualificato e può essere eletto come domicilio digitale per le notifiche SEND.
+    status: verified
+    source: inad
+deadline:
+  rules:
+    - text: >-
+        Non c'è nulla da presentare per "ricevere" una notifica: gli effetti legali partono dal
+        perfezionamento, anche se la notifica viene ignorata o se è stato depositato l'avviso di
+        mancato recapito. Dalla data di perfezionamento decorrono i termini per pagare, impugnare o
+        rispondere indicati nell'atto.
+      status: verified
+      source: hc-ignorare
+    - text: >-
+        Perfezionamento per chi riceve, in ogni caso: il giorno e l'ora in cui il destinatario (o
+        un suo delegato) apre il documento notificato su SEND o dall'app IO, se questo avviene
+        prima dei termini qui sotto.
+      status: verified
+      source: dl-76-2020-art-26
+    - text: >-
+        PEC o domicilio digitale SEND: il settimo giorno successivo alla data di consegna
+        dell'avviso di avvenuta ricezione; se è consegnato dopo le ore 21.00, i sette giorni si
+        contano dal giorno successivo.
+      status: verified
+      source: dl-76-2020-art-26
+    - text: >-
+        PEC satura, non valida o non attiva (dopo due tentativi): il quindicesimo giorno
+        successivo alla data dell'avviso di mancato recapito, che si trova su SEND nel dettaglio
+        della notifica. In questo caso arriva anche una raccomandata informativa.
+      status: verified
+      source: dl-76-2020-art-26
+    - text: >-
+        Raccomandata: il decimo giorno successivo al perfezionamento della notifica cartacea
+        dell'avviso di avvenuta ricezione (art. 26, c. 9, lett. b, n. 2).
+      status: verified
+      source: dl-76-2020-art-26
+    - text: >-
+        In pratica, secondo SEND: raccomandata consegnata (a te o a chi può ritirarla) → 10 giorni
+        dopo la consegna; avviso di giacenza e ritiro entro 10 giorni → 10 giorni dopo il ritiro;
+        raccomandata non ritirata entro 10 giorni (o ritirata dopo) → 20 giorni dopo la data
+        dell'avviso di giacenza (A/R) o della spedizione della comunicazione di avvenuto deposito,
+        CAD (raccomandata 890, busta verde).
+      status: verified
+      source: hc-perfezionamento
+    - text: >-
+        Destinatario irreperibile all'indirizzo e nessun altro indirizzo trovato: SEND deposita
+        l'avviso sulla piattaforma e la notifica dell'avviso si perfeziona il decimo giorno
+        successivo al deposito. Chi incorre in decadenze e dimostra di non aver ricevuto la
+        notifica per causa a lui non imputabile può essere rimesso in termini (art. 26, c. 7).
+      status: verified
+      source: dl-76-2020-art-26
+    - text: >-
+        Senza PEC, chi riceve l'avviso di cortesia (app IO, e-mail o SMS) e apre la notifica entro
+        5 giorni (120 ore) la perfeziona in quel momento ed evita la raccomandata; oltre quel
+        termine parte la raccomandata, con i relativi costi.
+      status: verified
+      source: send-cittadini
+    - text: >-
+        Per l'ente mittente la notifica si perfeziona il giorno in cui mette il documento sulla
+        piattaforma: da quel momento l'ente non decade più e la prescrizione è interrotta.
+      status: verified
+      source: dl-76-2020-art-26
+    - text: >-
+        La data esatta di perfezionamento si legge su SEND, aprendo la notifica, nella sezione
+        "Stato della notifica". Non calcolarla a mano se è possibile leggerla lì.
+      status: verified
+      source: send-faq
+  lateness:
+    text: >-
+      Se non si paga o non si impugna entro i termini che decorrono dal perfezionamento, si
+      applicano le conseguenze indicate nell'atto (interessi, sanzioni, riscossione). Non stimarle:
+      chiedere all'ente mittente, i cui riferimenti sono di solito nei documenti allegati.
+    status: verified
+    source: hc-domande-contenuto
+channels:
+  - type: portal
+    name: SEND – area personale (cittadini, professionisti, ditte individuali e imprese)
+    url: https://notifichedigitali.it/
+    auth: [spid, cie]
+    receipt: legal
+    preferred: true
+    source: hc-accesso
+    notes: >-
+      Da notifichedigitali.it, "Accedi a SEND" / "Leggi le notifiche", scegliendo se entrare come
+      cittadino, libero professionista, ditta individuale o impresa. SPID di livello 2 (personale o
+      professionale; non SPID aziendale né smart card) o CIE di livello 2 o 3. CNS non indicata.
+      Le ditte individuali usano l'accesso da persona fisica. L'apertura su SEND perfeziona la
+      notifica e genera le attestazioni opponibili a terzi.
+  - type: app
+    name: App IO – servizio "SEND - Notifiche digitali"
+    source: hc-recapiti
+    notes: >-
+      Solo per persone fisiche (cittadini, professionisti, ditte individuali). Attivando il servizio
+      arriva un messaggio "Hai una comunicazione a valore legale da SEND"; aprendo la notifica in
+      app la si perfeziona e si può pagare. Con IO si può anche inquadrare il codice QR di un
+      avviso cartaceo.
+  - type: desk
+    name: Punti di ritiro SEND (esercizi convenzionati)
+    url: https://notifichedigitali.it/punti-di-ritiro
+    source: punti-di-ritiro
+    notes: >-
+      Per chi non ha SPID/CIE o vuole una copia cartacea degli atti. Portare l'avviso di avvenuta
+      ricezione, un documento d'identità valido e il codice fiscale. Costo 1,40 € (più IVA se
+      prevista) per operazione. L'elenco dei punti si consulta sulla mappa del sito; non è stato
+      verificato quali punti ci siano a Napoli.
+  - type: portal
+    name: INAD – eleggere il domicilio digitale (persone fisiche)
+    url: https://domiciliodigitale.gov.it/dgit/home/public/
+    auth: [spid, cie, cns]
+    source: inad
+    notes: >-
+      Gratuito. Serve già una PEC (su INAD non si attiva la PEC, la si registra). Le imprese non
+      passano da qui: la loro PEC è nel Registro imprese e quindi in INI-PEC.
+payment:
+  method: pagopa
+  notes:
+    - text: >-
+        Le spese di notifica sono a carico del destinatario (art. 26, c. 14) e vengono aggiunte
+        all'importo da pagare, per questo l'importo può essere diverso da quello scritto nell'atto.
+      status: verified
+      source: dl-76-2020-art-26
+    - text: >-
+        Notifica digitale (letta su SEND o IO, o via PEC): "massimo 2€" secondo il centro
+        assistenza, "2€" secondo le FAQ del sito.
+      status: disputed
+      source: hc-costi
+    - text: >-
+        Se parte la raccomandata si paga la parte digitale (2 €) più stampa e invio, che variano
+        con zona, tipo di raccomandata scelto dall'ente (890 o A/R), numero di fogli (0,03 € a
+        foglio, IVA esclusa) e tentativi di recapito. I costi possono essere dovuti anche se la
+        raccomandata non è ancora arrivata, perché la spedizione è già partita.
+      status: verified
+      source: hc-costi
+    - text: >-
+        Punto di ritiro: 1,40 € (più IVA se prevista) per la stampa dell'avviso di avvenuta
+        ricezione e altri 1,40 € per la stampa degli atti collegati a ciascun avviso.
+      status: verified
+      source: hc-costi
+    - text: >-
+        Si paga su SEND ("Paga"), dall'app IO ("Vai al pagamento") o con l'avviso pagoPA
+        allegato presso qualsiasi canale pagoPA (home banking/CBILL, banca, posta, tabaccherie).
+        Alcuni enti allegano un F24, da pagare con i canali tradizionali. Con più avvisi (rata
+        unica e rate), pagare solo quelli dovuti: i costi di notifica sono inclusi in uno solo,
+        di solito nella prima rata.
+      status: verified
+      source: hc-pagare
+    - text: >-
+        Se la notifica viene annullata dopo averla pagata, per il rimborso si contatta l'ente
+        mittente.
+      status: verified
+      source: send-faq
+documents:
+  - name: SPID (livello 2, personale o professionale) o CIE
+    required: false
+    notes: >-
+      Serve per entrare su SEND e su IO. Senza, si usa un Punto di ritiro o il codice QR
+      dell'avviso cartaceo con la CIE del destinatario.
+  - name: Avviso di avvenuta ricezione (via PEC o raccomandata)
+    required: false
+    notes: >-
+      Contiene l'ente mittente, il codice IUN (20 caratteri), l'oggetto e le istruzioni per
+      ottenere gli atti; quello cartaceo ha un codice QR e sul retro una delega per il Punto di
+      ritiro.
+  - name: Per una persona delegata al Punto di ritiro
+    required: false
+    notes: >-
+      Avviso con la delega sul retro compilata e firmata dal destinatario, documento e codice
+      fiscale del delegato, copia (o originale) di documento e codice fiscale del delegante.
+steps:
+  - do: >-
+      Se è arrivato qualcosa a nome di SEND, verificare che sia autentico: le e-mail arrivano solo
+      da noreply@mail.notifichedigitali.it; SEND non chiede mai pagamenti urgenti, dati, password
+      o numeri di carta via e-mail o SMS. Non cliccare link sospetti: entrare da
+      notifichedigitali.it o dall'app IO.
+    who: anyone
+  - do: >-
+      Aprire la notifica su SEND (SPID/CIE, sezione "In arrivo", filtro per IUN) o dall'app IO,
+      oppure inquadrare con IO il codice QR dell'avviso cartaceo. Aprirla la perfeziona: farlo
+      appena possibile, sapendo che da quel momento partono i termini.
+    who: owner
+    human_only: true
+  - do: >-
+      Scaricare e salvare subito atto, allegati e avvisi di pagamento: restano su SEND 120 giorni
+      dal perfezionamento, poi vanno chiesti all'ente.
+    who: anyone
+  - do: >-
+      Nella sezione "Stato della notifica" leggere la data di perfezionamento e scaricare le
+      attestazioni opponibili a terzi; annotare data e scadenze indicate nell'atto.
+    who: anyone
+  - do: >-
+      Per dubbi sul contenuto (importo, errori, rateizzazione, ricorso) contattare l'ente mittente
+      ai riferimenti nell'atto, non l'assistenza SEND.
+    who: owner
+  - do: >-
+      Se si decide di pagare, pagare solo gli avvisi dovuti, su SEND, IO o un canale pagoPA (o con
+      l'F24 allegato).
+    who: owner
+    human_only: true
+  - do: >-
+      Per le prossime notifiche: su SEND, "I tuoi recapiti", indicare una PEC o attivare SEND come
+      domicilio digitale ("Il tuo domicilio digitale" → "Inizia"), e aggiungere i recapiti di
+      cortesia (e-mail, cellulare, servizio SEND su IO).
+    who: owner
+    human_only: true
+  - do: >-
+      Impresa: il rappresentante legale fa il primo accesso a SEND come impresa (SPID/CIE) per
+      registrarla; poi può abilitare altri utenti e gruppi e delegare.
+    who: owner
+    human_only: true
+  - do: >-
+      Delegare (es. il commercialista o un familiare): su SEND, sezione "Deleghe" → "Aggiungi una
+      delega", indicare persona fisica o giuridica, codice fiscale, enti e durata; comunicare fuori
+      da SEND il codice di verifica, che il delegato inserisce entro 7 giorni in "Deleghe a tuo
+      carico".
+    who: owner
+    human_only: true
+after:
+  - Conservare atto, allegati, attestazioni opponibili a terzi e ricevute di pagamento.
+  - >-
+    Se l'atto è un avviso o una cartella da contestare o rateizzare, seguire la scheda dell'ente
+    mittente (es. autotutela TARI del Comune, rateizzazione ADER) con le scadenze che decorrono dal
+    perfezionamento.
+  - >-
+    Controllare ogni tanto la sezione "In arrivo" di SEND: possono esserci anche comunicazioni
+    senza valore di notifica ma con effetti giuridici (solleciti, messe in mora).
+  - Tenere aggiornati PEC e recapiti di cortesia; svuotare la PEC per evitare che risulti satura.
+pitfalls:
+  - text: >-
+      Avere una PEC registrata è la via più economica ma non dà tempo: la notifica si perfeziona
+      comunque dopo 7 giorni dalla consegna, anche se non si apre la casella. Lo stesso vale per
+      il domicilio digitale SEND.
+    status: verified
+    source: hc-domicilio-digitale
+  - text: >-
+      Senza averla indicata su SEND, SEND usa comunque una PEC intestata a te che trova: prima
+      quella nei recapiti SEND, poi quella fornita dall'ente mittente, poi quella nei registri
+      pubblici (INAD, INI-PEC). Chi ha una PEC d'impresa o professionale nei registri riceve lì le
+      notifiche.
+    status: verified
+    source: hc-cos-e-send
+  - text: >-
+      INI-PEC e INAD sono diversi: su INI-PEC arrivano le comunicazioni legate all'attività
+      professionale, su INAD quelle personali. Per legge le PEC dei professionisti in INI-PEC sono
+      copiate anche in INAD; chi non vuole riceverci comunicazioni personali può indicare su INAD
+      un'altra PEC o cancellarla.
+    status: verified
+    source: inad
+  - text: >-
+      Chi ha eletto il domicilio su INAD può continuare a ricevere atti per posta: alcuni enti ne
+      sono esonerati (regole particolari in materia tributaria e nei procedimenti giudiziari).
+    status: verified
+    source: inad
+  - text: >-
+      L'avviso di cortesia (IO, e-mail, SMS) non è la notifica: non ha valore legale finché non
+      si apre l'atto, ma se non lo si apre entro 120 ore arriva la raccomandata a pagamento.
+    status: verified
+    source: send-cittadini
+  - text: >-
+      La delega non inoltra le notifiche ai recapiti del delegato e non cambia quelli del
+      destinatario. Il delegato vede anche le notifiche create fino a 120 giorni prima.
+    status: verified
+    source: hc-delega
+  - text: >-
+      Se il delegato apre l'atto su SEND, la notifica si perfeziona in quel momento, come se
+      l'avesse aperta il destinatario (art. 26, c. 9, lett. b, n. 3).
+    status: verified
+    source: dl-76-2020-art-26
+  - text: >-
+      Una notifica di un'altra persona aperta con IO dal codice QR (con la CIE del destinatario)
+      resta in app solo temporaneamente: conservare l'avviso o una foto del QR.
+    status: verified
+    source: hc-io-qr
+  - text: >-
+      Il sito ufficiale ora è notifichedigitali.it: il vecchio indirizzo notifichedigitali.pagopa.it
+      reindirizza lì (verificato il 2026-10-25), e la pagina del Comune di Napoli lo cita ancora.
+      Diffidare di qualsiasi altro dominio.
+    status: verified
+    source: send-sicurezza
+  - text: >-
+      Messaggi sospetti a nome di SEND/PagoPA vanno inoltrati a truffe@pagopa.it. Se si sono
+      inseriti dati su un sito falso, chiamare subito la banca e sporgere denuncia.
+    status: verified
+    source: send-sicurezza
+  - text: >-
+      Comune di Napoli, AAE refezione scolastica notificati con SEND: la rateizzazione si chiede
+      via PEC/e-mail agli indirizzi indicati sull'atto, con raccomandata A/R alla Municipalità che
+      lo ha emesso o ai suoi sportelli.
+    status: verified
+    source: comune-napoli-send
+related:
+  - italia/agenzia-entrate-riscossione/rateizzazione-cartella
+  - napoli/comune/tari-autotutela-avviso-non-domestica
+  - napoli/camera-di-commercio/pec-domicilio-digitale-impresa
+  - napoli/polizia-locale/verbale-pagamento-ricorso
+sources:
+  - id: dl-76-2020-art-26
+    label: D.L. 16 luglio 2020, n. 76, art. 26 (testo vigente su Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2020-07-16;76~art26!vig=
+    retrieved: 2026-10-25
+    official: true
+  - id: send-cittadini
+    label: SEND – Per i cittadini
+    url: https://notifichedigitali.it/cittadini
+    retrieved: 2026-10-25
+    official: true
+    notes: notifichedigitali.pagopa.it/cittadini reindirizza qui.
+  - id: send-imprese
+    label: SEND – Per le imprese
+    url: https://notifichedigitali.it/imprese
+    retrieved: 2026-10-25
+    official: true
+  - id: send-faq
+    label: SEND – Domande frequenti
+    url: https://notifichedigitali.it/faq
+    retrieved: 2026-10-25
+    official: true
+  - id: send-perfezionamento
+    label: SEND – Valore giuridico delle notifiche (perfezionamento)
+    url: https://notifichedigitali.it/perfezionamento
+    retrieved: 2026-10-25
+    official: true
+  - id: send-sicurezza
+    label: SEND – Come evitare le truffe online a nome di SEND
+    url: https://notifichedigitali.it/sicurezza
+    retrieved: 2026-10-25
+    official: true
+  - id: punti-di-ritiro
+    label: SEND – Punti di ritiro
+    url: https://notifichedigitali.it/punti-di-ritiro
+    retrieved: 2026-10-25
+    official: true
+  - id: hc-cos-e-send
+    label: Centro assistenza SEND – Cos'è SEND e come funziona
+    url: https://assistenza.notifichedigitali.it/hc/it/articles/32453521118609-Cos-%C3%A8-SEND-e-come-funziona
+    retrieved: 2026-10-25
+    page_updated: 2026-10-25
+    official: true
+  - id: hc-accesso
+    label: Centro assistenza SEND – Cosa serve per accedere a SEND
+    url: https://assistenza.notifichedigitali.it/hc/it/articles/32452955755921-Cosa-serve-per-accedere-a-SEND
+    retrieved: 2026-10-25
+    page_updated: 2026-10-23
+    official: true
+  - id: hc-recapiti
+    label: Centro assistenza SEND – Aggiungere e modificare i recapiti
+    url: https://assistenza.notifichedigitali.it/hc/it/articles/32453679778577-Aggiungere-e-modificare-i-recapiti
+    retrieved: 2026-10-25
+    page_updated: 2026-10-21
+    official: true
+  - id: hc-perfezionamento
+    label: Centro assistenza SEND – Quando si perfeziona una notifica
+    url: https://assistenza.notifichedigitali.it/hc/it/articles/32452602728977-Quando-si-perfeziona-una-notifica
+    retrieved: 2026-10-25
+    page_updated: 2026-10-19
+    official: true
+  - id: hc-domicilio-digitale
+    label: Centro assistenza SEND – Cos'è il domicilio digitale e come funziona
+    url: https://assistenza.notifichedigitali.it/hc/it/articles/40708705351313-Cos-%C3%A8-il-domicilio-digitale-e-come-funziona
+    retrieved: 2026-10-25
+    page_updated: 2026-10-19
+    official: true
+  - id: hc-costi
+    label: Centro assistenza SEND – Cosa sono i costi di notifica?
+    url: https://assistenza.notifichedigitali.it/hc/it/articles/33545157719441-Cosa-sono-i-costi-di-notifica
+    retrieved: 2026-10-25
+    page_updated: 2026-10-25
+    official: true
+  - id: hc-pagare
+    label: Centro assistenza SEND – Pagare una notifica SEND
+    url: https://assistenza.notifichedigitali.it/hc/it/articles/32454214728977-Pagare-una-notifica-SEND
+    retrieved: 2026-10-25
+    page_updated: 2026-10-25
+    official: true
+  - id: hc-delega
+    label: Centro assistenza SEND – Delegare qualcuno a visualizzare le tue notifiche
+    url: https://assistenza.notifichedigitali.it/hc/it/articles/32453819931537-Delegare-qualcuno-a-visualizzare-le-tue-notifiche
+    retrieved: 2026-10-25
+    page_updated: 2026-10-02
+    official: true
+  - id: hc-io-qr
+    label: Centro assistenza SEND – Accedere a una notifica destinata a un'altra persona / aprire una notifica su IO
+    url: https://assistenza.notifichedigitali.it/hc/it/articles/44040804802321-Come-fare-per-accedere-a-una-notifica-SEND-destinata-a-un-altra-persona
+    retrieved: 2026-10-25
+    page_updated: 2026-10-19
+    official: true
+    notes: >-
+      Letta anche la pagina "Come aprire una notifica SEND su IO"
+      (https://assistenza.notifichedigitali.it/hc/it/articles/40252453177489-Come-aprire-una-notifica-SEND-su-IO).
+  - id: hc-valore-legale-o-comunicazione
+    label: Centro assistenza SEND – Notifica a valore legale o comunicazione? e "Cosa ricevo su SEND"
+    url: https://assistenza.notifichedigitali.it/hc/it/articles/52068925481105-Come-capisco-se-ho-ricevuto-una-notifica-a-valore-legale-o-una-comunicazione
+    retrieved: 2026-10-25
+    page_updated: 2026-10-23
+    official: true
+    notes: >-
+      Letta anche "Cosa ricevo su SEND"
+      (https://assistenza.notifichedigitali.it/hc/it/articles/52061946728977-Cosa-ricevo-su-SEND).
+  - id: hc-ignorare
+    label: Centro assistenza SEND – Cosa succede se si ignora una notifica
+    url: https://assistenza.notifichedigitali.it/hc/it/articles/33377294032913-Cosa-succede-se-si-ignora-una-notifica
+    retrieved: 2026-10-25
+    page_updated: 2026-10-25
+    official: true
+  - id: hc-domande-contenuto
+    label: Centro assistenza SEND – Ho domande sul contenuto della notifica
+    url: https://assistenza.notifichedigitali.it/hc/it/articles/32454886646545-Ho-domande-sul-contenuto-della-notifica
+    retrieved: 2026-10-25
+    page_updated: 2026-10-24
+    official: true
+  - id: inad
+    label: INAD – Indice nazionale dei domicili digitali (AgID), home e FAQ
+    url: https://domiciliodigitale.gov.it/dgit/home/public/
+    retrieved: 2026-10-25
+    official: true
+    notes: Statistiche aggiornate al 25/10/2026; news del 29/08/2025 sul riversamento da INI-PEC.
+  - id: inipec
+    label: INI-PEC – Come funziona
+    url: https://www.inipec.gov.it/come-funziona-ini-pec
+    retrieved: 2026-10-25
+    official: true
+    notes: Dice ancora "istituito dal Ministero dello Sviluppo Economico" (oggi MIMIT).
+  - id: comune-napoli-send
+    label: Comune di Napoli – "Innovazione digitale – il Comune di Napoli attiva SEND" (17/02/2026)
+    url: https://www.comune.napoli.it/novita/innovazione-digitale-il-comune-di-napoli-attiva-send-il-nuovo-servizio-notifiche-digitali/
+    retrieved: 2026-10-25
+    page_updated: 2026-02-25
+    official: true
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: letti l'art. 26 del D.L. 76/2020 su Normattiva (testo vigente); le pagine di
+    notifichedigitali.it Cittadini, Imprese, FAQ, Perfezionamento, Sicurezza e Punti di ritiro;
+    gli articoli del centro assistenza SEND su funzionamento, accesso, perfezionamento, domicilio
+    digitale, costi, pagamento, deleghe, IO/QR, comunicazioni e notifiche ignorate; home e FAQ di
+    INAD; la pagina "Come funziona" di INI-PEC; il comunicato del Comune di Napoli del 17/02/2026.
+    Nessun modulo da mappare.
+  notes: >-
+    Il decreto sui costi (30 maggio 2022) non è stato letto: gli importi vengono dal centro
+    assistenza SEND. Non verificato quali Punti di ritiro esistano a Napoli.

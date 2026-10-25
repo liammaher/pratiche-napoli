@@ -1,0 +1,413 @@
+schema_version: 0
+id: italia/inps/iscrizione-gestione-artigiani-commercianti
+title: Iscrizione alla Gestione Artigiani o Commercianti e contributi 2026 (INPS)
+summary: >-
+  Il titolare di una ditta individuale artigiana o commerciale, e i familiari che lavorano con lui
+  in modo abituale e prevalente, devono essere iscritti all'INPS nella Gestione Artigiani o nella
+  Gestione Commercianti. L'iscrizione parte dalla Comunicazione Unica alla Camera di Commercio;
+  poi ogni anno si pagano con F24 i contributi fissi sul minimale in quattro rate e, sul reddito
+  che supera il minimale, acconti e saldo insieme alle imposte. Chi è in regime forfetario può
+  chiedere la riduzione del 35%. Procedura nazionale: a Napoli valgono le stesse regole.
+ente:
+  name: Istituto Nazionale della Previdenza Sociale (INPS)
+  office: >-
+    Sede INPS competente per la posizione contributiva (per un'impresa con sede a Napoli, una sede
+    della provincia di Napoli); si contatta dal Cassetto previdenziale artigiani e commercianti.
+applies_to:
+  events: [open, annual]
+  audience: [business]
+  sectors:
+    - artigianato
+    - commercio, terziario e turismo
+  conditions:
+    - text: >-
+        Gestione Commercianti: titolare di un'impresa del commercio, del terziario o del turismo
+        organizzata prevalentemente con lavoro proprio ed eventualmente dei familiari, a prescindere
+        dal numero dei dipendenti. Requisiti: piena responsabilità dell'impresa, partecipazione
+        personale al lavoro in modo abituale e prevalente, licenze o autorizzazioni se previste.
+      status: verified
+      source: inps-commercianti
+    - text: >-
+        Gestione Artigiani: imprenditore artigiano che produce beni o semilavorati o presta servizi
+        (escluse attività agricole e commerciali), maggiorenne (salvo autorizzazione del tribunale
+        oltre i 16 anni), che lavora personalmente e in modo abituale e prevalente, con piena
+        responsabilità dell'impresa ed entro i limiti dimensionali della legge 443/1985.
+      status: verified
+      source: inps-artigiani
+    - text: >-
+        Familiari collaboratori nella Gestione Commercianti: devono essere iscritti i parenti e gli
+        affini entro il terzo grado che lavorano nell'impresa con abitualità e prevalenza.
+      status: verified
+      source: inps-commercianti
+    - text: >-
+        Familiari collaboratori nella Gestione Artigiani: devono essere iscritti i parenti entro il
+        terzo grado e gli affini entro il secondo grado che lavorano nell'impresa con abitualità e
+        prevalenza.
+      status: verified
+      source: inps-artigiani
+legal_basis:
+  - text: >-
+      Legge 2 agosto 1990, n. 233 (minimale e massimale di reddito), D.L. 384/1992 (contributo sulla
+      totalità dei redditi d'impresa), art. 24, c. 22, D.L. 201/2011 (aliquote al 24%), come
+      richiamati dalla circolare INPS n. 14 del 9 febbraio 2026.
+    status: verified
+    source: circ-14-2026
+  - text: >-
+      Leggi 463/1959, 443/1985, 133/1997 e 57/2001 per la definizione dell'imprenditore artigiano.
+    status: verified
+    source: inps-artigiani
+  - text: >-
+      Regime contributivo agevolato per i forfetari: art. 1, commi 77-84, legge 190/2014, applicato
+      per il 2026 secondo la circolare INPS n. 14/2026. Normattiva riporta questi commi come
+      abrogati dal D.Lgs. 19 giugno 2026, n. 117, che li riscrive nell'art. 241 del nuovo Testo
+      unico delle imposte sui redditi; il testo unico si applica dal 1° gennaio 2027 (art. 377).
+    status: verified
+    source: tuir-2026-art241
+deadline:
+  rules:
+    - text: >-
+        Commercianti: l'attività si avvia e si modifica con la Comunicazione Unica alla Camera di
+        Commercio, in cui va sempre compilato il quadro AC (obblighi verso la Gestione
+        Commercianti). La scheda INPS non indica un termine proprio: valgono i termini della
+        Comunicazione Unica (vedi napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica).
+      status: verified
+      source: inps-commercianti
+    - text: >-
+        Artigiani: entro 30 giorni dall'inizio dell'attività artigiana va presentata la domanda di
+        iscrizione all'Albo imprese artigiane, con la Comunicazione Unica (quadro AA), che vale anche
+        per l'INPS.
+      status: verified
+      source: inps-artigiani
+    - text: >-
+        Contributi sul minimale 2026, in quattro rate: 18 maggio 2026, 20 agosto 2026, 16 novembre
+        2026 e 16 febbraio 2027.
+      status: verified
+      source: circ-14-2026
+    - text: >-
+        Contributi sul reddito che supera il minimale (saldo 2025, primo e secondo acconto 2026):
+        entro i termini di pagamento delle imposte sui redditi delle persone fisiche.
+      status: verified
+      source: circ-14-2026
+    - text: >-
+        Riduzione del 35% per i forfetari: chi ha avviato l'impresa nel 2025 doveva aderire per il
+        2026 entro il termine perentorio del 28 febbraio 2026; chi avvia l'attività nel 2026 deve
+        aderire con la massima tempestività dopo aver ricevuto il provvedimento d'iscrizione. Chi è
+        già nel regime nel 2025 lo mantiene nel 2026 se ha ancora i requisiti fiscali e non ha
+        rinunciato.
+      status: verified
+      source: circ-14-2026
+    - text: >-
+        Per gli anni successivi, chi esercita già un'impresa presenta la dichiarazione di adesione
+        entro il termine di decadenza del 28 febbraio di ciascun anno; se la presenta in ritardo
+        accede al regime solo dall'anno dopo, ripresentandola nei termini.
+      status: verified
+      source: tuir-2026-art241
+  lateness:
+    text: >-
+      I contributi sul minimale non versati alle scadenze vengono richiesti con avvisi bonari e poi
+      con atti di recupero (avvisi di addebito); gli importi, comprese sanzioni civili e interessi,
+      si leggono nel Cassetto previdenziale (estratto debitorio, avvisi bonari, codeline per la
+      regolarizzazione). Non stimare sanzioni: farle calcolare dal Cassetto o dalla sede INPS.
+    status: verified
+    source: cassetto
+channels:
+  - type: portal
+    name: Comunicazione Unica (ComUnica) alla Camera di Commercio
+    receipt: legal
+    preferred: true
+    source: inps-commercianti
+    notes: >-
+      Canale dell'iscrizione per chi è soggetto al Registro imprese: quadro AC per i commercianti,
+      quadro AA (Albo imprese artigiane) per gli artigiani. Dettagli nella procedura
+      napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica.
+  - type: portal
+    name: Cassetto previdenziale artigiani e commercianti (INPS)
+    url: https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-aree-tematiche.cassetto-previdenziale-artigiani-e-commercianti-50241.cassetto-previdenziale-artigiani-e-commercianti.html
+    auth: [spid, cie, cns]
+    source: cassetto
+    notes: >-
+      Dati e F24 precompilati, estratto contributivo e debitorio, domanda di adesione o rinuncia al
+      regime agevolato, rimborsi e compensazioni, comunicazioni con la sede e appuntamenti.
+      Iscrizione, cancellazione e variazione da qui solo per le categorie non soggette al Registro
+      imprese. Vi accedono il titolare o un intermediario con delega attiva.
+  - type: app
+    name: INPS Mobile – Cassetto previdenziale del contribuente
+    source: app-mobile
+    notes: >-
+      Da settembre 2026 le funzioni del Cassetto (dati per l'F24, versamenti, istanze) sono
+      nell'app INPS Mobile; la vecchia app "INPS Cassetto Art Com" è stata dismessa.
+payment:
+  method: f24
+  codici_tributo:
+    - "AF (artigiani) / CF (commercianti): contributi sul minimale"
+    - "AP / CP: contributi eccedenti il minimale"
+    - "APR / CPR: pagamento rateale dei contributi eccedenti il minimale"
+  rateazione: >-
+    Saldo e primo acconto sul reddito eccedente il minimale: differimento fino a 30 giorni con la
+    maggiorazione dello 0,40% a titolo di interessi corrispettivi, oppure rateazione in massimo sei
+    rate con maggiorazione.
+  schedule:
+    - { label: Contributi sul minimale 2026 – rata 1, due: 2026-05-18, source: circ-14-2026, status: verified }
+    - { label: Contributi sul minimale 2026 – rata 2, due: 2026-08-20, source: circ-14-2026, status: verified }
+    - label: Contributi sul minimale 2026 – rata 3 (le schede INPS scrivono 17 novembre)
+      due: 2026-11-16
+      source: circ-14-2026
+      status: disputed
+    - { label: Contributi sul minimale 2026 – rata 4, due: 2027-02-16, source: circ-14-2026, status: verified }
+  notes:
+    - text: >-
+        Aliquote 2026 per titolari e coadiuvanti/coadiutori: 24% artigiani, 24,48% commercianti (lo
+        0,48% in più finanzia l'indennizzo per la cessazione dell'attività commerciale). In più è
+        dovuto il contributo di maternità di 0,62 euro al mese.
+      status: verified
+      source: circ-14-2026
+    - text: >-
+        Reddito minimale 2026: 18.808,00 euro annui (58,13 euro × 312 + 671,39 euro). Contributo
+        annuo sul minimale: artigiani 4.521,36 euro (4.513,92 IVS + 7,44 maternità); commercianti
+        4.611,64 euro (4.604,20 IVS e indennizzo cessazione + 7,44 maternità). Per periodi inferiori
+        all'anno, al mese: artigiani 376,78 euro (376,16 + 0,62); commercianti 384,31 euro (383,69 +
+        0,62). Minimale e contributo valgono per ogni singolo soggetto che lavora nell'impresa.
+      status: verified
+      source: circ-14-2026
+    - text: >-
+        Il contributo sul minimale è dovuto anche se il reddito effettivo è inferiore o negativo.
+      status: verified
+      source: aliquote-artigiani
+    - text: >-
+        Reddito eccedente il minimale (contributo a conguaglio): 24% artigiani e 24,48% commercianti
+        fino a 56.224,00 euro; 25% e 25,48% oltre 56.224,00 euro. Massimale annuo 93.707,00 euro
+        per chi ha anzianità contributiva al 31 dicembre 1995; 122.295,00 euro (non frazionabile a
+        mesi) per chi è iscritto dal 1° gennaio 1996 senza anzianità precedente.
+      status: verified
+      source: circ-14-2026
+    - text: >-
+        Il contributo si calcola sulla totalità dei redditi d'impresa dichiarati ai fini IRPEF
+        nell'anno (non solo su quello dell'attività che dà titolo all'iscrizione); il reddito si
+        dichiara nel quadro RR del modello Redditi persone fisiche.
+      status: verified
+      source: aliquote-artigiani
+    - text: >-
+        Gli importi e i dati per l'F24 (codice sede, causale, codice INPS di 17 cifre, periodo
+        "da"/"a") si prendono dal Cassetto previdenziale, sezione "Dati del mod. F24", dove si può
+        stampare il modello in PDF. Nel primo anno di iscrizione l'INPS può emettere i modelli con
+        scadenze successive al 16 maggio (per esempio 20 agosto).
+      status: verified
+      source: f24-inps
+    - text: >-
+        Il titolare è responsabile del versamento dei contributi propri e dei suoi collaboratori.
+        Se i collaboratori non sono in un'impresa familiare costituita, il titolare può attribuire
+        loro quote di reddito fino al 49% del reddito globale dell'impresa.
+      status: verified
+      source: circ-14-2026
+    - text: >-
+        Affittacamere iscritti alla Gestione Commercianti: non devono il minimale, solo i contributi
+        a percentuale sul reddito effettivo più la maternità di 0,62 euro al mese.
+      status: verified
+      source: circ-14-2026
+    - text: >-
+        Over 65 già pensionati presso le gestioni INPS: anche nel 2026 possono chiedere, con
+        apposita domanda, la riduzione del 50% dei contributi; è incompatibile con altre
+        agevolazioni di tipo contributivo.
+      status: verified
+      source: riduzione-over65
+documents:
+  - name: Comunicazione Unica con quadro AC (commercianti) o quadro AA (artigiani)
+    required: true
+    notes: Si prepara nella procedura della Camera di Commercio; contiene anche i familiari collaboratori.
+  - name: Dichiarazione di adesione al regime contributivo agevolato
+    required: false
+    notes: Solo per i forfetari che vogliono la riduzione del 35%; si invia online dal Cassetto previdenziale.
+steps:
+  - do: >-
+      Verificare se l'attività rientra nella Gestione Artigiani o Commercianti e quali familiari
+      lavorano nell'impresa in modo abituale e prevalente
+    who: anyone
+  - do: >-
+      Compilare nella Comunicazione Unica il quadro AC (commercianti) o il quadro AA (artigiani),
+      con i dati del titolare e degli eventuali collaboratori familiari
+    who: facilitator
+  - do: Firmare e inviare la Comunicazione Unica entro i termini (artigiani entro 30 giorni dall'inizio)
+    who: owner
+    human_only: true
+  - do: Attendere il provvedimento di iscrizione INPS e controllare l'anagrafica nel Cassetto previdenziale
+    who: owner
+  - do: >-
+      Se si è in regime forfetario e si vuole la riduzione del 35%, presentare dal Cassetto la
+      dichiarazione di adesione al regime agevolato appena ricevuto il provvedimento d'iscrizione
+    who: owner
+    human_only: true
+  - do: Scaricare dal Cassetto, sezione "Dati del mod. F24", i modelli F24 precompilati delle rate
+    who: anyone
+  - do: Pagare l'F24 di ogni rata sul minimale alle scadenze
+    who: owner
+    human_only: true
+  - do: >-
+      Nella dichiarazione dei redditi compilare il quadro RR e pagare saldo e acconti sul reddito
+      eccedente il minimale con le imposte
+    who: professional
+  - do: Pagare l'F24 di saldo e acconti
+    who: owner
+    human_only: true
+after:
+  - Conservare il provvedimento d'iscrizione INPS e le quietanze di tutti gli F24.
+  - >-
+    Controllare ogni anno nel Cassetto i nuovi modelli F24 e l'estratto contributivo; segnalare
+    alla sede, dal Cassetto, eventuali errori.
+  - >-
+    Variazioni dell'impresa, ingresso o uscita di collaboratori e cessazione si comunicano con una
+    nuova Comunicazione Unica.
+  - >-
+    Chi è nel regime agevolato e vuole uscirne invia la rinuncia entro il 28 febbraio: vale dal 1°
+    gennaio dello stesso anno ed è definitiva; se inviata dopo, vale dal 1° gennaio dell'anno
+    successivo.
+pitfalls:
+  - text: >-
+      La terza rata 2026 sul minimale è indicata al 16 novembre 2026 nella circolare n. 14/2026, ma
+      al 17 novembre 2026 nelle schede INPS "Aliquote e contributi artigiani/commercianti"
+      (aggiornate il 12 marzo 2026). La scheda "F24 per artigiani e commercianti" indica in generale
+      il 16 novembre. Controllare la scadenza stampata sull'F24 del Cassetto e non pagare dopo il
+      16 novembre.
+    status: disputed
+    source: circ-14-2026
+  - text: >-
+      La riduzione del 35% è facoltativa e va chiesta con domanda: non si applica da sola a chi
+      apre la partita IVA in regime forfetario. L'uscita dal regime agevolato (per rinuncia o
+      perdita dei requisiti) è definitiva e impedisce di rientrarvi.
+    status: verified
+    source: circ-14-2026
+  - text: >-
+      Con la riduzione del 35% si paga meno del contributo sul minimale ordinario: in quel caso
+      l'INPS accredita un numero di mesi proporzionale a quanto versato. Per avere 12 mesi accreditati
+      bisogna versare l'intero contributo sul minimale.
+    status: verified
+    source: circ-35-2016
+  - text: >-
+      La riduzione del 50% per i nuovi iscritti (legge di Bilancio 2025) vale solo per chi ha
+      avviato l'attività e si è iscritto per la prima volta nel 2025: dura 36 mesi dall'avvio,
+      riduce solo l'aliquota IVS, si chiede dal Portale delle Agevolazioni (ex DiResCo) e non è
+      cumulabile con il regime forfetario previdenziale né con la riduzione over 65.
+    status: verified
+    source: nuovi-iscritti-2025
+  - text: >-
+      Le fonti INPS 2026 consultate (circolare n. 14/2026 e schede) non indicano una riduzione
+      analoga per chi si iscrive per la prima volta nel 2026.
+    status: unverified
+  - text: >-
+      La scheda INPS "Riduzione contributiva Artigiani e Commercianti" riguarda solo gli over 65
+      pensionati, non i forfetari: per il 35% si usa la domanda di adesione al regime agevolato nel
+      Cassetto.
+    status: verified
+    source: riduzione-over65
+related:
+  - napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica
+  - italia/agenzia-entrate/apertura-partita-iva-persona-fisica
+  - napoli/camera-di-commercio/diritto-annuale
+  - napoli/comune/avvio-bed-and-breakfast
+sources:
+  - id: circ-14-2026
+    label: "Circolare INPS n. 14 del 9 febbraio 2026 – Artigiani ed esercenti attività commerciali: contribuzione per l'anno 2026"
+    url: https://www.inps.it/content/dam/inps-site/it/scorporati/circolari-e-messaggi/2026/02/Circolare_15162/Allegati/16561_Circolare-numero-14-del-09-02-2026.pdf
+    retrieved: 2026-10-25
+    page_updated: 2026-02-09
+    sha256: 1122d02097852f5f1271efb6639e2422ebb3a1a61f9e9f2605fc4164f93209c8
+    official: true
+  - id: news-2026
+    label: "INPS – Notizia: Gestioni artigiani e commercianti, i contributi per il 2026"
+    url: https://www.inps.it/it/it/inps-comunica/notizie/dettaglio-news-page.news.2026.02.gestioni-artigiani-e-commercianti-i-contributi-per-il-2026.html
+    retrieved: 2026-10-25
+    page_updated: 2026-02-09
+    official: true
+  - id: inps-commercianti
+    label: INPS – Iscrizione Gestione Commercianti
+    url: https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-servizi.50172.iscrizione-gestione-commercianti.html
+    retrieved: 2026-10-25
+    page_updated: 2025-08-12
+    official: true
+  - id: inps-artigiani
+    label: INPS – Iscrizione Gestione Artigiani
+    url: https://www.inps.it/it/it/dettaglio-approfondimento.schede-informative.iscrizione-gestione-artigiani.html
+    retrieved: 2026-10-25
+    page_updated: 2025-08-12
+    official: true
+  - id: aliquote-artigiani
+    label: INPS – Aliquote e contributi artigiani
+    url: https://www.inps.it/it/it/dettaglio-approfondimento.schede-informative.49847.aliquote-e-contributi-artigiani.html
+    retrieved: 2026-10-25
+    page_updated: 2026-03-12
+    official: true
+    notes: Indica la terza rata al 17 novembre 2026, in contrasto con la circolare n. 14/2026.
+  - id: aliquote-commercianti
+    label: INPS – Aliquote e contributi commercianti
+    url: https://www.inps.it/it/it/dettaglio-approfondimento.schede-informative.49849.aliquote-e-contributi-commercianti.html
+    retrieved: 2026-10-25
+    page_updated: 2026-03-12
+    official: true
+    notes: Indica la terza rata al 17 novembre 2026, in contrasto con la circolare n. 14/2026.
+  - id: f24-inps
+    label: INPS – F24 per artigiani e commercianti (scadenze generali, compilazione, causali)
+    url: https://www.inps.it/it/it/dettaglio-approfondimento.schede-informative.49923.f24-per-artigiani-e-commercianti.html
+    retrieved: 2026-10-25
+    page_updated: 2025-07-08
+    official: true
+  - id: cassetto
+    label: INPS – Cassetto previdenziale artigiani e commercianti
+    url: https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-aree-tematiche.cassetto-previdenziale-artigiani-e-commercianti-50241.cassetto-previdenziale-artigiani-e-commercianti.html
+    retrieved: 2026-10-25
+    page_updated: 2026-10-21
+    official: true
+  - id: app-mobile
+    label: "INPS – Notizia: App INPS Mobile e Cassetto previdenziale del contribuente"
+    url: https://www.inps.it/it/it/inps-comunica/notizie/dettaglio-news-page.news.2026.09.app-inps-mobile-e-cassetto-previdenziale-del-contribuente.html
+    retrieved: 2026-10-25
+    page_updated: 2026-09-08
+    official: true
+  - id: riduzione-over65
+    label: INPS – Riduzione contributiva Artigiani e Commercianti (over 65 pensionati)
+    url: https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-servizi.riduzione-contributiva-artigiani-e-commercianti-1.html
+    retrieved: 2026-10-25
+    page_updated: 2025-10-21
+    official: true
+  - id: nuovi-iscritti-2025
+    label: "INPS – Notizia: Artigiani e commercianti, riduzione contributiva ai nuovi iscritti (circolare n. 83/2025)"
+    url: https://www.inps.it/it/it/inps-comunica/notizie/dettaglio-news-page.news.2025.04.artigiani-e-commercianti-riduzione-contributiva-ai-nuovi-iscritti.html
+    retrieved: 2026-10-25
+    page_updated: 2025-04-28
+    official: true
+  - id: circ-35-2016
+    label: Circolare INPS n. 35 del 19 febbraio 2016 – regime agevolato forfetario dal 2016
+    url: https://servizi2.inps.it/servizi/Bussola/VisualizzaDoc.aspx?sVirtualURL=%2FCircolari%2FCircolare+numero+35+del+19-02-2016.htm
+    retrieved: 2026-10-25
+    official: true
+  - id: tuir-2026-art241
+    label: D.Lgs. 19 giugno 2026, n. 117 – Testo unico imposte sui redditi, artt. 241 e 377 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-06-19;117
+    retrieved: 2026-10-25
+    page_updated: 2026-09-25
+    official: true
+    notes: >-
+      Art. 241 (previsioni in materia previdenziale, ex commi 76-84 L. 190/2014) in vigore dal
+      4/7/2026; art. 377: il testo unico si applica dal 1° gennaio 2027.
+  - id: l-190-2014
+    label: Legge 23 dicembre 2014, n. 190, art. 1, commi 77-84 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2014-12-23;190~art1-com77
+    retrieved: 2026-10-25
+    official: true
+    notes: >-
+      Nella versione vigente i commi 54-89 risultano abrogati dal D.Lgs. 117/2026; il testo
+      originario dei commi non è stato letto.
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: letta per intero la circolare INPS n. 14/2026 (PDF); lette le schede INPS Iscrizione
+    Gestione Commercianti, Iscrizione Gestione Artigiani, Aliquote e contributi artigiani e
+    commercianti, F24 per artigiani e commercianti, Cassetto previdenziale artigiani e commercianti,
+    Riduzione contributiva (over 65), le notizie INPS sui contributi 2026, sull'app INPS Mobile e
+    sulla riduzione per i nuovi iscritti 2025, il punto della circolare n. 35/2016 sul regime
+    agevolato, e su Normattiva gli artt. 240-243 e 377 del D.Lgs. 117/2026 e lo stato dei commi
+    77-84 della L. 190/2014.
+  notes: >-
+    Nessun modulo da mappare: l'iscrizione passa dai quadri AC/AA della Comunicazione Unica (vedi
+    procedura della Camera di Commercio) e l'adesione al regime agevolato è un'istanza online del
+    Cassetto.

@@ -1,0 +1,625 @@
+schema_version: 0
+id: italia/agenzia-entrate/chiusura-partita-iva-persona-fisica
+title: Chiusura della partita IVA per persone fisiche – modello AA9/12 (Agenzia delle Entrate)
+summary: >-
+  Il professionista, l'artista o il titolare di un'attività non iscritta al Registro delle imprese
+  che smette di lavorare chiude la partita IVA presentando all'Agenzia delle Entrate il modello
+  AA9/12 (tipo 3, cessazione attività) entro 30 giorni dalla cessazione. Chi ha un'impresa
+  individuale iscritta al Registro delle imprese chiude invece con la Comunicazione Unica
+  (ComUnica) alla Camera di Commercio. La chiusura non cancella gli adempimenti in sospeso (ultime
+  fatture, ultima dichiarazione IVA e dei redditi). Procedura nazionale: a Napoli valgono le stesse
+  regole, con due Direzioni Provinciali dell'Agenzia.
+ente:
+  name: Agenzia delle Entrate
+  office: Qualunque ufficio dell'Agenzia (a Napoli Direzione Provinciale I e Direzione Provinciale II)
+applies_to:
+  events: [close]
+  audience: [business]
+  conditions:
+    - text: >-
+        Persona fisica che cessa un'attività professionale o artistica, o un'altra attività per la
+        quale non è obbligatoria l'iscrizione al Registro delle imprese o al REA: chiude la partita
+        IVA con il modello AA9/12.
+      status: verified
+      source: ade-che-cose
+    - text: >-
+        Chi è obbligato all'iscrizione al Registro delle imprese (anche come ditta individuale)
+        presenta la cessazione con la Comunicazione Unica (ComUnica), che vale anche ai fini fiscali
+        e quindi per la chiusura della partita IVA. In quel caso questa procedura non si applica da
+        sola.
+      status: verified
+      source: aa9-istruzioni
+    - text: >-
+        Chi cessa una o più attività ma ne continua altre non chiude la partita IVA: presenta una
+        dichiarazione di variazione dati (tipo 2), non di cessazione.
+      status: verified
+      source: aa9-istruzioni
+    - text: >-
+        Se il titolare è deceduto e gli eredi non proseguono l'attività, la cessazione la presenta
+        l'erede compilando il quadro D con codice carica 7, la partita IVA del defunto e come data di
+        cessazione quella del decesso.
+      status: verified
+      source: aa9-istruzioni
+legal_basis:
+  - text: >-
+      Art. 35, commi 3 e 4, del D.P.R. 633/1972 (dichiarazione di cessazione entro trenta giorni;
+      per la cessazione il termine decorre dall'ultimazione delle operazioni di liquidazione
+      dell'azienda), nel testo in vigore dal 22/02/2024 al 31/12/2026.
+    status: verified
+    source: dpr633-art35
+  - text: >-
+      Dal 1° gennaio 2027 l'art. 35 è sostituito dall'art. 68 del Testo unico IVA (allegato al
+      D.Lgs. 19 gennaio 2026, n. 10), che riprende le stesse regole: cessazione entro trenta giorni
+      (comma 3), termine dall'ultimazione della liquidazione (comma 5), chiusura d'ufficio delle
+      partite IVA inattive (comma 24).
+    status: verified
+    source: tu-iva
+  - text: >-
+      Modello AA9/12 approvato con provvedimento del Direttore dell'Agenzia delle Entrate del 3 giugno
+      2015.
+    status: verified
+    source: ade-normativa
+  - text: >-
+      Chiusura d'ufficio delle partite IVA inattive: art. 35, comma 15-quinquies, D.P.R. 633/1972,
+      attuato dal provvedimento del Direttore dell'Agenzia del 3 dicembre 2019, n. 1415522, modificato
+      dal provvedimento del 12 ottobre 2026, prot. 277710/2026.
+    status: verified
+    source: provv-inattive-2026
+  - text: >-
+      Art. 9, comma 5, D.L. 7/2007: la Comunicazione Unica si usa anche per la cessazione
+      dell'attività d'impresa.
+    status: verified
+    source: dl7-2007-art9
+deadline:
+  rules:
+    - text: Entro 30 giorni dalla data di cessazione dell'attività.
+      status: verified
+      source: dpr633-art35
+    - text: >-
+        Per la cessazione il termine dei 30 giorni decorre dalla data in cui sono ultimate le
+        operazioni di liquidazione dell'azienda; per queste operazioni restano fermi gli obblighi di
+        versamento dell'imposta, fatturazione, registrazione, liquidazione e dichiarazione.
+      status: verified
+      source: dpr633-art35
+    - text: >-
+        La data di cessazione indicata nel modello non può essere successiva alla data di
+        presentazione.
+      status: verified
+      source: aa9-istruzioni
+    - text: >-
+        Con PEC o raccomandata la dichiarazione si considera presentata il giorno in cui risulta
+        spedita; con l'invio telematico, il giorno in cui l'Agenzia completa la ricezione dei dati.
+      status: verified
+      source: ade-come-chiudere
+  lateness:
+    text: >-
+      L'art. 7-quater, comma 45, del D.L. 193/2016 (convertito dalla L. 225/2016) ha tolto la
+      cessazione dalla sanzione dell'art. 5, comma 6, D.Lgs. 471/1997, che oggi punisce (da euro 500
+      a euro 2.000) solo chi non presenta la dichiarazione di inizio o di variazione attività o la
+      presenta incompleta o inesatta. Lo stesso dice il provvedimento dell'Agenzia del 3 dicembre
+      2019: il comma 45 ha eliminato la sanzione per l'omessa dichiarazione di cessazione ai fini IVA.
+      Chi non chiude però resta titolare di una partita IVA attiva, con i relativi obblighi; per le
+      eventuali conseguenze nel proprio caso chiedere all'ufficio dell'Agenzia o al proprio
+      intermediario: qui non si calcola nulla.
+    status: verified
+    source: dl193-art7quater
+channels:
+  - type: portal
+    name: Area riservata dell'Agenzia delle Entrate – servizio "Invio documenti"
+    url: https://www.agenziaentrate.gov.it/portale/area-riservata
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: ade-software
+    notes: >-
+      Si compila il modello con il software gratuito dell'Agenzia "Cessazione attività Iva" e lo si
+      carica dal percorso "Trasmissione telematiche / Invio documenti". Si accede anche con le
+      credenziali Fisconline/Entratel. La prova della presentazione è la comunicazione di avvenuto
+      ricevimento dell'Agenzia. Lo stesso invio può farlo un intermediario abilitato (commercialista,
+      CAF, associazione di categoria).
+  - type: pec
+    name: Direzione Provinciale I di Napoli
+    address: dp.1Napoli@pce.agenziaentrate.it
+    receipt: legal
+    source: ade-come-chiudere
+    notes: >-
+      Oggetto "Cessazione attività". Firma digitale, oppure firma autografa con copia del documento
+      d'identità di chi firma. Si può inviare a una qualunque Direzione Provinciale (elenco nella
+      pagina delle PEC); la ricevuta di attestazione della cessazione arriva allo stesso indirizzo PEC
+      usato per l'invio.
+  - type: pec
+    name: Direzione Provinciale II di Napoli
+    address: dp.2Napoli@pce.agenziaentrate.it
+    receipt: legal
+    source: ade-pec-dp
+    notes: Stesse regole dell'altra PEC; le due Direzioni Provinciali di Napoli sono alternative.
+  - type: desk
+    name: Qualunque ufficio dell'Agenzia delle Entrate, su appuntamento
+    url: https://www.agenziaentrate.gov.it/portale/prenota-un-appuntamento
+    booking: Prenotazione con il servizio "Prenota un appuntamento" del sito dell'Agenzia.
+    receipt: informal
+    source: ade-come-chiudere
+    notes: >-
+      Anche tramite persona delegata (riquadro Delega). Le istruzioni prevedono la consegna in
+      duplice esemplare a un qualunque ufficio, a prescindere dal domicilio fiscale; l'ufficio
+      consegna la copia timbrata (art. 35, comma 7).
+  - type: post
+    name: Raccomandata a un qualunque ufficio dell'Agenzia delle Entrate
+    receipt: informal
+    source: ade-come-chiudere
+    notes: >-
+      Allegando copia di un documento d'identità valido del dichiarante (le istruzioni: un solo
+      esemplare). Vale la data di spedizione. Le fonti non indicano un indirizzo specifico di Napoli.
+payment:
+  method: none
+  notes:
+    - text: >-
+        Le istruzioni e le pagine dell'Agenzia non prevedono alcun versamento per presentare il
+        modello AA9/12, che si scarica gratuitamente. L'IVA dovuta per le operazioni di
+        liquidazione si versa a parte, con le regole ordinarie.
+      status: unverified
+documents:
+  - name: Modello AA9/12 compilato (tipo 3) e firmato, o file prodotto dal software dell'Agenzia
+    required: true
+  - name: Copia del documento d'identità valido del dichiarante
+    required: false
+    notes: >-
+      Obbligatoria per l'invio con raccomandata e per la PEC con firma autografa; per la consegna
+      tramite delegato serve il documento del delegante (se in fotocopia resta all'ufficio).
+  - name: Numero di partita IVA da chiudere
+    required: true
+    notes: Si trova nel certificato di attribuzione o nella ricevuta dell'apertura.
+forms:
+  - id: aa9-12
+    name: Modello AA9/12 – Dichiarazione di inizio attività, variazione dati o cessazione attività ai fini IVA (imprese individuali e lavoratori autonomi)
+    url: https://www.agenziaentrate.gov.it/portale/documents/20143/6020466/Modello+aa9_AA9_12+modello.pdf/b160f029-bd20-984e-334d-5f7602c2ae59?t=1749731883657
+    source: aa9-modello
+    sha256: a75a7ddab209b5355dc0ab40f78e6ba27d43806140ab60de1f9c8857dc32c599
+    signature_required: true
+    fields:
+      - label: Codice fiscale (in alto su ogni pagina)
+        map: { direct: identity.codice_fiscale }
+      - label: Pagina n. (su ogni pagina)
+        map: { blank_with_reason: "Numerazione progressiva delle pagine, da scrivere quando il modello è completo." }
+      - label: Quadro A – 1 Inizio attività e data inizio
+        map: { blank_with_reason: Solo per l'apertura della partita IVA. }
+      - label: Quadro A – 2 Variazione dati, partita IVA, data variazione e casella L
+        map: { blank_with_reason: "Solo per le variazioni; anche la cessazione di una sola attività con prosecuzione di altre e la liquidazione ordinaria dell'azienda (casella L) sono variazioni, non cessazioni." }
+      - label: Quadro A – 3 Cessazione attività
+        map: { blank_with_reason: "Casella da barrare: per questa procedura è sempre il tipo 3." }
+      - label: Quadro A – 3 Partita IVA
+        map: { direct: business.partita_iva }
+        notes: Per la cessazione presentata da un erede, la partita IVA del defunto.
+      - label: Quadro A – 3 Data cessazione
+        map: { ask: "In che data è cessata l'attività, cioè quando sono state ultimate le operazioni di liquidazione (ultime fatture, incassi, dismissione dei beni)?" }
+        notes: >-
+          Giorno, mese, anno in cifre; non può essere successiva alla data di presentazione. Per
+          l'erede che non prosegue l'attività è la data del decesso.
+      - label: Quadro A – 4 Richiesta duplicato del certificato di partita IVA
+        map: { blank_with_reason: Solo per chi ha smarrito il certificato. }
+      - label: Quadro B – Ditta ovvero cognome e nome
+        map: { fallback: [business.denominazione, identity.full_name] }
+        notes: >-
+          La denominazione della ditta se esiste, altrimenti cognome e nome, senza abbreviazioni e
+          senza titoli.
+      - label: Quadro B – Riservato a soggetto non residente (indirizzo completo, stato estero, numero identificazione IVA stato estero)
+        map: { blank_with_reason: Solo per soggetti non residenti. }
+      - label: Quadro B – Codice attività
+        map: { direct: business.codice_ateco }
+        notes: >-
+          Le istruzioni impongono di ripetere i dati dei quadri B e C solo per la variazione; per la
+          cessazione non lo dicono. Indicare l'attività prevalente già comunicata aiuta l'ufficio a
+          identificare la posizione (non verificato che sia obbligatorio).
+      - label: Quadro B – Descrizione attività
+        map: { direct: business.descrizione_attivita }
+      - label: Quadro B – Volume d'affari presunto
+        map: { blank_with_reason: "Solo con il tipo 1 o 2, per chi inizia un'attività (istruzioni del quadro B)." }
+      - label: Quadro B – Acquisti intracomunitari di beni di cui all'art. 60-bis
+        map: { blank_with_reason: "Si barra all'inizio attività o con una variazione, prima di acquisti intracomunitari di quei beni." }
+      - label: Quadro B – Indirizzo completo del luogo di esercizio (via o piazza, numero civico, scala, interno…)
+        map: { concat: [locale.indirizzo, locale.civico, locale.interno] }
+        notes: >-
+          Sede dell'impresa individuale o studio del lavoratore autonomo, come già comunicato
+          all'Agenzia. Se si lavorava da casa, è l'indirizzo di casa.
+      - label: Quadro B – Scritture contabili (luogo di esercizio)
+        map: { ask: "Le scritture contabili sono conservate, anche in parte, nel luogo di esercizio?" }
+      - { label: Quadro B – C.A.P., map: { direct: locale.cap } }
+      - { label: Quadro B – Comune (senza abbreviazione), map: { direct: locale.comune } }
+      - { label: Quadro B – Provincia, map: { direct: locale.provincia } }
+      - label: Quadro B – Regime fiscale agevolato
+        map: { blank_with_reason: "Serve a chi intende aderire a un regime agevolato (inizio attività o variazione), non alla cessazione." }
+      - label: Commercio elettronico – Indirizzo del sito web, Proprio / Ospitante, Internet service provider, Cessazione
+        map: { blank_with_reason: "La casella Cessazione è per chi smette il commercio elettronico continuando l'attività (tipo 2); con la chiusura della partita IVA non serve." }
+      - { label: Quadro C – Codice fiscale del titolare, map: { direct: identity.codice_fiscale } }
+      - label: Quadro C – Cognome
+        map: { direct: identity.last_name }
+        notes: >-
+          Cognome e nome possono non essere indicati se già scritti nel quadro B. Le donne coniugate
+          indicano il cognome da nubile.
+      - { label: Quadro C – Nome, map: { direct: identity.first_name } }
+      - { label: Quadro C – Data di nascita, map: { direct: identity.date_of_birth } }
+      - { label: Quadro C – Comune (o Stato estero) di nascita, map: { direct: identity.birth_comune } }
+      - { label: Quadro C – Provincia di nascita, map: { direct: identity.birth_province } }
+      - label: Quadro C – Residenza anagrafica o domicilio fiscale – indirizzo completo
+        map: { concat: [residenza.indirizzo, residenza.civico, residenza.interno] }
+      - label: Quadro C – Scritture contabili (residenza)
+        map: { ask: "Le scritture contabili sono conservate, anche in parte, all'indirizzo di residenza?" }
+      - { label: Quadro C – C.A.P., map: { direct: residenza.cap } }
+      - { label: Quadro C – Comune (senza abbreviazione), map: { direct: residenza.comune } }
+      - { label: Quadro C – Provincia, map: { direct: residenza.provincia } }
+      - label: Quadro D – Rappresentante (cognome o denominazione, nome, codice carica, data inizio procedimento, cessazione, comune e provincia di nascita, data di nascita, codice fiscale, codice fiscale della società rappresentante fiscale)
+        map: { ask: "La dichiarazione la presenta qualcuno diverso dal titolare (erede, curatore, tutore o amministratore di sostegno)? Se sì: cognome, nome, luogo e data di nascita, codice fiscale e codice carica" }
+        notes: >-
+          Codici carica: 2 rappresentante di minore, inabilitato o interdetto, amministratore di
+          sostegno; 3 curatore fallimentare o della liquidazione giudiziale; 7 erede. La casella
+          "Cessazione" del quadro D riguarda solo la fine del rappresentante (variazione), non la
+          chiusura della partita IVA.
+      - label: Quadro E – Sezioni 1, 2 e 3 (operazioni straordinarie, conferimento o cessione d'azienda, affitto d'azienda)
+        map: { blank_with_reason: "Non si compila in una cessazione: chi cede o dona l'intera azienda non presenta la cessazione (la comunica il cessionario con il quadro E); chi cede un ramo o affitta l'unica azienda presenta una variazione." }
+      - label: Quadro F – Sezione 1, depositari e luoghi di conservazione delle scritture contabili
+        map: { blank_with_reason: "Le istruzioni lo prevedono all'inizio attività e per comunicare nuovi depositari o luoghi; per la cessazione non ne parlano." }
+        notes: >-
+          Se le scritture restano presso un commercialista, chiedere a lui o all'ufficio se indicarlo
+          anche nella cessazione.
+      - label: Quadro F – Sezione 2, luoghi di conservazione delle fatture all'estero
+        map: { blank_with_reason: "Solo se fatture e registri sono conservati elettronicamente in un altro Stato." }
+      - label: Quadro G – Sezioni 1 e 2 (altre attività esercitate, altri luoghi di esercizio)
+        map: { blank_with_reason: "Le caselle C del quadro G servono a comunicare, con la variazione (tipo 2), la cessazione di una sola attività o la chiusura di una sede mentre la partita IVA resta aperta." }
+      - label: Quadro H – Partita IVA o codice fiscale del rappresentante (art. 1, comma 4, D.P.R. 441/1997)
+        map: { blank_with_reason: Si usa con la dichiarazione di variazione (tipo 2). }
+      - label: Quadro I – Altre informazioni in sede di inizio attività (contatti, immobile, operazioni intracomunitarie, clientela, investimenti, allegati)
+        map: { blank_with_reason: "Le istruzioni ne prevedono la compilazione solo con la dichiarazione di inizio attività." }
+      - label: Quadri compilati (A–I) e totale pagine
+        map: { blank_with_reason: "Si barrano i quadri compilati (di solito A, B, C, più D se firma un rappresentante) e si scrive il numero totale di pagine a modello finito." }
+      - label: Firma della dichiarazione – Data
+        map: { blank_with_reason: Data della firma; la scrive chi firma. }
+      - label: Firma della dichiarazione – Codice fiscale del firmatario
+        map: { direct: identity.codice_fiscale }
+        notes: Se firma un erede o un altro rappresentante, il suo codice fiscale (già nel quadro D).
+      - label: Firma del dichiarante
+        map: { blank_with_reason: Firma del titolare o del rappresentante; solo la persona può firmare. }
+      - label: Delega (il sottoscritto, delega il Sig., nato a, il, data, firma del dichiarante)
+        map: { ask: "Il modello sarà consegnato in ufficio da un'altra persona? Se sì, nome, luogo e data di nascita del delegato" }
+        notes: La firma della delega la mette solo il dichiarante.
+      - label: Impegno alla presentazione telematica (codice fiscale dell'intermediario, n. iscrizione all'albo dei CAF, caselle di impegno, data dell'impegno, firma dell'intermediario)
+        map: { blank_with_reason: Riservato all'intermediario che trasmette la dichiarazione. }
+steps:
+  - do: >-
+      Verificare se l'impresa è iscritta al Registro delle imprese: in quel caso la cessazione si
+      comunica con ComUnica alla Camera di Commercio, non con il solo modello AA9/12
+    who: anyone
+  - do: >-
+      Verificare che sia davvero una cessazione totale: se si chiude solo una delle attività, se si
+      cede o si dona l'intera azienda, o se si affitta l'unica azienda, il modello e il tipo di
+      dichiarazione sono diversi (vedi avvertenze)
+    who: anyone
+  - do: >-
+      Per i professionisti: emettere fattura per tutte le prestazioni svolte e incassare i compensi
+      ancora da riscuotere, oppure fatturarli in anticipo versando l'IVA, prima di chiudere
+    who: owner
+  - do: >-
+      Ultimare le operazioni di liquidazione (ultime fatture e registrazioni, dismissione dei beni
+      strumentali) e far determinare l'IVA dell'ultima liquidazione, compresa quella sui beni
+      tenuti per sé e sulle operazioni a esigibilità differita
+    who: professional
+  - do: >-
+      Compilare il modello AA9/12 con il tipo 3, con il software gratuito "Cessazione attività Iva"
+      oppure sul PDF (dati dalla tabella dei campi)
+    who: anyone
+  - { do: Firmare il modello (o firmarlo digitalmente se si invia via PEC), who: owner, human_only: true }
+  - do: >-
+      Presentarlo entro 30 giorni dalla cessazione: caricamento nell'area riservata, PEC a una
+      Direzione Provinciale con oggetto "Cessazione attività", raccomandata o consegna allo sportello
+      su appuntamento
+    who: owner
+    human_only: true
+  - do: Conservare la ricevuta dell'Agenzia o la PEC di attestazione della cessazione
+    who: owner
+  - do: >-
+      Presentare nei termini ordinari l'ultima dichiarazione IVA annuale (se dovuta) e la
+      dichiarazione dei redditi relative all'anno di cessazione, e versare quanto dovuto
+    who: professional
+    human_only: true
+after:
+  - Conservare il modello firmato e la ricevuta o la PEC di attestazione della cessazione.
+  - >-
+    Se si occupava un locale a Napoli, presentare la dichiarazione di cessazione TARI per uso non
+    abitativo entro 90 giorni (napoli/comune/tari-cessazione-non-domestica).
+  - >-
+    Verificare a parte la chiusura delle posizioni previdenziali (INPS o cassa professionale) e,
+    per le attività con locale aperto al pubblico, le comunicazioni al SUAP del Comune: non passano
+    da questo modello.
+  - >-
+    Se si incassa un compenso dopo aver chiuso la partita IVA, l'obbligo di fattura resta: va
+    chiesto a un commercialista come regolarizzare (secondo l'Agenzia anche riaprendo una partita
+    IVA).
+  - >-
+    Dopo la chiusura, controllare ogni tanto il Cassetto fiscale ("L'Agenzia scrive") e la PEC per
+    eventuali comunicazioni sulla posizione chiusa.
+pitfalls:
+  - text: >-
+      Le imprese individuali iscritte al Registro delle imprese non chiudono la partita IVA con il
+      solo AA9/12: la Comunicazione Unica vale per il Registro delle imprese e, ove ne ricorrano i
+      presupposti, anche ai fini fiscali e per la partita IVA.
+    status: verified
+    source: aa9-istruzioni
+  - text: >-
+      Chi cede o dona l'intera azienda (o la trasforma) non presenta la dichiarazione di cessazione:
+      la presenta solo chi subentra, con il quadro E, e la partita IVA del cedente viene chiusa
+      automaticamente. Chi cede o dona solo un ramo d'azienda e continua presenta una variazione.
+    status: verified
+    source: aa9-istruzioni
+  - text: >-
+      Chi sospende l'attività dando in affitto l'unica azienda non la cessa: presenta una variazione
+      (tipo 2) barrando la casella 5 del quadro E.
+    status: verified
+    source: aa9-istruzioni
+  - text: >-
+      Per l'Agenzia l'attività del professionista non cessa quando smette di lavorare, ma quando
+      chiude i rapporti professionali fatturando tutte le prestazioni e dismettendo i beni
+      strumentali. Finché ci sono crediti la cui riscossione è ragionevolmente possibile, la partita
+      IVA non si può chiudere, a meno di versare prima l'IVA fatturando in anticipo (Ris. 232/E del
+      2009).
+    status: verified
+    source: ris232-2009
+  - text: >-
+      La Risposta a interpello n. 118 del 2025 conferma questa linea e richiama la Cassazione a
+      sezioni unite (sentenza n. 8059 del 2016): il compenso professionale è imponibile IVA anche se
+      percepito dopo la cessazione. Se la partita IVA è stata chiusa troppo presto, l'obbligo di
+      emettere la fattura resta, anche riaprendo a posteriori una partita IVA.
+    status: verified
+    source: risposta118-2025
+  - text: >-
+      Nell'ultima dichiarazione IVA annuale va compresa anche l'IVA sui beni destinati all'uso
+      personale o familiare o comunque tenuti dopo la cessazione (art. 2, n. 5, D.P.R. 633/1972),
+      calcolata includendo le operazioni con IVA a esigibilità differita (art. 6, quinto comma) non
+      ancora incassate.
+    status: verified
+    source: dpr633-art35
+  - text: >-
+      L'IVA sui beni tenuti per sé non riguarda i beni per i quali all'acquisto non si è detratta
+      l'imposta.
+    status: verified
+    source: dpr633-art2
+  - text: >-
+      Chi applica il regime forfetario non versa l'IVA ed è esonerato dagli altri obblighi del D.P.R.
+      633/1972, salvo numerazione e conservazione delle fatture d'acquisto e delle bollette doganali
+      e pochi altri (art. 1, comma 59, L. 190/2014).
+    status: verified
+    source: l190-2014
+  - text: >-
+      Di conseguenza il forfetario di norma non presenta la dichiarazione IVA annuale per l'anno di
+      cessazione; verificarlo con il commercialista, soprattutto se nello stesso anno è passato da
+      un regime all'altro.
+    status: unverified
+  - text: >-
+      La dichiarazione IVA annuale si presenta in via telematica tra il 1° febbraio e il 30 aprile
+      dell'anno successivo a quello cui si riferisce (art. 8 D.P.R. 322/1998); la norma non prevede
+      un termine diverso per chi ha cessato l'attività.
+    status: verified
+    source: dpr322-art8
+  - text: >-
+      Il reddito di lavoro autonomo o d'impresa dell'anno di cessazione si dichiara nella
+      dichiarazione dei redditi relativa a quell'anno, nei termini ordinari.
+    status: unverified
+  - text: >-
+      Se nei dodici mesi successivi alla comunicazione di cessazione l'ufficio notifica un
+      provvedimento che accerta i presupposti della chiusura per rischio (art. 35, commi 15-bis e
+      15-bis.1), per riottenere una partita IVA serve una fideiussione di durata triennale e di almeno
+      50.000 euro, e si applica comunque la sanzione dell'art. 11, comma 7-quater, D.Lgs. 471/1997
+      (art. 35, comma 15-bis.3).
+    status: verified
+    source: dpr633-art35
+  - text: >-
+      L'art. 11, comma 7-quater, D.Lgs. 471/1997 prevede una sanzione di euro 3.000, irrogata
+      insieme al provvedimento di cessazione per rischio.
+    status: verified
+    source: dlgs471-art11
+  - text: >-
+      Chiusura d'ufficio: l'Agenzia chiude le partite IVA di chi, in base ai dati in suo possesso,
+      non risulta aver esercitato attività nelle tre annualità precedenti; dal provvedimento del
+      12/10/2026 l'inattività si individua con riscontri automatizzati sull'Anagrafe tributaria,
+      comprese fatture elettroniche, corrispettivi telematici e versamenti.
+    status: verified
+    source: provv-inattive-2026
+  - text: >-
+      La comunicazione preventiva di chiusura d'ufficio arriva al domicilio digitale (o, se manca, al
+      domicilio fiscale con raccomandata A/R) ed è consultabile nel Cassetto fiscale, sezione
+      "L'Agenzia scrive"; l'avviso arriva anche nell'area riservata e, per le persone fisiche, con un
+      messaggio sull'App IO. La chiusura decorre dal sessantesimo giorno successivo al ricevimento
+      (o, se la consegna è impossibile, dalla messa a disposizione nell'area riservata).
+    status: verified
+    source: provv-inattive-2026
+  - text: >-
+      Entro 60 giorni dalla comunicazione chi ritiene la chiusura ingiustificata può rivolgersi a un
+      qualsiasi ufficio territoriale per opporsi con i chiarimenti necessari; dopo i 60 giorni può
+      chiedere motivatamente la riattivazione, che ha effetto dalla data originaria di apertura.
+      Canali: servizio "Consegna documenti" dell'area riservata, PEC a una qualunque Direzione
+      Provinciale con oggetto "Risposta a comunicazione di chiusura della Partita IVA", o di persona
+      su appuntamento.
+    status: verified
+    source: ade-chiusura-ufficio
+  - text: >-
+      La chiusura d'ufficio non sostituisce la dichiarazione di cessazione: restano salvi i poteri di
+      controllo e accertamento dell'Agenzia.
+    status: verified
+    source: provv-inattive-2026
+  - text: >-
+      La Risoluzione 93/E del 2011, ancora elencata nella pagina "Normativa e prassi", riguarda una
+      sanatoria per l'omessa cessazione (sanzione di 129 euro da versare entro novanta giorni dal 6
+      luglio 2011) ormai scaduta; dal 2016 la sanzione per l'omessa cessazione è stata eliminata.
+      Non usarla come riferimento attuale.
+    status: verified
+    source: ris93-2011
+  - text: >-
+      Il software dell'Agenzia per la cessazione è fermo alla versione aggiornata il 13/11/2017,
+      mentre quelli per apertura e variazione sono del 01/04/2025; le istruzioni del modello (2024)
+      non citano la PEC tra i canali, che la pagina "Come variare o chiudere la Partita Iva" invece
+      ammette.
+    status: verified
+    source: ade-software
+  - text: >-
+      Dal 1° gennaio 2027 il riferimento normativo diventa l'art. 68 del Testo unico IVA; modello,
+      istruzioni e pagine dell'Agenzia consultati il 25/10/2026 citano ancora l'art. 35 del D.P.R.
+      633/1972.
+    status: verified
+    source: tu-iva
+related:
+  - italia/agenzia-entrate/apertura-partita-iva-persona-fisica
+  - napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica
+  - napoli/comune/tari-cessazione-non-domestica
+  - napoli/comune/cessazione-attivita-commerciale
+  - italia/inps/iscrizione-gestione-artigiani-commercianti
+sources:
+  - id: ade-che-cose
+    label: Agenzia delle Entrate – Partita Iva persone fisiche (AA9/12), "Che cos'è"
+    url: https://www.agenziaentrate.gov.it/portale/schede/istanze/aa9_11-apertura-variazione-chiusura-pf/scheda-informativa-aa9_11
+    retrieved: 2026-10-25
+    page_updated: 2023-10-30
+    official: true
+  - id: ade-come-chiudere
+    label: Agenzia delle Entrate – "Come variare o chiudere la Partita Iva" (persone fisiche)
+    url: https://www.agenziaentrate.gov.it/portale/schede/istanze/aa9_11-apertura-variazione-chiusura-pf/come-variare-o-chiudere
+    retrieved: 2026-10-25
+    official: true
+    notes: La pagina non riporta la data di aggiornamento.
+  - id: ade-chiusura-ufficio
+    label: Agenzia delle Entrate – "La chiusura d'ufficio della partita Iva"
+    url: https://www.agenziaentrate.gov.it/portale/schede/istanze/aa9_11-apertura-variazione-chiusura-pf/la-chiusura-ufficio-della-partita-iva
+    retrieved: 2026-10-25
+    official: true
+    notes: La pagina non riporta la data di aggiornamento.
+  - id: ade-modello-istruzioni
+    label: Agenzia delle Entrate – Modello AA9/12 e istruzioni (pagina di download)
+    url: https://www.agenziaentrate.gov.it/portale/schede/istanze/aa9_11-apertura-variazione-chiusura-pf/modello-e-istr-pi-pf
+    retrieved: 2026-10-25
+    page_updated: 2024-04-15
+    official: true
+  - id: aa9-modello
+    label: Modello AA9/12 (PDF)
+    url: https://www.agenziaentrate.gov.it/portale/documents/20143/6020466/Modello+aa9_AA9_12+modello.pdf/b160f029-bd20-984e-334d-5f7602c2ae59?t=1749731883657
+    retrieved: 2026-10-25
+    sha256: a75a7ddab209b5355dc0ab40f78e6ba27d43806140ab60de1f9c8857dc32c599
+    official: true
+  - id: aa9-istruzioni
+    label: Istruzioni per la compilazione del modello AA9/12 (PDF, 2024)
+    url: https://www.agenziaentrate.gov.it/portale/documents/20143/6020466/AA9_12+istruzioni_2024.pdf/3447f8ab-0055-ec13-b96e-9d0ef6d3e3a6?t=1711542402670
+    retrieved: 2026-10-25
+    sha256: 89438517659fe2b209e0f75a43e8eb2f44243b6be676b80da2d83e95030f0d55
+    official: true
+  - id: ade-software
+    label: Agenzia delle Entrate – Software di compilazione del modello AA9/12
+    url: https://www.agenziaentrate.gov.it/portale/schede/istanze/aa9_11-apertura-variazione-chiusura-pf/sw-compilazione-pi-pf
+    retrieved: 2026-10-25
+    official: true
+    notes: Software di cessazione "Cessazione attività Iva" versione 2.0.2, aggiornato il 13/11/2017.
+  - id: ade-normativa
+    label: Agenzia delle Entrate – Partita Iva persone fisiche, "Normativa e prassi"
+    url: https://www.agenziaentrate.gov.it/portale/schede/istanze/aa9_11-apertura-variazione-chiusura-pf/np-pi-pf-aa9_11
+    retrieved: 2026-10-25
+    official: true
+  - id: provv-inattive-2026
+    label: Provvedimento del Direttore dell'Agenzia delle Entrate del 12 ottobre 2026, prot. 277710/2026 (chiusura d'ufficio delle partite IVA inattive, con testo coordinato)
+    url: https://www.agenziaentrate.gov.it/portale/documents/20143/10364838/Provvedimento+cessazione+PIVA+inattive.del+12+otttobre+2026.pdf/b15cccc3-c504-c90b-fab4-01a9d5669bbc?t=1791812418541
+    retrieved: 2026-10-25
+    sha256: 8f2d134fe856a8e8a41802eeb4238e75b5d2f3d4dc09d31c8d86ac5c535027ce
+    official: true
+  - id: provv-inattive-2019
+    label: Provvedimento del Direttore dell'Agenzia delle Entrate del 3 dicembre 2019, n. 1415522 (chiusura d'ufficio delle partite IVA inattive)
+    url: https://www.agenziaentrate.gov.it/portale/documents/20143/2185760/Provvedimento_03.12.2019_chiusurapartIvainattive.pdf/d1ff3b0c-57c8-b7e6-a967-86dfcf38a3a8?t=1742281084086
+    retrieved: 2026-10-25
+    sha256: 750b8696cc6e0eba8a6d51343b7af5d0884f9936772206ec0c24810f98a50bae
+    official: true
+    notes: >-
+      Testo originario, poi modificato dal provvedimento del 12/10/2026. Nelle motivazioni: il comma
+      45 dell'art. 7-quater D.L. 193/2016 ha eliminato la sanzione per l'omessa dichiarazione di
+      cessazione.
+  - id: ris93-2011
+    label: Agenzia delle Entrate – Risoluzione n. 93/E del 21 settembre 2011 (chiusura delle partite IVA inattive)
+    url: https://www.agenziaentrate.gov.it/portale/documents/20143/304854/Ris+93+del+21+09+2011_Ris93e+del+21.09.11.pdf/701473ef-adad-eeae-fb77-dda3f3b1aee8?t=1316601616379
+    retrieved: 2026-10-25
+    sha256: c69f7fd2a314b5cb30073773e82dd40d3e77daf87c9ba43eaf2534efd1719840
+    official: true
+  - id: ris232-2009
+    label: Agenzia delle Entrate – Risoluzione n. 232/E del 20 agosto 2009 (cessazione dell'attività professionale, obblighi IVA)
+    url: https://www.agenziaentrate.gov.it/portale/documents/20143/305631/Ris+232+del+20+08+2009_ris.+n.+232E+del+20+agosto+2009.pdf/99142b67-9073-3eef-c8f2-390a46f904b8?t=1250776035803
+    retrieved: 2026-10-25
+    sha256: 8f3a55edfaa940733eb15ebd7dce9925a43d58ca1291689cb76e3f969adbd1a7
+    official: true
+  - id: risposta118-2025
+    label: Agenzia delle Entrate – Risposta a interpello n. 118 del 2025 (compensi professionali percepiti dagli eredi)
+    url: https://www.agenziaentrate.gov.it/portale/documents/20143/8902784/Risposta+n.+118_2025.pdf/545d73a4-4e1e-226c-4fae-0e679e6147a6?t=1745306599973
+    retrieved: 2026-10-25
+    sha256: 8b1668d104c86786115be33af65ca8a3b87723ef06f9c82ec551283b4756478e
+    official: true
+  - id: ade-pec-dp
+    label: Agenzia delle Entrate – Indirizzi PEC delle Direzioni Provinciali
+    url: https://www.agenziaentrate.gov.it/portale/web/guest/agenzia/uffici-e-pec/posta-elettronica-certificata-entrate/pec-direzioni-provinciali
+    retrieved: 2026-10-25
+    official: true
+  - id: dpr633-art35
+    label: D.P.R. 26 ottobre 1972, n. 633, art. 35 (testo vigente al 25/10/2026) – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1972-10-26;633~art35!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+    notes: Versione in vigore dal 22/02/2024 al 31/12/2026.
+  - id: dpr633-art2
+    label: D.P.R. 26 ottobre 1972, n. 633, art. 2 (testo vigente al 25/10/2026) – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1972-10-26;633~art2!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+  - id: tu-iva
+    label: D.Lgs. 19 gennaio 2026, n. 10 – Testo unico IVA, allegato, art. 68 – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-01-19;10:1~art68
+    retrieved: 2026-10-25
+    official: true
+  - id: dlgs471-art5
+    label: D.Lgs. 18 dicembre 1997, n. 471, art. 5 (testo vigente al 25/10/2026) – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1997-12-18;471~art5!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+    notes: Il comma 6 punisce l'omessa dichiarazione di inizio o variazione attività; la cessazione non è più citata.
+  - id: dlgs471-art11
+    label: D.Lgs. 18 dicembre 1997, n. 471, art. 11 (testo vigente al 25/10/2026) – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1997-12-18;471~art11!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+  - id: dl193-art7quater
+    label: D.L. 22 ottobre 2016, n. 193, art. 7-quater, commi 44 e 45 (convertito dalla L. 225/2016) – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2016-10-22;193~art7quater!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+  - id: dpr322-art8
+    label: D.P.R. 22 luglio 1998, n. 322, art. 8 (testo vigente al 25/10/2026) – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1998-07-22;322~art8!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+  - id: l190-2014
+    label: Legge 23 dicembre 2014, n. 190, art. 1, comma 59 (testo vigente al 25/10/2026) – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2014-12-23;190~art1!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+  - id: dl7-2007-art9
+    label: D.L. 31 gennaio 2007, n. 7, art. 9 (Comunicazione Unica) – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2007-01-31;7~art9!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: letti il modello AA9/12 e le istruzioni 2024 (PDF scaricati, sha256 uguali a quelli della
+    scheda di apertura), le pagine AdE "Che cos'è", "Come variare o chiudere la Partita Iva", "La
+    chiusura d'ufficio della partita Iva", "Modello e istruzioni", "Software di compilazione",
+    "Normativa e prassi" e l'elenco PEC delle Direzioni Provinciali; i provvedimenti del 3/12/2019 e
+    del 12/10/2026 sulle partite IVA inattive, le Risoluzioni 232/E del 2009 e 93/E del 2011 e la
+    Risposta a interpello 118 del 2025 (PDF scaricati); su Normattiva gli artt. 2 e 35 del D.P.R.
+    633/1972, l'art. 68 del Testo unico IVA, gli artt. 5 e 11 del D.Lgs. 471/1997, l'art. 7-quater
+    del D.L. 193/2016, l'art. 8 del D.P.R. 322/1998, l'art. 1, comma 59, della L. 190/2014 e l'art.
+    9 del D.L. 7/2007.
+  notes: >-
+    Non verificati: se per la cessazione vadano ripetuti tutti i dati dei quadri B e C (le istruzioni
+    lo impongono solo per la variazione), l'assenza di costi, i termini e il contenuto della
+    dichiarazione dei redditi dell'anno di cessazione, la chiusura delle posizioni INPS e la pratica
+    ComUnica (fuori da questa scheda).

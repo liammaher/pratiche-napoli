@@ -59,11 +59,12 @@ applies_to:
       status: verified
       source: napoli-indicazioni
     - text: >-
-        Con più di quattro unità immobiliari destinate a locazione breve o turistica l'attività
-        si considera imprenditoriale e serve una SCIA al SUAP (art. 13-ter, c. 8, D.L. 145/2023 e
-        art. 1, c. 595, L. 178/2020).
+        Dal periodo d'imposta 2026, con più di due appartamenti destinati a locazione breve
+        l'attività si presume imprenditoriale (art. 1, c. 595, L. 178/2020, come modificato dalla
+        legge di bilancio 2026) e serve una SCIA al SUAP. La guida regionale del 29/10/2025 indica
+        ancora "più di quattro": è superata.
       status: verified
-      source: guida-regione-2025
+      source: l178-c595
     - text: >-
         Nel centro storico la variante urbanistica approvata con la delibera C.C. 129 del 15
         settembre 2026 classifica il B&B della L.R. 5/2001 nella sottocategoria a.2 (abitazioni
@@ -388,8 +389,8 @@ steps:
       (entro il 1° ottobre di ogni anno)
     who: owner
   - do: >-
-      Chiedere le credenziali del portale Tourist Tax all'ufficio Imposta di soggiorno del Comune
-      (procedura separata)
+      Registrarsi su GEIS Portal per l'imposta di soggiorno (procedura separata:
+      napoli/comune/imposta-di-soggiorno-gestori)
     who: owner
 after:
   - Conservare la ricevuta di avvio pratica SUAP, la ricevuta pagoPA e copia di quanto inviato.
@@ -403,7 +404,7 @@ after:
     del nucleo più due per ogni camera del B&B (Regolamento TARI, art. 14, c. 7). Dichiarare la
     variazione al Servizio IMU e TARI.
   - >-
-    L'imposta di soggiorno (credenziali Tourist Tax, dichiarazioni e versamenti) è una procedura
+    L'imposta di soggiorno (registrazione su GEIS Portal, dichiarazioni e versamenti) è una procedura
     separata del Comune (napoli/comune/imposta-di-soggiorno-gestori).
   - >-
     Variazioni (camere, posti letto, titolare), sospensione e cessazione si comunicano al Comune
@@ -508,6 +509,8 @@ related:
   - napoli/comune/insegna-esercizio
   - napoli/camera-di-commercio/diritto-annuale
   - napoli/comune/imposta-di-soggiorno-gestori
+  - napoli/comune/comunicazione-locazione-breve
+  - napoli/vigili-del-fuoco/scia-prevenzione-incendi
 sources:
   - id: napoli-indicazioni
     label: >-
@@ -617,6 +620,12 @@ sources:
     sha256: e381175f0c1248670c1758675e8148f18b2695a14f6730d0332a7fd0c3cfac7a
     official: true
     notes: Stato dell'iter non verificato.
+  - id: l178-c595
+    label: L. 30 dicembre 2020, n. 178, art. 1, c. 595 (Normattiva, testo in vigore dal 1° gennaio 2026)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2020-12-30;178~art1-com595
+    retrieved: 2026-10-25
+    official: true
+    notes: Dal 2026 la soglia è "due appartamenti" (prima "quattro"); dal 1/1/2027 il comma passa al D.Lgs. 117/2026.
 verification:
   level: L1
   date: 2026-10-25

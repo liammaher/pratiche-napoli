@@ -1,0 +1,721 @@
+schema_version: 0
+id: napoli/polizia-locale/verbale-pagamento-ricorso
+title: Verbale (multa) della Polizia Locale di Napoli – controllarlo, pagarlo, comunicare il conducente o fare ricorso
+summary: >-
+  Chi riceve un verbale della Polizia Locale di Napoli, per una violazione del Codice della Strada
+  o di regolamenti comunali, commerciali o ambientali, può pagarlo in misura ridotta, comunicare
+  chi guidava (se il verbale è arrivato al proprietario del veicolo), oppure contestarlo: ricorso al
+  Prefetto o al Giudice di Pace per il Codice della Strada, scritti difensivi entro 30 giorni per le
+  altre violazioni. Vale per privati, ditte e società; se non si paga e non si ricorre, la somma
+  aumenta e passa alla riscossione coattiva.
+ente:
+  name: Comune di Napoli
+  office: Servizio Sanzioni Amministrative (Area Entrate), per i verbali della Polizia Locale
+  ipa: c_f839
+applies_to:
+  events: [letter]
+  audience: [business, resident]
+  conditions:
+    - text: >-
+        Verbale di violazione del Codice della Strada elevato dalla Polizia Locale di Napoli,
+        contestato subito (consegnato su strada) oppure notificato dopo, al trasgressore o al
+        proprietario del veicolo (obbligato in solido).
+      status: verified
+      source: cds-verbali
+    - text: >-
+        Verbale della Polizia Locale o di altre forze di polizia per violazioni di regolamenti
+        comunali, ambientali, commerciali e reati depenalizzati (non Codice della Strada): regole
+        diverse (L. 689/1981), descritte nella pagina "Verbali per infrazioni diverse dal C.d.S.".
+      status: verified
+      source: extra-cds
+    - text: >-
+        Il Servizio Sanzioni Amministrative gestisce i procedimenti per Codice della Strada,
+        regolamenti comunali e ordinanze sindacali, ma non i casi legati all'occupazione di suolo
+        pubblico che non siano verbali emessi ai sensi del Codice della Strada: per quelli seguire
+        l'ufficio e le istruzioni indicati sul verbale.
+      status: verified
+      source: servizio-sanzioni
+    - text: >-
+        Il proprietario del veicolo (o l'usufruttuario, l'acquirente con patto di riservato
+        dominio, l'utilizzatore in leasing; il locatario nei noleggi) risponde in solido con chi ha
+        commesso la violazione, salvo che provi che il veicolo circolava contro la sua volontà.
+      status: verified
+      source: cds-196
+legal_basis:
+  - text: Codice della Strada (D.Lgs. 285/1992), art. 202 – pagamento in misura ridotta e riduzione del 30%.
+    status: verified
+    source: cds-202
+  - text: Art. 202-bis CdS – rateazione delle sanzioni pecuniarie.
+    status: verified
+    source: cds-202bis
+  - text: Artt. 203 e 204 CdS – ricorso al Prefetto e sua decisione.
+    status: verified
+    source: cds-203
+  - text: Art. 204-bis CdS – opposizione davanti all'autorità giudiziaria, regolata dall'art. 7 D.Lgs. 150/2011.
+    status: verified
+    source: dlgs150-art7
+  - text: Art. 126-bis CdS – patente a punti e comunicazione dei dati del conducente.
+    status: verified
+    source: cds-126bis
+  - text: >-
+      Opposizione al Giudice di Pace contro il verbale CdS: art. 7 D.Lgs. 150/2011; contro
+      un'ordinanza-ingiunzione: art. 6 D.Lgs. 150/2011 (richiamato dall'art. 205 CdS e dall'art. 22
+      L. 689/1981).
+    status: verified
+    source: dlgs150-art7
+  - text: >-
+      Violazioni diverse dal Codice della Strada: L. 689/1981, art. 14 (contestazione e notifica),
+      art. 16 (pagamento in misura ridotta), art. 18 (scritti difensivi e ordinanza-ingiunzione),
+      art. 27 (esecuzione forzata), art. 28 (prescrizione).
+    status: verified
+    source: l689-art18
+deadline:
+  rules:
+    - text: >-
+        Codice della Strada, pagamento in misura ridotta: entro 60 giorni dalla contestazione o
+        dalla notificazione si paga il minimo fissato dalla norma violata; la somma è ridotta del
+        30% se si paga entro 5 giorni (art. 202, c. 1).
+      status: verified
+      source: cds-202
+    - text: >-
+        La riduzione del 30% non si applica alle violazioni per cui è prevista la sanzione
+        accessoria della confisca del veicolo (art. 210, c. 3) o della sospensione della patente
+        (art. 202, c. 1). Secondo il Comune non si applica nemmeno alle spese di notificazione e
+        accertamento, né alle violazioni diverse dal Codice della Strada (per esempio ai
+        regolamenti comunali).
+      status: verified
+      source: riduzione-30
+    - text: >-
+        Il pagamento in misura ridotta non è ammesso in alcuni casi (art. 202, cc. 3 e 3-bis: per
+        esempio chi non si è fermato all'invito dell'agente o ha rifiutato di esibire i documenti):
+        in quei casi la somma la stabilisce il Prefetto con ordinanza-ingiunzione.
+      status: verified
+      source: cds-202
+    - text: >-
+        Ricorso al Prefetto di Napoli: entro 60 giorni dalla contestazione o dalla notificazione,
+        solo se non si è già pagato in misura ridotta (art. 203, c. 1).
+      status: verified
+      source: cds-203
+    - text: >-
+        Ricorso al Giudice di Pace (in alternativa al Prefetto): entro 30 giorni dalla
+        contestazione o dalla notificazione (60 se il ricorrente risiede all'estero), a pena di
+        inammissibilità; è inammissibile se si è già fatto ricorso al Prefetto (art. 7, c. 3,
+        D.Lgs. 150/2011).
+      status: verified
+      source: dlgs150-art7
+    - text: >-
+        Comunicazione dei dati del conducente (se il conducente non è stato identificato e il
+        verbale comporta la perdita di punti): entro 60 giorni dalla notifica del verbale
+        (art. 126-bis, c. 2).
+      status: verified
+      source: cds-126bis
+    - text: >-
+        Rateazione di una sanzione CdS: istanza entro 30 giorni dalla contestazione o
+        notificazione (art. 202-bis, c. 5).
+      status: verified
+      source: cds-202bis
+    - text: >-
+        Violazioni diverse dal Codice della Strada: pagamento in misura ridotta entro 60 giorni
+        dalla contestazione o notificazione; scritti difensivi e documenti entro 30 giorni (artt. 16
+        e 18 L. 689/1981). Il Comune chiede di esibire la ricevuta di pagamento entro 10 giorni
+        dal pagamento.
+      status: verified
+      source: extra-cds
+    - text: >-
+        Ordinanza-ingiunzione (del Prefetto dopo un ricorso respinto, o del Comune per le
+        violazioni diverse dal CdS): opposizione al giudice entro 30 giorni dalla notifica (60 se
+        residenti all'estero); il pagamento va fatto entro 30 giorni dalla notifica (art. 204, c. 2
+        CdS; art. 18 L. 689/1981).
+      status: verified
+      source: dlgs150-art6
+  lateness:
+    text: >-
+      Codice della Strada: se nei termini non si paga e non si ricorre, il verbale diventa titolo
+      esecutivo per la metà del massimo della sanzione edittale più le spese di procedimento
+      (art. 203, c. 3) e si procede alla riscossione coattiva. Non calcolare da sé gli importi:
+      farseli indicare dal Servizio Sanzioni Amministrative o leggerli sull'atto ricevuto.
+    status: verified
+    source: cds-203
+channels:
+  - type: portal
+    name: POTESs – Multe al CdS e Sanzioni Amministrative
+    url: https://servizionline.comune.napoli.it/web/napoli/sanzioni-amministrative
+    auth: [spid, cie, cns]
+    preferred: true
+    source: potess-sanzioni
+    notes: >-
+      Per consultare preavvisi e verbali e, solo per ZTL e aree pedonali, le immagini delle
+      violazioni.
+  - type: portal
+    name: PartenoPay (pagoPA del Comune di Napoli)
+    url: https://partenopay.comune.napoli.it/
+    auth: [none, spid]
+    source: pagamento
+    notes: >-
+      Percorso indicato dal Comune: Pagamento Spontaneo, Comune di Napoli, Sanzioni
+      Amministrative, Multe per Violazioni al Codice della Strada. Si paga online o si stampa
+      l'avviso pagoPA da pagare a uffici postali, banche, ATM, tabaccherie e home banking CBILL.
+  - type: desk
+    name: Servizio Sanzioni Amministrative (sportello e box informazioni)
+    address: Via Diocleziano 330, 80124 Napoli
+    hours: martedì, giovedì e venerdì 8:00–13:00
+    booking: >-
+      Per vedere il verbale senza copia, appuntamento al telefono 081 7957292 o tramite il
+      servizio di prenotazione online indicato dal Comune.
+    source: visione-copie
+    notes: >-
+      Qui si depositano ricorsi al Prefetto, scritti difensivi, comunicazioni dei dati del
+      conducente e istanze di rateazione. Il portale POTESs e il modulo del conducente indicano
+      anche martedì e giovedì 14:00–17:00.
+  - type: pec
+    name: Ufficio Ricorsi al Prefetto e patente a punti
+    address: ricorsi.prefetto@pec.comune.napoli.it
+    receipt: legal
+    source: cds-verbali
+    notes: >-
+      Indicata dal Comune per i ricorsi al Prefetto e per la comunicazione dei dati del
+      conducente. La legge ammette il ricorso via PEC all'ufficio dell'organo accertatore
+      (art. 203 CdS).
+  - type: pec
+    name: U.O. Ingiunzioni (violazioni diverse dal CdS)
+    address: sanzioni.amministrative.ingiunzioni@pec.comune.napoli.it
+    receipt: legal
+    source: extra-cds
+    notes: >-
+      Per scritti difensivi, ricevute di pagamento e rateazione delle ingiunzioni. Nell'oggetto
+      indicare "scritti difensivi verbale n…" o "pagamento verbale n…".
+  - type: pec
+    name: Ufficio Ruoli e Sgravi (cartelle esattoriali)
+    address: sanzioni.amministrative.ruolisgravi@pec.comune.napoli.it
+    receipt: legal
+    source: cartelle
+  - type: pec
+    name: Ufficio Rateizzi
+    address: sanzioni.amministrative.rateizzi@pec.comune.napoli.it
+    receipt: legal
+    source: rateizzazione-cds
+  - type: post
+    name: Ricorso al Prefetto tramite il Comune
+    address: >-
+      Al Prefetto di Napoli tramite Servizio Sanzioni Amministrative – Ufficio Ricorsi al
+      Prefetto, Via Diocleziano 330, 80124 Napoli
+    source: mod-ricorso
+    notes: Raccomandata A/R.
+  - type: post
+    name: Ricorso direttamente al Prefetto di Napoli
+    address: Prefettura di Napoli, Via Vespucci 172, Napoli
+    source: cds-verbali
+    notes: >-
+      Raccomandata A/R. Il numero civico 172 lo indica il Comune; la Prefettura scrive solo che
+      l'Area III ha sede in Via Vespucci.
+  - type: pec
+    name: Prefettura di Napoli (ricorso firmato digitalmente)
+    address: prefettura.prefna@pec.interno.it
+    receipt: legal
+    source: prefettura-ricorsi
+    notes: >-
+      Indirizzo indicato nella pagina dei ricorsi; altre pagine della Prefettura indicano
+      protocollo.prefna@pec.interno.it. Non si può usare l'e-mail ordinaria.
+  - type: desk
+    name: Ufficio del Giudice di Pace di Napoli
+    address: Via Foria 2 (ex Caserma Garibaldi), Napoli
+    source: cds-verbali
+    notes: >-
+      Deposito o raccomandata A/R del ricorso; il Comune chiede l'originale più 5 copie.
+  - type: phone
+    name: Servizio Sanzioni Amministrative
+    address: 081 7957211
+    source: servizio-sanzioni
+payment:
+  method: pagopa
+  notes:
+    - text: >-
+        Codice della Strada: oltre a pagoPA (PartenoPay), il Comune indica il bollettino postale
+        allegato al verbale sul c/c postale n. 1033919109 oppure il bonifico all'IBAN pubblicato
+        nella stessa pagina (conto postale del Comune di Napoli con lo stesso numero), indicando
+        nella causale numero e data del verbale.
+      status: verified
+      source: cds-verbali
+    - text: >-
+        Violazioni diverse dal CdS: il Comune indica il c/c postale n. 1033919224 o il bonifico
+        all'IBAN di quel conto pubblicato nella stessa pagina (Comune di Napoli – DCSF Serv. Gest.
+        San. Amm. Violazioni Leggi e Regolamenti), con il numero del verbale in causale; poi la ricevuta va
+        esibita entro 10 giorni alla U.O. Ingiunzioni (sportello o PEC).
+      status: verified
+      source: extra-cds
+    - text: >-
+        Per i pagamenti diversi da contanti o conto corrente postale, il pagamento vale se
+        l'accredito al Comune arriva entro due giorni dalla scadenza (interpretazione dell'art. 202,
+        c. 1, data dall'art. 17-quinquies D.L. 18/2016).
+      status: verified
+      source: cds-202
+    - text: >-
+        Controllare che coordinate o avviso pagoPA corrispondano a quelli pubblicati dal Comune:
+        il verbale deve indicare le modalità di pagamento (art. 202, c. 2). Un verbale che chiede
+        di pagare su un conto diverso va verificato con il Servizio Sanzioni prima di pagare.
+      status: unverified
+    - text: >-
+        Pagare in misura ridotta chiude la vicenda: dopo il pagamento il ricorso al Prefetto è
+        inammissibile.
+      status: verified
+      source: prefettura-ricorsi
+  rateazione: >-
+    Codice della Strada (art. 202-bis): per sanzioni oltre 200 euro e reddito imponibile IRPEF non
+    superiore a 10.628,16 euro (più 1.032,91 euro per ogni familiare convivente), istanza entro 30
+    giorni al Servizio Sanzioni (sportello o PEC rateizzi) con il modello del Comune; fino a 12
+    rate se l'importo non supera 2.000 euro, fino a 24 se non supera 5.000, fino a 60 oltre; rata
+    minima 100 euro, più interessi; l'istanza vale come rinuncia al ricorso e senza risposta entro
+    90 giorni si intende respinta. Ordinanze-ingiunzioni: rate da 3 a 30 (art. 26 L. 689/1981).
+documents:
+  - name: Il verbale (o il preavviso) ricevuto, con la busta o la relata che mostrano la data di notifica
+    required: true
+    notes: Da questa data decorrono tutti i termini.
+  - name: Copia del documento d'identità di chi firma ricorsi, istanze o comunicazioni
+    required: true
+  - name: Copia fotostatica firmata della patente (o CQC) del conducente
+    required: false
+    notes: Solo per la comunicazione dei dati del conducente (art. 126-bis).
+  - name: Prove a sostegno del ricorso (foto, testimonianze, certificati, atto di vendita del veicolo…)
+    required: false
+  - name: Delega e documento del delegato, se presenta un'altra persona
+    required: false
+  - name: Mandato all'avvocato, se il ricorso lo presenta un legale
+    required: false
+forms:
+  - id: comunicazione-dati-conducente
+    name: Comunicazione dei dati del conducente e della patente di guida (Servizio Sanzioni Amministrative)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/05/Modulo_per_la_comunicazione_dei_dati_del_conducente_e_della_patente_di_guida.pdf?mode=download
+    source: mod-conducente
+    sha256: 05fc87799f643e25e2baff177f7971da59eebaa2cea51d27c1ebc50408186d1e
+    signature_required: true
+    fields:
+      - { label: Il/la sottoscritto/a, map: { concat: [identity.last_name, identity.first_name] } }
+      - { label: nato/a a, map: { direct: identity.birth_comune } }
+      - { label: il, map: { direct: identity.date_of_birth } }
+      - { label: codice fiscale, map: { direct: identity.codice_fiscale } }
+      - label: residente in via/piazza
+        map: { concat: [residenza.indirizzo, residenza.civico] }
+      - { label: comune, map: { direct: residenza.comune } }
+      - { label: prov., map: { direct: residenza.provincia } }
+      - { label: CAP, map: { direct: residenza.cap } }
+      - { label: tel., map: { direct: identity.phone } }
+      - { label: e-mail, map: { direct: identity.email } }
+      - { label: indirizzo PEC, map: { direct: identity.pec } }
+      - { label: in riferimento al verbale n., map: { ask: Numero del verbale ricevuto } }
+      - { label: del, map: { ask: Data del verbale } }
+      - label: in qualità di – Proprietario/a del veicolo/obbligato in solido (art. 196 CdS)
+        map: { ask: "Il veicolo è intestato a lei come persona fisica (proprietario o obbligato in solido)?" }
+      - label: in qualità di – Legale rappresentante/delegato della persona giuridica
+        map: { direct: business.qualita_dichiarante }
+        notes: Barrare se il veicolo è intestato a una società o ditta; poi compilare i dati della persona giuridica.
+      - { label: (persona giuridica), map: { direct: business.denominazione } }
+      - { label: con sede in, map: { direct: business.sede_legale_comune } }
+      - { label: prov. (sede), map: { direct: business.sede_legale_provincia } }
+      - { label: via (sede), map: { direct: business.sede_legale_indirizzo } }
+      - { label: n (sede), map: { direct: business.sede_legale_civico } }
+      - label: DICHIARA che era alla guida del veicolo (casella)
+        map: { ask: "Era lei alla guida del veicolo al momento della violazione?" }
+      - label: patente di guida/CQC n° (del dichiarante)
+        map: { direct: patente.numero }
+      - { label: rilasciata da (dichiarante), map: { direct: patente.autorita_rilascio } }
+      - { label: il (rilascio patente dichiarante), map: { direct: patente.data_rilascio } }
+      - { label: valida fino al (dichiarante), map: { direct: patente.data_scadenza } }
+      - label: DICHIARA che il/la conducente era (casella)
+        map: { ask: "Alla guida c'era un'altra persona? Se sì servono i suoi dati e la sua firma" }
+      - { label: Cognome (conducente), map: { ask: Cognome del conducente } }
+      - { label: Nome (conducente), map: { ask: Nome del conducente } }
+      - { label: nato/a (conducente), map: { ask: Luogo di nascita del conducente } }
+      - { label: prov. (nascita conducente), map: { ask: Provincia di nascita del conducente } }
+      - { label: il (nascita conducente), map: { ask: Data di nascita del conducente } }
+      - { label: residente in (conducente), map: { ask: Comune di residenza del conducente } }
+      - { label: prov. (residenza conducente), map: { ask: Provincia di residenza del conducente } }
+      - { label: Via (conducente), map: { ask: Via di residenza del conducente } }
+      - { label: n (conducente), map: { ask: Numero civico del conducente } }
+      - { label: patente di guida/CQC n° (conducente), map: { ask: Numero della patente o CQC del conducente } }
+      - { label: rilasciata da (conducente), map: { ask: Autorità che ha rilasciato la patente del conducente } }
+      - { label: il (rilascio patente conducente), map: { ask: Data di rilascio della patente del conducente } }
+      - { label: valida fino al (conducente), map: { ask: Data di scadenza della patente del conducente } }
+      - { label: Luogo e data (pagina 1), map: { ask: Luogo e data della firma } }
+      - label: Firma del proprietario/obbligato in solido (pagina 1)
+        map: { blank_with_reason: Firma autografa di chi dichiara. }
+      - label: Firma del conducente, se persona diversa (pagina 1)
+        map: { blank_with_reason: Firma autografa del conducente; senza la sua firma il verbale gli viene notificato con le spese. }
+      - { label: Luogo e data (pagina 2), map: { ask: Luogo e data della firma } }
+      - label: Firma del proprietario/obbligato in solido (pagina 2, dopo l'informativa)
+        map: { blank_with_reason: Firma autografa di chi dichiara. }
+      - label: Firma del conducente, se persona diversa (pagina 2)
+        map: { blank_with_reason: Firma autografa del conducente. }
+      - label: Modalità di invio (Raccomandata R/R, PEC ricorsi.prefetto@pec.comune.napoli.it, a mano)
+        map: { ask: "Come verrà inviata la comunicazione: raccomandata, PEC o a mano?" }
+  - id: ricorso-prefetto
+    name: Modello ricorso al Prefetto ai sensi dell'art. 203 CdS (agg. al 01/02/2024)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/05/Modello_Ricorso_01022024.pdf?mode=download
+    source: mod-ricorso
+    sha256: c6061ccfdab62b3d98b997a3b99dba8377254cc7d64bd3fda5583d23bc3eac9b
+    signature_required: true
+    fields:
+      - { label: Riferimento verbale n., map: { ask: Numero del verbale } }
+      - { label: del, map: { ask: Data del verbale } }
+      - { label: notificato il, map: { ask: Data in cui il verbale è stato notificato } }
+      - { label: Il sottoscritto, map: { concat: [identity.last_name, identity.first_name] } }
+      - { label: nato a, map: { direct: identity.birth_comune } }
+      - { label: il, map: { direct: identity.date_of_birth } }
+      - { label: residente in, map: { direct: residenza.comune } }
+      - { label: prov., map: { direct: residenza.provincia } }
+      - { label: Via, map: { direct: residenza.indirizzo } }
+      - { label: n, map: { direct: residenza.civico } }
+      - { label: telefono, map: { direct: identity.phone } }
+      - label: in qualità di conducente / proprietario
+        map: { ask: "Ricorre come conducente o come proprietario del veicolo?" }
+      - { label: del veicolo targato, map: { ask: Targa del veicolo } }
+      - { label: tipo, map: { ask: "Tipo di veicolo (autovettura, motociclo…)" } }
+      - label: propone RICORSO per i seguenti motivi
+        map: { ask: "Motivi del ricorso, in fatto e in diritto, e se si chiede l'audizione personale" }
+        notes: >-
+          Il Comune chiede anche: eventuale richiesta di audizione, nome dell'eventuale delegato,
+          recapito telefonico e domicilio per le notifiche, documenti allegati.
+      - { label: data, map: { ask: Data di firma del ricorso } }
+      - label: firma
+        map: { blank_with_reason: Firma autografa del ricorrente (o firma digitale se inviato via PEC). }
+steps:
+  - do: >-
+      Leggere il verbale: chi lo ha emesso, norma violata, importi (ridotto del 30% entro 5 giorni,
+      ridotto entro 60 giorni), spese, punti patente e data di notifica, da cui partono i termini
+    who: anyone
+  - do: >-
+      Controllare che sia autentico: cercarlo su POTESs (SPID, CIE o CNS) o chiedere al box
+      informazioni del Servizio Sanzioni (081 7957292), e confrontare le coordinate di pagamento
+      con quelle pubblicate dal Comune
+    who: anyone
+  - do: >-
+      Per vedere il verbale e le foto: su POTESs (immagini solo per ZTL e aree pedonali); per
+      gli altri, visione in ufficio su appuntamento; per avere copia, richiesta di accesso agli atti
+      tramite URP
+    who: anyone
+  - do: >-
+      Se il veicolo è intestato a lei o alla sua società e non guidava lei: compilare la
+      comunicazione dei dati del conducente e farla firmare al conducente
+    who: anyone
+  - do: Firmare la comunicazione del conducente e inviarla entro 60 giorni dalla notifica (PEC, raccomandata o a mano)
+    who: owner
+    human_only: true
+  - do: >-
+      Scegliere: pagare (entro 5 giorni con lo sconto del 30% se previsto, altrimenti entro 60),
+      chiedere la rateazione (entro 30 giorni), fare ricorso al Prefetto (entro 60 giorni) o al
+      Giudice di Pace (entro 30 giorni); per le violazioni non CdS, pagare o presentare scritti
+      difensivi entro 30 giorni
+    who: owner
+    human_only: true
+  - do: Pagare con pagoPA (PartenoPay) o con le coordinate indicate dal Comune, con numero e data del verbale in causale
+    who: owner
+    human_only: true
+  - do: Per i verbali non CdS, inviare la ricevuta di pagamento alla U.O. Ingiunzioni entro 10 giorni
+    who: owner
+    human_only: true
+  - do: >-
+      Per contestare un verbale CdS davanti al Prefetto: preparare il ricorso sul modello del Comune
+      con motivi, documenti ed eventuale richiesta di audizione
+    who: anyone
+  - do: >-
+      Firmare il ricorso e depositarlo o spedirlo (Servizio Sanzioni, raccomandata A/R al Prefetto o
+      PEC) entro 60 giorni, allegando il verbale
+    who: owner
+    human_only: true
+  - do: >-
+      Se si sceglie il Giudice di Pace: depositare o spedire il ricorso entro 30 giorni all'Ufficio
+      del Giudice di Pace di Napoli (originale più 5 copie)
+    who: owner
+    human_only: true
+  - do: >-
+      Se è stato fatto ricorso e il verbale toglie punti: inviare all'Ufficio Decurtazione Punti la
+      prova del ricorso (frontespizio o ricevuta), come consiglia il Comune
+    who: owner
+    human_only: true
+after:
+  - Conservare il verbale, la prova della data di notifica e tutte le ricevute (pagamento, PEC, raccomandata).
+  - >-
+    Dopo un ricorso al Prefetto: se accolto arriva l'archiviazione; se respinto un'ordinanza-
+    ingiunzione da pagare o impugnare entro 30 giorni. Il Comune indica di seguire l'esito sul sito
+    sana.interno.it (prefettura di Napoli, numero del verbale e nominativo).
+  - >-
+    Se arriva una cartella o un'ingiunzione di riscossione per un verbale già pagato, contestato in
+    tempo o mai notificato regolarmente, chiedere lo sgravio in autotutela all'Ufficio Ruoli e
+    Sgravi; per pagarla a rate rivolgersi ad Agenzia delle entrate-Riscossione o a Napoli Obiettivo
+    Valore, secondo chi l'ha emessa.
+  - Controllare i punti della patente sul Portale dell'automobilista dopo la definizione del verbale.
+pitfalls:
+  - text: >-
+      I termini di 5, 30 e 60 giorni partono dalla contestazione su strada o dalla notifica del
+      verbale, non dal preavviso lasciato sul parabrezza: contro il preavviso non si può fare
+      ricorso, si attende la notifica.
+    status: verified
+    source: prefettura-ricorsi
+  - text: >-
+      Il ricorso al Prefetto e quello al Giudice di Pace sono alternativi: non si possono presentare
+      entrambi contro lo stesso verbale. Se il Prefetto respinge il ricorso, l'ordinanza-ingiunzione
+      è di almeno il doppio del minimo previsto per la violazione, più le spese (art. 204).
+    status: verified
+    source: cds-204
+  - text: >-
+      Il Prefetto decide entro 120 giorni dal ricevimento degli atti; sommati ai termini di
+      trasmissione la Prefettura indica 180 giorni (ricorso presentato al Comune) o 210 giorni
+      (ricorso spedito direttamente al Prefetto). Se non decide in tempo, il ricorso si intende
+      accolto; il termine si sospende se si è chiesta l'audizione.
+    status: verified
+    source: prefettura-ricorsi
+  - text: >-
+      Davanti al Giudice di Pace si apre una causa: se il ricorso è respinto il giudice fissa la
+      sanzione tra minimo e massimo (art. 7, c. 11) e la Prefettura avverte che si possono dover
+      pagare le spese della controparte. Gli atti sono esenti da tasse e imposte, salvo quanto
+      previsto dall'art. 10, c. 6-bis, DPR 115/2002 (art. 7, c. 13): chiedere alla cancelleria se e
+      quanto si deve versare.
+    status: verified
+    source: dlgs150-art7
+  - text: >-
+      Chi non comunica i dati del conducente senza giustificato e documentato motivo paga una
+      sanzione da 291 a 1.166 euro (art. 126-bis, c. 2, testo su Normattiva). La pagina del Comune
+      indica invece 269,00 euro: vale l'importo scritto sul verbale.
+    status: disputed
+    source: cds-126bis
+  - text: >-
+      La comunicazione dei dati del conducente va fatta anche se si paga il verbale. Se il veicolo è
+      di una società, la fa il legale rappresentante o un suo delegato.
+    status: verified
+    source: patente-punti
+  - text: >-
+      Il Comune dice che, in caso di ricorso, i 60 giorni per comunicare il conducente decorrono
+      anche dalla notifica del provvedimento che chiude il ricorso; il testo dell'art. 126-bis
+      parla solo dei 60 giorni dalla notifica del verbale. Per prudenza comunicare entro 60 giorni
+      dalla notifica del verbale.
+    status: disputed
+    source: patente-punti
+  - text: >-
+      Per il ricorso al Prefetto la pagina del Comune chiede di allegare l'originale del verbale;
+      la Prefettura e la scheda "Elementi essenziali" del Comune parlano di copia. Conservare
+      sempre una copia di tutto.
+    status: disputed
+    source: cds-verbali
+  - text: >-
+      Sulla rateazione delle sanzioni CdS la pagina dei ricorsi della Prefettura di Napoli dice che
+      non è ammessa "in alcun caso" per il pagamento in misura ridotta; l'art. 202-bis e le pagine
+      del Comune la ammettono, con i requisiti di reddito. Il Comune elenca solo le fasce fino a
+      12 e 24 rate, la legge prevede fino a 60 rate oltre 5.000 euro.
+    status: disputed
+    source: rateizzazione-cds
+  - text: >-
+      La pagina CdS del Comune dice che un bonifico vale dalla data di accredito (circolare del
+      14 gennaio 2016); la legge successiva (art. 17-quinquies D.L. 18/2016) considera valido
+      l'accredito entro due giorni dalla scadenza. Meglio pagare con qualche giorno di anticipo.
+    status: disputed
+    source: cds-verbali
+  - text: >-
+      Per le violazioni diverse dal CdS la pagina del Comune dice di pagare "solo tramite C.C.
+      postale" (o bonifico su quel conto), mentre la pagina pagoPA indica PartenoPay con il percorso
+      "Multe per Violazioni al Codice della Strada": per i verbali non CdS usare le coordinate
+      scritte sul verbale.
+    status: disputed
+    source: extra-cds
+  - text: >-
+      Le immagini consultabili online riguardano solo ZTL e aree pedonali; per autovelox o altre
+      violazioni serve la visione in ufficio o l'accesso agli atti. Il vecchio link del Comune al
+      portale pmm.napoli.it non rispondeva il 25/10/2026; il servizio è su POTESs.
+    status: verified
+    source: potess-sanzioni
+  - text: >-
+      Le regole per i regolamenti comunali possono prevedere importi ridotti diversi: per le
+      violazioni di regolamenti e ordinanze comunali la Giunta può fissare un pagamento in misura
+      ridotta diverso da quello della legge (art. 16, c. 2, L. 689/1981). Vale l'importo sul verbale.
+    status: verified
+    source: l689-art16
+  - text: >-
+      Se un veicolo era già venduto al momento della violazione, la Prefettura consiglia di
+      mandare all'organo che ha emesso il verbale copia dell'atto di vendita autenticato o della
+      visura PRA, e comunque di fare ricorso, perché l'annullamento d'ufficio non è garantito.
+    status: verified
+    source: prefettura-ricorsi
+  - text: >-
+      In caso di ritardo nel pagamento dopo che la sanzione è diventata esigibile, la somma è
+      maggiorata di un decimo per ogni semestre fino alla trasmissione del ruolo; per il Codice
+      della Strada la maggiorazione non può superare i tre quinti della sanzione (art. 27 L.
+      689/1981). L'importo lo indica l'atto di riscossione, non va stimato.
+    status: verified
+    source: l689-art27
+  - text: >-
+      Il diritto a riscuotere le sanzioni si prescrive in cinque anni dal giorno della violazione;
+      l'interruzione segue il codice civile (art. 28 L. 689/1981).
+    status: verified
+    source: l689-art28
+related:
+  - italia/agenzia-entrate-riscossione/rateizzazione-cartella
+  - napoli/comune/concessione-suolo-pubblico-dehors
+  - napoli/comune/insegna-esercizio
+sources:
+  - id: cds-verbali
+    label: Comune di Napoli – Verbali di accertamento di infrazioni al Codice della Strada
+    url: https://www.comune.napoli.it/articolo_tematico/polizia-locale/servizi/sanzioni-amministrative/verbali-di-accertamento-di-infrazioni-al-codice-della-strada/
+    retrieved: 2026-10-25
+    page_updated: 2026-08-26
+    official: true
+  - id: extra-cds
+    label: Comune di Napoli – Verbali per infrazioni diverse dal C.d.S.
+    url: https://www.comune.napoli.it/articolo_tematico/polizia-locale/servizi/sanzioni-amministrative/verbali-per-infrazioni-diverse-dal-c-d-s/
+    retrieved: 2026-10-25
+    page_updated: 2026-08-26
+    official: true
+  - id: pagamento
+    label: Comune di Napoli – Modalità di pagamento delle sanzioni amministrative
+    url: https://www.comune.napoli.it/articolo_tematico/polizia-locale/servizi/sanzioni-amministrative/modalita-di-pagamento-delle-sanzioni-amministrative/
+    retrieved: 2026-10-25
+    page_updated: 2026-03-30
+    official: true
+  - id: visione-copie
+    label: Comune di Napoli – Visione e rilascio copie verbali
+    url: https://www.comune.napoli.it/articolo_tematico/polizia-locale/servizi/sanzioni-amministrative/visione-e-rilascio-copie-verbali/
+    retrieved: 2026-10-25
+    page_updated: 2026-08-26
+    official: true
+  - id: riduzione-30
+    label: Comune di Napoli – Polizia Locale, Riduzione del 30%
+    url: https://www.comune.napoli.it/articolo_tematico/polizia-locale/riduzione-del-30/
+    retrieved: 2026-10-25
+    page_updated: 2026-03-30
+    official: true
+    notes: Gli importi d'esempio risalgono al 2013 e non sono riportati qui.
+  - id: patente-punti
+    label: Comune di Napoli – Patente a punti (comunicazione dei dati del conducente)
+    url: https://www.comune.napoli.it/articolo_tematico/polizia-locale/documenti-di-guida/patente-di-guida/patente-a-punti/
+    retrieved: 2026-10-25
+    page_updated: 2026-03-30
+    official: true
+  - id: rateizzazione-cds
+    label: Comune di Napoli – Rateizzazione delle sanzioni al Codice della Strada
+    url: https://www.comune.napoli.it/articolo_tematico/polizia-locale/servizi/sanzioni-amministrative/rateizzazione-delle-sanzioni-al-codice-della-strada/
+    retrieved: 2026-10-25
+    page_updated: 2026-09-24
+    official: true
+  - id: cartelle
+    label: Comune di Napoli – Sgravio e ricorsi su cartelle esattoriali
+    url: https://www.comune.napoli.it/articolo_tematico/polizia-locale/servizi/sanzioni-amministrative/sgravio-e-ricorsi-su-cartelle-esattoriali/
+    retrieved: 2026-10-25
+    page_updated: 2026-08-26
+    official: true
+  - id: servizio-sanzioni
+    label: Comune di Napoli – Servizio Sanzioni Amministrative (competenze, sede, recapiti)
+    url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-sanzioni-amministrative/
+    retrieved: 2026-10-25
+    page_updated: 2026-08-24
+    official: true
+  - id: potess-sanzioni
+    label: POTESs – Multe al CDS e Sanzioni Amministrative (Comune di Napoli)
+    url: https://servizionline.comune.napoli.it/web/napoli/sanzioni-amministrative
+    retrieved: 2026-10-25
+    official: true
+  - id: mod-conducente
+    label: Modulo per la comunicazione dei dati del conducente e della patente di guida
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/05/Modulo_per_la_comunicazione_dei_dati_del_conducente_e_della_patente_di_guida.pdf?mode=download
+    retrieved: 2026-10-25
+    sha256: 05fc87799f643e25e2baff177f7971da59eebaa2cea51d27c1ebc50408186d1e
+    official: true
+    notes: Cita ancora il D.Lgs. 196/2003 nell'informativa privacy.
+  - id: mod-ricorso
+    label: Modello ricorso al Prefetto (art. 203 CdS), agg. al 01/02/2024
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/05/Modello_Ricorso_01022024.pdf?mode=download
+    retrieved: 2026-10-25
+    sha256: c6061ccfdab62b3d98b997a3b99dba8377254cc7d64bd3fda5583d23bc3eac9b
+    official: true
+  - id: elementi-ricorso
+    label: Elementi essenziali da riportare sugli scritti difensivi (Comune di Napoli)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/05/U.O.Elementi_essenziali_Ricorso.pdf?mode=download
+    retrieved: 2026-10-25
+    sha256: e140dea02414c40158d77e5d9195ab2c654caa5aa0691a85304250ee570ca213
+    official: true
+  - id: prefettura-ricorsi
+    label: Prefettura di Napoli – Ricorsi avverso le violazioni del CdS
+    url: https://prefettura.interno.gov.it/it/prefetture/napoli/ricorsi-avverso-violazione-cds
+    retrieved: 2026-10-25
+    page_updated: 2026-04-29
+    official: true
+  - id: prefettura-area3
+    label: Prefettura di Napoli – Area 3, Sistema sanzionatorio amministrativo (sede di Via Vespucci)
+    url: https://prefettura.interno.gov.it/it/prefetture/napoli/unita-speciale-pnrr-prefettura-utg-napoli/aree-e-servizi/area-3-sistema-sanzionatorio-amministrativo-affari-legali-contenzioso-e-rappresentanza-giudizio
+    retrieved: 2026-10-25
+    page_updated: 2026-05-22
+    official: true
+  - id: cds-196
+    label: D.Lgs. 285/1992, art. 196 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art196
+    retrieved: 2026-10-25
+    official: true
+  - id: cds-202
+    label: D.Lgs. 285/1992, art. 202 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art202
+    retrieved: 2026-10-25
+    official: true
+  - id: cds-202bis
+    label: D.Lgs. 285/1992, art. 202-bis (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art202bis
+    retrieved: 2026-10-25
+    official: true
+    notes: Gli importi sono aggiornati ogni due anni con decreto (c. 10); controllare quelli in vigore.
+  - id: cds-203
+    label: D.Lgs. 285/1992, art. 203 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art203
+    retrieved: 2026-10-25
+    official: true
+  - id: cds-204
+    label: D.Lgs. 285/1992, art. 204 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art204
+    retrieved: 2026-10-25
+    official: true
+  - id: cds-126bis
+    label: D.Lgs. 285/1992, art. 126-bis (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-04-30;285~art126bis
+    retrieved: 2026-10-25
+    official: true
+    notes: L'ultimo aggiornamento degli importi annotato su Normattiva ha effetto dal 1° gennaio 2021.
+  - id: dlgs150-art7
+    label: D.Lgs. 150/2011, art. 7 – opposizione al verbale CdS (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2011-09-01;150~art7
+    retrieved: 2026-10-25
+    official: true
+  - id: dlgs150-art6
+    label: D.Lgs. 150/2011, art. 6 – opposizione a ordinanza-ingiunzione (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2011-09-01;150~art6
+    retrieved: 2026-10-25
+    official: true
+  - id: l689-art16
+    label: L. 689/1981, art. 16 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1981-11-24;689~art16
+    retrieved: 2026-10-25
+    official: true
+  - id: l689-art18
+    label: L. 689/1981, art. 18 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1981-11-24;689~art18
+    retrieved: 2026-10-25
+    official: true
+  - id: l689-art27
+    label: L. 689/1981, art. 27 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1981-11-24;689~art27
+    retrieved: 2026-10-25
+    official: true
+  - id: l689-art28
+    label: L. 689/1981, art. 28 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1981-11-24;689~art28
+    retrieved: 2026-10-25
+    official: true
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: lette le pagine del Comune di Napoli sui verbali CdS e non CdS, pagamento, visione e
+    copie, riduzione del 30%, patente a punti, rateizzazione, cartelle, la scheda del Servizio
+    Sanzioni Amministrative e il servizio POTESs; i moduli del Comune per la comunicazione del
+    conducente e per il ricorso al Prefetto (pdftotext) e la scheda degli elementi essenziali; le
+    pagine della Prefettura di Napoli sui ricorsi CdS e sull'Area 3; su Normattiva gli artt. 126-bis,
+    196, 201, 202, 202-bis, 203, 204, 204-bis, 205, 206 CdS, gli artt. 6 e 7 D.Lgs. 150/2011 e gli
+    artt. 14, 16, 18, 22, 26, 27, 28 L. 689/1981.
+  notes: >-
+    Non verificati: indirizzo e orari dell'Ufficio del Giudice di Pace (solo dalla pagina del
+    Comune), il numero civico di Via Vespucci e il funzionamento attuale di sana.interno.it (non
+    raggiungibile il 25/10/2026).

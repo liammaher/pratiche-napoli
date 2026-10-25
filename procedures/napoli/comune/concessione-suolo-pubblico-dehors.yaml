@@ -490,6 +490,8 @@ pitfalls:
 related:
   - napoli/comune/insegna-esercizio
   - napoli/comune/scia-somministrazione-alimenti-bevande
+  - napoli/comune/nulla-osta-impatto-acustico
+  - napoli/comune/subingresso-attivita-commerciale
 sources:
   - id: dehors-pagina
     label: Concessioni di suolo pubblico annesso a pubblici esercizi – Comune di Napoli (regolamento, modelli, contatti)
