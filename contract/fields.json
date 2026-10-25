@@ -1,6 +1,6 @@
 {
   "version": "8",
-  "source": "personal-vault RecommendedSchema",
+  "source": "personal-vault RecommendedSchema + contract/extensions.json",
   "categories": [
     {
       "name": "identity",
@@ -53,6 +53,11 @@
         {
           "id": "identity.citizenship",
           "description": "Citizenship (e.g. italiana, britannica)"
+        },
+        {
+          "id": "identity.birth_country",
+          "description": "Country of birth, only if born outside Italy",
+          "vault": false
         }
       ]
     },
@@ -424,6 +429,46 @@
         {
           "id": "business.data_apertura",
           "description": "Date the partita IVA was opened (YYYY-MM-DD)"
+        },
+        {
+          "id": "business.qualita_dichiarante",
+          "description": "Role of the person signing for the business: titolare or legale_rappresentante",
+          "vault": false
+        },
+        {
+          "id": "business.email",
+          "description": "Business email address (not PEC)",
+          "vault": false
+        },
+        {
+          "id": "business.descrizione_attivita",
+          "description": "Short description of the activity carried on",
+          "vault": false
+        },
+        {
+          "id": "business.sede_legale_indirizzo",
+          "description": "Registered office: street (via/piazza)",
+          "vault": false
+        },
+        {
+          "id": "business.sede_legale_civico",
+          "description": "Registered office: street number",
+          "vault": false
+        },
+        {
+          "id": "business.sede_legale_cap",
+          "description": "Registered office: CAP",
+          "vault": false
+        },
+        {
+          "id": "business.sede_legale_comune",
+          "description": "Registered office: comune",
+          "vault": false
+        },
+        {
+          "id": "business.sede_legale_provincia",
+          "description": "Registered office: provincia (2-letter sigla)",
+          "vault": false
         }
       ]
     },
@@ -608,6 +653,88 @@
       "description": "Document references (user-defined fields)",
       "fields": [],
       "open": true
+    },
+    {
+      "name": "locale",
+      "description": "The business premises (locali) where the activity is carried on, one unit; like abitazione for the home",
+      "vault": false,
+      "fields": [
+        {
+          "id": "locale.indirizzo",
+          "description": "Street (via/piazza) of the premises",
+          "vault": false
+        },
+        {
+          "id": "locale.civico",
+          "description": "Street number of the premises",
+          "vault": false
+        },
+        {
+          "id": "locale.interno",
+          "description": "Unit number (interno), if any",
+          "vault": false
+        },
+        {
+          "id": "locale.cap",
+          "description": "CAP of the premises",
+          "vault": false
+        },
+        {
+          "id": "locale.comune",
+          "description": "Comune of the premises",
+          "vault": false
+        },
+        {
+          "id": "locale.provincia",
+          "description": "Provincia of the premises (2-letter sigla)",
+          "vault": false
+        },
+        {
+          "id": "locale.titolo",
+          "description": "Title to the premises: proprietario, locatario, comodatario, usufruttuario, altro",
+          "vault": false
+        },
+        {
+          "id": "locale.data_inizio",
+          "description": "Date occupation of the premises started (YYYY-MM-DD)",
+          "vault": false
+        },
+        {
+          "id": "locale.catasto_sezione",
+          "description": "Catasto: sezione urbana",
+          "vault": false
+        },
+        {
+          "id": "locale.catasto_foglio",
+          "description": "Catasto: foglio",
+          "vault": false
+        },
+        {
+          "id": "locale.catasto_particella",
+          "description": "Catasto: particella (mappale)",
+          "vault": false
+        },
+        {
+          "id": "locale.catasto_subalterno",
+          "description": "Catasto: subalterno",
+          "vault": false
+        },
+        {
+          "id": "locale.catasto_categoria",
+          "description": "Catasto: categoria (e.g. C/1)",
+          "vault": false
+        },
+        {
+          "id": "locale.superficie_mq",
+          "description": "Surface used for the activity, in square metres",
+          "vault": false
+        },
+        {
+          "id": "locale.destinazione_uso",
+          "description": "Use of the premises (e.g. negozio, ufficio, laboratorio, magazzino)",
+          "vault": false
+        }
+      ]
     }
   ],
   "forbidden": {
