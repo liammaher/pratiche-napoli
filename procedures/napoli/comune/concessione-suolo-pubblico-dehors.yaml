@@ -1,0 +1,598 @@
+schema_version: 0
+id: napoli/comune/concessione-suolo-pubblico-dehors
+title: Dehors – concessione di suolo pubblico per bar e ristoranti e canone unico (Comune di Napoli)
+summary: >-
+  Un pubblico esercizio (bar, ristorante, pizzeria…) che vuole mettere tavoli, sedie, ombrelloni o
+  una struttura coperta su suolo pubblico a Napoli deve prima ottenere la concessione dal SUAP,
+  con un'istanza telematica su impresainungiorno corredata dal progetto di un tecnico. Ottenuta la
+  concessione, ogni anno si paga il canone unico patrimoniale per l'occupazione di suolo.
+ente:
+  name: Comune di Napoli
+  office: >-
+    Area Sviluppo Economico – Servizio Sportello Unico per le Attività Produttive (SUAP), Unità
+    Operativa Occupazione Suolo Pubblico; per il canone, Servizio Gestione Canoni e Altri Tributi
+    (Area Entrate)
+  ipa: c_f839
+applies_to:
+  events: [dehors]
+  audience: [business]
+  sectors:
+    - Somministrazione di alimenti e bevande (bar, ristoranti, pizzerie)
+  conditions:
+    - text: >-
+        Occupazione di suolo pubblico, o di suolo privato gravato da servitù di uso pubblico, con un
+        dehors annesso al locale: tipo A (tavoli e sedie), tipo B (A più ombrelloni o tende a
+        sbraccio), tipo C (A con copertura stabile a teli, delimitazioni e/o pedane, aperto sui lati)
+        o tipo D (A con struttura chiusa su massimo tre lati e copertura rigida).
+      status: verified
+      source: regolamento-dehors
+    - text: >-
+        I tipi B, C e D sono riservati ai pubblici esercizi di somministrazione. Esercizi di vicinato
+        e artigiani alimentari possono avere solo il tipo A (tavolini alti e sgabelli), fino a 10 mq e
+        senza servizio ai tavoli (artt. 9 e 13).
+      status: verified
+      source: regolamento-dehors
+    - text: >-
+        Due regimi: concessione semplificata (solo tavoli, sedie e ombrelloni non fissati, per non più
+        di 120 giorni continuativi) e concessione continuativa (3 o 5 anni, fino al 31 dicembre del
+        terzo o quinto anno) (artt. 3 e 8).
+      status: verified
+      source: regolamento-dehors
+    - text: >-
+        Zone: Area A coincide con il sito UNESCO (Patrimonio Mondiale) e la buffer zone; Area B è il
+        resto della città. In Area A, finché la Giunta non approva i progetti d'ambito, sono ammessi
+        solo dehors di tipo A e B, con ombrellone a sostegno centrale (artt. 4 e 5).
+      status: verified
+      source: regolamento-dehors
+    - text: >-
+        Superficie e posti a sedere devono essere proporzionati ai servizi igienici (Allegato 5): un
+        servizio per il personale più uno per i clienti fino a 30 posti tra interno ed esterno, e così
+        via. Con un solo servizio igienico per personale e clienti il dehors non può superare 10 mq e
+        10 posti.
+      status: verified
+      source: regolamento-dehors
+legal_basis:
+  - text: >-
+      Regolamento per l'occupazione di suolo pubblico per il ristoro all'aperto (dehors), delibera di
+      C.C. n. 71 del 10/12/2014: tipologie, zone, documenti, procedimento, rinnovi, criteri di
+      collocazione.
+    status: verified
+    source: regolamento-dehors
+  - text: >-
+      Regolamento per la disciplina del canone patrimoniale di concessione, autorizzazione o
+      esposizione pubblicitaria (canone unico, L. 160/2019, commi 816–836), delibera di C.C. n. 16 del
+      30/05/2022: sostituisce il COSAP e fa salve le discipline di settore come quella dei dehors
+      (art. 1).
+    status: verified
+    source: regolamento-cup
+  - text: >-
+      Linee guida per l'occupazione di suolo pubblico per la ristorazione nel Centro Storico (sito
+      UNESCO), approvate dalla Giunta comunale il 10 maggio 2019, con allineamenti, superfici,
+      tipologie, colori e materiali per un elenco di strade e piazze.
+    status: verified
+    source: linee-guida-centro-storico
+  - text: >-
+      Le concessioni temporanee rilasciate con il regime straordinario post-Covid (art. 9-ter, commi
+      4 e 5, D.L. 137/2020) sono prorogate fino all'entrata in vigore del decreto legislativo di
+      riordino dei dehors e comunque non oltre il 30 giugno 2027 (art. 26, c. 4, L. 193/2024, come
+      modificato dall'art. 50 della L. 182/2025). Il Governo ha la delega fino al 31 dicembre 2026.
+    status: verified
+    source: legge-182-2025
+  - text: >-
+      Non è stato verificato se il decreto legislativo di riordino dei dehors (L. 193/2024, art. 26)
+      sia già stato adottato: se sì, può cambiare i casi in cui serve l'autorizzazione della
+      Soprintendenza.
+    status: unverified
+deadline:
+  rules:
+    - text: >-
+        La concessione va ottenuta prima di occupare il suolo: l'occupazione senza concessione è
+        abusiva (art. 6 regolamento dehors; art. 17 regolamento CUP).
+      status: verified
+      source: regolamento-cup
+    - text: >-
+        Per i dehors di tipo C e D, e per le aree del Centro Storico di valore storico-artistico che
+        richiedono l'autorizzazione della Soprintendenza, le copie cartacee di progetto e relazioni
+        vanno consegnate entro 7 giorni dall'invio telematico (2 copie; 4 copie più la relazione
+        paesaggistica se serve l'autorizzazione paesaggistica). Senza, l'istanza è archiviata (art.
+        6, cc. 4–7).
+      status: verified
+      source: regolamento-dehors
+    - text: >-
+        Concessione continuativa: il procedimento si conclude in 90 giorni, sospesi durante le
+        richieste di integrazione; se le integrazioni non arrivano entro 30 giorni la pratica è
+        archiviata (art. 7, cc. 6–7).
+      status: verified
+      source: regolamento-dehors
+    - text: >-
+        Concessione semplificata: il SUAP rilascia o nega la concessione entro 10 giorni dalla
+        richiesta; il procedimento (pareri ASL e Polizia Municipale) si chiude in 60 giorni (art. 8,
+        cc. 3–4).
+      status: verified
+      source: regolamento-dehors
+    - text: >-
+        Il regolamento del canone unico fissa termini generali di 90 giorni per le concessioni
+        permanenti e 30 per le temporanee, salvo disposizioni specifiche come quelle del regolamento
+        dehors (art. 8, c. 4).
+      status: verified
+      source: regolamento-cup
+    - text: >-
+        Rinnovo della concessione continuativa: secondo il regolamento dehors si presenta una
+        comunicazione dal 1° settembre al 30 novembre (art. 7, c. 14); secondo il regolamento del
+        canone unico e la pagina del canone le concessioni permanenti si rinnovano con SCIA almeno 7
+        giorni prima della scadenza (art. 10, c. 4). Chiedere al SUAP quale termine applica.
+      status: disputed
+      source: regolamento-dehors
+    - text: >-
+        Rinnovo della concessione semplificata: domanda almeno 10 giorni prima della scadenza; una
+        sola volta nello stesso anno solare, per i due anni successivi alla prima domanda, poi serve
+        una nuova istanza (art. 8, cc. 7–8).
+      status: verified
+      source: regolamento-dehors
+  lateness:
+    text: >-
+      Per l'occupazione abusiva (senza concessione, oltre la superficie concessa o dopo la scadenza
+      senza rinnovo) il regolamento prevede un'indennità pari al canone maggiorato del 50%, una
+      sanzione pari al doppio dell'indennità, interessi al tasso legale più 1,5 punti e la rimozione
+      entro 5 giorni dalla contestazione (artt. 17, 51 e 52). Per il canone non pagato, avviso di
+      accertamento esecutivo con penale e interessi (art. 50). Gli importi li calcola il Servizio
+      Gestione Canoni: non stimarli.
+    status: verified
+    source: cup-occupazione
+channels:
+  - type: portal
+    name: impresainungiorno – SUAP del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
+    preferred: true
+    source: suap-contatti
+    notes: >-
+      Unico canale per le pratiche telematiche SUAP: quelle inviate via PEC o e-mail non sono
+      istruite. L'istanza è in bollo e i patti e condizioni della concessione si restituiscono
+      firmati digitalmente; il tipo di accesso al portale non è stato verificato.
+  - type: desk
+    name: SUAP – Unità Operativa Occupazione Suolo Pubblico
+    address: Piazza Cavour 42, II piano, 80137 Napoli
+    hours: >-
+      Solo su appuntamento; l'Unità Occupazione Suolo Pubblico riceve lunedì e giovedì 9:00–12:00
+    booking: >-
+      Prenotazione online sul portale del cittadino del Comune (motivo "Avviare, variare, chiudere
+      un'attività produttiva")
+    source: suap-contatti
+  - type: phone
+    address: 081 7953376 / 081 7953377
+    source: suap-contatti
+    notes: Numeri dell'Unità Operativa Occupazione Suolo Pubblico del SUAP.
+  - type: pec
+    address: entrate.cosap@pec.comune.napoli.it
+    receipt: legal
+    source: cup-occupazione
+    notes: >-
+      Servizio Gestione Canoni: rinuncia alla concessione (insieme al SUAP), richieste di dilazione,
+      chiarimenti sul canone. Non è un canale per la domanda di concessione.
+  - type: desk
+    name: Ufficio CUP Occupazione di Suolo (Servizio Gestione Canoni e Altri Tributi)
+    address: Via Diocleziano 330, primo piano, Napoli
+    hours: lunedì–venerdì 8:30–12:30
+    source: cup-occupazione
+  - type: email
+    address: entrate.cosap@comune.napoli.it
+    receipt: informal
+    source: cup-occupazione
+    notes: Informazioni sul canone unico per occupazione di suolo.
+payment:
+  method: pagopa
+  rateazione: >-
+    Rate ammesse solo se il canone supera 350 euro: per le concessioni permanenti al massimo 3 rate
+    entro l'anno, con la prima prima del ritiro della concessione (art. 48 regolamento CUP).
+  schedule:
+    - { label: Canone 2026 – rata unica o prima rata, due: 2026-08-31, source: cup-occupazione, status: verified }
+    - { label: Canone 2026 – seconda rata, due: 2026-10-30, source: cup-occupazione, status: verified }
+    - { label: Canone 2026 – terza rata, due: 2026-12-30, source: cup-occupazione, status: verified }
+  notes:
+    - text: >-
+        Formula del canone (art. 39 regolamento CUP): C = T × D × S × α. T è la tariffa della
+        categoria della strada (A, B o C) secondo lo Stradario, Allegato F al regolamento; D la
+        durata (per le permanenti si contano per intero il mese di inizio e quello di fine; per le
+        temporanee ogni giorno); S la superficie in mq arrotondata all'unità superiore; α il
+        coefficiente di specificità dell'Allegato B.
+      status: verified
+      source: cup-occupazione
+    - text: >-
+        Tariffe 2026 (suolo pubblico): permanente, euro/mq all'anno – categoria A 186,545, B
+        143,207, C 84,742; temporanea, euro/mq al giorno – A 13,712, B 9,592, C 6,844. Le tariffe
+        sono aggiornate ogni anno dalla Giunta (75% dell'indice FOI).
+      status: verified
+      source: cup-occupazione
+    - text: >-
+        I dehors non compaiono nella tabella dei coefficienti dell'Allegato B, quindi si applica
+        α = 1; la parte di suolo coincidente con la proiezione di tende regolarmente autorizzate ha
+        α = 0,75. Il calcolo lo fa il SUAP al rilascio.
+      status: verified
+      source: cup-occupazione
+    - text: >-
+        Al rilascio il SUAP comunica gli oneri e gli estremi per il versamento; la concessione è
+        firmata solo dopo aver ricevuto le ricevute di pagamento del canone (o della prima rata) e
+        dell'imposta di bollo (art. 7, c. 13 regolamento dehors; art. 9 regolamento CUP).
+      status: verified
+      source: regolamento-dehors
+    - text: >-
+        Dal 2026 il canone annuale si paga con l'avviso PagoPA che il Servizio Gestione Canoni invia
+        prima della prima rata. Il regolamento prevede scadenze ordinarie 30 aprile, 30 luglio e 30
+        ottobre, modificabili dalla Giunta: per il 2026 la delibera 195/2026 le ha spostate al 31
+        agosto, 30 ottobre e 30 dicembre.
+      status: verified
+      source: cup-occupazione
+    - text: >-
+        La pagina dei dehors (testo dal 2018) indica ancora il pagamento con bollettino o bonifico sul
+        conto corrente postale 49543655 "COSAP"; la pagina del canone unico indica PagoPA dal 2026 e
+        lo stesso conto solo per annualità pregresse o conguagli. Usare gli estremi che comunica il
+        SUAP o l'avviso PagoPA.
+      status: disputed
+      source: dehors-pagina
+    - text: >-
+        Diritti d'istruttoria SUAP dall'11 giugno 2026 (delibera G.C. 239/2026): "Occupazione di suolo
+        pubblico annesso a pubblici esercizi" 250 euro (200 euro per le variazioni); "Rinnovo" 80
+        euro. Si pagano con PagoPA prima dell'invio e la ricevuta va allegata all'istanza.
+      status: verified
+      source: diritti-suap-2026
+    - text: >-
+        In caso di rinuncia o cessazione anticipata resta dovuto l'intero canone dell'anno in corso;
+        la cessazione decorre dalla presa d'atto del SUAP.
+      status: verified
+      source: cup-occupazione
+documents:
+  - name: Istanza telematica in bollo su impresainungiorno, con i dati del richiedente e dell'impresa
+    required: true
+    notes: >-
+      Generalità, residenza e codice fiscale; per le società anche denominazione, sede, codice fiscale
+      o partita IVA e dati del legale rappresentante; attività ed estremi del titolo abilitante;
+      ubicazione, misura e tipo di dehors; durata; dichiarazione di conoscere i regolamenti (art. 6, c.
+      1). Le imprese devono indicare una PEC (art. 6, c. 3.5 regolamento CUP).
+  - name: Ricevuta del pagamento dei diritti d'istruttoria SUAP
+    required: true
+  - name: Stralcio planimetrico in scala 1:4000 e 1:1000 della zona
+    required: true
+    notes: Questo e i documenti tecnici seguenti vanno datati e firmati da un tecnico abilitato.
+  - name: Fotografie a colori da varie angolature (minimo 9x12 cm), con planimetria dei punti di ripresa
+    required: true
+  - name: Progetto quotato, di norma in scala 1:50 o 1:100 (pianta, prospetti, sezioni, viste)
+    required: true
+    notes: >-
+      Con marciapiede, carreggiata, parcheggi, fermate, chiusini, scivoli, alberi, accessi confinanti,
+      passaggi pedonali.
+  - name: Relazione tecnica sullo stato dei luoghi, il progetto di arredo e i materiali
+    required: true
+  - name: Relazione tecnica asseverata (modello del Comune, versione semplificata o continuativa)
+    required: true
+    notes: >-
+      Attesta zona, tipo di dehors, vincoli culturali o paesaggistici e conformità al regolamento,
+      con le verifiche di collocazione dell'art. 15 (passaggio pedonale, distanze, carreggiata).
+  - name: Schede o estratti di catalogo degli arredi, eventuale fotomontaggio prima e dopo
+    required: true
+  - name: Campione del tessuto della copertura
+    required: false
+    notes: Non serve per gli ombrelloni in tessuto chiaro naturale.
+  - name: Conformità di illuminazione, stufe e attrezzature alle norme
+    required: false
+    notes: Solo se previste.
+  - name: Piano di pulizia e sanificazione delle aree esterne
+    required: true
+  - name: Dichiarazione sostitutiva dei requisiti igienico-sanitari (modello del Comune)
+    required: true
+    notes: >-
+      Titolo di somministrazione, avvenuta presentazione della "Dia sanitaria", servizi igienici
+      adeguati, area per ricoverare gli arredi (art. 6, c. 3; Allegato 5).
+  - name: Dichiarazione per l'occupazione con procedura semplificata (modello del Comune)
+    required: false
+    notes: Solo per la concessione semplificata (fino a 120 giorni).
+  - name: Autorizzazione dei frontisti
+    required: false
+    notes: Se il dehors si estende davanti ad altre aperture private o commerciali (art. 15, c. 2).
+  - name: Relazione paesaggistica semplificata e copie cartacee del progetto
+    required: false
+    notes: Per i tipi C e D in aree con vincolo paesaggistico, e per le aree del Centro Storico che richiedono la Soprintendenza.
+forms:
+  - id: dichiarazione-requisiti-igienico-sanitari
+    name: Esercizi pubblici – dichiarazione dei requisiti igienico-sanitari (allegato alla richiesta di concessione semplificata e continuativa)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/06/DICHIARAZIONE_requisiti_igienico___sanitari.pdf
+    source: modulo-igienico-sanitari
+    sha256: 6eba3364b89a51bb95eeac1c77f17198051a036791b1bafa66558ebe330bd729
+    signature_required: true
+    fields:
+      - { label: Il sottoscritto, map: { concat: [identity.last_name, identity.first_name] } }
+      - { label: nato/a a, map: { direct: identity.birth_comune } }
+      - { label: il, map: { direct: identity.date_of_birth } }
+      - label: domiciliato/a in
+        map: { fallback: [domicilio.comune, residenza.comune] }
+        notes: Usare comune, via e numero dello stesso indirizzo (domicilio se diverso dalla residenza).
+      - { label: alla via, map: { fallback: [domicilio.indirizzo, residenza.indirizzo] } }
+      - { label: n., map: { fallback: [domicilio.civico, residenza.civico] } }
+      - { label: nella qualità di, map: { direct: business.qualita_dichiarante } }
+      - label: dell'attività denominata
+        map: { direct: business.denominazione }
+        notes: Se il locale ha un'insegna diversa dalla ragione sociale, chiedere quale indicare.
+      - { label: sita alla via, map: { direct: locale.indirizzo } }
+      - { label: n. (sede dell'attività), map: { direct: locale.civico } }
+      - label: Rapporto posti a sedere / servizi igienici (crociare una voce – fino a 30, 50, 100 o 150 posti tra interni ed esterni)
+        map: { ask: "Quanti posti a sedere in totale (interni più esterni) e quanti servizi igienici per clienti e personale ha il locale?" }
+      - label: Esercizio pubblico di Tipo B con un solo servizio igienico per personale e clienti (dehors fino a 10 mq, 1 seduta/mq)
+        map: { ask: "Il locale ha un solo servizio igienico in comune tra personale e clienti?" }
+        notes: In alternativa alla voce precedente.
+      - label: Il titolare/legale rappresentante dell'impresa (firma)
+        map: { blank_with_reason: "Firma del titolare o legale rappresentante, con copia del documento d'identità allegata." }
+  - id: dichiarazione-procedura-semplificata
+    name: Occupazione semplificata – dichiarazione (allegato alla richiesta di concessione semplificata)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/06/DICHIARAZIONE_occupazione_con_procedura_semplificata.pdf
+    source: modulo-semplificata
+    sha256: e4704b0b6bcedcc937a951fe7249ea3b0177e878338b1dd41ca6b0fde9ab84f2
+    signature_required: true
+    fields:
+      - { label: Il sottoscritto, map: { concat: [identity.last_name, identity.first_name] } }
+      - { label: nato/a a, map: { direct: identity.birth_comune } }
+      - { label: il, map: { direct: identity.date_of_birth } }
+      - label: domiciliato/a in
+        map: { fallback: [domicilio.comune, residenza.comune] }
+        notes: Usare comune, via e numero dello stesso indirizzo (domicilio se diverso dalla residenza).
+      - { label: alla via, map: { fallback: [domicilio.indirizzo, residenza.indirizzo] } }
+      - { label: n., map: { fallback: [domicilio.civico, residenza.civico] } }
+      - { label: nella qualità di, map: { direct: business.qualita_dichiarante } }
+      - label: dell'attività denominata
+        map: { direct: business.denominazione }
+        notes: Se il locale ha un'insegna diversa dalla ragione sociale, chiedere quale indicare.
+      - { label: sita alla via, map: { direct: locale.indirizzo } }
+      - { label: n. (sede dell'attività), map: { direct: locale.civico } }
+      - label: Il titolare/legale rappresentante dell'impresa (firma)
+        map: { blank_with_reason: "Firma del titolare o legale rappresentante, con copia del documento d'identità allegata." }
+steps:
+  - do: >-
+      Verificare sulla tavola di zonizzazione se il locale è in Area A (sito UNESCO e buffer zone) o
+      in Area B, se la strada rientra nelle Linee guida del Centro Storico e la categoria della strada
+      nello Stradario (Allegato F al regolamento CUP)
+    who: anyone
+  - do: Scegliere tipo di dehors e regime (semplificato fino a 120 giorni o continuativo 3/5 anni)
+    who: owner
+  - do: >-
+      Incaricare un tecnico abilitato di rilievo, foto, progetto, relazione tecnica e relazione
+      asseverata secondo il regolamento dehors e il catalogo degli arredi
+    who: professional
+  - do: Compilare le dichiarazioni del Comune (requisiti igienico-sanitari e, se serve, procedura semplificata) e il piano di pulizia
+    who: anyone
+  - { do: Firmare le dichiarazioni, who: owner, human_only: true }
+  - { do: Pagare con PagoPA i diritti d'istruttoria SUAP e assolvere l'imposta di bollo, who: owner, human_only: true }
+  - do: Inviare l'istanza telematica con tutti gli allegati su impresainungiorno (SUAP di Napoli)
+    who: facilitator
+    human_only: true
+  - do: >-
+      Per i tipi C e D o in aree del Centro Storico soggette alla Soprintendenza, consegnare le copie
+      cartacee di progetto e relazioni entro 7 giorni dall'invio
+    who: professional
+    human_only: true
+  - { do: Rispondere alle eventuali richieste di integrazione del SUAP entro 30 giorni, who: facilitator }
+  - do: >-
+      Ricevuto l'esito positivo, pagare il canone (o la prima rata) e il bollo con gli estremi
+      comunicati dal SUAP
+    who: owner
+    human_only: true
+  - do: >-
+      Restituire tramite il portale i patti e le condizioni firmati digitalmente con le ricevute di
+      pagamento, e attendere la concessione firmata dal dirigente
+    who: owner
+    human_only: true
+  - { do: Allestire il dehors solo dopo il rilascio e nei limiti della concessione, who: owner }
+after:
+  - Conservare l'atto di concessione e le ricevute dei pagamenti per i controlli della Polizia Locale (art. 7, c. 5 regolamento CUP).
+  - Pagare ogni anno il canone con l'avviso PagoPA, alle scadenze fissate dal Comune.
+  - Ogni sera, e durante ferie e chiusure, ritirare tavoli, sedie e ombrelloni in un locale chiuso e chiudere le tende (art. 16 regolamento dehors).
+  - >-
+    Prima della scadenza presentare il rinnovo (vedi i termini, che i due regolamenti indicano in modo
+    diverso) con la dichiarazione che le condizioni non sono cambiate e le ricevute dei canoni.
+  - >-
+    Per subingresso, variazioni del titolare, sospensione o cessazione usare i modelli del Comune; la
+    rinuncia va comunicata al SUAP e al Servizio Gestione Canoni.
+pitfalls:
+  - text: >-
+      La pagina del Comune sui dehors (aggiornata nel 2026) presenta ancora il regolamento dehors come
+      allegato tecnico del regolamento COSAP, che dal 2021 è stato sostituito dal canone unico. Sulla
+      pagina dei regolamenti tributari restano pubblicati anche i regolamenti COSAP 2015, 2017, 2018 e
+      2019: non vanno più usati per il canone.
+    status: verified
+    source: regolamenti-tributari
+  - text: >-
+      Il regolamento del canone unico dice che le concessioni permanenti si rinnovano con SCIA almeno
+      7 giorni prima della scadenza; il regolamento dehors prevede invece una comunicazione dal 1°
+      settembre al 30 novembre. Presentarla nella finestra più prudente e chiedere conferma al SUAP.
+    status: disputed
+    source: regolamento-cup
+  - text: >-
+      Il rinnovo è negato se ci sono canoni non pagati, salvo un piano di rateizzazione in regola
+      (art. 7, c. 14); e il rilascio di nuove concessioni richiede la regolarità nel pagamento dei
+      tributi locali (art. 9, c. 6 regolamento CUP).
+    status: verified
+    source: regolamento-dehors
+  - text: >-
+      L'affitto o il comodato d'azienda non trasferisce la concessione: resta intestata al
+      proprietario dell'azienda, che continua a dovere il canone (art. 10, c. 10 regolamento CUP).
+    status: verified
+    source: regolamento-cup
+  - text: >-
+      Spazio libero per i pedoni: almeno 2,00 m, o 1,20 m nelle zone storiche o con strade strette
+      (regolamento dehors, art. 15). Il regolamento CUP fissa un minimo generale di 1 m: per i dehors
+      vale la regola più severa del regolamento di settore.
+    status: verified
+    source: regolamento-dehors
+  - text: >-
+      Su stalli di sosta il dehors non può superare 20 mq (due stalli in linea o a pettine, tre a
+      spina); in carreggiata solo in aree pedonali, ZTL attive 24 ore e strade a traffico
+      estremamente limitato, con parere della Polizia Municipale e una corsia libera di 3,50 m.
+      Almeno 6 m dagli incroci, 5 m dagli ingressi delle chiese, 1 m da passi carrai e scivoli.
+    status: verified
+    source: regolamento-dehors
+  - text: >-
+      In Area A niente arredi in plastica (struttura in metallo verniciato opaco o legno) e niente teli
+      verticali in pvc agli ombrelloni; sotto portici e gallerie solo tavoli e sedie, senza coperture.
+    status: verified
+    source: regolamento-dehors
+  - text: >-
+      Le tende a sbraccio richiedono una procedura separata presso il Servizio tecnico della
+      Municipalità; scritte pubblicitarie su coperture e delimitazioni (massimo 30 cm) richiedono una
+      SCIA separata.
+    status: verified
+    source: regolamento-dehors
+  - text: >-
+      Tipi C e D: la concessione è un "atto unico" che vale anche come titolo edilizio, con parere
+      dello Sportello Unico Edilizia; in aree con vincolo paesaggistico serve l'autorizzazione
+      paesaggistica semplificata e la conferenza di servizi (art. 7). L'Allegato 4 dello stesso
+      regolamento parla invece di permesso di costruire: farsi confermare dal SUAP quale titolo serve.
+    status: disputed
+    source: regolamento-dehors
+  - text: >-
+      Soprintendenza: per le concessioni continuative nelle aree del Centro Storico individuate dalla
+      Giunta e non soggette a progetto d'ambito serve l'autorizzazione della Soprintendenza (artt.
+      21/22 e 106 D.Lgs. 42/2004); per semplificate e tipo A basta la concessione (Allegato 4).
+    status: verified
+    source: regolamento-dehors
+  - text: >-
+      Nelle strade e piazze delle Linee guida 2019 (Centro Antico, Dante–Toledo, Chiaia–San Ferdinando,
+      Foria) il progetto conforme alle Linee guida non richiede il parere della Soprintendenza: la
+      conformità la attestano gli uffici comunali. Altrove nel Centro Storico era previsto un regime
+      transitorio con soli arredi minimi (sedie, tavolini, ombrelloni a palo centrale).
+    status: verified
+    source: linee-guida-centro-storico
+  - text: >-
+      Il modello di relazione asseverata cita il DPR 139/2010 per l'autorizzazione paesaggistica
+      semplificata, ma quel DPR è stato abrogato dal DPR 31/2017, che oggi regola la procedura.
+    status: verified
+    source: dpr-31-2017
+  - text: >-
+      Il regolamento dehors parla ancora di "Dia sanitaria"; oggi si tratta della notifica sanitaria
+      per la registrazione dell'impresa alimentare (Reg. CE 852/2004).
+    status: unverified
+  - text: >-
+      Il link al SUAP "adempimenti e modulistica" indicato dalla pagina del canone unico risulta non
+      trovato (404); i modelli dei dehors sono sulla pagina "Concessioni di suolo pubblico annesso a
+      pubblici esercizi". Il foglio "Comunicazione ai fini del pagamento del canone OSAP" lì
+      pubblicato è del 2015, superato, e riporta un vecchio ufficio in via Oronzio Massa.
+    status: verified
+    source: dehors-pagina
+  - text: >-
+      Dal 2018 subingressi, variazioni soggettive, cessazioni e sospensioni vanno inviati via PEC con i
+      modelli firmati digitalmente a polizia.amministrativa@pec.comune.napoli.it e
+      entrate.cosap@pec.comune.napoli.it (pagina dei dehors). La pagina contatti del SUAP dice invece
+      che le pratiche via PEC non sono istruite: chiedere al SUAP il canale attuale.
+    status: disputed
+    source: dehors-pagina
+  - text: >-
+      Le concessioni del regime straordinario post-Covid (art. 9-ter D.L. 137/2020) valgono al massimo
+      fino al 30 giugno 2027, o fino a prima se entra in vigore il decreto di riordino: chi le ha deve
+      prepararsi a chiedere una concessione ordinaria.
+    status: verified
+    source: legge-182-2025
+related:
+  - napoli/comune/insegna-esercizio
+  - napoli/comune/scia-somministrazione-alimenti-bevande
+sources:
+  - id: dehors-pagina
+    label: Concessioni di suolo pubblico annesso a pubblici esercizi – Comune di Napoli (regolamento, modelli, contatti)
+    url: https://www.comune.napoli.it/articolo_tematico/commercio-e-artigianato/concessioni-e-autorizzazioni-commerciali/concessioni-di-suolo-pubblico-annesso-a-pubblici-esercizi/
+    retrieved: 2026-10-25
+    page_updated: 2026-02-10
+    official: true
+    notes: >-
+      Il vecchio indirizzo flex/cm/pages/ServeBLOB.php/L/IT/IDPagina/13368 reindirizza qui. Parte del
+      testo risale al 2018 (COSAP, conto corrente postale).
+  - id: cup-occupazione
+    label: Canone Unico Patrimoniale – Occupazione di suolo (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/canone-unico-patrimoniale/occupazione-di-suolo/
+    retrieved: 2026-10-25
+    page_updated: 2026-10-14
+    official: true
+    notes: Avviso del 30 aprile 2026 sulla delibera 195/2026; tariffe 2026, formula, pagamenti, contatti.
+  - id: regolamento-dehors
+    label: Regolamento dehors, delibera di C.C. n. 71 del 10/12/2014
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/06/regolamento_dehors_approvato_con_deliberazione_consiliare_n._71_del_10_12_2014.pdf
+    retrieved: 2026-10-25
+    sha256: 761dbeb1a318cbf1f2551b328bd70070ac70fa538eb2d2c0ecc3904ea5a32d9a
+    official: true
+  - id: regolamento-cup
+    label: Regolamento per la disciplina del canone patrimoniale di concessione, autorizzazione o esposizione pubblicitaria (delibera di C.C. n. 16 del 30/05/2022)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2006/03/Regolamento-per-la-disciplina-del-canone-patrimoniale-di-concessione-autorizzazione-o-esposizione-pubblicitaria-2.pdf
+    retrieved: 2026-10-25
+    sha256: 20417408e0fc552be65038854742615e3d943678e6f57e462cdbe18426e9e796
+    official: true
+    notes: Letti gli artt. 1–11, 17, 37–43, 48–50 e 56. Eventuali modifiche successive non controllate.
+  - id: regolamenti-tributari
+    label: Regolamenti tributari – Comune di Napoli (canone unico, allegati, regolamenti COSAP storici)
+    url: https://www.comune.napoli.it/articolo_tematico/amministrazione/statuti-e-regolamenti/regolamenti-tributari/
+    retrieved: 2026-10-25
+    page_updated: 2026-09-08
+    official: true
+  - id: linee-guida-centro-storico
+    label: Linee guida occupazione di suolo pubblico per attività di ristorazione – Centro Storico (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/commercio-e-artigianato/concessioni-e-autorizzazioni-commerciali/concessioni-di-suolo-pubblico-annesso-a-pubblici-esercizi/linee-guida-occupazione-di-suolo-pubblico-per-attivita-di-ristorazione-centro-storico/
+    retrieved: 2026-10-25
+    page_updated: 2025-08-07
+    official: true
+    notes: Letta la pagina di sintesi, non gli elaborati allegati.
+  - id: suap-contatti
+    label: Contatti dello Sportello Unico per le Attività Produttive – SUAP (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/suap/contatti/
+    retrieved: 2026-10-25
+    page_updated: 2026-05-18
+    official: true
+  - id: suap-procedura
+    label: SUAP – Procedura (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/suap/procedura/
+    retrieved: 2026-10-25
+    page_updated: 2025-05-29
+    official: true
+  - id: diritti-suap-2026
+    label: Tabella dei diritti d'istruttoria delle pratiche telematiche SUAP 2026 (delibera G.C. 239/2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2021/07/2026-TABELLA-DIRITTI-SUAP-DEF.pdf
+    retrieved: 2026-10-25
+    sha256: 6abd7a3127137927c6d9959f946001c4e51d47afee568317e4e69e5584994d15
+    official: true
+    notes: Voci S189 (apertura 250 euro, variazione 200 euro) e S190 (rinnovo 80 euro).
+  - id: modulo-igienico-sanitari
+    label: Esercizi pubblici – dichiarazione dei requisiti igienico-sanitari (modello del Comune di Napoli)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/06/DICHIARAZIONE_requisiti_igienico___sanitari.pdf
+    retrieved: 2026-10-25
+    sha256: 6eba3364b89a51bb95eeac1c77f17198051a036791b1bafa66558ebe330bd729
+    official: true
+  - id: modulo-semplificata
+    label: Dichiarazione – occupazione con procedura semplificata (modello del Comune di Napoli)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/06/DICHIARAZIONE_occupazione_con_procedura_semplificata.pdf
+    retrieved: 2026-10-25
+    sha256: e4704b0b6bcedcc937a951fe7249ea3b0177e878338b1dd41ca6b0fde9ab84f2
+    official: true
+  - id: relazione-asseverata-continuativa
+    label: Relazione tecnica asseverata dehors – concessione continuativa (modello del Comune di Napoli, per il tecnico)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/06/relazione_asseverata_dehors_CONTINUATIVA.pdf
+    retrieved: 2026-10-25
+    sha256: 00a841fc924240ec5c1e21fd281093dfdc06eb874da1450aed5b35d9dfbb11eb
+    official: true
+    notes: Compilata dal tecnico; esiste anche la versione semplificata (sha256 5929244a1ac634aa46e42a96fdaa92944958933b9a6ff5cb854be44e63f4104e).
+  - id: legge-182-2025
+    label: Legge 2 dicembre 2025, n. 182, art. 50 (dehors), su Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2025-12-02;182~art50
+    retrieved: 2026-10-25
+    official: true
+    notes: Include in nota il testo vigente dell'art. 26 della L. 193/2024.
+  - id: dpr-31-2017
+    label: D.P.R. 13 febbraio 2017, n. 31, art. 19 (abrogazione del D.P.R. 139/2010), su Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:presidente.repubblica:decreto:2017-02-13;31~art19
+    retrieved: 2026-10-25
+    official: true
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: lette le pagine del Comune "Concessioni di suolo pubblico annesso a pubblici esercizi",
+    "Canone Unico Patrimoniale – Occupazione di suolo", "Linee guida Centro Storico", "Regolamenti
+    tributari", SUAP "Contatti" e "Procedura"; il regolamento dehors (delibera C.C. 71/2014) per
+    intero; gli artt. 1–11, 17, 37–43, 48–50 e 56 del regolamento CUP (delibera C.C. 16/2022); la
+    tabella diritti SUAP 2026; i due modelli di dichiarazione e il modello di relazione asseverata;
+    l'art. 50 della L. 182/2025 e l'art. 19 del DPR 31/2017 su Normattiva.
+  notes: >-
+    Non verificati: tipo di accesso a impresainungiorno, importo del bollo, adozione del decreto
+    legislativo di riordino dei dehors, quale termine di rinnovo applica oggi il SUAP.

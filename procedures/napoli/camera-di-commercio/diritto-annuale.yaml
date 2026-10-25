@@ -1,0 +1,381 @@
+schema_version: 0
+id: napoli/camera-di-commercio/diritto-annuale
+title: Diritto annuale 2026 – Camera di Commercio di Napoli
+summary: >-
+  Il diritto annuale è il tributo che ogni impresa iscritta o annotata nel Registro delle
+  Imprese, e ogni soggetto iscritto al REA, versa ogni anno alla Camera di Commercio della
+  provincia in cui ha la sede (più una quota per ogni unità locale). Per il 2026 la Camera di
+  Napoli non applica maggiorazioni: si paga in un'unica soluzione con pagoPA o con F24 (codice
+  tributo 3850), di regola entro la scadenza del primo acconto delle imposte sui redditi.
+ente:
+  name: Camera di Commercio, Industria, Artigianato e Agricoltura di Napoli
+  office: Ufficio Diritto Annuale – Sanzioni – Ruoli
+applies_to:
+  events: [annual, open]
+  audience: [business]
+  conditions:
+    - text: >-
+        Il diritto è dovuto, ai sensi dell'art. 18 della legge 580/1993, da tutte le imprese
+        iscritte al Registro delle Imprese e/o al Repertorio delle Notizie Economiche ed
+        Amministrative (REA): imprese individuali (sezione ordinaria o speciale), società e
+        soggetti iscritti solo al REA (associazioni, fondazioni e simili).
+      status: verified
+      source: na-lettera-ordinaria
+    - text: >-
+        Si versa alla Camera di Commercio nella cui circoscrizione si trova la sede. Le unità
+        locali nella stessa provincia si pagano alla stessa Camera insieme alla sede; quelle in
+        altre province si pagano alla Camera competente per ciascuna.
+      status: verified
+      source: na-altre-sezioni
+    - text: >-
+        Il diritto non è frazionabile ed è dovuto per intero anche da chi è iscritto solo per una
+        parte dell'anno.
+      status: verified
+      source: na-altre-sezioni
+    - text: >-
+        Imprese già iscritte al 1° gennaio 2026: pagano entro la scadenza annuale (vedi sotto) e
+        ricevono dalla Camera una comunicazione via PEC. Nuove imprese, unità locali e soggetti
+        REA iscritti dal 1° gennaio 2026: pagano al momento della domanda di iscrizione
+        (prepagato Telemaco) o con F24 entro 30 giorni dall'invio della domanda.
+      status: verified
+      source: na-2026
+    - text: >-
+        Chi trasferisce la sede da un'altra provincia a Napoli nel corso del 2026 paga il diritto
+        2026 alla Camera della provincia in cui era iscritto al 1° gennaio, alle scadenze delle
+        imprese già iscritte.
+      status: verified
+      source: na-2026
+legal_basis:
+  - text: Art. 18 della legge 29 dicembre 1993, n. 580 (diritto annuale delle Camere di Commercio).
+    status: verified
+    source: na-lettera-ordinaria
+  - text: >-
+      Art. 28, comma 1, del D.L. 90/2014 (conv. L. 114/2014): riduzione del 50% rispetto al 2014;
+      misure 2026 confermate dalla nota MIMIT n. 9347 del 16 gennaio 2026, che applica il decreto
+      interministeriale 8 gennaio 2015 e il decreto 21 aprile 2011.
+    status: verified
+    source: mimit-nota-9347
+  - text: >-
+      Delibera del Consiglio della Camera di Commercio di Napoli n. 10 del 30/10/2025: dal 2026 la
+      Camera non applica l'aumento fino al 20% previsto dall'art. 18, comma 10, della L. 580/1993.
+    status: verified
+    source: na-2026
+  - text: >-
+      Sanzioni per tardivo od omesso pagamento: D.M. 27 gennaio 2005, n. 54. Ravvedimento operoso:
+      art. 13 del D.Lgs. 472/1997 e art. 6 del D.M. 54/2005.
+    status: verified
+    source: na-lettera-ordinaria
+  - text: >-
+      Proroga 2026 per i soggetti ISA e forfettari: art. 1-sexies del D.L. 30 aprile 2026, n. 63,
+      introdotto dalla legge di conversione 25 giugno 2026, n. 113 (riprende l'art. 6 del D.L.
+      22 maggio 2026, n. 89, abrogato dalla stessa legge con salvezza degli effetti). La norma
+      parla delle imposte sui redditi, IRAP e IVA; l'estensione al diritto annuale deriva dal
+      collegamento della scadenza a quella del primo acconto delle imposte.
+    status: verified
+    source: dl-63-2026
+deadline:
+  rules:
+    - text: >-
+        Imprese già iscritte: il termine coincide con quello di versamento del primo acconto
+        delle imposte sui redditi, con possibilità di pagare nei 30 giorni successivi con la
+        maggiorazione dello 0,40%.
+      status: verified
+      source: na-altre-sezioni
+    - text: >-
+        Per il 2026 la Camera di Napoli indica come termine il 30 giugno 2026, oppure entro il
+        30 luglio 2026 con la maggiorazione dello 0,40%. La maggiorazione si somma al diritto senza
+        arrotondare all'euro (si versano anche i decimali) ed è dovuta anche se si paga in
+        compensazione a saldo zero.
+      status: verified
+      source: na-lettera-ordinaria
+    - text: >-
+        Soggetti ISA (con ricavi o compensi entro il limite del relativo indice), soggetti con cause
+        di esclusione dagli ISA, forfettari e minimi, e i soci di società trasparenti con gli
+        stessi requisiti: secondo le Camere di Firenze e del Molise il diritto 2026 si paga entro il
+        20 luglio 2026 senza maggiorazione, oppure entro il 20 agosto 2026 con lo 0,80%. Le lettere
+        e la pagina 2026 della Camera di Napoli non citano la proroga e indicano per tutti il 30
+        giugno / 30 luglio (0,40%). Farsi confermare la scadenza applicabile dal commercialista o
+        dall'Ufficio Diritto Annuale.
+      status: disputed
+      source: cciaa-firenze
+    - text: >-
+        Nuove iscrizioni dal 1° gennaio 2026: pagamento contestuale alla domanda oppure con F24
+        entro 30 giorni dall'invio.
+      status: verified
+      source: na-2026
+  lateness:
+    text: >-
+      Per tardivo od omesso pagamento si applica una sanzione dal 10% al 100% del diritto dovuto
+      (D.M. 54/2005). Entro un anno dalla scadenza ci si può mettere in regola con il ravvedimento
+      operoso (art. 13 D.Lgs. 472/1997), pagando diritto, interessi legali (codice tributo 3851) e
+      sanzione ridotta (codice tributo 3852). Non calcolare l'importo a mano: usare la funzione di
+      calcolo su dirittoannuale.camcom.it o chiederlo all'Ufficio Diritto Annuale.
+    status: verified
+    source: na-lettera-ordinaria
+channels:
+  - type: portal
+    name: Diritto annuale – Calcola e paga (sistema camerale)
+    url: https://dirittoannuale.camcom.it
+    preferred: true
+    source: na-lettera-ordinaria
+    notes: >-
+      Calcola l'importo dovuto e permette di pagarlo con pagoPA (lettera 2026); secondo la pagina generale della Camera consente anche
+      di stampare l'F24 precompilato. Il sito è un'applicazione web che non è stato possibile
+      leggere senza browser: metodo di accesso non verificato.
+  - type: email
+    name: Ufficio Diritto Annuale – Sanzioni – Ruoli
+    address: diritto.annuale@na.camcom.it
+    receipt: informal
+    source: na-2026
+    notes: Per informazioni, ravvedimento operoso, cartelle esattoriali e irregolarità degli anni precedenti.
+payment:
+  method: f24
+  codice_ente: NA
+  codici_tributo: ["3850", "3851", "3852"]
+  calculator_url: https://dirittoannuale.camcom.it
+  schedule:
+    - { label: Diritto annuale 2026 – termine ordinario, due: 2026-06-30, source: na-lettera-ordinaria, status: verified }
+    - { label: "Diritto annuale 2026 – con maggiorazione dello 0,40%", due: 2026-07-30, source: na-lettera-ordinaria, status: verified }
+    - { label: Soggetti ISA e forfettari – senza maggiorazione (proroga), due: 2026-07-20, source: cciaa-firenze, status: disputed }
+    - { label: "Soggetti ISA e forfettari – con maggiorazione dello 0,80%", due: 2026-08-20, source: cciaa-molise, status: disputed }
+  notes:
+    - text: >-
+        Si paga in un'unica soluzione, in alternativa: con pagoPA dal sito dirittoannuale.camcom.it
+        (funzione "calcola e paga"), oppure con il modello F24 (F24 Web, banca o Poste).
+      status: verified
+      source: na-lettera-ordinaria
+    - text: >-
+        Compilazione dell'F24: nella sezione Contribuente il codice fiscale dell'impresa (non la
+        partita IVA), i dati anagrafici e il domicilio fiscale; nella sezione "IMU e altri tributi
+        locali" codice ente "NA" (solo le prime due caselle da sinistra, le altre due vuote),
+        codice tributo 3850, anno di riferimento 2026 e l'importo.
+      status: verified
+      source: na-lettera-ordinaria
+    - text: >-
+        In caso di ravvedimento operoso, interessi e sanzioni si versano con i codici tributo
+        3851 (interessi) e 3852 (sanzioni), insieme al diritto con il 3850.
+      status: verified
+      source: na-lettera-ordinaria
+    - text: >-
+        Importi fissi 2026 (sede / ciascuna unità locale): imprese individuali iscritte o annotate
+        nella sezione speciale (piccoli imprenditori, artigiani, coltivatori diretti, imprenditori
+        agricoli) 44,00 € / 8,80 €; imprese individuali nella sezione ordinaria 100,00 € / 20,00 €;
+        società semplici non agricole 100,00 € / 20,00 €; società semplici agricole 50,00 € /
+        10,00 €; società tra avvocati (D.Lgs. 96/2001) 100,00 € / 20,00 €; soggetti iscritti solo
+        al REA 15,00 € (solo sede); imprese con sede principale all'estero 55,00 € per ciascuna
+        unità locale o sede secondaria. Sono importi prima dell'arrotondamento: si sommano sede e
+        unità locali e si arrotonda all'euro una sola volta, sul totale (la pagina della Camera
+        mostra gli importi già arrotondati, per esempio 9,00 € per l'unità locale).
+      status: verified
+      source: mimit-nota-9347
+    - text: >-
+        Tutte le altre imprese della sezione ordinaria (S.r.l., S.p.A., S.n.c., S.a.s.,
+        cooperative, consorzi…) pagano in base al fatturato 2025 (dati IRAP): misura fissa di 200 €
+        fino a 100.000 € di fatturato, più aliquote per scaglioni sopra tale soglia, con riduzione
+        finale del 50%. Con fatturato fino a 100.000 € il diritto da versare è quindi 100,00 €; in
+        nessun caso supera 20.000 €.
+      status: verified
+      source: mimit-nota-9347
+    - text: >-
+        Per ogni unità locale si versa il 20% del diritto dovuto per la sede, fino a un massimo di
+        100,00 € per unità locale (imprese della sezione ordinaria).
+      status: verified
+      source: na-lettera-ordinaria
+    - text: >-
+        Arrotondamento: un solo arrotondamento finale all'unità di euro sull'importo complessivo
+        (sede + unità locali nella stessa provincia), tenendo cinque decimali nei calcoli
+        intermedi; per eccesso da 50 centesimi in su, per difetto sotto.
+      status: verified
+      source: mimit-nota-9347
+    - text: >-
+        Per individuare i righi della dichiarazione IRAP 2026 da usare come fatturato la Camera
+        rinvia alla circolare del Ministero dello Sviluppo Economico n. 19230 del 3/3/2009. La nota
+        MIMIT 2026 cita la stessa nota n. 19230 con data 30 marzo 2009.
+      status: verified
+      source: na-lettera-ordinaria
+    - text: >-
+        Per il 2026 la Camera di Napoli non applica la maggiorazione fino al 20% del diritto
+        prevista dall'art. 18, comma 10, della L. 580/1993: gli importi sono quelli della nota
+        MIMIT, senza aumenti.
+      status: verified
+      source: na-2026
+documents:
+  - name: Visura camerale dell'impresa (sezione del Registro, unità locali, eventuale iscrizione solo REA)
+    required: false
+    notes: Serve a capire quale importo si applica e quante unità locali vanno pagate.
+  - name: Dichiarazione IRAP 2026 (fatturato 2025)
+    required: false
+    notes: Solo per le imprese della sezione ordinaria diverse dalle imprese individuali, che pagano in base al fatturato.
+  - name: Comunicazione della Camera di Commercio ricevuta via PEC
+    required: false
+    notes: Riporta le indicazioni per il pagamento e, nell'ultima pagina, eventuali irregolarità degli anni precedenti.
+steps:
+  - do: >-
+      Controllare nella visura in quale sezione è iscritta l'impresa (ordinaria, speciale o solo
+      REA) e quante unità locali ha in provincia di Napoli e altrove
+    who: anyone
+  - do: >-
+      Leggere la comunicazione della Camera arrivata alla PEC dell'impresa e controllare se
+      nell'ultima pagina sono segnalate irregolarità degli anni precedenti
+    who: anyone
+  - do: >-
+      Calcolare l'importo con la funzione "calcola e paga" di dirittoannuale.camcom.it o con il
+      foglio di calcolo 2026 della Camera di Napoli (per le società della sezione ordinaria serve
+      il fatturato 2025 dalla dichiarazione IRAP)
+    who: anyone
+  - do: >-
+      Stabilire la scadenza applicabile (30 giugno, oppure 20 luglio se l'impresa rientra nella
+      proroga per soggetti ISA e forfettari), meglio con il commercialista
+    who: professional
+  - do: >-
+      Pagare in un'unica soluzione con pagoPA da dirittoannuale.camcom.it oppure con F24 (codice
+      ente NA, codice tributo 3850, anno 2026, codice fiscale dell'impresa)
+    who: owner
+    human_only: true
+  - do: >-
+      Se la scadenza è passata: chiedere all'Ufficio Diritto Annuale (o calcolare su
+      dirittoannuale.camcom.it) gli importi del ravvedimento operoso e pagarli con F24 usando i
+      codici 3850, 3851 e 3852
+    who: owner
+    human_only: true
+  - { do: Conservare la quietanza di pagamento, who: owner }
+after:
+  - >-
+    Conservare la quietanza pagoPA o F24: la Camera controlla i pagamenti degli ultimi 10 anni
+    prima di rilasciare certificati del Registro Imprese.
+  - Annotare la scadenza dell'anno successivo, che segue quella del primo acconto delle imposte sui redditi.
+  - >-
+    Se la PEC dell'impresa è scaduta o non valida, ripristinarla o comunicarne una nuova al
+    Registro Imprese: le comunicazioni sul diritto annuale arrivano solo via PEC.
+pitfalls:
+  - text: >-
+      Il mancato pagamento del diritto blocca il rilascio dei certificati camerali: la regolarità
+      degli ultimi 10 anni è condizione per ottenerli.
+    status: verified
+    source: na-lettera-ordinaria
+  - text: >-
+      Nell'F24 va indicato il codice fiscale dell'impresa, non la partita IVA, e il codice ente è
+      "NA" (sigla della provincia), non il codice catastale del Comune.
+    status: verified
+    source: na-lettera-ordinaria
+  - text: >-
+      La maggiorazione dello 0,40% (o 0,80% per chi rientra nella proroga ISA) è dovuta anche se il
+      pagamento avviene in compensazione a saldo zero, e va versata con i decimali.
+    status: verified
+    source: na-lettera-ordinaria
+  - text: >-
+      La Camera di Napoli non chiede il pagamento del diritto annuale con bollettini postali di
+      soggetti terzi: richieste per annuari, elenchi o registri privati non sono dovute.
+      Nel dubbio, contattare la Camera.
+    status: verified
+    source: na-lettera-ordinaria
+  - text: >-
+      La pagina sul ravvedimento operoso della Camera (ultima modifica 21/11/2025) riporta la
+      tabella dei tassi di interesse legale solo fino al 2023 e calcola le riduzioni su un minimo
+      del 30%; la pagina generale indica invece il tasso legale dell'1,60% dal 1° gennaio 2026.
+      Le regole sulle sanzioni potrebbero essere cambiate: farsi confermare gli importi
+      dall'ufficio.
+    status: verified
+    source: na-ravvedimento
+  - text: >-
+      La pagina generale sul diritto annuale descrive ancora dirittoannuale.camcom.it come utile
+      per gli anni "2022 (ravvedimento operoso) e 2023": testo non aggiornato.
+    status: verified
+    source: na-diritto-annuale
+  - text: >-
+      Dal 31/10/2025 anche l'amministratore unico, l'amministratore delegato o, in mancanza, il
+      presidente del CdA di una società deve comunicare un proprio indirizzo PEC, diverso da quello
+      dell'impresa.
+    status: verified
+    source: na-lettera-ordinaria
+related: []
+sources:
+  - id: na-2026
+    label: Diritto annuale 2026 – Camera di Commercio di Napoli
+    url: https://www.na.camcom.gov.it/registro-imprese-e-albi/diritto-annuale/diritto-annuale-2026
+    retrieved: 2026-10-25
+    page_updated: 2026-06-29
+    official: true
+    notes: >-
+      Letta anche la versione PDF (https://www.na.camcom.gov.it/print/pdf/node/3041). Contiene
+      importi per le nuove iscrizioni, contatti e link alle due lettere e al foglio di calcolo.
+  - id: na-lettera-ordinaria
+    label: Pagamento diritto annuale 2026 – lettera alle imprese della sezione ordinaria (Camera di Commercio di Napoli)
+    url: https://www.na.camcom.gov.it/sites/default/files/contenuto_redazione/mail%20diritto%20annuale%202026%20ORDINARIA.pdf
+    retrieved: 2026-10-25
+    sha256: bf05a7c6a1bdbd88f007c935c37c80fb4a31d5cf41612098a87215388d183b21
+    official: true
+  - id: na-lettera-speciale
+    label: Pagamento diritto annuale 2026 – lettera alle imprese della sezione speciale e ai soggetti REA (Camera di Commercio di Napoli)
+    url: https://www.na.camcom.gov.it/sites/default/files/contenuto_redazione/mail%20diritto%20annuale%202026%20SPECIALE.pdf
+    retrieved: 2026-10-25
+    sha256: ec89e6e745f07ce0db7b4e89397c1640befa58cb83756a9d96962322e4d2ada3
+    official: true
+    notes: Stesse scadenze, F24 e sanzioni della lettera ordinaria; importi fissi uguali alla nota MIMIT.
+  - id: na-foglio-calcolo
+    label: Foglio di calcolo diritto annuale 2026 (Camera di Commercio di Napoli)
+    url: https://www.na.camcom.gov.it/sites/default/files/contenuto_redazione/Foglio%20calcolo%20diritto%20annuale%202026.xlsx
+    retrieved: 2026-10-25
+    sha256: b76c9744c084015e84659cd71ccaead06da5286a50953bfc76699804167e5ecc
+    official: true
+    notes: Scaricato, non aperto né verificato nelle formule.
+  - id: na-diritto-annuale
+    label: Diritto annuale – pagina generale (Camera di Commercio di Napoli)
+    url: https://www.na.camcom.gov.it/registro-imprese-e-albi/diritto-annuale
+    retrieved: 2026-10-25
+    official: true
+  - id: na-altre-sezioni
+    label: Diritto annuale – Altre sezioni (chi deve pagare, quando, unità locali)
+    url: https://www.na.camcom.gov.it/registro-imprese-e-albi/diritto-annuale/diritto-annuale-altre-sezioni
+    retrieved: 2026-10-25
+    official: true
+    notes: Testo generale non datato; cita ancora il "Ministero dello Sviluppo Economico".
+  - id: na-ravvedimento
+    label: Ravvedimento operoso – diritto annuale (Camera di Commercio di Napoli)
+    url: https://www.na.camcom.gov.it/registro-imprese-e-albi/diritto-annuale/diritto-annuale-altre-sezioni/ravvedimento-operoso
+    retrieved: 2026-10-25
+    page_updated: 2025-11-21
+    official: true
+    notes: Tabella dei tassi ferma al 2023; probabilmente non aggiornata.
+  - id: mimit-nota-9347
+    label: MIMIT, nota n. 9347 del 16 gennaio 2026 – Misure del diritto annuale anno 2026
+    url: https://www.mimit.gov.it/images/stories/normativa/allegati/Nota_n._9347_del_16_gennaio_2026_-Misure_del_diritto_annuale_2026.pdf
+    retrieved: 2026-10-25
+    sha256: daf539cd844a7f419665bf9c404cad02fa143296710f0505ad00c45003ed4e41
+    official: true
+  - id: dl-63-2026
+    label: D.L. 30 aprile 2026, n. 63, art. 1-sexies (testo vigente dopo la L. 113/2026) – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2026-04-30;63~art1sexies
+    retrieved: 2026-10-25
+    official: true
+    notes: >-
+      Letti anche l'art. 6 originario del D.L. 89/2026 e l'art. 1 della L. 25 giugno 2026, n. 113,
+      che abroga il D.L. 89/2026 facendone salvi gli effetti.
+  - id: cciaa-firenze
+    label: Camera di Commercio di Firenze – Termine di pagamento del diritto annuale 2026 (proroga ISA e forfettari)
+    url: https://www.fi.camcom.gov.it/print/pdf/node/60465
+    retrieved: 2026-10-25
+    page_updated: 2026-06-08
+    official: true
+    notes: Fonte ufficiale di un'altra Camera, usata solo per la lettura della proroga.
+  - id: cciaa-molise
+    label: Camera di Commercio del Molise – Proroga del versamento del diritto annuale 2026 per i soggetti ISA
+    url: https://www.molise.camcom.gov.it/print/pdf/node/2957
+    retrieved: 2026-10-25
+    page_updated: 2026-06-10
+    official: true
+    notes: Fonte ufficiale di un'altra Camera, usata solo per la lettura della proroga.
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: lette la pagina "Diritto annuale 2026" (HTML e PDF), la pagina generale, la pagina
+    "Altre sezioni" e la pagina sul ravvedimento operoso della Camera di Commercio di Napoli; le
+    due lettere 2026 (sezione ordinaria e sezione speciale/REA); la nota MIMIT n. 9347 del
+    16/01/2026; su Normattiva l'art. 6 originario del D.L. 89/2026, l'art. 1 della L. 113/2026 e
+    l'art. 1-sexies del D.L. 63/2026; le pagine sulla proroga delle Camere di Firenze e del Molise.
+  notes: >-
+    Non verificati: il metodo di accesso a dirittoannuale.camcom.it (applicazione web non leggibile
+    senza browser) e il contenuto del foglio di calcolo. La scadenza per i soggetti ISA è
+    "disputed": la Camera di Napoli non cita la proroga.
