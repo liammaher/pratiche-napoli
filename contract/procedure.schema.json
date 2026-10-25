@@ -218,7 +218,7 @@
           ]
         },
         "codice_ente": {
-          "type": "string"
+          "$ref": "#/$defs/text"
         },
         "codici_tributo": {
           "type": "array",
@@ -228,7 +228,7 @@
           "uniqueItems": true
         },
         "rateazione": {
-          "type": "string"
+          "$ref": "#/$defs/text"
         },
         "calculator_url": {
           "$ref": "#/$defs/httpUrl"
@@ -284,7 +284,7 @@
             "type": "boolean"
           },
           "notes": {
-            "type": "string"
+            "$ref": "#/$defs/text"
           }
         }
       }
@@ -338,7 +338,7 @@
                   "$ref": "#/$defs/mapping"
                 },
                 "notes": {
-                  "type": "string"
+                  "$ref": "#/$defs/text"
                 }
               }
             }
@@ -434,7 +434,7 @@
             "type": "boolean"
           },
           "notes": {
-            "type": "string"
+            "$ref": "#/$defs/text"
           }
         }
       }
@@ -469,13 +469,15 @@
           "$ref": "#/$defs/text"
         },
         "notes": {
-          "type": "string"
+          "$ref": "#/$defs/text"
         }
       }
     },
     "ssu_ref": {
       "description": "Reference in the national SSU catalogue, when known",
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
     },
     "run_log": {
       "type": "array",
@@ -627,7 +629,7 @@
     "httpUrl": {
       "type": "string",
       "format": "uri",
-      "pattern": "^https?://"
+      "pattern": "^https?://[^/?#\\s]+"
     }
   }
 }

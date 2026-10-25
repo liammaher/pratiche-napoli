@@ -12,7 +12,7 @@
 // fields are left out of the registry and listed under `forbidden` instead.
 // Anything with a sensitivity tier we don't know is treated as secret.
 
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, realpathSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -59,6 +59,13 @@ const FORBIDDEN_CATEGORIES = ["spid", "payment", "medical"];
 // The vault's own tracking of procedures in progress, not form data.
 const INTERNAL_CATEGORIES = ["pratiche"];
 const ALLOWED_SENSITIVITY = new Set(["public", "standard", "sensitive"]);
+// Categories with no fixed fields that may hold any field name. Any other
+// empty category is treated as secret until it is reviewed and listed here.
+const OPEN_CATEGORIES = ["documents"];
+// Credential words, kept in step with validate.ts and the vault's reCredentialWord.
+const CREDENTIAL = /(^|_)(pin\d*|puk\d*|password|passwd|pwd|pw|pass|passcode|otp|totp|username|login|secret|segreto|chiave|token)(_|$)/;
+const EXTENSION_ID = /^[a-z_]+\.[a-z0-9_]+$/;
+const CATEGORY_NAME = /^[a-z_]+$/;
 const DYNAMIC: Record<string, string> = {
   nucleo_familiare: "membro<N>_<campo>",
 };
@@ -97,12 +104,21 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
       fields,
     };
     if (DYNAMIC[cat.name]) entry.dynamic = DYNAMIC[cat.name];
-    else if (vaultFields.length === 0) entry.open = true;
+    else if (vaultFields.length === 0) {
+      if (!OPEN_CATEGORIES.includes(cat.name)) {
+        forbiddenCategories.push(cat.name);
+        continue;
+      }
+      entry.open = true;
+    }
     categories.push(entry);
   }
 
   const vaultIds = new Set(schema.categories.flatMap((c) => (c.fields ?? []).map((f) => f.id)));
   for (const ext of extensions.categories) {
+    if (!CATEGORY_NAME.test(ext?.name ?? "") || !Array.isArray(ext.fields)) {
+      throw new Error(`extension category ${JSON.stringify(ext?.name)} needs a lower-case name and a fields list`);
+    }
     if (forbiddenCategories.includes(ext.name) || INTERNAL_CATEGORIES.includes(ext.name)) {
       throw new Error(`extensions can't add to category "${ext.name}"`);
     }
@@ -116,6 +132,9 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
     }
     for (const f of ext.fields) {
       checkFieldCategory(f.id, ext.name);
+      if (!EXTENSION_ID.test(f.id)) throw new Error(`extension field "${f.id}" must look like category.field_name`);
+      if (forbiddenFields.includes(f.id)) throw new Error(`extension field "${f.id}" is a secret field in the vault`);
+      if (CREDENTIAL.test(f.id.split(".")[1])) throw new Error(`extension field "${f.id}" looks like a credential`);
       if (vaultIds.has(f.id) || entry.fields.some((e) => e.id === f.id)) {
         throw new Error(`extension field "${f.id}" already exists; remove it from extensions.json`);
       }
@@ -146,7 +165,7 @@ export function renderRegistry(schema: VaultSchema, extensions?: Extensions): st
   return JSON.stringify(buildRegistry(schema, extensions), null, 2) + "\n";
 }
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
+if (process.argv[1] && realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url))) {
   const input = process.argv[2];
   const schema = JSON.parse(readFileSync(input ?? VAULT_SCHEMA_PATH, "utf8")) as VaultSchema;
   const extensions = JSON.parse(readFileSync(EXTENSIONS_PATH, "utf8")) as Extensions;

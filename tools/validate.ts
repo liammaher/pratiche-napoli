@@ -5,18 +5,23 @@
 import path from "node:path";
 import { ROOT, loadRegistry, todayInRome, validateDir } from "./lib/validate.ts";
 
-const dir = path.resolve(process.argv[2] ?? path.join(ROOT, "procedures"));
+const library = path.join(ROOT, "procedures");
+const target = path.resolve(process.argv[2] ?? library);
+// A path inside the library is validated in context (ids, related links);
+// any other directory is treated as a library of its own.
+const inLibrary = target === library || target.startsWith(library + path.sep);
+const dir = inLibrary ? library : target;
 
 let results;
 try {
-  results = validateDir(dir, loadRegistry(), todayInRome());
+  results = validateDir(dir, loadRegistry(), todayInRome(), inLibrary ? target : undefined);
 } catch (e) {
   console.error((e as Error).message);
   process.exit(2);
 }
 
 if (results.length === 0) {
-  console.error(`no procedures found in ${dir}`);
+  console.error(`no procedures found in ${target}`);
   process.exit(1);
 }
 
