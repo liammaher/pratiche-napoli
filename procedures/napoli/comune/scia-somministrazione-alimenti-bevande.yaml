@@ -1,0 +1,592 @@
+schema_version: 0
+id: napoli/comune/scia-somministrazione-alimenti-bevande
+title: Aprire un bar o un ristorante – SCIA o autorizzazione per la somministrazione di alimenti e bevande (Comune di Napoli)
+summary: >-
+  Chi vuole aprire a Napoli un bar, un ristorante, una pizzeria o un altro locale dove i clienti
+  consumano sul posto con servizio deve presentare la pratica al SUAP del Comune, solo online su
+  impresainungiorno. Fuori dal centro storico UNESCO e dalla buffer zone basta una SCIA e si può
+  aprire dal giorno della presentazione; dentro quelle zone, dal 25 luglio 2026, serve
+  un'autorizzazione che si ottiene solo rispettando i requisiti strutturali e un punteggio minimo
+  del Piano comunale.
+ente:
+  name: Comune di Napoli
+  office: Area Sviluppo Economico – Servizio Sportello Unico per le Attività Produttive (SUAP)
+  ipa: c_f839
+applies_to:
+  events: [open, food, move]
+  audience: [business]
+  sectors:
+    - somministrazione di alimenti e bevande (bar, ristoranti, pizzerie, pub, gelaterie con servizio)
+  conditions:
+    - text: >-
+        Somministrazione al pubblico di alimenti e bevande: la vendita per il consumo sul posto,
+        in cui i clienti consumano, con il relativo servizio, nei locali dell'esercizio o in
+        un'area aperta al pubblico attrezzata a tal fine (L.R. Campania 7/2020, art. 89).
+      status: verified
+      source: lr-campania-7-2020
+    - text: >-
+        In Campania gli esercizi di somministrazione sono un'unica tipologia, che comprende anche
+        le bevande alcoliche di qualsiasi gradazione (art. 90, c. 1).
+      status: verified
+      source: lr-campania-7-2020
+    - text: >-
+        Requisiti morali: non deve trovarsi in nessuna delle situazioni dell'art. 71, commi 1–5,
+        del d.lgs. 59/2010 (ad esempio alcune condanne definitive o misure di prevenzione); per la
+        somministrazione contano anche le condanne per reati contro la moralità pubblica e il buon
+        costume, per gioco d'azzardo, scommesse clandestine, stupefacenti o reati commessi in stato
+        di ubriachezza (comma 2). In una società li devono avere il legale rappresentante, l'eventuale
+        preposto e gli altri soggetti indicati dalla norma antimafia (comma 5).
+      status: verified
+      source: dlgs-59-2010-art71
+    - text: >-
+        Requisiti professionali (almeno uno): a) corso professionale per il commercio, la
+        preparazione o la somministrazione di alimenti istituito o riconosciuto dalla Regione,
+        superato con esito positivo; b) almeno due anni, anche non continuativi, negli ultimi cinque,
+        di attività in proprio nel settore alimentare o della somministrazione, o di lavoro
+        qualificato in imprese del settore (anche come coadiuvante familiare iscritto all'INPS);
+        c) diploma o laurea con materie attinenti al commercio, alla preparazione o alla
+        somministrazione degli alimenti (art. 71, c. 6).
+      status: verified
+      source: dlgs-59-2010-art71
+    - text: >-
+        In un'impresa individuale o in una società i requisiti professionali li deve avere il
+        titolare o il legale rappresentante, oppure la persona preposta all'attività (art. 71,
+        c. 6-bis).
+      status: verified
+      source: dlgs-59-2010-art71
+    - text: >-
+        La L.R. Campania 7/2020 (art. 7) applica alla somministrazione proprio questi requisiti
+        morali e professionali del d.lgs. 59/2010.
+      status: verified
+      source: lr-campania-7-2020
+    - text: >-
+        Zona C (fuori dal centro storico UNESCO e dalla buffer zone): apertura, trasferimento di
+        sede e ampliamento di superficie sono soggetti a SCIA (art. 19 L. 241/1990) presentata al
+        SUAP (Piano, art. 5).
+      status: verified
+      source: piano-2026
+    - text: >-
+        Zona A (centro storico UNESCO, aree 1 rossa, 2 arancione, 3 gialla) e zona B (buffer zone,
+        blu): apertura, trasferimento di sede e ampliamento di superficie sono soggetti ad
+        autorizzazione del Comune, rilasciata solo se il locale ha i requisiti strutturali minimi e
+        raggiunge il punteggio gestionale minimo della propria area (Piano, artt. 4, 7, 9, 11, 12).
+        È soggetto ad autorizzazione anche il trasferimento da una zona non tutelata a una
+        tutelata o dentro la stessa zona tutelata.
+      status: verified
+      source: piano-2026
+    - text: >-
+        Requisiti strutturali minimi in zona A e B: superficie di somministrazione (tavoli, sedie e
+        arredi per il pubblico) non inferiore a 20 mq; locali accessibili alle persone con
+        disabilità; richiesta di nulla osta di impatto acustico (art. 8 L. 447/1995); un sistema di
+        sicurezza (videosorveglianza, antintrusione o sistemi passivi). Tutto va asseverato da un
+        tecnico abilitato (Piano, art. 7).
+      status: verified
+      source: piano-2026
+    - text: >-
+        Punteggio gestionale minimo per la somministrazione: zona A area 1 ≥ 120 punti (superficie
+        totale oltre 150 mq) o ≥ 90 (fino a 150 mq); area 2 ≥ 110 o ≥ 80; area 3 ≥ 100 o ≥ 70;
+        zona B ≥ 90 o ≥ 60. I punti si ottengono con i criteri dell'art. 9 (ad esempio chiusura
+        entro le 24: 40 punti; climatizzazione: 30; insonorizzazione certificata: 30; vigilanza
+        esterna dopo le 22: 30), asseverati da un tecnico abilitato (Piano, artt. 9 e 12).
+      status: verified
+      source: piano-2026
+    - text: >-
+        Restano soggette a SCIA in qualsiasi zona alcune somministrazioni particolari: aree di
+        servizio autostradali, stazioni, mense aziendali, ospedali, scuole, mezzi di trasporto,
+        catering e domicilio del consumatore, esercizi annessi a strutture ricettive per i soli
+        alloggiati e altre (Piano, art. 4, c. 5; L.R. 7/2020, art. 92).
+      status: verified
+      source: piano-2026
+    - text: >-
+        In tutte le zone (A, B e C) il titolare deve essere in regola con il pagamento dei tributi
+        comunali (Piano, art. 3, c. 2).
+      status: verified
+      source: piano-2026
+legal_basis:
+  - text: >-
+      L.R. Campania 21 aprile 2020, n. 7 (Testo unico sul commercio): art. 7 (requisiti), artt.
+      88–100 (somministrazione: definizioni, regimi, SCIA, subingresso, prezzi, orari), art. 149
+      (vigilanza, sanzioni e decadenza).
+    status: verified
+    source: lr-campania-7-2020
+  - text: D.lgs. 26 marzo 2010, n. 59, art. 71 (requisiti morali e professionali).
+    status: verified
+    source: dlgs-59-2010-art71
+  - text: >-
+      Art. 64 del d.lgs. 59/2010 e art. 91, c. 3, della L.R. 7/2020: il Comune può sottoporre ad
+      autorizzazione le aperture nelle zone tutelate.
+    status: verified
+    source: lr-campania-7-2020
+  - text: >-
+      Piano per la programmazione delle aperture degli esercizi di somministrazione di alimenti e
+      bevande nel centro storico di Napoli, sito UNESCO, e nella buffer zone, approvato con
+      deliberazione di Consiglio comunale n. 79 del 29 giugno 2026; in vigore dal 25 luglio 2026.
+    status: verified
+    source: avviso-zone-tutelate
+  - text: >-
+      Art. 19 della L. 241/1990 (SCIA): nelle zone non tutelate l'attività può iniziare dal giorno
+      della presentazione.
+    status: verified
+    source: esercizi-pubblici
+  - text: >-
+      Decreto del Ministro dell'interno 17 dicembre 1992, n. 564 (sorvegliabilità dei locali): il
+      Comune la accerta anche in caso di ampliamento o modifiche strutturali (L.R. 7/2020, art. 90,
+      c. 2).
+    status: verified
+    source: lr-campania-7-2020
+deadline:
+  rules:
+    - text: >-
+        Zona C: la SCIA va presentata prima di iniziare; l'attività può partire dal giorno della
+        presentazione (con la ricevuta elettronica del SUAP).
+      status: verified
+      source: esercizi-pubblici
+    - text: >-
+        Zone A e B: non si può aprire prima di aver ottenuto l'autorizzazione e, se richiesto
+        separatamente, il nulla osta di impatto acustico.
+      status: verified
+      source: nota-condivisione
+    - text: >-
+        Tempo di risposta sull'autorizzazione: la L.R. 7/2020 (art. 91, c. 5) prevede risposta
+        entro 60 giorni dalla domanda, con silenzio-assenso se il SUAP non risponde; la pagina del
+        Comune "Avviare, variare, chiudere un'attività produttiva" indica invece 90 giorni per le
+        autorizzazioni (e 60 per le SCIA, 30 per le comunicazioni). Chiedere al SUAP quale termine
+        applica.
+      status: disputed
+      source: lr-campania-7-2020
+    - text: >-
+        Il titolo decade se l'attività non viene avviata entro sei mesi dal rilascio
+        dell'autorizzazione o dalla presentazione della SCIA, salvo proroga motivata (L.R. 7/2020,
+        art. 149, c. 9; il Piano, art. 16, indica 180 giorni per le attività autorizzate). Decade
+        anche se l'attività resta sospesa per più di dodici mesi.
+      status: verified
+      source: lr-campania-7-2020
+    - text: >-
+        La delega a un preposto va comunicata al Comune entro trenta giorni dal conferimento (L.R.
+        7/2020, art. 91, c. 6).
+      status: verified
+      source: lr-campania-7-2020
+    - text: >-
+        Subingresso (acquisto o affitto d'azienda): SCIA al SUAP entro novanta giorni dalla
+        stipula dell'atto di trasferimento; in caso di morte del titolare, entro un anno (L.R.
+        7/2020, art. 97).
+      status: verified
+      source: lr-campania-7-2020
+  lateness:
+    text: >-
+      Chi esercita senza autorizzazione o SCIA, con un titolo sospeso o decaduto, o senza i
+      requisiti morali e professionali è punito con la sanzione amministrativa prevista dall'art.
+      149, c. 2, della L.R. 7/2020 (da 2.500 a 15.000 euro) e il SUAP dispone la cessazione
+      dell'attività e la chiusura dell'esercizio (c. 4). Nelle zone A e B il Piano (art. 15)
+      prevede anche il divieto di prosecuzione per chi non rispetta i suoi requisiti. L'importo in
+      concreto lo stabilisce l'ufficio che accerta la violazione.
+    status: verified
+    source: lr-campania-7-2020
+channels:
+  - type: portal
+    name: impresainungiorno – SUAP del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: servizio-suap
+    notes: >-
+      Unico canale per le pratiche SUAP. Servono firma digitale, e-mail e PEC. La pagina del
+      servizio elenca come sistemi di accesso anche eIDAS e Telemaco. Pratiche inviate via PEC o
+      e-mail non vengono istruite.
+  - type: desk
+    name: SUAP del Comune di Napoli
+    address: Piazza Cavour 42, II piano, Napoli
+    booking: Solo su prenotazione online (https://portalecittadino.comune.napoli.it/s/prenotazione-appuntamento)
+    source: suap-contatti
+    notes: >-
+      Per informazioni e assistenza, non per depositare la pratica. Ricevimento su prenotazione dal
+      18 maggio 2026. Il CAP è indicato come 80137 sulla pagina del servizio e come 80100 sui
+      documenti del SUAP.
+  - type: phone
+    address: 081 7953054
+    source: servizio-suap
+  - type: email
+    address: suaponline@comune.napoli.it
+    receipt: informal
+    source: suap-contatti
+    notes: Per informazioni; le pratiche inviate per e-mail non vengono istruite.
+payment:
+  method: pagopa
+  calculator_url: https://static-www.comune.napoli.it/wp-content/uploads/2021/07/2026-TABELLA-DIRITTI-SUAP-DEF.pdf
+  notes:
+    - text: >-
+        I diritti d'istruttoria SUAP si pagano con pagoPA dentro il front office di
+        impresainungiorno-Napoli, nella sezione "Dichiarazione relativa ai diritti di
+        segreteria/istruttori".
+      status: verified
+      source: guida-pagopa
+    - text: >-
+        Tabella 2026 (apertura): somministrazione in zone non tutelate 100 € (S71); con notifica
+        sanitaria 120 € (S72); con notifica sanitaria e nulla osta di impatto acustico 220 € (S73).
+        In zone tutelate 400 € (S74); con notifica sanitaria 420 € (S75); con notifica sanitaria e
+        nulla osta di impatto acustico 520 € (S76). Per le variazioni (subingresso, variazione
+        superficie, trasferimento ecc.) si usano le colonne VCA e VPF della stessa tabella.
+      status: verified
+      source: tabella-diritti-2026
+    - text: >-
+        Le tariffe in vigore dall'11 giugno 2026 sono quelle della delibera di Giunta comunale n.
+        239 del 28 maggio 2026.
+      status: verified
+      source: diritti-suap
+    - text: >-
+        Per una pratica composta (per esempio SCIA unica bar + notifica sanitaria) si paga la somma
+        dei diritti dei singoli procedimenti ("logica del carrello"). I diritti dovuti ad altri enti
+        (per esempio l'ASL) si pagano secondo le istruzioni di quegli enti e la ricevuta si allega
+        alla pratica.
+      status: verified
+      source: guida-pagopa
+    - text: >-
+        Sulla domanda di autorizzazione (zone A e B) potrebbe essere dovuta l'imposta di bollo;
+        la guida del SUAP spiega come pagarla con pagoPA ma non dice se è dovuta per questo
+        procedimento. Verificarlo nel front office.
+      status: unverified
+documents:
+  - name: Relazione tecnica asseverata da tecnico abilitato, con gli elaborati tecnici (planimetrie)
+    required: true
+    notes: >-
+      Deve attestare il rispetto delle norme edilizie, urbanistiche, di destinazione d'uso, di
+      tutela delle zone di pregio, di sicurezza sul lavoro, di sorvegliabilità, igienico-sanitarie
+      e di impatto acustico (pagina Esercizi pubblici).
+  - name: Dichiarazioni sostitutive sui requisiti morali e professionali (artt. 46–47 DPR 445/2000)
+    required: true
+    notes: >-
+      Rese nei modelli del front office dal titolare o legale rappresentante, dagli altri soggetti
+      richiesti e dall'eventuale preposto; tenere a portata di mano l'attestato del corso, il
+      titolo di studio o le prove dell'esperienza.
+  - name: Notifica sanitaria ai fini della registrazione (art. 6 Reg. CE 852/2004)
+    required: true
+    notes: >-
+      Si presenta nella stessa pratica SUAP (SCIA unica bar + notifica sanitaria); vedi la
+      procedura ASL collegata.
+  - name: Istanza o nulla osta di impatto acustico
+    required: false
+    notes: >-
+      Obbligatoria nelle zone A e B (Piano, art. 7). Il Comune la richiede anche per la musica
+      riservata ai clienti; in zona C la relazione del tecnico deve comunque coprire l'impatto
+      acustico.
+  - name: Allegato 1 CS 1 – asseverazione dei criteri strutturali (zone A e B)
+    required: false
+    notes: Solo zone A e B; lo compila e firma il tecnico abilitato sul modello del SUAP.
+  - name: Allegato 3 CG 1 – asseverazione dei criteri gestionali con punteggio (zone A e B)
+    required: false
+    notes: Solo zone A e B; lo compila e firma il tecnico abilitato sul modello del SUAP.
+  - name: Nota di condivisione e assunzione di responsabilità dell'intestatario della pratica (zone A e B)
+    required: false
+    notes: Solo zone A e B; vedi il modulo mappato sotto.
+  - name: Ricevuta di pagamento dei diritti d'istruttoria (pagoPA) e degli eventuali diritti di altri enti
+    required: true
+  - name: Titolo di disponibilità del locale (contratto di locazione, proprietà, comodato)
+    required: false
+    notes: >-
+      Per l'autorizzazione in zona tutelata non serve già alla domanda: va trasmesso al SUAP
+      all'avvio dell'attività, insieme al nome dell'eventuale preposto e alle certificazioni
+      sanitarie e antincendio (L.R. 7/2020, art. 91, c. 4).
+forms:
+  - id: nota-condivisione
+    name: Nota di condivisione e assunzione di responsabilità da parte dell'intestatario pratica (zone tutelate)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/7-NOTA-CONDIVISIONE-RESPONSABILITA.pdf
+    source: nota-condivisione
+    sha256: 568c7262d18304243e76d8146cf4e3bf792ceffa7adaa138c5a0e455383f96aa
+    signature_required: true
+    fields:
+      - { label: Nome, map: { direct: identity.first_name } }
+      - { label: Cognome, map: { direct: identity.last_name } }
+      - { label: Codice fiscale, map: { direct: identity.codice_fiscale } }
+      - label: Altro (dati del dichiarante)
+        map: { blank_with_reason: Campo libero facoltativo; lasciarlo vuoto se non serve. }
+      - label: in qualità di legale rappresentante/titolare
+        map: { direct: business.qualita_dichiarante }
+      - label: della pratica (ID pratica impresainungiorno-Napoli)
+        map: { ask: "Codice della pratica assegnato da impresainungiorno-Napoli" }
+        notes: Si conosce solo dopo aver creato la pratica nel front office.
+      - { label: Luogo, map: { ask: Luogo in cui si firma la nota } }
+      - { label: Data, map: { ask: Data in cui si firma la nota } }
+      - label: Altro (in calce)
+        map: { blank_with_reason: Campo libero facoltativo; lasciarlo vuoto se non serve. }
+      - label: Firma dell'intestatario della pratica
+        map: { blank_with_reason: Firma autografa dell'intestatario; la mette solo la persona. }
+steps:
+  - do: >-
+      Controllare se l'indirizzo del locale ricade nella zona A (aree 1, 2, 3), nella zona B o
+      nella zona C, con lo stradario e le cartografie allegate al Piano (in caso di dubbio prevale
+      la cartografia)
+    who: anyone
+  - do: >-
+      Verificare che il titolare o legale rappresentante (o un preposto) abbia i requisiti morali
+      e almeno un requisito professionale, e che l'impresa sia in regola con i tributi comunali
+    who: owner
+  - do: >-
+      Incaricare un tecnico abilitato di verificare il locale (destinazione d'uso, igiene,
+      sorvegliabilità, sicurezza, acustica) e di preparare relazione asseverata ed elaborati; in
+      zona A o B anche gli allegati CS 1 e CG 1 con il punteggio raggiunto
+    who: professional
+  - do: >-
+      Creare la pratica su impresainungiorno-Napoli (settore ristorazione, Ateco 55–56): in zona C
+      SCIA di apertura con la notifica sanitaria; in zona A o B il procedimento "Esercizio di
+      somministrazione di alimenti e bevande in zone tutelate" – Aprire l'attività, allegando i
+      modelli del Piano
+    who: facilitator
+  - do: Compilare la nota di condivisione (solo zone A e B) con il codice della pratica
+    who: anyone
+  - { do: Firmare la nota di condivisione e i modelli della pratica (firma digitale), who: owner, human_only: true }
+  - { do: Pagare i diritti d'istruttoria con pagoPA nel front office, who: owner, human_only: true }
+  - { do: Inviare la pratica su impresainungiorno, who: owner, human_only: true }
+  - do: >-
+      Zona C: aprire dopo aver ricevuto la ricevuta elettronica. Zone A e B: attendere
+      l'autorizzazione del SUAP (e il nulla osta acustico, se richiesto separatamente)
+    who: office
+  - do: >-
+      Avviare l'attività entro sei mesi; comunicare al Comune e al pubblico l'orario adottato ed
+      esporre prezzi e menù; comunicare entro 30 giorni l'eventuale delega al preposto
+    who: owner
+after:
+  - Conservare la ricevuta di impresainungiorno, l'autorizzazione (zone A e B) e tutti gli allegati inviati.
+  - >-
+    Entro 90 giorni dall'inizio dell'occupazione del locale presentare la dichiarazione TARI per
+    uso non abitativo.
+  - >-
+    Per l'insegna serve una SCIA a parte; per tavolini all'aperto su suolo pubblico (dehors) serve
+    la concessione di suolo pubblico.
+  - >-
+    Ogni variazione (subingresso, trasferimento, ampliamento, cambio del legale rappresentante,
+    cessazione) va comunicata al SUAP con il procedimento previsto.
+  - >-
+    Nelle zone A e B i requisiti del Piano vanno mantenuti nel tempo: il Comune li controlla anche
+    dopo l'apertura e, se mancano, può revocare l'autorizzazione.
+pitfalls:
+  - text: >-
+      La pagina del Comune "Esercizi pubblici" (aggiornata al 4 giugno 2025) dice ancora che ogni
+      nuova apertura è soggetta a SCIA e distingue le tipologie A–D della L. 287/1991: è superata,
+      per le zone A e B, dal Piano in vigore dal 25 luglio 2026.
+    status: verified
+    source: esercizi-pubblici
+  - text: >-
+      La L.R. Campania 7/2020 (art. 90) prevede un'unica tipologia di esercizio di somministrazione,
+      senza la distinzione A–D della pagina comunale.
+    status: verified
+    source: lr-campania-7-2020
+  - text: >-
+      Subingresso nelle zone A e B: il Piano approvato dal Consiglio (art. 6, c. 1, come
+      emendato) lo subordina ad autorizzazione; il vademecum e l'avviso del SUAP dicono che resta
+      a SCIA se non ci sono modifiche sostanziali, "in virtù della prevalente normativa regionale";
+      la Scheda 1 indica "Comunicazione". Chiedere al SUAP prima di comprare o affittare un locale
+      già avviato in zona tutelata.
+    status: disputed
+    source: piano-2026
+  - text: >-
+      Superficie minima in zona A e B: il Piano (art. 7) e il modello CS 1 chiedono una superficie
+      di somministrazione non inferiore a 20 mq; l'allegato tecnico operativo del SUAP riporta
+      "≥ 30 mq; 20 mq". Il punteggio gestionale parte comunque da 30 mq di superficie di
+      somministrazione.
+    status: disputed
+    source: allegato-tecnico
+  - text: >-
+      La nota di condivisione cita il Piano come "Delibera di Giunta Comunale n. 288 del
+      24/06/2025", ma quella è la proposta: il Piano è stato approvato con la delibera di
+      Consiglio n. 79 del 29 giugno 2026, il cui testo riporta la data della proposta sia come
+      24/06/2025 sia come 24.06.2026.
+    status: disputed
+    source: delibera-cc-79-2026
+  - text: >-
+      Al 23 luglio 2026 impresainungiorno non aveva ancora i procedimenti specifici del Piano: si
+      usano quelli esistenti e i modelli richiesti dal Piano (CS 1, CG 1, nota di condivisione) si
+      allegano a parte, seguendo la Scheda 1.
+    status: verified
+    source: avviso-zone-tutelate
+  - text: >-
+      In impresainungiorno-Napoli la pratica per le zone tutelate si trova in "Scelta settore
+      attività" → strutture ricettive (alloggio) e ristorazione (Ateco da 55 a 56) → "Esercizio di
+      somministrazione di alimenti e bevande in zone tutelate"; per aprire va allegato, oltre ai
+      documenti chiesti dal front office, CS 1, CG 1 e la nota di condivisione.
+    status: verified
+    source: scheda-1
+  - text: >-
+      Se lo stradario e le cartografie del Piano non coincidono, prevale la cartografia.
+    status: verified
+    source: vademecum
+  - text: >-
+      In via San Gregorio Armeno è ammessa solo la produzione e vendita di prodotti dell'arte
+      presepiale; a Port'Alba solo l'attività libraria. Nella zona A è vietata la somministrazione
+      con distributori automatici.
+    status: verified
+    source: piano-2026
+  - text: >-
+      Chi alla data di entrata in vigore del Piano aveva già investimenti documentati con data
+      certa (pratiche edilizie, contratto di locazione registrato, finanziamenti) in strade delle
+      zone A e B non comprese nelle zone tutelate può essere escluso dal Piano, ma deve presentare
+      la domanda entro 120 giorni dall'entrata in vigore (art. 21, c. 3).
+    status: verified
+    source: piano-2026
+  - text: >-
+      Le pratiche inviate via PEC o e-mail al SUAP non vengono istruite: si usa solo
+      impresainungiorno.
+    status: verified
+    source: suap-contatti
+  - text: >-
+      La guida pagoPA del SUAP indica ancora i diritti della delibera di Giunta n. 373/2018; dall'11
+      giugno 2026 valgono quelli della delibera n. 239/2026.
+    status: verified
+    source: guida-pagopa
+  - text: >-
+      Anche la sola musica riservata ai clienti non richiede licenza né SCIA, purché non diventi
+      pubblico spettacolo, ma serve il nulla osta di impatto acustico del servizio controlli
+      ambientali.
+    status: verified
+    source: esercizi-pubblici
+  - text: >-
+      Gli orari sono liberi ma vanno comunicati prima al Comune e al pubblico; il Comune può
+      limitarli con ordinanza (art. 50 TUEL).
+    status: verified
+    source: lr-campania-7-2020
+  - text: >-
+      Il locale deve rispettare i criteri di sorvegliabilità del D.M. 564/1992 e le norme di
+      prevenzione incendi.
+    status: verified
+    source: lr-campania-7-2020
+related:
+  - napoli/asl-napoli-1/registrazione-attivita-alimentare
+  - napoli/comune/tari-iscrizione-non-domestica
+  - napoli/comune/insegna-esercizio
+  - napoli/comune/concessione-suolo-pubblico-dehors
+sources:
+  - id: piano-2026
+    label: >-
+      Piano per la programmazione delle aperture degli esercizi di somministrazione nel centro
+      storico UNESCO e nella buffer zone – testo coordinato con emendamenti (SUAP Napoli)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/Piano-di-somministrazioni-con-emendamenti.pdf
+    retrieved: 2026-10-25
+    sha256: 6a9f1d69a6275a19dd3887d5889a0f12b8b91fc9a09ea9cac9b1c6d18b7c400b
+    official: true
+    notes: Testo coordinato "meramente conoscitivo"; fa fede la delibera C.C. 79/2026.
+  - id: delibera-cc-79-2026
+    label: Deliberazione di Consiglio comunale n. 79 del 29 giugno 2026 (con emendamenti e mozioni)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/06/DELIBERAZIONE-DI-C.C.-N.-79-DEL-29-GIUGNO-2026-.pdf
+    retrieved: 2026-10-25
+    sha256: a352b4a286db032b66454f24afc37895d90f41d4975eb31379a0fbbcbe2d9672
+    official: true
+    notes: Scansione; letta con OCR parziale.
+  - id: avviso-zone-tutelate
+    label: Avviso per gli utenti – Impresainungiorno Napoli e i nuovi procedimenti in zone tutelate (Zona A e Zona B)
+    url: https://www.comune.napoli.it/novita/avviso-per-gli-utenti-impresainungiorno-napoli-e-i-nuovi-procedimenti-in-zone-tutelate-zona-a-centro-storico-zona-b-buffer-zone/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-27
+    official: true
+  - id: vademecum
+    label: Vademecum SUAP – Impresainungiorno e procedimenti nel centro storico UNESCO e nella buffer zone (23/07/2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/PROC-ZONE-TUT-VADEMECUM-PER-CITTADINI-1.pdf
+    retrieved: 2026-10-25
+    sha256: 0065f5df48281244fcb0f98cbcb2de2a528d1072f940b1ca204dff0fcd9e5023
+    official: true
+  - id: scheda-1
+    label: SCHEDA 1 – Attività di somministrazione in Zona A e Zona B (SUAP Napoli)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/SCHEDA-1.pdf
+    retrieved: 2026-10-25
+    sha256: f1a449f5f311ec6fd9a3354c9f9486d8fdf26c100ab610012e9cfaa647b7cfc1
+    official: true
+  - id: nota-condivisione
+    label: Nota di condivisione e assunzione di responsabilità dell'intestatario pratica (modulo SUAP)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/7-NOTA-CONDIVISIONE-RESPONSABILITA.pdf
+    retrieved: 2026-10-25
+    sha256: 568c7262d18304243e76d8146cf4e3bf792ceffa7adaa138c5a0e455383f96aa
+    official: true
+  - id: allegato-cs1
+    label: Allegato 1 CS 1 – Criterio strutturale 1, somministrazione in zone tutelate (modello per il tecnico)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/Allegato-1-CS-1.pdf
+    retrieved: 2026-10-25
+    sha256: c0655cf72f2fe73d0c68794c6216f5fe0ba75f92d2092902f8dfef2fb392d0e6
+    official: true
+  - id: allegato-cg1
+    label: Allegato 3 CG 1 – Criterio gestionale 1, somministrazione in zone tutelate (modello per il tecnico)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/Allegato-3-CG-1.pdf
+    retrieved: 2026-10-25
+    sha256: afc13e504bd04947ded4004bac67dc206e07be00c56b8eb53d5f6bc952608508
+    official: true
+  - id: allegato-tecnico
+    label: Allegato Tecnico Operativo – Zone Centro Storico Napoli (UNESCO/BUFFER)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/Allegato-Tecnico-Operativo.pdf
+    retrieved: 2026-10-25
+    sha256: 9e09ab79fc130614c36aea889b7154fed69155aa5dda7c4f585cffb87f090abf
+    official: true
+    notes: Ausilio interpretativo; non sostituisce il Piano.
+  - id: stradario
+    label: Elenco strade – Piano zone tutelate (stradario di consultazione)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/ELENCO-STRADE-PIANO-ZONE-TUTELATE.pdf
+    retrieved: 2026-10-25
+    sha256: 64578eff1be4f1a7b930003882c921d4577003d23633928412a3b71f46470b4e
+    official: true
+  - id: esercizi-pubblici
+    label: Esercizi pubblici – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/commercio-e-artigianato/avvio-di-attivita-commerciali/esercizi-pubblici/
+    retrieved: 2026-10-25
+    page_updated: 2025-06-04
+    official: true
+    notes: Precedente al Piano del 2026.
+  - id: servizio-suap
+    label: Avviare, variare, chiudere un'attività produttiva – Comune di Napoli
+    url: https://www.comune.napoli.it/servizio/avviare-variare-chiudere-unattivita-produttiva/
+    retrieved: 2026-10-25
+    page_updated: 2025-10-07
+    official: true
+  - id: suap-contatti
+    label: SUAP – Contatti (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/suap/contatti/
+    retrieved: 2026-10-25
+    page_updated: 2026-05-18
+    official: true
+  - id: suap-procedura
+    label: SUAP – Procedura (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/suap/procedura/
+    retrieved: 2026-10-25
+    page_updated: 2025-05-29
+    official: true
+  - id: diritti-suap
+    label: SUAP – Diritti d'istruttoria (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/suap/diritti-distruttoria-suap/
+    retrieved: 2026-10-25
+    page_updated: 2026-06-11
+    official: true
+  - id: tabella-diritti-2026
+    label: Tabella dei diritti d'istruttoria delle pratiche telematiche SUAP 2026
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2021/07/2026-TABELLA-DIRITTI-SUAP-DEF.pdf
+    retrieved: 2026-10-25
+    sha256: 6abd7a3127137927c6d9959f946001c4e51d47afee568317e4e69e5584994d15
+    official: true
+  - id: guida-pagopa
+    label: Guida pagoPA e impresainungiorno (SUAP Napoli)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/05/GUIDA_PAGOPA.pdf
+    retrieved: 2026-10-25
+    sha256: d437b90641fbfd76ae0c5775f4eb8d188afc46b0eccea27aaaf5502b20627970
+    official: true
+    notes: Cita ancora la delibera G.C. 373/2018 per i diritti.
+  - id: lr-campania-7-2020
+    label: Legge regionale Campania 21 aprile 2020, n. 7 – Testo unico sul commercio (Normativa Regione Campania)
+    url: https://www.regione.campania.it/normativa/item.php?pgCode=G19I231R1867&id_doc_type=1&id_tema=11
+    retrieved: 2026-10-25
+    official: true
+    notes: Testo con note di modifica; non controllato se recepisce tutte le modifiche fino alla L.R. 20/2025.
+  - id: dlgs-59-2010-art71
+    label: D.lgs. 26 marzo 2010, n. 59, art. 71 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2010-03-26;59~art71
+    retrieved: 2026-10-25
+    official: true
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: letti il Piano (testo coordinato) e la delibera C.C. 79/2026, l'avviso SUAP sulle zone
+    tutelate, il vademecum, la Scheda 1, la nota di condivisione, gli allegati CS 1 e CG 1,
+    l'allegato tecnico operativo, le pagine comunali Esercizi pubblici, Avviare/variare/chiudere
+    un'attività produttiva, SUAP Contatti, Procedura e Diritti d'istruttoria, la tabella diritti
+    SUAP 2026, la guida pagoPA, gli artt. 7, 88–100 e 149 della L.R. Campania 7/2020 e l'art. 71
+    del d.lgs. 59/2010.
+  notes: >-
+    Non visti i moduli del front office di impresainungiorno (richiedono accesso), quindi non
+    mappati. Non verificati con l'ufficio il termine dell'autorizzazione e il regime del
+    subingresso nelle zone tutelate.

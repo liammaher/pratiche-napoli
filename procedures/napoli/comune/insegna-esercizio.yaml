@@ -1,0 +1,431 @@
+schema_version: 0
+id: napoli/comune/insegna-esercizio
+title: Insegna di esercizio – SCIA e canone unico per esposizione pubblicitaria (Comune di Napoli)
+summary: >-
+  Un negozio, un locale o un'altra attività che a Napoli installa o modifica la propria insegna
+  deve prima presentare una SCIA al SUAP del Comune tramite impresainungiorno. Le insegne della
+  sede che in tutto non superano 5 metri quadrati sono esenti dal canone unico patrimoniale; oltre
+  quella misura il canone si paga con avviso PagoPA.
+ente:
+  name: Comune di Napoli
+  office: >-
+    Servizio Sportello Unico Attività Produttive (SUAP) per la SCIA; Area Entrate – Servizio
+    Gestione Canoni e Altri Tributi (Ufficio CUP Pubblicità) per il canone
+  ipa: c_f839
+applies_to:
+  events: [signage, open, change]
+  audience: [business]
+  conditions:
+    - text: >-
+        Insegna di esercizio: scritta in caratteri alfanumerici, eventualmente completata da simboli
+        e marchi, installata nella sede dell'attività a cui si riferisce o nelle sue pertinenze
+        accessorie (Allegato C al regolamento del canone).
+      status: verified
+      source: allegati-cup
+    - text: >-
+        Sono soggette a SCIA l'installazione di insegne di esercizio, targhe e simili, il subentro
+        nella titolarità della SCIA per insegna, la modifica dell'insegna (per dimensioni o per
+        messaggio) e l'apposizione di vetrofanie su vetrine, porte e finestre di attività
+        commerciali (art. 31, c. 1).
+      status: verified
+      source: regolamento-cup
+    - text: >-
+        Le insegne di esercizio su suolo privato non richiedono l'autorizzazione preventiva prevista
+        per gli altri mezzi pubblicitari permanenti in conto proprio (art. 25, c. 2.2): per loro
+        basta la SCIA.
+      status: verified
+      source: regolamento-cup
+    - text: >-
+        La SCIA va presentata anche se l'insegna è esente dal canone (pagina Esposizioni
+        pubblicitarie: "anche se esente dal pagamento del canone").
+      status: verified
+      source: cup-esposizioni
+legal_basis:
+  - text: >-
+      Legge 27 dicembre 2019, n. 160, art. 1, commi 816–836 (canone unico patrimoniale), richiamata
+      dall'art. 1 del regolamento comunale.
+    status: verified
+    source: regolamento-cup
+  - text: >-
+      Regolamento per la disciplina del canone patrimoniale di concessione, autorizzazione o
+      esposizione pubblicitaria, adottato con delibera di C.C. n. 16 del 30 maggio 2022: artt. 25–34
+      (titoli e divieti), 44–47 (tariffe, esenzioni, riduzioni), 48 (versamento).
+    status: verified
+    source: regolamento-cup
+  - text: >-
+      Le regole tecniche per l'installazione delle insegne sono nel Piano Generale degli Impianti
+      Pubblicitari (delibera consiliare n. 419 del 29/10/1999) e nell'art. 71 del Regolamento
+      Edilizio del Comune di Napoli.
+    status: verified
+    source: pubblicita-affissioni
+  - text: >-
+      D.Lgs. 42/2004 (Codice dei beni culturali e del paesaggio): art. 49 per edifici e aree tutelati
+      come beni culturali; parte III per le aree sottoposte a tutela paesaggistica.
+    status: verified
+    source: pubblicita-affissioni
+  - text: >-
+      Tariffe del canone per esposizione pubblicitaria approvate con delibera di G.C. n. 186 dell'8
+      giugno 2023, ancora vigenti.
+    status: verified
+    source: cup-esposizioni
+  - text: D.P.R. 160/2010 (regolamento SUAP).
+    status: verified
+    source: suap-procedura
+deadline:
+  rules:
+    - text: >-
+        La SCIA va presentata prima di installare o modificare l'insegna: l'installazione senza la
+        SCIA prescritta, o diversa da quanto dichiarato per superficie, tipologia, illuminazione o
+        ubicazione, è pubblicità abusiva (art. 34, c. 1).
+      status: verified
+      source: regolamento-cup
+    - text: >-
+        Con la SCIA si può iniziare appena arriva la ricevuta di avvio pratica telematica SUAP;
+        l'istruttoria SUAP per le SCIA è indicata in 60 giorni.
+      status: verified
+      source: suap-servizio
+    - text: >-
+        Se l'insegna è soggetta a canone, l'attestazione del pagamento del canone è un allegato
+        obbligatorio della SCIA (art. 26, c. 4).
+      status: verified
+      source: regolamento-cup
+    - text: >-
+        Nelle aree o vicino a immobili sottoposti a tutela paesaggistica (parte III del D.Lgs.
+        42/2004) la SCIA resta inefficace fino all'autorizzazione paesaggistica, il cui procedimento
+        è curato dall'ufficio.
+      status: verified
+      source: pubblicita-affissioni
+    - text: >-
+        Per le esposizioni permanenti, negli anni successivi al primo il canone si versa in
+        autoliquidazione entro il 30 aprile; sopra 350 euro si può pagare in tre rate (30 aprile, 30
+        luglio, 30 ottobre). La Giunta può fissare date diverse ogni anno (art. 48, c. 6).
+      status: verified
+      source: regolamento-cup
+    - text: >-
+        Per il 2026 la deliberazione n. 195/2026 del 30/04/2026 ha spostato le scadenze del canone
+        per esposizioni pubblicitarie al 31 agosto (rata unica e I rata), 30 ottobre (II rata) e 30
+        dicembre (III rata).
+      status: verified
+      source: differimento-2026
+  lateness:
+    text: >-
+      Se il canone non è pagato correttamente, il Comune notifica un avviso di accertamento
+      esecutivo da pagare entro 60 giorni, con la sanzione dell'art. 13, c. 1, del D.Lgs. 471/1997 e
+      gli interessi al tasso legale aumentato di 1,5 punti; prima dell'avviso si può usare il
+      ravvedimento operoso (art. 13 D.Lgs. 472/1997). Per un'insegna installata senza titolo è
+      dovuta un'indennità pari al canone maggiorato fino al 50%, più una sanzione pari al doppio
+      dell'indennità e gli interessi, e va rimossa entro 15 giorni dalla contestazione. Farsi
+      calcolare gli importi dall'Ufficio CUP Pubblicità.
+    status: verified
+    source: cup-esposizioni
+channels:
+  - type: portal
+    name: impresainungiorno – SUAP del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: suap-contatti
+    notes: >-
+      È l'unico canale per presentare la SCIA: le pratiche inviate per PEC o email ordinaria non
+      vengono istruite. Servono anche PEC e firma digitale (pagina del servizio SUAP).
+  - type: desk
+    name: Servizio SUAP
+    address: Piazza Cavour 42, II piano, 80137 Napoli
+    booking: Solo su prenotazione dal portale del cittadino (portalecittadino.comune.napoli.it)
+    receipt: none
+    source: suap-contatti
+    notes: Per informazioni sulla pratica; la SCIA si presenta comunque online.
+  - type: email
+    address: suaponline@comune.napoli.it
+    receipt: informal
+    source: suap-contatti
+    notes: Solo informazioni; non per inviare la SCIA.
+  - type: pec
+    address: canonepubblicita@pec.comune.napoli.it
+    receipt: legal
+    source: cup-esposizioni
+    notes: Ufficio CUP Pubblicità, per il canone (informazioni, avviso PagoPA, istanze di dilazione).
+  - type: email
+    address: entrate.pubblicita@comune.napoli.it
+    receipt: informal
+    source: cup-esposizioni
+    notes: Ufficio CUP Pubblicità, per il canone.
+  - type: desk
+    name: Ufficio CUP Pubblicità
+    address: Via Diocleziano 330, primo piano, Napoli
+    hours: lunedì–venerdì 8:30–12:30
+    source: cup-esposizioni
+  - type: phone
+    name: Ufficio CUP Pubblicità
+    address: 081 7953748 / 081 7953784 / 081 7953768 / 081 7953764 / 081 7953863
+    hours: lunedì–venerdì 8:30–12:30
+    source: cup-esposizioni
+payment:
+  method: pagopa
+  rateazione: >-
+    Il canone si paga in unica soluzione; sopra 350 euro è ammesso il pagamento in rate (al massimo
+    3 per i titoli permanenti, l'ultima entro l'anno) (art. 48, cc. 3–4).
+  schedule:
+    - { label: Canone esposizione pubblicitaria 2026 – rata unica o I rata, due: 2026-08-31, source: differimento-2026, status: verified }
+    - { label: Canone esposizione pubblicitaria 2026 – II rata, due: 2026-10-30, source: differimento-2026, status: verified }
+    - { label: Canone esposizione pubblicitaria 2026 – III rata, due: 2026-12-30, source: differimento-2026, status: verified }
+  notes:
+    - text: >-
+        Sono esenti dal canone le insegne di esercizio di attività commerciali e di produzione di
+        beni o servizi che contraddistinguono la sede dell'attività, di superficie complessiva fino
+        a 5 metri quadrati (art. 46, c. 1.4).
+      status: verified
+      source: regolamento-cup
+    - text: >-
+        Il regolamento non dice se, oltre i 5 metri quadrati complessivi, il canone si applichi a
+        tutta la superficie o solo all'eccedenza: chiederlo all'Ufficio CUP Pubblicità.
+      status: unverified
+    - text: >-
+        Sono esenti anche gli altri mezzi pubblicitari (non le insegne) esposti nelle vetrine e sulle
+        porte d'ingresso, attinenti all'attività, fino a mezzo metro quadrato per vetrina o ingresso
+        (art. 46, c. 1.9), e i messaggi sotto i 300 cm² (art. 45, c. 2).
+      status: verified
+      source: regolamento-cup
+    - text: >-
+        Tariffa annua a metro quadrato per le esposizioni permanenti: T = Tmax × a × b × c × d, con
+        Tmax = 145 euro/mq; a = zona del Piano Generale degli Impianti (rossa 1, verde 0,90, azzurra
+        0,85, gialla 0,80; elenco delle strade pubblicato dal Comune); b = 1 se la strada è
+        nell'Allegato G al regolamento, 0,9 se non lo è; c = 0,75 fino a 5,50 mq, 0,90 da 5,51 a 8,50
+        mq, 1 da 8,51 mq; d = 0,70 per le insegne di esercizio.
+      status: verified
+      source: cup-esposizioni
+    - text: >-
+        Per le insegne la superficie di ogni insegna si arrotonda per eccesso al metro quadrato, e le
+        frazioni oltre il primo al mezzo metro quadrato superiore (art. 45, c. 4). Nel primo anno il
+        canone si calcola in dodicesimi, in base all'effettivo utilizzo (art. 45, c. 12).
+      status: verified
+      source: regolamento-cup
+    - text: >-
+        Il canone è in autoliquidazione: dal 2026 l'ufficio trasmette un avviso PagoPA, ma il mancato
+        arrivo dell'avviso non esonera dal pagamento nei termini. L'avviso si può chiedere
+        all'ufficio.
+      status: verified
+      source: cup-pagina
+    - text: >-
+        Le scadenze annuali (30 aprile o date fissate dalla Giunta) sono scritte per "concessioni e
+        autorizzazioni permanenti"; che valgano allo stesso modo per le insegne presentate con SCIA è
+        un'interpretazione: confermarlo con l'Ufficio CUP Pubblicità.
+      status: unverified
+    - text: >-
+        Diritti d'istruttoria SUAP per la SCIA insegna di esercizio (voce S204, in vigore dall'11
+        giugno 2026): 100 euro per la nuova installazione, 80 euro per le variazioni del ciclo di vita
+        aziendale (tra cui modifiche insegne, subingresso, voltura), 65 euro per le variazioni delle
+        persone fisiche. Si pagano con PagoPA.
+      status: verified
+      source: tabella-diritti-2026
+documents:
+  - name: SCIA per installazione (o modifica, o subentro) di insegna di esercizio, compilata su impresainungiorno
+    required: true
+    notes: Firmata digitalmente dal titolare o legale rappresentante.
+  - name: Ricevuta del pagamento PagoPA dei diritti d'istruttoria SUAP
+    required: true
+  - name: Attestazione del pagamento del canone unico
+    required: false
+    notes: Obbligatoria se l'insegna è soggetta a canone, cioè oltre l'esenzione dei 5 mq (art. 26, c. 4).
+  - name: Autorizzazione della Soprintendenza ai sensi dell'art. 49 del D.Lgs. 42/2004
+    required: false
+    notes: >-
+      Obbligatoria se l'insegna va su un edificio o in un'area tutelati come beni culturali: senza,
+      la SCIA non è applicabile.
+  - name: Bozzetto dell'insegna con misure, materiali e illuminazione, e fotografie della facciata
+    required: false
+    notes: >-
+      Non verificato: l'elenco esatto degli allegati tecnici è nel modulo online su impresainungiorno,
+      che non è stato possibile scaricare.
+steps:
+  - do: >-
+      Verificare se l'edificio o l'area sono tutelati come beni culturali o paesaggistici; se è un
+      bene culturale, ottenere prima l'autorizzazione della Soprintendenza (art. 49 D.Lgs. 42/2004)
+    who: professional
+  - do: >-
+      Progettare l'insegna rispettando il Piano Generale degli Impianti, l'art. 71 del Regolamento
+      Edilizio e i divieti dell'art. 33 del regolamento del canone; misurare la superficie di ogni
+      insegna
+    who: professional
+  - do: >-
+      Se le insegne superano in tutto 5 mq, calcolare il canone (formula della pagina Esposizioni
+      pubblicitarie) o farselo indicare dall'Ufficio CUP Pubblicità e chiedere l'avviso PagoPA
+    who: anyone
+  - do: Pagare il canone con PagoPA, se dovuto, prima di presentare la SCIA
+    who: owner
+    human_only: true
+  - { do: Pagare con PagoPA i diritti d'istruttoria SUAP (voce S204), who: owner, human_only: true }
+  - { do: Compilare la SCIA insegna di esercizio su impresainungiorno e allegare i documenti, who: anyone }
+  - { do: Firmare digitalmente e inviare la SCIA, who: owner, human_only: true }
+  - do: >-
+      Installare l'insegna solo dopo la ricevuta di avvio pratica (in area paesaggistica, solo dopo
+      l'autorizzazione paesaggistica)
+    who: owner
+    human_only: true
+  - do: Conservare la ricevuta della SCIA e il suo esito, da esibire alla Polizia Municipale su richiesta (art. 31, c. 3)
+    who: owner
+after:
+  - Conservare ricevuta della SCIA, esito, ricevute PagoPA e bozzetto presentato.
+  - >-
+    Se l'insegna è soggetta a canone, pagare ogni anno l'avviso PagoPA alle scadenze; se l'avviso
+    non arriva, chiederlo all'Ufficio CUP Pubblicità.
+  - >-
+    Per cambiare dimensioni o messaggio dell'insegna, o per subentrare a un'altra attività,
+    presentare una nuova SCIA prima della modifica.
+  - >-
+    Se l'insegna viene tolta o l'attività cessa, comunicare la cessazione al SUAP (la pagina
+    Esposizioni pubblicitarie chiede di presentare al SUAP cessazioni, subentri, rinunce e ogni
+    variazione).
+pitfalls:
+  - text: >-
+      Le insegne sono vietate nelle porzioni di facciata tra le vetrine (salvo targhe fino a 0,5 mq
+      con sporgenza massima 5 cm), su fregi, cornici, balaustre e altri elementi architettonici, su
+      balconi e ringhiere e su finestre di edifici residenziali (art. 33, c. 1).
+    status: verified
+    source: regolamento-cup
+  - text: >-
+      Nei luoghi con vincoli paesaggistici o monumentali nessun mezzo pubblicitario può essere
+      collocato senza autorizzazione o nulla osta dell'autorità competente (art. 33, c. 5.1).
+    status: verified
+    source: regolamento-cup
+  - text: >-
+      Le fonti comunali consultate non contengono regole specifiche per le insegne nel centro storico
+      patrimonio UNESCO: valgono i vincoli del D.Lgs. 42/2004 sul singolo edificio o area, da
+      verificare caso per caso.
+    status: unverified
+  - text: >-
+      Il Piano Generale degli Impianti (DCC 419/1999) e l'art. 71 del Regolamento Edilizio non sono
+      stati trovati online sul sito del Comune: misure e posizioni ammesse vanno controllate con il
+      SUAP o con un tecnico.
+    status: unverified
+  - text: >-
+      Anche le vetrofanie su vetrine, porte e finestre richiedono la SCIA (art. 31, c. 1.4 bis).
+    status: verified
+    source: regolamento-cup
+  - text: >-
+      La pagina Pubblicità e affissioni cita ancora il regolamento del canone "approvato con
+      Deliberazione di Consiglio Comunale n. 8 del 28/07/2021".
+    status: verified
+    source: pubblicita-affissioni
+  - text: >-
+      La pagina dei regolamenti tributari pubblica invece il regolamento vigente adottato con
+      delibera di C.C. n. 16 del 30 maggio 2022.
+    status: verified
+    source: regolamenti-tributari
+  - text: >-
+      La pagina Esposizioni pubblicitarie riporta solo le scadenze ordinarie (30 aprile, 30 luglio,
+      30 ottobre); per il 2026 valgono quelle spostate dalla deliberazione 195/2026.
+    status: verified
+    source: cup-esposizioni
+  - text: >-
+      Dal 1° gennaio 2026 Napoli Servizi S.p.A. non si occupa più della riscossione e
+      dell'accertamento del canone per esposizioni pubblicitarie: rivolgersi all'Ufficio CUP
+      Pubblicità.
+    status: verified
+    source: cup-esposizioni
+  - text: >-
+      La pagina del servizio SUAP rimanda ancora alla tabella dei diritti del 2025; quella in vigore
+      dall'11 giugno 2026 è sulla pagina Diritti d'istruttoria SUAP (per la SCIA insegne gli importi
+      sono rimasti 100 e 80 euro).
+    status: verified
+    source: suap-diritti
+related:
+  - napoli/comune/scia-esercizio-vicinato
+  - napoli/comune/scia-somministrazione-alimenti-bevande
+  - napoli/comune/concessione-suolo-pubblico-dehors
+sources:
+  - id: cup-pagina
+    label: Canone Unico Patrimoniale – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/canone-unico-patrimoniale/
+    retrieved: 2026-10-25
+    page_updated: 2026-09-07
+    official: true
+  - id: cup-esposizioni
+    label: Canone Unico Patrimoniale – Esposizioni pubblicitarie (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/canone-unico-patrimoniale/esposizioni-pubblicitarie/
+    retrieved: 2026-10-25
+    page_updated: 2026-10-14
+    official: true
+    notes: La pagina dice di essere aggiornata a luglio 2026.
+  - id: differimento-2026
+    label: Differimento date per il pagamento del Canone Unico Patrimoniale 2026 (notizia del 30/04/2026)
+    url: https://www.comune.napoli.it/novita/differiento-canone-unico-patrimoniale-occupazione-suolo-esposizioni-pubblicitarie/
+    retrieved: 2026-10-25
+    page_updated: 2026-05-04
+    official: true
+    notes: Il testo della deliberazione n. 195/2026 non è stato aperto.
+  - id: regolamento-cup
+    label: Regolamento per la disciplina del canone patrimoniale di concessione, autorizzazione o esposizione pubblicitaria (delibera C.C. n. 16 del 30 maggio 2022)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2006/03/Regolamento-per-la-disciplina-del-canone-patrimoniale-di-concessione-autorizzazione-o-esposizione-pubblicitaria-2.pdf
+    retrieved: 2026-10-25
+    sha256: 20417408e0fc552be65038854742615e3d943678e6f57e462cdbe18426e9e796
+    official: true
+    notes: Il testo contiene articoli aggiunti (es. 27 bis, 31 c. 1.4 bis); eventuali modifiche successive non controllate.
+  - id: allegati-cup
+    label: Allegati al regolamento del canone (archivio ZIP; letto l'Allegato C, tipologie di mezzi pubblicitari)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/09/ALLEGATI_reg_CUP.zip?mode=download
+    retrieved: 2026-10-25
+    sha256: c8fbcfd1dbd07d37c3292c65aa14fe441659ee358a73ae8f7cd6c0051b754eea
+    official: true
+  - id: regolamenti-tributari
+    label: Regolamenti tributari – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/regolamenti-tributari/
+    retrieved: 2026-10-25
+    page_updated: 2026-09-08
+    official: true
+  - id: delibera-gc-186-2023
+    label: Delibera di G.C. n. 186 dell'8 giugno 2023 (tariffe 2023 del canone per esposizione pubblicitaria)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2023/07/Delibera-di-G.C.-n.-186-del-08.06.2023.pdf
+    retrieved: 2026-10-25
+    sha256: cde31ef576e91c5ce5be37c97da720d2eb4fe15a40baa517273f4460191b8905
+    official: true
+    notes: PDF scansionato; controllato solo il frontespizio. Le tariffe sono riportate dalla pagina Esposizioni pubblicitarie.
+  - id: pubblicita-affissioni
+    label: Pubblicità e affissioni – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/commercio-e-artigianato/pubblicita-e-affissioni/
+    retrieved: 2026-10-25
+    page_updated: 2025-11-19
+    official: true
+  - id: suap-contatti
+    label: Contatti dello Sportello Unico per le Attività Produttive – SUAP (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/suap/contatti/
+    retrieved: 2026-10-25
+    page_updated: 2026-05-18
+    official: true
+  - id: suap-procedura
+    label: SUAP – Procedura (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/suap/procedura/
+    retrieved: 2026-10-25
+    official: true
+  - id: suap-servizio
+    label: Avviare, variare, chiudere un'attività produttiva (scheda servizio SUAP)
+    url: https://www.comune.napoli.it/servizio/avviare-variare-chiudere-unattivita-produttiva/
+    retrieved: 2026-10-25
+    page_updated: 2025-10-07
+    official: true
+  - id: suap-diritti
+    label: Diritti d'istruttoria SUAP – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/suap/diritti-distruttoria-suap/
+    retrieved: 2026-10-25
+    page_updated: 2026-06-11
+    official: true
+  - id: tabella-diritti-2026
+    label: Tabella dei diritti d'istruttoria delle pratiche telematiche SUAP 2026 (delibera G.C. n. 239 del 28 maggio 2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2021/07/2026-TABELLA-DIRITTI-SUAP-DEF.pdf
+    retrieved: 2026-10-25
+    sha256: 6abd7a3127137927c6d9959f946001c4e51d47afee568317e4e69e5584994d15
+    official: true
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: letti la pagina Canone Unico Patrimoniale, la pagina Esposizioni pubblicitarie, la notizia
+    sul differimento 2026, il regolamento del canone (DCC 16/2022: artt. 1–4, 21–34, 44–48),
+    l'Allegato C, la pagina Pubblicità e affissioni, le pagine SUAP (contatti, procedura, scheda
+    servizio, diritti) e la tabella dei diritti SUAP 2026 (voce S204).
+  notes: >-
+    Nessun modulo mappato: la SCIA insegne si compila online su impresainungiorno e non è stato
+    trovato un modulo scaricabile. Non letti: Piano Generale degli Impianti (DCC 419/1999), art. 71
+    del Regolamento Edilizio, testo della deliberazione 195/2026.

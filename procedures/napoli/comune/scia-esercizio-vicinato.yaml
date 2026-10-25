@@ -1,0 +1,660 @@
+schema_version: 0
+id: napoli/comune/scia-esercizio-vicinato
+title: SCIA per aprire un esercizio di vicinato (negozio fino a 250 mq) – SUAP del Comune di Napoli
+summary: >-
+  Chi vuole aprire a Napoli un negozio al dettaglio con superficie di vendita fino a 250 mq
+  (esercizio di vicinato, alimentare o non alimentare) presenta una SCIA al SUAP del Comune,
+  solo online su impresainungiorno. Si può aprire dal giorno in cui la SCIA è presentata; il
+  Comune controlla dopo, entro 60 giorni.
+ente:
+  name: Comune di Napoli
+  office: Area Sviluppo Economico – Servizio Sportello Unico Attività Produttive (SUAP)
+  ipa: c_f839
+applies_to:
+  events: [open, food]
+  audience: [business]
+  sectors: [commercio al dettaglio in sede fissa, esercizio di vicinato]
+  conditions:
+    - text: >-
+        Apertura di un esercizio di vicinato: per la legge nazionale, negozio con superficie di
+        vendita non superiore a 250 mq nei comuni con più di 10.000 abitanti (come Napoli). La
+        superficie di vendita è l'area destinata alla vendita, compresa quella di banchi e
+        scaffalature; non contano magazzini, depositi, locali di lavorazione, uffici e servizi.
+      status: verified
+      source: dlgs-114-art4
+    - text: >-
+        Il modello nazionale avverte che alcune leggi regionali hanno fissato limiti di superficie
+        diversi. Non è stato controllato il testo della L.R. Campania 7/2020 (Testo unico sul
+        commercio), che il SUAP indica tra le norme di riferimento.
+      status: unverified
+    - text: >-
+        La SCIA vale per apertura, trasferimento di sede e ampliamento della superficie di un
+        esercizio di vicinato; questa scheda descrive l'apertura.
+      status: verified
+      source: dlgs-59-art65
+    - text: >-
+        Nel Centro storico UNESCO (zona A) e nella Buffer Zone (zona B) dal 25 luglio 2026
+        l'apertura, il trasferimento e l'ampliamento di un vicinato alimentare con consumo
+        immediato sul posto non vanno più a SCIA ma ad autorizzazione (PUO): si può aprire solo
+        dopo il rilascio. Fuori da quelle zone resta la SCIA.
+      status: verified
+      source: zone-tutelate
+legal_basis:
+  - text: D.Lgs. 114/1998, art. 4, comma 1, lett. c) e d) (superficie di vendita ed esercizi di vicinato).
+    status: verified
+    source: dlgs-114-art4
+  - text: D.Lgs. 59/2010, art. 65 (SCIA al SUAP per apertura, trasferimento e ampliamento del vicinato).
+    status: verified
+    source: dlgs-59-art65
+  - text: D.Lgs. 59/2010, art. 71 (requisiti di onorabilità e, per il settore alimentare, professionali).
+    status: verified
+    source: dlgs-59-art71
+  - text: "Legge 241/1990, art. 19 (SCIA: avvio dalla presentazione, controlli entro 60 giorni)."
+    status: verified
+    source: l241-art19
+  - text: >-
+        Accordo Conferenza Unificata 4 maggio 2017 (moduli unificati e standardizzati, Allegato 1:
+        Scheda anagrafica e SCIA per l'esercizio di vicinato).
+    status: verified
+    source: accordo-2017
+  - text: >-
+        Norme indicate dal SUAP di Napoli su impresainungiorno per questo procedimento: L.R.
+        Campania 21 aprile 2020 n. 7, L.R. Campania 29 dicembre 2018 n. 59, D.Lgs. 222/2016
+        (Tabella A), D.Lgs. 59/2010, D.Lgs. 114/1998, D.P.R. 151/2011 (Allegato I, punto 69).
+    status: verified
+    source: iiug-napoli
+  - text: "D.P.R. 160/2010 (SUAP): domande e segnalazioni solo in modalità telematica."
+    status: verified
+    source: suap-procedura
+deadline:
+  rules:
+    - text: >-
+        La SCIA va presentata prima di aprire: l'attività può iniziare dalla data di
+        presentazione. A Napoli l'avvio è possibile appena arriva la ricevuta di avvio pratica
+        telematica del SUAP.
+      status: verified
+      source: suap-servizio
+    - text: >-
+        Entro 60 giorni dal ricevimento l'amministrazione, se mancano requisiti o presupposti,
+        vieta la prosecuzione dell'attività o, se si può rimediare, invita a conformarsi entro un
+        termine di almeno 30 giorni.
+      status: verified
+      source: l241-art19
+  lateness:
+    text: >-
+      Questa scheda non riporta le sanzioni per chi apre senza SCIA. Il Piano zone tutelate
+      richiama, per le attività che disciplina, gli artt. 145 e 149 della L.R. Campania 7/2020:
+      per l'importo chiedere al SUAP.
+    status: verified
+    source: piano-zone
+channels:
+  - type: portal
+    name: impresainungiorno – SUAP di Napoli
+    url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: suap-servizio
+    notes: >-
+      Unico canale telematico per le pratiche SUAP di Napoli. Servono PEC, kit di firma digitale
+      e accesso con SPID, CIE, CNS (o eIDAS, Telemaco). Percorso: Commercio (Ateco 46-47) >
+      Commercio al Dettaglio in area Privata > Esercizio di vicinato (Negozio) > settore NON
+      alimentare oppure Alimentare o Misto > Aprire l'attività.
+  - type: pec
+    address: suap@pec.comune.napoli.it
+    receipt: legal
+    source: suap-contatti
+    notes: >-
+      Solo per comunicare con l'ufficio: le pratiche trasmesse via PEC o email ordinaria non
+      vengono istruite.
+  - type: email
+    address: suaponline@comune.napoli.it
+    receipt: informal
+    source: suap-contatti
+    notes: Solo per informazioni; non per presentare la SCIA.
+  - type: desk
+    name: Servizio SUAP
+    address: Piazza Cavour 42, II piano, 80137 Napoli
+    booking: >-
+      Dal 18 maggio 2026 solo su prenotazione online (pulsante "Prenota appuntamento" della
+      pagina "Avviare, variare, chiudere un'attività produttiva", portale del cittadino).
+    source: suap-contatti
+    notes: Informazioni e assistenza; la SCIA si presenta comunque online.
+  - type: phone
+    address: 081 7953054
+    source: suap-servizio
+payment:
+  method: pagopa
+  notes:
+    - text: >-
+        Diritti d'istruttoria SUAP (tabella in vigore dall'11 giugno 2026, DGC 239/2026), apertura:
+        vicinato non alimentare 100 euro; vicinato alimentare 100 euro; vicinato alimentare con
+        notifica in campo alimentare 120 euro; con anche la prevenzione incendi 140 euro; vicinato
+        non alimentare con prevenzione incendi 120 euro. Con la vendita di alcolici: 200 euro (non
+        alimentare) o 220 euro (alimentare con notifica).
+      status: verified
+      source: tabella-2026
+    - text: >-
+        Si pagano solo con pagoPA dentro la pratica su impresainungiorno, nella sezione
+        "Dichiarazione relativa ai diritti di segreteria/istruttori". Se la pratica unisce più
+        procedimenti (SCIA unica) si sommano gli importi dei singoli procedimenti (logica del
+        carrello).
+      status: verified
+      source: guida-pagopa
+    - text: >-
+        I diritti di altri enti (per esempio l'ASL per la parte sanitaria) si pagano con le
+        modalità indicate da quegli enti e la ricevuta si allega alla pratica. Gli importi ASL non
+        sono riportati qui.
+      status: verified
+      source: guida-pagopa
+    - text: >-
+        Secondo il modello nazionale l'imposta di bollo è obbligatoria solo se insieme alla SCIA si
+        chiede un'autorizzazione (SCIA condizionata); la SCIA semplice non la prevede.
+      status: verified
+      source: accordo-2017
+    - text: >-
+        La SCIA per l'insegna di esercizio ha un proprio diritto d'istruttoria (100 euro in
+        apertura).
+      status: verified
+      source: tabella-2026
+documents:
+  - name: SCIA per l'esercizio di vicinato con Scheda anagrafica, compilata sul portale e firmata digitalmente
+    required: true
+  - name: Procura speciale/delega, con documento d'identità di chi la conferisce
+    required: false
+    notes: Solo se la pratica è firmata e inviata da un procuratore (professionista, associazione, agenzia per le imprese).
+  - name: Copia del documento d'identità del titolare
+    required: false
+    notes: Solo se la segnalazione non è firmata digitalmente e non c'è procura.
+  - name: Allegato A – dichiarazione dei requisiti degli altri soci, con documento d'identità
+    required: false
+    notes: Sempre, se nella società ci sono soggetti diversi dal dichiarante tenuti ai requisiti.
+  - name: Allegato B – dichiarazione dei requisiti del preposto, con documento d'identità
+    required: false
+    notes: Sempre, se c'è un preposto (per esempio chi ha il requisito professionale per il settore alimentare).
+  - name: Notifica sanitaria ai fini della registrazione (art. 6 Reg. CE 852/2004)
+    required: false
+    notes: Sempre obbligatoria per il settore alimentare; si presenta nella stessa pratica (SCIA unica).
+  - name: Ricevuta pagoPA dei diritti d'istruttoria SUAP
+    required: true
+    notes: Il portale la genera dentro la pratica.
+  - name: Ricevute dei diritti di altri enti (per esempio ASL)
+    required: false
+  - name: Altre segnalazioni o comunicazioni allegate alla SCIA
+    required: false
+    notes: >-
+      Secondo i casi: vendita di alcolici, SCIA prevenzione incendi (superficie lorda oltre 400 mq
+      o attività dell'Allegato I DPR 151/2011), farmaci da banco, GPL e gas, prodotti agricoli e
+      mangimi, SCIA per l'insegna di esercizio.
+forms:
+  - id: scia-vicinato-modello-nazionale
+    name: >-
+      Modello unificato nazionale – Scheda anagrafica + SCIA per l'esercizio di vicinato +
+      Allegati A e B (Accordo Conferenza Unificata 4 maggio 2017, S.O. n. 26 alla G.U. n. 128 del
+      5 giugno 2017, pagine 7-24)
+    url: https://www.gazzettaufficiale.it/eli/gu/2017/06/05/128/so/26/sg/pdf
+    source: accordo-2017
+    sha256: cc4585324b95fce34d37b18eb04cd88954f4152705cb0d79b52fc9ac01070f24
+    signature_required: true
+    fields:
+      # Scheda anagrafica – 1 Dati del dichiarante
+      - { label: "1 – Dati del dichiarante: Cognome", map: { direct: identity.last_name } }
+      - { label: Nome, map: { direct: identity.first_name } }
+      - { label: codice fiscale, map: { direct: identity.codice_fiscale } }
+      - { label: sesso, map: { direct: identity.sex } }
+      - { label: Nato/a a, map: { direct: identity.birth_comune } }
+      - { label: prov. (di nascita), map: { direct: identity.birth_province } }
+      - label: Stato (di nascita)
+        map: { direct: identity.birth_country }
+        notes: Solo se nato all'estero; se nato in Italia scrivere Italia.
+      - { label: il (data di nascita), map: { direct: identity.date_of_birth } }
+      - { label: cittadinanza, map: { direct: identity.citizenship } }
+      - label: estremi del documento di soggiorno
+        map: { direct: permesso_soggiorno.numero }
+        notes: Solo per cittadini non UE.
+      - label: rilasciato da
+        map: { direct: permesso_soggiorno.questura_rilascio }
+        notes: Solo per cittadini non UE.
+      - label: il (data rilascio del documento di soggiorno)
+        map: { direct: permesso_soggiorno.data_rilascio }
+        notes: Solo per cittadini non UE.
+      - label: scadenza (del documento di soggiorno)
+        map: { direct: permesso_soggiorno.data_scadenza }
+        notes: Solo per cittadini non UE.
+      - { label: residente in, map: { direct: residenza.comune } }
+      - { label: prov. (di residenza), map: { direct: residenza.provincia } }
+      - { label: Stato (di residenza), map: { ask: "Stato di residenza (Italia se residente in Italia)" } }
+      - { label: indirizzo, map: { direct: residenza.indirizzo } }
+      - { label: n., map: { direct: residenza.civico } }
+      - { label: C.A.P., map: { direct: residenza.cap } }
+      - { label: PEC / posta elettronica, map: { fallback: [identity.pec, identity.email] } }
+      - { label: Telefono fisso / cellulare, map: { direct: identity.phone } }
+      - label: in qualità di (Titolare / Legale rappresentante / Altro)
+        map: { direct: business.qualita_dichiarante }
+        notes: Se il ruolo è diverso da titolare o legale rappresentante, chiedere e scriverlo in "Altro".
+      # Scheda anagrafica – 2 Dati della ditta/società/impresa
+      - { label: "2 – Dati della ditta: Denominazione", map: { direct: business.denominazione } }
+      - { label: Forma giuridica, map: { ask: "Forma giuridica dell'impresa (ditta individuale, s.r.l., s.n.c., ...)" } }
+      - label: codice fiscale / p. IVA
+        map: { fallback: [business.codice_fiscale, business.partita_iva] }
+      - label: iscritta alla C.C.I.A.A. di ... prov.
+        map: { direct: business.rea }
+        notes: La sigla davanti al numero REA (per esempio NA) indica la Camera di Commercio e la provincia.
+      - { label: n. REA, map: { direct: business.rea } }
+      - label: non ancora iscritta / non necessita di iscrizione al R.I.
+        map: { ask: "L'impresa non è ancora iscritta al Registro Imprese, o non ne ha bisogno?" }
+        notes: Il modello ricorda che l'iscrizione alla Camera di Commercio va fatta entro 30 giorni dall'avvio.
+      - { label: "con sede legale in: Comune", map: { direct: business.sede_legale_comune } }
+      - { label: prov. (sede legale), map: { direct: business.sede_legale_provincia } }
+      - { label: Stato (sede legale), map: { ask: "Stato della sede legale (Italia se in Italia)" } }
+      - { label: indirizzo (sede legale), map: { direct: business.sede_legale_indirizzo } }
+      - { label: n. (sede legale), map: { direct: business.sede_legale_civico } }
+      - { label: C.A.P. (sede legale), map: { direct: business.sede_legale_cap } }
+      - { label: Telefono fisso / cell. (impresa), map: { ask: "Telefono dell'impresa" } }
+      - { label: fax, map: { blank_with_reason: Facoltativo; il registro non ha un campo fax. } }
+      - { label: PEC (impresa), map: { direct: business.pec } }
+      - label: Altro domicilio elettronico per invio delle comunicazioni inerenti la pratica
+        map: { ask: "Altro indirizzo elettronico per le comunicazioni sulla pratica, se diverso dalla PEC" }
+      # Scheda anagrafica – 3 Dati del procuratore/delegato
+      - label: "3 – Dati del procuratore/delegato: Cognome e Nome"
+        map: { ask: "Cognome e nome del procuratore, se la pratica è presentata con procura" }
+        notes: Compilare solo in caso di procura.
+      - { label: codice fiscale (procuratore), map: { ask: Codice fiscale del procuratore } }
+      - { label: "Nato/a a, prov., Stato, il (procuratore)", map: { ask: Luogo e data di nascita del procuratore } }
+      - label: "residente in, prov., Stato, indirizzo, n., C.A.P. (procuratore)"
+        map: { ask: Residenza del procuratore }
+      - { label: PEC / posta elettronica (procuratore), map: { ask: PEC o email del procuratore } }
+      - { label: Telefono fisso / cellulare (procuratore), map: { ask: Telefono del procuratore } }
+      - label: "in qualità di: Procuratore/delegato / Agenzia per le imprese – Denominazione"
+        map: { ask: "Il procuratore agisce come persona delegata o come Agenzia per le imprese (con denominazione)?" }
+      # SCIA – intestazione
+      - label: "Al SUAP del Comune di – Indirizzo – PEC / Posta elettronica"
+        map: { blank_with_reason: "Precompilato dal portale: SUAP del Comune di Napoli." }
+      - label: Pratica / del / Protocollo
+        map: { blank_with_reason: Compilato a cura del SUAP. }
+      - label: "Tipo di segnalazione: SCIA Apertura / Trasferimento / Ampliamento; SCIA UNICA; SCIA CONDIZIONATA"
+        map: { ask: "Si presentano insieme alla SCIA altre segnalazioni (es. notifica sanitaria, alcolici, insegna) o domande di autorizzazione?" }
+        notes: >-
+          Apertura non alimentare senza altro: SCIA Apertura. Settore alimentare: SCIA UNICA
+          Apertura + notifica sanitaria. Con domande di autorizzazione: SCIA CONDIZIONATA.
+      # SCIA – indirizzo dell'attività
+      - label: "Indirizzo dell'attività: Via/piazza"
+        map: { direct: locale.indirizzo }
+        notes: Da compilare se diverso dalla sede dell'impresa.
+      - { label: n. (attività), map: { direct: locale.civico } }
+      - { label: Comune (attività), map: { direct: locale.comune } }
+      - { label: prov. (attività), map: { direct: locale.provincia } }
+      - { label: C.A.P. (attività), map: { direct: locale.cap } }
+      - { label: Stato (attività), map: { blank_with_reason: "Italia: il negozio è a Napoli." } }
+      - { label: Telefono fisso / cell. (attività), map: { ask: Telefono del negozio } }
+      - { label: fax (attività), map: { blank_with_reason: Facoltativo; il registro non ha un campo fax. } }
+      # SCIA – dati catastali
+      - { label: "Dati catastali: Foglio n.", map: { direct: locale.catasto_foglio } }
+      - { label: map., map: { direct: locale.catasto_particella } }
+      - { label: sub., map: { direct: locale.catasto_subalterno } }
+      - { label: sez., map: { direct: locale.catasto_sezione } }
+      - { label: "Catasto: fabbricati", map: { blank_with_reason: Casella da barrare (catasto fabbricati). } }
+      # SCIA – 1 Apertura
+      - label: "1 – Apertura: Vicinato / Vendita esclusivamente mediante apparecchi automatici"
+        map: { ask: "Negozio tradizionale o vendita solo con apparecchi automatici in un locale dedicato?" }
+      - label: "Modalità di vendita: al dettaglio / congiunta al dettaglio e all'ingrosso – superficie di vendita mq"
+        map: { ask: "Vendita solo al dettaglio o anche all'ingrosso, e con quale superficie di vendita in mq?" }
+      - label: "Esercizio a carattere: Permanente / Stagionale (dal-al) / Temporaneo (dal-al)"
+        map: { ask: "L'esercizio è permanente, stagionale o temporaneo (con date)?" }
+      - label: "Esercizio collocato in centro commerciale: Sì (denominazione) / No"
+        map: { ask: "Il negozio è dentro un centro commerciale? Se sì, quale?" }
+      - label: "Settori merceologici: Alimentare – superficie di vendita mq"
+        map: { ask: Superficie di vendita destinata al settore alimentare (mq) }
+        notes: È la superficie di vendita, non la superficie totale del locale (locale.superficie_mq).
+      - { label: "Non alimentare – superficie di vendita mq", map: { ask: Superficie di vendita destinata al settore non alimentare (mq) } }
+      - label: Superficie di vendita complessiva mq
+        map: { ask: "Superficie di vendita complessiva (mq): somma delle due precedenti, massimo 250" }
+      - label: "Di cui: merci ingombranti (settore non alimentare) mq"
+        map: { ask: "Parte della superficie per merci ingombranti (mobili, auto, materiali edili...), se presente" }
+      - label: "Tabelle speciali: Generi di monopolio / Farmacie / Carburanti – mq"
+        map: { ask: "Vendita di prodotti delle tabelle speciali (monopolio, farmacie, carburanti) e relativa superficie, se presente" }
+      # SCIA – 2 Trasferimento e 3 Ampliamento
+      - label: "2 – Trasferimento di sede (SCIA prec. prot./n., del, Comune, DA indirizzo, A indirizzo, superfici)"
+        map: { blank_with_reason: Non si compila per una nuova apertura. }
+      - label: "3 – Ampliamento (SCIA prec. prot./n., del, superfici da/a, variazione settori)"
+        map: { blank_with_reason: Non si compila per una nuova apertura. }
+      # SCIA – dichiarazioni sui requisiti
+      - label: Dichiara di essere in possesso dei requisiti di onorabilità previsti dalla legge (art. 71 D.Lgs. 59/2010)
+        map: { ask: "Il dichiarante conferma di avere i requisiti di onorabilità (dichiarazione sotto la propria responsabilità)?" }
+        notes: Dichiarazione sostitutiva, che sceglie e firma solo il dichiarante.
+      - label: Dichiara che non sussistono cause di divieto, decadenza o sospensione (art. 67 D.Lgs. 159/2011)
+        map: { ask: "Il dichiarante conferma che non ci sono nei suoi confronti cause ostative antimafia?" }
+      - label: "Solo settore alimentare – requisito professionale: corso professionale (Istituto, sede, oggetto, anno)"
+        map: { ask: "Requisito professionale per l'alimentare: corso riconosciuto frequentato (istituto, sede, oggetto, anno)?" }
+      - label: "oppure: esercizio in proprio per 2 anni nel quinquennio (tipo attività, dal, al; CCIAA e REA)"
+        map: { ask: "Attività d'impresa propria nel settore alimentare o della somministrazione (tipo, periodi, CCIAA e REA)?" }
+      - label: "oppure: lavoro per 2 anni nel quinquennio presso imprese del settore (nome e sede impresa, qualifica, dal, al, iscrizione INPS)"
+        map: { ask: "Lavoro presso imprese alimentari come dipendente qualificato, socio lavoratore o coadiutore familiare (impresa, ruolo, periodi)?" }
+      - label: "oppure: diploma o laurea con materie attinenti (Scuola/Istituto/Ateneo, anno, materie)"
+        map: { ask: "Diploma o laurea con materie attinenti al commercio o alla preparazione degli alimenti (istituto, anno, materie)?" }
+      - label: "oppure: qualificazione estera riconosciuta (decreto n., in data)"
+        map: { ask: "Qualifica professionale ottenuta all'estero e riconosciuta in Italia (estremi del decreto)?" }
+      - label: "oppure: pratica professionale – iscrizione al REC o esame di idoneità REC / REC sezione turistica (anno, CCIAA o ente)"
+        map: { ask: "Iscrizione al REC o esame di idoneità REC superato (anno e camera di commercio o ente)?" }
+      - label: "OPPURE: requisiti professionali posseduti dal preposto Sig./ra ... (Allegato B)"
+        map: { ask: "Il requisito professionale è posseduto da un preposto? Nome del preposto" }
+      # SCIA – altre dichiarazioni
+      - label: Dichiara di aver rispettato i regolamenti locali di polizia urbana, annonaria, igiene e sanità, edilizi, urbanistici e di destinazione d'uso
+        map: { ask: "Il dichiarante conferma che il locale rispetta regolamenti edilizi, urbanistici, igienico-sanitari e la destinazione d'uso?" }
+      - label: Altro (ulteriori dichiarazioni previste dalla normativa regionale)
+        map: { blank_with_reason: "Variabile regionale: nel modulo online di Napoli compare solo se richiesta dalla piattaforma." }
+      - label: Si impegna a comunicare ogni variazione relativa a stati, fatti, condizioni e titolarità
+        map: { ask: "Il dichiarante si impegna a comunicare le variazioni?" }
+      - label: "SCIA UNICA: presenta le segnalazioni e/o comunicazioni del quadro riepilogativo"
+        map: { ask: "Quali altre segnalazioni o comunicazioni si allegano (vedi quadro riepilogativo)?" }
+      - label: "SCIA CONDIZIONATA: chiede l'acquisizione delle autorizzazioni del quadro riepilogativo"
+        map: { ask: "Si chiedono autorizzazioni insieme alla SCIA (vedi quadro riepilogativo)?" }
+      - { label: Data, map: { ask: Data di sottoscrizione } }
+      - label: Firma
+        map: { blank_with_reason: Firma digitale del dichiarante (o del procuratore con procura); solo la persona. }
+      - label: "Informativa privacy: Data e Firma (presa visione)"
+        map: { blank_with_reason: Presa visione e firma del dichiarante; solo la persona. }
+      # Quadro riepilogativo della documentazione allegata
+      - label: "Quadro riepilogativo – Procura/delega"
+        map: { ask: "La pratica è presentata da un procuratore con procura speciale?" }
+      - label: "Copia del documento di identità del/i titolare/i"
+        map: { blank_with_reason: Serve solo se la SCIA non è firmata digitalmente e non c'è procura. }
+      - label: "Dichiarazioni sul possesso dei requisiti da parte degli altri soci (Allegato A) + documento"
+        map: { ask: "Ci sono altri soci o amministratori tenuti ai requisiti? (serve l'Allegato A per ciascuno)" }
+      - label: "Dichiarazioni sul possesso dei requisiti da parte del preposto (Allegato B) + documento"
+        map: { ask: "C'è un preposto? (serve l'Allegato B)" }
+      - label: "SCIA UNICA – Notifica sanitaria (art. 6 Reg. CE 852/2004)"
+        map: { ask: "Il negozio vende alimenti? (notifica sanitaria sempre obbligatoria nel settore alimentare)" }
+      - label: "SCIA per la vendita di prodotti agricoli e zootecnici, mangimi, prodotti minerali e chimico industriali per l'alimentazione animale"
+        map: { ask: "Si vendono mangimi o prodotti per l'alimentazione animale?" }
+      - label: "Comunicazione per la vendita di alcolici (D.Lgs. 504/1995)"
+        map: { ask: "Si vendono alcolici?" }
+      - label: "SCIA prevenzione incendi"
+        map: { ask: "La superficie lorda (con servizi e depositi) supera 400 mq, o si vendono GPL (da 75 kg) o gas compressi (da 0,75 mc)?" }
+      - label: "Comunicazione per la vendita di farmaci da banco e medicinali veterinari"
+        map: { ask: "Si vendono farmaci da banco o medicinali veterinari?" }
+      - label: "Comunicazione per la vendita di GPL per combustione"
+        map: { ask: "Si vende GPL per combustione?" }
+      - label: "Comunicazione per la vendita di gas infiammabili in recipienti mobili compressi"
+        map: { ask: "Si vendono gas infiammabili in recipienti mobili compressi?" }
+      - label: "SCIA per insegna di esercizio"
+        map: { ask: "Il negozio avrà un'insegna esterna? (procedura napoli/comune/insegna-esercizio)" }
+      - label: "SCIA CONDIZIONATA – autorizzazione per la vendita di prodotti fitosanitari"
+        map: { ask: "Si vendono prodotti fitosanitari?" }
+      - label: "Autorizzazione di Pubblica Sicurezza per la vendita di oggetti preziosi"
+        map: { ask: "Si vendono oggetti preziosi?" }
+      - label: "Autorizzazione di Pubblica Sicurezza per la vendita di armi diverse da quelle da guerra"
+        map: { ask: "Si vendono armi comuni?" }
+      - label: "Documentazione per l'autorizzazione per insegna di esercizio (dove prevista la domanda)"
+        map: { ask: "L'insegna richiede un'autorizzazione invece della SCIA (per esempio per vincoli)?" }
+      - label: "Altri allegati – Attestazione del versamento di oneri, diritti, ecc."
+        map: { blank_with_reason: Ricevuta pagoPA generata nella pratica su impresainungiorno. }
+      - label: "Attestazione del versamento dell'imposta di bollo (marca da bollo o altre modalità)"
+        map: { blank_with_reason: Dovuta solo con una SCIA condizionata (istanza contestuale). }
+      # Allegato A – Dichiarazione sul possesso dei requisiti da parte degli altri soci
+      - label: "Allegato A (uno per socio) – Cognome, Nome"
+        map: { ask: Cognome e nome di ciascun altro socio tenuto ai requisiti }
+      - { label: "Allegato A – C.F.", map: { ask: Codice fiscale del socio } }
+      - { label: "Allegato A – Data di nascita", map: { ask: Data di nascita del socio } }
+      - { label: "Allegato A – Cittadinanza", map: { ask: Cittadinanza del socio } }
+      - { label: "Allegato A – Sesso", map: { ask: Sesso del socio } }
+      - { label: "Allegato A – Luogo di nascita: Stato, Provincia, Comune", map: { ask: Luogo di nascita del socio } }
+      - label: "Allegato A – Residenza: Provincia, Comune, Via/Piazza, N., C.A.P."
+        map: { ask: Residenza del socio }
+      - label: "Allegato A – in qualità di SOCIO/A della Società"
+        map: { direct: business.denominazione }
+      - label: "Allegato A – dichiara requisiti di onorabilità e assenza di cause antimafia (art. 67 D.Lgs. 159/2011)"
+        map: { blank_with_reason: Dichiarazione personale del socio; la sceglie e la firma solo lui. }
+      - label: "Allegato A – Data, Firma; informativa privacy Data, Firma"
+        map: { blank_with_reason: Firma del socio; solo la persona. }
+      # Allegato B – Dichiarazione sul possesso dei requisiti da parte del preposto
+      - label: "Allegato B – Cognome, Nome"
+        map: { ask: Cognome e nome del preposto }
+      - { label: "Allegato B – C.F.", map: { ask: Codice fiscale del preposto } }
+      - { label: "Allegato B – Data di nascita", map: { ask: Data di nascita del preposto } }
+      - { label: "Allegato B – Cittadinanza", map: { ask: Cittadinanza del preposto } }
+      - { label: "Allegato B – Sesso", map: { ask: Sesso del preposto } }
+      - { label: "Allegato B – Luogo di nascita: Stato, Provincia, Comune", map: { ask: Luogo di nascita del preposto } }
+      - label: "Allegato B – Residenza: Provincia, Comune, Via/Piazza, N., C.A.P."
+        map: { ask: Residenza del preposto }
+      - label: "Allegato B – in qualità di PREPOSTO/A della Ditta individuale / Società"
+        map: { direct: business.denominazione }
+      - label: "Allegato B – in data (nomina a preposto)"
+        map: { ask: Data da cui la persona è preposta all'attività }
+      - label: "Allegato B – dichiara requisiti di onorabilità e assenza di cause antimafia"
+        map: { blank_with_reason: Dichiarazione personale del preposto; la sceglie e la firma solo lui. }
+      - label: "Allegato B – requisito professionale (corso; esercizio in proprio; lavoro presso imprese del settore; diploma; qualifica estera; REC)"
+        map: { ask: "Quale requisito professionale ha il preposto, con gli stessi dettagli richiesti nella SCIA (istituto e anno, periodi, impresa, titolo di studio, decreto, REC)?" }
+      - label: "Allegato B – Data, Firma; informativa privacy Data, Firma"
+        map: { blank_with_reason: Firma del preposto; solo la persona. }
+steps:
+  - do: >-
+      Controllare che la superficie di vendita non superi 250 mq e che il locale sia in regola con
+      destinazione d'uso, norme urbanistiche, edilizie e igienico-sanitarie (si dichiara nella SCIA)
+    who: professional
+  - do: >-
+      Se si vendono alimenti con consumo sul posto, controllare sullo stradario del Piano zone
+      tutelate se l'indirizzo è in zona A o B: in quel caso serve l'autorizzazione (PUO), non questa SCIA
+    who: anyone
+  - do: >-
+      Settore alimentare: verificare che il titolare, il legale rappresentante o un preposto abbia
+      uno dei requisiti professionali
+    who: owner
+  - do: Procurarsi firma digitale, PEC e accesso SPID, CIE o CNS; oppure affidare la pratica a un procuratore
+    who: owner
+  - do: Se si usa un procuratore, firmare la procura speciale
+    who: owner
+    human_only: true
+  - do: >-
+      Compilare la pratica su impresainungiorno (Commercio > Commercio al Dettaglio in area
+      Privata > Esercizio di vicinato > settore NON alimentare o Alimentare o Misto > Aprire
+      l'attività), aggiungendo notifica sanitaria e altre segnalazioni se servono
+    who: facilitator
+  - do: Calcolare i diritti d'istruttoria con la tabella SUAP 2026, sommando i procedimenti della pratica
+    who: anyone
+  - do: Pagare i diritti con pagoPA dalla sezione pagamenti della pratica
+    who: owner
+    human_only: true
+  - do: Firmare digitalmente SCIA e allegati (dichiarante, soci, preposto)
+    who: owner
+    human_only: true
+  - do: Inviare la pratica al SUAP dal portale
+    who: owner
+    human_only: true
+  - do: Aprire il negozio dopo aver ricevuto la ricevuta di avvio pratica
+    who: owner
+    human_only: true
+  - do: Rispondere entro il termine indicato a eventuali richieste di conformazione del SUAP nei 60 giorni
+    who: owner
+after:
+  - Conservare la ricevuta di avvio pratica, la ricevuta pagoPA e copia di quanto inviato; annotare l'ID pratica.
+  - >-
+    Presentare entro 90 giorni dall'inizio dell'occupazione del locale la dichiarazione TARI per
+    uso non abitativo (napoli/comune/tari-iscrizione-non-domestica).
+  - Per l'insegna esterna serve una SCIA per l'insegna di esercizio (napoli/comune/insegna-esercizio).
+  - >-
+    Il modello nazionale ricorda che l'iscrizione alla Camera di Commercio va fatta entro 30
+    giorni dall'avvio, se l'impresa non è ancora iscritta.
+  - Trasferimento di sede, ampliamento, subingresso e cessazione si comunicano al SUAP con le pratiche apposite.
+pitfalls:
+  - text: >-
+      Le pratiche SUAP inviate via PEC o email ordinaria non vengono istruite: l'unico canale è
+      impresainungiorno.
+    status: verified
+    source: suap-contatti
+  - text: >-
+      Nel Centro storico UNESCO (zona A), il Piano ammette in via San Gregorio Armeno solo
+      produzione e vendita di arte presepiale e in via Port'Alba solo l'attività libraria. Il Piano
+      riguarda somministrazione, produzione di alimenti e vicinato con consumo sul posto: chiedere
+      al SUAP se il limite vale anche per altri negozi.
+    status: verified
+    source: piano-zone
+  - text: >-
+      Per le attività del Piano zone tutelate (incluso il vicinato alimentare con consumo sul
+      posto), in tutte le zone A, B e C i titolari devono essere in regola con il pagamento dei
+      tributi comunali.
+    status: verified
+    source: piano-zone
+  - text: >-
+      Nei negozi di vicinato che vendono alimenti il consumo immediato sul posto è ammesso solo
+      senza servizio di somministrazione e senza attrezzature dedicate a esso (art. 7, c. 3, D.Lgs.
+      114/1998).
+    status: verified
+    source: dlgs-114-art7
+  - text: >-
+      Nelle zone tutelate (A e B) la superficie per il consumo sul posto di un vicinato alimentare
+      deve essere almeno il 20% della superficie totale dell'esercizio.
+    status: verified
+    source: scheda-4
+  - text: >-
+      La guida pagoPA del SUAP (maggio 2025) cita ancora come vigenti i diritti della DGC 373/2018;
+      la pagina dei diritti indica la tabella della DGC 239/2026, in vigore dall'11 giugno 2026. Per
+      il vicinato l'importo di apertura è 100 euro in entrambe; usare la tabella 2026.
+    status: disputed
+    source: diritti
+  - text: >-
+      La pagina del servizio "Avviare, variare, chiudere un'attività produttiva" (aggiornata a
+      ottobre 2025) collega come "nuova tabella dei diritti" un file del 2025, non la tabella 2026.
+    status: verified
+    source: suap-servizio
+  - text: >-
+      Se nella pratica non compare il pagamento pagoPA (successo con le pratiche sanitarie per
+      l'ASL), la guida del SUAP ammette solo in quel caso il bonifico alla Tesoreria comunale.
+    status: verified
+    source: guida-pagopa
+  - text: >-
+      Il modulo online di impresainungiorno è la versione del SUAP di Napoli del modello nazionale:
+      possono comparire campi regionali in più. La mappatura qui segue il modello nazionale 2017.
+    status: unverified
+  - text: >-
+      Le richieste di rimborso dei diritti versati per errore hanno scadenze annuali fissate dal
+      SUAP (per il 2025 entro il 15 febbraio 2026).
+    status: verified
+    source: diritti
+related:
+  - napoli/comune/tari-iscrizione-non-domestica
+  - napoli/comune/insegna-esercizio
+  - napoli/asl-napoli-1/registrazione-attivita-alimentare
+sources:
+  - id: suap-servizio
+    label: Comune di Napoli – Servizio "Avviare, variare, chiudere un'attività produttiva"
+    url: https://www.comune.napoli.it/servizio/avviare-variare-chiudere-unattivita-produttiva/
+    retrieved: 2026-10-25
+    page_updated: 2025-10-07
+    official: true
+  - id: suap-procedura
+    label: Comune di Napoli – SUAP, Procedura
+    url: https://www.comune.napoli.it/articolo_tematico/suap/procedura/
+    retrieved: 2026-10-25
+    page_updated: 2025-05-29
+    official: true
+  - id: suap-contatti
+    label: Comune di Napoli – Contatti dello Sportello Unico per le Attività Produttive
+    url: https://www.comune.napoli.it/articolo_tematico/suap/contatti/
+    retrieved: 2026-10-25
+    page_updated: 2026-05-18
+    official: true
+  - id: diritti
+    label: Comune di Napoli – Diritti d'istruttoria SUAP
+    url: https://www.comune.napoli.it/articolo_tematico/suap/diritti-distruttoria-suap/
+    retrieved: 2026-10-25
+    page_updated: 2026-06-11
+    official: true
+  - id: tabella-2026
+    label: Tabella dei diritti d'istruttoria delle pratiche telematiche SUAP 2026 (righe S1-S5, S23-S26, S204)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2021/07/2026-TABELLA-DIRITTI-SUAP-DEF.pdf
+    retrieved: 2026-10-25
+    sha256: 6abd7a3127137927c6d9959f946001c4e51d47afee568317e4e69e5584994d15
+    official: true
+  - id: dgc-239-2026
+    label: Deliberazione di Giunta Comunale n. 239 del 28 maggio 2026 (nuovi diritti d'istruttoria SUAP)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2021/07/DELIBERAZIONE-GIUNTA-COMUNALE-1.pdf
+    retrieved: 2026-10-25
+    sha256: 5c137d7cf9c352d358105173ecf4240262b31c734492a92c0edb2194bbb24f55
+    official: true
+    notes: PDF scansionato; letto solo l'intestazione (numero e data).
+  - id: guida-pagopa
+    label: SUAP Napoli – Guida pagoPA e impresainungiorno
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/05/GUIDA_PAGOPA.pdf
+    retrieved: 2026-10-25
+    sha256: d437b90641fbfd76ae0c5775f4eb8d188afc46b0eccea27aaaf5502b20627970
+    official: true
+    notes: Cita ancora la DGC 373/2018 come delibera vigente sui diritti.
+  - id: zone-tutelate
+    label: Avviso – Impresainungiorno Napoli e i nuovi procedimenti in zone tutelate Zona A (Centro Storico) e Zona B (Buffer Zone)
+    url: https://www.comune.napoli.it/novita/avviso-per-gli-utenti-impresainungiorno-napoli-e-i-nuovi-procedimenti-in-zone-tutelate-zona-a-centro-storico-zona-b-buffer-zone/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-27
+    official: true
+  - id: piano-zone
+    label: Piano per la programmazione delle aperture nel centro storico UNESCO e nella Buffer zone (testo coordinato, DCC n. 79 del 29 giugno 2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/Piano-di-somministrazioni-con-emendamenti.pdf
+    retrieved: 2026-10-25
+    sha256: 6a9f1d69a6275a19dd3887d5889a0f12b8b91fc9a09ea9cac9b1c6d18b7c400b
+    official: true
+    notes: Testo coordinato con valore solo conoscitivo; fa fede la delibera.
+  - id: scheda-4
+    label: SUAP Napoli – Scheda 4, vicinato alimentare con consumo immediato sul posto in Zona A e Zona B
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/SCHEDA-4.pdf
+    retrieved: 2026-10-25
+    sha256: 8b0dc9830b5d1e7b84552a25ed27315d3507c869af3236794372824196e58001
+    official: true
+  - id: nota-responsabilita
+    label: SUAP Napoli – Nota di condivisione e assunzione di responsabilità dell'intestatario (zone tutelate)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/7-NOTA-CONDIVISIONE-RESPONSABILITA.pdf
+    retrieved: 2026-10-25
+    sha256: 568c7262d18304243e76d8146cf4e3bf792ceffa7adaa138c5a0e455383f96aa
+    official: true
+    notes: Cita il Piano come "Delibera di Giunta Comunale n. 288 del 24/06/2025", mentre l'avviso indica la DCC n. 79 del 29 giugno 2026.
+  - id: iiug-napoli
+    label: impresainungiorno – SUAP di Napoli (scheda "SCIA per l'esercizio di vicinato nel settore non alimentare", sezione Informati)
+    url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
+    retrieved: 2026-10-25
+    official: true
+    notes: La scheda del procedimento si apre dalla sezione Informati (navigazione interattiva, senza URL diretto).
+  - id: accordo-2017
+    label: Accordo Conferenza Unificata 4 maggio 2017 – S.O. n. 26 alla Gazzetta Ufficiale n. 128 del 5 giugno 2017 (Allegato 1, pp. 3-24)
+    url: https://www.gazzettaufficiale.it/eli/gu/2017/06/05/128/so/26/sg/pdf
+    retrieved: 2026-10-25
+    sha256: cc4585324b95fce34d37b18eb04cd88954f4152705cb0d79b52fc9ac01070f24
+    official: true
+  - id: dlgs-114-art4
+    label: D.Lgs. 31 marzo 1998, n. 114, art. 4 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-03-31;114~art4
+    retrieved: 2026-10-25
+    official: true
+  - id: dlgs-114-art7
+    label: D.Lgs. 31 marzo 1998, n. 114, art. 7 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-03-31;114~art7
+    retrieved: 2026-10-25
+    official: true
+  - id: dlgs-59-art65
+    label: D.Lgs. 26 marzo 2010, n. 59, art. 65 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2010-03-26;59~art65
+    retrieved: 2026-10-25
+    official: true
+  - id: dlgs-59-art71
+    label: D.Lgs. 26 marzo 2010, n. 59, art. 71 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2010-03-26;59~art71
+    retrieved: 2026-10-25
+    official: true
+  - id: l241-art19
+    label: Legge 7 agosto 1990, n. 241, art. 19 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1990-08-07;241~art19
+    retrieved: 2026-10-25
+    official: true
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: lette le pagine SUAP del Comune di Napoli (servizio, procedura, contatti, diritti
+    d'istruttoria, avviso zone tutelate), la tabella diritti SUAP 2026 e l'intestazione della DGC
+    239/2026, la guida pagoPA del SUAP, il Piano zone tutelate, la Scheda 4 e la nota di
+    responsabilità; la scheda del procedimento su impresainungiorno (Napoli, vicinato non
+    alimentare, Aprire l'attività); il modello nazionale nel S.O. 26 alla G.U. 128/2017 (Scheda
+    anagrafica, SCIA vicinato, Allegati A e B); su Normattiva D.Lgs. 114/1998 artt. 4 e 7, D.Lgs.
+    59/2010 artt. 65 e 71, L. 241/1990 art. 19.
+  notes: >-
+    Non letto il testo della L.R. Campania 7/2020. Il modulo online di impresainungiorno non è
+    scaricabile: i campi seguono il modello nazionale 2017.

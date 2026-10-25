@@ -192,16 +192,15 @@ pitfalls:
     status: verified
     source: modulistica
   - text: >-
-      La pagina della modulistica segnala una chiusura temporanea degli sportelli informativi di
-      Via Diocleziano 330, senza date: verificare prima di andarci.
-    status: verified
-    source: modulistica
-  - text: >-
       La dichiarazione si può presentare anche tramite CAF, associazioni di categoria o iscritti
       agli ordini professionali, se convenzionati con il Comune e con delega del contribuente.
     status: verified
     source: regolamento-2023
-related: []
+related:
+  - napoli/comune/tari-variazione-non-domestica
+  - napoli/comune/tari-cessazione-non-domestica
+  - napoli/comune/scia-esercizio-vicinato
+  - napoli/comune/scia-somministrazione-alimenti-bevande
 sources:
   - id: mod-5
     label: Mod. 5 TARI – Iscrizione uso non abitativo (testo, AVVERTENZE, INFORMAZIONI e CONTATTI)
