@@ -191,11 +191,6 @@ pitfalls:
   - text: La pagina della modulistica indica invece il portale POTESs (Servizi Tributari).
     status: verified
     source: modulistica
-  - text: >-
-      La pagina della modulistica segnala una chiusura temporanea degli sportelli informativi di
-      Via Diocleziano 330, senza date: verificare prima di andarci.
-    status: verified
-    source: modulistica
 related: []
 sources:
   - id: mod-1
