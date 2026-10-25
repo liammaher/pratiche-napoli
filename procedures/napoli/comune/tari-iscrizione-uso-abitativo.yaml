@@ -1,0 +1,189 @@
+schema_version: 0
+id: napoli/comune/tari-iscrizione-uso-abitativo
+title: TARI – nuova iscrizione per uso abitativo (Comune di Napoli)
+summary: >-
+  Chi inizia a occupare o detenere un'abitazione a Napoli (proprietario, inquilino o altro)
+  deve presentare una volta la dichiarazione TARI con il Mod. 1. La dichiarazione vale anche
+  per gli anni successivi finché non cambia qualcosa (variazione o cessazione).
+ente:
+  name: Comune di Napoli
+  office: Area Entrate – Servizio IMU e TARI
+  ipa: c_f839
+  phone: 081 795 3711
+  phone_hours: tutti i giorni 9:00–13:00
+applies_to:
+  events: [home, move]
+  audience: [resident]
+  conditions:
+    - text: Inizio dell'occupazione o detenzione di un'abitazione nel Comune di Napoli
+      status: verified
+      source: mod-1
+deadline:
+  rules:
+    - text: >-
+        Termine della dichiarazione non confermato per Napoli: molti comuni chiedono di
+        presentarla entro 90 giorni dall'inizio dell'occupazione, altri entro il 30 giugno
+        dell'anno successivo. Controllare il regolamento vigente prima di dire che è in ritardo;
+        presentarla il prima possibile.
+      status: unverified
+      source: regolamento
+  lateness:
+    text: >-
+      Per il pagamento in ritardo è possibile il ravvedimento operoso; sanzione e interessi
+      vanno calcolati con il simulatore del Comune o allo sportello, non stimati.
+    status: unverified
+channels:
+  - type: pec
+    address: entrate.tari-tares-tarsu@pec.comune.napoli.it
+    receipt: legal
+    preferred: true
+    notes: Preferibile per chi ha una PEC, perché dà una ricevuta con valore legale.
+  - type: email
+    address: entrate.tari-tares-tarsu@comune.napoli.it
+    receipt: informal
+  - type: post
+    address: Comune di Napoli, Area Entrate, Servizio IMU e TARI, Via Diocleziano 330, 80125 Napoli
+    notes: Raccomandata.
+  - type: desk
+    address: Via Diocleziano 330, 80125 Napoli
+    hours: lunedì–venerdì 8:30–12:30
+    booking: Appuntamento tramite il servizio di prenotazione online del Comune.
+payment:
+  method: f24
+  codice_ente: F839
+  codici_tributo: ["3944", "TEFA"]
+  rateazione: 0101 (unica soluzione)
+  calculator_url: https://portaletributi.comune.napoli.it/?ente=NAPO
+  schedule:
+    - { label: Acconto 2026 – rata 1, due: 2026-09-30, source: tari-2026, status: verified }
+    - { label: Acconto 2026 – unica soluzione, due: 2026-10-15, source: tari-2026, status: verified }
+    - { label: Acconto 2026 – rata 2, due: 2026-10-30, source: tari-2026, status: verified }
+    - { label: Acconto 2026 – rata 3, due: 2026-11-30, source: tari-2026, status: verified }
+    - { label: Saldo 2026 (nuovo avviso del Comune), due: 2027-02-16, source: tari-2026, status: verified }
+  notes:
+    - text: L'acconto è il 75% dell'importo calcolato con le tariffe 2025; il saldo usa le tariffe 2026.
+      status: verified
+      source: tari-2026
+    - text: >-
+        Il pagamento è in autoliquidazione: è dovuto anche senza avviso, quindi un nuovo
+        occupante che non ha ricevuto nulla deve comunque la rata 2026.
+      status: verified
+      source: tari-2026
+documents:
+  - name: Mod. 1 TARI compilato e firmato
+    required: true
+  - name: Copia di un documento d'identità (CIE o passaporto)
+    required: true
+    notes: Art. 38 DPR 445/2000.
+  - name: Visura catastale
+    required: false
+    notes: Utile se non si conoscono i dati catastali dell'abitazione.
+forms:
+  - id: mod-1
+    name: Mod. 1 TARI – Nuova iscrizione uso abitativo
+    source: mod-1
+    signature_required: true
+    fields:
+      - { label: Il/La sottoscritto/a, map: { concat: [identity.last_name, identity.first_name] } }
+      - { label: nato/a a, map: { direct: identity.birth_comune } }
+      - label: nato/a a (stato estero)
+        map: { ask: "Stato di nascita, se nato/a all'estero" }
+        notes: Manca ancora un campo nel registro (identity.birth_country).
+      - { label: il, map: { direct: identity.date_of_birth } }
+      - { label: C.F., map: { direct: identity.codice_fiscale } }
+      - { label: residente in, map: { direct: residenza.comune } }
+      - { label: residente in (provincia), map: { direct: residenza.provincia } }
+      - { label: Via, map: { direct: residenza.indirizzo } }
+      - { label: n°, map: { direct: residenza.civico } }
+      - { label: Telefono, map: { direct: identity.phone } }
+      - { label: e-mail, map: { direct: identity.email } }
+      - { label: pec, map: { direct: identity.pec } }
+      - { label: a decorrere dal, map: { direct: abitazione.data_inizio } }
+      - label: qualità di
+        map: { direct: abitazione.titolo }
+        notes: >-
+          Il modulo offre proprietario / possessore / locatario / altro; "possessore" non è
+          ancora un valore ammesso nel registro.
+      - label: Appartamento sito in via
+        map: { fallback: [domicilio.*, residenza.*] }
+        notes: Usare il domicilio se diverso dalla residenza.
+      - { label: piano, map: { direct: abitazione.piano } }
+      - { label: interno, map: { fallback: [domicilio.interno, residenza.interno] } }
+      - { label: Sez., map: { direct: abitazione.catasto_sezione } }
+      - { label: Foglio, map: { direct: abitazione.catasto_foglio } }
+      - { label: Part., map: { direct: abitazione.catasto_particella } }
+      - { label: Sub., map: { direct: abitazione.catasto_subalterno } }
+      - { label: Superficie calpestabile in mq, map: { direct: abitazione.superficie_calpestabile_mq } }
+      - label: Conviventi (nome, luogo e data di nascita, rapporto, C.F.)
+        map: { repeat: nucleo_familiare.membro<N>_* }
+      - label: Cod.Contr.
+        map: { blank_with_reason: Su una nuova iscrizione lo assegna il Comune (poi tari.codice_contribuente). }
+steps:
+  - { do: "Verificare se un Mod. 1 è già stato compilato, firmato o inviato", who: anyone }
+  - { do: Compilare il Mod. 1 (dati dalla tabella dei campi), who: anyone }
+  - { do: Firmare il modulo, who: owner, human_only: true }
+  - do: >-
+      Calcolare l'F24 con il simulatore del Comune o usare l'avviso di pagamento
+      (codice ente F839, codici tributo 3944 e TEFA, rateazione 0101 per l'unica soluzione)
+    who: anyone
+  - do: Inviare modulo firmato e copia del documento via PEC o email, dall'indirizzo scritto sul modulo
+    who: owner
+    human_only: true
+  - { do: Pagare l'F24, who: owner, human_only: true }
+  - { do: Attendere la risposta del Comune e annotare il codice contribuente, who: owner }
+after:
+  - Conservare la ricevuta della PEC o l'email inviata.
+  - >-
+    Il Comune risponde (o arriva un avviso) con il codice contribuente: annotarlo insieme a data
+    e protocollo della dichiarazione.
+  - >-
+    Controllare che superficie tassata e numero di componenti dell'avviso corrispondano alla
+    superficie calpestabile e al nucleo familiare dichiarati.
+pitfalls:
+  - text: >-
+      Il modulo stampa il vecchio link del simulatore (riscotel.it/calcolotari/napoli); la pagina
+      TARI 2026 del Comune rimanda a portaletributi.comune.napoli.it.
+    status: verified
+    source: tari-2026
+  - text: >-
+      Un convivente senza codice fiscale italiano è stato indicato come "N/E"; il Comune non ha
+      confermato che sia accettato.
+    status: unverified
+  - text: >-
+      La riduzione del 40% per "uso stagionale" vale solo per una seconda casa quando c'è già una
+      posizione TARI per l'abitazione principale; altrimenti lasciare vuoto.
+    status: verified
+    source: mod-1
+related: []
+sources:
+  - id: mod-1
+    label: Mod. 1 TARI – Nuova iscrizione uso abitativo (riquadri AVVERTENZE e INFORMAZIONI)
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/tari-tassa-sui-rifiuti/modalita-di-presentazione-dichiarazioni-e-modulistica/
+    retrieved: 2026-10-25
+    official: true
+    notes: >-
+      Il modulo è stato letto il 2026-10-25; l'URL è la pagina della modulistica TARI, da
+      ricontrollare come punto di pubblicazione del Mod. 1.
+  - id: tari-2026
+    label: TARI 2026 – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/tari-tassa-sui-rifiuti/tari-2026/
+    retrieved: 2026-10-25
+    page_updated: 2026-10-02
+    official: true
+  - id: regolamento
+    label: Regolamento TARI, delibera C.C. n. 16 del 29.9.2020 (l'ultima trovata)
+    retrieved: 2026-10-25
+    official: true
+    notes: L'articolo sul termine della dichiarazione non è stato controllato.
+verification:
+  level: L1
+  date: 2026-10-25
+  by: liam
+  method: >-
+    Desk: letti il Mod. 1 e la pagina TARI 2026 del Comune. Termine della dichiarazione nel
+    regolamento non controllato.
+run_log:
+  - date: 2026-10-25
+    note: >-
+      Primo uso su un caso reale (modulo preparato, non ancora inviato). Trovato lo spostamento
+      del simulatore. Termine della dichiarazione ancora da verificare.

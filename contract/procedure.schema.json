@@ -1,0 +1,265 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/liammaher/pratiche-napoli/contract/procedure.schema.json",
+  "title": "Procedure",
+  "description": "One bureaucratic procedure, described so people and AIs can understand and prepare it. No personal data: forms refer to field IDs from contract/fields.json.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "title", "summary", "ente", "applies_to", "channels", "steps", "sources", "verification"],
+  "properties": {
+    "schema_version": { "const": 0 },
+    "id": {
+      "description": "Path-like id; must match the file path under procedures/ without .yaml",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*(/[a-z0-9]+(-[a-z0-9]+)*)+$"
+    },
+    "title": { "type": "string", "minLength": 3 },
+    "summary": { "description": "Two or three plain-Italian sentences: what it is and who it is for", "type": "string", "minLength": 10 },
+    "ente": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": { "type": "string" },
+        "office": { "type": "string" },
+        "ipa": { "description": "Code in the Indice delle Pubbliche Amministrazioni", "type": "string" },
+        "phone": { "type": "string" },
+        "phone_hours": { "type": "string" }
+      }
+    },
+    "applies_to": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["events", "audience"],
+      "properties": {
+        "events": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "enum": ["open", "change", "move", "hire", "renovate", "signage", "dehors", "food", "events", "close", "annual", "inspection", "letter", "home"] }
+        },
+        "audience": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "enum": ["business", "resident"] }
+        },
+        "sectors": { "type": "array", "items": { "type": "string" } },
+        "conditions": { "type": "array", "items": { "$ref": "#/$defs/claim" } }
+      }
+    },
+    "legal_basis": { "type": "array", "items": { "$ref": "#/$defs/claim" } },
+    "deadline": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rules": { "type": "array", "items": { "$ref": "#/$defs/claim" } },
+        "lateness": { "$ref": "#/$defs/claim" }
+      }
+    },
+    "channels": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type"],
+        "properties": {
+          "type": { "enum": ["portal", "pec", "email", "desk", "post", "phone", "app"] },
+          "name": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "address": { "type": "string" },
+          "auth": { "type": "array", "items": { "enum": ["spid", "cie", "cns", "none"] } },
+          "hours": { "type": "string" },
+          "booking": { "type": "string" },
+          "receipt": { "enum": ["legal", "informal", "none"] },
+          "preferred": { "type": "boolean" },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "payment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method"],
+      "properties": {
+        "method": { "enum": ["f24", "pagopa", "bollettino", "marca-da-bollo", "none"] },
+        "codice_ente": { "type": "string" },
+        "codici_tributo": { "type": "array", "items": { "type": "string" } },
+        "rateazione": { "type": "string" },
+        "calculator_url": { "type": "string", "format": "uri" },
+        "schedule": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label", "due"],
+            "properties": {
+              "label": { "type": "string" },
+              "due": { "type": "string", "format": "date" },
+              "source": { "type": "string" },
+              "status": { "$ref": "#/$defs/status" }
+            }
+          }
+        },
+        "notes": { "type": "array", "items": { "$ref": "#/$defs/claim" } }
+      }
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "required"],
+        "properties": {
+          "name": { "type": "string" },
+          "required": { "type": "boolean" },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "forms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "fields"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "name": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "source": { "description": "id of the source where the form is published", "type": "string" },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "signature_required": { "type": "boolean" },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["label", "map"],
+              "properties": {
+                "label": { "type": "string" },
+                "map": { "$ref": "#/$defs/mapping" },
+                "notes": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["do", "who"],
+        "properties": {
+          "do": { "type": "string" },
+          "who": { "enum": ["owner", "facilitator", "professional", "office", "anyone"] },
+          "human_only": { "description": "Signing, paying, sending, swearing, being present: never done by an agent", "type": "boolean" }
+        }
+      }
+    },
+    "after": { "type": "array", "items": { "type": "string" } },
+    "pitfalls": { "type": "array", "items": { "$ref": "#/$defs/claim" } },
+    "related": { "type": "array", "items": { "type": "string" } },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label", "retrieved"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "label": { "type": "string" },
+          "url": { "type": "string", "format": "uri" },
+          "retrieved": { "type": "string", "format": "date" },
+          "page_updated": { "type": "string", "format": "date" },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "official": { "type": "boolean" },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "date", "by", "method"],
+      "properties": {
+        "level": {
+          "description": "L0 draft, L1 desk-checked against official sources, L2 confirmed by the office, L3 a real filing went through",
+          "enum": ["L0", "L1", "L2", "L3"]
+        },
+        "date": { "type": "string", "format": "date" },
+        "by": { "type": "string" },
+        "method": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "ssu_ref": { "description": "Reference in the national SSU catalogue, when known", "type": "string" },
+    "run_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["date", "note"],
+        "properties": {
+          "date": { "type": "string", "format": "date" },
+          "note": { "type": "string" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "status": {
+      "description": "verified: an official source says so; unverified: believed but not yet checked; disputed: sources disagree",
+      "enum": ["verified", "unverified", "disputed"]
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "status"],
+      "properties": {
+        "text": { "type": "string" },
+        "status": { "$ref": "#/$defs/status" },
+        "source": { "description": "id of a source in this procedure", "type": "string" }
+      }
+    },
+    "fieldRef": {
+      "description": "A field ID (category.field), a whole category (category.*), or a dynamic pattern such as nucleo_familiare.membro<N>_*",
+      "type": "string",
+      "pattern": "^[a-z_]+\\.([a-z0-9_]+|\\*|[a-z0-9_]*<N>[a-z0-9_]*\\*?)$"
+    },
+    "mapping": {
+      "oneOf": [
+        {
+          "type": "object", "additionalProperties": false, "required": ["direct"],
+          "properties": { "direct": { "$ref": "#/$defs/fieldRef" } }
+        },
+        {
+          "type": "object", "additionalProperties": false, "required": ["concat"],
+          "properties": { "concat": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/fieldRef" } } }
+        },
+        {
+          "description": "Use the first source that has a value",
+          "type": "object", "additionalProperties": false, "required": ["fallback"],
+          "properties": { "fallback": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/fieldRef" } } }
+        },
+        {
+          "description": "One row per item, e.g. per household member",
+          "type": "object", "additionalProperties": false, "required": ["repeat"],
+          "properties": { "repeat": { "$ref": "#/$defs/fieldRef" } }
+        },
+        {
+          "type": "object", "additionalProperties": false, "required": ["blank_with_reason"],
+          "properties": { "blank_with_reason": { "type": "string" } }
+        },
+        {
+          "description": "Not in the field registry yet: ask the person",
+          "type": "object", "additionalProperties": false, "required": ["ask"],
+          "properties": { "ask": { "type": "string" } }
+        }
+      ]
+    }
+  }
+}
