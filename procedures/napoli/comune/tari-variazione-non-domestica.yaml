@@ -1,0 +1,372 @@
+schema_version: 0
+id: napoli/comune/tari-variazione-non-domestica
+title: TARI – variazione per uso non abitativo (Comune di Napoli)
+summary: >-
+  Un'impresa, un professionista o un'associazione già iscritti alla TARI a Napoli per locali a uso
+  non abitativo devono comunicare con il Mod. 6, entro 90 giorni, ogni cambiamento che modifica la
+  tassa: superficie diversa, trasferimento in altri locali dentro Napoli o subentro (voltura) in
+  un'utenza intestata a un'altra ditta. Se la tassa diminuisce, dichiararlo in tempo serve ad
+  avere la riduzione dal giorno del cambiamento.
+ente:
+  name: Comune di Napoli
+  office: Area Entrate – Servizio IMU e TARI
+  ipa: c_f839
+applies_to:
+  events: [change, move]
+  audience: [business]
+  conditions:
+    - text: >-
+        Voltura: la ditta subentra in un'utenza TARI non abitativa intestata in precedenza a
+        un'altra ditta (per esempio per cessione d'azienda o di ramo d'azienda) – quadro A del
+        Mod. 6.
+      status: verified
+      source: mod-6
+    - text: >-
+        Trasferimento interno: la ditta passa da uno o più immobili a uno o più altri immobili
+        sempre nel Comune di Napoli – quadro B del Mod. 6.
+      status: verified
+      source: mod-6
+    - text: >-
+        Variazione della superficie dei locali o delle aree già dichiarati – quadro C del Mod. 6.
+      status: verified
+      source: mod-6
+    - text: >-
+        Più in generale va dichiarata ogni variazione dei dati dichiarati da cui consegua un diverso
+        ammontare del tributo, comprese le variazioni di destinazione d'uso dei locali e delle aree
+        (artt. 12, c. 5, e 25, cc. 1 e 6).
+      status: verified
+      source: regolamento-2023
+    - text: >-
+        La dichiarazione spetta al soggetto legalmente responsabile dell'attività (art. 25, c. 3);
+        se riguarda più immobili, va presentata solo per quelli in cui è cambiato qualcosa
+        (art. 25, c. 6).
+      status: verified
+      source: regolamento-2023
+legal_basis:
+  - text: >-
+      Regolamento TARI del Comune di Napoli, artt. 12 (periodi di applicazione e decorrenza delle
+      variazioni), 25 (obbligo di dichiarazione) e 26 (contenuto e presentazione).
+    status: verified
+    source: regolamento-2023
+deadline:
+  rules:
+    - text: >-
+        Entro 90 giorni dalla data in cui si è verificata la variazione (art. 25, cc. 5 e 6).
+      status: verified
+      source: regolamento-2023
+    - text: >-
+        Le variazioni che fanno aumentare la tariffa producono effetti dal giorno dell'effettiva
+        variazione. Anche quelle che la fanno diminuire decorrono dal giorno della variazione, ma
+        solo se la dichiarazione è presentata entro i 90 giorni; altrimenti decorrono dalla data di
+        presentazione (art. 12, c. 5). Le differenze sono di regola conteggiate a conguaglio.
+      status: verified
+      source: regolamento-2023
+  lateness:
+    text: >-
+      Per l'omessa dichiarazione di variazione il regolamento prevede una sanzione sul primo anno
+      d'imposta dal 100% (un anno) al 200% (più di due anni) del tributo, minimo 50 euro
+      (art. 35, c. 3); per la dichiarazione infedele o incompleta dal 50% al 100%, minimo 50 euro
+      (art. 35, c. 4). Se la variazione riduce la tassa, il ritardo fa perdere la riduzione per il
+      periodo prima della presentazione (art. 12, c. 5). Farsi calcolare gli importi dall'ufficio:
+      norme nazionali successive possono averli modificati.
+    status: verified
+    source: regolamento-2023
+channels:
+  - type: pec
+    address: entrate.tari-tares-tarsu@pec.comune.napoli.it
+    receipt: legal
+    preferred: true
+    source: mod-6
+    notes: Dà una ricevuta con valore legale; un'impresa ha comunque l'obbligo di avere una PEC.
+  - type: portal
+    name: POTESs – Servizi Tributari
+    url: https://servizionline.comune.napoli.it/web/napoli/servizi-tributari
+    auth: [spid, cie, cns]
+    source: modulistica
+  - type: email
+    address: entrate.tari-tares-tarsu@comune.napoli.it
+    receipt: informal
+    source: mod-6
+  - type: post
+    address: Comune di Napoli, Area Entrate, Servizio IMU e TARI, Via Diocleziano 330, 80125 Napoli
+    source: mod-6
+    notes: Raccomandata (A/R secondo la pagina della modulistica).
+  - type: desk
+    name: Sportello Unico Attività Produttive (SUAP)
+    source: modulistica
+    notes: Per le utenze non domestiche; la pagina non indica l'indirizzo.
+  - type: desk
+    name: Sportello TARI
+    address: Via Diocleziano 330, 80125 Napoli
+    hours: lunedì–venerdì 8:30–12:30
+    source: mod-6
+  - type: phone
+    address: 081 795 3711
+    hours: tutti i giorni 9:00–13:00 (orario indicato sul modulo)
+    source: mod-6
+    notes: >-
+      Il modulo indica anche 081 795 3891 e 081 795 3856 (mercoledì e venerdì, 9–13) e
+      081 795 3734 (giovedì e venerdì, 9–13).
+payment:
+  method: f24
+  codice_ente: F839
+  codici_tributo: ["3944", "TEFA"]
+  calculator_url: https://portaletributi.comune.napoli.it/?ente=NAPO
+  schedule:
+    - { label: Acconto 2026 – rata 1, due: 2026-09-30, source: tari-2026, status: verified }
+    - { label: Acconto 2026 – unica soluzione, due: 2026-10-15, source: tari-2026, status: verified }
+    - { label: Acconto 2026 – rata 2, due: 2026-10-30, source: tari-2026, status: verified }
+    - { label: Acconto 2026 – rata 3, due: 2026-11-30, source: tari-2026, status: verified }
+    - { label: Saldo 2026 (nuovo avviso del Comune), due: 2027-02-16, source: tari-2026, status: verified }
+  notes:
+    - text: >-
+        Il pagamento è in autoliquidazione: è dovuto alle scadenze anche se l'avviso non arriva.
+        Se l'avviso non tiene conto della variazione, calcolare la tassa con il simulatore e
+        comunicare le variazioni all'ufficio.
+      status: verified
+      source: mod-6
+    - text: Le variazioni di tariffa sono di regola conteggiate a conguaglio (art. 12, c. 5).
+      status: verified
+      source: regolamento-2023
+    - text: >-
+        Codice ente F839 (codice catastale di Napoli) e codici tributo 3944 (TARI) e TEFA: non
+        riportati nella pagina TARI 2026; controllarli sull'avviso o con il simulatore del Comune.
+      status: unverified
+documents:
+  - name: Mod. 6 TARI compilato e firmato
+    required: true
+  - name: Copia del documento d'identità del dichiarante
+    required: true
+    notes: Art. 38 DPR 445/2000.
+  - name: Planimetria con misure e destinazione d'uso delle diverse aree o locali utilizzati
+    required: false
+    notes: Richiesta dal modulo per la voltura (quadro A).
+  - name: Planimetria asseverata
+    required: false
+    notes: Richiesta dal modulo per la variazione di superficie (quadro C).
+  - name: Planimetria catastale con relazione tecnica asseverata da un tecnico abilitato
+    required: false
+    notes: Solo se si chiede la detassazione per la produzione di rifiuti speciali (art. 7 del regolamento).
+forms:
+  - id: mod-6
+    name: Mod. 6 TARI – Variazione uso non abitativo
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2020/09/MOD-6-VARIAZIONE-USO-NON-ABITATIVO.pdf
+    source: mod-6
+    sha256: fc3addc03f676a4da7d6e7a8ffad8c3f1fc4f39c0803c56bf904c855f8205eee
+    signature_required: true
+    fields:
+      - label: Cod.Contr.
+        map: { blank_with_reason: Spazio riservato all'ufficio. }
+      - { label: Il/La sottoscritto/a, map: { concat: [identity.last_name, identity.first_name] } }
+      - { label: nato/a a, map: { direct: identity.birth_comune } }
+      - { label: il, map: { direct: identity.date_of_birth } }
+      - { label: C.F., map: { direct: identity.codice_fiscale } }
+      - { label: residente in, map: { direct: residenza.comune } }
+      - { label: Via, map: { direct: residenza.indirizzo } }
+      - { label: n°, map: { direct: residenza.civico } }
+      - { label: Telefono, map: { direct: identity.phone } }
+      - { label: e-mail, map: { direct: identity.email } }
+      - { label: pec, map: { direct: identity.pec } }
+      - label: nella sua qualità di (titolare / legale rappresentante)
+        map: { direct: business.qualita_dichiarante }
+      - { label: Ragione Sociale, map: { direct: business.denominazione } }
+      - label: C.F. (della ditta)
+        map: { fallback: [business.codice_fiscale, business.partita_iva] }
+        notes: Se l'impresa non ha un codice fiscale diverso, coincide con la partita IVA.
+      - { label: PARTITA IVA, map: { direct: business.partita_iva } }
+      - label: Con sede in via
+        map: { concat: [business.sede_legale_indirizzo, business.sede_legale_civico] }
+      - { label: Comune di, map: { direct: business.sede_legale_comune } }
+      - { label: CAP, map: { direct: business.sede_legale_cap } }
+      - { label: e-mail (della ditta), map: { direct: business.email } }
+      - { label: pec (della ditta), map: { direct: business.pec } }
+      - label: CHIEDE – scelta del quadro (A voltura, B trasferimento interno, C variazione della superficie)
+        map: { ask: "Che cosa è cambiato: subentro in un'utenza di un'altra ditta (A), trasferimento in altri locali a Napoli (B) o superficie (C)?" }
+      - label: A. la voltura dal
+        map: { direct: locale.data_inizio }
+        notes: Solo per il quadro A; è la data da cui la ditta occupa i locali.
+      - label: B. trasferimento interno al Comune di Napoli dal
+        map: { direct: locale.data_inizio }
+        notes: Solo per il quadro B; locale.* deve già contenere i nuovi locali.
+      - label: C. la variazione della superficie
+        map: { ask: "Barrare solo se è cambiata la superficie (quadro C)" }
+      - label: A. Utenza precedentemente intestata a – Ragione Sociale
+        map: { ask: Ragione sociale della ditta che aveva l'utenza prima }
+      - label: A. Utenza precedentemente intestata a – C.F.
+        map: { ask: Codice fiscale della ditta che aveva l'utenza prima }
+      - label: A. Utenza precedentemente intestata a – PARTITA IVA
+        map: { ask: Partita IVA della ditta che aveva l'utenza prima }
+      - label: A. Utenza precedentemente intestata a – Con sede in via
+        map: { ask: Indirizzo della sede della ditta che aveva l'utenza prima }
+      - label: A. Utenza precedentemente intestata a – Comune di
+        map: { ask: Comune della sede della ditta che aveva l'utenza prima }
+      - label: A. Utenza precedentemente intestata a – CAP
+        map: { ask: CAP della sede della ditta che aveva l'utenza prima }
+      - { label: A. Per i seguenti immobili siti in via, map: { direct: locale.indirizzo } }
+      - { label: A. n°, map: { direct: locale.civico } }
+      - { label: A. 1. Dati catastali – sez., map: { direct: locale.catasto_sezione } }
+      - { label: A. 1. Dati catastali – fg., map: { direct: locale.catasto_foglio } }
+      - { label: A. 1. Dati catastali – part., map: { direct: locale.catasto_particella } }
+      - { label: A. 1. Dati catastali – sub, map: { direct: locale.catasto_subalterno } }
+      - { label: A. 1. superficie in mq, map: { direct: locale.superficie_mq } }
+      - { label: A. 1. destinazione d'uso, map: { direct: locale.destinazione_uso } }
+      - label: A. 2. Dati catastali, superficie e destinazione d'uso
+        map: { ask: "Dati del secondo immobile, se la voltura ne riguarda più di uno" }
+      - label: A. Motivo della voltura (cessione d'azienda / cessione di ramo d'azienda / altro)
+        map: { ask: "Motivo della voltura: cessione d'azienda, cessione di ramo d'azienda o altro (specificare)" }
+      - label: B. Dall'immobile – 1. Dati catastali, superficie e destinazione d'uso
+        map: { ask: "Dati catastali, superficie e destinazione d'uso dei locali lasciati (come nella dichiarazione precedente)" }
+      - label: B. Dall'immobile – 2. Dati catastali, superficie e destinazione d'uso
+        map: { ask: "Dati del secondo immobile lasciato, se più di uno" }
+      - { label: B. All'immobile – 1. Dati catastali – sez., map: { direct: locale.catasto_sezione } }
+      - { label: B. All'immobile – 1. Dati catastali – fg., map: { direct: locale.catasto_foglio } }
+      - { label: B. All'immobile – 1. Dati catastali – part., map: { direct: locale.catasto_particella } }
+      - { label: B. All'immobile – 1. Dati catastali – sub, map: { direct: locale.catasto_subalterno } }
+      - { label: B. All'immobile – 1. superficie in mq, map: { direct: locale.superficie_mq } }
+      - { label: B. All'immobile – 1. destinazione d'uso, map: { direct: locale.destinazione_uso } }
+      - label: B. All'immobile – 2. Dati catastali, superficie e destinazione d'uso
+        map: { ask: "Dati del secondo immobile nuovo, se più di uno" }
+      - { label: C. Dati catastali – Sez., map: { direct: locale.catasto_sezione } }
+      - { label: C. Dati catastali – Foglio, map: { direct: locale.catasto_foglio } }
+      - { label: C. Dati catastali – Part., map: { direct: locale.catasto_particella } }
+      - { label: C. Dati catastali – Sub., map: { direct: locale.catasto_subalterno } }
+      - label: C. Superficie dichiarata in precedenza mq
+        map: { ask: "Superficie dichiarata in precedenza, in mq (dalla dichiarazione precedente o dall'avviso di pagamento)" }
+      - { label: C. Superficie attuale mq, map: { direct: locale.superficie_mq } }
+      - label: Richiesta di detassazione per la produzione di rifiuti speciali
+        map: { ask: "L'attività produce rifiuti speciali e vuole chiedere la detassazione?" }
+      - label: Eventuali note
+        map: { ask: "Note per l'ufficio: per il quadro C la data della variazione; per un cambio di destinazione d'uso o di attività, la descrizione" }
+        notes: >-
+          Il quadro C non ha una casella per la data della variazione, che il regolamento richiede
+          (art. 26, c. 2, lett. d): scriverla qui.
+      - label: Data
+        map: { blank_with_reason: La scrive chi firma il modulo. }
+      - label: Firma
+        map: { blank_with_reason: Firma autografa del dichiarante. }
+steps:
+  - do: >-
+      Stabilire quale quadro del Mod. 6 si applica (A voltura, B trasferimento interno, C
+      superficie) e la data esatta della variazione
+    who: anyone
+  - do: >-
+      Procurarsi la visura catastale dei locali e la planimetria richiesta (con misure e
+      destinazioni per la voltura, asseverata per la variazione di superficie)
+    who: anyone
+  - { do: Compilare il Mod. 6 (dati dalla tabella dei campi), who: anyone }
+  - { do: Firmare il modulo, who: owner, human_only: true }
+  - do: >-
+      Inviare entro 90 giorni dalla variazione il modulo firmato, la copia del documento
+      d'identità e la planimetria, preferibilmente via PEC
+    who: owner
+    human_only: true
+  - { do: Ricalcolare la tassa con il simulatore del Comune, who: anyone }
+  - { do: Pagare l'F24 alle scadenze, who: owner, human_only: true }
+after:
+  - Conservare la ricevuta della PEC e una copia di tutto quanto inviato.
+  - Annotare data e protocollo della dichiarazione di variazione.
+  - >-
+    Quando arriva l'avviso successivo, controllare che superficie e categoria tassate e la data
+    di decorrenza corrispondano a quanto dichiarato; le differenze sono di regola conteggiate a
+    conguaglio.
+  - Se l'attività cessa del tutto, presentare il Mod. 8 (cessazione uso non abitativo).
+pitfalls:
+  - text: >-
+      Una diminuzione (meno superficie, categoria più bassa) dichiarata dopo i 90 giorni vale solo
+      dalla data di presentazione: per il periodo precedente si continua a pagare la tassa piena
+      (art. 12, c. 5).
+    status: verified
+    source: regolamento-2023
+  - text: >-
+      L'art. 12, c. 3, cita il termine di 90 giorni solo per le variazioni da cui consegue un
+      tributo maggiore, mentre l'art. 25, cc. 5 e 6, lo applica a ogni variazione che cambia
+      l'importo: conviene sempre rispettare i 90 giorni.
+    status: verified
+    source: regolamento-2023
+  - text: >-
+      Il Mod. 6 non ha una casella apposita per un cambio della sola destinazione d'uso o
+      dell'attività (codice ATECO) negli stessi locali, né per la data della variazione di
+      superficie: indicarli nelle note e, se possibile, farsi confermare dall'ufficio che il modulo
+      è quello giusto.
+    status: unverified
+  - text: >-
+      Il quadro B (trasferimento interno) chiede solo dati catastali, superficie e destinazione
+      d'uso, senza l'indirizzo dei locali: conviene aggiungere l'indirizzo dei nuovi locali nelle
+      note.
+    status: unverified
+  - text: >-
+      Il titolo stampato sul modulo è "Mod. 6 TARI – VOLTURA USO NON ABITATIVO", mentre la pagina
+      della modulistica lo chiama "Variazione uso non abitativo"; l'oggetto del modulo è comunque la
+      denuncia di variazione.
+    status: disputed
+    source: mod-6
+  - text: >-
+      Detassazione dei rifiuti speciali: il Mod. 6 dice di presentare ogni anno entro il 30 giugno
+      il "modello 10", ma nella modulistica del Comune il Mod. 10 è l'istanza di rimborso o
+      compensazione e la richiesta di detassazione è il Mod. 9 (come indica anche il Mod. 5).
+      Usare il Mod. 9 e, nel dubbio, chiedere all'ufficio.
+    status: disputed
+    source: modulistica
+  - text: >-
+      Il regolamento (art. 7, c. 4) richiede per la detassazione, oltre alla dichiarazione, la
+      comunicazione annuale entro il 30 giugno dell'anno successivo dei rifiuti prodotti, pena la
+      decadenza dal beneficio.
+    status: verified
+    source: regolamento-2023
+  - text: >-
+      Il regolamento (art. 26) indica ancora il portale "Linkmate" per presentare le
+      dichiarazioni, mentre la pagina della modulistica indica il portale POTESs (Servizi
+      Tributari).
+    status: disputed
+    source: modulistica
+  - text: >-
+      La pagina della modulistica segnala una chiusura temporanea degli sportelli informativi di
+      Via Diocleziano 330, senza date: verificare prima di andarci.
+    status: verified
+    source: modulistica
+  - text: >-
+      La dichiarazione si può presentare anche tramite CAF, associazioni di categoria o iscritti
+      agli ordini professionali, se convenzionati con il Comune e con delega del contribuente.
+    status: verified
+    source: regolamento-2023
+related:
+  - napoli/comune/tari-iscrizione-non-domestica
+  - napoli/comune/tari-cessazione-non-domestica
+sources:
+  - id: mod-6
+    label: Mod. 6 TARI – Variazione uso non abitativo (testo, AVVERTENZE, INFORMAZIONI e CONTATTI)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2020/09/MOD-6-VARIAZIONE-USO-NON-ABITATIVO.pdf
+    retrieved: 2026-10-25
+    sha256: fc3addc03f676a4da7d6e7a8ffad8c3f1fc4f39c0803c56bf904c855f8205eee
+    official: true
+    notes: >-
+      PDF creato il 31/03/2026 (in linea con la modulistica aggiornata al 01/04/2026); il titolo
+      stampato è "VOLTURA USO NON ABITATIVO".
+  - id: modulistica
+    label: TARI – Modalità di presentazione dichiarazioni e modulistica (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/tari-tassa-sui-rifiuti/modalita-di-presentazione-dichiarazioni-e-modulistica/
+    retrieved: 2026-10-25
+    page_updated: 2026-09-02
+    official: true
+    notes: Modulistica aggiornata al 01/04/2026.
+  - id: tari-2026
+    label: TARI 2026 – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/tari-tassa-sui-rifiuti/tari-2026/
+    retrieved: 2026-10-25
+    page_updated: 2026-10-02
+    official: true
+  - id: regolamento-2023
+    label: Regolamento TARI, allegato alla delibera C.C. n. 37 del 19 giugno 2023
+    url: https://www.comune.napoli.it/flex/files/1/c/7/D.007ae011f89c784022b3/DELIBERA_DI_C.C._N._37_DEL_19_GIUGNO_2023.pdf
+    retrieved: 2026-10-25
+    sha256: 15c491cd7e69bada6fbed48c345c72177cb147bb95cded0314b6cca75635ea6f
+    official: true
+    notes: Modifiche successive al 2023 non controllate.
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: scaricati e letti il Mod. 6 (pdftotext), la pagina della modulistica, la pagina TARI
+    2026 e gli artt. 7, 12, 16, 25, 26 e 35 del regolamento approvato con la delibera C.C.
+    37/2023 (sha256 verificato).

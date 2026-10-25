@@ -1,0 +1,543 @@
+schema_version: 0
+id: napoli/asl-napoli-1/registrazione-attivita-alimentare
+title: Notifica sanitaria per la registrazione di un'attività alimentare (Reg. CE 852/2004) – ASL Napoli 1 Centro
+summary: >-
+  Chi apre a Napoli un'attività che produce, trasforma, deposita, trasporta, vende o somministra
+  alimenti (bar, ristorante, negozio alimentare, laboratorio…) deve notificarla all'ASL per la
+  registrazione prevista dall'art. 6 del Reg. CE 852/2004. In Campania la notifica non si manda
+  all'ASL: si presenta al SUAP del Comune, di solito come allegato della SCIA dell'attività, e il
+  SUAP la inoltra all'ASL Napoli 1 Centro. Con la stessa via si comunicano subingresso, modifiche
+  e cessazione.
+ente:
+  name: ASL Napoli 1 Centro
+  office: >-
+    Dipartimento di Prevenzione – UOC Igiene degli Alimenti e Nutrizione (SIAN) e UOSD Prevenzione
+    Collettiva dei distretti sanitari
+applies_to:
+  events: [open, food, change, close]
+  audience: [business]
+  sectors:
+    - bar e ristorazione
+    - commercio al dettaglio e all'ingrosso di alimenti
+    - laboratori di produzione alimentare (pane, pizza, pasticceria, gastronomia…)
+    - deposito e trasporto di alimenti per conto terzi
+  conditions:
+    - text: >-
+        Ogni stabilimento che svolge una linea d'attività che incide sulla sicurezza alimentare è
+        soggetto a notifica e registrazione, salvo le linee per cui serve il riconoscimento (per
+        esempio gli stabilimenti del Reg. CE 853/2004 che trattano alimenti di origine animale per
+        altri stabilimenti): per quelle la procedura è diversa.
+      status: verified
+      source: dd117
+    - text: >-
+        Non servono notifica né riconoscimento per la produzione primaria e la preparazione
+        domestica di alimenti per uso privato, né per la fornitura diretta occasionale di piccoli
+        quantitativi di prodotti primari da chi produce per uso domestico.
+      status: verified
+      source: dd117
+    - text: >-
+        Chi fa solo "delivery" (consegna al consumatore di alimenti presi da un esercizio di vendita
+        o somministrazione) non deve presentare né comunicazione né SCIA.
+      status: verified
+      source: circolare-2021
+    - text: >-
+        Il SUAP competente è quello del Comune dove si trova lo stabilimento; per le attività senza
+        sede fissa (ambulanti, trasporto…) è quello del Comune di residenza del titolare o della
+        sede legale della società.
+      status: verified
+      source: dd117
+    - text: >-
+        Due imprese non possono notificare lo stesso stabilimento: se gli spazi non sono
+        sufficientemente separati, la responsabilità resta all'impresa che ha fatto la notifica per
+        l'intero stabilimento (anche in caso di affido di reparto).
+      status: verified
+      source: dd117
+legal_basis:
+  - text: Reg. (CE) n. 852/2004, art. 6 – notifica ai fini della registrazione.
+    status: verified
+    source: notifica-form
+  - text: >-
+      Reg. (CE) n. 852/2004, art. 5 – obbligo di procedure di autocontrollo basate sui principi
+      HACCP (testo non aperto: EUR-Lex non era raggiungibile).
+    status: unverified
+  - text: >-
+      DGRC n. 318 del 21/05/2015, il cui allegato è stato sostituito dal Decreto Dirigenziale
+      regionale n. 117 del 30/04/2020 ("Procedure per le notifiche ed il riconoscimento degli
+      stabilimenti…"): in Campania le notifiche si fanno con Comunicazione, SCIA o SCIA
+      condizionata presentate al SUAP.
+    status: verified
+    source: dd117
+  - text: >-
+      Moduli unificati nazionali (Accordo 46/CU del 4 maggio 2017, recepito con DGR 308/2017);
+      moduli in uso aggiornati con i DD regionali n. 119 del 13/05/2021 (commercio) e n. 143 del
+      10/06/2021 (somministrazione).
+    status: verified
+    source: surap-disciplina
+deadline:
+  rules:
+    - text: >-
+        La notifica va presentata prima di iniziare: con la SCIA l'attività può partire subito dopo
+        la presentazione e i controlli arrivano dopo.
+      status: verified
+      source: comune-zone-tutelate
+    - text: >-
+        Il modulo permette di indicare l'avvio contestuale alla data della notifica o una data di
+        decorrenza successiva.
+      status: verified
+      source: notifica-form
+    - text: >-
+        Le modifiche relative all'attività o allo stabilimento (compreso il cambio di legale
+        rappresentante) vanno comunicate tempestivamente: è uno degli impegni dichiarati nel modulo.
+      status: verified
+      source: notifica-form
+    - text: La registrazione non scade e non va rinnovata.
+      status: verified
+      source: dd117
+  lateness:
+    text: >-
+      Avviare uno stabilimento senza notifica, anche per una sola linea d'attività, o non notificare
+      il cambio dell'impresa titolare, è sanzionato "secondo la normativa vigente" (il decreto
+      regionale non indica importi). Per l'importo rivolgersi all'ASL; non stimarlo.
+    status: verified
+    source: dd117
+channels:
+  - type: portal
+    name: impresainungiorno – SUAP del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
+    preferred: true
+    source: comune-suap-contatti
+    notes: >-
+      Per il Comune di Napoli è l'unico canale telematico accettato: le pratiche mandate via PEC o
+      email non vengono istruite. La notifica sanitaria va inserita nella pratica SUAP (di solito
+      la SCIA unica dell'attività); il SUAP la trasmette all'ASL.
+  - type: desk
+    name: SUAP – Comune di Napoli
+    address: Piazza Cavour 42, II piano, Napoli
+    booking: Solo su prenotazione online, dalla pagina "Avviare, variare, chiudere un'attività produttiva".
+    source: comune-suap-contatti
+    notes: Per informazioni e assistenza; le pratiche si presentano solo su impresainungiorno.
+  - type: pec
+    name: UOC Igiene degli Alimenti e Nutrizione (SIAN) – ASL Napoli 1 Centro
+    address: sian@pec.aslna1centro.it
+    source: asl-sian-uoc
+    notes: >-
+      Per chiarimenti con l'ASL, non per presentare la notifica (che passa dal SUAP). Sede: Via
+      Comunale del Principe 13/A, c/o Presidio Frullone, plesso laterale, V piano.
+  - type: phone
+    name: SIAN – ASL Napoli 1 Centro
+    address: 081 2549829 / 081 2549832 / 081 2549837
+    source: asl-sian-uoc
+payment:
+  method: pagopa
+  notes:
+    - text: >-
+        Diritti sanitari a favore dell'ASL: 20 euro per ogni linea d'attività per l'avvio e le
+        altre procedure degli stabilimenti registrabili; 20 euro in tutto per il subingresso.
+        Cessazione, sospensione, riattivazione, variazione della sede legale e delle schede
+        supplementari sono esenti. Importi del tariffario regionale DCA n. 94 del 5/11/2018,
+        richiamato dal decreto. Il decreto è del 2020: confermare l'importo attuale con l'ASL
+        prima di pagare.
+      status: verified
+      source: dd117
+    - text: >-
+        Il decreto regionale è del 2020; le tariffe nazionali per i controlli ufficiali sono state
+        riordinate dal D.Lgs. 32/2021 (testo non controllato). Prima di pagare, confermare
+        l'importo con l'ASL o con il SUAP.
+      status: unverified
+    - text: >-
+        La ricevuta del pagamento dei diritti sanitari fa parte della pratica: va allegata alla
+        notifica e il SUAP la chiede se manca.
+      status: verified
+      source: dd117
+    - text: >-
+        L'ASL Napoli 1 Centro indica sulla pagina della UOC SIAN l'IBAN aziendale per pagare i
+        diritti sanitari (bonifico); copiarlo da lì.
+      status: verified
+      source: asl-sian-uoc
+    - text: >-
+        Per la notifica non si paga l'imposta di bollo: è una comunicazione, non un'istanza.
+      status: verified
+      source: dd117
+    - text: >-
+        Il SUAP di Napoli chiede inoltre i propri diritti d'istruttoria, pagati solo con pagoPA
+        dentro impresainungiorno. Nell'esempio del Comune (SCIA unica di apertura di un bar) sono
+        120 euro: 100 per la pratica commerciale e 20 per la notifica sanitaria. Gli importi delle
+        altre pratiche sono nella tabella del Comune.
+      status: verified
+      source: comune-suap-diritti
+documents:
+  - name: Notifica ai fini della registrazione (art. 6 Reg. CE 852/2004), compilata e firmata
+    required: true
+    notes: Di solito come allegato della SCIA unica dell'attività (somministrazione, vicinato…).
+  - name: Ricevuta del pagamento dei diritti sanitari all'ASL
+    required: true
+    notes: Non serve per le procedure esenti (cessazione, sospensione, riattivazione…).
+  - name: Ricevuta dei diritti d'istruttoria del SUAP (pagoPA in impresainungiorno)
+    required: true
+  - name: Planimetria dei locali
+    required: false
+    notes: >-
+      Solo per le linee d'attività per cui la master list regionale la prevede; la master list e
+      l'"Elenco documentazione" sono pubblicati sul sito regionale GISA (non raggiungibile durante
+      questa verifica).
+  - name: Schede supplementari previste dalla master list per la linea d'attività
+    required: false
+    notes: >-
+      Per alcune linee (es. distributori automatici, trasporto conto terzi) le schede si compilano
+      direttamente in GISA dopo l'accreditamento.
+  - name: Procura, se la pratica la presenta un intermediario
+    required: false
+forms:
+  - id: notifica-registrazione
+    name: Notifica ai fini della registrazione (art. 6, Reg. CE n. 852/2004) – modulo unificato
+    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Notifica%20ai%20fini%20della%20registrazione.pdf
+    source: notifica-form
+    sha256: 71f2498786ff210c7aa1512ef5c3ea08698d05c0139c6a7cbd1c79b8e1850195
+    signature_required: true
+    fields:
+      - label: All'ASL di
+        map: { ask: "ASL competente: per uno stabilimento nella città di Napoli è l'ASL Napoli 1 Centro" }
+      - label: Tramite il SUAP del Comune di
+        map: { direct: locale.comune }
+        notes: Per le attività senza sede fissa è il Comune di residenza del titolare o della sede legale.
+      - label: Indirizzo (del SUAP)
+        map: { ask: "Indirizzo del SUAP destinatario (Napoli: Piazza Cavour 42)" }
+      - label: PEC / Posta elettronica (del SUAP)
+        map: { ask: "PEC del SUAP destinatario (Napoli: suap@pec.comune.napoli.it)" }
+      - label: Compilato a cura del SUAP – Pratica
+        map: { blank_with_reason: Spazio riservato al SUAP. }
+      - label: Compilato a cura del SUAP – del
+        map: { blank_with_reason: Spazio riservato al SUAP. }
+      - label: Compilato a cura del SUAP – Protocollo
+        map: { blank_with_reason: Spazio riservato al SUAP. }
+      - label: Relativa a (avvio / subingresso / modifica della tipologia / cessazione o sospensione)
+        map: { ask: "Che cosa si notifica: avvio (riquadro 1), subingresso (2), modifica della tipologia di attività (3) o cessazione/sospensione (4)?" }
+        notes: Si compila solo il riquadro scelto.
+      - { label: 1.1 Il/la sottoscritto/a – Cognome, map: { direct: identity.last_name } }
+      - { label: 1.1 Nome, map: { direct: identity.first_name } }
+      - { label: 1.1 codice fiscale, map: { direct: identity.codice_fiscale } }
+      - label: 1.1 Notifica l'avvio dell'attività – in sede fissa / senza sede fissa
+        map: { ask: "L'attività è in sede fissa o senza sede fissa (ambulante, broker…)?" }
+      - label: 1.1 con sede in
+        map: { direct: locale.comune }
+        notes: Senza sede fissa, indicare il luogo dove si possono controllare documenti e attrezzature.
+      - { label: 1.1 prov., map: { direct: locale.provincia } }
+      - label: 1.1 località
+        map: { ask: "Località o frazione, se diversa dal comune (di solito vuota a Napoli)" }
+      - { label: 1.1 C.A.P., map: { direct: locale.cap } }
+      - label: 1.1 Stato
+        map: { ask: "Stato in cui si trova lo stabilimento (Italia per un locale a Napoli)" }
+      - { label: 1.1 indirizzo, map: { direct: locale.indirizzo } }
+      - { label: 1.1 n., map: { direct: locale.civico } }
+      - { label: 1.1 Telefono fisso / cell., map: { direct: identity.phone } }
+      - label: 1.1 fax
+        map: { blank_with_reason: Facoltativo. }
+      - label: 1.1 Altro domicilio elettronico per invio delle comunicazioni inerenti la pratica
+        map: { fallback: [business.pec, identity.pec] }
+      - label: 1.2 Tipologia di attività (caselle delle linee d'attività)
+        map: { ask: "Quali linee d'attività si svolgono? Spuntare tutte quelle pertinenti (es. Bar e altri esercizi simili; Ristorazione con somministrazione diretta; Commercio al dettaglio in esercizi di vicinato; Produzione di pane, pizza e altri prodotti da forno…)" }
+        notes: Le voci seguono la master list nazionale; per le linee non elencate c'è la voce "Altro".
+      - label: 1.2 Altro (tipologia)
+        map: { ask: "Linea d'attività non presente tra le caselle, se c'è" }
+      - label: 1.3 Inizio dell'attività – avvio contestuale alla data di notifica / con decorrenza dal
+        map: { ask: "L'attività parte alla data di presentazione o da una data successiva (quale)?" }
+      - label: 1.3 (Eventuale) termine dell'attività in data
+        map: { ask: "Solo per attività a termine (stagionali, temporanee): data di fine" }
+      - label: 1.4 Dichiarazioni (requisiti minimi Reg. 852/2004; impegno a comunicare le modifiche; consenso ai controlli se l'attività è svolta nella propria abitazione)
+        map: { ask: "Il dichiarante conferma, sotto la propria responsabilità, le dichiarazioni del riquadro 1.4?" }
+        notes: "Dichiarazione sostitutiva (DPR 445/2000): la conferma spetta solo alla persona."
+      - label: 1.4 (Altro)
+        map: { ask: Eventuali altre dichiarazioni (facoltativo) }
+      - { label: 2.1 OSA subentrante – Cognome, map: { direct: identity.last_name } }
+      - { label: 2.1 Nome, map: { direct: identity.first_name } }
+      - { label: 2.1 codice fiscale, map: { direct: identity.codice_fiscale } }
+      - label: 2.1 Cognome e Nome oppure denominazione ditta (OSA cedente)
+        map: { ask: "Nome o denominazione dell'impresa a cui si subentra" }
+      - label: 2.1 C.F./Partita IVA (OSA cedente)
+        map: { ask: "Codice fiscale o partita IVA dell'impresa a cui si subentra" }
+      - label: 2.1 di cui alla notifica/SCIA prot./n.
+        map: { ask: "Numero di protocollo della notifica o SCIA sanitaria dello stabilimento" }
+      - label: 2.1 del (data della notifica/SCIA)
+        map: { ask: "Data della notifica o SCIA sanitaria dello stabilimento" }
+      - label: 2.2 Inizio dell'attività – avvio contestuale / con decorrenza dal
+        map: { ask: "Il subingresso decorre dalla data di presentazione o da una data successiva (quale)?" }
+      - label: 2.2 (Eventuale) termine dell'attività in data
+        map: { ask: "Solo per attività a termine: data di fine" }
+      - label: 2.3 Dichiarazioni
+        map: { ask: "Il dichiarante conferma, sotto la propria responsabilità, le dichiarazioni del riquadro 2.3?" }
+      - label: 2.3 (Altro)
+        map: { ask: Eventuali altre dichiarazioni (facoltativo) }
+      - { label: 3.1 Il/la sottoscritto/a – Cognome, map: { direct: identity.last_name } }
+      - { label: 3.1 Nome, map: { direct: identity.first_name } }
+      - { label: 3.1 codice fiscale, map: { direct: identity.codice_fiscale } }
+      - label: 3.1 Comunica la variazione dell'attività di cui alla notifica/SCIA prot./n.
+        map: { ask: "Numero di protocollo della notifica o SCIA sanitaria da modificare" }
+      - label: 3.1 del (data della notifica/SCIA)
+        map: { ask: "Data della notifica o SCIA sanitaria da modificare" }
+      - label: 3.1 Attività aggiornate (caselle delle linee d'attività)
+        map: { ask: "Quali linee d'attività si svolgeranno dopo la modifica? Spuntare tutte quelle pertinenti" }
+      - label: 3.1 Altro (tipologia)
+        map: { ask: "Linea d'attività non presente tra le caselle, se c'è" }
+      - label: 3.2 Decorrenza delle modifiche – avvio contestuale / con decorrenza dal
+        map: { ask: "Le modifiche decorrono dalla data di presentazione o da una data successiva (quale)?" }
+      - label: 3.3 Dichiarazioni
+        map: { ask: "Il dichiarante conferma, sotto la propria responsabilità, le dichiarazioni del riquadro 3.3?" }
+      - label: 3.3 (Altro)
+        map: { ask: Eventuali altre dichiarazioni (facoltativo) }
+      - { label: 4 Il/la sottoscritto/a – Cognome, map: { direct: identity.last_name } }
+      - { label: 4 Nome, map: { direct: identity.first_name } }
+      - { label: 4 codice fiscale, map: { direct: identity.codice_fiscale } }
+      - label: 4 Comunica che l'attività di cui alla notifica/SCIA prot./n.
+        map: { ask: "Numero di protocollo della notifica o SCIA sanitaria dell'attività che cessa o si sospende" }
+      - label: 4 del (data della notifica/SCIA)
+        map: { ask: "Data della notifica o SCIA sanitaria dell'attività che cessa o si sospende" }
+      - { label: 4 Presso lo stabilimento con sede in, map: { direct: locale.comune } }
+      - { label: 4 prov., map: { direct: locale.provincia } }
+      - label: 4 località
+        map: { ask: "Località o frazione, se diversa dal comune (di solito vuota a Napoli)" }
+      - { label: 4 C.A.P., map: { direct: locale.cap } }
+      - label: 4 Stato
+        map: { ask: "Stato in cui si trova lo stabilimento (Italia per un locale a Napoli)" }
+      - { label: 4 indirizzo, map: { direct: locale.indirizzo } }
+      - { label: 4 n., map: { direct: locale.civico } }
+      - label: 4 cesserà in data
+        map: { ask: "Data di cessazione definitiva (se si cessa)" }
+      - label: 4 sarà sospesa temporaneamente dal … al …
+        map: { ask: "Date di inizio e fine della sospensione temporanea (se si sospende)" }
+      - label: 4 Note
+        map: { ask: Note facoltative per l'ASL }
+      - label: Data
+        map: { blank_with_reason: Data della firma; la scrive chi firma. }
+      - label: Firma
+        map: { blank_with_reason: Firma del dichiarante; solo la persona può firmare. }
+      - label: Informativa privacy – dichiara di aver letto l'informativa
+        map: { ask: "Il dichiarante ha letto l'informativa sul trattamento dei dati personali?" }
+      - label: Informativa privacy – Data
+        map: { blank_with_reason: Data della firma; la scrive chi firma. }
+      - label: Informativa privacy – Firma
+        map: { blank_with_reason: Firma del dichiarante; solo la persona può firmare. }
+steps:
+  - do: >-
+      Verificare se l'indirizzo del locale è in zona tutelata (Centro Storico o Buffer Zone): per
+      somministrazione, laboratori e vicinato con consumo sul posto cambia il regime della pratica
+      commerciale
+    who: anyone
+  - do: >-
+      Individuare le linee d'attività svolte e, nella master list regionale, la procedura
+      (Comunicazione, SCIA, SCIA condizionata o riconoscimento) e i documenti da allegare
+    who: anyone
+  - { do: Compilare la notifica (riquadro 1 per l'avvio) con i dati della tabella dei campi, who: anyone }
+  - { do: "Preparare planimetria e schede supplementari, se la master list le prevede", who: anyone }
+  - { do: "Pagare i diritti sanitari all'ASL (20 euro per linea d'attività) e conservare la ricevuta", who: owner, human_only: true }
+  - { do: Firmare la notifica e la pratica SUAP, who: owner, human_only: true }
+  - do: >-
+      Inviare la pratica su impresainungiorno (SUAP di Napoli), con la notifica allegata alla SCIA
+      dell'attività, pagando con pagoPA i diritti d'istruttoria del SUAP
+    who: owner
+    human_only: true
+  - { do: "Conservare la ricevuta del SUAP: con la SCIA si può iniziare dalla data indicata", who: owner }
+  - do: >-
+      Tenere pronti per il sopralluogo dell'ASL (controllo documentale e verifica in loco) il piano
+      di autocontrollo e gli attestati di formazione del personale
+    who: owner
+after:
+  - Conservare la ricevuta della pratica SUAP, la notifica inviata e le ricevute dei pagamenti.
+  - >-
+    Annotare il numero di registrazione e il protocollo della notifica: servono per subingresso,
+    modifiche, sospensione e cessazione.
+  - >-
+    Modifiche significative dei locali (ampliamento o riduzione della superficie, cambiamento
+    sostanziale del percorso produttivo) richiedono un aggiornamento della notifica tramite SUAP;
+    nuovi macchinari o una diversa disposizione delle attrezzature no.
+  - >-
+    Nuove linee d'attività: stessa procedura dell'avvio. Cambio di titolare (anche affitto
+    d'azienda): l'impresa subentrante presenta il subingresso (riquadro 2), che vale anche come
+    comunicazione di cessazione del cedente.
+  - >-
+    Trasferimento in un altro indirizzo: in genere cessazione del vecchio stabilimento e nuova
+    notifica, salvo le linee per cui la master list prevede la procedura di "trasferimento".
+  - >-
+    Cessazione o sospensione temporanea, totale o di singole linee: comunicarla al SUAP (riquadro
+    4), senza diritti sanitari né bollo.
+pitfalls:
+  - text: >-
+      Il sito dell'ASL Napoli 1 Centro non ha una pagina che descriva la procedura di registrazione
+      né pubblica moduli propri: le regole e i moduli sono quelli regionali (SURAP, decreto 117/2020).
+      Le pagine dell'ASL confermano solo che le UOSD Prevenzione Collettiva acquisiscono le SCIA con
+      controllo documentale e sopralluogo di verifica.
+    status: verified
+    source: asl-uosd-28-30
+  - text: >-
+      Dal 25 luglio 2026, nel Centro Storico (Zona A) e nella Buffer Zone (Zona B) di Napoli
+      apertura, trasferimento e ampliamento di somministrazione, laboratori e vicinato con consumo
+      sul posto richiedono un'autorizzazione (procedimento unico ordinario) e non più la SCIA:
+      l'attività parte solo dopo il rilascio. Il subingresso senza modifiche resta a SCIA.
+    status: verified
+    source: comune-zone-tutelate
+  - text: >-
+      Nelle zone tutelate la notifica sanitaria presumibilmente va ancora allegata alla pratica
+      SUAP; le schede del Comune per queste zone non sono state lette.
+    status: unverified
+  - text: >-
+      Il modulo unificato in uso è del 2017 (Accordo 46/CU). La pagina regionale elenca già
+      l'Accordo 89/CU del 10 luglio 2025 sulla nuova modulistica per il commercio, ma nessun
+      decreto regionale che la recepisca: controllare su impresainungiorno quale versione viene
+      proposta.
+    status: verified
+    source: surap-disciplina
+  - text: >-
+      Per le linee d'attività non coperte dai moduli nazionali si usa invece il "Modello unico
+      regionale" (procedure 1–11), che vale anche per variazione della sede legale, variazione delle
+      schede supplementari e riattivazione; il modello cita ancora il D.Lgs. 194/2008 sui diritti
+      sanitari.
+    status: verified
+    source: modello-unico-regionale
+  - text: >-
+      Le imprese di trasporto alimenti per conto terzi presentano una sola SCIA per l'intera impresa
+      e inseriscono i veicoli nella scheda supplementare in GISA: usare un veicolo non inserito è
+      sanzionabile.
+    status: verified
+    source: circolare-2021
+  - text: >-
+      Anche le imprese che svolgono attività solo registrabili devono avere un piano di
+      autocontrollo.
+    status: verified
+    source: circolare-2021
+  - text: >-
+      Chi manipola alimenti deve avere l'attestato di formazione per alimentaristi (ha sostituito il
+      libretto sanitario), valido tre anni: corsi di 4 ore (rischio 1, es. camerieri), 8 ore
+      (rischio 2, es. cuochi) o 12 ore (responsabili), prenotabili alle UO di Prevenzione
+      Collettiva del distretto (33,33 / 66,66 / 99,99 euro secondo il tariffario regionale).
+    status: verified
+    source: asl-libretto
+  - text: >-
+      Nelle società di persone (s.s., s.n.c., s.a.s.) il cambio del legale rappresentante richiede
+      il subingresso; nelle società di capitali e cooperative no. Anche il cambio di denominazione
+      con la stessa partita IVA richiede il subingresso.
+    status: verified
+    source: dd117
+  - text: >-
+      La notifica può essere presentata anche da un intermediario con procura (o tramite
+      un'Agenzia per le Imprese); le dichiarazioni restano responsabilità del titolare.
+    status: verified
+    source: dd117
+  - text: >-
+      Il modulo di notifica non contiene i dati dell'impresa (denominazione, partita IVA, sede):
+      questi stanno nella scheda anagrafica della pratica SUAP. Su impresainungiorno la pratica si
+      firma di norma con firma digitale.
+    status: unverified
+related:
+  - napoli/comune/scia-somministrazione-alimenti-bevande
+  - napoli/comune/scia-esercizio-vicinato
+  - napoli/comune/tari-iscrizione-non-domestica
+sources:
+  - id: notifica-form
+    label: Notifica ai fini della registrazione (art. 6, Reg. CE n. 852/2004) – modulo unificato, portale SURAP Regione Campania
+    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Notifica%20ai%20fini%20della%20registrazione.pdf
+    retrieved: 2026-10-25
+    sha256: 71f2498786ff210c7aa1512ef5c3ea08698d05c0139c6a7cbd1c79b8e1850195
+    official: true
+    notes: PDF del 2017 (7 pagine); stesso file linkato nelle pagine della modulistica per commercio e somministrazione.
+  - id: surap-modulistica-commercio
+    label: SURAP – Modulistica unificata e standardizzata per commercio in sede fissa
+    url: https://surap.regione.campania.it/index.php/modulistica/432-modulistica-unificata-e-standardizzata-attivita-commerciali-sede-fissa.html
+    retrieved: 2026-10-25
+    official: true
+    notes: Aggiornata al Decreto Dirigenziale n. 119 del 13/05/2021.
+  - id: surap-modulistica-somministrazione
+    label: SURAP – Modulistica unificata e standardizzata per somministrazione di alimenti e bevande
+    url: https://surap.regione.campania.it/index.php/modulistica/440-modulistica-unificata-e-standardizzata-somministrazione-alimenti-bevande.html
+    retrieved: 2026-10-25
+    official: true
+    notes: Aggiornata al Decreto Dirigenziale n. 143 del 10/06/2021.
+  - id: surap-disciplina
+    label: SURAP – Disciplina di riferimento (accordi in Conferenza Unificata e atti regionali)
+    url: https://surap.regione.campania.it/index.php/modulistica/874-disciplina-di-riferimento-2.html
+    retrieved: 2026-10-25
+    official: true
+  - id: dd117
+    label: >-
+      Regione Campania, Decreto Dirigenziale n. 117 del 30/04/2020 e allegato "Procedure per le
+      notifiche ed il riconoscimento degli stabilimenti…" (BURC n. 98 del 4 maggio 2020)
+    url: https://surap.regione.campania.it/Allegati/DD_117OKOK_0405_DECRETI_DIRIGENZIALI_DIP_5004.pdf
+    retrieved: 2026-10-25
+    sha256: f95c2edefadc2e1b78e180c4c45e58abd45a1d4341156d2cb92101215ef739f3
+    official: true
+    notes: >-
+      Il testo dell'allegato non è estraibile (font non codificati): letto con OCR, capitoli 1 e 2.
+      Sostituisce l'allegato alla DGRC 318/2015.
+  - id: circolare-2021
+    label: Regione Campania – Circolare regionale interpretativa sulla registrazione delle imprese, rev. 01-2021 (PG/2021/0077741)
+    url: https://surap.regione.campania.it/Allegati/Allegati/circolare_stabilimenti_sicurezza_alimentare/circolare_registrazione_imprese_versione_01_2021.pdf
+    retrieved: 2026-10-25
+    sha256: e31b04e654116fa2109c195bb873756753c527ab40c7b69657b0e9b0794faddb
+    official: true
+    notes: Il decreto 117/2020 indica il sito GISA come sede ufficiale della revisione più recente; GISA non era raggiungibile.
+  - id: modello-unico-regionale
+    label: Regione Campania – Modello unico regionale per SCIA sanitaria, comunicazione e riconoscimento (rev. 5)
+    url: https://surap.regione.campania.it/Allegati/Allegato_186307.pdf
+    retrieved: 2026-10-25
+    sha256: 23848ae38fe77b300fe578530246cc77cf4348c693936551657fc2e6619564f3
+    official: true
+    notes: Per le linee d'attività non comprese negli accordi Stato-Regioni; non mappato qui.
+  - id: asl-sian-uoc
+    label: ASL Napoli 1 Centro – U.O.C. Igiene degli Alimenti e Nutrizione
+    url: https://www.aslnapoli1centro.it/u.o.c.-igiene-degli-alimenti-e-nutrizione1
+    retrieved: 2026-10-25
+    official: true
+  - id: asl-uosd-28-30
+    label: ASL Napoli 1 Centro – U.O.S.D. Prevenzione Collettiva DD.SS.BB. 28 e 30
+    url: https://www.aslnapoli1centro.it/u.o.s.d.-prevenzione-collettiva-dd.ss.bb.-28-e-301
+    retrieved: 2026-10-25
+    official: true
+    notes: Esempio delle UOSD distrettuali; l'elenco completo è nella pagina dell'Area di Coordinamento Igienistica.
+  - id: asl-area-igienistica
+    label: ASL Napoli 1 Centro – Area di Coordinamento Igienistica (elenco delle UOSD Prevenzione Collettiva per distretto)
+    url: https://www.aslnapoli1centro.it/area-di-coordinamento-igienistica
+    retrieved: 2026-10-25
+    official: true
+  - id: asl-libretto
+    label: ASL Napoli 1 Centro – Libretto sanitario alimentaristi
+    url: https://www.aslnapoli1centro.it/libretto-sanitario-alimentaristi
+    retrieved: 2026-10-25
+    official: true
+  - id: comune-suap-contatti
+    label: Comune di Napoli – Contatti dello Sportello Unico per le Attività Produttive (SUAP)
+    url: https://www.comune.napoli.it/articolo_tematico/suap/contatti/
+    retrieved: 2026-10-25
+    page_updated: 2026-05-18
+    official: true
+  - id: comune-zone-tutelate
+    label: Comune di Napoli – Avviso sui nuovi procedimenti impresainungiorno nelle zone tutelate (Centro Storico e Buffer Zone)
+    url: https://www.comune.napoli.it/novita/avviso-per-gli-utenti-impresainungiorno-napoli-e-i-nuovi-procedimenti-in-zone-tutelate-zona-a-centro-storico-zona-b-buffer-zone/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-27
+    official: true
+    notes: Piano approvato con deliberazione di C.C. n. 79 del 29 giugno 2026.
+  - id: comune-suap-diritti
+    label: Comune di Napoli – Informazioni sui diritti d'istruttoria delle pratiche telematiche SUAP
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/05/INFO_DIRITTI_D_ISTRUTTORIA.pdf
+    retrieved: 2026-10-25
+    sha256: dd76876f846170251f0c7df28cf28d37761a06c0de3d87e26ae87820b495f3dd
+    official: true
+    notes: PDF creato nel novembre 2024; diritti in vigore dal 2 luglio 2021 (DGC n. 249/2021).
+  - id: impresainungiorno-napoli
+    label: impresainungiorno – SUAP di Napoli
+    url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
+    retrieved: 2026-10-25
+    official: true
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: letti il modulo unificato di notifica (PDF SURAP), le pagine SURAP della modulistica
+    per commercio e somministrazione e della disciplina di riferimento, il DD regionale 117/2020
+    (allegato, capp. 1–2, via OCR), la circolare regionale rev. 01-2021, il modello unico
+    regionale, le pagine dell'ASL Napoli 1 Centro (UOC SIAN, UOSD Prevenzione Collettiva 28 e 30,
+    Area igienistica, libretto alimentaristi), le pagine del SUAP del Comune di Napoli (contatti,
+    avviso zone tutelate), il documento sui diritti d'istruttoria e la pagina del SUAP di Napoli su
+    impresainungiorno.
+  notes: >-
+    Non aperti: testo del Reg. 852/2004 su EUR-Lex (bloccato), D.Lgs. 32/2021, DCA 94/2018, sito
+    GISA (master list ed elenco documentazione) e le schede del Comune per le zone tutelate.

@@ -1,0 +1,336 @@
+schema_version: 0
+id: napoli/comune/tari-cessazione-non-domestica
+title: TARI – cessazione per uso non abitativo (Comune di Napoli)
+summary: >-
+  Un'impresa, un professionista o un'associazione che smette di occupare o detenere locali o aree
+  a uso non abitativo a Napoli (chiusura dell'attività, trasferimento in un altro comune, chiusura
+  di un'unità locale, cessione d'azienda) deve chiudere la propria posizione TARI con il Mod. 8
+  entro 90 giorni. Se la dichiarazione arriva in ritardo e senza prove della data, la tassa resta
+  dovuta fino al giorno in cui la si presenta.
+ente:
+  name: Comune di Napoli
+  office: Area Entrate – Servizio IMU e TARI
+  ipa: c_f839
+applies_to:
+  events: [close, move]
+  audience: [business]
+  conditions:
+    - text: >-
+        Cessazione dell'occupazione o detenzione, a qualsiasi titolo, di locali o aree scoperte a
+        uso non abitativo nel Comune di Napoli.
+      status: verified
+      source: mod-8
+    - text: >-
+        Motivi previsti dal modulo: chiusura definitiva dell'attività con cessazione della partita
+        IVA, trasferimento dell'attività in un altro comune, chiusura dell'unità locale, cessione
+        d'azienda o di ramo d'azienda, altro (da specificare).
+      status: verified
+      source: mod-8
+    - text: La dichiarazione spetta al soggetto legalmente responsabile dell'attività (art. 25, c. 3).
+      status: verified
+      source: regolamento-2023
+    - text: >-
+        Se l'impresa occupa più immobili, la dichiarazione riguarda solo quelli per cui è cambiato
+        qualcosa (art. 25, c. 6).
+      status: verified
+      source: regolamento-2023
+legal_basis:
+  - text: >-
+      Regolamento TARI del Comune di Napoli, artt. 12 (periodi di applicazione), 25 (obbligo di
+      dichiarazione) e 26 (contenuto e presentazione).
+    status: verified
+    source: regolamento-2023
+deadline:
+  rules:
+    - text: >-
+        Entro 90 giorni dalla data in cui è cessata l'occupazione o la detenzione (art. 25, cc. 5
+        e 6).
+      status: verified
+      source: regolamento-2023
+    - text: >-
+        Il tributo è dovuto per i giorni dell'anno in cui c'è stata l'occupazione e fino al giorno
+        in cui è cessata, purché la cessazione sia dichiarata entro questo termine (art. 12, cc. 1
+        e 2).
+      status: verified
+      source: regolamento-2023
+  lateness:
+    text: >-
+      Se la dichiarazione di cessazione è presentata in ritardo e senza documentazione idonea a
+      dimostrare la data effettiva di cessazione, si presume che l'utenza sia cessata alla data di
+      presentazione (art. 12, c. 4): la TARI resta dovuta fino a quel giorno. Allegare quindi
+      sempre le prove della data (per esempio la chiusura della partita IVA, la risoluzione del
+      contratto di locazione e la chiusura delle utenze, l'atto di cessione). Le sanzioni per
+      omessa dichiarazione dell'art. 35, c. 3 sono scritte per la dichiarazione "originaria o di
+      variazione"; sulle rate non pagate per il periodo ancora tassato si applicano le sanzioni per
+      omesso o tardivo versamento (art. 35, cc. 1 e 2). Farsi indicare gli importi dall'ufficio.
+    status: verified
+    source: regolamento-2023
+channels:
+  - type: pec
+    address: entrate.tari-tares-tarsu@pec.comune.napoli.it
+    receipt: legal
+    preferred: true
+    source: mod-8
+    notes: >-
+      Dà una ricevuta con valore legale, utile a dimostrare di aver dichiarato entro i 90 giorni;
+      un'impresa ha comunque l'obbligo di avere una PEC.
+  - type: portal
+    name: POTESs – Servizi Tributari
+    url: https://servizionline.comune.napoli.it/web/napoli/servizi-tributari
+    auth: [spid, cie, cns]
+    source: modulistica
+  - type: email
+    address: entrate.tari-tares-tarsu@comune.napoli.it
+    receipt: informal
+    source: mod-8
+  - type: post
+    address: Comune di Napoli, Area Entrate, Servizio IMU e TARI, Via Diocleziano 330, 80125 Napoli
+    source: mod-8
+    notes: Raccomandata (A/R secondo la pagina della modulistica).
+  - type: desk
+    name: Sportello Unico Attività Produttive (SUAP)
+    source: modulistica
+    notes: Per le utenze non domestiche; la pagina non indica l'indirizzo.
+  - type: desk
+    name: Sportello TARI
+    address: Via Diocleziano 330, 80125 Napoli
+    hours: lunedì–venerdì 8:30–12:30
+    source: mod-8
+  - type: phone
+    address: 081 795 3711
+    hours: tutti i giorni 9:00–13:00 (orario indicato sul modulo)
+    source: mod-8
+    notes: >-
+      Il modulo indica anche 081 795 3891 e 081 795 3856 (mercoledì e venerdì, 9:00–13:00) e
+      081 795 3734 (giovedì e venerdì, 9:00–13:00).
+payment:
+  method: f24
+  calculator_url: https://portaletributi.comune.napoli.it/?ente=NAPO
+  schedule:
+    - { label: Acconto 2026 – rata 1, due: 2026-09-30, source: tari-2026, status: verified }
+    - { label: Acconto 2026 – unica soluzione, due: 2026-10-15, source: tari-2026, status: verified }
+    - { label: Acconto 2026 – rata 2, due: 2026-10-30, source: tari-2026, status: verified }
+    - { label: Acconto 2026 – rata 3, due: 2026-11-30, source: tari-2026, status: verified }
+    - { label: Saldo 2026 (nuovo avviso del Comune), due: 2027-02-16, source: tari-2026, status: verified }
+  notes:
+    - text: >-
+        La cessazione non costa nulla, ma la TARI resta dovuta per il periodo dell'anno in cui i
+        locali sono stati occupati (art. 12, c. 1), in autoliquidazione e alle scadenze anche se
+        l'avviso non arriva.
+      status: verified
+      source: regolamento-2023
+    - text: >-
+        Le fonti non spiegano come il Comune ricalcola le rate restanti dopo la cessazione:
+        calcolare l'importo con il simulatore del Comune o chiederlo all'ufficio.
+      status: unverified
+    - text: >-
+        Se si è pagato più del dovuto, il rimborso va chiesto entro cinque anni dal versamento; non
+        si rimborsano somme inferiori a 12 euro per anno d'imposta (art. 36). Il modulo è il
+        Mod. 10 (istanza di rimborso/compensazione).
+      status: verified
+      source: regolamento-2023
+documents:
+  - name: Mod. 8 TARI compilato e firmato
+    required: true
+  - name: Copia del documento d'identità del dichiarante
+    required: true
+    notes: Art. 38 DPR 445/2000.
+  - name: Copia della cessazione della partita IVA
+    required: false
+    notes: Richiesta dal modulo per il motivo a) (chiusura definitiva dell'attività).
+  - name: Chiusura del contratto di locazione e chiusura delle utenze
+    required: false
+    notes: Richieste dal modulo per il motivo c) (chiusura dell'unità locale).
+  - name: Copia dell'atto di cessione d'azienda o di ramo d'azienda
+    required: false
+    notes: Richiesta dal modulo per i motivi d) ed e).
+  - name: Documentazione che dimostra la data effettiva di cessazione
+    required: false
+    notes: >-
+      Indispensabile se si dichiara oltre i 90 giorni: senza, la cessazione vale dalla data di
+      presentazione (art. 12, c. 4 del regolamento).
+forms:
+  - id: mod-8
+    name: Mod. 8 TARI – Cessazione uso non abitativo
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2020/09/MOD-8-CESSAZIONE-USO-NON-ABITATIVO.pdf
+    source: mod-8
+    sha256: 2180c649e56fb2f20d2b30ebac4ad4dae5992d81e835cad8b3d8888f15cc3c7b
+    signature_required: true
+    fields:
+      - label: Cod.Contr.
+        map: { blank_with_reason: Spazio riservato all'ufficio. }
+        notes: Il codice contribuente già assegnato (tari.codice_contribuente) si può citare nel testo della PEC.
+      - { label: Il/La sottoscritto/a, map: { concat: [identity.last_name, identity.first_name] } }
+      - { label: nato/a a, map: { direct: identity.birth_comune } }
+      - { label: nato/a a (stato estero), map: { direct: identity.birth_country } }
+      - { label: il, map: { direct: identity.date_of_birth } }
+      - { label: C.F., map: { direct: identity.codice_fiscale } }
+      - { label: residente in, map: { direct: residenza.comune } }
+      - { label: Via, map: { direct: residenza.indirizzo } }
+      - { label: n°, map: { direct: residenza.civico } }
+      - { label: Telefono, map: { direct: identity.phone } }
+      - { label: e-mail, map: { direct: identity.email } }
+      - { label: pec, map: { direct: identity.pec } }
+      - label: nella sua qualità di (titolare / legale rappresentante)
+        map: { direct: business.qualita_dichiarante }
+      - { label: Ragione Sociale, map: { direct: business.denominazione } }
+      - label: C.F. (della ditta)
+        map: { fallback: [business.codice_fiscale, business.partita_iva] }
+        notes: Se l'impresa non ha un codice fiscale diverso, coincide con la partita IVA.
+      - { label: PARTITA IVA, map: { direct: business.partita_iva } }
+      - label: Con sede in via
+        map: { concat: [business.sede_legale_indirizzo, business.sede_legale_civico] }
+      - { label: Comune di, map: { direct: business.sede_legale_comune } }
+      - { label: CAP, map: { direct: business.sede_legale_cap } }
+      - label: e-mail (della ditta)
+        map: { direct: business.email }
+        notes: Obbligatoria sul modulo.
+      - label: pec (della ditta)
+        map: { direct: business.pec }
+        notes: Obbligatoria sul modulo.
+      - label: a decorrere dal (data di cessazione)
+        map: { ask: "Da che giorno è cessata l'occupazione o la detenzione dei locali?" }
+      - label: 1. Via (immobile)
+        map: { concat: [locale.indirizzo, locale.civico] }
+      - { label: 1. Dati catastali – sez., map: { direct: locale.catasto_sezione } }
+      - { label: 1. Dati catastali – fg., map: { direct: locale.catasto_foglio } }
+      - { label: 1. Dati catastali – part., map: { direct: locale.catasto_particella } }
+      - { label: 1. Dati catastali – sub, map: { direct: locale.catasto_subalterno } }
+      - label: 2. Via e dati catastali
+        map: { ask: "Indirizzo e dati catastali del secondo immobile lasciato, se ce n'è uno" }
+      - label: Motivo (a, b, c, d, e)
+        map: { ask: "Perché cessa l'occupazione: chiusura definitiva con cessazione della partita IVA, trasferimento in un altro comune, chiusura dell'unità locale, cessione d'azienda o cessione di ramo d'azienda?" }
+      - label: a) data di cessazione della Partita IVA
+        map: { ask: "In che data è stata chiusa la partita IVA? (solo per il motivo a)" }
+      - label: b) Trasferimento dell'attività nel Comune di – via – n°
+        map: { ask: "Comune, via e numero civico della nuova sede (solo per il motivo b)" }
+      - label: Nei casi d) ed e) nominativo/Ragione Sociale del subentrante
+        map: { ask: "Nome o ragione sociale di chi subentra (solo per cessione d'azienda o di ramo)" }
+      - label: C.F. (del subentrante)
+        map: { ask: "Codice fiscale di chi subentra (solo per cessione d'azienda o di ramo)" }
+      - label: PARTITA IVA (del subentrante)
+        map: { ask: "Partita IVA di chi subentra (solo per cessione d'azienda o di ramo)" }
+      - label: "Altro: (specificare)"
+        map: { ask: "Se il motivo non è tra quelli elencati, descriverlo" }
+      - { label: Data, map: { ask: Data in cui si firma il modulo } }
+      - label: Firma
+        map: { blank_with_reason: "Firma del dichiarante: la mette solo la persona." }
+steps:
+  - do: >-
+      Raccogliere le prove della data di cessazione (chiusura della partita IVA, risoluzione del
+      contratto e chiusura delle utenze, atto di cessione) e i dati catastali dei locali
+    who: anyone
+  - { do: Compilare il Mod. 8 (dati dalla tabella dei campi) e barrare il motivo, who: anyone }
+  - { do: Firmare il modulo, who: owner, human_only: true }
+  - do: >-
+      Inviare entro 90 giorni dalla cessazione modulo firmato, copia del documento d'identità e
+      allegati, preferibilmente via PEC
+    who: owner
+    human_only: true
+  - do: Calcolare con il simulatore del Comune la TARI dovuta fino alla data di cessazione
+    who: anyone
+  - { do: Pagare l'F24 per il periodo ancora dovuto, who: owner, human_only: true }
+after:
+  - Conservare la ricevuta della PEC e una copia di tutto quanto inviato.
+  - Annotare data e protocollo della dichiarazione di cessazione.
+  - >-
+    Controllare che gli avvisi successivi tengano conto della cessazione; se arriva un avviso
+    sbagliato, segnalarlo all'ufficio (per le utenze non domestiche il modulo di autotutela è il
+    Mod. 7).
+  - >-
+    Se si è pagato per un periodo successivo alla cessazione, chiedere il rimborso con il Mod. 10
+    entro cinque anni dal versamento.
+pitfalls:
+  - text: >-
+      Chiudere l'attività non basta se si continua a detenere i locali: quelli a uso non domestico
+      con impianti, attrezzature o utenze, o autorizzati all'esercizio di un'attività, restano
+      tassabili anche se non usati (art. 3, c. 4). Sono esclusi solo i locali senza alcuna utenza
+      attiva, non arredati e senza titoli autorizzativi per un'attività (art. 5).
+    status: verified
+    source: regolamento-2023
+  - text: >-
+      Il ritardo costa: senza prove della data effettiva, la cessazione vale solo dal giorno in cui
+      si presenta la dichiarazione (art. 12, c. 4).
+    status: verified
+    source: regolamento-2023
+  - text: >-
+      Per uno spostamento dentro Napoli il Mod. 6 prevede il "trasferimento interno al Comune di
+      Napoli", mentre il motivo b) del Mod. 8 parla di trasferimento "nel Comune di …". Il Mod. 6
+      prevede anche la voltura dell'utenza per cessione d'azienda o di ramo, compilata da chi
+      subentra.
+    status: verified
+    source: mod-6
+  - text: >-
+      Le fonti non dicono se, per uno spostamento dentro Napoli o una cessione d'azienda, serva il
+      Mod. 8 oltre al Mod. 6: chiedere all'ufficio prima di inviare.
+    status: unverified
+  - text: >-
+      Chi subentra nei locali (per esempio con la cessione d'azienda) deve presentare a sua volta
+      la propria dichiarazione di inizio occupazione entro 90 giorni (art. 25, cc. 1 e 5).
+    status: verified
+    source: regolamento-2023
+  - text: >-
+      Il regolamento (art. 26) indica ancora il portale "Linkmate" per presentare le
+      dichiarazioni.
+    status: verified
+    source: regolamento-2023
+  - text: La pagina della modulistica indica invece il portale POTESs (Servizi Tributari).
+    status: verified
+    source: modulistica
+  - text: >-
+      Il modulo cita ancora il D.Lgs. 196/2003 per il trattamento dei dati, ma è la versione
+      pubblicata nella modulistica aggiornata al 01/04/2026.
+    status: verified
+    source: modulistica
+  - text: >-
+      La dichiarazione si può presentare anche tramite CAF, associazioni di categoria o iscritti
+      agli ordini professionali, se convenzionati con il Comune e con delega del contribuente.
+    status: verified
+    source: regolamento-2023
+related:
+  - napoli/comune/tari-iscrizione-non-domestica
+  - napoli/comune/tari-variazione-non-domestica
+sources:
+  - id: mod-8
+    label: Mod. 8 TARI – Cessazione uso non abitativo (testo, AVVERTENZE, INFORMAZIONI e CONTATTI)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2020/09/MOD-8-CESSAZIONE-USO-NON-ABITATIVO.pdf
+    retrieved: 2026-10-25
+    sha256: 2180c649e56fb2f20d2b30ebac4ad4dae5992d81e835cad8b3d8888f15cc3c7b
+    official: true
+  - id: mod-6
+    label: Mod. 6 TARI – Voltura/variazione uso non abitativo
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2020/09/MOD-6-VARIAZIONE-USO-NON-ABITATIVO.pdf
+    retrieved: 2026-10-25
+    sha256: fc3addc03f676a4da7d6e7a8ffad8c3f1fc4f39c0803c56bf904c855f8205eee
+    official: true
+    notes: Letto solo per i casi di trasferimento interno e voltura; non mappato.
+  - id: modulistica
+    label: TARI – Modalità di presentazione dichiarazioni e modulistica (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/tari-tassa-sui-rifiuti/modalita-di-presentazione-dichiarazioni-e-modulistica/
+    retrieved: 2026-10-25
+    page_updated: 2026-09-02
+    official: true
+    notes: Modulistica aggiornata al 01/04/2026.
+  - id: tari-2026
+    label: TARI 2026 – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/tari-tassa-sui-rifiuti/tari-2026/
+    retrieved: 2026-10-25
+    page_updated: 2026-10-02
+    official: true
+  - id: regolamento-2023
+    label: Regolamento TARI, allegato alla delibera C.C. n. 37 del 19 giugno 2023
+    url: https://www.comune.napoli.it/flex/files/1/c/7/D.007ae011f89c784022b3/DELIBERA_DI_C.C._N._37_DEL_19_GIUGNO_2023.pdf
+    retrieved: 2026-10-25
+    sha256: 15c491cd7e69bada6fbed48c345c72177cb147bb95cded0314b6cca75635ea6f
+    official: true
+    notes: >-
+      La pagina TARI 2026 indica come "Regolamento TARI vigente" un PDF con lo stesso testo per gli
+      artt. 12, 26 e 35 (controllato il 2026-10-25).
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: letti il Mod. 8 (scaricato, pdftotext), la parte del Mod. 6 su trasferimento e voltura,
+    la pagina della modulistica, la pagina TARI 2026 e gli artt. 3, 5, 12, 25, 26, 35 e 36 del
+    regolamento approvato con la delibera C.C. 37/2023.
