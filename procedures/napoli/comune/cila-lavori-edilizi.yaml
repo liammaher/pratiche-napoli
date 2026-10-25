@@ -1,0 +1,711 @@
+schema_version: 0
+id: napoli/comune/cila-lavori-edilizi
+title: CILA – comunicazione di inizio lavori asseverata per lavori interni non strutturali (SUE del Comune di Napoli)
+summary: >-
+  Chi vuole fare a Napoli lavori interni che non toccano le strutture (per esempio spostare
+  tramezzi, rifare bagni e impianti in un negozio, un ufficio o una casa) deve presentare prima
+  dell'inizio dei lavori una CILA allo Sportello Unico per l'Edilizia (SUE). La presenta online
+  un tecnico abilitato (architetto, ingegnere, geometra…) per conto del proprietario o di chi ha
+  titolo, di solito con procura speciale. Dal 6 luglio 2026 l'unico canale è il portale
+  "Impresa in un giorno".
+ente:
+  name: Comune di Napoli
+  office: Area Urbanistica – Servizio Sportello Unico Edilizia
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata]
+  conditions:
+    - text: >-
+        Servono la CILA i lavori che non rientrano nell'edilizia libera (art. 6), nel permesso di
+        costruire (art. 10) o nella SCIA (art. 22 del DPR 380/2001). Il tecnico assevera tra
+        l'altro che non vi è interessamento delle parti strutturali dell'edificio.
+      status: verified
+      source: dpr380-art6bis
+    - text: >-
+        Rientrano nella CILA, tra gli altri: la manutenzione straordinaria (compresa l'apertura di
+        porte interne o lo spostamento di pareti interne) e il restauro e risanamento conservativo,
+        sempre che non riguardino le parti strutturali dell'edificio.
+      status: verified
+      source: cila-note
+    - text: >-
+        La manutenzione ordinaria (riparazione, rinnovamento e sostituzione delle finiture, opere
+        per mantenere in efficienza gli impianti esistenti) è edilizia libera e non richiede la
+        CILA.
+      status: verified
+      source: dpr380-art6
+    - text: >-
+        La manutenzione straordinaria non può alterare la volumetria complessiva né comportare
+        mutamenti urbanisticamente rilevanti della destinazione d'uso con aumento del carico
+        urbanistico.
+      status: verified
+      source: dpr380-art3
+    - text: >-
+        Il cambio di destinazione d'uso tra categorie funzionali (residenziale, turistico-ricettiva,
+        produttiva e direzionale, commerciale, rurale) è un mutamento rilevante con regole proprie
+        (art. 23-ter DPR 380/2001): la relazione della CILA deve dichiarare che non c'è modifica
+        della categoria d'uso urbanisticamente rilevante.
+      status: verified
+      source: cila-note
+    - text: >-
+        La CILA la presenta il proprietario dell'immobile o chi ne ha titolo (per esempio
+        comproprietario, usufruttuario, amministratore di condominio); un inquilino dichiara di non
+        avere titolarità esclusiva e di disporre dell'assenso dei terzi titolari.
+      status: verified
+      source: cila-modulo
+    - text: >-
+        Lavori su parti strutturali: la CILA non basta. Non è stato controllato su Normattiva quale
+        titolo serva (di norma SCIA, art. 22, più gli adempimenti sismici).
+      status: unverified
+legal_basis:
+  - text: "D.P.R. 380/2001, art. 6-bis (CILA), art. 3 c. 1 (definizioni degli interventi), art. 6 (edilizia libera)."
+    status: verified
+    source: dpr380-art6bis
+  - text: "D.Lgs. 222/2016, Tabella A, Sezione II – Edilizia (attività soggette a CILA), richiamata dal modulo."
+    status: verified
+    source: cila-modulo
+  - text: >-
+        Modulistica unificata nazionale (Accordo Conferenza Unificata 27/03/2025, rep. 35/CU),
+        approvata dalla Regione Campania con Decreto Dirigenziale n. 217 del 16 giugno 2025 e
+        adottata dal SUE di Napoli con Disposizione Dirigenziale n. 603 del 23 giugno 2025.
+    status: verified
+    source: dd-603-2025
+  - text: >-
+        Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026: attivazione del SUE su
+        impresainungiorno e Linee guida vincolanti per la presentazione delle istanze.
+    status: verified
+    source: dd-501-2026
+  - text: "D.Lgs. 42/2004, art. 21 c. 4 (lavori su beni culturali) e art. 149 (interventi esenti da autorizzazione paesaggistica)."
+    status: verified
+    source: dlgs42-art21
+deadline:
+  rules:
+    - text: >-
+        La CILA si presenta prima di iniziare i lavori ("previa comunicazione"); nel modulo si
+        indica la data di inizio dei lavori.
+      status: verified
+      source: dpr380-art6bis
+    - text: >-
+        Se servono atti di assenso di altri enti (per esempio Soprintendenza o autorizzazione
+        paesaggistica) chiesti insieme alla CILA, i lavori possono iniziare solo dopo che lo
+        Sportello comunica di averli acquisiti.
+      status: verified
+      source: cila-modulo
+    - text: >-
+        A fine lavori, quando serve, l'aggiornamento catastale va presentato entro trenta giorni
+        (art. 34-quinquies, c. 2, lett. b, D.L. 4/2006).
+      status: verified
+      source: cila-note
+  lateness:
+    text: >-
+      DPR 380/2001, art. 6-bis, c. 5: "La mancata comunicazione asseverata dell'inizio dei lavori
+      comporta la sanzione pecuniaria pari a 1.000 euro. Tale sanzione è ridotta di due terzi se la
+      comunicazione è effettuata spontaneamente quando l'intervento è in corso di esecuzione." Il
+      modulo del Comune indica le ricevute da allegare (casella d.2, lavori in corso; casella d.3,
+      lavori già realizzati). Per la "mancata CILA" il SUE chiede anche diritti di segreteria
+      propri (riga SUE 15 della tabella). Per l'importo esatto e il canale (vedi pitfalls) chiedere
+      al SUE.
+    status: verified
+    source: dpr380-art6bis
+channels:
+  - type: portal
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    notes: >-
+      Unico canale per le CILA dal 6 luglio 2026; le istanze presentate in altro modo sono
+      dichiarate improcedibili o irricevibili. Il servizio è per professionisti: il modulo si
+      compila online e tutti i documenti e gli allegati vanno firmati digitalmente. L'indirizzo è
+      quello a cui porta il pulsante "Accedi al Servizio" della scheda POTESs; la pagina "Edilizia
+      Privata" del Comune dice ancora che il link "verrà successivamente fornito".
+  - type: desk
+    name: Servizio Sportello Unico Edilizia
+    address: Piazza Dante 79, IV piano, 80135 Napoli
+    hours: ricevimento del pubblico il mercoledì, 10:00–13:00
+    source: sue-ufficio
+    notes: >-
+      Informazioni e accesso agli atti; la CILA non si consegna allo sportello. Orario dalla
+      rubrica del SUE aggiornata al 15/06/2026; piano dalla scheda POTESs.
+  - type: email
+    address: sportello.unico.edilizia@comune.napoli.it
+    receipt: informal
+    source: sue-ufficio
+    notes: Solo per informazioni.
+  - type: pec
+    address: sportello.unico.edilizia@pec.comune.napoli.it
+    receipt: legal
+    source: sue-ufficio
+    notes: >-
+      Per comunicare con l'ufficio, non per presentare la CILA: dal 6 luglio 2026 le pratiche via
+      PEC sono irricevibili (DD 501/2026).
+  - type: phone
+    address: 081 7953384
+    source: sue-ufficio
+    notes: Segreteria del Servizio (anche 081 7958216). Rubrica interna completa nel PDF dei contatti.
+payment:
+  method: bollettino
+  notes:
+    - text: >-
+        Diritti di segreteria per la CILA ("Comunicazione di inizio lavori con asseverazione
+        tecnica"): 151,00 euro (riga SUE 13 della tabella aggiornata al 16/06/2026). Per la
+        mancata CILA: 166,00 euro (riga SUE 15).
+      status: verified
+      source: tabella-diritti
+    - text: >-
+        I diritti di segreteria si pagano unicamente sul conto corrente postale n. 57060964
+        intestato a Comune di Napoli – Servizio Tesoreria Edilizia Privata; pagamenti fatti in altro
+        modo rendono l'istanza irricevibile.
+      status: verified
+      source: costi
+    - text: >-
+        Contributo di costruzione, oneri e sanzioni si pagano con bonifico sull'IBAN del Comune
+        indicato nella pagina Costi (non riportato qui: copiarlo dalla pagina al momento del
+        pagamento; la scheda POTESs mostra anche un IBAN precedente).
+      status: verified
+      source: costi
+    - text: >-
+        I pagamenti si fanno prima di presentare la pratica e l'attestazione del versamento va
+        allegata.
+      status: verified
+      source: dd-501-2026
+    - text: >-
+        Causale: la pagina Costi (aggiornata al 30/06/2026) indica il codice N1051_SUE ("Il codice
+        N1055_SUE è sostituito dal seguente: N1051"), seguito da tipo pratica, identificativo e
+        anno, oppure, se la pratica non ha ancora un identificativo, da nome del titolare e
+        indirizzo dell'immobile. La scheda del servizio su POTESs indica ancora N1055_SUE.
+      status: disputed
+      source: costi
+    - text: >-
+        La CILA è di norma gratuita. Diventa onerosa (contributo commisurato alle sole opere di
+        urbanizzazione) se la manutenzione straordinaria comporta aumento del carico urbanistico e
+        della superficie calpestabile: in quel caso il tecnico allega il prospetto di calcolo.
+      status: verified
+      source: cila-modulo
+    - text: Non risulta dalle fonti lette se il portale offra il pagamento pagoPA per il SUE di Napoli.
+      status: unverified
+documents:
+  - name: CILA compilata sul portale, firmata digitalmente da titolare e progettista
+    required: true
+    notes: Il portale genera il modulo dai dati inseriti; il tracciato è quello del Mod.CILA-23-06-2025 mappato sotto.
+  - name: Allegato "Soggetti coinvolti" (titolari, tecnici incaricati, imprese esecutrici)
+    required: true
+  - name: Procura speciale/delega al tecnico, firmata digitalmente
+    required: false
+    notes: >-
+      Obbligatoria se la pratica è presentata da una persona diversa dal titolare: senza procura,
+      o con procura non firmata digitalmente, la pratica è irricevibile (Linee guida DD 501/2026).
+  - name: Ricevuta del versamento dei diritti di segreteria (bollettino postale)
+    required: true
+  - name: Allegato A Programma 100 – dichiarazione sostitutiva sulla regolarità tributaria verso il Comune di Napoli
+    required: true
+    notes: Con copia del documento d'identità.
+  - name: Modello DP – dichiarazione di pagamento del professionista (L.R. Campania 59/2018)
+    required: true
+    notes: >-
+      Firmato dal tecnico e dal committente, con copia firmata dei documenti d'identità di entrambi
+      e lettera d'incarico o contratto. Senza, l'iter non si completa.
+  - name: Elaborati grafici dello stato di fatto, di progetto e dello stato comparativo, in PDF/A
+    required: true
+    notes: >-
+      Massimo 20 MB per file, nomi senza spazi né accenti; nello stato comparativo giallo per le
+      demolizioni e rosso per le nuove opere (Linee guida).
+  - name: Relazione tecnica e documentazione fotografica a colori con coni ottici
+    required: true
+  - name: Copia del documento d'identità del titolare e/o del tecnico
+    required: false
+    notes: Solo se i soggetti coinvolti non hanno firmato digitalmente e non c'è procura.
+  - name: Dichiarazione di assenso dei terzi titolari di altri diritti
+    required: false
+    notes: Se il titolare non ha titolarità esclusiva (per esempio inquilino).
+  - name: Notifica preliminare (art. 99 D.Lgs. 81/2008)
+    required: false
+    notes: Se il cantiere vi è soggetto.
+  - name: Atti di assenso già ottenuti, o documentazione per farli acquisire dal SUE
+    required: false
+    notes: Per esempio autorizzazione della Soprintendenza o autorizzazione paesaggistica.
+  - name: Attestazione della corrispondenza dell'unità edilizia al tipo edilizio della Variante generale al PRG
+    required: false
+    notes: Solo nel centro storico (zona A), firmata dal professionista (art. 63, c. 4 delle norme della Variante).
+  - name: Prospetto di calcolo del contributo di costruzione e ricevuta del versamento
+    required: false
+    notes: Solo se l'intervento è oneroso.
+forms:
+  - id: mod-cila-2025
+    name: Mod.CILA-23-06-2025 – Comunicazione inizio lavori asseverata (modello unificato adottato dal SUE di Napoli)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2010/06/CILA_23.06.25-1.pdf
+    source: cila-modulo
+    sha256: a8a62c2d85fa679281b16159808e8ae6c21481235a8547f51c91bd3c613d2227
+    signature_required: true
+    fields:
+      # Intestazione
+      - label: "Al Comune di Napoli – SUAP / SUE (casella)"
+        map: { ask: "La CILA va al SUE (solo lavori) o al SUAP (lavori collegati all'avvio o alla modifica di un'attività)? Risponde il tecnico." }
+      - label: "Al Comune di Napoli – Indirizzo, PEC / Posta elettronica"
+        map: { blank_with_reason: "Recapiti dello sportello destinatario, non del dichiarante; sul portale li inserisce il sistema o il tecnico." }
+      - label: "Pratica edilizia, del, Protocollo, tipo (CILA / CILA con altre comunicazioni o SCIA / CILA con richiesta contestuale di atti presupposti)"
+        map: { blank_with_reason: "Da compilare a cura del SUE/SUAP." }
+      # Dati del titolare
+      - { label: Dati del titolare – Cognome e Nome, map: { concat: [identity.last_name, identity.first_name] } }
+      - { label: Dati del titolare – codice fiscale, map: { direct: identity.codice_fiscale } }
+      - { label: Dati del titolare – sesso, map: { direct: identity.sex } }
+      - { label: Dati del titolare – nato a, map: { direct: identity.birth_comune } }
+      - { label: Dati del titolare – prov. (nascita), map: { direct: identity.birth_province } }
+      - { label: Dati del titolare – stato (nascita), map: { direct: identity.birth_country }, notes: "Solo se nato all'estero; altrimenti Italia." }
+      - { label: Dati del titolare – nato il, map: { direct: identity.date_of_birth } }
+      - { label: Dati del titolare – residente in, map: { direct: residenza.comune } }
+      - { label: Dati del titolare – prov. (residenza), map: { direct: residenza.provincia } }
+      - { label: Dati del titolare – Stato (residenza), map: { ask: "Stato di residenza del titolare (Italia se residente in Italia)" } }
+      - { label: Dati del titolare – indirizzo, map: { direct: residenza.indirizzo } }
+      - { label: Dati del titolare – n., map: { direct: residenza.civico } }
+      - { label: Dati del titolare – C.A.P., map: { direct: residenza.cap } }
+      - { label: Dati del titolare – PEC / posta elettronica, map: { fallback: [identity.pec, identity.email] } }
+      - { label: Dati del titolare – Telefono fisso / cellulare, map: { direct: identity.phone } }
+      # Dati della ditta o società (eventuale)
+      - { label: Dati della ditta o società – in qualità di, map: { direct: business.qualita_dichiarante }, notes: Solo se il titolare agisce per un'impresa. }
+      - { label: Dati della ditta o società – della ditta / società, map: { direct: business.denominazione } }
+      - { label: Dati della ditta o società – codice fiscale / p. IVA, map: { fallback: [business.codice_fiscale, business.partita_iva] } }
+      - { label: Dati della ditta o società – Iscritta alla C.C.I.A.A. di, map: { ask: "Camera di commercio di iscrizione dell'impresa (per esempio Napoli)" } }
+      - { label: Dati della ditta o società – prov. (C.C.I.A.A.), map: { ask: "Sigla della provincia della Camera di commercio di iscrizione" } }
+      - { label: Dati della ditta o società – n. (iscrizione), map: { direct: business.rea } }
+      - { label: Dati della ditta o società – con sede in, map: { direct: business.sede_legale_comune } }
+      - { label: Dati della ditta o società – prov. (sede), map: { direct: business.sede_legale_provincia } }
+      - { label: Dati della ditta o società – indirizzo, map: { concat: [business.sede_legale_indirizzo, business.sede_legale_civico] } }
+      - { label: Dati della ditta o società – PEC / posta elettronica, map: { fallback: [business.pec, business.email] } }
+      - { label: Dati della ditta o società – C.A.P., map: { direct: business.sede_legale_cap } }
+      - { label: Dati della ditta o società – Telefono fisso / cellulare, map: { ask: "Telefono dell'impresa" } }
+      # Dati del procuratore/delegato (in caso di procura)
+      - { label: Dati del procuratore/delegato – Cognome, map: { blank_with_reason: "Dati del procuratore (di solito il tecnico incaricato), non del titolare: li inserisce il procuratore." } }
+      - { label: Dati del procuratore/delegato – Nome, map: { blank_with_reason: Dati del procuratore; li inserisce il procuratore. } }
+      - { label: Dati del procuratore/delegato – codice fiscale, map: { blank_with_reason: Dati del procuratore; li inserisce il procuratore. } }
+      - { label: Dati del procuratore/delegato – sesso, map: { blank_with_reason: Dati del procuratore; li inserisce il procuratore. } }
+      - { label: "Dati del procuratore/delegato – Nato/a a, prov., Stato", map: { blank_with_reason: Dati del procuratore; li inserisce il procuratore. } }
+      - { label: Dati del procuratore/delegato – il (data di nascita), map: { blank_with_reason: Dati del procuratore; li inserisce il procuratore. } }
+      - { label: "Dati del procuratore/delegato – residente in, prov., Stato", map: { blank_with_reason: Dati del procuratore; li inserisce il procuratore. } }
+      - { label: "Dati del procuratore/delegato – indirizzo, n., C.A.P.", map: { blank_with_reason: Dati del procuratore; li inserisce il procuratore. } }
+      - { label: Dati del procuratore/delegato – PEC / posta elettronica, map: { blank_with_reason: Dati del procuratore; li inserisce il procuratore. } }
+      - { label: Dati del procuratore/delegato – Telefono fisso / cellulare, map: { blank_with_reason: Dati del procuratore; li inserisce il procuratore. } }
+      # Dichiarazioni del titolare
+      - label: "a) di avere titolo alla presentazione di questa pratica edilizia in quanto … dell'immobile"
+        map: { direct: locale.titolo }
+        notes: "Per un lavoro sulla propria casa indicare il titolo sull'abitazione (abitazione.titolo). Il modulo chiede la qualità rispetto all'immobile dei lavori: proprietario, comproprietario, usufruttuario, amministratore di condominio…"
+      - label: "a.1 titolarità esclusiva / a.2 non esclusiva ma con assenso dei terzi titolari"
+        map: { ask: "Il titolare ha titolarità esclusiva all'esecuzione dei lavori, o (per esempio inquilino o comproprietario) dispone dell'assenso scritto degli altri titolari?" }
+      - label: "b) Opere su parti comuni o modifiche esterne – b.1 non riguardano parti comuni / b.2 parti comuni di un condominio / b.3 parti comuni di un fabbricato non in condominio, con assenso dei comproprietari / b.4 parti comuni senza assenso (art. 1102 c.c.)"
+        map: { ask: "I lavori toccano parti comuni dell'edificio? Se sì, c'è un condominio con delibera dell'assemblea, o l'assenso firmato dei comproprietari? Risponde il tecnico." }
+      - label: "c) c.1 non servono altri atti / c.2 si allegano altre comunicazioni o SCIA / c.3 si chiede contestualmente l'acquisizione d'ufficio degli atti di assenso"
+        map: { ask: "Servono altri atti di assenso, comunicazioni o SCIA (per esempio Soprintendenza, autorizzazione paesaggistica)? Risponde il tecnico." }
+      - label: "d) Qualificazione – d.1 intervento da eseguire / d.2 intervento in corso (art. 6-bis c. 5, ricevuta di 333,00 euro, procedura telematica) / d.3 intervento già realizzato (art. 6-bis c. 5, ricevuta di 1000,00 euro, procedura cartacea)"
+        map: { ask: "I lavori devono ancora iniziare, sono già in corso o sono già finiti?" }
+        notes: Per d.2 e d.3 vedi i pitfalls sul canale della mancata CILA.
+      - { label: "d.1.1 i lavori avranno inizio in data", map: { ask: "Data prevista di inizio dei lavori (GG/MM/AAAA)" } }
+      - { label: "d.1.2 i lavori avranno inizio dopo la comunicazione dell'avvenuta acquisizione degli atti di assenso", map: { ask: "I lavori attendono gli atti di assenso chiesti tramite lo Sportello? Risponde il tecnico." } }
+      - { label: "d.2 intervento in corso di esecuzione, iniziato in data", map: { ask: "Data in cui sono iniziati i lavori già in corso (GG/MM/AAAA)" } }
+      - { label: "d.3 intervento realizzato in data", map: { ask: "Data in cui sono stati realizzati i lavori già eseguiti (GG/MM/AAAA)" } }
+      - label: "d.4 procedimento automatizzato / d.5 procedimento ordinario (artt. 5-7 DPR 160/2010; solo se la CILA va al SUAP)"
+        map: { ask: "Solo per presentazione al SUAP: procedimento automatizzato o ordinario? Risponde il tecnico." }
+      # e) Localizzazione dell'intervento
+      - label: "e) sito in (via, piazza, ecc.)"
+        map: { direct: locale.indirizzo }
+        notes: >-
+          Tutti i dati di questa sezione (indirizzo, civico, interno, CAP, catasto) vengono dallo
+          stesso immobile dei lavori. Per un locale d'impresa usare locale.*; per lavori nella
+          propria casa usare invece abitazione.* e l'indirizzo di residenza o domicilio di quella
+          casa. Non mescolare dati di immobili diversi.
+      - { label: "e) n.", map: { direct: locale.civico } }
+      - { label: "e) scala", map: { ask: "Scala dell'immobile dei lavori, se c'è" } }
+      - { label: "e) piano", map: { ask: "Piano dell'immobile dei lavori" } }
+      - { label: "e) interno", map: { direct: locale.interno } }
+      - { label: "e) C.A.P.", map: { direct: locale.cap } }
+      - { label: "e) censito al catasto fabbricati / terreni", map: { ask: "L'immobile è censito al catasto fabbricati o al catasto terreni? (di norma fabbricati)" } }
+      - { label: "e) foglio n.", map: { direct: locale.catasto_foglio } }
+      - { label: "e) map.", map: { direct: locale.catasto_particella } }
+      - { label: "e) sub. (se presenti)", map: { direct: locale.catasto_subalterno } }
+      - { label: "e) sez.", map: { ask: "Sezione catastale, se diversa dalla sezione urbana (dalla visura)" } }
+      - { label: "e) sez. urb.", map: { direct: locale.catasto_sezione } }
+      - label: "e) avente destinazione d'uso (residenziale, industriale, commerciale, ecc.)"
+        map: { direct: locale.destinazione_uso }
+        notes: Per la propria casa scrivere residenziale. Va indicata la destinazione legittima, non quella di fatto.
+      - { label: "e) coordinate (*)", map: { ask: "Coordinate dell'immobile, se richieste (risponde il tecnico)" } }
+      # f) – l)
+      - label: "f) Contributo di costruzione – f.1 a titolo gratuito / f.2 a titolo oneroso, con f.2.1 ricevuta allegata o f.2.2 pagamento prima dell'inizio lavori"
+        map: { ask: "L'intervento è gratuito o oneroso (aumento di carico urbanistico e di superficie calpestabile)? Risponde il tecnico." }
+      - label: "g) Tecnici incaricati – g.1 altri tecnici indicati in Soggetti coinvolti / g.2 altri tecnici individuati prima dell'inizio lavori"
+        map: { ask: "Oltre al progettista, ci sono altri tecnici incaricati (direttore dei lavori, impiantista…)? Risponde il tecnico." }
+      - label: "h) Impresa esecutrice – h.1 impresa/e indicata/e in Soggetti coinvolti / h.2 lavori di modesta entità eseguiti in prima persona"
+        map: { ask: "Chi esegue i lavori: un'impresa (con i suoi dati) o il titolare in prima persona per opere di modesta entità?" }
+      - label: "i) Salute e sicurezza – i.1 non ricade nel D.Lgs. 81/2008 / i.2 ricade (i.2.1.1 cantiere sotto 200 uomini-giorno senza rischi particolari / i.2.1.2 pari o sopra 200 uomini-giorno o rischi particolari)"
+        map: { ask: "Il cantiere ricade nel D.Lgs. 81/2008 e di che entità è? Risponde il tecnico." }
+      - label: "i.3 notifica preliminare (art. 99 D.Lgs. 81/2008) – i.3.1 non soggetto / i.3.2 soggetto, i.3.2.1 notifica allegata"
+        map: { ask: "Il cantiere è soggetto alla notifica preliminare? Se sì, va allegata. Risponde il tecnico." }
+      - label: "i.4 ricade nel D.Lgs. 81/2008 ma le dichiarazioni saranno presentate prima dell'inizio lavori"
+        map: { ask: "I dati dell'impresa esecutrice saranno forniti solo prima dell'inizio dei lavori? Risponde il tecnico." }
+      - label: "l) di aver letto l'informativa sulla privacy"
+        map: { blank_with_reason: "Presa visione dell'informativa: nessun dato da inserire." }
+      - { label: Data e luogo (dichiarazioni del titolare), map: { ask: "Data e luogo della firma" } }
+      - label: Il/I Dichiarante/i (firma)
+        map: { blank_with_reason: "Firma digitale del titolare (o del procuratore): la appone solo la persona." }
+      # Dichiarazioni del progettista
+      - { label: Dichiarazioni del progettista – Cognome e Nome, map: { blank_with_reason: "Dati del tecnico incaricato, non del titolare (gli altri dati sono nell'allegato Soggetti coinvolti)." } }
+      - { label: "Dichiarazioni del progettista – Iscritto all'ordine/collegio, di, al n.", map: { blank_with_reason: Dati del tecnico incaricato. } }
+      - label: "1) Tipologia di intervento (caselle 1–7: manutenzione straordinaria, restauro e risanamento conservativo, barriere architettoniche con ascensori esterni, opere geognostiche, movimenti di terra, serre mobili, altri interventi da specificare)"
+        map: { ask: "Tipologia dell'intervento ai sensi dell'art. 6-bis (di norma 1, manutenzione straordinaria non strutturale). Risponde il tecnico." }
+      - { label: "1) e che consistono in (descrizione sintetica delle opere)", map: { ask: "Descrizione sintetica dei lavori (risponde il tecnico, partendo da cosa vuole fare il titolare)" } }
+      - label: "2) Dichiarazione di tolleranze (2.1–2.5, art. 34-bis e 34-ter) e rilevanza sismica (2.6, 2.7 e sottocaselle)"
+        map: { ask: "L'immobile presenta tolleranze costruttive da dichiarare, e con quale rilevanza sismica? Risponde il tecnico." }
+      - { label: "3) Altre comunicazioni, segnalazioni, asseverazioni – tabella (comunicazioni / autorità competente)", map: { ask: "Altre comunicazioni o segnalazioni presentate con la CILA e autorità competente (risponde il tecnico)" } }
+      - { label: "4) Atti di assenso da acquisire – tabella (tipologia di atto / autorità competente al rilascio)", map: { ask: "Atti di assenso da far acquisire al SUE (per esempio Soprintendenza) e autorità competente (risponde il tecnico)" } }
+      - { label: NOTE, map: { ask: Eventuali note per l'ufficio (facoltative) } }
+      - { label: Asseverazione del progettista – Data e luogo, map: { blank_with_reason: "Parte del tecnico asseverante." } }
+      - { label: Asseverazione del progettista – Il Progettista (firma), map: { blank_with_reason: "Firma digitale del tecnico asseverante." } }
+      # Quadro riepilogativo della documentazione
+      - label: "Quadro riepilogativo – allegati (procura/delega, soggetti coinvolti, ricevuta diritti di segreteria, documento d'identità, Modello DP, Allegato A Programma 100, assenso dei terzi, ricevute di oblazione, prospetto e ricevuta del contributo di costruzione, notifica preliminare, elaborati grafici, altre comunicazioni, autorizzazione sismica)"
+        map: { ask: "Quali allegati sono presenti? (li spunta il tecnico in base ai documenti caricati)" }
+      - { label: "Ulteriore documentazione per altre comunicazioni o segnalazioni (SCIA unica)", map: { ask: "Documentazione per altre comunicazioni o segnalazioni allegate (risponde il tecnico)" } }
+      - { label: Richiesta di acquisizione di atti di assenso – documentazione, map: { ask: "Documentazione per il rilascio degli atti di assenso richiesti (risponde il tecnico)" } }
+      - { label: Quadro riepilogativo – Il/I Dichiarante/i (firma), map: { blank_with_reason: "Firma digitale del titolare: la appone solo la persona." } }
+  - id: allegato-a-programma-100
+    name: Allegato A – Programma 100, gruppo B – dichiarazione sostitutiva dell'atto di notorietà sulle pendenze verso il Comune di Napoli
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/06/Allegato_A_nuovo_p100.pdf
+    source: allegato-a-p100
+    sha256: e1628ddf58a5a13c68736f3e179a08fa124cef0dfce6a5e8a7f0cf662610a080
+    signature_required: true
+    fields:
+      - { label: Il/la sottoscritto/a, map: { concat: [identity.last_name, identity.first_name] } }
+      - { label: C.F., map: { direct: identity.codice_fiscale } }
+      - { label: nato/a a, map: { direct: identity.birth_comune } }
+      - { label: "( ) provincia di nascita", map: { direct: identity.birth_province } }
+      - { label: il, map: { direct: identity.date_of_birth } }
+      - { label: e residente a, map: { direct: residenza.comune } }
+      - { label: "( ) provincia di residenza", map: { direct: residenza.provincia } }
+      - { label: in (indirizzo), map: { concat: [residenza.indirizzo, residenza.civico] } }
+      - label: "in proprio / in qualità di Legale Rappresentante di"
+        map: { ask: "Dichiara in proprio o come legale rappresentante di un'impresa o ente?" }
+        notes: Se business.qualita_dichiarante è legale_rappresentante, barrare la seconda casella.
+      - { label: "Legale Rappresentante di (denominazione)", map: { direct: business.denominazione } }
+      - { label: C.F. (dell'impresa o ente), map: { fallback: [business.codice_fiscale, business.partita_iva] } }
+      - { label: Pec, map: { fallback: [business.pec, identity.pec] } }
+      - { label: e-mail, map: { fallback: [business.email, identity.email] } }
+      - label: "Dichiara di non avere pendenze verso il Comune di Napoli per IMU, Tassa rifiuti, Imposta di soggiorno, Canone di occupazione suolo pubblico (fino al 2020) e Canone patrimoniale (dal 2021)"
+        map: { ask: "Il dichiarante conferma di non avere pendenze verso il Comune di Napoli per IMU, TARI, imposta di soggiorno e canoni di suolo pubblico?" }
+      - label: "Dichiara di non avere procedure di riscossione coattiva in corso con il concessionario per entrate del Comune di Napoli"
+        map: { ask: "Il dichiarante conferma di non avere procedure di riscossione coattiva in corso per entrate del Comune di Napoli?" }
+      - { label: Recapiti – Telefono fisso, map: { ask: Telefono fisso (facoltativo) } }
+      - { label: Recapiti – cellulare, map: { direct: identity.phone } }
+      - { label: Recapiti – e-mail, map: { direct: identity.email } }
+      - { label: Data e luogo, map: { ask: "Data e luogo della firma" } }
+      - { label: (firma), map: { blank_with_reason: "Firma del dichiarante: la appone solo la persona (sul portale, firma digitale)." } }
+steps:
+  - do: >-
+      Incaricare un tecnico abilitato (architetto, ingegnere, geometra…) con lettera d'incarico o
+      contratto firmato
+    who: owner
+    human_only: true
+  - do: >-
+      Verificare con il tecnico che i lavori siano davvero da CILA (non edilizia libera, non
+      strutturali, senza cambio di categoria d'uso), lo stato legittimo dell'immobile e gli
+      eventuali vincoli (bene culturale, paesaggio, centro storico zona A)
+    who: professional
+  - do: >-
+      Se servono atti di assenso (autorizzazione della Soprintendenza, autorizzazione
+      paesaggistica), ottenerli prima o chiederne l'acquisizione con la CILA (casella c.3)
+    who: professional
+  - do: Procurarsi visura catastale e titoli edilizi precedenti; preparare elaborati PDF/A, relazione e foto secondo le Linee guida
+    who: professional
+  - do: Compilare l'Allegato A Programma 100 e preparare la procura speciale (dati dalla tabella dei campi)
+    who: anyone
+  - do: Firmare digitalmente la procura speciale al tecnico, l'Allegato A e il Modello DP (insieme al tecnico)
+    who: owner
+    human_only: true
+  - do: Pagare i diritti di segreteria (151,00 euro) con bollettino sul c/c postale 57060964, con la causale indicata dal Comune
+    who: owner
+    human_only: true
+  - do: >-
+      Compilare la CILA su Impresa in un giorno (SUE di Napoli), allegare documenti e ricevuta,
+      firmare digitalmente e inviare
+    who: professional
+    human_only: true
+  - do: Conservare la ricevuta di presentazione e annotare numero e data della pratica
+    who: owner
+  - do: >-
+      Prima di iniziare: notifica preliminare e DURC se dovuti, cartello di cantiere visibile dalla
+      strada con gli estremi della CILA, eventuale deroga acustica e concessione di suolo pubblico
+      per ponteggi o materiali
+    who: professional
+  - do: >-
+      A fine lavori: comunicazione di fine lavori con asseverazione del direttore dei lavori e,
+      se serve, aggiornamento catastale entro 30 giorni
+    who: professional
+    human_only: true
+after:
+  - Conservare la ricevuta della pratica, la CILA firmata, gli elaborati e la ricevuta dei diritti.
+  - >-
+    Il SUE controlla a campione il 5% delle CILA presentate nel mese precedente, con sorteggio
+    mensile in seduta pubblica: tenere la documentazione pronta.
+  - >-
+    Se cambiano tecnici o impresa, o per inizio e fine lavori, presentare le comunicazioni previste
+    (vedi pitfalls sul canale).
+  - >-
+    Se i lavori cambiano superficie o destinazione dei locali di un'attività, valutare la
+    variazione TARI entro 90 giorni.
+pitfalls:
+  - text: >-
+      La pagina "CILA" del Comune (aggiornata all'11/11/2025) dice ancora di stampare i moduli,
+      scansionarli e inviarli con i "servizi online del Comune di Napoli". È superata: dal 6 luglio
+      2026 le CILA si presentano solo su Impresa in un giorno, compilando la pratica online (avviso
+      del 01/07/2026 e DD 501/2026, che dismette il Portale Metropolitano Multicanale).
+    status: verified
+    source: ed-privata
+  - text: >-
+      Mancata CILA (art. 6-bis c. 5): la pagina CILA, le note illustrative e la pagina dei
+      controlli a campione (aggiornata al 16/10/2026) dicono di presentarla su carta; il modulo
+      dice telematica per i lavori in corso (d.2) e cartacea per quelli realizzati (d.3); l'avviso
+      del 01/07/2026 elenca invece anche le CILA dell'art. 6-bis c. 5 tra le pratiche da inoltrare
+      solo su Impresa in un giorno. Chiedere al SUE prima di presentarla.
+    status: disputed
+    source: ed-privata
+  - text: >-
+      Inizio e fine lavori e variazioni di nominativi: le note illustrative, la scheda POTESs e la
+      pagina dell'ufficio indicano il Modello COM via PEC alla Municipalità competente (indirizzi
+      municipalitaN.territorio.economia@pec.comune.napoli.it); l'avviso del 01/07/2026 elenca gli
+      "Adempimenti edilizi (inizio e fine lavori…)" tra le pratiche solo su Impresa in un giorno, e
+      la DD 501/2026 esclude la PEC. Verificare con il SUE il canale in uso.
+    status: disputed
+    source: cila-note
+  - text: >-
+      Se serve l'autorizzazione paesaggistica (art. 146 D.Lgs. 42/2004), va ottenuta come
+      procedimento autonomo e presupposto prima di inoltrare la CILA.
+    status: verified
+    source: potess-sue
+  - text: >-
+      Nessuna autorizzazione paesaggistica serve per manutenzione ordinaria, straordinaria,
+      consolidamento statico e restauro conservativo che non alterino lo stato dei luoghi e
+      l'aspetto esteriore degli edifici: i lavori solo interni di norma ne sono esenti.
+    status: verified
+    source: dlgs42-art149
+  - text: >-
+      Se l'edificio è un bene culturale vincolato (frequente nel centro storico), qualsiasi opera,
+      anche interna, richiede l'autorizzazione del soprintendente; il cambio di destinazione d'uso
+      va comunicato al soprintendente. Senza, la CILA è inefficace.
+    status: verified
+    source: dlgs42-art21
+  - text: >-
+      Nel centro storico (zona A della Variante generale al PRG) va allegata l'attestazione del
+      professionista che l'unità edilizia corrisponde al tipo edilizio codificato nelle norme della
+      Variante (art. 63, c. 4), da cui dipendono gli interventi ammessi.
+    status: verified
+    source: cila-note
+  - text: >-
+      L'iscrizione del centro storico nella lista UNESCO non è, nelle fonti lette, un titolo o un
+      vincolo edilizio a sé: contano il vincolo culturale, quello paesaggistico e le norme del PRG
+      per la zona A. Non è stato letto il Piano di gestione del sito UNESCO.
+    status: unverified
+  - text: >-
+      Il Comune ha approvato con DCC n. 129 del 15/9/2026 una variante "per la salvaguardia
+      dell'offerta abitativa nel centro storico". Se i lavori servono a trasformare un'abitazione in
+      negozio, ufficio o altro nel centro storico, verificarla con il tecnico (testo non letto).
+    status: verified
+    source: ed-privata
+  - text: >-
+      Frazionare un'unità immobiliare (art. 22 c. 2 della Variante generale al PRG) richiede un
+      atto d'obbligo trascritto sulla non ulteriore frazionabilità, da inviare con la fine dei
+      lavori.
+    status: verified
+    source: cila-note
+  - text: >-
+      Per un cantiere di un'attività commerciale o produttiva in un edificio residenziale, o con
+      macchinari rumorosi all'aperto, serve l'autorizzazione in deroga del piano di zonizzazione
+      acustica (art. 12, DCC 204/2001), da chiedere al servizio competente prima dei lavori.
+    status: verified
+    source: cila-note
+  - text: >-
+      Le pratiche sono irricevibili se moduli, dichiarazioni o procure non sono firmati
+      digitalmente, se manca la procura quando presenta un'altra persona, o se i file non sono in
+      PDF/A o superano 20 MB.
+    status: verified
+    source: dd-501-2026
+  - text: >-
+      Le CILA non conformi agli strumenti urbanistici e alle norme di settore (sismiche,
+      antincendio, igienico-sanitarie, energetiche, beni culturali e paesaggio) o prive della
+      documentazione essenziale sono inefficaci.
+    status: verified
+    source: cila-note
+  - text: >-
+      L'efficacia della CILA è sospesa se mancano, quando previsti, il piano di sicurezza e
+      coordinamento, il fascicolo, la notifica preliminare o il DURC.
+    status: verified
+    source: cila-modulo
+  - text: >-
+      Se i lavori servono ad aprire o modificare un'attività, il modulo permette di presentare la
+      CILA al SUAP invece che al SUE (caselle d.4 e d.5). Non è stato verificato come il SUAP di
+      Napoli gestisca su impresainungiorno le CILA collegate a una SCIA d'attività.
+    status: unverified
+related:
+  - napoli/comune/scia-esercizio-vicinato
+  - napoli/comune/scia-somministrazione-alimenti-bevande
+  - napoli/comune/insegna-esercizio
+  - napoli/comune/concessione-suolo-pubblico-dehors
+  - napoli/comune/tari-variazione-non-domestica
+sources:
+  - id: ed-privata
+    label: Comune di Napoli – Edilizia Privata (avvisi del 01/07/2026, 30/06/2026, 15/06/2026, 20/03/2026, 11/02/2026; modulistica)
+    url: https://www.comune.napoli.it/articolo_tematico/urbanistica-patrimonio-politiche-per-la-casa-cimiteri-cittadini/edilizia-privata/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-01
+    official: true
+  - id: novita-iiug
+    label: Comune di Napoli – Il Comune attiva la piattaforma "Impresa in un Giorno" per le pratiche dello Sportello Unico per l'Edilizia (comunicato del 02/07/2026)
+    url: https://www.comune.napoli.it/novita/piattaforma-impresa-in-un-giorno/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-02
+    official: true
+  - id: camcom-sue
+    label: Camera di Commercio di Napoli – Il Comune di Napoli aderisce al SUE di InfoCamere (02/07/2026)
+    url: https://www.na.camcom.gov.it/node/3192
+    retrieved: 2026-10-25
+    page_updated: 2026-07-02
+    official: true
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-10-25
+    official: true
+    notes: >-
+      Il pulsante "Accedi al Servizio" porta a
+      https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E.
+      La sezione Costi riporta ancora il vecchio codice causale N1055_SUE e il vecchio IBAN.
+  - id: dd-501-2026
+    label: Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026 – Attivazione del SUE su impresainungiorno e Linee guida per la presentazione delle istanze edilizie
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2018/04/LINEE-GUIDA_30.06.2026.pdf
+    retrieved: 2026-10-25
+    sha256: 49e604a61ec34fd88db459761f5b7b07efbfa04b243f4e95881969f1c47796c1
+    official: true
+  - id: cila-pagina
+    label: Comune di Napoli – CILA, Comunicazione di Inizio Lavori Asseverata
+    url: https://www.comune.napoli.it/articolo_tematico/urbanistica-patrimonio-politiche-per-la-casa-cimiteri-cittadini/edilizia-privata/attivita-subordinata-a-titoli-edilizi/cila-comunicazione-di-inizio-lavori-asseverata/
+    retrieved: 2026-10-25
+    page_updated: 2025-11-11
+    official: true
+    notes: Superata sul canale di presentazione (precede il passaggio a impresainungiorno).
+  - id: cila-modulo
+    label: Mod.CILA-23-06-2025 – Comunicazione inizio lavori asseverata (Comune di Napoli)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2010/06/CILA_23.06.25-1.pdf
+    retrieved: 2026-10-25
+    sha256: a8a62c2d85fa679281b16159808e8ae6c21481235a8547f51c91bd3c613d2227
+    official: true
+    notes: L'informativa privacy cita ancora il D.Lgs. 196/2003. L'allegato "Soggetti coinvolti" non è in questo PDF.
+  - id: cila-note
+    label: CILA – Note illustrative (23/06/2025), Servizio sportello unico edilizia privata
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2010/06/CILA_note_illustrative_23_06_2025-1.pdf
+    retrieved: 2026-10-25
+    sha256: 62f90efd6fffde505c20a6d25caa5ffa65ccf5589f1d213119e8df3caf0e0f47
+    official: true
+    notes: Descrivono ancora l'invio tramite i servizi online del Comune (prima di impresainungiorno).
+  - id: dd-603-2025
+    label: Disposizione Dirigenziale SUE n. 603 del 23 giugno 2025 – Adozione della modulistica unificata (Accordo CU 35/CU del 27/03/2025, DD Regione Campania n. 217 del 16/06/2025)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2010/07/0603_2025.pdf
+    retrieved: 2026-10-25
+    sha256: cc9e05574caefdceba9d35b146f895e5e86fe88854429a89c3b4a76dca76d0d7
+    official: true
+    notes: Lette le 4 pagine della disposizione; gli allegati contengono i moduli (CILA, SCIA, PdC, SCIA alternativa).
+  - id: documentazione
+    label: Comune di Napoli – Edilizia Privata, Documentazione
+    url: https://www.comune.napoli.it/articolo_tematico/urbanistica-patrimonio-politiche-per-la-casa-cimiteri-cittadini/edilizia-privata/documentazione/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-01
+    official: true
+  - id: costi
+    label: Comune di Napoli – Edilizia Privata, Costi
+    url: https://www.comune.napoli.it/articolo_tematico/urbanistica-patrimonio-politiche-per-la-casa-cimiteri-cittadini/edilizia-privata/costi/
+    retrieved: 2026-10-25
+    page_updated: 2026-06-30
+    official: true
+  - id: tabella-diritti
+    label: Tabella dei diritti d'istruttoria delle pratiche dello Sportello Unico Edilizia (agg. al 16/06/2026, delibera di G.C. n. 239 del 28 maggio 2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2011/08/tabella-diritti-agg.16_06_2026.pdf
+    retrieved: 2026-10-25
+    sha256: f12663fe2ca5d98541071c27b3d0fae169ff9d67c3a229b61922d407d2c85837
+    official: true
+    notes: L'avviso del 15/06/2026 sulla pagina Edilizia Privata data la stessa delibera 29 maggio 2026.
+  - id: controlli
+    label: Comune di Napoli – Controlli a campione delle CILA
+    url: https://www.comune.napoli.it/articolo_tematico/urbanistica-patrimonio-politiche-per-la-casa-cimiteri-cittadini/edilizia-privata/controlli-a-campione-delle-cila/
+    retrieved: 2026-10-25
+    page_updated: 2026-10-16
+    official: true
+  - id: sue-ufficio
+    label: Comune di Napoli – Servizio Sportello Unico Edilizia (scheda dell'ufficio)
+    url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-sportello-unico-edilizia/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-16
+    official: true
+  - id: sue-contatti
+    label: Rubrica telefonica SUE, aggiornata al 15/06/2026 (orario di ricevimento)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2010/07/Contatti_15_06_2026.pdf
+    retrieved: 2026-10-25
+    sha256: 05f7d6cc5c789eb6a979581e840380819bf666ad33fac364bceb053cd44d73d4
+    official: true
+  - id: allegato-a-p100
+    label: Allegato A – Programma 100, gruppo B (dichiarazione sostitutiva sulle pendenze verso il Comune di Napoli)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/06/Allegato_A_nuovo_p100.pdf
+    retrieved: 2026-10-25
+    sha256: e1628ddf58a5a13c68736f3e179a08fa124cef0dfce6a5e8a7f0cf662610a080
+    official: true
+  - id: mod-dp
+    label: Modello DP – Dichiarazione di pagamento (legge regionale 59/2018), pubblicato il 17/01/2019
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/06/MOD.DP_Dichiarazione_di_Pagamento.pdf
+    retrieved: 2026-10-25
+    sha256: 46b0506b18aaf4d83b59b1efbec364044d92e956b78624bfaad6a6052d3975dc
+    official: true
+    notes: Il titolo cita la L.R. 59/2018, la nota a piè di pagina la "Legge Regionale 59/2019".
+  - id: dpr380-art6bis
+    label: D.P.R. 6 giugno 2001, n. 380, art. 6-bis (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art6bis
+    retrieved: 2026-10-25
+    official: true
+  - id: dpr380-art3
+    label: D.P.R. 6 giugno 2001, n. 380, art. 3 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art3
+    retrieved: 2026-10-25
+    official: true
+  - id: dpr380-art6
+    label: D.P.R. 6 giugno 2001, n. 380, art. 6 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art6
+    retrieved: 2026-10-25
+    official: true
+  - id: dpr380-art23ter
+    label: D.P.R. 6 giugno 2001, n. 380, art. 23-ter (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art23ter
+    retrieved: 2026-10-25
+    official: true
+  - id: dlgs42-art21
+    label: D.Lgs. 22 gennaio 2004, n. 42, art. 21 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2004-01-22;42~art21
+    retrieved: 2026-10-25
+    official: true
+  - id: dlgs42-art149
+    label: D.Lgs. 22 gennaio 2004, n. 42, art. 149 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2004-01-22;42~art149
+    retrieved: 2026-10-25
+    official: true
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: lette le pagine del Comune di Napoli Edilizia Privata (avvisi 11/02-01/07/2026), CILA,
+    Documentazione, Costi, Controlli a campione, la scheda dell'ufficio SUE e la scheda POTESs "SUE
+    – Piattaforma Impresa In Un Giorno" (con il link di accesso), il comunicato del Comune e quello
+    della Camera di Commercio del 02/07/2026; la DD 501/2026 con le Linee guida, la DD 603/2025
+    (testo), il Mod.CILA-23-06-2025 e le note illustrative, la tabella diritti SUE 2026, la rubrica
+    SUE, l'Allegato A Programma 100 e il Modello DP; su Normattiva DPR 380/2001 artt. 3, 6, 6-bis,
+    23-ter e D.Lgs. 42/2004 artt. 21 e 149.
+  notes: >-
+    Non aperti: il portale impresainungiorno dopo l'accesso (serve SPID), il testo del DD Regione
+    Campania 217/2025 e dell'Accordo CU 35/CU (citati tramite la DD 603/2025), le norme della
+    Variante generale al PRG, la DCC 129/2026, il Piano di gestione UNESCO, la modulistica della
+    Soprintendenza. Il modulo mappato è quello pubblicato dal Comune; sul portale la pratica si
+    compila online con lo stesso tracciato unificato (non verificato campo per campo).

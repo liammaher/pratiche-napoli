@@ -1,0 +1,730 @@
+schema_version: 0
+id: napoli/comune/scia-acconciatore-estetista
+title: SCIA per aprire un'attività di acconciatore (parrucchiere, barbiere) o di estetista – SUAP del Comune di Napoli
+summary: >-
+  Chi vuole aprire a Napoli un salone di acconciatore (parrucchiere o barbiere) o un centro di
+  estetica presenta una SCIA al SUAP del Comune, solo online su impresainungiorno. Serve un
+  responsabile tecnico con l'abilitazione o la qualificazione professionale e locali conformi al
+  regolamento comunale. Si può aprire dal giorno in cui la SCIA è presentata, salvo il caso del
+  salone che consuma molta acqua (serve prima l'AUA).
+ente:
+  name: Comune di Napoli
+  office: Area Sviluppo Economico – Servizio Sportello Unico Attività Produttive (SUAP)
+  ipa: c_f839
+applies_to:
+  events: [open]
+  audience: [business]
+  sectors: [acconciatore, parrucchiere, barbiere, estetista, servizi alla persona]
+  conditions:
+    - text: >-
+        Apertura di un nuovo esercizio di acconciatore e/o estetista nel Comune di Napoli. Il
+        regolamento comunale si applica a ogni forma di esercizio, dovunque e da chiunque sia svolta,
+        anche a titolo gratuito (art. 3). La SCIA serve anche per trasferimento di sede e
+        subingresso (art. 8); questa scheda descrive l'apertura.
+      status: verified
+      source: regolamento-napoli
+    - text: >-
+        Il Servizio SUAP del Comune è competente per acconciatori e per centri estetici e abbronzanti.
+      status: verified
+      source: suap-uo
+    - text: >-
+        Acconciatore: trattamenti e servizi per l'aspetto estetico dei capelli, compresi i trattamenti
+        tricologici complementari non sanitari, il taglio e il trattamento estetico della barba (art. 2
+        L. 174/2005). Le attività di barbiere e parrucchiere per uomo e donna hanno preso il nome di
+        "attività di acconciatore" (art. 6).
+      status: verified
+      source: l174-art2
+    - text: >-
+        Estetista: prestazioni e trattamenti sulla superficie del corpo per mantenerlo in perfette
+        condizioni o migliorarne l'aspetto, con tecniche manuali, apparecchi elettromeccanici
+        dell'elenco allegato alla legge e cosmetici; escluse le prestazioni a finalità terapeutica (art. 1
+        L. 1/1990). Per il regolamento di Napoli truccatore, visagista, massaggiatore facciale,
+        depilatore, manicure e pedicure estetico sono attività di estetista (art. 4).
+      status: verified
+      source: regolamento-napoli
+    - text: >-
+        Tatuaggio e piercing hanno requisiti propri (attestati e corso ASL, art. 6bis del regolamento)
+        e un diritto d'istruttoria a parte: non sono coperti da questa scheda.
+      status: verified
+      source: regolamento-napoli
+    - text: >-
+        L'attività si può svolgere anche presso il domicilio dell'esercente, con locali in regola,
+        indipendenti dall'abitazione, con ingresso separato e servizi igienici propri, consentendo i
+        controlli; ai piani superiori serve una targa visibile dalla strada (artt. 13 e 26). Non è
+        ammessa in forma itinerante o di posteggio.
+      status: verified
+      source: regolamento-napoli
+legal_basis:
+  - text: "L. 17 agosto 2005, n. 174, artt. 2 e 3 (acconciatore: SCIA al SUAP, abilitazione, responsabile tecnico)."
+    status: verified
+    source: l174-art3
+  - text: "L. 4 gennaio 1990, n. 1, artt. 1, 3 e 8 (estetista: definizione, qualificazione, responsabile tecnico)."
+    status: verified
+    source: l1-art3
+  - text: >-
+      D.L. 31 gennaio 2007, n. 7, art. 10, c. 2 (conv. L. 40/2007): niente distanze minime, limiti
+      numerici od obbligo di chiusura infrasettimanale; restano qualificazione professionale e
+      conformità urbanistica e igienico-sanitaria dei locali.
+    status: verified
+    source: dl7-art10
+  - text: >-
+      Regolamento comunale per l'esercizio delle attività di acconciatore, estetista, tatuaggio e
+      piercing (DCC n. 18 del 16/04/2018, modificato con DCC n. 6 del 23/03/2021).
+    status: verified
+    source: regolamento-napoli
+  - text: "D.Lgs. 222/2016, Tabella A, Sezione I (regime amministrativo: SCIA), come indicato nel modello regionale."
+    status: verified
+    source: modello-scia-campania
+  - text: "Legge 241/1990, art. 19 (SCIA: avvio dalla presentazione, controlli entro 60 giorni)."
+    status: verified
+    source: l241-art19
+deadline:
+  rules:
+    - text: >-
+        La SCIA va presentata prima di aprire: l'attività può iniziare dalla data di inoltro (art. 8,
+        c. 2 del regolamento). A Napoli l'avvio è possibile appena arriva la ricevuta di avvio pratica
+        telematica del SUAP.
+      status: verified
+      source: suap-servizio
+    - text: >-
+        Acconciatore con consumo d'acqua giornaliero superiore a 1 mc nel momento di massima attività:
+        serve una SCIA condizionata con la domanda di AUA (Autorizzazione Unica Ambientale) e non si può
+        iniziare fino al rilascio dell'AUA (art. 8, cc. 3-4).
+      status: verified
+      source: regolamento-napoli
+    - text: >-
+        Si decade dal diritto di esercitare se l'esercizio non è attivato entro 60 giorni dalla
+        presentazione della SCIA, salvo proroga (art. 33, c. 1, lett. a).
+      status: verified
+      source: regolamento-napoli
+    - text: >-
+        Entro 60 giorni dal ricevimento l'amministrazione, se mancano requisiti o presupposti, vieta la
+        prosecuzione dell'attività o, se si può rimediare, invita a conformarsi entro un termine di
+        almeno 30 giorni.
+      status: verified
+      source: l241-art19
+  lateness:
+    text: >-
+      Il regolamento comunale (art. 31) prevede, previa contestazione, la cessazione immediata
+      dell'attività e una sanzione: per l'acconciatore senza SCIA o senza requisiti da 250,00 a
+      5.000,00 euro; per l'estetista senza SCIA da 516,46 a 1.032,91 euro e senza requisiti
+      professionali da 516,46 a 2.582,28 euro. L'importo concreto lo stabilisce l'autorità che
+      contesta la violazione.
+    status: verified
+    source: regolamento-napoli
+channels:
+  - type: portal
+    name: impresainungiorno – SUAP di Napoli
+    url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: suap-servizio
+    notes: >-
+      Unico canale per le pratiche SUAP di Napoli. Servono email, PEC, kit di firma digitale e
+      accesso con SPID, CIE, CNS (o eIDAS, Telemaco). Il percorso nel portale non è stato
+      controllato: la sezione informativa richiede un captcha.
+  - type: pec
+    address: suap@pec.comune.napoli.it
+    receipt: legal
+    source: suap-contatti
+    notes: >-
+      Solo per comunicare con l'ufficio: le pratiche trasmesse via PEC o email ordinaria non vengono
+      istruite.
+  - type: email
+    address: suaponline@comune.napoli.it
+    receipt: informal
+    source: suap-contatti
+    notes: Solo per informazioni; non per presentare la SCIA.
+  - type: desk
+    name: Servizio SUAP
+    address: Piazza Cavour 42, II piano, Napoli
+    booking: >-
+      Dal 18 maggio 2026 solo su prenotazione online (pulsante "Prenota appuntamento" della pagina
+      "Avviare, variare, chiudere un'attività produttiva").
+    source: suap-contatti
+    notes: >-
+      Informazioni e assistenza; la SCIA si presenta comunque online. La pagina contatti elenca un
+      gruppo di referenti per acconciatori, centri estetici e abbronzanti, tatuatori e piercing.
+  - type: phone
+    address: 081 7953054
+    source: suap-servizio
+payment:
+  method: pagopa
+  notes:
+    - text: >-
+        Dall'11 giugno 2026 le pratiche telematiche SUAP pagano i diritti d'istruttoria della nuova
+        tabella approvata con la DGC n. 239 del 28 maggio 2026.
+      status: verified
+      source: diritti
+    - text: >-
+        Diritti d'istruttoria SUAP 2026, apertura:
+        attività di acconciatore (parrucchiere e barbiere) 100,00 euro (riga S150); acconciatore + AUA
+        per scarico acque 200,00 euro (S151); attività di estetista 100,00 euro (S152). Importi
+        "invariati" rispetto alla tabella precedente.
+      status: verified
+      source: tabella-2026
+    - text: >-
+        Si pagano con pagoPA dentro la pratica su impresainungiorno. Se la pratica unisce più
+        procedimenti (SCIA unica o condizionata) si sommano gli importi dei singoli procedimenti
+        (logica del carrello): per esempio acconciatore ed estetista nella stessa pratica, o insieme
+        alla SCIA per l'insegna (100,00 euro, riga S204).
+      status: verified
+      source: guida-pagopa
+    - text: >-
+        Imposta di bollo: secondo il modello regionale è obbligatoria solo quando con la SCIA si
+        presenta una domanda (SCIA condizionata, per esempio con l'AUA).
+      status: verified
+      source: modello-scia-campania
+documents:
+  - name: Scheda anagrafica + SCIA per l'esercizio dell'attività di acconciatore e/o estetista, compilate sul portale e firmate digitalmente
+    required: true
+  - name: Planimetria quotata dei locali in scala minima 1:100, con layout di superfici, attrezzature e arredi
+    required: true
+    notes: Sempre obbligatoria secondo il modello regionale, tranne nell'affitto di poltrona.
+  - name: Relazione descrittiva delle caratteristiche dei locali, della loro localizzazione e dell'attrezzatura utilizzata
+    required: true
+    notes: Sempre obbligatoria secondo il modello regionale, tranne nell'affitto di poltrona.
+  - name: Allegato B (acconciatore) o Allegato C (estetista) – dichiarazione del responsabile tecnico sui requisiti, con documento d'identità
+    required: false
+    notes: Se il responsabile tecnico è una persona diversa dal dichiarante.
+  - name: Dichiarazione di accettazione del responsabile tecnico, con documento d'identità
+    required: false
+    notes: Se il responsabile tecnico è una persona diversa dal dichiarante.
+  - name: Allegato A – dichiarazione antimafia degli altri soci, con documento d'identità
+    required: false
+    notes: Sempre, se nella società ci sono soggetti diversi dal dichiarante.
+  - name: Procura speciale/delega
+    required: false
+    notes: Se la pratica è presentata da un procuratore o da un'agenzia per le imprese.
+  - name: Copia del documento d'identità del titolare
+    required: false
+    notes: Solo se la SCIA non è firmata digitalmente e non c'è procura.
+  - name: Documentazione per l'AUA (scarico delle acque)
+    required: false
+    notes: Solo per l'acconciatore con consumo d'acqua oltre 1 mc al giorno nel momento di massima attività (SCIA condizionata).
+  - name: SCIA (o domanda di autorizzazione) per l'insegna di esercizio
+    required: false
+    notes: Se è prevista un'insegna esterna (procedura napoli/comune/insegna-esercizio).
+  - name: Ricevuta pagoPA dei diritti d'istruttoria SUAP
+    required: true
+    notes: Il portale la genera dentro la pratica.
+forms:
+  - id: scheda-anagrafica-campania
+    name: >-
+      Scheda anagrafica (modulistica unificata e standardizzata, Regione Campania, fonte BURC) –
+      parte comune a tutte le SCIA
+    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Scheda_anagrafica.pdf
+    source: scheda-anagrafica
+    sha256: aef5908e61b8ad9001275c84d9dd0fe9f70b0c35ad1814396ba4f3b223440d57
+    signature_required: true
+    fields:
+      # 1 – Dati del dichiarante
+      - { label: "1 – Dati del dichiarante: Cognome", map: { direct: identity.last_name } }
+      - { label: Nome, map: { direct: identity.first_name } }
+      - { label: codice fiscale, map: { direct: identity.codice_fiscale } }
+      - { label: sesso, map: { direct: identity.sex } }
+      - { label: Nato/a a, map: { direct: identity.birth_comune } }
+      - { label: prov. (di nascita), map: { direct: identity.birth_province } }
+      - label: Stato (di nascita)
+        map: { direct: identity.birth_country }
+        notes: Solo se nato all'estero; se nato in Italia scrivere Italia.
+      - { label: il (data di nascita), map: { direct: identity.date_of_birth } }
+      - { label: cittadinanza, map: { direct: identity.citizenship } }
+      - label: estremi del documento di soggiorno
+        map: { direct: permesso_soggiorno.numero }
+        notes: Solo per cittadini non UE.
+      - label: rilasciato da
+        map: { direct: permesso_soggiorno.questura_rilascio }
+        notes: Solo per cittadini non UE.
+      - label: il (data rilascio del documento di soggiorno)
+        map: { direct: permesso_soggiorno.data_rilascio }
+        notes: Solo per cittadini non UE.
+      - label: scadenza (del documento di soggiorno)
+        map: { direct: permesso_soggiorno.data_scadenza }
+        notes: Solo per cittadini non UE.
+      - { label: residente in, map: { direct: residenza.comune } }
+      - { label: prov. (di residenza), map: { direct: residenza.provincia } }
+      - { label: Stato (di residenza), map: { ask: "Stato di residenza (Italia se residente in Italia)" } }
+      - { label: indirizzo, map: { direct: residenza.indirizzo } }
+      - { label: n., map: { direct: residenza.civico } }
+      - { label: C.A.P., map: { direct: residenza.cap } }
+      - { label: PEC / posta elettronica, map: { fallback: [identity.pec, identity.email] } }
+      - { label: Telefono fisso / cellulare, map: { direct: identity.phone } }
+      - label: in qualità di (Titolare / Legale rappresentante / Altro)
+        map: { direct: business.qualita_dichiarante }
+        notes: Se il ruolo è diverso da titolare o legale rappresentante, chiedere e scriverlo in "Altro".
+      # 2 – Dati della ditta/società/impresa
+      - label: "2 – Dati della ditta/società/impresa: Denominazione"
+        map: { direct: business.denominazione }
+      - { label: Forma giuridica, map: { ask: "Forma giuridica dell'impresa (ditta individuale, s.r.l., s.n.c., ...)" } }
+      - label: codice fiscale / p. IVA
+        map: { fallback: [business.codice_fiscale, business.partita_iva] }
+      - label: iscritta alla C.C.I.A.A. di ... prov.
+        map: { direct: business.rea }
+        notes: La sigla davanti al numero REA (per esempio NA) indica la Camera di Commercio e la provincia.
+      - { label: n. REA, map: { direct: business.rea } }
+      - label: non ancora iscritta / non necessita di iscrizione al R.I.
+        map: { ask: "L'impresa non è ancora iscritta al Registro delle imprese?" }
+        notes: >-
+          Per il regolamento di Napoli l'attività non può essere esercitata da chi non è iscritto al
+          Registro delle imprese (art. 12, c. 4): "non necessita di iscrizione" non si applica.
+      - { label: "con sede legale in: Comune", map: { direct: business.sede_legale_comune } }
+      - { label: prov. (sede legale), map: { direct: business.sede_legale_provincia } }
+      - { label: Stato (sede legale), map: { ask: "Stato della sede legale (Italia se in Italia)" } }
+      - { label: indirizzo (sede legale), map: { direct: business.sede_legale_indirizzo } }
+      - { label: n. (sede legale), map: { direct: business.sede_legale_civico } }
+      - { label: C.A.P. (sede legale), map: { direct: business.sede_legale_cap } }
+      - { label: Telefono fisso / cell. (impresa), map: { ask: "Telefono dell'impresa" } }
+      - { label: fax, map: { blank_with_reason: Facoltativo; il registro non ha un campo fax. } }
+      - { label: PEC (impresa), map: { direct: business.pec } }
+      - label: Altro domicilio elettronico per invio delle comunicazioni inerenti la pratica
+        map: { ask: "Altro indirizzo elettronico per le comunicazioni sulla pratica, se diverso dalla PEC" }
+      # 3 – Dati del procuratore/delegato
+      - label: "3 – Dati del procuratore/delegato: Cognome, Nome"
+        map: { ask: "Cognome e nome del procuratore, se la pratica è presentata con procura" }
+        notes: Compilare solo in caso di procura.
+      - { label: codice fiscale (procuratore), map: { ask: Codice fiscale del procuratore } }
+      - { label: "Nato/a a, prov., Stato, il (procuratore)", map: { ask: Luogo e data di nascita del procuratore } }
+      - label: "residente in, prov., Stato, indirizzo, n., C.A.P. (procuratore)"
+        map: { ask: Residenza del procuratore }
+      - { label: PEC / posta elettronica (procuratore), map: { ask: PEC o email del procuratore } }
+      - { label: Telefono fisso / cellulare (procuratore), map: { ask: Telefono del procuratore } }
+      - label: "in qualità di: Procuratore/delegato / Agenzia per le imprese – Denominazione"
+        map: { ask: "Il procuratore agisce come persona delegata o come Agenzia per le imprese (con denominazione)?" }
+      # 4 – Dati dell'attività
+      - label: "4 – Dati dell'attività/intervento"
+        map: { blank_with_reason: "Rinvia al modulo del procedimento: si compila la SCIA per acconciatore e/o estetista." }
+  - id: scia-acconciatore-estetista-campania-2019
+    name: >-
+      Segnalazione certificata di inizio attività per l'esercizio dell'attività di acconciatore e/o
+      estetista, con Allegati A, B e C (modulistica unificata e standardizzata, Regione Campania,
+      versione 2019)
+    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/SCIA%20per%20l'esercizio%20dell'attivit%C3%A0%20di%20acconciatore%20e_o%20estetista%202019.pdf
+    source: modello-scia-campania
+    sha256: 6f61dd59b80f037d1910a8004fae2419ab68e3eb0673b43ade3a7ba6e36a0181
+    signature_required: true
+    fields:
+      # Intestazione
+      - label: "Al SUAP del Comune di – Indirizzo – PEC / Posta elettronica"
+        map: { blank_with_reason: "SUAP del Comune di Napoli; nel modulo online è precompilato dal portale." }
+      - label: Pratica / del / Protocollo
+        map: { blank_with_reason: Compilato a cura del SUAP. }
+      - label: "SCIA: Apertura / Trasferimento di sede; SCIA UNICA: + altre segnalazioni; SCIA CONDIZIONATA: + altre domande per acquisire atti d'assenso"
+        map: { ask: "Si presentano insieme alla SCIA altre segnalazioni (es. insegna) o domande (es. AUA per lo scarico delle acque)?" }
+        notes: >-
+          Apertura senza altro: SCIA Apertura. Con la SCIA per l'insegna: SCIA UNICA. Con la domanda
+          di AUA o di autorizzazione per l'insegna: SCIA CONDIZIONATA (non si apre fino agli atti di
+          assenso).
+      # Indirizzo dell'attività
+      - label: "Indirizzo dell'attività: Via/piazza"
+        map: { direct: locale.indirizzo }
+        notes: Da compilare se diverso da quello della ditta/società/impresa.
+      - { label: n. (attività), map: { direct: locale.civico } }
+      - { label: Comune (attività), map: { direct: locale.comune } }
+      - { label: prov. (attività), map: { direct: locale.provincia } }
+      - { label: C.A.P. (attività), map: { direct: locale.cap } }
+      - { label: Stato (attività), map: { blank_with_reason: "Italia: il locale è a Napoli." } }
+      - { label: Telefono fisso / cell. (attività), map: { ask: Telefono del salone o centro estetico } }
+      - { label: fax (attività), map: { blank_with_reason: Facoltativo; il registro non ha un campo fax. } }
+      # Dati catastali
+      - { label: "Dati catastali: Foglio n.", map: { direct: locale.catasto_foglio } }
+      - { label: map., map: { direct: locale.catasto_particella } }
+      - { label: sub. (se presenti), map: { direct: locale.catasto_subalterno } }
+      - { label: sez., map: { direct: locale.catasto_sezione } }
+      - { label: "Catasto: fabbricati", map: { blank_with_reason: Casella da barrare (catasto fabbricati). } }
+      # 1 – Apertura – 1.1 Dati sull'attività
+      - label: "1.1 – Segnala l'avvio dell'attività di: Acconciatore / Estetista"
+        map: { ask: "Si apre un'attività di acconciatore, di estetista o entrambe?" }
+        notes: Per entrambe servono i requisiti di ciascuna attività e un responsabile tecnico per ognuna.
+      - label: Superficie complessiva del locale (mq)
+        map: { ask: "Superficie complessiva del locale in mq, compresi ingresso, attesa, servizi e ripostigli" }
+      - label: Superficie del locale adibita all'esercizio dell'attività (mq)
+        map: { direct: locale.superficie_mq }
+        notes: >-
+          Il regolamento di Napoli chiede almeno 10 mq per un posto di lavoro di acconciatore (+4 mq
+          per ogni posto in più) e almeno 14 mq per l'estetista, esclusi i locali accessori (art. 26).
+      - label: "Esercizio collocato in centro commerciale: Sì (denominazione) / No"
+        map: { ask: "Il locale è dentro un centro commerciale? Se sì, quale?" }
+      - label: "Attività esercitata: Unica o prevalente / Svolta congiuntamente all'attività di ..."
+        map: { ask: "L'attività è unica o prevalente, o svolta insieme a un'altra (quale)?" }
+      - label: "Già avviato con la SCIA prot./n. ... del ..."
+        map: { blank_with_reason: Non si compila per una nuova apertura. }
+      # 1.2 – Requisiti antimafia e professionali
+      - label: "1.2 – Dichiara che non sussistono cause di divieto, decadenza o sospensione (art. 67 D.Lgs. 159/2011)"
+        map: { ask: "Il dichiarante conferma che non ci sono nei suoi confronti cause ostative antimafia?" }
+        notes: Dichiarazione sostitutiva, che sceglie e firma solo il dichiarante.
+      - label: "Acconciatore – di essere Responsabile tecnico e: abilitazione professionale (rilasciata da, in data, atto n.)"
+        map: { ask: "Il dichiarante è responsabile tecnico con abilitazione di acconciatore? Ente che l'ha rilasciata, data e numero dell'atto" }
+      - label: "oppure: qualifica di acconciatore o parrucchiere per uomo o donna (art. 6, c. 2, L. 174/2005) – rilasciata da, in data, atto n."
+        map: { ask: "Qualifica di acconciatore o parrucchiere precedente alla L. 174/2005 (ente, data, numero atto)?" }
+      - label: "oppure: qualificazione conseguita all'estero e riconosciuta (decreto n., in data)"
+        map: { ask: "Qualifica di acconciatore ottenuta all'estero e riconosciuta in Italia (estremi del decreto)?" }
+      - { label: "oppure: altro (specificare) – acconciatore", map: { ask: "Altro titolo di abilitazione di acconciatore (specificare)" } }
+      - label: "OPPURE: il/i Responsabile/i tecnico/i è/sono (Nome, Cognome, CF; Titolare / Socio partecipante al lavoro / Familiare coadiuvante / Dipendente) – Allegato B"
+        map: { ask: "Nome, cognome, codice fiscale e ruolo nell'impresa di ogni responsabile tecnico acconciatore diverso dal dichiarante" }
+        notes: Uno per ogni sede; serve l'Allegato B per ciascuno.
+      - label: "Estetista – di essere Responsabile tecnico e: qualificazione professionale di estetista (rilasciata da, in data, atto n.)"
+        map: { ask: "Il dichiarante è responsabile tecnico con qualificazione di estetista? Ente che l'ha rilasciata, data e numero dell'atto" }
+      - label: "oppure: abilitazione conseguita all'entrata in vigore della L. 1/1990 come titolare, socio, direttore (2 anni) o dipendente (3 anni nel quinquennio) – impresa, n. REA, periodo"
+        map: { ask: "Qualificazione di estetista maturata prima della L. 1/1990 (ruolo, impresa o studio medico, n. REA, periodo)?" }
+      - label: "oppure: attestato di corso regionale / attestato o diploma di scuole professionali autorizzate (rilasciato da, in data, atto n.)"
+        map: { ask: "Attestato di corso regionale o diploma di scuola professionale riconosciuta (ente, data, numero atto)?" }
+      - label: "oppure: qualifica conseguita all'estero e riconosciuta (decreto n., in data)"
+        map: { ask: "Qualifica di estetista ottenuta all'estero e riconosciuta in Italia (estremi del decreto)?" }
+      - { label: "oppure: altro (specificare) – estetista", map: { ask: "Altro titolo di qualificazione di estetista (specificare)" } }
+      - label: "OPPURE: il/i Responsabile/i tecnico/i è/sono (Nome, Cognome, CF; ruolo) – Allegato C"
+        map: { ask: "Nome, cognome, codice fiscale e ruolo nell'impresa di ogni responsabile tecnico estetista diverso dal dichiarante" }
+        notes: Uno per ogni sede; serve l'Allegato C per ciascuno.
+      # 2 – Trasferimento di sede
+      - label: "2 – Trasferimento di sede (SCIA/DIA/autorizzazione prot./n., del; DA indirizzo; A indirizzo, Comune, Prov.; centro commerciale; telefono, fax)"
+        map: { blank_with_reason: Non si compila per una nuova apertura. }
+      # Altre dichiarazioni
+      - label: "Dichiara di aver rispettato i regolamenti di igiene e sanità e i requisiti di sicurezza di arredi e attrezzature, oppure il regolamento comunale per l'attività di acconciatore e/o estetista"
+        map: { ask: "Il dichiarante conferma che locali, arredi e attrezzature rispettano il regolamento comunale di Napoli per acconciatori ed estetisti?" }
+        notes: "A Napoli è in vigore il regolamento comunale (DCC 18/2018 e 6/2021): usare la seconda formula."
+      - label: "Dichiara di aver rispettato: norme sulla sicurezza sui luoghi di lavoro; norme edilizie, urbanistiche e di destinazione d'uso; normativa ambientale"
+        map: { ask: "Il dichiarante conferma il rispetto di sicurezza sul lavoro, norme edilizie e urbanistiche, destinazione d'uso e normativa ambientale?" }
+      - label: Si impegna a comunicare ogni variazione relativa a stati, fatti, condizioni e titolarità
+        map: { ask: "Il dichiarante si impegna a comunicare le variazioni?" }
+      - label: Consente i controlli nei locali se l'attività è svolta presso la propria abitazione
+        map: { ask: "L'attività si svolge presso l'abitazione dell'esercente? (in quel caso si consentono i controlli)" }
+      - label: "SCIA UNICA: presenta le segnalazioni e/o comunicazioni del quadro riepilogativo"
+        map: { ask: "Si allega la SCIA per l'insegna di esercizio?" }
+      - label: "SCIA CONDIZIONATA: chiede l'acquisizione delle autorizzazioni del quadro riepilogativo"
+        map: { ask: "Si chiede l'AUA o l'autorizzazione per l'insegna insieme alla SCIA?" }
+      - { label: Data, map: { ask: Data di sottoscrizione } }
+      - label: Firma
+        map: { blank_with_reason: Firma digitale del dichiarante (o del procuratore con procura); solo la persona. }
+      - label: "Informativa privacy: dichiara di aver letto l'informativa"
+        map: { blank_with_reason: Presa visione da parte del dichiarante; solo la persona. }
+      # Quadro riepilogativo
+      - label: "Quadro riepilogativo – Procura/delega"
+        map: { ask: "La pratica è presentata da un procuratore con procura speciale?" }
+      - label: Copia del documento di identità del/i titolare/i
+        map: { blank_with_reason: Serve solo se la SCIA non è firmata digitalmente e non c'è procura. }
+      - label: "Dichiarazioni sul possesso dei requisiti da parte degli altri soci (Allegato A) + documento"
+        map: { ask: "Ci sono altri soci o amministratori diversi dal dichiarante? (serve l'Allegato A per ciascuno)" }
+      - label: "Dichiarazioni sul possesso dei requisiti da parte del responsabile tecnico (Allegati B e/o C) + documento"
+        map: { ask: "Il responsabile tecnico è diverso dal dichiarante? (serve l'Allegato B o C)" }
+      - label: "Dichiarazione di accettazione del Responsabile tecnico + documento"
+        map: { ask: "Il responsabile tecnico diverso dal dichiarante ha firmato la dichiarazione di accettazione?" }
+      - label: Planimetria quotata dei locali in scala minima 1:100 con layout superfici, attrezzature, arredi
+        map: { blank_with_reason: "Sempre obbligatoria (salvo affitto di poltrona): la prepara un tecnico, non viene dal registro." }
+      - label: Relazione descrittiva delle caratteristiche dei locali, della loro localizzazione e attrezzatura utilizzata
+        map: { blank_with_reason: "Sempre obbligatoria (salvo affitto di poltrona): documento da allegare." }
+      - label: "SCIA UNICA – SCIA per insegna di esercizio"
+        map: { ask: "Il locale avrà un'insegna esterna? (procedura napoli/comune/insegna-esercizio)" }
+      - label: "SCIA CONDIZIONATA – Documentazione per l'AUA per scarico delle acque"
+        map: { ask: "Solo acconciatore: il consumo d'acqua supera 1 mc al giorno nel momento di massima attività?" }
+      - label: "SCIA CONDIZIONATA – Documentazione per l'autorizzazione per insegna di esercizio"
+        map: { ask: "L'insegna richiede un'autorizzazione invece della SCIA (per esempio per vincoli)?" }
+      - label: "Altri allegati – Attestazione del versamento di oneri, diritti, ecc."
+        map: { blank_with_reason: Ricevuta pagoPA generata nella pratica su impresainungiorno. }
+      - label: "Attestazione del versamento dell'imposta di bollo (marca da bollo o altre modalità)"
+        map: { blank_with_reason: Dovuta solo con una SCIA condizionata (domanda contestuale). }
+      # Allegato A – altri soci
+      - label: "Allegato A (uno per socio) – Cognome, Nome"
+        map: { ask: Cognome e nome di ciascun altro socio }
+      - { label: "Allegato A – C.F.", map: { ask: Codice fiscale del socio } }
+      - { label: "Allegato A – Data di nascita", map: { ask: Data di nascita del socio } }
+      - { label: "Allegato A – Cittadinanza", map: { ask: Cittadinanza del socio } }
+      - { label: "Allegato A – Sesso", map: { ask: Sesso del socio } }
+      - { label: "Allegato A – Luogo di nascita: Stato, Provincia, Comune", map: { ask: Luogo di nascita del socio } }
+      - label: "Allegato A – Residenza: Provincia, Comune, Via/Piazza, N., C.A.P."
+        map: { ask: Residenza del socio }
+      - label: "Allegato A – in qualità di SOCIO/A della Società"
+        map: { direct: business.denominazione }
+      - label: "Allegato A – dichiara che non sussistono cause di divieto, decadenza o sospensione (art. 67 D.Lgs. 159/2011)"
+        map: { blank_with_reason: Dichiarazione personale del socio; la sceglie e la firma solo lui. }
+      - label: "Allegato A – Data, Firma; dichiara di aver letto l'informativa"
+        map: { blank_with_reason: Firma del socio; solo la persona. }
+      # Allegato B – responsabile tecnico acconciatore
+      - label: "Allegato B (acconciatore) – Cognome, Nome"
+        map: { ask: Cognome e nome del responsabile tecnico acconciatore }
+      - { label: "Allegato B – C.F.", map: { ask: Codice fiscale del responsabile tecnico } }
+      - { label: "Allegato B – Data di nascita", map: { ask: Data di nascita del responsabile tecnico } }
+      - { label: "Allegato B – Cittadinanza", map: { ask: Cittadinanza del responsabile tecnico } }
+      - { label: "Allegato B – Sesso", map: { ask: Sesso del responsabile tecnico } }
+      - { label: "Allegato B – Luogo di nascita: Stato, Provincia, Comune", map: { ask: Luogo di nascita del responsabile tecnico } }
+      - label: "Allegato B – Residenza: Provincia, Comune, Via/Piazza, N., C.A.P."
+        map: { ask: Residenza del responsabile tecnico }
+      - label: "Allegato B – in qualità di RESPONSABILE TECNICO/A della Ditta individuale / Società"
+        map: { direct: business.denominazione }
+      - label: "Allegato B – dichiara che non sussistono cause di divieto, decadenza o sospensione"
+        map: { blank_with_reason: Dichiarazione personale del responsabile tecnico; la sceglie e la firma solo lui. }
+      - label: "Allegato B – abilitazione professionale / qualifica ex art. 6 c. 2 L. 174/2005 / qualifica estera riconosciuta / altro (rilasciata da, in data, atto n.)"
+        map: { ask: "Quale titolo ha il responsabile tecnico acconciatore (abilitazione, qualifica precedente, qualifica estera riconosciuta, altro), con ente, data e numero dell'atto?" }
+      - label: "Allegato B – dichiara di sapere di dover garantire la propria presenza durante l'attività"
+        map: { blank_with_reason: Presa d'atto del responsabile tecnico; solo la persona. }
+      - label: "Allegato B – Data, Firma; dichiara di aver letto l'informativa"
+        map: { blank_with_reason: Firma del responsabile tecnico; solo la persona. }
+      # Allegato C – responsabile tecnico estetista
+      - label: "Allegato C (estetista) – Cognome, Nome"
+        map: { ask: Cognome e nome del responsabile tecnico estetista }
+      - { label: "Allegato C – C.F.", map: { ask: Codice fiscale del responsabile tecnico } }
+      - { label: "Allegato C – Data di nascita", map: { ask: Data di nascita del responsabile tecnico } }
+      - { label: "Allegato C – Cittadinanza", map: { ask: Cittadinanza del responsabile tecnico } }
+      - { label: "Allegato C – Sesso", map: { ask: Sesso del responsabile tecnico } }
+      - { label: "Allegato C – Luogo di nascita: Stato, Provincia, Comune", map: { ask: Luogo di nascita del responsabile tecnico } }
+      - label: "Allegato C – Residenza: Provincia, Comune, Via/Piazza, N., C.A.P."
+        map: { ask: Residenza del responsabile tecnico }
+      - label: "Allegato C – in qualità di RESPONSABILE TECNICO/A della Ditta individuale / Società"
+        map: { direct: business.denominazione }
+      - label: "Allegato C – dichiara che non sussistono cause di divieto, decadenza o sospensione"
+        map: { blank_with_reason: Dichiarazione personale del responsabile tecnico; la sceglie e la firma solo lui. }
+      - label: "Allegato C – qualificazione di estetista / abilitazione maturata prima della L. 1/1990 / attestato di corso regionale o diploma / qualifica estera riconosciuta / altro"
+        map: { ask: "Quale titolo ha il responsabile tecnico estetista, con ente, data e numero dell'atto (o impresa, n. REA e periodo per l'esperienza ante L. 1/1990)?" }
+      - label: "Allegato C – dichiara di sapere di dover garantire la propria presenza durante l'attività"
+        map: { blank_with_reason: Presa d'atto del responsabile tecnico; solo la persona. }
+      - label: "Allegato C – Data, Firma; dichiara di aver letto l'informativa"
+        map: { blank_with_reason: Firma del responsabile tecnico; solo la persona. }
+steps:
+  - do: >-
+      Verificare che il titolare (o un socio) o un responsabile tecnico abbia l'abilitazione di
+      acconciatore o la qualificazione di estetista; serve un responsabile tecnico diverso per ogni
+      sede e per ogni attività
+    who: owner
+  - do: >-
+      Far controllare il locale rispetto al regolamento comunale (art. 26: superficie minima, altezza
+      3 m, pareti lavabili fino a 1,80 m, aeroilluminazione, lavandini, servizi igienici interni con
+      antibagno, spogliatoio) e alle norme edilizie e di destinazione d'uso; per locali interrati o
+      seminterrati chiedere prima la deroga all'ASL
+    who: professional
+  - do: >-
+      Solo acconciatore: stimare il consumo d'acqua nel momento di massima attività; oltre 1 mc al
+      giorno serve la domanda di AUA (SCIA condizionata)
+    who: professional
+  - do: Far preparare la planimetria quotata in scala 1:100 e la relazione descrittiva dei locali
+    who: professional
+  - do: >-
+      Iscrivere l'impresa al Registro delle imprese (Comunicazione Unica) in modo che il responsabile
+      tecnico risulti al REA insieme alla SCIA
+    who: facilitator
+  - do: Procurarsi firma digitale, PEC e accesso SPID, CIE o CNS; oppure affidare la pratica a un procuratore
+    who: owner
+  - do: Se si usa un procuratore, firmare la procura speciale
+    who: owner
+    human_only: true
+  - do: >-
+      Compilare la pratica su impresainungiorno (SUAP di Napoli), aggiungendo SCIA per l'insegna o
+      domanda di AUA se servono, e allegare planimetria, relazione e Allegati A, B o C
+    who: facilitator
+  - do: Calcolare i diritti d'istruttoria con la tabella SUAP 2026, sommando i procedimenti della pratica
+    who: anyone
+  - do: Pagare i diritti con pagoPA dalla sezione pagamenti della pratica
+    who: owner
+    human_only: true
+  - do: Firmare digitalmente SCIA e allegati (dichiarante, soci, responsabile tecnico)
+    who: owner
+    human_only: true
+  - do: Inviare la pratica al SUAP dal portale
+    who: owner
+    human_only: true
+  - do: >-
+      Aprire dopo aver ricevuto la ricevuta di avvio pratica (con AUA: solo dopo il rilascio), e
+      comunque entro 60 giorni dalla SCIA
+    who: owner
+    human_only: true
+  - do: Rispondere entro il termine indicato a eventuali richieste di conformazione del SUAP nei 60 giorni
+    who: owner
+after:
+  - >-
+    Tenere nel locale copia della SCIA presentata, esporre la tabella delle tariffe vicino alla cassa
+    e il cartello con l'orario, visibile anche da fuori (art. 16 del regolamento).
+  - >-
+    Tenere ed esibire su richiesta la certificazione di idoneità sanitaria del personale (art. 29 del
+    regolamento).
+  - Conservare la ricevuta di avvio pratica, la ricevuta pagoPA e copia di quanto inviato; annotare l'ID pratica.
+  - Presentare la dichiarazione TARI per uso non abitativo (napoli/comune/tari-iscrizione-non-domestica).
+  - Per l'insegna esterna serve una SCIA per l'insegna di esercizio (napoli/comune/insegna-esercizio).
+  - >-
+    Comunicare al SUAP ogni variazione (per esempio il cambio del responsabile tecnico) entro 30
+    giorni: la mancata comunicazione è un caso di particolare gravità per il regolamento (art. 32).
+  - >-
+    Affido di poltrona o di cabina, sospensione oltre 30 giorni, trasferimento, subingresso e
+    cessazione si comunicano al SUAP con le pratiche apposite (artt. 9-15 e 18-21 del regolamento).
+pitfalls:
+  - text: >-
+      Le pratiche SUAP inviate via PEC o email ordinaria non vengono istruite: l'unico canale è
+      impresainungiorno. I moduli in PDF della Regione servono solo per preparare i dati.
+    status: verified
+    source: suap-contatti
+  - text: >-
+      Il Comune pubblica ancora un archivio di moduli SUAP del 2012 per acconciatori ed estetisti e una
+      scheda del servizio del 2020: citano TARSU, ICI, COSAP, l'Albo delle imprese artigiane, la
+      Commissione provinciale per l'artigianato, una vecchia pagina web e un orario di ricevimento non
+      più validi. Non usarli.
+    status: verified
+    source: moduli-2012
+  - text: >-
+      Locali (art. 26 del regolamento): almeno 10 mq per un solo posto di lavoro di acconciatore, più 4
+      mq per ogni posto in più, con almeno 1,50 m tra le postazioni; per l'estetista sala d'attesa
+      apposita e superficie minima di 14 mq; sono esclusi ingresso, attesa, servizi e ripostigli. I
+      servizi igienici devono essere interni (quelli esterni al locale non contano); negli esercizi
+      misti uomo/donna servono servizi distinti per sesso.
+    status: verified
+    source: regolamento-napoli
+  - text: >-
+      Il responsabile tecnico deve essere presente durante l'attività (titolare, socio partecipante,
+      familiare coadiuvante o dipendente). Lavorare senza responsabile tecnico è un caso di
+      particolare gravità che comporta la sospensione dell'attività (art. 32 del regolamento).
+    status: verified
+    source: regolamento-napoli
+  - text: >-
+      Un acconciatore può far fare a familiari e dipendenti solo prestazioni semplici di manicure e
+      pedicure estetico; per altri trattamenti estetici serve una SCIA da estetista con il suo
+      responsabile tecnico.
+    status: verified
+    source: l174-art2
+  - text: >-
+      Iscrizione alla Camera di Commercio: il regolamento di Napoli vieta l'esercizio a chi non è
+      iscritto al Registro delle imprese (art. 12, c. 4) e le leggi nazionali vogliono il responsabile
+      tecnico iscritto al REA insieme alla SCIA; la Scheda anagrafica regionale invece ricorda che
+      l'iscrizione va fatta entro 30 giorni dall'avvio. Per sicurezza iscriversi prima o insieme alla
+      SCIA.
+    status: disputed
+    source: regolamento-napoli
+  - text: >-
+      Se l'impresa ha i requisiti di impresa artigiana (L. 443/1985), la qualifica si chiede alla Camera
+      di Commercio con la Comunicazione Unica. Secondo le Camere di commercio campane, dal 2016 in
+      Campania l'Albo delle imprese artigiane è sostituito dalla sezione speciale del Registro delle
+      imprese (L.R. Campania 11/2015): non controllato sul testo della legge né con la CCIAA di Napoli.
+    status: unverified
+  - text: >-
+      Gli orari li fissa il Sindaco con ordinanza (art. 17 del regolamento); la legge nazionale vieta di
+      subordinare l'attività all'obbligo di chiusura infrasettimanale (D.L. 7/2007, art. 10).
+      L'ordinanza in vigore non è stata controllata.
+    status: verified
+    source: dl7-art10
+  - text: >-
+      Il modulo online di impresainungiorno è la versione del SUAP di Napoli del modello regionale
+      2019: possono esserci campi diversi. La mappatura qui segue il modello regionale.
+    status: unverified
+  - text: >-
+      Non è stato controllato se il SUAP o l'ASL Napoli 1 chiedano altri documenti sanitari (il vecchio
+      elenco allegati del 2011 citava un "certificato igienico sanitario"): il modello regionale 2019
+      non lo prevede. In caso di dubbio chiedere al SUAP.
+    status: unverified
+related:
+  - napoli/comune/tari-iscrizione-non-domestica
+  - napoli/comune/insegna-esercizio
+  - napoli/camera-di-commercio/diritto-annuale
+  - napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica
+sources:
+  - id: regolamento-napoli
+    label: >-
+      Comune di Napoli – Nuovo regolamento per l'esercizio delle attività di acconciatore, estetista,
+      tatuaggio e piercing (DCC n. 18 del 16/04/2018, modificato con DCC n. 6 del 23/03/2021), testo
+      integrato
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/09/2021_04_13_Testo_integrato_del_Regolamento_Acconciatore_Estetista_da_pubblicare__1_.pdf
+    retrieved: 2026-10-25
+    sha256: ab48dcddb07a9466c8085b382aac362d75854e516792156fb214fffb033d4625
+    official: true
+    notes: >-
+      Letti tutti gli articoli. Caricato sul sito a settembre 2025; la pagina SUAP indicata come punto di
+      partenza (adempimenti e modulistica per acconciatori, estetisti, panificatori, tintolavanderia)
+      risponde 404.
+  - id: moduli-2012
+    label: Comune di Napoli – SUAP, archivio moduli "Acconciatore_Estetista" (moduli 2012, elenco allegati 2011) e "Scheda_Acconciatore_Estetista" (2020)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/05/Acconciatore_Estetista.zip
+    retrieved: 2026-10-25
+    sha256: 1f4a506c45e8c05004e0fb93140a34957ffef1c450177957498ecb5325760ffe
+    official: true
+    notes: >-
+      Caricati sul sito il 29/05/2025 ma superati. Scheda del servizio:
+      https://static-www.comune.napoli.it/wp-content/uploads/2025/05/Scheda_Acconciatore_Estetista.pdf
+      (sha256 72ba6f94ad131c71d6a4dd138fc26081760a8c189b8b538aacd4a075b86ec30e).
+  - id: modello-scia-campania
+    label: >-
+      Regione Campania, SURAP – Modulistica unificata e standardizzata per attività commerciali varie:
+      SCIA per l'esercizio dell'attività di acconciatore e/o estetista (2019)
+    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/SCIA%20per%20l'esercizio%20dell'attivit%C3%A0%20di%20acconciatore%20e_o%20estetista%202019.pdf
+    retrieved: 2026-10-25
+    sha256: 6f61dd59b80f037d1910a8004fae2419ab68e3eb0673b43ade3a7ba6e36a0181
+    official: true
+    notes: >-
+      Pubblicato nella pagina
+      https://surap.regione.campania.it/index.php/modulistica/13-modulistica-unificata-e-standardizzata-attivita-commerciali.html
+  - id: scheda-anagrafica
+    label: Regione Campania, SURAP – Scheda anagrafica (modulistica unificata, fonte BURC)
+    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Scheda_anagrafica.pdf
+    retrieved: 2026-10-25
+    sha256: aef5908e61b8ad9001275c84d9dd0fe9f70b0c35ad1814396ba4f3b223440d57
+    official: true
+  - id: suap-servizio
+    label: Comune di Napoli – Servizio "Avviare, variare, chiudere un'attività produttiva"
+    url: https://www.comune.napoli.it/servizio/avviare-variare-chiudere-unattivita-produttiva/
+    retrieved: 2026-10-25
+    page_updated: 2025-10-07
+    official: true
+  - id: suap-contatti
+    label: Comune di Napoli – Contatti dello Sportello Unico per le Attività Produttive
+    url: https://www.comune.napoli.it/articolo_tematico/suap/contatti/
+    retrieved: 2026-10-25
+    page_updated: 2026-05-18
+    official: true
+  - id: suap-uo
+    label: Comune di Napoli – Servizio Sportello Unico Attività Produttive (competenze, punti 1.29 e 1.30)
+    url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-sportello-unico-attivita-produttive/
+    retrieved: 2026-10-25
+    official: true
+  - id: diritti
+    label: Comune di Napoli – Diritti d'istruttoria SUAP
+    url: https://www.comune.napoli.it/articolo_tematico/suap/diritti-distruttoria-suap/
+    retrieved: 2026-10-25
+    page_updated: 2026-06-11
+    official: true
+  - id: tabella-2026
+    label: Tabella dei diritti d'istruttoria delle pratiche telematiche SUAP 2026 (righe S150, S151, S152, S204)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2021/07/2026-TABELLA-DIRITTI-SUAP-DEF.pdf
+    retrieved: 2026-10-25
+    sha256: 6abd7a3127137927c6d9959f946001c4e51d47afee568317e4e69e5584994d15
+    official: true
+  - id: guida-pagopa
+    label: SUAP Napoli – Guida pagoPA e impresainungiorno (logica del carrello, diritti di altri enti)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/05/GUIDA_PAGOPA.pdf
+    retrieved: 2026-10-25
+    sha256: d437b90641fbfd76ae0c5775f4eb8d188afc46b0eccea27aaaf5502b20627970
+    official: true
+    notes: Cita ancora la DGC 373/2018 come delibera vigente sui diritti.
+  - id: l174-art2
+    label: Legge 17 agosto 2005, n. 174, art. 2 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2005-08-17;174~art2
+    retrieved: 2026-10-25
+    official: true
+  - id: l174-art3
+    label: Legge 17 agosto 2005, n. 174, art. 3 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2005-08-17;174~art3
+    retrieved: 2026-10-25
+    official: true
+  - id: l1-art3
+    label: Legge 4 gennaio 1990, n. 1, art. 3 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1990-01-04;1~art3
+    retrieved: 2026-10-25
+    official: true
+  - id: dl7-art10
+    label: D.L. 31 gennaio 2007, n. 7, art. 10 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2007-01-31;7~art10
+    retrieved: 2026-10-25
+    official: true
+  - id: l241-art19
+    label: Legge 7 agosto 1990, n. 241, art. 19 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1990-08-07;241~art19
+    retrieved: 2026-10-25
+    official: true
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: letto per intero il regolamento comunale per acconciatori, estetisti, tatuaggio e piercing
+    (testo integrato DCC 18/2018 e 6/2021); le pagine SUAP del Comune di Napoli (servizio, contatti,
+    unità organizzativa, diritti d'istruttoria), la tabella diritti SUAP 2026 e la guida pagoPA; i
+    moduli regionali SURAP (SCIA acconciatore e/o estetista 2019 con Allegati A, B, C e Scheda
+    anagrafica) e l'archivio moduli comunale del 2012; su Normattiva L. 174/2005 artt. 2, 3, 5, 6, L.
+    1/1990 artt. 1, 3, 4, 8, 9, 12, D.L. 7/2007 art. 10, L. 443/1985 art. 5, L. 241/1990 art. 19.
+  notes: >-
+    Non aperta la scheda del procedimento su impresainungiorno (sezione protetta da captcha). Non
+    letti il testo della L.R. Campania 11/2015, la Tabella A del D.Lgs. 222/2016 (riportata dal
+    modello regionale) e l'ordinanza sindacale sugli orari.
