@@ -4,7 +4,7 @@ import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
-import { FIELDS_PATH, VAULT_SCHEMA_PATH, buildRegistry, renderRegistry } from "./gen-fields.ts";
+import { EXTENSIONS_PATH, FIELDS_PATH, VAULT_SCHEMA_PATH, buildRegistry, renderRegistry } from "./gen-fields.ts";
 import {
   ROOT,
   checkFieldRef,
@@ -272,7 +272,38 @@ test("registry rejects malformed vault schemas", () => {
 
 test("fields.json is exactly what gen-fields builds from the saved vault schema", () => {
   const schema = JSON.parse(readFileSync(VAULT_SCHEMA_PATH, "utf8"));
-  assert.equal(readFileSync(FIELDS_PATH, "utf8"), renderRegistry(schema), "run npm run gen:fields");
+  const extensions = JSON.parse(readFileSync(EXTENSIONS_PATH, "utf8"));
+  assert.equal(readFileSync(FIELDS_PATH, "utf8"), renderRegistry(schema, extensions), "run npm run gen:fields");
+});
+
+test("extensions add fields marked as not yet in the vault, and can't clash or reach secrets", () => {
+  const schema = {
+    version: "1",
+    categories: [
+      { name: "business", description: "", fields: [{ id: "business.partita_iva", description: "", sensitivity: "standard" }] },
+      { name: "spid", description: "", fields: [{ id: "spid.password", description: "", sensitivity: "personal" }] },
+      { name: "documents", description: "", fields: null },
+    ],
+  };
+  const reg = buildRegistry(schema, {
+    categories: [
+      { name: "business", fields: [{ id: "business.email", description: "" }] },
+      { name: "locale", description: "Premises", fields: [{ id: "locale.superficie_mq", description: "" }] },
+    ],
+  });
+  const business = reg.categories.find((c) => c.name === "business")!;
+  assert.deepEqual(business.fields.map((f) => [f.id, f.vault]), [["business.partita_iva", undefined], ["business.email", false]]);
+  const locale = reg.categories.find((c) => c.name === "locale")!;
+  assert.equal(locale.vault, false);
+  assert.equal(checkFieldRef("locale.superficie_mq", reg), null);
+
+  const ext = (categories: any[]) => () => buildRegistry(schema, { categories });
+  assert.throws(ext([{ name: "business", fields: [{ id: "business.partita_iva", description: "" }] }]), /already exists/);
+  assert.throws(ext([{ name: "spid", fields: [{ id: "spid.otp", description: "" }] }]), /can't add to category "spid"/);
+  assert.throws(ext([{ name: "pratiche", fields: [{ id: "pratiche.x", description: "" }] }]), /can't add to category "pratiche"/);
+  assert.throws(ext([{ name: "documents", fields: [{ id: "documents.x", description: "" }] }]), /open or per-item/);
+  assert.throws(ext([{ name: "nuova", fields: [{ id: "nuova.x", description: "" }] }]), /needs a description/);
+  assert.throws(ext([{ name: "business", fields: [{ id: "locale.x", description: "" }] }]), /listed under category "business"/);
 });
 
 test("every registry field is usable and every forbidden one is refused", () => {

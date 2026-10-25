@@ -1,5 +1,6 @@
 // Generates contract/fields.json from the personal vault's recommended schema
-// (`pvault schema --json`). The registry is the shared vocabulary between
+// (`pvault schema --json`) plus contract/extensions.json, the fields procedures
+// need before the vault has them. The registry is the shared vocabulary between
 // procedures here and any data source that fills them in.
 //
 // Usage: npm run gen:fields [-- <path to schema.json>]
@@ -32,13 +33,20 @@ interface VaultSchema {
   categories: VaultCategory[];
 }
 
+export interface Extensions {
+  description?: string;
+  categories: { name: string; description?: string; fields: { id: string; description: string }[] }[];
+}
+
 export interface Registry {
   version: string;
   source: string;
   categories: {
     name: string;
     description: string;
-    fields: { id: string; description: string }[];
+    // vault: false marks a field (or a whole category) the vault doesn't have yet.
+    fields: { id: string; description: string; vault?: false }[];
+    vault?: false;
     // A pattern such as "membro<N>_<campo>": field names are built per item.
     dynamic?: string;
     // No fixed fields: any field name is allowed in this category.
@@ -55,9 +63,12 @@ const DYNAMIC: Record<string, string> = {
   nucleo_familiare: "membro<N>_<campo>",
 };
 
-export function buildRegistry(schema: VaultSchema): Registry {
+export function buildRegistry(schema: VaultSchema, extensions: Extensions = { categories: [] }): Registry {
   if (!schema || typeof schema.version !== "string" || !Array.isArray(schema.categories)) {
     throw new Error("not a vault schema: expected { version, categories: [...] }");
+  }
+  if (!extensions || !Array.isArray(extensions.categories)) {
+    throw new Error("not an extensions file: expected { categories: [...] }");
   }
   const forbiddenCategories = [...FORBIDDEN_CATEGORIES];
   const forbiddenFields: string[] = [];
@@ -68,9 +79,7 @@ export function buildRegistry(schema: VaultSchema): Registry {
     const vaultFields = cat.fields ?? [];
     const fields = [];
     for (const f of vaultFields) {
-      if (!f.id.startsWith(`${cat.name}.`)) {
-        throw new Error(`field "${f.id}" is listed under category "${cat.name}"`);
-      }
+      checkFieldCategory(f.id, cat.name);
       if (!ALLOWED_SENSITIVITY.has(f.sensitivity)) {
         forbiddenFields.push(f.id);
         continue;
@@ -92,27 +101,56 @@ export function buildRegistry(schema: VaultSchema): Registry {
     categories.push(entry);
   }
 
+  const vaultIds = new Set(schema.categories.flatMap((c) => (c.fields ?? []).map((f) => f.id)));
+  for (const ext of extensions.categories) {
+    if (forbiddenCategories.includes(ext.name) || INTERNAL_CATEGORIES.includes(ext.name)) {
+      throw new Error(`extensions can't add to category "${ext.name}"`);
+    }
+    let entry = categories.find((c) => c.name === ext.name);
+    if (!entry) {
+      if (!ext.description) throw new Error(`new category "${ext.name}" needs a description`);
+      entry = { name: ext.name, description: ext.description, vault: false, fields: [] };
+      categories.push(entry);
+    } else if (entry.open || entry.dynamic) {
+      throw new Error(`extensions can't add fixed fields to open or per-item category "${ext.name}"`);
+    }
+    for (const f of ext.fields) {
+      checkFieldCategory(f.id, ext.name);
+      if (vaultIds.has(f.id) || entry.fields.some((e) => e.id === f.id)) {
+        throw new Error(`extension field "${f.id}" already exists; remove it from extensions.json`);
+      }
+      entry.fields.push({ id: f.id, description: f.description, vault: false });
+    }
+  }
+
   return {
     version: schema.version,
-    source: "personal-vault RecommendedSchema",
+    source: "personal-vault RecommendedSchema + contract/extensions.json",
     categories,
     forbidden: { categories: forbiddenCategories, fields: forbiddenFields.sort() },
   };
 }
 
+function checkFieldCategory(id: string, category: string) {
+  if (!id.startsWith(`${category}.`)) {
+    throw new Error(`field "${id}" is listed under category "${category}"`);
+  }
+}
+
 const CONTRACT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "contract");
 export const VAULT_SCHEMA_PATH = path.join(CONTRACT, "vault-schema.json");
+export const EXTENSIONS_PATH = path.join(CONTRACT, "extensions.json");
 export const FIELDS_PATH = path.join(CONTRACT, "fields.json");
 
-export function renderRegistry(schema: VaultSchema): string {
-  return JSON.stringify(buildRegistry(schema), null, 2) + "\n";
+export function renderRegistry(schema: VaultSchema, extensions?: Extensions): string {
+  return JSON.stringify(buildRegistry(schema, extensions), null, 2) + "\n";
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const input = process.argv[2];
-  const text = readFileSync(input ?? VAULT_SCHEMA_PATH, "utf8");
-  const schema = JSON.parse(text) as VaultSchema;
-  const registry = renderRegistry(schema); // validates before anything is written
+  const schema = JSON.parse(readFileSync(input ?? VAULT_SCHEMA_PATH, "utf8")) as VaultSchema;
+  const extensions = JSON.parse(readFileSync(EXTENSIONS_PATH, "utf8")) as Extensions;
+  const registry = renderRegistry(schema, extensions); // validates before anything is written
   if (input) writeFileSync(VAULT_SCHEMA_PATH, JSON.stringify(schema, null, 2) + "\n");
   writeFileSync(FIELDS_PATH, registry);
   console.log(`wrote ${FIELDS_PATH}`);

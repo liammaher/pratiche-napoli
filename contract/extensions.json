@@ -1,0 +1,45 @@
+{
+  "description": "Fields procedures need that the personal vault's schema doesn't have yet. gen-fields merges them into fields.json with \"vault\": false; add them to the vault, then remove them here.",
+  "categories": [
+    {
+      "name": "identity",
+      "fields": [
+        { "id": "identity.birth_country", "description": "Country of birth, only if born outside Italy" }
+      ]
+    },
+    {
+      "name": "business",
+      "fields": [
+        { "id": "business.qualita_dichiarante", "description": "Role of the person signing for the business: titolare or legale_rappresentante" },
+        { "id": "business.email", "description": "Business email address (not PEC)" },
+        { "id": "business.descrizione_attivita", "description": "Short description of the activity carried on" },
+        { "id": "business.sede_legale_indirizzo", "description": "Registered office: street (via/piazza)" },
+        { "id": "business.sede_legale_civico", "description": "Registered office: street number" },
+        { "id": "business.sede_legale_cap", "description": "Registered office: CAP" },
+        { "id": "business.sede_legale_comune", "description": "Registered office: comune" },
+        { "id": "business.sede_legale_provincia", "description": "Registered office: provincia (2-letter sigla)" }
+      ]
+    },
+    {
+      "name": "locale",
+      "description": "The business premises (locali) where the activity is carried on, one unit; like abitazione for the home",
+      "fields": [
+        { "id": "locale.indirizzo", "description": "Street (via/piazza) of the premises" },
+        { "id": "locale.civico", "description": "Street number of the premises" },
+        { "id": "locale.interno", "description": "Unit number (interno), if any" },
+        { "id": "locale.cap", "description": "CAP of the premises" },
+        { "id": "locale.comune", "description": "Comune of the premises" },
+        { "id": "locale.provincia", "description": "Provincia of the premises (2-letter sigla)" },
+        { "id": "locale.titolo", "description": "Title to the premises: proprietario, locatario, comodatario, usufruttuario, altro" },
+        { "id": "locale.data_inizio", "description": "Date occupation of the premises started (YYYY-MM-DD)" },
+        { "id": "locale.catasto_sezione", "description": "Catasto: sezione urbana" },
+        { "id": "locale.catasto_foglio", "description": "Catasto: foglio" },
+        { "id": "locale.catasto_particella", "description": "Catasto: particella (mappale)" },
+        { "id": "locale.catasto_subalterno", "description": "Catasto: subalterno" },
+        { "id": "locale.catasto_categoria", "description": "Catasto: categoria (e.g. C/1)" },
+        { "id": "locale.superficie_mq", "description": "Surface used for the activity, in square metres" },
+        { "id": "locale.destinazione_uso", "description": "Use of the premises (e.g. negozio, ufficio, laboratorio, magazzino)" }
+      ]
+    }
+  ]
+}
