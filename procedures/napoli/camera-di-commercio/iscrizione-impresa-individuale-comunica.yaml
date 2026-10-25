@@ -451,6 +451,10 @@ related:
   - napoli/comune/insegna-esercizio
   - italia/agenzia-entrate/apertura-partita-iva-persona-fisica
   - napoli/comune/scia-acconciatore-estetista
+  - italia/inps/iscrizione-gestione-artigiani-commercianti
+  - italia/inail/autoliquidazione
+  - napoli/camera-di-commercio/pec-domicilio-digitale-impresa
+  - napoli/comune/cessazione-attivita-commerciale
 sources:
   - id: sari-iscrizione
     label: SARI Camera di Napoli – Costituzione di impresa individuale con immediato inizio dell'attività economica (scheda 113674324)

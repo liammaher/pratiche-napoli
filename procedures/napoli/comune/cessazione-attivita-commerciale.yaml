@@ -1,0 +1,792 @@
+schema_version: 0
+id: napoli/comune/cessazione-attivita-commerciale
+title: Chiudere un negozio, un bar, un ristorante o un salone a Napoli – lista dei passaggi
+summary: >-
+  Chi chiude a Napoli un esercizio di vicinato, un bar o ristorante o un salone di acconciatore
+  o estetista deve comunicare la cessazione al SUAP del Comune su impresainungiorno e poi chiudere
+  le posizioni collegate: registrazione sanitaria ASL, canone unico per dehors e insegna, Registro
+  Imprese e REA (entro 30 giorni, con la Comunicazione Unica che chiude anche partita IVA, INPS e
+  INAIL) e TARI (Mod. 8 entro 90 giorni). Questa scheda è la lista in ordine; per ogni passaggio
+  rimanda alla procedura dettagliata. Riguarda le ditte individuali.
+ente:
+  name: Comune di Napoli
+  office: Area Sviluppo Economico – Servizio Sportello Unico Attività Produttive (SUAP)
+  ipa: c_f839
+applies_to:
+  events: [close]
+  audience: [business]
+  sectors:
+    - esercizio di vicinato (negozio)
+    - bar, ristoranti e altri esercizi di somministrazione di alimenti e bevande
+    - acconciatore ed estetista
+  conditions:
+    - text: >-
+        In Campania la cessazione di un esercizio di vicinato si fa con una Comunicazione al SUAP
+        (Allegato A del Testo unico regionale sul commercio, quadro 1.1).
+      status: verified
+      source: lr7-pdf
+    - text: >-
+        Anche la cessazione di un esercizio di somministrazione di alimenti e bevande (bar,
+        ristorante), in zona tutelata o no, si fa con una Comunicazione al SUAP (Allegato A,
+        quadro 5.1).
+      status: verified
+      source: lr7-pdf
+    - text: >-
+        Acconciatori ed estetisti: in caso di cessazione il titolare fa un'apposita comunicazione
+        al SUAP, in via telematica, indicando la data della cessazione; se il titolare muore,
+        l'obbligo passa agli eredi (regolamento comunale, artt. 7 e 15).
+      status: verified
+      source: regolamento-acconciatori
+    - text: >-
+        Se l'attività non chiude ma passa a un'altra impresa (cessione o affitto d'azienda), per la
+        parte sanitaria non si fa la cessazione: chi subentra presenta il subingresso.
+      status: verified
+      source: dd117
+    - text: >-
+        Questa lista segue la chiusura di una ditta individuale. Le società (s.n.c., s.a.s., s.r.l.)
+        hanno passaggi diversi al Registro Imprese (scioglimento, liquidazione, cancellazione), non
+        descritti qui.
+      status: unverified
+legal_basis:
+  - text: >-
+      D.Lgs. 114/1998, art. 26, c. 5: la cessazione dell'attività di vicinato è soggetta alla sola
+      comunicazione al comune competente.
+    status: verified
+    source: dlgs-114-art26
+  - text: >-
+      L.R. Campania 7/2020 (Testo unico sul commercio), artt. 26, c. 2 (vicinato) e 91, c. 1
+      (somministrazione): la cessazione segue i regimi della Tabella dell'Allegato A, con la
+      modulistica unificata.
+    status: verified
+    source: lr-campania-7-2020
+  - text: >-
+      Regolamento comunale acconciatore, estetista, tatuaggio e piercing (DCC 18/2018, modificato
+      con DCC 6/2021), art. 15.
+    status: verified
+    source: regolamento-acconciatori
+  - text: >-
+      Regione Campania, DD 117/2020, allegato, par. 2.9.5: cessazione o sospensione di uno
+      stabilimento alimentare registrato, comunicata al SUAP.
+    status: verified
+    source: dd117
+  - text: Art. 2196, c. 3 c.c. e art. 18, c. 3 D.P.R. 581/1995 (cancellazione dal Registro Imprese).
+    status: verified
+    source: sari-cancellazione
+  - text: >-
+      D.P.R. 633/1972, art. 35, cc. 3 e 4 (dichiarazione di cessazione ai fini IVA entro 30 giorni
+      dalla fine delle operazioni di liquidazione dell'azienda) e c. 8 (presentazione tramite il
+      Registro Imprese per chi vi è iscritto).
+    status: verified
+    source: dpr633-art35
+  - text: Regolamento TARI del Comune di Napoli (DCC 37/2023), artt. 12 e 25.
+    status: verified
+    source: regolamento-tari
+  - text: >-
+      Regolamento del canone unico patrimoniale (DCC 16/2022), art. 10, c. 3 (rinuncia alla
+      concessione di suolo) e art. 30, c. 2 (rinuncia all'autorizzazione pubblicitaria).
+    status: verified
+    source: regolamento-cup
+deadline:
+  rules:
+    - text: >-
+        Comunicazione di cessazione al SUAP: né il D.Lgs. 114/1998 né il modulo regionale fissano un
+        termine. Il modulo permette di indicare una cessazione "contestuale alla comunicazione" o con
+        decorrenza da una data scelta.
+      status: verified
+      source: modulo-cessazione
+    - text: >-
+        Cancellazione della ditta individuale dal Registro Imprese: entro 30 giorni dalla cessazione
+        dell'attività.
+      status: verified
+      source: sari-cancellazione
+    - text: >-
+        I 30 giorni si contano dal giorno dopo l'evento; se l'ultimo giorno è sabato o festivo, la
+        domanda presentata il primo giorno lavorativo successivo è tempestiva.
+      status: verified
+      source: na-sanzioni
+    - text: >-
+        Chiusura della partita IVA: entro 30 giorni dalla cessazione; per l'Agenzia delle Entrate il
+        termine decorre dalla fine delle operazioni di liquidazione dell'azienda (art. 35, c. 4).
+      status: verified
+      source: dpr633-art35
+    - text: >-
+        INAIL: chi chiude un'attività con dipendenti lo comunica entro 30 giorni dalla cessazione,
+        con la Comunicazione Unica.
+      status: verified
+      source: inail-cessazione
+    - text: >-
+        TARI: dichiarazione di cessazione (Mod. 8) entro 90 giorni dal giorno in cui è cessata
+        l'occupazione dei locali.
+      status: verified
+      source: regolamento-tari
+    - text: >-
+        Insegne e altri mezzi pubblicitari autorizzati: la rinuncia va presentata entro il 31
+        gennaio per i mezzi rimossi entro il 31 dicembre dell'anno prima; altrimenti l'autorizzazione
+        resta valida ed è dovuto il canone annuale (art. 30, c. 2).
+      status: verified
+      source: regolamento-cup
+    - text: >-
+        Diritto annuale: secondo la Camera di Commercio di Napoli, l'impresa individuale che cessa
+        l'attività in un anno e presenta la domanda di cancellazione entro il 30 gennaio dell'anno
+        successivo non paga il diritto dell'anno successivo (art. 4 D.M. 359/2001). La pagina è
+        ancora scritta con gli anni 2010/2011.
+      status: verified
+      source: na-esonerati
+    - text: >-
+        Per una chiusura nel 2026 la data da rispettare sarebbe quindi il 30 gennaio 2027 (data
+        calcolata dalla regola, non pubblicata dalla Camera): confermarla con l'Ufficio Diritto
+        Annuale.
+      status: unverified
+    - text: >-
+        Vendita di liquidazione per cessazione (negozi): al massimo tredici settimane, comunicando al
+        comune motivi, data d'inizio e durata almeno quindici giorni prima dell'inizio (L.R. 7/2020,
+        art. 42).
+      status: verified
+      source: lr-campania-7-2020
+  lateness:
+    text: >-
+      Registro Imprese: per le cessazioni tardive delle imprese individuali (art. 2196 c.c.) la
+      pagina "Sanzioni" della Camera indica una sanzione di 20,00 euro, da pagare con F23 (codice
+      tributo 741T) entro 60 giorni dalla notifica, più le spese di procedimento e notifica indicate
+      nel verbale; fa fede il verbale. Per gli altri passaggi (TARI, canoni, diritto annuale) le
+      conseguenze del ritardo sono nelle avvertenze qui sotto e nelle procedure collegate: non
+      stimarle, chiedere all'ufficio.
+    status: verified
+    source: na-sanzioni
+channels:
+  - type: portal
+    name: impresainungiorno – SUAP di Napoli
+    url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: suap-contatti
+    notes: >-
+      Unico canale per la comunicazione di cessazione al SUAP: le pratiche inviate per PEC o email
+      ordinaria non vengono istruite. Percorso verificato per il vicinato non alimentare: Commercio >
+      Commercio al Dettaglio in area Privata > Esercizio di vicinato > settore > Avvio, gestione,
+      cessazione attività > Cessare l'attività. Per i bar: Strutture Ricettive e Ristorazione >
+      Ristorazione e Somministrazione > zona tutelata o non tutelata > Cessare l'attività. Servono
+      firma digitale e PEC.
+  - type: portal
+    name: DIRE – Depositi e Istanze al Registro imprese (Comunicazione Unica)
+    url: https://dire.registroimprese.it
+    receipt: legal
+    source: sari-cancellazione
+    notes: >-
+      Per la cancellazione dal Registro Imprese (categoria "Cancellazione", tipo "Cancellazione dal
+      Registro Imprese"). Dalla stessa pratica si può aprire impresainungiorno con il pulsante SUAP e
+      importare la comunicazione di cessazione per il SUAP, inviando tutto insieme.
+  - type: desk
+    name: Servizio SUAP
+    address: Piazza Cavour 42, II piano, Napoli
+    booking: >-
+      Dal 18 maggio 2026 solo su prenotazione online (pulsante "Prenota appuntamento" della pagina
+      "Avviare, variare, chiudere un'attività produttiva").
+    source: suap-contatti
+    notes: Informazioni e assistenza; la comunicazione si presenta comunque online.
+  - type: pec
+    address: suap@pec.comune.napoli.it
+    receipt: legal
+    source: suap-contatti
+    notes: Solo per comunicare con l'ufficio, non per presentare la pratica.
+  - type: phone
+    name: SUAP
+    address: 081 7953054
+    source: suap-servizio
+  - type: pec
+    name: Agenzia delle Entrate – qualunque Direzione Provinciale (solo modello AA9/12)
+    receipt: legal
+    source: ade-chiudere
+    notes: >-
+      Solo per chi non è iscritto al Registro Imprese o al REA (professionisti, lavoratori autonomi):
+      modello AA9/12 con oggetto "Cessazione attività". Si può anche consegnare in ufficio su
+      appuntamento, spedire per raccomandata o inviare dall'area riservata con il software
+      dell'Agenzia.
+payment:
+  method: none
+  notes:
+    - text: >-
+        Comunicazione di cessazione al SUAP: la tabella dei diritti linkata dalla pagina del servizio
+        (file del 2021) indica 0,00 euro per la cessazione di vicinato, somministrazione e delle altre
+        attività commerciali e spiega che la cessazione spesso non compare "perché non assoggettata a
+        diritti". La tabella 2026 (DGC 239/2026, in vigore dall'11 giugno 2026) ha solo le colonne
+        apertura, variazioni del ciclo di vita aziendale e variazioni delle persone fisiche, e la
+        cessazione non è tra gli eventi elencati. Le schede di impresainungiorno per la cessazione
+        (vicinato non alimentare e somministrazione) indicano però come allegato obbligatorio la
+        "copia attestazione versamento oneri, diritti e spese". Chiedere al SUAP prima di inviare.
+      status: disputed
+      source: tabella-2021
+    - text: >-
+        Parte sanitaria: per la cessazione o la sospensione di uno stabilimento registrato non si
+        pagano diritti sanitari all'ASL né alla Regione, né imposta di bollo.
+      status: verified
+      source: dd117
+    - text: >-
+        Cancellazione della ditta individuale dal Registro Imprese: imposta di bollo 17,50 euro;
+        diritti di segreteria non dovuti. Gli importi sono calcolati in DIRE e addebitati sul conto
+        Telemaco.
+      status: verified
+      source: sari-cancellazione
+    - text: >-
+        Il diritto annuale non è frazionabile: è dovuto per intero da chi risulta iscritto al Registro
+        Imprese anche solo per una parte dell'anno (vedi napoli/camera-di-commercio/diritto-annuale).
+      status: verified
+      source: na-diritto-annuale
+    - text: >-
+        Dehors: in caso di rinuncia o cessazione anticipata resta dovuto l'intero canone dell'anno in
+        corso, per le occupazioni permanenti e temporanee.
+      status: verified
+      source: cup-occupazione
+    - text: >-
+        Insegne: con la rinuncia e la rimozione nel corso dell'anno non si rimborsa il canone già
+        versato, salvo forza maggiore documentata (art. 30, c. 2).
+      status: verified
+      source: regolamento-cup
+    - text: >-
+        TARI: la tassa è dovuta per i giorni dell'anno in cui i locali sono stati occupati, fino al
+        giorno della cessazione se dichiarata nei termini (vedi napoli/comune/tari-cessazione-non-domestica).
+      status: verified
+      source: regolamento-tari
+documents:
+  - name: Comunicazione di cessazione (con Scheda anagrafica), compilata su impresainungiorno e firmata digitalmente
+    required: true
+  - name: Estremi del titolo dell'attività (protocollo e data della SCIA, DIA o autorizzazione)
+    required: true
+    notes: Richiesti dal modulo di cessazione.
+  - name: Procura/delega, con documento d'identità di chi la conferisce
+    required: false
+    notes: Solo se la pratica è firmata e inviata da un intermediario.
+  - name: Copia del documento d'identità del titolare
+    required: false
+    notes: Solo se la comunicazione non è firmata digitalmente e non c'è procura.
+  - name: Aggiornamento della registrazione sanitaria – cessazione (riquadro 4 della notifica)
+    required: false
+    notes: >-
+      Per bar, ristoranti e negozi alimentari. Nella scheda di impresainungiorno per la cessazione
+      della somministrazione compare già come procedimento collegato.
+  - name: Ricevuta della cessazione della partita IVA e prove della data di chiusura (contratto, utenze)
+    required: false
+    notes: Da allegare al Mod. 8 TARI.
+  - name: Firma digitale, PEC dell'impresa e conto Telemaco con credito
+    required: true
+    notes: Per la Comunicazione Unica di cancellazione.
+forms:
+  - id: scheda-anagrafica
+    name: Scheda anagrafica – modulistica unificata Regione Campania (parte comune a tutti i moduli SUAP)
+    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Scheda_anagrafica.pdf
+    source: modulo-scheda-anagrafica
+    sha256: aef5908e61b8ad9001275c84d9dd0fe9f70b0c35ad1814396ba4f3b223440d57
+    signature_required: false
+    fields:
+      # 1 – Dati del dichiarante
+      - { label: "1 – Dati del dichiarante: Cognome", map: { direct: identity.last_name } }
+      - { label: Nome, map: { direct: identity.first_name } }
+      - { label: codice fiscale, map: { direct: identity.codice_fiscale } }
+      - { label: sesso, map: { direct: identity.sex } }
+      - { label: Nato/a a, map: { direct: identity.birth_comune } }
+      - { label: prov. (di nascita), map: { direct: identity.birth_province } }
+      - label: Stato (di nascita)
+        map: { direct: identity.birth_country }
+        notes: Solo se nato all'estero; se nato in Italia scrivere Italia.
+      - { label: il (data di nascita), map: { direct: identity.date_of_birth } }
+      - { label: cittadinanza, map: { direct: identity.citizenship } }
+      - label: estremi del documento di soggiorno
+        map: { direct: permesso_soggiorno.numero }
+        notes: Solo per cittadini non UE.
+      - label: rilasciato da
+        map: { direct: permesso_soggiorno.questura_rilascio }
+        notes: Solo per cittadini non UE.
+      - label: il (data di rilascio del documento di soggiorno)
+        map: { direct: permesso_soggiorno.data_rilascio }
+        notes: Solo per cittadini non UE.
+      - label: scadenza (del documento di soggiorno)
+        map: { direct: permesso_soggiorno.data_scadenza }
+        notes: Solo per cittadini non UE.
+      - { label: residente in, map: { direct: residenza.comune } }
+      - { label: prov. (di residenza), map: { direct: residenza.provincia } }
+      - { label: Stato (di residenza), map: { ask: "Stato di residenza (Italia se residente in Italia)" } }
+      - { label: indirizzo, map: { direct: residenza.indirizzo } }
+      - { label: n., map: { direct: residenza.civico } }
+      - { label: C.A.P., map: { direct: residenza.cap } }
+      - { label: PEC / posta elettronica, map: { fallback: [identity.pec, identity.email] } }
+      - { label: Telefono fisso / cellulare, map: { direct: identity.phone } }
+      - label: in qualità di (Titolare / Legale rappresentante / Altro)
+        map: { direct: business.qualita_dichiarante }
+        notes: Per una ditta individuale, Titolare.
+      # 2 – Dati della ditta/società/impresa
+      - { label: "2 – Dati della ditta: Denominazione", map: { direct: business.denominazione } }
+      - { label: Forma giuridica, map: { ask: "Forma giuridica dell'impresa (per questa lista: ditta individuale)" } }
+      - label: codice fiscale / p. IVA
+        map: { fallback: [business.codice_fiscale, business.partita_iva] }
+      - label: iscritta alla C.C.I.A.A. di ... prov.
+        map: { direct: business.rea }
+        notes: La sigla davanti al numero REA (per esempio NA) indica la Camera di Commercio e la provincia.
+      - { label: n. REA, map: { direct: business.rea } }
+      - label: non ancora iscritta / non necessita di iscrizione al R.I.
+        map: { blank_with_reason: "Non si barra: chi chiude un'attività commerciale è iscritto al Registro Imprese." }
+      - { label: "con sede legale in: Comune", map: { direct: business.sede_legale_comune } }
+      - { label: prov. (sede legale), map: { direct: business.sede_legale_provincia } }
+      - { label: Stato (sede legale), map: { ask: "Stato della sede legale (Italia se in Italia)" } }
+      - { label: indirizzo (sede legale), map: { direct: business.sede_legale_indirizzo } }
+      - { label: n. (sede legale), map: { direct: business.sede_legale_civico } }
+      - { label: C.A.P. (sede legale), map: { direct: business.sede_legale_cap } }
+      - { label: Telefono fisso / cell. (impresa), map: { ask: "Telefono dell'impresa" } }
+      - { label: fax, map: { blank_with_reason: Facoltativo; il registro non ha un campo fax. } }
+      - { label: PEC (impresa), map: { direct: business.pec } }
+      - label: Altro domicilio elettronico per invio delle comunicazioni inerenti la pratica
+        map: { ask: "Altro indirizzo elettronico per le comunicazioni sulla pratica, se diverso dalla PEC" }
+      # 3 – Dati del procuratore/delegato
+      - label: "3 – Dati del procuratore/delegato: Cognome e Nome"
+        map: { ask: "Cognome e nome del procuratore, se la pratica è presentata con procura" }
+        notes: Compilare solo in caso di procura.
+      - { label: codice fiscale (procuratore), map: { ask: Codice fiscale del procuratore } }
+      - { label: "Nato/a a, prov., Stato, il (procuratore)", map: { ask: Luogo e data di nascita del procuratore } }
+      - label: "residente in, prov., Stato, indirizzo, n., C.A.P. (procuratore)"
+        map: { ask: Residenza del procuratore }
+      - { label: PEC / posta elettronica (procuratore), map: { ask: PEC o email del procuratore } }
+      - { label: Telefono fisso / cellulare (procuratore), map: { ask: Telefono del procuratore } }
+      - label: "in qualità di: Procuratore/delegato / Agenzia per le imprese – Denominazione"
+        map: { ask: "Il procuratore agisce come persona delegata o come Agenzia per le imprese (con denominazione)?" }
+      # 4 – Dati dell'attività/intervento
+      - label: 4 – Dati dell'attività/intervento
+        map: { blank_with_reason: "Differenziato per procedimento: per la cessazione sono i quadri del modulo di cessazione." }
+  - id: comunicazione-cessazione
+    name: Comunicazione di cessazione o sospensione temporanea di attività – modulistica unificata Regione Campania (DD 119/2021)
+    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Comunicazione_di_cessazione_o_sospensione_temporanea_di_attivit%C3%A0.pdf
+    source: modulo-cessazione
+    sha256: 4b6fde24b144eec957fe4dc8415e61abdfbda7a697c080b812d95eb257054291
+    signature_required: true
+    fields:
+      - label: "Al SUAP del Comune di – Indirizzo – PEC / Posta elettronica"
+        map: { blank_with_reason: "Precompilato dal portale: SUAP del Comune di Napoli." }
+      - label: "Compilato a cura del SUAP: Pratica / del / Protocollo"
+        map: { blank_with_reason: Spazio riservato al SUAP. }
+      - label: "COMUNICAZIONE: Cessazione di attività / Sospensione temporanea di attività"
+        map: { blank_with_reason: "Si barra Cessazione di attività: è l'oggetto di questa procedura." }
+      - label: "Indirizzo dell'attività: Via/piazza"
+        map: { direct: locale.indirizzo }
+        notes: Da compilare se diverso dalla sede dell'impresa.
+      - { label: n. (attività), map: { direct: locale.civico } }
+      - { label: Comune (attività), map: { direct: locale.comune } }
+      - { label: prov. (attività), map: { direct: locale.provincia } }
+      - { label: C.A.P. (attività), map: { direct: locale.cap } }
+      - { label: Stato (attività), map: { blank_with_reason: "Italia: il locale è a Napoli." } }
+      - { label: Telefono fisso / cell. (attività), map: { ask: Telefono del locale } }
+      - { label: fax (attività), map: { blank_with_reason: Facoltativo; il registro non ha un campo fax. } }
+      - { label: "Dati catastali: Foglio n.", map: { direct: locale.catasto_foglio } }
+      - { label: map., map: { direct: locale.catasto_particella } }
+      - { label: sub., map: { direct: locale.catasto_subalterno } }
+      - { label: sez., map: { direct: locale.catasto_sezione } }
+      - { label: "Catasto: fabbricati", map: { blank_with_reason: Casella da barrare (catasto fabbricati). } }
+      - label: "Il/la sottoscritto/a COMUNICA: la cessazione dell'attività di"
+        map: { direct: business.descrizione_attivita }
+        notes: "Indicare il tipo di attività come nel titolo (per esempio esercizio di vicinato non alimentare, somministrazione di alimenti e bevande, acconciatore)."
+      - label: la sospensione temporanea dell'attività di
+        map: { blank_with_reason: "Solo per la sospensione temporanea, non per la cessazione." }
+      - label: già avviata con la SCIA/DIA/autorizzazione prot./n.
+        map: { ask: "Numero di protocollo della SCIA, DIA o autorizzazione con cui è stata avviata l'attività" }
+      - label: del (data del titolo)
+        map: { ask: "Data della SCIA, DIA o autorizzazione con cui è stata avviata l'attività" }
+      - label: "Nel caso di cessazione: contestuale alla comunicazione / con decorrenza dal"
+        map: { ask: "La cessazione vale dal giorno di invio o da una data diversa (quale)?" }
+        notes: La data deve coincidere con quella comunicata al Registro Imprese e all'Agenzia delle Entrate.
+      - label: "Nel caso di sospensione temporanea: contestuale / dal ... al ..."
+        map: { blank_with_reason: Solo per la sospensione temporanea. }
+      - { label: Data, map: { ask: Data di sottoscrizione } }
+      - label: Firma
+        map: { blank_with_reason: Firma digitale del titolare (o del procuratore con procura); solo la persona. }
+      - label: "Informativa privacy: Titolare del trattamento, indirizzo, mail/PEC, responsabile, Comune e mail per i diritti, mail del responsabile della protezione dei dati"
+        map: { blank_with_reason: "Dati del Comune: li compila il Comune o il portale (l'informativa può essere resa con un link)." }
+      - label: "Dichiara di aver letto l'informativa: Data"
+        map: { ask: Data di sottoscrizione }
+      - label: "Dichiara di aver letto l'informativa: Firma"
+        map: { blank_with_reason: Firma del titolare; solo la persona. }
+      - label: "Quadro riepilogativo – Procura/delega"
+        map: { ask: "La comunicazione è presentata da un intermediario con procura?" }
+      - label: "Quadro riepilogativo – Copia del documento di identità del/i titolare/i"
+        map: { blank_with_reason: Serve solo se la comunicazione non è firmata digitalmente e non c'è procura. }
+steps:
+  - do: >-
+      Fissare la data di chiusura e usarla uguale per tutti gli enti: la data di cessazione
+      comunicata al Registro Imprese deve coincidere con quella dichiarata all'Agenzia delle Entrate
+    who: owner
+  - do: >-
+      Se si vende la merce in liquidazione, comunicarlo al Comune almeno quindici giorni prima
+      (motivi, data d'inizio e durata, al massimo tredici settimane)
+    who: owner
+    human_only: true
+  - do: >-
+      Se c'è un dehors, comunicare la rinuncia alla concessione al Servizio concessorio e al
+      Servizio responsabile dell'entrata (entrate.cosap@pec.comune.napoli.it): la cessazione vale
+      solo dalla presa d'atto e il canone dell'anno resta dovuto per intero (vedi
+      napoli/comune/concessione-suolo-pubblico-dehors)
+    who: owner
+    human_only: true
+  - do: >-
+      Togliere l'insegna e presentare al SUAP la cessazione del mezzo pubblicitario; per non pagare
+      il canone dell'anno dopo la rinuncia va presentata entro il 31 gennaio per i mezzi tolti entro
+      il 31 dicembre (vedi napoli/comune/insegna-esercizio)
+    who: owner
+    human_only: true
+  - do: >-
+      Compilare su impresainungiorno la comunicazione di cessazione (Scheda anagrafica + modulo,
+      dati dalla tabella dei campi); per bar, ristoranti e negozi alimentari aggiungere la cessazione
+      della registrazione sanitaria (riquadro 4 della notifica)
+    who: facilitator
+  - do: Chiedere al SUAP se per la cessazione va allegata una ricevuta di pagamento (le fonti non concordano)
+    who: anyone
+  - do: >-
+      Preparare in DIRE la Comunicazione Unica di cancellazione della ditta dal Registro Imprese,
+      con la data di effettiva cessazione e la causale; la stessa pratica chiude partita IVA, INPS
+      e INAIL e può portare con sé la comunicazione per il SUAP
+    who: facilitator
+  - do: Firmare digitalmente le pratiche (o la procura, se firma un intermediario)
+    who: owner
+    human_only: true
+  - do: >-
+      Inviare la Comunicazione Unica entro 30 giorni dalla cessazione (bollo 17,50 euro addebitato
+      sul conto Telemaco) e la comunicazione al SUAP da impresainungiorno
+    who: owner
+    human_only: true
+  - do: >-
+      Solo per chi non è iscritto al Registro Imprese o al REA: chiudere la partita IVA con il
+      modello AA9/12 entro 30 giorni
+    who: owner
+    human_only: true
+  - do: >-
+      Restituire i locali, chiudere contratto e utenze e presentare il Mod. 8 TARI entro 90 giorni
+      dalla fine dell'occupazione, con le prove della data (vedi napoli/comune/tari-cessazione-non-domestica)
+    who: owner
+    human_only: true
+  - do: >-
+      Pagare quanto resta dovuto: TARI fino alla data di cessazione, canoni dell'anno, diritto
+      annuale dell'anno in corso se non ancora pagato
+    who: owner
+    human_only: true
+after:
+  - >-
+    Conservare le ricevute del SUAP e del Registro Imprese, la ricevuta di cessazione della partita
+    IVA e la PEC di invio del Mod. 8 TARI.
+  - >-
+    Controllare la PEC: esiti degli altri enti (Agenzia delle Entrate, INPS, INAIL) ed eventuali
+    richieste di integrazione del Registro Imprese. L'INAIL rilascia il certificato di cessazione
+    entro 30 giorni dalla denuncia.
+  - >-
+    Se l'impresa era artigiana (per esempio un acconciatore), non serve una pratica separata per
+    l'Albo: la cancellazione dal Registro Imprese cancella anche l'annotazione artigiana.
+  - >-
+    Controllare che i successivi avvisi TARI e del canone tengano conto della chiusura; per i
+    rimborsi TARI c'è il Mod. 10.
+  - >-
+    Dopo la cessazione l'Agenzia delle Entrate richiede ancora gli adempimenti della liquidazione:
+    versamento dell'imposta, fatture, registrazioni e ultima dichiarazione annuale (art. 35, c. 4
+    D.P.R. 633/1972).
+pitfalls:
+  - text: >-
+      Le pratiche SUAP inviate per PEC o email ordinaria non vengono istruite: anche la cessazione si
+      presenta solo su impresainungiorno.
+    status: verified
+    source: suap-contatti
+  - text: >-
+      Le schede di impresainungiorno per la cessazione di vicinato e somministrazione chiedono
+      come allegato obbligatorio la "copia attestazione versamento oneri, diritti e spese", mentre la
+      tabella dei diritti del Comune indica 0,00 euro per la cessazione e la tabella 2026 non la
+      prevede.
+    status: disputed
+    source: iiug-napoli
+  - text: >-
+      La pagina del servizio "Avviare, variare, chiudere un'attività produttiva" (aggiornata al 7
+      ottobre 2025) collega come "nuova tabella dei diritti" un file creato nel giugno 2021; la
+      tabella in vigore dall'11 giugno 2026 è sulla pagina "Diritti d'istruttoria SUAP".
+    status: verified
+    source: suap-servizio
+  - text: >-
+      La data di cessazione denunciata al Registro Imprese deve coincidere con quella dichiarata
+      all'Agenzia delle Entrate.
+    status: verified
+    source: sari-cancellazione
+  - text: >-
+      Per le imprese (anche artigiane) la partita IVA non si chiude con il modello AA9/12 ma con la
+      Comunicazione Unica al Registro Imprese; l'AA9/12 è per chi non è obbligato all'iscrizione al
+      Registro Imprese o al REA.
+    status: verified
+    source: ade-che-cose
+  - text: >-
+      Per la Gestione Commercianti INPS la Comunicazione Unica è obbligatoria anche per la
+      cancellazione dell'impresa e la cessazione dell'attività (quadro AC).
+    status: verified
+    source: inps-commercianti
+  - text: >-
+      La pagina INAIL descrive la denuncia di cessazione per le imprese con dipendenti. Non è stato
+      controllato come l'INAIL chiude la posizione di un artigiano senza dipendenti: verificare gli
+      esiti INAIL nella PEC dopo la Comunicazione Unica.
+    status: unverified
+  - text: >-
+      Dehors: il canone dell'anno in corso resta dovuto per intero anche con la rinuncia, e senza la
+      presa d'atto del Servizio concessorio resta dovuto fino alla scadenza naturale della
+      concessione. Conviene comunicare la rinuncia appena si decide di chiudere.
+    status: verified
+    source: regolamento-cup
+  - text: >-
+      L'art. 30 del regolamento del canone parla di autorizzazioni; per l'insegna presentata con
+      SCIA la pagina "Esposizioni pubblicitarie" chiede di presentare al SUAP cessazioni e rinunce.
+      Chiedere all'Ufficio CUP Pubblicità se il termine del 31 gennaio vale anche per le insegne a
+      SCIA.
+    status: unverified
+  - text: >-
+      La pagina della Camera sui soggetti esonerati dal diritto annuale è ancora scritta per il 2010
+      (domanda di cancellazione entro il 30/01/2011).
+    status: verified
+    source: na-esonerati
+  - text: >-
+      Una chiusura temporanea non è una cessazione: per i bar la mancata riapertura entro 12 mesi fa
+      decadere il titolo, per il vicinato porta alla chiusura dell'esercizio (nota del modulo
+      regionale).
+    status: verified
+    source: modulo-cessazione
+  - text: >-
+      TARI: se la cessazione è dichiarata in ritardo e senza documenti che provino la data
+      effettiva, si presume avvenuta alla data di presentazione, e la tassa resta dovuta fino a quel
+      giorno (art. 12, c. 4 del regolamento).
+    status: verified
+    source: regolamento-tari
+  - text: >-
+      Anche dopo la chiusura i locali con utenze, arredi o titoli autorizzativi restano tassabili ai
+      fini TARI: chiudere le utenze e lasciare i locali prima di dichiarare la cessazione (vedi
+      napoli/comune/tari-cessazione-non-domestica).
+    status: unverified
+related:
+  - napoli/comune/tari-cessazione-non-domestica
+  - napoli/asl-napoli-1/registrazione-attivita-alimentare
+  - napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica
+  - napoli/camera-di-commercio/diritto-annuale
+  - napoli/comune/insegna-esercizio
+  - napoli/comune/concessione-suolo-pubblico-dehors
+  - napoli/comune/scia-esercizio-vicinato
+  - napoli/comune/scia-somministrazione-alimenti-bevande
+  - napoli/comune/scia-acconciatore-estetista
+  - italia/agenzia-entrate/apertura-partita-iva-persona-fisica
+  - italia/agenzia-entrate/chiusura-partita-iva-persona-fisica
+  - napoli/comune/subingresso-attivita-commerciale
+  - italia/inps/iscrizione-gestione-artigiani-commercianti
+  - italia/inail/autoliquidazione
+sources:
+  - id: iiug-napoli
+    label: >-
+      impresainungiorno – SUAP di Napoli, sezione Informati: schede "Comunicazione di cessazione
+      dell'esercizio di vicinato non alimentare" e "Comunicazione di cessazione dell'esercizio di
+      somministrazione di alimenti e bevande"
+    url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
+    retrieved: 2026-10-25
+    official: true
+    notes: >-
+      Le schede si aprono dalla navigazione interattiva della sezione Informati, senza URL diretto.
+      La pagina indica per il SUAP il CAP 80133.
+  - id: suap-contatti
+    label: Comune di Napoli – Contatti dello Sportello Unico per le Attività Produttive (SUAP)
+    url: https://www.comune.napoli.it/articolo_tematico/suap/contatti/
+    retrieved: 2026-10-25
+    page_updated: 2026-05-18
+    official: true
+  - id: suap-servizio
+    label: Comune di Napoli – Servizio "Avviare, variare, chiudere un'attività produttiva"
+    url: https://www.comune.napoli.it/servizio/avviare-variare-chiudere-unattivita-produttiva/
+    retrieved: 2026-10-25
+    page_updated: 2025-10-07
+    official: true
+  - id: suap-diritti
+    label: Comune di Napoli – Diritti d'istruttoria SUAP
+    url: https://www.comune.napoli.it/articolo_tematico/suap/diritti-distruttoria-suap/
+    retrieved: 2026-10-25
+    page_updated: 2026-06-11
+    official: true
+  - id: tabella-2026
+    label: Tabella dei diritti d'istruttoria delle pratiche telematiche SUAP 2026 (DGC 239/2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2021/07/2026-TABELLA-DIRITTI-SUAP-DEF.pdf
+    retrieved: 2026-10-25
+    sha256: 6abd7a3127137927c6d9959f946001c4e51d47afee568317e4e69e5584994d15
+    official: true
+    notes: Colonne APERTURA, VCA e VPF; elenchi degli eventi alle pagine 13-14, senza la cessazione.
+  - id: tabella-2021
+    label: >-
+      Allegato 3 – Tabella dei diritti d'istruttoria per le pratiche telematiche SUAP (file del
+      giugno 2021, linkato come "nuova tabella" dalla pagina del servizio)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/10/ALLEGATO_3_NUOVI_DIRITTI_DI_ISTRUTTORIA_PRATICHE_SUAP_UNICO_FILE.pdf
+    retrieved: 2026-10-25
+    sha256: f4acbbba3760f8deb28b5de3375e4eac08615f8e0ab5723b172a3e9f6d0fa4f1
+    official: true
+    notes: >-
+      Metadati PDF: creato il 3 giugno 2021 da un foglio "2021 06 03 DIRITTI ISTRUTTORIA". Righe
+      "COMUNICAZIONE – CESSAZIONE 0,00 €" per vicinato, medie e grandi strutture, ingrosso e
+      somministrazione; nessuna riga di cessazione per acconciatori ed estetisti.
+  - id: modulo-cessazione
+    label: Regione Campania SURAP – Comunicazione di cessazione o sospensione temporanea di attività (modulistica unificata commercio)
+    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Comunicazione_di_cessazione_o_sospensione_temporanea_di_attivit%C3%A0.pdf
+    retrieved: 2026-10-25
+    sha256: 4b6fde24b144eec957fe4dc8415e61abdfbda7a697c080b812d95eb257054291
+    official: true
+    notes: PDF del 9 giugno 2021, 4 pagine, informativa secondo il Reg. UE 2016/679.
+  - id: modulo-scheda-anagrafica
+    label: Regione Campania SURAP – Scheda anagrafica (modulistica unificata commercio)
+    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Scheda_anagrafica.pdf
+    retrieved: 2026-10-25
+    sha256: aef5908e61b8ad9001275c84d9dd0fe9f70b0c35ad1814396ba4f3b223440d57
+    official: true
+  - id: surap-modulistica-commercio
+    label: Regione Campania SURAP – Modulistica unificata e standardizzata per il commercio in sede fissa (aggiornata al DD 119/2021)
+    url: https://surap.regione.campania.it/index.php/modulistica/432-modulistica-unificata-e-standardizzata-attivita-commerciali-sede-fissa.html
+    retrieved: 2026-10-25
+    official: true
+  - id: lr-campania-7-2020
+    label: Legge regionale Campania 21 aprile 2020, n. 7 – Testo unico sul commercio, testo vigente (Normativa Regione Campania)
+    url: https://www.regione.campania.it/normativa/item.php?pgCode=G19I231R1867&id_doc_type=1&id_tema=11
+    retrieved: 2026-10-25
+    official: true
+    notes: Letti gli artt. 26, 42, 91, 145 e 149.
+  - id: lr7-pdf
+    label: L.R. Campania 7/2020 – testo e allegati vigenti (PDF), Allegato A "Regimi amministrativi delle attività commerciali"
+    url: https://www.regione.campania.it/normativa/userFile/documents/attachments/1867_7_2020Alla25_2024.pdf
+    retrieved: 2026-10-25
+    sha256: 76006ee0a36267de65967d2252abbc9c77b0630f4430f9b75735c87f5f6a631a
+    official: true
+    notes: >-
+      Le tabelle dell'Allegato A sono immagini (pagine 91-108 del PDF, dal BURC n. 91 del 27 aprile
+      2020): lette a vista le pagine 92 (vicinato) e 100 (somministrazione).
+  - id: dlgs-114-art26
+    label: D.Lgs. 31 marzo 1998, n. 114, art. 26 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-03-31;114~art26
+    retrieved: 2026-10-25
+    official: true
+  - id: regolamento-acconciatori
+    label: >-
+      Comune di Napoli – Regolamento per l'esercizio delle attività di acconciatore, estetista,
+      tatuaggio e piercing (DCC 18/2018, modificato con DCC 6/2021), testo integrato
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/09/2021_04_13_Testo_integrato_del_Regolamento_Acconciatore_Estetista_da_pubblicare__1_.pdf
+    retrieved: 2026-10-25
+    sha256: ab48dcddb07a9466c8085b382aac362d75854e516792156fb214fffb033d4625
+    official: true
+  - id: dd117
+    label: >-
+      Regione Campania, Decreto Dirigenziale n. 117 del 30/04/2020, allegato "Procedure per le
+      notifiche ed il riconoscimento degli stabilimenti…" (BURC n. 98 del 4 maggio 2020)
+    url: https://surap.regione.campania.it/Allegati/DD_117OKOK_0405_DECRETI_DIRIGENZIALI_DIP_5004.pdf
+    retrieved: 2026-10-25
+    sha256: f95c2edefadc2e1b78e180c4c45e58abd45a1d4341156d2cb92101215ef739f3
+    official: true
+    notes: Testo non estraibile; letti a vista i par. 1.8 (pagina 5 dell'allegato) e 2.9.5 (pagina 16).
+  - id: sari-cancellazione
+    label: SARI Camera di Napoli – Cancellazione impresa individuale attiva (scheda 113872853)
+    url: https://supportospecialisticori.infocamere.it/sariWeb/na?apriSchedaMadre=113872853
+    retrieved: 2026-10-25
+    page_updated: 2023-10-11
+    official: true
+    notes: Servizio di supporto del Registro Imprese della Camera di Napoli, realizzato da InfoCamere.
+  - id: sari-artigiana-cancellazione
+    label: >-
+      SARI Camera di Napoli – Cancellazione dalla sezione imprese artigiane e contestuale richiesta
+      di cancellazione dal Registro Imprese di impresa individuale (scheda 115299246)
+    url: https://supportospecialisticori.infocamere.it/sariWeb/na?apriSchedaMadre=115299246
+    retrieved: 2026-10-25
+    page_updated: 2022-10-07
+    official: true
+  - id: na-sanzioni
+    label: Camera di Commercio di Napoli – Registro Imprese, Sanzioni
+    url: https://www.na.camcom.gov.it/registro-imprese-e-albi/deposito-pratiche/sanzioni
+    retrieved: 2026-10-25
+    official: true
+  - id: na-diritto-annuale
+    label: Camera di Commercio di Napoli – Diritto annuale
+    url: https://www.na.camcom.gov.it/registro-imprese-e-albi/diritto-annuale
+    retrieved: 2026-10-25
+    page_updated: 2026-05-07
+    official: true
+  - id: na-esonerati
+    label: Camera di Commercio di Napoli – Diritto annuale, soggetti esonerati
+    url: https://www.na.camcom.gov.it/registro-imprese-e-albi/diritto-annuale/diritto-annuale-altre-sezioni/soggetti-esonerati
+    retrieved: 2026-10-25
+    page_updated: 2025-11-21
+    official: true
+    notes: Testo con gli anni 2010/2011; cita l'art. 4 D.M. 11 maggio 2001 n. 359.
+  - id: inps-commercianti
+    label: INPS – Iscrizione Gestione Commercianti
+    url: https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-servizi.50172.iscrizione-gestione-commercianti.html
+    retrieved: 2026-10-25
+    page_updated: 2025-08-12
+    official: true
+  - id: inail-cessazione
+    label: INAIL – Denuncia cessazione, impresa con dipendenti
+    url: https://www.inail.it/portale/assicurazione/it/Datore-di-Lavoro/Impresa-con-dipendenti-industria-artigianato-terziario-altre-attivita/denunce-posizione-assicurativa-impresa-con-dipendenti/denuncia-cessazione-impresa-con-dipendenti.html
+    retrieved: 2026-10-25
+    official: true
+    notes: Pubblicata il 03/10/2016; nessuna data di aggiornamento della pagina.
+  - id: ade-che-cose
+    label: Agenzia delle Entrate – Partita Iva persone fisiche (AA9/12), "Che cos'è"
+    url: https://www.agenziaentrate.gov.it/portale/schede/istanze/aa9_11-apertura-variazione-chiusura-pf/scheda-informativa-aa9_11
+    retrieved: 2026-10-25
+    page_updated: 2023-10-30
+    official: true
+  - id: ade-chiudere
+    label: Agenzia delle Entrate – "Come variare o chiudere la Partita Iva" (persone fisiche)
+    url: https://www.agenziaentrate.gov.it/portale/schede/istanze/aa9_11-apertura-variazione-chiusura-pf/come-variare-o-chiudere
+    retrieved: 2026-10-25
+    official: true
+    notes: La pagina non riporta la data di aggiornamento.
+  - id: dpr633-art35
+    label: D.P.R. 26 ottobre 1972, n. 633, art. 35 (testo vigente al 25/10/2026) – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1972-10-26;633~art35!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+    notes: Dal 1° gennaio 2027 sostituito dall'art. 68 del Testo unico IVA (D.Lgs. 10/2026).
+  - id: regolamento-tari
+    label: Regolamento TARI, allegato alla delibera C.C. n. 37 del 19 giugno 2023
+    url: https://www.comune.napoli.it/flex/files/1/c/7/D.007ae011f89c784022b3/DELIBERA_DI_C.C._N._37_DEL_19_GIUGNO_2023.pdf
+    retrieved: 2026-10-25
+    sha256: 15c491cd7e69bada6fbed48c345c72177cb147bb95cded0314b6cca75635ea6f
+    official: true
+    notes: Letti gli artt. 12 e 25.
+  - id: mod-8
+    label: Mod. 8 TARI – Cessazione uso non abitativo
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2020/09/MOD-8-CESSAZIONE-USO-NON-ABITATIVO.pdf
+    retrieved: 2026-10-25
+    sha256: 2180c649e56fb2f20d2b30ebac4ad4dae5992d81e835cad8b3d8888f15cc3c7b
+    official: true
+    notes: Mappato nella procedura napoli/comune/tari-cessazione-non-domestica.
+  - id: cup-occupazione
+    label: Comune di Napoli – Canone Unico Patrimoniale, Occupazione di suolo
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/canone-unico-patrimoniale/occupazione-di-suolo/
+    retrieved: 2026-10-25
+    page_updated: 2026-10-14
+    official: true
+  - id: cup-esposizioni
+    label: Comune di Napoli – Canone Unico Patrimoniale, Esposizioni pubblicitarie
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/canone-unico-patrimoniale/esposizioni-pubblicitarie/
+    retrieved: 2026-10-25
+    page_updated: 2026-10-14
+    official: true
+  - id: regolamento-cup
+    label: Regolamento per la disciplina del canone patrimoniale di concessione, autorizzazione o esposizione pubblicitaria (delibera C.C. n. 16 del 30/05/2022)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2006/03/Regolamento-per-la-disciplina-del-canone-patrimoniale-di-concessione-autorizzazione-o-esposizione-pubblicitaria-2.pdf
+    retrieved: 2026-10-25
+    sha256: 20417408e0fc552be65038854742615e3d943678e6f57e462cdbe18426e9e796
+    official: true
+    notes: Letti gli artt. 10 e 30.
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: lette le schede di impresainungiorno (SUAP di Napoli) per la cessazione di vicinato non
+    alimentare e di somministrazione, le pagine del SUAP (contatti, servizio, diritti), la tabella
+    dei diritti 2026 e quella del 2021 linkata dalla pagina del servizio, il modulo regionale di
+    cessazione e la Scheda anagrafica (scaricati, pdftotext), l'Allegato A della L.R. 7/2020 (pagine
+    92 e 100, a vista) e i suoi artt. 26, 42 e 91, l'art. 26 D.Lgs. 114/1998, l'art. 15 del
+    regolamento comunale acconciatori/estetisti, il DD 117/2020 (par. 1.8 e 2.9.5, a vista), le
+    schede SARI 113872853 e 115299246, le pagine della Camera di Napoli su sanzioni, diritto annuale
+    e soggetti esonerati, le pagine INPS (Gestione Commercianti), INAIL (denuncia di cessazione) e
+    Agenzia delle Entrate (AA9/12, come chiudere), l'art. 35 D.P.R. 633/1972, gli artt. 12 e 25 del
+    regolamento TARI, il Mod. 8, le pagine del canone unico e gli artt. 10 e 30 del regolamento del
+    canone.
+  notes: >-
+    Non controllati: il percorso su impresainungiorno per acconciatori ed estetisti, la chiusura
+    INAIL per artigiani senza dipendenti e i passaggi per le società.

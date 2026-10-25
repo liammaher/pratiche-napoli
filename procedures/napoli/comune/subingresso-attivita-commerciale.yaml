@@ -1,0 +1,831 @@
+schema_version: 0
+id: napoli/comune/subingresso-attivita-commerciale
+title: Subingresso in un negozio, bar o ristorante già avviato (cessione o affitto d'azienda) – SUAP del Comune di Napoli
+summary: >-
+  Chi compra o prende in affitto un'azienda commerciale già avviata a Napoli (negozio di vicinato,
+  bar, ristorante) deve intestarsi il titolo del precedente gestore con una comunicazione di
+  subingresso al SUAP, solo online su impresainungiorno; per alimenti e bevande va insieme alla
+  notifica sanitaria (SCIA unica). Serve prima il contratto con il notaio. Per bar e ristoranti il
+  termine è di 90 giorni dall'atto; nel centro storico UNESCO e nella buffer zone il regime è
+  controverso.
+ente:
+  name: Comune di Napoli
+  office: Area Sviluppo Economico – Servizio Sportello Unico Attività Produttive (SUAP)
+  ipa: c_f839
+applies_to:
+  events: [change, open]
+  audience: [business]
+  sectors:
+    - commercio al dettaglio in sede fissa (esercizio di vicinato, alimentare e non alimentare)
+    - somministrazione di alimenti e bevande (bar, ristoranti, pizzerie)
+  conditions:
+    - text: >-
+        Subingresso: un'impresa subentra nell'attività di un'altra già avviata con SCIA, DIA o
+        autorizzazione. Il modulo regionale prevede come motivi compravendita, affitto d'azienda,
+        donazione, fusione, fallimento, successione o altre cause; questa scheda descrive la
+        compravendita (cessione) e l'affitto d'azienda.
+      status: verified
+      source: modulo-subingresso
+    - text: >-
+        Nel vicinato il subingresso segue il regime della Tabella dell'allegato A della L.R.
+        Campania 7/2020 (art. 26, c. 2): per il settore non alimentare basta la comunicazione (con la
+        comunicazione di prevenzione incendi se l'attività è nell'Allegato I del DPR 151/2011 o supera
+        400 mq lordi); per il settore alimentare serve la SCIA unica, cioè comunicazione + SCIA
+        sanitaria (più la comunicazione di prevenzione incendi nei casi indicati).
+      status: verified
+      source: lr7-allegati
+    - text: >-
+        Per la somministrazione di alimenti e bevande il subingresso, in zone tutelate e non
+        tutelate, segue la Tabella dell'allegato A (art. 97, c. 1): SCIA unica composta da
+        comunicazione e SCIA sanitaria.
+      status: verified
+      source: lr7-allegati
+    - text: >-
+        La SCIA unica di subingresso nella somministrazione reintesta il titolo al subentrante solo se
+        è provato l'effettivo trasferimento dell'attività e il subentrante ha i requisiti morali e
+        professionali dell'art. 7 (art. 97, c. 2).
+      status: verified
+      source: lr7-campania
+    - text: >-
+        Requisiti: per ogni attività commerciale quelli di onorabilità dell'art. 71, cc. 1–5, del
+        D.Lgs. 59/2010; per la vendita di alimenti e per la somministrazione anche uno dei requisiti
+        professionali dell'art. 71, cc. 6 e 6-bis (L.R. 7/2020, art. 7). Si possono avere tramite un
+        preposto (Allegato B del modulo).
+      status: verified
+      source: lr7-campania
+    - text: >-
+        Nel centro storico UNESCO (zona A) e nella buffer zone (zona B) il regime del subingresso in
+        somministrazione, laboratori alimentari e vicinato con consumo sul posto è controverso (vedi
+        i pitfalls). Il Piano stabilisce comunque che lì il subingresso non può cambiare la tipologia
+        di attività né ampliare, anche indirettamente, la capacità di somministrazione (art. 6, c. 1).
+      status: verified
+      source: piano-zone
+    - text: >-
+        Per il SUAP il subingresso resta a SCIA anche nelle zone tutelate solo se è privo di
+        modifiche sostanziali (per esempio variazione della linea di attività o ampliamenti);
+        apertura, trasferimento e ampliamento in zona A o B richiedono l'autorizzazione.
+      status: verified
+      source: avviso-zone-tutelate
+    - text: >-
+        Per somministrazione, produzione di alimenti e vicinato con consumo immediato sul posto, in
+        caso di subingresso a qualunque titolo devono essere in regola con i tributi comunali sia chi
+        subentra sia chi cede (Piano, art. 6, c. 2).
+      status: verified
+      source: piano-zone
+legal_basis:
+  - text: >-
+      L.R. Campania 21 aprile 2020, n. 7 (Testo unico sul commercio, testo vigente aggiornato alla
+      L.R. 20/2025): art. 7 (requisiti), art. 26 (vicinato), art. 97 (subingresso nella
+      somministrazione), artt. 145 e 149 (sanzioni), allegato A (regimi amministrativi).
+    status: verified
+    source: lr7-campania
+  - text: >-
+      Codice civile, art. 2556: per le imprese soggette a registrazione i contratti di trasferimento
+      della proprietà o del godimento dell'azienda vanno provati per iscritto; quelli in forma
+      pubblica o per scrittura privata autenticata sono depositati per l'iscrizione nel Registro
+      delle imprese entro trenta giorni, a cura del notaio.
+    status: verified
+    source: cc-2556
+  - text: >-
+      Modulistica unificata e standardizzata (Accordo Conferenza Unificata 4 maggio 2017, modulo 12
+      "Subingresso in attività"), nella versione pubblicata dalla Regione Campania sul portale SURAP.
+    status: verified
+    source: accordo-2017
+  - text: >-
+      Piano per la programmazione delle aperture nel centro storico UNESCO e nella buffer zone
+      (deliberazione di Consiglio comunale n. 79 del 29 giugno 2026, in vigore dal 25 luglio 2026),
+      art. 6.
+    status: verified
+    source: avviso-zone-tutelate
+deadline:
+  rules:
+    - text: >-
+        Bar, ristoranti e altri esercizi di somministrazione: SCIA unica al SUAP entro novanta giorni
+        dalla stipula dell'atto di trasferimento (L.R. 7/2020, art. 97, c. 2). In caso di morte del
+        titolare l'erede presenta la SCIA entro un anno dalla morte, pena la decadenza del titolo,
+        salvo proroga per forza maggiore (c. 3).
+      status: verified
+      source: lr7-campania
+    - text: >-
+        Il titolo di somministrazione decade se, in caso di subingresso, l'attività non viene avviata
+        secondo le modalità dell'art. 97 (art. 149, c. 9, lett. g).
+      status: verified
+      source: lr7-campania
+    - text: >-
+        Vicinato: nei testi letti la L.R. 7/2020 non fissa un termine per la comunicazione di
+        subingresso; il subingresso senza il titolo prescritto è però sanzionato (art. 145, c. 2),
+        quindi la comunicazione va presentata prima di esercitare a proprio nome.
+      status: unverified
+    - text: >-
+        Subingresso per morte in un'attività alimentare: se l'erede non ha i requisiti professionali
+        deve acquisirli entro dodici mesi dal decesso e intanto può esercitare nominando un preposto
+        (art. 26, c. 4).
+      status: verified
+      source: lr7-campania
+    - text: >-
+        Con la comunicazione o la SCIA si può operare appena arriva la ricevuta di avvio pratica
+        telematica del SUAP.
+      status: verified
+      source: suap-servizio
+    - text: >-
+        TARI: chi subentra presenta la dichiarazione di variazione entro 90 giorni dalla data in cui
+        si è verificata la variazione (art. 25, c. 5 del regolamento); per il subentro si usa il quadro
+        A "voltura" del Mod. 6.
+      status: verified
+      source: regolamento-tari
+    - text: >-
+        Tempi d'istruttoria indicati dal Comune: 30 giorni per le comunicazioni, 60 per le SCIA, 90
+        per le autorizzazioni.
+      status: verified
+      source: suap-servizio
+  lateness:
+    text: >-
+      Per il commercio in sede fissa il subingresso senza il titolo prescritto obbliga il Comune a
+      disporre la chiusura o la cessazione dell'attività e ad applicare la sanzione da 2.500 a
+      15.000 euro (L.R. 7/2020, art. 145, c. 2). Per la somministrazione esercitare senza titolo,
+      con titolo decaduto o senza i requisiti è punito con la sanzione da 2.500 a 15.000 euro e il
+      SUAP dispone la cessazione e la chiusura (art. 149, cc. 2 e 4). L'importo in concreto lo
+      stabilisce l'ufficio che accerta la violazione.
+    status: verified
+    source: lr7-campania
+channels:
+  - type: portal
+    name: impresainungiorno – SUAP di Napoli
+    url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: suap-servizio
+    notes: >-
+      Unico canale per le pratiche SUAP di Napoli. Servono e-mail, PEC, firma digitale e accesso con
+      SPID, CIE, CNS (anche eIDAS o Telemaco). Nel procedimento dell'attività si sceglie l'evento
+      "Subentrare nell'esercizio dell'attività".
+  - type: pec
+    address: suap@pec.comune.napoli.it
+    receipt: legal
+    source: suap-contatti
+    notes: Solo per comunicare con l'ufficio; le pratiche inviate via PEC o e-mail non vengono istruite.
+  - type: email
+    address: suaponline@comune.napoli.it
+    receipt: informal
+    source: suap-contatti
+    notes: Solo informazioni.
+  - type: desk
+    name: Servizio SUAP
+    address: Piazza Cavour 42, II piano, Napoli
+    booking: >-
+      Dal 18 maggio 2026 solo su prenotazione online (pulsante "Prenota appuntamento" della pagina
+      "Avviare, variare, chiudere un'attività produttiva").
+    source: suap-contatti
+    notes: Informazioni e assistenza; la pratica si presenta comunque online.
+  - type: phone
+    address: 081 7953054
+    source: suap-servizio
+payment:
+  method: pagopa
+  calculator_url: https://static-www.comune.napoli.it/wp-content/uploads/2021/07/2026-TABELLA-DIRITTI-SUAP-DEF.pdf
+  notes:
+    - text: >-
+        Diritti d'istruttoria SUAP in vigore dall'11 giugno 2026 (delibera di Giunta n. 239/2026). La
+        tabella mette subingresso, cessione di azienda e fitto di ramo d'azienda tra le "variazioni
+        ciclo di vita aziendale", con coefficiente 0,8: l'importo è quello della colonna VCA (0,8
+        volte l'importo di apertura).
+      status: verified
+      source: tabella-2026
+    - text: >-
+        Colonna VCA, vicinato: non alimentare 80 euro (S1), con prevenzione incendi 96 euro (S2);
+        alimentare 80 euro (S3), con notifica sanitaria 96 euro (S4), con notifica e prevenzione
+        incendi 112 euro (S5). Con la vendita di alcolici: 160 euro (S23, non alimentare), 176 euro
+        (S24, non alimentare con prevenzione incendi; S25, alimentare con notifica), 192 euro (S26).
+      status: verified
+      source: tabella-2026
+    - text: >-
+        Colonna VCA, somministrazione in zone non tutelate: 80 euro (S71), con notifica sanitaria 96
+        euro (S72), con notifica e nulla osta di impatto acustico 176 euro (S73). In zone tutelate:
+        320 euro (S74), 336 euro (S75), 416 euro (S76).
+      status: verified
+      source: tabella-2026
+    - text: >-
+        Quale riga si applica a un subingresso in zona A o B (S74–S76 oppure S71–S73) lo determina il
+        procedimento scelto nel front office; le fonti non lo dicono in modo esplicito.
+      status: unverified
+    - text: >-
+        I diritti d'istruttoria si pagano con pagoPA. I diritti sanitari a favore dell'ASL Napoli 1
+        Centro si pagano a parte, preferibilmente con pagoPA (nota ASL sulla pagina dei diritti); per
+        gli importi vedi napoli/asl-napoli-1/registrazione-attivita-alimentare.
+      status: verified
+      source: diritti
+    - text: >-
+        Se la pratica unisce più procedimenti (per esempio comunicazione + notifica sanitaria +
+        alcolici) si sommano i diritti dei singoli procedimenti, come per le aperture.
+      status: unverified
+documents:
+  - name: Contratto di cessione o di affitto d'azienda (atto pubblico o scrittura privata autenticata dal notaio), con gli estremi di registrazione
+    required: true
+    notes: >-
+      Nel modulo si indicano numero e data di registrazione. Se l'atto è ancora in corso di
+      registrazione si allega la dichiarazione del notaio che lo attesta.
+  - name: Comunicazione di subingresso (con Scheda anagrafica), compilata su impresainungiorno e firmata digitalmente
+    required: true
+  - name: Dichiarazione del notaio che l'atto è in corso di registrazione
+    required: false
+    notes: Solo se l'atto non è ancora registrato.
+  - name: Notifica sanitaria ai fini della registrazione – aggiornamento per subingresso (Reg. CE 852/2004)
+    required: false
+    notes: Sempre per vendita o somministrazione di alimenti; va nella stessa pratica (SCIA unica).
+  - name: Comunicazione per la vendita di alcolici (D.Lgs. 504/1995)
+    required: false
+    notes: Se si vendono alcolici.
+  - name: Allegato A – requisiti degli altri soci, con documento d'identità
+    required: false
+    notes: Sempre, se ci sono soci o altri soggetti tenuti ai requisiti diversi dal dichiarante.
+  - name: Allegato B – requisiti del preposto, con documento d'identità
+    required: false
+    notes: Per attività alimentari o di somministrazione, se il requisito professionale lo ha un preposto.
+  - name: Procura speciale, con documento d'identità di chi la conferisce
+    required: false
+    notes: Se la pratica è firmata e inviata da un procuratore o da un'agenzia per le imprese.
+  - name: Copia del documento d'identità del titolare
+    required: false
+    notes: Solo se la comunicazione non è firmata digitalmente e non c'è procura.
+  - name: Ricevuta pagoPA dei diritti d'istruttoria SUAP e ricevute dei diritti di altri enti (ASL)
+    required: true
+forms:
+  - id: comunicazione-subingresso-campania
+    name: >-
+      Comunicazione per il subingresso in attività – modulistica unificata e standardizzata, Regione
+      Campania (SURAP), con Allegati A, B, C e D
+    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Comunicazione_per_il_subingresso_in_attivit%C3%A0.pdf
+    source: modulo-subingresso
+    sha256: a7a32a3edc89a903ce26561552b26618c848a20a865be23f2d1c01eb3b0dc1b1
+    signature_required: true
+    fields:
+      # Intestazione
+      - label: "Al SUAP del Comune di – Indirizzo – PEC / Posta elettronica"
+        map: { blank_with_reason: "Precompilato dal portale: SUAP del Comune di Napoli." }
+      - label: "Compilato a cura del SUAP: Pratica / del / Protocollo"
+        map: { blank_with_reason: Spazio riservato al SUAP. }
+      - label: "COMUNICAZIONE: Subingresso in attività / SCIA UNICA: Subingresso in attività di commercio/somministrazione di prodotti alimentari + SCIA sanitaria e/o altre segnalazioni"
+        map: { ask: "L'attività vende o somministra alimenti, o si allegano altre segnalazioni (per esempio alcolici)? Se sì è SCIA unica, altrimenti solo comunicazione" }
+      # Indirizzo dell'attività
+      - label: "Indirizzo dell'attività: Via/piazza"
+        map: { direct: locale.indirizzo }
+        notes: Da compilare se diverso dalla sede dell'impresa.
+      - { label: "n. (attività)", map: { direct: locale.civico } }
+      - { label: "Comune (attività)", map: { direct: locale.comune } }
+      - { label: "prov. (attività)", map: { direct: locale.provincia } }
+      - { label: "C.A.P. (attività)", map: { direct: locale.cap } }
+      - { label: "Stato (attività)", map: { blank_with_reason: "Italia: l'attività è a Napoli." } }
+      - { label: "Telefono fisso / cell. (attività)", map: { ask: Telefono dell'esercizio } }
+      - { label: "fax (attività)", map: { blank_with_reason: Facoltativo; il registro non ha un campo fax. } }
+      # Dati catastali
+      - { label: "Dati catastali: Foglio n.", map: { direct: locale.catasto_foglio } }
+      - { label: "map.", map: { direct: locale.catasto_particella } }
+      - { label: "sub.", map: { direct: locale.catasto_subalterno } }
+      - { label: "sez.", map: { direct: locale.catasto_sezione } }
+      - { label: "Catasto: fabbricati", map: { blank_with_reason: Casella da barrare (catasto fabbricati). } }
+      # 1 – Dati della impresa a cui si subentra
+      - label: "1 – Il/la sottoscritto/a COMUNICA il subingresso nell'attività di: (impresa cedente)"
+        map: { ask: "Denominazione dell'impresa a cui si subentra (cedente o locatrice dell'azienda)" }
+      - label: "già avviata con la SCIA/DIA/autorizzazione prot./n."
+        map: { ask: "Numero di protocollo della SCIA, DIA o autorizzazione del cedente (chiederlo al cedente)" }
+      - label: "del (data del titolo del cedente)"
+        map: { ask: "Data della SCIA, DIA o autorizzazione del cedente" }
+      - label: "Avvio dell'attività contestuale / con decorrenza dal"
+        map: { ask: "Il subentrante inizia dalla data di presentazione o da una data successiva (quale)?" }
+      # 2 – Motivazione del subingresso
+      - label: "2 – Motivazione: Compravendita / Affitto d'azienda / Donazione / Fusione / Fallimento / Successione / Altre cause"
+        map: { ask: "Motivo del subingresso: compravendita (cessione), affitto d'azienda o altro (specificare)" }
+      - label: "Con atto di registrazione n."
+        map: { ask: "Numero di registrazione dell'atto di cessione o affitto d'azienda (dall'Agenzia delle Entrate o dal notaio)" }
+        notes: Se l'atto è in corso di registrazione, allegare la dichiarazione del notaio.
+      - label: "del (data di registrazione dell'atto)"
+        map: { ask: Data di registrazione dell'atto }
+      # 3 – Variazione della denominazione
+      - label: "3 – Variazione della denominazione – In caso di commercio elettronico: indirizzo nuovo sito web"
+        map: { ask: "Solo per il commercio elettronico: indirizzo del nuovo sito web, se cambia" }
+      # Dichiarazioni a) commercio e somministrazione
+      - label: "a) Solo per l'attività di commercio: requisiti di onorabilità previsti dalla legge"
+        map: { ask: "Il dichiarante conferma di avere i requisiti di onorabilità (art. 71 D.Lgs. 59/2010)? Dichiarazione sotto la propria responsabilità" }
+        notes: Dichiarazione sostitutiva, che sceglie e firma solo il dichiarante.
+      - label: "a) Solo per la somministrazione: requisiti di onorabilità e assenza delle condizioni degli artt. 11, 92 e 131 TULPS"
+        map: { ask: "Per bar e ristoranti: il dichiarante conferma i requisiti di onorabilità e di non trovarsi nelle condizioni degli artt. 11, 92 e 131 TULPS?" }
+      - label: "Per tutte le attività: assenza di cause di divieto, decadenza o sospensione (art. 67 D.Lgs. 159/2011)"
+        map: { ask: "Il dichiarante conferma che non ci sono nei suoi confronti cause ostative antimafia?" }
+      - label: "Solo per subingresso in commercio e/o somministrazione di prodotti alimentari: requisito professionale – corso professionale (Istituto, sede, oggetto corso, anno di conclusione)"
+        map: { ask: "Requisito professionale per alimenti o somministrazione: corso riconosciuto frequentato (istituto, sede, oggetto, anno)?" }
+      - label: "oppure: esercizio in proprio per almeno 2 anni nel quinquennio (tipo di attività, dal, al; CCIAA e n. REA o registro UE)"
+        map: { ask: "Attività d'impresa propria nel settore alimentare o della somministrazione (tipo, periodi, Camera di commercio e REA)?" }
+      - label: "oppure: lavoro per almeno 2 anni nel quinquennio presso imprese del settore (nome e sede impresa; dipendente qualificato / coadiutore familiare / socio lavoratore / altre posizioni, iscritto INPS, dal, al)"
+        map: { ask: "Lavoro presso imprese alimentari o di somministrazione (impresa, sede, ruolo, periodi con iscrizione INPS)?" }
+      - label: "oppure: diploma o laurea con materie attinenti (Scuola/Istituto/Ateneo, anno di conclusione, materie attinenti)"
+        map: { ask: "Diploma o laurea con materie attinenti al commercio o agli alimenti (istituto, anno, materie)?" }
+      - label: "oppure: qualificazione professionale estera riconosciuta (decreto n., in data)"
+        map: { ask: "Qualifica ottenuta all'estero e riconosciuta in Italia (estremi del decreto)?" }
+      - label: "oppure: pratica professionale – iscrizione al REC / esame di idoneità REC / REC sezione imprese turistiche (anno, CCIAA o ente)"
+        map: { ask: "Iscrizione al REC o esame di idoneità REC superato (anno e Camera di commercio o ente)?" }
+      - label: "OPPURE: requisiti professionali posseduti dal preposto Sig./ra ... (Allegato B)"
+        map: { ask: "Il requisito professionale lo ha un preposto? Nome del preposto" }
+      # Dichiarazioni b) acconciatore ed estetista
+      - label: "b) Attività di acconciatore e/o estetista: assenza di cause antimafia, responsabile tecnico, abilitazione o qualifica, oppure elenco dei responsabili tecnici (Allegati C e D)"
+        map: { blank_with_reason: "Solo per acconciatori ed estetisti: non riguarda negozi, bar e ristoranti (vedi napoli/comune/scia-acconciatore-estetista)." }
+      # Altre dichiarazioni
+      - label: "Solo per commercio in spacci interni: vendita esclusivamente a favore di dipendenti / militari / soci / scuole / ospedali"
+        map: { blank_with_reason: Non riguarda un negozio aperto al pubblico. }
+      - label: "Solo per commercio mediante apparecchi automatici presso altri esercizi: impegno a comunicare ogni sei mesi installazioni e disinstallazioni"
+        map: { blank_with_reason: "Non riguarda un negozio, bar o ristorante in sede fissa." }
+      - label: "Solo per commercio presso il domicilio del consumatore: impegno a comunicare l'elenco degli incaricati"
+        map: { blank_with_reason: "Non riguarda un negozio, bar o ristorante in sede fissa." }
+      - label: "Solo per acconciatore e/o estetista: consentire i controlli se l'attività è svolta nella propria abitazione"
+        map: { blank_with_reason: Solo per acconciatori ed estetisti. }
+      - label: "In tutti i casi: impegno a comunicare ogni variazione di stati, fatti, condizioni e titolarità"
+        map: { ask: "Il dichiarante si impegna a comunicare le variazioni?" }
+      - label: "SCIA UNICA: presenta le segnalazioni e/o comunicazioni del quadro riepilogativo"
+        map: { ask: "Quali segnalazioni si allegano (notifica sanitaria, alcolici)? Vedi quadro riepilogativo" }
+      - { label: Data, map: { ask: Data di sottoscrizione } }
+      - label: Firma
+        map: { blank_with_reason: Firma digitale del dichiarante (o del procuratore con procura); solo la persona. }
+      - label: "Informativa sul trattamento dei dati personali (Reg. UE 2016/679): Titolare del trattamento Comune di, indirizzo, mail/PEC, responsabile, DPO"
+        map: { blank_with_reason: Dati del Comune; nel modulo online li fornisce il portale. }
+      - label: "Informativa: Data e Firma (presa visione)"
+        map: { blank_with_reason: Presa visione e firma del dichiarante; solo la persona. }
+      # Quadro riepilogativo
+      - label: "Quadro riepilogativo – Procura/Delega"
+        map: { ask: "La pratica è presentata da un procuratore con procura speciale?" }
+      - label: "Copia del documento di identità del/i titolare/i"
+        map: { blank_with_reason: Serve solo se la comunicazione non è firmata digitalmente e non c'è procura. }
+      - label: "Dichiarazioni sul possesso dei requisiti da parte degli altri soci (Allegato A) + documento"
+        map: { ask: "Ci sono altri soci o amministratori tenuti ai requisiti? (serve l'Allegato A per ciascuno)" }
+      - label: "Dichiarazioni sul possesso dei requisiti da parte del preposto (Allegato B) + documento"
+        map: { ask: "C'è un preposto? (serve l'Allegato B)" }
+      - label: "Dichiarazioni del responsabile tecnico (Allegati C e/o D) e dichiarazione di accettazione + documento"
+        map: { blank_with_reason: Solo per acconciatori ed estetisti. }
+      - label: "Dichiarazione da parte del notaio (atto in corso di registrazione)"
+        map: { ask: "L'atto di cessione o affitto è ancora in corso di registrazione? (allegare la dichiarazione del notaio)" }
+      - label: "SCIA UNICA – Notifica sanitaria (art. 6 Reg. CE 852/2004)"
+        map: { ask: "L'attività vende o somministra alimenti? (notifica sanitaria di subingresso nella stessa pratica)" }
+      - label: "Comunicazione che vale quale denuncia per la vendita di alcolici (D.Lgs. 504/1995)"
+        map: { ask: "Si vendono alcolici?" }
+      - label: "Altri allegati – Attestazione del versamento di oneri, diritti, ecc."
+        map: { blank_with_reason: Ricevuta pagoPA generata nella pratica su impresainungiorno. }
+      # Allegato A – altri soci
+      - label: "Allegato A (uno per socio) – Cognome, Nome"
+        map: { ask: Cognome e nome di ciascun altro socio tenuto ai requisiti }
+      - { label: "Allegato A – C.F.", map: { ask: Codice fiscale del socio } }
+      - { label: "Allegato A – Data di nascita", map: { ask: Data di nascita del socio } }
+      - { label: "Allegato A – Cittadinanza", map: { ask: Cittadinanza del socio } }
+      - { label: "Allegato A – Sesso", map: { ask: Sesso del socio } }
+      - { label: "Allegato A – Luogo di nascita: Stato, Provincia, Comune", map: { ask: Luogo di nascita del socio } }
+      - label: "Allegato A – Residenza: Provincia, Comune, Via/Piazza, N., C.A.P."
+        map: { ask: Residenza del socio }
+      - label: "Allegato A – in qualità di SOCIO/A della Società"
+        map: { direct: business.denominazione }
+      - label: "Allegato A – dichiara requisiti di onorabilità (commercio; somministrazione con TULPS; acconciatori/estetisti) e assenza di cause antimafia"
+        map: { blank_with_reason: Dichiarazione personale del socio; la sceglie e la firma solo lui. }
+      - label: "Allegato A – Data, Firma; informativa Data, Firma"
+        map: { blank_with_reason: Firma del socio; solo la persona. }
+      # Allegato B – preposto
+      - { label: "Allegato B – Cognome, Nome", map: { ask: Cognome e nome del preposto } }
+      - { label: "Allegato B – C.F.", map: { ask: Codice fiscale del preposto } }
+      - { label: "Allegato B – Data di nascita", map: { ask: Data di nascita del preposto } }
+      - { label: "Allegato B – Cittadinanza", map: { ask: Cittadinanza del preposto } }
+      - { label: "Allegato B – Sesso", map: { ask: Sesso del preposto } }
+      - { label: "Allegato B – Luogo di nascita: Stato, Provincia, Comune", map: { ask: Luogo di nascita del preposto } }
+      - label: "Allegato B – Residenza: Provincia, Comune, Via/Piazza, N., C.A.P."
+        map: { ask: Residenza del preposto }
+      - label: "Allegato B – in qualità di PREPOSTO/A della Ditta individuale / Società"
+        map: { direct: business.denominazione }
+      - label: "Allegato B – in data (nomina a preposto)"
+        map: { ask: Data da cui la persona è preposta all'attività }
+      - label: "Allegato B – dichiara requisiti di onorabilità e assenza di cause antimafia"
+        map: { blank_with_reason: Dichiarazione personale del preposto; la sceglie e la firma solo lui. }
+      - label: "Allegato B – requisito professionale (corso; esercizio in proprio; lavoro presso imprese del settore; diploma; qualifica estera; REC)"
+        map: { ask: "Quale requisito professionale ha il preposto, con gli stessi dettagli richiesti al dichiarante?" }
+      - label: "Allegato B – Data, Firma; informativa Data, Firma"
+        map: { blank_with_reason: Firma del preposto; solo la persona. }
+      # Allegati C e D – responsabile tecnico
+      - label: "Allegato C (acconciatore) e Allegato D (estetista) – dichiarazione del responsabile tecnico"
+        map: { blank_with_reason: Solo per acconciatori ed estetisti. }
+  - id: scheda-anagrafica-campania
+    name: >-
+      Scheda anagrafica (modulistica unificata e standardizzata, Regione Campania) – parte comune
+      che accompagna la comunicazione di subingresso
+    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Scheda_anagrafica.pdf
+    source: scheda-anagrafica
+    sha256: aef5908e61b8ad9001275c84d9dd0fe9f70b0c35ad1814396ba4f3b223440d57
+    signature_required: true
+    fields:
+      # 1 – Dati del dichiarante (il subentrante)
+      - { label: "1 – Dati del dichiarante: Cognome", map: { direct: identity.last_name } }
+      - { label: Nome, map: { direct: identity.first_name } }
+      - { label: codice fiscale, map: { direct: identity.codice_fiscale } }
+      - { label: sesso, map: { direct: identity.sex } }
+      - { label: Nato/a a, map: { direct: identity.birth_comune } }
+      - { label: prov. (di nascita), map: { direct: identity.birth_province } }
+      - label: Stato (di nascita)
+        map: { direct: identity.birth_country }
+        notes: Solo se nato all'estero; se nato in Italia scrivere Italia.
+      - { label: il (data di nascita), map: { direct: identity.date_of_birth } }
+      - { label: cittadinanza, map: { direct: identity.citizenship } }
+      - label: estremi del documento di soggiorno
+        map: { direct: permesso_soggiorno.numero }
+        notes: Solo per cittadini non UE.
+      - label: rilasciato da
+        map: { direct: permesso_soggiorno.questura_rilascio }
+        notes: Solo per cittadini non UE.
+      - label: il (data rilascio del documento di soggiorno)
+        map: { direct: permesso_soggiorno.data_rilascio }
+        notes: Solo per cittadini non UE.
+      - label: scadenza (del documento di soggiorno)
+        map: { direct: permesso_soggiorno.data_scadenza }
+        notes: Solo per cittadini non UE.
+      - { label: residente in, map: { direct: residenza.comune } }
+      - { label: prov. (di residenza), map: { direct: residenza.provincia } }
+      - { label: Stato (di residenza), map: { ask: "Stato di residenza (Italia se residente in Italia)" } }
+      - { label: indirizzo, map: { direct: residenza.indirizzo } }
+      - { label: n., map: { direct: residenza.civico } }
+      - { label: C.A.P., map: { direct: residenza.cap } }
+      - { label: PEC / posta elettronica, map: { fallback: [identity.pec, identity.email] } }
+      - { label: Telefono fisso / cellulare, map: { direct: identity.phone } }
+      - label: in qualità di (Titolare / Legale rappresentante / Altro)
+        map: { direct: business.qualita_dichiarante }
+        notes: Se il ruolo è diverso da titolare o legale rappresentante, chiedere e scriverlo in "Altro".
+      # 2 – Dati della ditta/società/impresa (l'impresa che subentra)
+      - label: "2 – Dati della ditta/società/impresa: Denominazione"
+        map: { direct: business.denominazione }
+        notes: È l'impresa che subentra, non quella cedente.
+      - { label: Forma giuridica, map: { ask: "Forma giuridica dell'impresa che subentra (ditta individuale, s.r.l., s.n.c., ...)" } }
+      - label: codice fiscale / p. IVA
+        map: { fallback: [business.codice_fiscale, business.partita_iva] }
+      - label: iscritta alla C.C.I.A.A. di ... prov.
+        map: { direct: business.rea }
+        notes: La sigla davanti al numero REA (per esempio NA) indica la Camera di commercio e la provincia.
+      - { label: n. REA, map: { direct: business.rea } }
+      - label: non ancora iscritta / non necessita di iscrizione al R.I.
+        map: { ask: "L'impresa che subentra non è ancora iscritta al Registro delle imprese?" }
+        notes: Il modulo ricorda che l'iscrizione alla Camera di commercio va fatta entro 30 giorni dall'avvio.
+      - { label: "con sede legale in: Comune", map: { direct: business.sede_legale_comune } }
+      - { label: prov. (sede legale), map: { direct: business.sede_legale_provincia } }
+      - { label: Stato (sede legale), map: { ask: "Stato della sede legale (Italia se in Italia)" } }
+      - { label: indirizzo (sede legale), map: { direct: business.sede_legale_indirizzo } }
+      - { label: n. (sede legale), map: { direct: business.sede_legale_civico } }
+      - { label: C.A.P. (sede legale), map: { direct: business.sede_legale_cap } }
+      - { label: Telefono fisso / cell. (impresa), map: { ask: "Telefono dell'impresa" } }
+      - { label: fax, map: { blank_with_reason: Facoltativo; il registro non ha un campo fax. } }
+      - { label: PEC (impresa), map: { direct: business.pec } }
+      - label: Altro domicilio elettronico per invio delle comunicazioni inerenti la pratica
+        map: { ask: "Altro indirizzo elettronico per le comunicazioni sulla pratica, se diverso dalla PEC" }
+      # 3 – Dati del procuratore/delegato
+      - label: "3 – Dati del procuratore/delegato: Cognome, Nome"
+        map: { ask: "Cognome e nome del procuratore, se la pratica è presentata con procura" }
+        notes: Compilare solo in caso di procura.
+      - { label: codice fiscale (procuratore), map: { ask: Codice fiscale del procuratore } }
+      - { label: "Nato/a a, prov., Stato, il (procuratore)", map: { ask: Luogo e data di nascita del procuratore } }
+      - label: "residente in, prov., Stato, indirizzo, n., C.A.P. (procuratore)"
+        map: { ask: Residenza del procuratore }
+      - { label: PEC / posta elettronica (procuratore), map: { ask: PEC o email del procuratore } }
+      - { label: Telefono fisso / cellulare (procuratore), map: { ask: Telefono del procuratore } }
+      - label: "in qualità di: Procuratore/delegato / Agenzia per le imprese – Denominazione"
+        map: { ask: "Il procuratore agisce come persona delegata o come Agenzia per le imprese (con denominazione)?" }
+      # 4 – Dati dell'attività/intervento
+      - label: "4 – Dati dell'attività/intervento (differenziato per tipologia di procedimento)"
+        map: { blank_with_reason: "Per il subingresso questi dati sono nella comunicazione di subingresso (indirizzo, dati catastali, impresa cedente)." }
+steps:
+  - do: >-
+      Prima di firmare il contratto, farsi dare dal cedente gli estremi del suo titolo (SCIA, DIA o
+      autorizzazione) e controllare che l'attività sia regolarmente avviata e che il locale sia in
+      regola (destinazione d'uso, igiene, sorvegliabilità per bar e ristoranti)
+    who: professional
+  - do: >-
+      Controllare con lo stradario e la cartografia del Piano se l'indirizzo è in zona A, B o C; in
+      zona A o B, e se cedente e subentrante non sono in regola con i tributi comunali, chiedere al
+      SUAP prima di comprare o affittare
+    who: anyone
+  - do: >-
+      Verificare che il subentrante (o un preposto) abbia i requisiti di onorabilità e, per alimenti
+      e somministrazione, un requisito professionale
+    who: owner
+  - do: Stipulare dal notaio il contratto di cessione o di affitto d'azienda (atto pubblico o scrittura privata autenticata)
+    who: owner
+    human_only: true
+  - do: >-
+      Annotare la data di stipula: per bar e ristoranti la SCIA unica va presentata entro 90 giorni.
+      Se l'atto non è ancora registrato, farsi rilasciare dal notaio la dichiarazione che è in corso
+      di registrazione
+    who: owner
+  - do: Procurarsi firma digitale, PEC e accesso SPID, CIE o CNS; oppure affidare la pratica a un procuratore
+    who: owner
+  - do: Se si usa un procuratore, firmare la procura speciale
+    who: owner
+    human_only: true
+  - do: >-
+      Compilare la pratica su impresainungiorno nel procedimento dell'attività (per esempio Vicinato
+      – settore Alimentare o Misto, oppure Esercizio di somministrazione di alimenti e bevande in
+      zone tutelate) scegliendo "Subentrare nell'esercizio dell'attività", aggiungendo
+      l'aggiornamento della notifica sanitaria per subingresso e le altre segnalazioni necessarie
+    who: facilitator
+  - do: Calcolare i diritti d'istruttoria con la colonna VCA della tabella SUAP 2026, sommando i procedimenti della pratica
+    who: anyone
+  - do: Pagare i diritti SUAP con pagoPA dalla pratica e i diritti sanitari ASL dove richiesto
+    who: owner
+    human_only: true
+  - do: Firmare digitalmente comunicazione e allegati (dichiarante, soci, preposto)
+    who: owner
+    human_only: true
+  - do: Inviare la pratica al SUAP dal portale
+    who: owner
+    human_only: true
+  - do: Iniziare a operare a proprio nome dopo la ricevuta di avvio pratica (o dalla data di decorrenza indicata)
+    who: owner
+    human_only: true
+  - do: Rispondere entro il termine indicato a eventuali richieste del SUAP
+    who: owner
+after:
+  - Conservare l'atto notarile, la ricevuta di avvio pratica, le ricevute dei pagamenti e copia di quanto inviato.
+  - >-
+    TARI: entro 90 giorni presentare il Mod. 6 (quadro A, voltura per cessione d'azienda o di ramo,
+    o "altro") per intestarsi l'utenza del cedente (napoli/comune/tari-variazione-non-domestica);
+    per la posizione del cedente vedi napoli/comune/tari-cessazione-non-domestica.
+  - >-
+    Insegna: il subentro nella titolarità della SCIA per insegna di esercizio richiede una nuova
+    SCIA (napoli/comune/insegna-esercizio).
+  - >-
+    Dehors: la voltura della concessione di suolo pubblico si comunica con firma congiunta di
+    cedente e subentrante (napoli/comune/concessione-suolo-pubblico-dehors).
+  - >-
+    Registro delle imprese: il notaio deposita il contratto entro 30 giorni; per gli adempimenti
+    del subentrante (iscrizione o apertura dell'unità locale) vedi
+    napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica.
+  - >-
+    Alimenti: l'aggiornamento della registrazione per subingresso va nella stessa pratica SUAP
+    (napoli/asl-napoli-1/registrazione-attivita-alimentare).
+pitfalls:
+  - text: >-
+      Subingresso in zona A o B: il Piano approvato dal Consiglio (art. 6, c. 1, testo emendato) lo
+      subordina ad autorizzazione con verifica dei requisiti strutturali e gestionali; l'avviso e il
+      vademecum del SUAP (23 luglio 2026) e l'allegato tecnico operativo dicono che, senza modifiche
+      sostanziali, resta a SCIA "in virtù della prevalente normativa regionale"; le schede 1–4 del
+      SUAP indicano "Comunicazione"; la L.R. 7/2020 (art. 97 e allegato A) prevede la SCIA unica
+      (comunicazione + SCIA sanitaria) sia in zone tutelate sia non tutelate. Chiedere al SUAP prima
+      di comprare o affittare un locale già avviato in zona tutelata.
+    status: disputed
+    source: piano-zone
+  - text: >-
+      Il vademecum del SUAP riporta nella tabella riassuntiva "SCIA" per il subingresso in zona
+      tutelata, ma nelle sezioni per tipo di attività indica come regime "Comunicazione". Nella
+      sostanza sono coerenti con la L.R. 7/2020, che chiama SCIA unica la comunicazione di subingresso
+      unita alla SCIA sanitaria.
+    status: verified
+    source: vademecum
+  - text: >-
+      Atto non ancora registrato: la comunicazione si può presentare allegando la dichiarazione del
+      notaio che l'atto è in corso di registrazione.
+    status: verified
+    source: modulo-subingresso
+  - text: >-
+      Prima della stipula dell'atto la comunicazione non si può presentare: il subentrante deve
+      provare l'effettivo trasferimento dell'attività (art. 97, c. 2, per la somministrazione) e il
+      modulo chiede gli estremi dell'atto. Nessuna fonte letta prevede la presentazione sulla base di
+      un preliminare.
+    status: unverified
+  - text: >-
+      Il modulo ricorda che, secondo l'art. 2556 c.c., i contratti di trasferimento della proprietà o
+      della gestione di un'azienda commerciale si stipulano dal notaio, per atto pubblico o scrittura
+      privata autenticata, registrata all'Agenzia delle Entrate. Il codice civile chiede la prova
+      scritta e il deposito al Registro delle imprese da parte del notaio entro 30 giorni.
+    status: verified
+    source: modulo-subingresso
+  - text: >-
+      Affitto d'azienda e dehors: il fitto o comodato d'azienda non comporta la voltura della
+      concessione di suolo pubblico, che resta in capo al proprietario, soggetto passivo del canone
+      per tutta la durata del fitto (regolamento del canone, art. 10, c. 10).
+    status: verified
+    source: regolamento-cup
+  - text: >-
+      Cessione con dehors di un bar o ristorante: il subentro nella concessione è efficace solo con
+      l'atto notarile presentato al servizio concessorio, i canoni in regola per tutte le annualità
+      non prescritte e i tributi locali del subentrante in regola (art. 10, c. 9). Senza comunicazione
+      tempestiva della voltura il canone resta dovuto dal cedente fino alla scadenza (c. 7).
+    status: verified
+    source: regolamento-cup
+  - text: >-
+      La pagina del Comune sui dehors (aggiornata al 10/02/2026) chiede di inviare le comunicazioni di
+      subingresso via PEC a due indirizzi del Comune, mentre il SUAP dice che le pratiche via PEC non
+      vengono istruite: chiedere al SUAP il canale attuale.
+    status: disputed
+    source: dehors-pagina
+  - text: >-
+      Diritti SUAP per la voltura del dehors: la riga S189 (occupazione di suolo pubblico annesso a
+      pubblici esercizi) ha 250 euro in apertura e 200 euro nella colonna VCA; non è confermato che
+      si applichi alla comunicazione di voltura.
+    status: unverified
+  - text: >-
+      Insegne: per le autorizzazioni dei mezzi pubblicitari permanenti il regolamento del canone (art.
+      28) chiede un'istanza di voltura al SUAP entro 90 giorni dalla cessione o dal fitto d'azienda,
+      con il cedente iscritto alla Camera di commercio e cedente e subentrante in regola con tributi
+      e canoni; per le insegne di esercizio l'art. 31 prevede invece la SCIA di subentro. Chiedere al
+      SUAP quale regola si applica a insegne diverse dall'insegna di esercizio.
+    status: verified
+    source: regolamento-cup
+  - text: >-
+      Diritti SUAP per la SCIA di subentro nell'insegna: 80 euro (riga S204, colonna VCA).
+    status: verified
+    source: tabella-2026
+  - text: >-
+      Nel front office di impresainungiorno-Napoli l'evento è "Subentrare nell'esercizio
+      dell'attività": per il vicinato alimentare il percorso è Vicinato – settore merceologico
+      Alimentare o Misto – Subentrare nell'esercizio dell'attività; con consumo sul posto va indicata
+      la superficie dedicata al consumo.
+    status: verified
+    source: scheda-4
+  - text: >-
+      Per bar e ristoranti in zona A o B il SUAP indica il procedimento "Esercizio di
+      somministrazione di alimenti e bevande in zone tutelate" (settore ristorazione, Ateco 55–56),
+      evento "Subentrare nell'esercizio dell'attività", con gli allegati chiesti dal front office.
+    status: verified
+    source: scheda-1
+  - text: >-
+      Il modulo regionale in PDF serve per preparare i dati: la pratica si compila nel front office di
+      impresainungiorno-Napoli, che può chiedere campi diversi.
+    status: unverified
+  - text: >-
+      L'allegato A della L.R. 7/2020 è pubblicato sul sito della Regione solo come immagini del BURC n.
+      91 del 27 aprile 2020; l'indice lo dice modificato dalla L.R. 5/2021 (art. 11, lettere l e m) e
+      il testo modificato non è stato visto.
+    status: verified
+    source: lr7-allegati
+  - text: >-
+      Le pratiche SUAP inviate via PEC o e-mail ordinaria non vengono istruite: l'unico canale è
+      impresainungiorno.
+    status: verified
+    source: suap-contatti
+  - text: >-
+      La pagina del servizio "Avviare, variare, chiudere un'attività produttiva" (aggiornata al
+      07/10/2025) collega come "nuova tabella" dei diritti un file precedente; vale la tabella 2026
+      della pagina Diritti d'istruttoria.
+    status: verified
+    source: suap-servizio
+related:
+  - napoli/comune/scia-esercizio-vicinato
+  - napoli/comune/scia-somministrazione-alimenti-bevande
+  - napoli/asl-napoli-1/registrazione-attivita-alimentare
+  - napoli/comune/tari-variazione-non-domestica
+  - napoli/comune/tari-cessazione-non-domestica
+  - napoli/comune/insegna-esercizio
+  - napoli/comune/concessione-suolo-pubblico-dehors
+  - napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica
+  - napoli/comune/cessazione-attivita-commerciale
+  - napoli/comune/nulla-osta-impatto-acustico
+  - napoli/vigili-del-fuoco/scia-prevenzione-incendi
+sources:
+  - id: lr7-campania
+    label: Legge regionale Campania 21 aprile 2020, n. 7 – Testo unico sul commercio (testo vigente, Normativa Regione Campania)
+    url: https://www.regione.campania.it/normativa/item.php?pgCode=G19I231R1867&id_doc_type=1&id_tema=11
+    retrieved: 2026-10-25
+    official: true
+    notes: Letti artt. 7, 26, 62, 97, 145 e 149; testo coerente con il PDF vigente aggiornato alla L.R. 20/2025.
+  - id: lr7-allegati
+    label: L.R. Campania 7/2020 – Testo e allegati vigenti (PDF dell'Ufficio legislativo, aggiornato alla L.R. 16 ottobre 2025, n. 20), allegato A pp. 91–108
+    url: https://www.regione.campania.it/normativa/userFile/documents/attachments/1867_7_2020Alla25_2024.pdf
+    retrieved: 2026-10-25
+    sha256: 76006ee0a36267de65967d2252abbc9c77b0630f4430f9b75735c87f5f6a631a
+    official: true
+    notes: >-
+      L'allegato A è inserito come immagini del BURC n. 91 del 27/04/2020 (tabelle 1.1 vicinato e
+      5.1 somministrazione lette a vista); modifiche della L.R. 5/2021 all'allegato non viste.
+  - id: cc-2556
+    label: Codice civile, art. 2556 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:regio.decreto:1942-03-16;262~art2556
+    retrieved: 2026-10-25
+    official: true
+  - id: modulo-subingresso
+    label: Regione Campania SURAP – Comunicazione per il subingresso in attività (modulistica unificata, PDF del 9 giugno 2021)
+    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Comunicazione_per_il_subingresso_in_attivit%C3%A0.pdf
+    retrieved: 2026-10-25
+    sha256: a7a32a3edc89a903ce26561552b26618c848a20a865be23f2d1c01eb3b0dc1b1
+    official: true
+  - id: scheda-anagrafica
+    label: Regione Campania SURAP – Scheda anagrafica (modulistica unificata)
+    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Scheda_anagrafica.pdf
+    retrieved: 2026-10-25
+    sha256: aef5908e61b8ad9001275c84d9dd0fe9f70b0c35ad1814396ba4f3b223440d57
+    official: true
+  - id: surap-modulistica
+    label: SURAP Campania – Modulistica unificata e standardizzata, attività commerciali in sede fissa
+    url: https://surap.regione.campania.it/index.php/modulistica/432-modulistica-unificata-e-standardizzata-attivita-commerciali-sede-fissa.html
+    retrieved: 2026-10-25
+    official: true
+    notes: La stessa comunicazione di subingresso è elencata anche nella pagina della somministrazione (440).
+  - id: accordo-2017
+    label: Accordo Conferenza Unificata 4 maggio 2017 – S.O. n. 26 alla G.U. n. 128 del 5 giugno 2017 (modulo 12 "Subingresso in attività", pp. 132–144)
+    url: https://www.gazzettaufficiale.it/eli/gu/2017/06/05/128/so/26/sg/pdf
+    retrieved: 2026-10-25
+    sha256: cc4585324b95fce34d37b18eb04cd88954f4152705cb0d79b52fc9ac01070f24
+    official: true
+  - id: suap-servizio
+    label: Comune di Napoli – Servizio "Avviare, variare, chiudere un'attività produttiva"
+    url: https://www.comune.napoli.it/servizio/avviare-variare-chiudere-unattivita-produttiva/
+    retrieved: 2026-10-25
+    page_updated: 2025-10-07
+    official: true
+  - id: suap-contatti
+    label: Comune di Napoli – Contatti dello Sportello Unico per le Attività Produttive
+    url: https://www.comune.napoli.it/articolo_tematico/suap/contatti/
+    retrieved: 2026-10-25
+    page_updated: 2026-05-18
+    official: true
+  - id: diritti
+    label: Comune di Napoli – Diritti d'istruttoria SUAP
+    url: https://www.comune.napoli.it/articolo_tematico/suap/diritti-distruttoria-suap/
+    retrieved: 2026-10-25
+    page_updated: 2026-06-11
+    official: true
+  - id: tabella-2026
+    label: Tabella dei diritti d'istruttoria delle pratiche telematiche SUAP 2026 (righe S1–S5, S23–S26, S71–S76, S189, S204; legenda dei coefficienti)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2021/07/2026-TABELLA-DIRITTI-SUAP-DEF.pdf
+    retrieved: 2026-10-25
+    sha256: 6abd7a3127137927c6d9959f946001c4e51d47afee568317e4e69e5584994d15
+    official: true
+  - id: avviso-zone-tutelate
+    label: Avviso – Impresainungiorno Napoli e i nuovi procedimenti in zone tutelate Zona A (Centro Storico) e Zona B (Buffer Zone)
+    url: https://www.comune.napoli.it/novita/avviso-per-gli-utenti-impresainungiorno-napoli-e-i-nuovi-procedimenti-in-zone-tutelate-zona-a-centro-storico-zona-b-buffer-zone/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-27
+    official: true
+    notes: Avviso datato 23 luglio 2026.
+  - id: vademecum
+    label: Vademecum SUAP – Impresainungiorno e procedimenti nel centro storico UNESCO e nella buffer zone (23/07/2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/PROC-ZONE-TUT-VADEMECUM-PER-CITTADINI-1.pdf
+    retrieved: 2026-10-25
+    sha256: 0065f5df48281244fcb0f98cbcb2de2a528d1072f940b1ca204dff0fcd9e5023
+    official: true
+  - id: scheda-1
+    label: SUAP Napoli – Scheda 1, somministrazione in Zona A e Zona B
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/SCHEDA-1.pdf
+    retrieved: 2026-10-25
+    sha256: f1a449f5f311ec6fd9a3354c9f9486d8fdf26c100ab610012e9cfaa647b7cfc1
+    official: true
+  - id: scheda-4
+    label: SUAP Napoli – Scheda 4, vicinato alimentare con consumo immediato sul posto in Zona A e Zona B
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/SCHEDA-4.pdf
+    retrieved: 2026-10-25
+    sha256: 8b0dc9830b5d1e7b84552a25ed27315d3507c869af3236794372824196e58001
+    official: true
+    notes: Le schede 2 (laboratori) e 3 (laboratorio con vicinato) danno per il subingresso lo stesso regime "Comunicazione".
+  - id: allegato-tecnico
+    label: Allegato Tecnico Operativo – Zone Centro Storico Napoli (UNESCO/BUFFER)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/Allegato-Tecnico-Operativo.pdf
+    retrieved: 2026-10-25
+    sha256: 9e09ab79fc130614c36aea889b7154fed69155aa5dda7c4f585cffb87f090abf
+    official: true
+    notes: Ausilio interpretativo; non sostituisce il Piano.
+  - id: piano-zone
+    label: Piano per la programmazione delle aperture nel centro storico UNESCO e nella buffer zone (testo coordinato con emendamenti, DCC n. 79 del 29 giugno 2026), art. 6
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/Piano-di-somministrazioni-con-emendamenti.pdf
+    retrieved: 2026-10-25
+    sha256: 6a9f1d69a6275a19dd3887d5889a0f12b8b91fc9a09ea9cac9b1c6d18b7c400b
+    official: true
+    notes: Testo coordinato con valore solo conoscitivo; fa fede la delibera.
+  - id: regolamento-cup
+    label: Regolamento del canone patrimoniale di concessione, autorizzazione o esposizione pubblicitaria (DCC n. 16 del 30 maggio 2022), artt. 10, 28 e 31
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2006/03/Regolamento-per-la-disciplina-del-canone-patrimoniale-di-concessione-autorizzazione-o-esposizione-pubblicitaria-2.pdf
+    retrieved: 2026-10-25
+    sha256: 20417408e0fc552be65038854742615e3d943678e6f57e462cdbe18426e9e796
+    official: true
+    notes: Modifiche successive al 2022 non controllate.
+  - id: dehors-pagina
+    label: Comune di Napoli – Concessioni di suolo pubblico annesso a pubblici esercizi
+    url: https://www.comune.napoli.it/articolo_tematico/commercio-e-artigianato/concessioni-e-autorizzazioni-commerciali/concessioni-di-suolo-pubblico-annesso-a-pubblici-esercizi/
+    retrieved: 2026-10-25
+    page_updated: 2026-02-10
+    official: true
+  - id: mod-6
+    label: Mod. 6 TARI – Voltura uso non abitativo (quadro A)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2020/09/MOD-6-VARIAZIONE-USO-NON-ABITATIVO.pdf
+    retrieved: 2026-10-25
+    sha256: fc3addc03f676a4da7d6e7a8ffad8c3f1fc4f39c0803c56bf904c855f8205eee
+    official: true
+    notes: Letto solo il quadro A (voltura); mappato nella procedura tari-variazione-non-domestica.
+  - id: regolamento-tari
+    label: Regolamento TARI, allegato alla delibera C.C. n. 37 del 19 giugno 2023 (art. 25, c. 5)
+    url: https://www.comune.napoli.it/flex/files/1/c/7/D.007ae011f89c784022b3/DELIBERA_DI_C.C._N._37_DEL_19_GIUGNO_2023.pdf
+    retrieved: 2026-10-25
+    sha256: 15c491cd7e69bada6fbed48c345c72177cb147bb95cded0314b6cca75635ea6f
+    official: true
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: letti la L.R. Campania 7/2020 (pagina della Regione e PDF vigente, artt. 7, 26, 97, 145,
+    149; allegato A, tabelle 1.1 e 5.1 come immagini del BURC), l'art. 2556 c.c. su Normattiva, la
+    comunicazione di subingresso e la scheda anagrafica della Regione (SURAP, scaricate, pdftotext)
+    e il modulo 12 del S.O. 26 alla G.U. 128/2017; le pagine SUAP del Comune (servizio, contatti,
+    diritti), la tabella diritti 2026 con la legenda dei coefficienti, l'avviso, il vademecum, le
+    schede 1–4 e l'allegato tecnico sulle zone tutelate, il Piano (art. 6), il regolamento del
+    canone (artt. 10, 28, 31), la pagina dei dehors, il quadro A del Mod. 6 TARI e l'art. 25 del
+    regolamento TARI.
+  notes: >-
+    Non visti i moduli del front office di impresainungiorno (richiedono accesso), né la versione
+    dell'allegato A modificata dalla L.R. 5/2021. Il regime del subingresso in zona A e B non è stato
+    confermato con l'ufficio.

@@ -1,0 +1,547 @@
+schema_version: 0
+id: napoli/camera-di-commercio/pec-domicilio-digitale-impresa
+title: PEC (domicilio digitale) dell'impresa e degli amministratori nel Registro Imprese – Camera di Commercio di Napoli
+summary: >-
+  Ogni impresa iscritta al Registro Imprese, sia individuale sia società, deve avere un
+  domicilio digitale (una casella PEC attiva, intestata solo a lei) iscritto nel registro, e deve
+  tenerlo valido nel tempo. Dal 31 ottobre 2025 l'obbligo vale anche per l'amministratore unico,
+  l'amministratore delegato o, in mancanza, il presidente del consiglio di amministrazione, con
+  una PEC diversa da quella dell'impresa. Iscrivere o cambiare la PEC è gratuito; se manca o
+  viene cancellata, la Camera assegna d'ufficio un domicilio digitale e applica una sanzione.
+ente:
+  name: Camera di Commercio, Industria, Artigianato e Agricoltura di Napoli
+  office: Area Anagrafe Economica – Registro Imprese
+applies_to:
+  events: [open, annual]
+  audience: [business]
+  sectors:
+    - imprese individuali
+    - società di persone
+    - società di capitali, cooperative e società consortili
+  conditions:
+    - text: >-
+        Le imprese costituite in forma societaria devono indicare il proprio domicilio digitale
+        nel Registro Imprese (art. 16, c. 6, D.L. 185/2008).
+      status: verified
+      source: dl-185-2008-art16
+    - text: >-
+        Le imprese individuali che chiedono la prima iscrizione al Registro Imprese o all'albo delle
+        imprese artigiane devono indicare un domicilio digitale; quelle già attive dovevano farlo
+        entro il 1° ottobre 2020 (art. 5, c. 1 e 2, D.L. 179/2012).
+      status: verified
+      source: dl-179-2012-art5
+    - text: >-
+        Dal 31 ottobre 2025 l'obbligo riguarda anche l'amministratore unico, l'amministratore
+        delegato o, in mancanza, il presidente del consiglio di amministrazione delle società; il
+        loro domicilio digitale non può coincidere con quello dell'impresa (art. 5, c. 1, D.L.
+        179/2012 come modificato dall'art. 13, c. 3, D.L. 159/2025).
+      status: verified
+      source: dl-179-2012-art5
+    - text: >-
+        Secondo la Camera di Napoli (pagina aggiornata al 04/06/2026) l'obbligo degli amministratori
+        riguarda società di capitali, società consortili e cooperative; non riguarda gli
+        amministratori di società di persone né chi ha cariche diverse (consiglieri semplici,
+        presidente del comitato direttivo…). Una pagina precedente della stessa Camera (12/11/2025)
+        diceva invece che, se i patti sociali di snc, sas o ss prevedono quelle cariche, anche quei
+        soggetti sono tenuti all'adempimento.
+      status: disputed
+      source: na-pec-amministratori
+    - text: >-
+        Secondo la Camera di Napoli (12/11/2025) sono "amministratori delegati" anche i consiglieri
+        a cui il consiglio ha delegato poteri, comunque indicati in visura (consiglieri delegati,
+        consiglieri con poteri), e quindi sono tenuti all'adempimento.
+      status: verified
+      source: na-amministratori-novembre-2025
+legal_basis:
+  - text: >-
+      Art. 16, cc. 6, 6-bis e 6-ter, D.L. 185/2008 (conv. L. 2/2009): obbligo per le società,
+      sospensione della domanda di iscrizione senza domicilio digitale, sanzione e assegnazione
+      d'ufficio, cancellazione del domicilio inattivo.
+    status: verified
+    source: dl-185-2008-art16
+  - text: >-
+      Art. 5, cc. 1 e 2, D.L. 179/2012 (conv. L. 221/2012): obbligo per le imprese individuali e per
+      gli amministratori indicati, sanzione, cancellazione e assegnazione d'ufficio per le imprese
+      individuali; iscrizione e variazioni esenti da bollo e diritti di segreteria.
+    status: verified
+    source: dl-179-2012-art5
+  - text: >-
+      Art. 1, c. 860, L. 207/2024 (legge di bilancio 2025): ha esteso l'obbligo "agli amministratori
+      di imprese costituite in forma societaria" (dal 1° gennaio 2025).
+    status: verified
+    source: l-207-2024-c860
+  - text: >-
+      Art. 13, cc. 3 e 4, D.L. 159/2025 (conv. L. 198/2025): ha limitato l'obbligo ad
+      amministratore unico, amministratore delegato o, in mancanza, presidente del CdA, ha vietato
+      la coincidenza con la PEC dell'impresa, ha fissato il termine del 31 dicembre 2025 e ha
+      rinviato, per la mancata comunicazione, alle sanzioni dell'art. 16, c. 6-bis, D.L. 185/2008.
+    status: verified
+    source: dl-159-2025-art13
+  - text: >-
+      Art. 6-bis D.Lgs. 82/2005 (CAD): INI-PEC, l'indice nazionale dei domicili digitali di imprese
+      e professionisti, formato a partire dagli indirizzi del Registro Imprese; i domicili in INI-PEC
+      sono il mezzo esclusivo di comunicazione e notifica con le pubbliche amministrazioni.
+    status: verified
+    source: cad-6bis
+  - text: >-
+      Art. 2630 c.c. (sanzione per le società: da 103 a 1.032 euro) e art. 2194 c.c. (sanzione per
+      l'imprenditore individuale, ancora espressa in lire), richiamati dalle norme sul domicilio
+      digitale.
+    status: verified
+    source: cc-2630
+deadline:
+  rules:
+    - text: >-
+        Nuove società e nuove imprese individuali: il domicilio digitale va indicato nella domanda di
+        prima iscrizione; senza, l'ufficio sospende la domanda finché non viene integrata.
+      status: verified
+      source: dl-185-2008-art16
+    - text: >-
+        Imprese già iscritte: il termine per comunicare il domicilio digitale era il 1° ottobre 2020,
+        sia per le società sia per le imprese individuali attive.
+      status: verified
+      source: dl-179-2012-art5
+    - text: >-
+        Amministratori: chi viene nominato o confermato amministratore unico, amministratore
+        delegato o (in mancanza) presidente del CdA comunica il domicilio digitale insieme alla
+        domanda di iscrizione della nomina o della conferma; chi ricopriva già la carica al
+        31/10/2025 doveva comunicarlo entro il 31/12/2025.
+      status: verified
+      source: na-pec-amministratori
+    - text: >-
+        Se il Conservatore rileva un domicilio digitale inattivo, chiede di indicarne uno nuovo
+        entro 30 giorni; poi lo cancella con propria determina (reclamo al giudice del registro,
+        art. 2189 c.c.).
+      status: verified
+      source: dl-179-2012-art5
+    - text: >-
+        La casella deve essere attiva al momento dell'iscrizione e restare attiva anche dopo. Le
+        fonti lette non fissano un termine in giorni per comunicare il cambio di PEC: farlo appena
+        la casella cambia.
+      status: verified
+      source: na-schema-pec
+  lateness:
+    text: >-
+      Società senza domicilio digitale o con domicilio cancellato: sanzione dell'art. 2630 c.c. "in
+      misura raddoppiata" e assegnazione d'ufficio di un nuovo domicilio digitale presso il cassetto
+      digitale dell'imprenditore, valido solo per ricevere comunicazioni e notifiche (art. 16, c.
+      6-bis, D.L. 185/2008). Imprese individuali: sanzione dell'art. 2194 c.c. "in misura triplicata
+      previa diffida" a regolarizzare entro 30 giorni, e assegnazione d'ufficio presso il cassetto
+      digitale su impresa.italia.it (art. 5, c. 2, D.L. 179/2012). Amministratori obbligati: si
+      applica l'art. 16, c. 6-bis, D.L. 185/2008 (art. 13, c. 4, D.L. 159/2025); la Camera di Napoli
+      lo indica come sanzione dell'art. 2630 c.c. raddoppiata "da un minimo di 206 ad un massimo di
+      2.064 euro". Non calcolare l'importo da soli: chiederlo all'Ufficio Diritto Annuale e Sanzioni
+      del Registro Imprese.
+    status: verified
+    source: dl-185-2008-art16
+channels:
+  - type: portal
+    name: Pratica semplice – Iscrizione domicilio digitale / PEC per società o impresa individuale
+    url: https://ipec-registroimprese.infocamere.it
+    preferred: true
+    source: ri-pratiche-semplici
+    notes: >-
+      Per il titolare dell'impresa individuale o il legale rappresentante della società, senza
+      intermediario. Servono firma digitale, una PEC dell'impresa rilasciata da un gestore
+      autorizzato e un browser senza blocco dei pop-up. Esito e comunicazioni arrivano alla PEC.
+      Gratuita (niente diritti, bolli o tariffe). Riguarda la PEC dell'impresa; per quella degli
+      amministratori la Camera di Napoli indica DIRE.
+  - type: portal
+    name: DIRE – Depositi e Istanze Registro Imprese
+    url: https://dire.registroimprese.it
+    source: ri-indirizzo-pec
+    notes: >-
+      Per utenti registrati a registroimprese.it/Telemaco. Per la PEC di un amministratore la
+      Camera di Napoli indica: Nuova pratica > Variazione > "Organi sociali e persone con
+      cariche/qualifiche" > "Comunicazione PEC amministratori e altre persone impresa" (insieme a
+      "Cariche e organi amministrativi" se si iscrive anche una nomina o conferma). In alternativa
+      i software di mercato o un intermediario (associazione di categoria, commercialista).
+  - type: pec
+    address: registroimprese@na.legalmail.camcom.it
+    receipt: legal
+    source: na-sedi
+    notes: >-
+      PEC dell'Area Anagrafe Economica, per scrivere all'ufficio (per esempio dopo una richiesta
+      del Conservatore). La comunicazione della PEC si fa con la pratica telematica, non con una
+      PEC all'ufficio.
+  - type: desk
+    name: Registro Imprese
+    address: Corso Meridionale 58, 80143 Napoli
+    hours: lunedì–giovedì 8:50–12:00; venerdì 8:50–11:00 (orari uffici)
+    source: na-sedi
+    notes: >-
+      La pagina "Avvisi PEC da cancellare" (aggiornata al 15/04/2025) indica per informazioni il
+      telefono 081 7607714 e orari leggermente diversi: venerdì fino alle 11:30, martedì e giovedì
+      anche 14:00–15:00 solo per informazioni.
+  - type: phone
+    name: Informazioni PEC Registro Imprese
+    address: 081 7607714
+    source: na-avvisi-pec
+payment:
+  method: none
+  notes:
+    - text: >-
+        L'iscrizione e le successive variazioni del domicilio digitale dell'impresa nel Registro
+        Imprese sono esenti da imposta di bollo e diritti di segreteria.
+      status: verified
+      source: ri-indirizzo-pec
+    - text: >-
+        La sola comunicazione del domicilio digitale di uno degli amministratori obbligati, senza
+        modifiche ad altri dati, è esente da diritti e bollo; se la PEC è comunicata dentro una
+        domanda di nomina o conferma delle cariche, si pagano diritti e bollo dell'adempimento
+        principale.
+      status: verified
+      source: na-pec-amministratori
+    - text: >-
+        La comunicazione facoltativa della PEC di altri amministratori non obbligati paga € 30,00 di
+        diritto di segreteria e € 65,00 di imposta di bollo (società di capitali) o € 30,00 e
+        € 59,00 (società di persone).
+      status: verified
+      source: na-amministratori-dicembre-2025
+    - text: >-
+        La casella PEC si acquista da uno dei gestori iscritti nell'elenco pubblico dell'AgID; costi
+        e modalità di rilascio variano a seconda del gestore.
+      status: verified
+      source: ri-indirizzo-pec
+documents:
+  - name: Casella PEC intestata all'impresa, attiva e non condivisa con altri soggetti
+    required: true
+    notes: >-
+      Requisiti indicati dalla Camera di Napoli (circolare ministeriale del 28/03/2012): titolarità
+      esclusiva dell'impresa, univocità anche nei gruppi di società, casella attiva all'iscrizione e
+      dopo.
+  - name: Dispositivo di firma digitale del titolare o del legale rappresentante
+    required: true
+  - name: >-
+      Casella PEC personale dell'amministratore unico, dell'amministratore delegato o (in mancanza)
+      del presidente del CdA
+    required: false
+    notes: >-
+      Solo per le società obbligate. Deve essere diversa dalla PEC dell'impresa e, secondo le
+      specifiche tecniche del decreto MIMIT 4/12/2025 citate da altre Camere, anche dalla PEC di
+      ogni altra impresa iscritta.
+  - name: Procura all'intermediario
+    required: false
+    notes: Se la pratica la invia un professionista o un'associazione di categoria.
+steps:
+  - do: >-
+      Controllare quale PEC risulta iscritta (ricerca gratuita "Trova impresa" su registroimprese.it,
+      visura camerale o INI-PEC) e se è ancora attiva.
+    who: anyone
+  - do: >-
+      Se manca, è revocata o è usata anche da altre imprese, attivare una nuova casella PEC
+      intestata all'impresa presso un gestore iscritto nell'elenco AgID.
+    who: owner
+    human_only: true
+  - do: >-
+      Preparare la comunicazione: con la Pratica semplice (titolare o legale rappresentante con
+      firma digitale), con DIRE, con un software di mercato o tramite un intermediario.
+    who: anyone
+  - { do: Firmare digitalmente e inviare la pratica, who: owner, human_only: true }
+  - do: >-
+      Controllare sulla PEC ricevute ed esito; verificare dopo qualche giorno che la nuova PEC
+      compaia nella ricerca su registroimprese.it.
+    who: anyone
+  - do: >-
+      Per le società: procurare all'amministratore unico, all'amministratore delegato o (in
+      mancanza) al presidente del CdA una PEC personale diversa da quella dell'impresa e
+      comunicarla con DIRE ("Comunicazione PEC amministratori e altre persone impresa") o dentro la
+      pratica di nomina o conferma.
+    who: anyone
+  - do: Firmare digitalmente e inviare la comunicazione della PEC dell'amministratore
+    who: owner
+    human_only: true
+  - do: >-
+      Ogni anno, prima della scadenza, rinnovare il contratto della casella PEC con il gestore
+      (impresa e amministratore) e controllare che la casella riceva messaggi.
+    who: owner
+    human_only: true
+  - do: >-
+      Se arriva dal Conservatore la richiesta di indicare un nuovo domicilio digitale, comunicarlo
+      entro 30 giorni (oppure opporsi); contro la cancellazione è ammesso reclamo al giudice del
+      registro.
+    who: owner
+    human_only: true
+after:
+  - Conservare le ricevute PEC della pratica e una visura aggiornata con il nuovo domicilio digitale.
+  - >-
+    Leggere la PEC con regolarità: comunicazioni sul diritto annuale e verbali di sanzione della
+    Camera di Napoli arrivano lì (napoli/camera-di-commercio/diritto-annuale).
+  - >-
+    Se si cambia gestore o indirizzo PEC, comunicare subito la nuova casella al Registro Imprese
+    prima di disattivare la vecchia.
+  - >-
+    A ogni nomina o conferma di amministratore unico, delegato o presidente del CdA, indicare nella
+    pratica la sua PEC personale.
+pitfalls:
+  - text: >-
+      I domicili digitali delle imprese inseriti in INI-PEC sono il mezzo esclusivo di
+      comunicazione e notifica con le pubbliche amministrazioni.
+    status: verified
+    source: cad-6bis
+  - text: >-
+      Le comunicazioni tra domicili digitali hanno gli stessi effetti di una raccomandata con
+      ricevuta di ritorno ed equivalgono alla notificazione per posta, anche per il momento della
+      spedizione e del ricevimento: una PEC non letta o una casella piena non proteggono l'impresa.
+    status: verified
+    source: ri-indirizzo-pec
+  - text: >-
+      INI-PEC (inipec.gov.it) raccoglie gli indirizzi di imprese e professionisti ed è aggiornato
+      con i dati del Registro Imprese: la PEC dell'impresa si comunica al Registro Imprese, non a
+      INI-PEC.
+    status: verified
+    source: inipec
+  - text: >-
+      La nota MIMIT prot. 43836 del 12/03/2025 fissava per gli amministratori già in carica il
+      termine del 30/06/2025, poi spostato: oggi vale il termine di legge del 31/12/2025 (D.L.
+      159/2025). Testi che citano il 30 giugno sono superati.
+    status: verified
+    source: mimit-nota-43836
+  - text: >-
+      Con la determinazione n. 101 del 20/03/2025 la Camera di Napoli ha deciso di notificare i
+      verbali di accertata violazione, quando possibile, all'indirizzo PEC iscritto nel Registro
+      Imprese, sia agli obbligati principali sia alle società in solido.
+    status: verified
+    source: na-sanzioni
+  - text: >-
+      Il domicilio assegnato d'ufficio nel cassetto digitale serve solo a ricevere comunicazioni e
+      notifiche: non sostituisce una PEC con cui l'impresa può anche inviare.
+    status: verified
+    source: dl-179-2012-art5
+  - text: >-
+      La Camera di Napoli pubblica sul proprio sito elenchi di imprese con PEC revocata e ha già
+      cancellato d'ufficio PEC non valide con contestuale attribuzione di un indirizzo d'ufficio
+      (determinazioni del Conservatore n. 2024000096 del 06/11/2024 per le imprese individuali e n.
+      2024000104 del 13/11/2024 per le società, notificate tramite l'Albo on line).
+    status: verified
+    source: na-determina-societa-2024
+  - text: >-
+      La PEC dell'amministratore non può essere quella dell'impresa. Due pagine della Camera di
+      Napoli del giugno 2025, ancora online, dicono il contrario ("può coincidere") e che la legge non
+      prevede un termine: sono superate dal D.L. 159/2025 e dalla pagina aggiornata al 04/06/2026.
+    status: verified
+    source: na-amministratori-giugno-2025
+  - text: >-
+      Le specifiche tecniche approvate con decreto MIMIT del 4/12/2025 (obbligatorie dal
+      15/01/2026, secondo la Camera di Ferrara) richiedono che il domicilio digitale di un
+      amministratore sia diverso anche da quello delle altre imprese iscritte, e che una nuova PEC
+      dell'impresa sia diversa da quelle dei soggetti con cariche in qualsiasi impresa. Decreto non
+      letto direttamente.
+    status: verified
+    source: cciaa-ferrara
+  - text: >-
+      La Camera di Napoli (04/06/2026) scrive che l'obbligo "si applica soltanto a uno dei tre
+      soggetti individuati dalla norma"; la stessa Camera (12/11/2025) e la nota Unioncamere riferita
+      dalla Camera di Ferrara parlano invece al plurale di amministratori delegati, consiglieri
+      delegati e consiglieri con poteri. Con più consiglieri delegati, chiedere all'ufficio se basta
+      la PEC di uno solo.
+    status: disputed
+    source: na-pec-amministratori
+  - text: >-
+      Secondo la Camera di Ferrara, Unioncamere aveva chiesto al MIMIT di prorogare al 31/03/2026 il
+      termine per gli amministratori e suggerito di non avviare sanzioni prima di quella data. La
+      pagina della Camera di Napoli aggiornata al 04/06/2026 indica solo il termine del 31/12/2025.
+    status: verified
+    source: cciaa-ferrara
+  - text: >-
+      Il foglio "Hai depositato la tua PEC?" della Camera di Napoli (PDF del 2016) indica ancora
+      ComunicaStarweb e ComunicaFedra per comunicare la PEC: oggi si usano Pratica semplice, DIRE o i
+      software di mercato.
+    status: verified
+    source: na-schema-pec
+  - text: >-
+      La pagina "Indirizzo PEC e domicilio digitale" di registroimprese.it parla ancora del
+      "Ministero dello Sviluppo Economico (MISE)" e non menziona l'obbligo degli amministratori.
+    status: verified
+    source: ri-indirizzo-pec
+  - text: >-
+      Per un amministratore persona giuridica la Camera di Napoli (giugno 2025) indicava di
+      comunicare il domicilio digitale della persona giuridica amministratrice; non confermato
+      dopo il D.L. 159/2025.
+    status: unverified
+  - text: >-
+      Non confondere il domicilio digitale dell'impresa con INAD, l'indice dei domicili digitali di
+      persone fisiche, professionisti ed enti privati non tenuti all'iscrizione nel Registro Imprese
+      o in albi (art. 6-quater CAD): un cittadino può eleggervi una propria PEC, ma l'impresa deve
+      iscrivere la sua nel Registro Imprese, da cui passa a INI-PEC.
+    status: verified
+    source: cad-6quater
+  - text: >-
+      L'elezione del domicilio digitale personale su INAD (domiciliodigitale.gov.it) è gratuita, ma
+      richiede di avere già una casella PEC: INAD non fornisce caselle.
+    status: unverified
+related:
+  - napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica
+  - napoli/camera-di-commercio/diritto-annuale
+  - italia/pagopa/send-notifiche-digitali
+sources:
+  - id: na-pec-amministratori
+    label: Domicilio digitale / PEC amministratori – Camera di Commercio di Napoli
+    url: https://www.na.camcom.gov.it/domicilio-digitale-pec-amministratori-1
+    retrieved: 2026-10-25
+    page_updated: 2026-06-04
+    official: true
+    notes: Letta anche la versione PDF (https://www.na.camcom.gov.it/print/pdf/node/3170).
+  - id: na-amministratori-novembre-2025
+    label: >-
+      Obbligo di iscrivere il domicilio digitale degli amministratori: persone tenute
+      all'adempimento dal 31 ottobre 2025 – Camera di Commercio di Napoli
+    url: https://www.na.camcom.gov.it/obbligo-di-iscrivere-il-domicilio-digitale-degli-amministratori-persone-tenute-alladempimento-dal-31
+    retrieved: 2026-10-25
+    page_updated: 2025-11-12
+    official: true
+    notes: Letta la versione PDF (https://www.na.camcom.gov.it/print/pdf/node/2976).
+  - id: na-amministratori-dicembre-2025
+    label: Obbligo iscrizione domicilio digitale per gli amministratori delle società – Camera di Commercio di Napoli
+    url: https://www.na.camcom.gov.it/obbligo-iscrizione-domicilio-digitale-gli-amministratori-delle-societa
+    retrieved: 2026-10-25
+    page_updated: 2025-12-04
+    official: true
+    notes: >-
+      Letta la versione PDF (https://www.na.camcom.gov.it/print/pdf/node/3014), con le istruzioni
+      DIRE per la sola comunicazione della PEC e per rinnovo cariche con PEC.
+  - id: na-amministratori-giugno-2025
+    label: Domicilio digitale dell'amministratore di società – nessun termine al 30 giugno 2025 (Camera di Commercio di Napoli)
+    url: https://www.na.camcom.gov.it/domicilio-digitale-dellamministratore-di-societa-nessun-termine-al-30-giugno-2025
+    retrieved: 2026-10-25
+    page_updated: 2025-06-24
+    official: true
+    notes: >-
+      Superata dal D.L. 159/2025. Simile la pagina "Obbligo di iscrivere il domicilio digitale degli
+      amministratori e liquidatori delle società" (aggiornata al 20/06/2025), anch'essa ancora online.
+  - id: na-avvisi-pec
+    label: Avvisi PEC da cancellare ai sensi dell'art. 2191 del codice civile – Camera di Commercio di Napoli
+    url: https://www.na.camcom.gov.it/crescita-dellimpresa/impresa-digitale/avvisi-pec-da-cancellare-ai-sensi-dellart-2191-del-codice-civile
+    retrieved: 2026-10-25
+    page_updated: 2025-04-15
+    official: true
+    notes: >-
+      Riporta l'art. 37 D.L. 76/2020 e linka gli elenchi delle PEC revocate, lo schema
+      "Hai depositato la tua PEC?" e le determinazioni di cancellazione del 2024. Testo simile nella
+      pagina "Impresa digitale" (aggiornata al 20/11/2025).
+  - id: na-determina-societa-2024
+    label: >-
+      Determinazione del Conservatore n. 2024000104 del 13/11/2024 – cancellazione d'ufficio di PEC
+      di società e assegnazione d'ufficio (Camera di Commercio di Napoli)
+    url: https://www.na.camcom.gov.it/sites/default/files/contenuto_redazione/Registro%20Imprese/provvedimento%20cancellazioni%20pec%20societ%C3%A0%20completo.pdf
+    retrieved: 2026-10-25
+    sha256: 506d110a87f1115b66b8d9713b42edb54052bd854b40014b337fa78a3f96fdc3
+    official: true
+    notes: >-
+      Letta anche la determinazione n. 2024000096 del 06/11/2024 per le imprese individuali
+      (provvedimento cancellazione pec imprese individuali completo.pdf, sha256
+      bedfd660685ae928364040b65ca603fb6065b6742906b6df61e4756d3331b114). Gli allegati sono elenchi
+      nominativi di imprese.
+  - id: na-schema-pec
+    label: '"Hai depositato la tua PEC? La tua PEC è valida?" – schema di comunicazione della Camera di Commercio di Napoli'
+    url: https://www.na.camcom.gov.it/old_site/www.na.camcom.gov.it/images/cciaa/SCHEMA_COMUNICAZIONE_X_PEC_MULTIPLA_O_NON_UNIVOCA_sito_Camerale%20(3).pdf
+    retrieved: 2026-10-25
+    sha256: 44b2cd40fa011e72502880dc58e6ea73f72203a11a32da5201cf726ce020378e
+    official: true
+    notes: PDF creato il 01/12/2016, nell'archivio del vecchio sito; strumenti citati non più in uso.
+  - id: na-sanzioni
+    label: Camera di Commercio di Napoli – Registro Imprese, Sanzioni
+    url: https://www.na.camcom.gov.it/registro-imprese-e-albi/deposito-pratiche/sanzioni
+    retrieved: 2026-10-25
+    official: true
+  - id: na-sedi
+    label: Camera di Commercio di Napoli – Sedi e orari
+    url: https://www.na.camcom.gov.it/chi-siamo/sedi-e-orari
+    retrieved: 2026-10-25
+    official: true
+  - id: ri-indirizzo-pec
+    label: Indirizzo PEC e Domicilio Digitale – registroimprese.it
+    url: https://www.registroimprese.it/indirizzo-pec
+    retrieved: 2026-10-25
+    official: true
+    notes: Portale ufficiale del Registro Imprese delle Camere di Commercio (InfoCamere).
+  - id: ri-pratiche-semplici
+    label: Pratiche semplici – registroimprese.it
+    url: https://www.registroimprese.it/pratiche-semplici
+    retrieved: 2026-10-25
+    official: true
+    notes: >-
+      Il servizio (ipec-registroimprese.infocamere.it) richiede JavaScript e non è stato aperto
+      oltre la pagina di reindirizzamento.
+  - id: inipec
+    label: INI-PEC – Indice Nazionale degli Indirizzi di Posta Elettronica Certificata
+    url: https://www.inipec.gov.it/
+    retrieved: 2026-10-25
+    official: true
+    notes: >-
+      Letta solo la home page: l'indice raccoglie gli indirizzi di imprese e professionisti ed è
+      aggiornato con i dati del Registro Imprese e degli ordini e collegi.
+  - id: dl-185-2008-art16
+    label: D.L. 29 novembre 2008, n. 185, art. 16 (Normattiva, testo vigente al 25/10/2026)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2008-11-29;185~art16!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+    notes: Commi 6, 6-bis e 6-ter; uguali nella versione in vigore dal 01/01/2027.
+  - id: dl-179-2012-art5
+    label: D.L. 18 ottobre 2012, n. 179, art. 5 (Normattiva, testo in vigore dal 31/12/2025)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2012-10-18;179~art5
+    retrieved: 2026-10-25
+    official: true
+  - id: l-207-2024-c860
+    label: Legge 30 dicembre 2024, n. 207, art. 1, comma 860 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2024-12-30;207~art1-com860
+    retrieved: 2026-10-25
+    official: true
+    notes: Il comma è nel blocco "art. 1 (commi 801-900)" dell'atto.
+  - id: dl-159-2025-art13
+    label: D.L. 31 ottobre 2025, n. 159, art. 13, conv. L. 29 dicembre 2025, n. 198 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2025-10-31;159~art13
+    retrieved: 2026-10-25
+    official: true
+  - id: cc-2630
+    label: Codice civile, art. 2630 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:regio.decreto:1942-03-16;262:2~art2630
+    retrieved: 2026-10-25
+    official: true
+    notes: >-
+      Letto anche l'art. 2194 c.c. (https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:regio.decreto:1942-03-16;262:2~art2194),
+      che indica ancora l'importo in lire.
+  - id: cad-6bis
+    label: D.Lgs. 7 marzo 2005, n. 82 (CAD), art. 6-bis (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2005-03-07;82~art6bis
+    retrieved: 2026-10-25
+    official: true
+  - id: cad-6quater
+    label: D.Lgs. 7 marzo 2005, n. 82 (CAD), art. 6-quater (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2005-03-07;82~art6quater
+    retrieved: 2026-10-25
+    official: true
+  - id: mimit-nota-43836
+    label: MIMIT – Nota 12 marzo 2025, prot. 43836 (domicilio digitale degli amministratori, prime indicazioni operative)
+    url: https://www.mimit.gov.it/it/normativa/notifiche-e-avvisi/nota-12-marzo-2025-registro-delle-imprese-iscrizione-del-domicilio-digitale-degli-amministratori-di-imprese-costituite-in-forma-societaria
+    retrieved: 2026-10-25
+    official: true
+    notes: >-
+      Letta la pagina di presentazione, non il PDF della nota. Il termine del 30/06/2025 che
+      indicava è superato dalla legge (31/12/2025, D.L. 159/2025).
+  - id: cciaa-ferrara
+    label: Obbligo di iscrizione del domicilio digitale degli amministratori di società – Camera di Commercio di Ferrara e Ravenna
+    url: https://www.fe.camcom.it/avvia-limpresa/registro-imprese-rea/obbligo-di-iscrizione-del-domicilio-digitale-degli-amministratori-di-societa
+    retrieved: 2026-10-25
+    official: true
+    notes: >-
+      Altra Camera, usata per il decreto MIMIT 4/12/2025 e le note Unioncamere; letta la versione
+      PDF (https://www.fe.camcom.it/print/pdf/node/2117).
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: letti su Normattiva l'art. 16 D.L. 185/2008 (testo vigente al 25/10/2026), l'art. 5 D.L.
+    179/2012, l'art. 1 c. 860 L. 207/2024, l'art. 13 D.L. 159/2025, gli artt. 2630 e 2194 c.c. e gli
+    artt. 6-bis e 6-quater del CAD; le pagine della Camera di Napoli sul domicilio digitale degli
+    amministratori (giugno 2025, 12/11/2025, 04/12/2025, 04/06/2026), "Avvisi PEC da cancellare",
+    "Impresa digitale", "Sanzioni" e "Sedi e orari"; le due determinazioni del Conservatore del
+    novembre 2024 e lo schema PEC del 2016; le pagine "Indirizzo PEC" e "Pratiche semplici" di
+    registroimprese.it, la home di INI-PEC, la pagina MIMIT della nota 43836/2025 e la pagina della
+    Camera di Ferrara.
+  notes: >-
+    Nessun modulo PDF da compilare: la comunicazione si fa con pratica telematica (Pratica
+    semplice o DIRE). Il PDF della nota MIMIT 43836 e il decreto MIMIT 4/12/2025 non sono stati
+    letti. INAD: sito domiciliodigitale.gov.it e pagine AgID non leggibili (JavaScript /
+    manutenzione).

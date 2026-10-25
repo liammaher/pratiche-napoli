@@ -430,6 +430,7 @@ related:
   - napoli/comune/scia-somministrazione-alimenti-bevande
   - napoli/comune/scia-esercizio-vicinato
   - napoli/comune/tari-iscrizione-non-domestica
+  - napoli/asl-napoli-1/attestato-alimentarista
 sources:
   - id: notifica-form
     label: Notifica ai fini della registrazione (art. 6, Reg. CE n. 852/2004) – modulo unificato, portale SURAP Regione Campania
