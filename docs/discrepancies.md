@@ -16,6 +16,9 @@ Quote at most a few words; link or name the source. Grouped by the office that c
 | 2026-10-25 | Mod. 6 and Mod. 8 TARI | Both cover a move within Naples and a cessione d'azienda; no source says which form to use, or whether both are needed. | `tari-variazione-non-domestica`, `tari-cessazione-non-domestica` | No |
 | 2026-10-25 | Regolamento TARI, art. 12 c. 3 vs art. 25 cc. 5–6 | Art. 12 applies the 90-day term only to changes that raise the tax; art. 25 applies it to any change in the amount. | `tari-variazione-non-domestica` | No |
 | 2026-10-25 | Mod. 1, 5, 8 TARI | Cite the old privacy law (D.Lgs. 196/2003) though the forms are dated 01/04/2026. | `tari-*` | No |
+| 2026-10-25 | Regolamento TARI (delibera C.C. 37/2023), art. 40 | Still describes reclamo-mediazione with a 90-day stay and suspended collection under art. 17-bis D.Lgs. 546/1992, which D.Lgs. 220/2023 repealed (from 4/1/2024). | `tari-autotutela-avviso-non-domestica`, all `tari-*` | No |
+| 2026-10-25 | Mod. 7 TARI | Its AVVERTENZE are copied from the declaration forms ("valida anche per gli anni successivi"); its PDF title says "TaRSU"; it is addressed to "Servizio Gestione TARI" while the page links "Servizio IMU e TARI"; it cites D.Lgs. 196/2003. | `tari-autotutela-avviso-non-domestica` | No |
+| 2026-10-25 | Regolamento TARI art. 14 c. 7 | Describes the B&B with 2001 wording ("saltuario e non professionale", eight guests) and says nothing on business-form B&Bs. | `avvio-bed-and-breakfast`, `tari-*` | No |
 
 ## Comune di Napoli – SUAP
 
@@ -29,6 +32,11 @@ Quote at most a few words; link or name the source. Grouped by the office that c
 | 2026-10-25 | Piano art. 7 and form CS 1 vs SUAP technical annex | Minimum serving area in zones A/B: 20 m² vs "≥ 30 mq; 20 mq". | `scia-somministrazione-alimenti-bevande` | No |
 | 2026-10-25 | "Nota di condivisione" form vs DCC 79/2026 | The form calls the Piano "Delibera di Giunta n. 288 del 24/06/2025"; it was approved by DCC 79/2026, whose text gives the Giunta date as both 2025 and 2026. | zone A/B food procedures | No |
 | 2026-10-25 | "Esercizi pubblici" page (updated 04/06/2025) | Still says every new opening is a SCIA and uses the old A–D categories of L. 287/1991; since 25/07/2026 zones A/B need an authorisation, and Campania law has a single category. | food procedures | No |
+| 2026-10-25 | SUAP guidance for accommodation (All. A, 2024) vs 2026 fee table | The guidance says a non-business short-term-rental communication has no fees; row S210 of the 2026 table charges €50. It also links a Regione Campania CUSR page that returns 404. | `avvio-bed-and-breakfast` | No |
+| 2026-10-25 | SUAP acconciatori/estetisti pages | The old "adempimenti e modulistica" page returns 404; the Comune still hosts a 2012 forms zip citing TARSU, ICI, COSAP and the Albo artigiani, and a 2020 sheet with old opening hours (booking only since 18/05/2026). | `scia-acconciatore-estetista` | No |
+| 2026-10-25 | Regolamento acconciatori/estetisti art. 12 c. 4 vs regional Scheda anagrafica | The regulation bars operating before Registro imprese entry; the regional form allows registration within 30 days of starting. | `scia-acconciatore-estetista` | No |
+| 2026-10-25 | SUAP diritti page | A notice dated "26/01/2025" sets a refund deadline of 15/02/2026 for 2025 payments, so it is probably meant to be 2026. | all SUAP procedures | No |
+| 2026-10-25 | SUAP notice of 20/05/2026 (accommodation) | Cites DCC 12/2020 as the source of tourist-tax penalties, but that deliberation replaced the Comune's own penalties with the national ones. | `imposta-di-soggiorno-gestori` | No |
 
 ## Comune di Napoli – Canone unico, suolo pubblico, dehors
 
@@ -52,6 +60,10 @@ Quote at most a few words; link or name the source. Grouped by the office that c
 | 2026-10-25 | Diritto annuale 2026 page and letters | Give 30/06 and 30/07 (+0.40%) for everyone; other chambers (Firenze, Molise) apply the D.L. 63/2026 art. 1-sexies extension to ISA and forfettari subjects (20/07, or +0.80% within 30 days), which the law text itself doesn't mention. | `diritto-annuale` | No |
 | 2026-10-25 | Ravvedimento page (updated 21/11/2025) | Interest table stops at 2023; the general page gives 1.60% legal interest from 2026. | `diritto-annuale` | No |
 | 2026-10-25 | Diritto annuale pages | Old wording: dirittoannuale.camcom.it described for "2022 e 2023"; "Ministero dello Sviluppo Economico". | `diritto-annuale` | No |
+| 2026-10-25 | "Creare impresa > Adempimenti" page (updated 18/10/2026) | Still describes ComunicaStarweb, webtelemaco and 2011 SUAP arrangements, with a typo link "imgresainungiorno"; registroimprese.it says DIRE replaced them and the ComUnica tool was withdrawn on 12/02/2026. | `iscrizione-impresa-individuale-comunica` | No |
+| 2026-10-25 | Artigianato pages | The artigianato PEC is written three ways (artigianato@na.legalmail.camcom.it, "artigianto@…" in the link, artigianato@na.legalmail.it). | `iscrizione-impresa-individuale-comunica` | No |
+| 2026-10-25 | "Sanzioni" page | CAP 80142 for Corso Meridionale 58 (80143 elsewhere), and the link to determinazione 101/2025 points to Sondrio's chamber site. | `iscrizione-impresa-individuale-comunica` | No |
+| 2026-10-25 | SARI scheda vs art. 2196 c.c. | "Termine: nessuno" for registering a sole trader, while the civil code and the artisan scheda give 30 days. | `iscrizione-impresa-individuale-comunica` | No |
 
 ## Regione Campania – SURAP
 
@@ -59,3 +71,52 @@ Quote at most a few words; link or name the source. Grouped by the office that c
 |---|---|---|---|---|
 | 2026-10-25 | SURAP modulistica | Lists Accordo 89/CU of 10/07/2025 (new commercio forms) but no regional decree adopting it; the forms in use date from 2017 (updated 2021) and cite D.Lgs. 196/2003. | `registrazione-attivita-alimentare`, `scia-*` | No |
 | 2026-10-25 | DD 117/2020 | Names www.gisacampania.it as where the master list and circular are published; the site was unreachable on 2026-10-25. | `registrazione-attivita-alimentare` | No |
+| 2026-10-25 | Regional guide for accommodation (29/10/2025) | Places the CO detector and extinguisher duties in art. 13-ter c. 8 D.L. 145/2023; in the current text they are in c. 7. | `avvio-bed-and-breakfast` | No |
+| 2026-10-25 | L.R. 5/2001 (consolidated text) | Art. 9 c. 2 requires guest statistics to the abolished "Ente Provinciale per il Turismo"; art. 4 c. 1 refers to the repealed art. 2. | `avvio-bed-and-breakfast` | No |
+| 2026-10-25 | Variante centro storico (DCC 129/2026) vs L.R. 5/2001 art. 1 c. 5 | The variante makes a switch to B&B use need a building title and a 70% threshold; the regional law says a B&B is not a change of use. | `avvio-bed-and-breakfast` | No |
+
+## Comune di Napoli – Sportello Unico Edilizia
+
+| Found | Where | What | Affects | Reported |
+|---|---|---|---|---|
+| 2026-10-25 | CILA page, illustrative notes, DD 913/2024, controlli page vs notice of 01/07/2026 | Missed-CILA filings (art. 6-bis c. 5) are described as on paper, while the notice lists them among the procedures filed only on Impresa in un Giorno; the form says telematic for works in progress and paper for finished works. | `cila-lavori-edilizi` | No |
+| 2026-10-25 | Illustrative notes, POTESs page, SUE office page vs notice of 01/07/2026 and DD 501/2026 | Start/end of works and Modello COM by PEC to the Municipalità, vs Impresa in un Giorno only with PEC excluded. | `cila-lavori-edilizi` | No |
+| 2026-10-25 | CILA page (updated 11/11/2025) | Still describes printing, scanning and sending through the old PMM online service. | `cila-lavori-edilizi` | No |
+| 2026-10-25 | Costi page (30/06/2026) vs POTESs page | Payment reference N1051_SUE replaces N1055_SUE; the POTESs page still shows N1055_SUE and an IBAN from before 2018. | `cila-lavori-edilizi` | No |
+| 2026-10-25 | SUE and SUAP fee tables vs Edilizia notice of 15/06/2026 | DGC 239/2026 dated 28 May in the tables, 29 May in the notice. | `cila-lavori-edilizi`, all SUAP procedures | No |
+| 2026-10-25 | Illustrative notes vs controlli page | Sample checks on CILAs governed by determina 128/2017 vs D.D. 117/2024. | `cila-lavori-edilizi` | No |
+
+## Comune di Napoli – Imposta di soggiorno
+
+| Found | Where | What | Affects | Reported |
+|---|---|---|---|---|
+| 2026-10-25 | Modello 21 page; 2025 page; regolamento art. 8 c. 2 | The Modello 21 page says it is "non più doverosa" after Cassazione SU 1527/2026, then still gives a 30/01 deadline; the 2025 page (updated 14/07/2026) and the regolamento still require it. | `imposta-di-soggiorno-gestori` | No |
+| 2026-10-25 | General page and regolamento art. 6 c. 1 | 30% penalty for late or missing payment; art. 13 D.Lgs. 471/1997 gives 25% for violations from 1/9/2024. | `imposta-di-soggiorno-gestori` | No |
+| 2026-10-25 | Regolamento art. 8 | Still names the "portale Tourist Tax"; the portal is now GEIS. The published coordinated text omits the DCC 12/2020 changes. | `imposta-di-soggiorno-gestori` | No |
+| 2026-10-25 | General page vs accordi page | Desk hours 8:30–12:30 vs 9:00–13:00. | `imposta-di-soggiorno-gestori` | No |
+| 2026-10-25 | 2026 page | Shows "ultimo aggiornamento 14/01/2026" but cites DGC 89 of 12/03/2026. | `imposta-di-soggiorno-gestori` | No |
+| 2026-10-25 | Moduli C and D; quarterly declaration form | Addressed to Corso Arnaldo Lucci 66-82 and cite the 2013 regolamento and D.Lgs. 196/2003; the quarterly form's art. 7 letters are shifted from the 2019 text and it asks for a bank-transfer copy while payment is pagoPA. | `imposta-di-soggiorno-gestori` | No |
+| 2026-10-25 | GEIS page vs manual vs FAQ | Login by SPID, CIE or TS-CNS (page), SPID or CIE (manual), SPID only (FAQ); the manual published as "V.0.7" says "Versione 0.6" on its cover. | `imposta-di-soggiorno-gestori` | No |
+| 2026-10-25 | MEF Risoluzione 1/DF 2023 vs Comune | The ministry says its annual model is the only declaration and comuni may not impose their own forms; Naples still requires quarterly GEIS declarations. | `imposta-di-soggiorno-gestori` | No |
+
+## Agenzia delle Entrate
+
+| Found | Where | What | Affects | Reported |
+|---|---|---|---|---|
+| 2026-10-25 | Modello AA9/12 and 2025 software | Still offer regime code 1, "regime fiscale di vantaggio" (art. 27 D.L. 98/2011), repealed by L. 190/2014; nobody opening a partita IVA today can choose it. | `apertura-partita-iva-persona-fisica` | No |
+| 2026-10-25 | Modello AA9/12, instructions and pages | Cite art. 35 D.P.R. 633/1972, replaced by art. 68 of the Testo unico IVA (D.Lgs. 10/2026) from 1/1/2027; no updated model yet. | `apertura-partita-iva-persona-fisica` | No |
+
+## Agenzia delle Entrate-Riscossione
+
+| Found | Where | What | Affects | Reported |
+|---|---|---|---|---|
+| 2026-10-25 | Phishing notice of 27/03/2026 vs login page and Mod. RS | The notice says the reserved area accepts only SPID, CIE or CNS; the login page and Mod. RS also accept Agenzia delle Entrate credentials for businesses and professionals. | `rateizzazione-cartella` | No |
+| 2026-10-25 | Mod. RS (PDF text layer) | Page 4 still contains the old "R1" header (72 instalments, €100,000), invisible when printed but read by text extraction and AI tools. | `rateizzazione-cartella` | No |
+| 2026-10-25 | "Istanze a semplice richiesta" page | The intro says "inferiore a 120 mila euro"; the body and the law say up to and including €120,000. | `rateizzazione-cartella` | No |
+| 2026-10-25 | Cartella page | The late-payment interest table stops at 2019. | `rateizzazione-cartella` | No |
+
+## Polizia di Stato – Questura di Napoli
+
+| Found | Where | What | Affects | Reported |
+|---|---|---|---|---|
+| 2026-10-25 | Questura di Napoli page vs Alloggiati Web home page | For stays under 24 hours: report within 6 hours (D.M. 16/9/2021) vs on arrival (D.M. 7/1/2013). | `avvio-bed-and-breakfast` | No |

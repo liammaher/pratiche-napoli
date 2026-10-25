@@ -1,0 +1,635 @@
+schema_version: 0
+id: napoli/comune/avvio-bed-and-breakfast
+title: Aprire un Bed and Breakfast a Napoli (SCIA al SUAP, CUSR, CIN, Alloggiati Web)
+summary: >-
+  Chi vuole ospitare turisti a Napoli offrendo alloggio e prima colazione in una parte della casa
+  in cui vive (al massimo 4 camere e 8 posti letto) apre un Bed and Breakfast secondo la L.R.
+  Campania 5/2001: presenta una SCIA al SUAP del Comune su impresainungiorno, riceve dal Comune
+  il codice regionale CUSR, chiede il CIN nazionale e si abilita ad Alloggiati Web. La scheda
+  spiega anche in cosa il B&B è diverso dalla casa vacanze e dalla locazione breve.
+ente:
+  name: Comune di Napoli
+  office: Area Sviluppo Economico – Servizio Sportello Unico Attività Produttive (SUAP)
+  ipa: c_f839
+applies_to:
+  events: [open]
+  audience: [business]
+  sectors: [strutture ricettive extralberghiere, bed and breakfast]
+  conditions:
+    - text: >-
+        Bed and Breakfast (L.R. Campania 5/2001, art. 1): offerta di alloggio e prima colazione
+        esercitata da un nucleo familiare usando parte della propria abitazione, per non più di
+        quattro camere e otto posti letto. Il titolare deve avere residenza o stabile domicilio
+        nell'abitazione; l'attività non costituisce cambio di destinazione d'uso.
+      status: verified
+      source: lr-5-2001
+    - text: >-
+        Il B&B può essere in forma non imprenditoriale (non professionale, a integrazione del
+        reddito familiare) o imprenditoriale (professionale, con iscrizione al Registro delle
+        imprese del titolare, componente del nucleo familiare).
+      status: verified
+      source: lr-5-2001
+    - text: >-
+        Secondo il SUAP di Napoli la legge esclude la gestione del B&B in forma societaria, e
+        l'attività si svolge solo in immobili a destinazione abitativa/residenziale con
+        soggiorno/cucina, almeno una camera riservata al titolare, camere per gli ospiti e bagni.
+      status: verified
+      source: napoli-indicazioni
+    - text: >-
+        Diverso dal B&B – casa e appartamento per vacanze (L.R. 17/2001, art. 3): casa o
+        appartamento dato in locazione ai turisti senza alcun servizio di tipo alberghiero, con
+        obbligo di recapito referente ospiti e permanenza massima di 90 giorni. In forma non
+        imprenditoriale solo per proprietari con al massimo tre unità abitative in Campania, senza
+        organizzazione d'impresa né promozione pubblicitaria. Anche questa si apre con SCIA al
+        SUAP, ma non è oggetto di questa scheda.
+      status: verified
+      source: lr-17-2001
+    - text: >-
+        Per il SUAP di Napoli nella casa vacanze l'intero appartamento è destinato agli ospiti e
+        la somministrazione di alimenti e bevande non è prevista; la forma non imprenditoriale
+        può essere svolta solo dal proprietario dell'immobile.
+      status: verified
+      source: napoli-indicazioni
+    - text: >-
+        Diverso dal B&B – locazione breve/turistica senza attività d'impresa (art. 4 D.L.
+        50/2017): contratti di locazione di immobili a uso abitativo fino a 30 giorni, stipulati
+        da persone fisiche fuori dall'attività d'impresa, con al massimo biancheria e pulizia. A
+        Napoli si presenta una Comunicazione (non una SCIA) al SUAP su impresainungiorno; niente
+        prima colazione né somministrazione. Non è oggetto di questa scheda.
+      status: verified
+      source: napoli-indicazioni
+    - text: >-
+        Con più di quattro unità immobiliari destinate a locazione breve o turistica l'attività
+        si considera imprenditoriale e serve una SCIA al SUAP (art. 13-ter, c. 8, D.L. 145/2023 e
+        art. 1, c. 595, L. 178/2020).
+      status: verified
+      source: guida-regione-2025
+    - text: >-
+        Nel centro storico la variante urbanistica approvata con la delibera C.C. 129 del 15
+        settembre 2026 classifica il B&B della L.R. 5/2001 nella sottocategoria a.2 (abitazioni
+        assimilabili a strutture ricettive extralberghiere). Nell'area di regolamentazione della
+        tavola 7a il passaggio da a.1 (abitazione ordinaria) ad a.2, da ottenere con idoneo titolo
+        abilitativo, è limitato da una soglia minima di residenzialità ordinaria del 70% della
+        superficie catastale dell'intero edificio. Il meccanismo di verifica è rinviato a un
+        provvedimento di Giunta.
+      status: verified
+      source: variante-dcc-129
+    - text: >-
+        La variante riguarda un'area del centro storico all'intersezione tra la zona A del Prg e
+        la Buffer Zone UNESCO, escludendo i quartieri a bassa pressione turistica.
+      status: verified
+      source: variante-pagina
+    - text: >-
+        La variante è efficace dal giorno dopo la pubblicazione sul BURC. Non è stato controllato
+        se la pubblicazione sia già avvenuta, né se la Giunta abbia già fissato il meccanismo di
+        verifica: chiedere al SUAP o al Servizio Pianificazione urbanistica prima di presentare la
+        SCIA per un immobile nel centro storico.
+      status: unverified
+legal_basis:
+  - text: >-
+      L.R. Campania 10 maggio 2001, n. 5 (Disciplina dell'attività di Bed and Breakfast), testo
+      vigente con le modifiche fino alla L.R. 11/2023: art. 1 (definizione e requisiti), art. 4
+      (sospensione e cessazione), art. 6 (tabella delle tariffe), art. 9 (alloggiati e dati
+      statistici), art. 9-bis (marchio), art. 10 (sanzioni).
+    status: verified
+    source: lr-5-2001
+  - text: >-
+      L.R. Campania 24 novembre 2001, n. 17 (strutture ricettive extralberghiere: affittacamere,
+      case e appartamenti per vacanze, ecc.), per le altre tipologie.
+    status: verified
+    source: lr-17-2001
+  - text: >-
+      L.R. Campania 7 agosto 2014, n. 16 (classificazione e SCIA delle strutture ricettive) e L.R.
+      Campania 7 agosto 2019, n. 16, art. 13 (Codice Unico Strutture Ricettive – CUSR), con le DGR
+      64/2021 e 552/2023 sulle modalità di rilascio da parte dei Comuni.
+    status: verified
+    source: guida-regione-2025
+  - text: >-
+      D.L. 145/2023, art. 13-ter, convertito dalla L. 191/2023: codice identificativo nazionale
+      (CIN) per le strutture turistico-ricettive extralberghiere, obbligo di esporlo e di
+      indicarlo negli annunci, sanzioni.
+    status: verified
+    source: dl-145-art13ter
+  - text: >-
+      Art. 109 TULPS e D.M. Interno 7 gennaio 2013 (comunicazione delle persone alloggiate alla
+      Questura tramite Alloggiati Web).
+    status: verified
+    source: alloggiati-portale
+  - text: "Legge 241/1990, art. 19 (SCIA: avvio dalla presentazione, controlli entro 60 giorni)."
+    status: verified
+    source: l241-art19
+  - text: >-
+      D.M. Sanità 5 luglio 1975 (requisiti igienico-sanitari dei locali di abitazione), richiamato
+      dal SUAP di Napoli per gli aspetti non regolati dalla L.R. 5/2001.
+    status: verified
+    source: napoli-indicazioni
+deadline:
+  rules:
+    - text: >-
+        La SCIA va presentata prima di iniziare: l'attività può iniziare dalla data di
+        presentazione. Entro 60 giorni il Comune, se mancano requisiti, vieta la prosecuzione o
+        invita a conformarsi.
+      status: verified
+      source: l241-art19
+    - text: >-
+        Le generalità degli ospiti vanno comunicate su Alloggiati Web entro 24 ore dall'arrivo.
+      status: verified
+      source: questura-napoli
+    - text: >-
+        Soggiorni inferiori a 24 ore: la Questura di Napoli indica entro 6 ore (citando il D.M.
+        16 settembre 2021), mentre la home page di Alloggiati Web dice che le generalità vanno
+        inviate all'arrivo stesso (citando il D.M. 7 gennaio 2013).
+      status: disputed
+      source: questura-napoli
+    - text: >-
+        Comunicazione dei prezzi alla Regione su Sinfonia Turismo SMART entro il 1° ottobre per le
+        tariffe dal 1° gennaio successivo, anche se invariate; eventuali modifiche applicabili dal
+        1° giugno vanno comunicate entro il 1° marzo. La guida regionale lo indica per le
+        strutture ricettive in genere (esclusi agriturismi e locazioni brevi/turistiche).
+      status: verified
+      source: guida-regione-2025
+    - text: Il soggiorno massimo consentito in un B&B non può superare i trenta giorni consecutivi.
+      status: verified
+      source: lr-5-2001
+    - text: >-
+        Sospensione temporanea o cessazione: avviso preventivo al Comune (o contestuale, se non è
+        possibile prima). Dopo sei mesi di sospensione volontaria si presume la rinuncia.
+      status: verified
+      source: lr-5-2001
+  lateness:
+    text: >-
+      La L.R. 5/2001, art. 10, prevede per chi esercita senza SCIA una sanzione da euro 1.550,00 a
+      euro 4.130,00, e altre sanzioni per la tabella delle tariffe non esposta, per prezzi superiori
+      a quelli esposti e per il superamento della capacità ricettiva. Per l'importo nel caso
+      concreto chiedere al SUAP o alla Polizia locale.
+    status: verified
+    source: lr-5-2001
+channels:
+  - type: portal
+    name: impresainungiorno – SUAP di Napoli
+    url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: suap-contatti
+    notes: >-
+      Unico canale telematico per la SCIA del B&B (lo conferma anche il documento operativo del
+      SUAP). Servono firma digitale e PEC. Il percorso esatto nel portale non è stato verificato.
+  - type: pec
+    address: suap@pec.comune.napoli.it
+    receipt: legal
+    source: suap-contatti
+    notes: Solo per comunicare con l'ufficio; le pratiche inviate via PEC o email ordinaria non vengono istruite.
+  - type: email
+    address: suaponline@comune.napoli.it
+    receipt: informal
+    source: suap-contatti
+    notes: Solo per informazioni.
+  - type: desk
+    name: Servizio SUAP
+    address: Piazza Cavour 42, II piano, Napoli
+    booking: >-
+      Dal 18 maggio 2026 solo su prenotazione online (pulsante "Prenota appuntamento" della
+      pagina "Avviare, variare, chiudere un'attività produttiva").
+    source: suap-contatti
+  - type: phone
+    address: 081 7953051
+    source: suap-contatti
+    notes: Referente SUAP indicato per strutture ricettive extralberghiere e Bed & breakfast.
+  - type: portal
+    name: BDSR – Banca dati strutture ricettive del Ministero del Turismo (CIN)
+    url: https://bdsr.ministeroturismo.gov.it/
+    auth: [spid, cie]
+    source: guida-regione-2025
+    notes: Si usa dopo aver ricevuto il CUSR dal Comune ("Ottieni CIN").
+  - type: portal
+    name: Sinfonia Turismo SMART – Regione Campania (movimento ospiti e prezzi)
+    url: https://turismo.regione.campania.it/turismoweb/fe-portale-turismo/login
+    auth: [spid, cie, cns]
+    source: guida-regione-2025
+    notes: Assistenza supporto.strutturericettive@regione.campania.it.
+  - type: portal
+    name: Alloggiati Web – Polizia di Stato
+    url: https://alloggiatiweb.poliziadistato.it/
+    receipt: informal
+    source: questura-napoli
+    notes: >-
+      Le credenziali si chiedono al Commissariato di P.S. competente per l'indirizzo della
+      struttura (modulo della Questura di Napoli). Le ricevute vanno scaricate (restano
+      disponibili 30 giorni) e conservate 5 anni.
+  - type: desk
+    name: Questura di Napoli
+    address: Via Medina 75, 80133 Napoli
+    source: questura-napoli
+    notes: Per le credenziali Alloggiati Web la Questura rinvia al Commissariato territorialmente competente.
+payment:
+  method: pagopa
+  notes:
+    - text: >-
+        Diritti d'istruttoria SUAP 2026, colonna apertura: strutture ricettive 200,00 euro (S94);
+        con notifica sanitaria 220,00 euro (S95); con notifica sanitaria e prevenzione incendi
+        240,00 euro (S96). Il documento operativo del SUAP per le extralberghiere indica 200
+        euro.
+      status: verified
+      source: tabella-2026
+    - text: >-
+        Si pagano con pagoPA dentro la pratica su impresainungiorno; la ricevuta si allega alla
+        SCIA.
+      status: verified
+      source: napoli-indicazioni
+    - text: >-
+        La richiesta del CUSR al Comune e del CIN al Ministero non risultano a pagamento nelle
+        fonti lette.
+      status: unverified
+documents:
+  - name: SCIA per l'avvio del Bed and Breakfast, compilata su impresainungiorno e firmata digitalmente
+    required: true
+  - name: >-
+      Planimetria dello stato attuale dell'abitazione firmata da un tecnico abilitato, con dati
+      catastali, altezze, superfici e destinazione d'uso di tutti i vani e numero di posti letto
+      in ogni camera per gli ospiti
+    required: true
+  - name: >-
+      Dichiarazione sostitutiva del tecnico che ha firmato la planimetria sull'avvenuto pagamento
+      del compenso (L.R. 59/2018), con suo documento d'identità
+    required: true
+  - name: Documento d'identità in corso di validità del titolare
+    required: true
+  - name: Ricevuta pagoPA dei diritti d'istruttoria
+    required: true
+  - name: Procura speciale
+    required: false
+    notes: Solo se la SCIA è firmata e inviata da un altro soggetto o tecnico incaricato.
+  - name: Notifica sanitaria ai fini della registrazione (Reg. CE 852/2004), come SCIA unica
+    required: false
+    notes: >-
+      Secondo il SUAP serve solo se la colazione è con prodotti "preparati"; con prodotti
+      confezionati non serve.
+  - name: >-
+      Documentazione sulla prevenzione del rischio legionellosi (Ordinanza sindacale n. 224 del 6
+      febbraio 2007)
+    required: true
+    notes: Non si allega; va tenuta e mostrata agli organi di vigilanza durante i controlli.
+  - name: Iscrizione del titolare al Registro delle imprese
+    required: false
+    notes: Solo per il B&B in forma imprenditoriale.
+forms:
+  - id: credenziali-alloggiati-web-napoli
+    name: Questura di Napoli – Modulo richiesta credenziali Alloggiati Web
+    url: https://questure.poliziadistato.it/statics/35/modulo-editabile-credenziali-alloggiatiweb---new-.pdf?lang=it
+    source: modulo-alloggiati
+    sha256: d05a415bac4c2a7f052770e155ac96569f97c89ca6f5d6f47484ec18f55e018b
+    signature_required: true
+    fields:
+      - label: Commissariato P.S.
+        map: { ask: "Commissariato di P.S. competente per l'indirizzo del B&B" }
+        notes: La Questura di Napoli rinvia al Commissariato territorialmente competente.
+      - label: Denominazione
+        map: { ask: Nome (denominazione) del Bed and Breakfast }
+      - label: Part.IVA/Cod.Fisc.
+        map: { fallback: [business.partita_iva, identity.codice_fiscale] }
+        notes: B&B non imprenditoriale senza partita IVA → codice fiscale del titolare.
+      - label: "Categoria: Bed & Breakfast (casella)"
+        map: { blank_with_reason: "Barrare la casella Bed & Breakfast; le altre categorie restano vuote." }
+      - label: "Classe (per Bed & Breakfast: Garni / Nessuna)"
+        map: { ask: "Classe da indicare per il B&B (il menu offre Garni o Nessuna)" }
+        notes: La L.R. 5/2001 (art. 8) classifica i B&B in un'unica categoria; chiedere al Commissariato se dubbio.
+      - label: "Collegamento (Nuova Licenza / Cambio Proprietà / Cambio Tipologia)"
+        map: { blank_with_reason: "Scegliere Nuova Licenza per un B&B appena aperto." }
+      - label: Indirizzo (via, piazza, corso, vico ecc.)
+        map: { fallback: [domicilio.indirizzo, residenza.indirizzo] }
+        notes: Il B&B è nell'abitazione dove il titolare ha residenza o stabile domicilio; controllare quale.
+      - label: N.civ.
+        map: { fallback: [domicilio.civico, residenza.civico] }
+      - label: Scala
+        map: { ask: "Scala dell'edificio, se c'è" }
+      - label: Piano
+        map: { direct: abitazione.piano }
+      - label: Int.
+        map: { fallback: [domicilio.interno, residenza.interno] }
+      - label: Comune
+        map: { fallback: [domicilio.comune, residenza.comune] }
+      - label: Prov.
+        map: { fallback: [domicilio.provincia, residenza.provincia] }
+      - label: "Contatti: PEC"
+        map: { fallback: [business.pec, identity.pec] }
+      - label: "Contatti: Tel. fisso"
+        map: { ask: "Telefono fisso del B&B, se c'è" }
+      - label: "Contatti: cellulare"
+        map: { direct: identity.phone }
+      - label: Note
+        map: { ask: Note facoltative per il Commissariato }
+      - label: Data consegna
+        map: { blank_with_reason: Si compila alla consegna delle credenziali. }
+      - label: Firma Consegnatario
+        map: { blank_with_reason: Firma di chi ritira le credenziali; solo la persona. }
+      - label: Timbro e Firma d'Ufficio
+        map: { blank_with_reason: Riservato al Commissariato. }
+steps:
+  - do: >-
+      Scegliere la tipologia giusta: B&B (si vive nell'abitazione, al massimo 4 camere e 8 posti
+      letto, colazione obbligatoria), casa vacanze (appartamento intero ai turisti, nessun servizio
+      alberghiero) o locazione breve (contratto fino a 30 giorni, nessuna colazione)
+    who: anyone
+  - do: >-
+      Controllare i requisiti: residenza o stabile domicilio nell'abitazione, immobile a
+      destinazione abitativa, superfici minime per camera (9, 12, 18, 24 mq per 1-4 posti letto),
+      un bagno ulteriore oltre i due ospiti, soggiorno di almeno 14 mq con angolo cottura o cucina,
+      requisiti del D.M. 5 luglio 1975 e adeguamento alle norme di sicurezza
+    who: professional
+  - do: >-
+      Se l'immobile è nel centro storico, verificare sulla tavola 7a della variante se è
+      nell'area di regolamentazione e chiedere al SUAP se la soglia del 70% è già applicata
+    who: anyone
+  - do: >-
+      Decidere la forma: non imprenditoriale, oppure imprenditoriale con iscrizione del titolare
+      al Registro delle imprese (non come società)
+    who: owner
+  - do: Iscrivere il titolare al Registro delle imprese, solo per la forma imprenditoriale
+    who: owner
+    human_only: true
+  - do: >-
+      Farsi preparare dal tecnico la planimetria dello stato attuale e la sua dichiarazione
+      sull'avvenuto pagamento del compenso
+    who: professional
+  - do: >-
+      Tenere pronta la documentazione sulla prevenzione della legionellosi (Ordinanza sindacale
+      224/2007)
+    who: owner
+  - do: Procurarsi firma digitale, PEC e accesso SPID, CIE o CNS; oppure affidare la pratica a un procuratore
+    who: owner
+  - do: Se si usa un procuratore, firmare la procura speciale
+    who: owner
+    human_only: true
+  - do: >-
+      Compilare la SCIA per il Bed and Breakfast su impresainungiorno (SUAP di Napoli),
+      aggiungendo la notifica sanitaria se la colazione è con prodotti preparati
+    who: facilitator
+  - do: Pagare i diritti d'istruttoria (200 euro, 220 con notifica sanitaria) con pagoPA dalla pratica
+    who: owner
+    human_only: true
+  - do: Firmare digitalmente la SCIA e inviarla al SUAP dal portale
+    who: owner
+    human_only: true
+  - do: Attendere il CUSR, che il Comune trasmette via email o PEC dopo i controlli e pubblica nell'elenco CUSR
+    who: office
+  - do: Chiedere il CIN sulla BDSR con SPID o CIE, scegliendo "Ottieni CIN" e inserendo il CUSR
+    who: owner
+    human_only: true
+  - do: >-
+      Esporre il CIN all'esterno dello stabile e indicarlo in ogni annuncio; esporre in modo
+      visibile la tabella delle tariffe praticate
+    who: owner
+  - do: Chiedere le credenziali Alloggiati Web al Commissariato competente con il modulo della Questura
+    who: owner
+    human_only: true
+  - do: >-
+      Accedere a Sinfonia Turismo SMART per comunicare il movimento degli ospiti e i prezzi
+      (entro il 1° ottobre di ogni anno)
+    who: owner
+  - do: >-
+      Chiedere le credenziali del portale Tourist Tax all'ufficio Imposta di soggiorno del Comune
+      (procedura separata)
+    who: owner
+after:
+  - Conservare la ricevuta di avvio pratica SUAP, la ricevuta pagoPA e copia di quanto inviato.
+  - Annotare CUSR e CIN; controllare che compaiano nell'elenco CUSR del Comune.
+  - >-
+    Comunicare su Alloggiati Web ogni ospite entro 24 ore dall'arrivo; scaricare le ricevute
+    (restano disponibili 30 giorni) e conservarle 5 anni.
+  - >-
+    TARI: per il B&B non imprenditoriale nella propria abitazione di residenza resta l'utenza
+    domestica, con numero di occupanti fissato in sei, oppure (con dichiarazione) gli occupanti
+    del nucleo più due per ogni camera del B&B (Regolamento TARI, art. 14, c. 7). Dichiarare la
+    variazione al Servizio IMU e TARI.
+  - >-
+    L'imposta di soggiorno (credenziali Tourist Tax, dichiarazioni e versamenti) è una procedura
+    separata del Comune (napoli/comune/imposta-di-soggiorno-gestori).
+  - >-
+    Variazioni (camere, posti letto, titolare), sospensione e cessazione si comunicano al Comune
+    tramite SUAP; per cambiare i dati legati al CUSR rivolgersi al Comune, non alla Regione.
+pitfalls:
+  - text: >-
+      In Campania il CIN non sostituisce il CUSR ma si aggiunge: senza CUSR rilasciato dal Comune
+      non si ottiene il CIN. La Regione non rilascia direttamente il CUSR. Se il CUSR non compare
+      sulla BDSR, inviare copia della SCIA a supporto.strutturericettive@regione.campania.it.
+    status: verified
+    source: guida-regione-2025
+  - text: >-
+      Le pratiche SUAP inviate via PEC o email ordinaria non vengono istruite: l'unico canale è
+      impresainungiorno.
+    status: verified
+    source: suap-contatti
+  - text: >-
+      La colazione è obbligatoria. Secondo il SUAP, che riporta un chiarimento regionale, sono
+      ammessi servizi superiori ai cibi confezionati previsti dalla legge, ma devono essere svolti
+      dalla struttura e non affidati all'esterno.
+    status: verified
+    source: napoli-indicazioni
+  - text: >-
+      L'obbligo di rilevatori di gas e monossido di carbonio ed estintori dell'art. 13-ter, c. 7,
+      D.L. 145/2023 è scritto per le unità abitative date in locazione turistica o breve, e la
+      guida regionale lo riferisce alle locazioni. Nelle fonti lette non è detto che valga per i
+      B&B, che devono comunque essere adeguati alle norme di sicurezza vigenti (L.R. 5/2001, art.
+      1, c. 3): chiedere al SUAP.
+    status: verified
+    source: dl-145-art13ter
+  - text: >-
+      La guida regionale attribuisce gli obblighi antincendio al comma 8 dell'art. 13-ter; nel
+      testo vigente su Normattiva sono al comma 7 (il comma 8 riguarda la SCIA per le locazioni
+      in forma imprenditoriale).
+    status: verified
+    source: dl-145-art13ter
+  - text: >-
+      La L.R. 5/2001 (art. 9, c. 2) chiede di comunicare ogni quattro mesi i dati del movimento
+      all'"Ente Provinciale per il Turismo", ente non più esistente; la guida regionale indica la
+      piattaforma Sinfonia Turismo SMART senza dare una frequenza per i B&B. Chiedere a
+      supporto.strutturericettive@regione.campania.it.
+    status: disputed
+    source: lr-5-2001
+  - text: >-
+      La L.R. 5/2001 prevede un marchio regionale del B&B da affiggere all'esterno a spese del
+      titolare (art. 9-bis). Non è stato controllato se la Giunta l'abbia già approvato.
+    status: unverified
+  - text: >-
+      La variante del centro storico (art. 21 come approvato) mette il B&B nella sottocategoria
+      a.2 e lega il passaggio da a.1 ad a.2 a un titolo abilitativo e alla soglia del 70%; la
+      L.R. 5/2001 (art. 1, c. 5) dice che il B&B non costituisce cambio di destinazione d'uso.
+      Chiedere al SUAP come le due norme si applicano insieme.
+    status: disputed
+    source: variante-dcc-129
+  - text: >-
+      Il Regolamento TARI descrive ancora il B&B "con carattere saltuario e non professionale" e
+      per "otto ospiti" (formula della legge del 2001); non dice come si tassa il B&B in forma
+      imprenditoriale: chiedere al Servizio IMU e TARI.
+    status: verified
+    source: tari-regolamento
+  - text: >-
+      La SCIA del B&B si compila solo online: non esiste un modello scaricabile del SUAP di
+      Napoli. Il modulo online non è stato mappato in questa scheda.
+    status: unverified
+  - text: >-
+      Il documento operativo del SUAP (creato a marzo 2024) dice che per la Comunicazione di
+      locazione breve non ci sono diritti d'istruttoria, mentre la tabella diritti SUAP 2026
+      indica 50 euro per le locazioni brevi non imprenditoriali (S210).
+    status: disputed
+    source: tabella-2026
+  - text: >-
+      Struttura priva di CIN: sanzione da 800 a 8.000 euro; mancata esposizione o indicazione del
+      CIN: da 500 a 5.000 euro per ciascuna struttura, con rimozione immediata dell'annuncio (art.
+      13-ter, c. 9). Per l'importo nel caso concreto chiedere alla Polizia locale.
+    status: verified
+    source: dl-145-art13ter
+  - text: >-
+      Chi non usa il CUSR o lo riporta in modo errato o ingannevole rischia una sanzione del Comune
+      da 500,00 a 1.000,00 euro per ogni attività promossa, commercializzata o comunicata.
+    status: verified
+    source: guida-regione-2025
+  - text: >-
+      Il Comune pubblica l'elenco dei CUSR rilasciati dal SUAP di Napoli (report aggiornato
+      periodicamente): utile per controllare il proprio codice.
+    status: verified
+    source: elenco-cusr
+  - text: >-
+      Il Consiglio regionale della Campania (XII legislatura) ha una proposta di legge "Sistema
+      Turismo Campania" di 101 articoli che riordinerebbe la normativa regionale sul turismo, con
+      una sezione sui B&B, una norma sul CUSR e l'abrogazione delle leggi riordinate.
+    status: verified
+    source: proposta-legge-turismo
+  - text: >-
+      Lo stato dell'iter della proposta non è stato verificato; al 25 ottobre 2026 la pagina della
+      Regione con il testo vigente della L.R. 5/2001 non indica abrogazioni. Ricontrollare prima di
+      usare questa scheda.
+    status: unverified
+related:
+  - napoli/comune/tari-iscrizione-uso-abitativo
+  - napoli/comune/tari-iscrizione-non-domestica
+  - napoli/asl-napoli-1/registrazione-attivita-alimentare
+  - napoli/comune/insegna-esercizio
+  - napoli/camera-di-commercio/diritto-annuale
+  - napoli/comune/imposta-di-soggiorno-gestori
+sources:
+  - id: napoli-indicazioni
+    label: >-
+      Comune di Napoli – SUAP, "Indicazioni operative per l'esercizio di attività di strutture
+      ricettive extralberghiere e locazioni brevi" (All. A)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/08/ALL._A_INDICAZIONI_OPERATIVE_STRUTTURE_RICETTIVE_E_LOCAZIONI_BREVI.pdf
+    retrieved: 2026-10-25
+    sha256: 24a2f4c0e84788232c12899ae3163c66b6e3299bbaaf9dec19d49235cfb0f6f3
+    official: true
+    notes: >-
+      Documento senza data nel testo; i metadati del PDF indicano creazione il 19/03/2024
+      (caricato in una cartella 2025/08). Il link alla pagina regionale CUSR che cita restituisce
+      404.
+  - id: suap-contatti
+    label: Comune di Napoli – Contatti dello Sportello Unico per le Attività Produttive
+    url: https://www.comune.napoli.it/articolo_tematico/suap/contatti/
+    retrieved: 2026-10-25
+    page_updated: 2026-05-18
+    official: true
+  - id: tabella-2026
+    label: Tabella dei diritti d'istruttoria delle pratiche telematiche SUAP 2026 (righe S94-S96, S209-S210)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2021/07/2026-TABELLA-DIRITTI-SUAP-DEF.pdf
+    retrieved: 2026-10-25
+    sha256: 6abd7a3127137927c6d9959f946001c4e51d47afee568317e4e69e5584994d15
+    official: true
+  - id: elenco-cusr
+    label: Comune di Napoli – Elenco delle strutture ricettive e delle locazioni brevi con relativo CUSR
+    url: https://www.comune.napoli.it/articolo_tematico/suap/elenco-delle-strutture-ricettive-e-delle-locazioni-brevi-con-relativo-cusr/
+    retrieved: 2026-10-25
+    page_updated: 2026-10-19
+    official: true
+    notes: Report aggiornato al 19/10/2026; i CUSR hanno 15 caratteri (prefisso 15063049, EXT per le extralberghiere).
+  - id: lr-5-2001
+    label: L.R. Campania 10 maggio 2001, n. 5 – testo vigente (Normativa Regione Campania)
+    url: https://www.regione.campania.it/normativa/item.php?pgCode=G19I231R492&id_doc_type=1&id_tema=12&refresh=on
+    retrieved: 2026-10-25
+    official: true
+    notes: Testo coordinato con valore solo informativo, aggiornato alla L.R. 11/2023. L'art. 4, c. 1 rinvia ancora all'art. 2, abrogato nel 2014.
+  - id: lr-17-2001
+    label: L.R. Campania 24 novembre 2001, n. 17 – testo vigente (Normativa Regione Campania)
+    url: https://www.regione.campania.it/normativa/item.php?pgCode=G19I231R476&id_doc_type=1&id_tema=12
+    retrieved: 2026-10-25
+    official: true
+    notes: Testo coordinato con valore solo informativo, aggiornato alla L.R. 11/2023.
+  - id: guida-regione-2025
+    label: >-
+      Regione Campania – "Strutture ricettive e attività di locazione turistica e breve. Come
+      orientarsi" (guida, 29/10/2025)
+    url: https://www.regione.campania.it/sites/default/assets/asset/documents/come-orientarsi-guida-per-le-strutture-ricettive-e-locazioni-turistiche-brevi-29-10-25.pdf
+    retrieved: 2026-10-25
+    sha256: f28db27902f04a2ada3ec484cd60c2b8ce2358f79240e90731320fceddd78d42
+    official: true
+  - id: dl-145-art13ter
+    label: D.L. 18 ottobre 2023, n. 145, art. 13-ter (Normattiva, testo in vigore dal 1-1-2025)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2023-10-18;145~art13ter
+    retrieved: 2026-10-25
+    official: true
+  - id: alloggiati-portale
+    label: Polizia di Stato – Portale Alloggiati Web (home page e FAQ)
+    url: https://alloggiatiweb.poliziadistato.it/PortaleAlloggiati/
+    retrieved: 2026-10-25
+    official: true
+  - id: questura-napoli
+    label: Questura di Napoli – Alloggiati Web, richiesta credenziali
+    url: https://questure.poliziadistato.it/it/Napoli/articolo/8865cd3ef6f68f1c082829213
+    retrieved: 2026-10-25
+    page_updated: 2026-04-23
+    official: true
+  - id: modulo-alloggiati
+    label: Questura di Napoli – Modulo editabile richiesta credenziali Alloggiati Web
+    url: https://questure.poliziadistato.it/statics/35/modulo-editabile-credenziali-alloggiatiweb---new-.pdf?lang=it
+    retrieved: 2026-10-25
+    sha256: d05a415bac4c2a7f052770e155ac96569f97c89ca6f5d6f47484ec18f55e018b
+    official: true
+    notes: Modulo AcroForm del 2018-2019.
+  - id: l241-art19
+    label: Legge 7 agosto 1990, n. 241, art. 19 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1990-08-07;241~art19
+    retrieved: 2026-10-25
+    official: true
+  - id: tari-regolamento
+    label: Regolamento TARI, allegato alla delibera C.C. n. 37 del 19 giugno 2023 (art. 14, cc. 7-8)
+    url: https://www.comune.napoli.it/flex/files/1/c/7/D.007ae011f89c784022b3/DELIBERA_DI_C.C._N._37_DEL_19_GIUGNO_2023.pdf
+    retrieved: 2026-10-25
+    sha256: 15c491cd7e69bada6fbed48c345c72177cb147bb95cded0314b6cca75635ea6f
+    official: true
+    notes: Modifiche successive al 2023 non controllate.
+  - id: variante-pagina
+    label: Comune di Napoli – Variante per la salvaguardia dell'offerta abitativa nel centro storico
+    url: https://www.comune.napoli.it/articolo_tematico/urbana-urbanistica-napoli/puc/variante-per-la-salvaguardia-dellofferta-abitativa-nel-centro-storico/
+    retrieved: 2026-10-25
+    page_updated: 2026-10-07
+    official: true
+  - id: variante-dcc-129
+    label: >-
+      Deliberazione C.C. n. 129 del 15/9/2026 – approvazione della variante (PDF con la proposta
+      di Giunta n. 374/2026 e il testo degli artt. 21 e 63)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/10/delib.-Cc-n.-129-2026-approvazione-variante-offerta-abitativa-centro-storico.pdf
+    retrieved: 2026-10-25
+    sha256: c9e44e5e0fb5fde0cc21c2b8148e8d5cb9b4442b363417135d9f1cf86e7dac4b
+    official: true
+    notes: Approvata con le prescrizioni dei pareri obbligatori (non letti); efficace dal giorno dopo la pubblicazione sul BURC (non verificata).
+  - id: proposta-legge-turismo
+    label: Consiglio regionale della Campania, XII legislatura – proposta di legge "Sistema Turismo Campania", relazione illustrativa
+    url: https://www.cr.campania.it/crccmsintegrationservices/rest/services/documentale/prendiAllegatoDocumento?id=434905
+    retrieved: 2026-10-25
+    sha256: e381175f0c1248670c1758675e8148f18b2695a14f6730d0332a7fd0c3cfac7a
+    official: true
+    notes: Stato dell'iter non verificato.
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: letti il documento operativo del SUAP di Napoli sulle strutture extralberghiere e le
+    locazioni brevi, la pagina contatti SUAP, la tabella diritti SUAP 2026 (S94-S96, S209-S210),
+    la pagina dell'elenco CUSR; i testi vigenti della L.R. 5/2001 e della L.R. 17/2001 sul sito
+    della Regione; la guida regionale del 29/10/2025; su Normattiva l'art. 13-ter D.L. 145/2023 e
+    l'art. 19 L. 241/1990; il portale Alloggiati Web, la pagina e il modulo della Questura di
+    Napoli; l'art. 14 del Regolamento TARI; la pagina della variante del centro storico e il
+    testo della DCC 129/2026; la relazione della proposta di legge regionale sul turismo.
+  notes: >-
+    Non letti il testo della L.R. 16/2019 (art. 13, CUSR), della L.R. 16/2014 e delle DGR 64/2021
+    e 552/2023: le relative affermazioni vengono dalla guida regionale. Non verificati il
+    percorso del procedimento su impresainungiorno e la pubblicazione della variante sul BURC.
