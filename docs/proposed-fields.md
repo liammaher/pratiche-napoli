@@ -1,15 +1,16 @@
 # Proposed fields
 
 Form boxes currently mapped with `{ ask: ... }` because the field registry has nothing for
-them. When a field is needed by two or more procedures, add it to `contract/extensions.json`,
+them. Most-needed so far: `business.telefono` (7 procedures), `business.forma_giuridica` (5), `procuratore.*` (3),
+`business.data_cessazione` (3). When a field is needed by two or more procedures, add it to `contract/extensions.json`,
 run `npm run gen:fields`, and switch those mappings from `ask` to the new field.
 
 | Proposed field | Meaning | Needed by |
 |---|---|---|
-| `business.forma_giuridica` | Legal form (ditta individuale, srl, snc…) | `scia-esercizio-vicinato`, `scia-acconciatore-estetista`, `cila-lavori-edilizi` |
-| `business.telefono` | Business phone | `scia-esercizio-vicinato`, `scia-acconciatore-estetista`, `iscrizione-impresa-individuale-comunica`, `cila-lavori-edilizi` |
+| `business.forma_giuridica` | Legal form (ditta individuale, srl, snc…) | `scia-esercizio-vicinato`, `scia-acconciatore-estetista`, `cila-lavori-edilizi`, `subingresso-attivita-commerciale`, `cessazione-attivita-commerciale` |
+| `business.telefono` | Business phone | `scia-esercizio-vicinato`, `scia-acconciatore-estetista`, `iscrizione-impresa-individuale-comunica`, `cila-lavori-edilizi`, `subingresso-attivita-commerciale`, `cessazione-attivita-commerciale`, `scia-prevenzione-incendi` |
 | `business.sede_legale_stato`, `residenza.stato` | Country of registered office / residence | `scia-esercizio-vicinato`, `cila-lavori-edilizi` |
-| `business.data_cessazione` | Date the partita IVA was closed | `tari-cessazione-non-domestica` |
+| `business.data_cessazione` | Closing date shared by SUAP, Registro Imprese, AdE and TARI | `tari-cessazione-non-domestica`, `chiusura-partita-iva-persona-fisica`, `cessazione-attivita-commerciale` |
 | `procuratore.*` | Agent filing under a procura speciale (name, CF, birth, residence, PEC, phone, role) | `scia-esercizio-vicinato`, `scia-acconciatore-estetista`, `iscrizione-impresa-individuale-comunica` |
 | `business.preposto_*`, `business.soci<N>_*` | Preposto and partners for Allegati A/B | `scia-esercizio-vicinato` |
 | `business.requisito_professionale_*` | Food professional requirement (type, details, date) | `scia-esercizio-vicinato` |
@@ -33,3 +34,9 @@ run `npm run gen:fields`, and switch those mappings from `ask` to the new field.
 | `riscossione.*` | Cartella instalment request: cartella numbers, amount, number and type of instalments | `rateizzazione-cartella` |
 | `tari.avviso_protocollo`, `tari.avviso_data` | The TARI notice being contested | `tari-autotutela-avviso-non-domestica` |
 | `pratica.codice_comunica`, `firma.luogo` | ComUnica practice code; place of signing | `iscrizione-impresa-individuale-comunica`, `rateizzazione-cartella` |
+| `suap.titolo_protocollo`, `suap.titolo_data` | Protocol and date of the SCIA/permit that opened the business | `cessazione-attivita-commerciale`, `subingresso-attivita-commerciale` |
+| `subingresso.*` | Takeover: seller, seller's title, reason, deed registration, start date | `subingresso-attivita-commerciale` |
+| `prevenzione_incendi.*` | VVF practice number, Allegato I activities, category, first SCIA and last renewal dates | `scia-prevenzione-incendi` |
+| `locazione_breve.*` | The flat let short-term: address, police station, name, CUSR, CIN | `comunicazione-locazione-breve` |
+| `veicolo.targa`, `veicolo.tipo` | Vehicle on a traffic fine | `verbale-pagamento-ricorso` |
+| `business.inail_codice_ditta`, `business.inail_pat`, `business.inail_codice_sede` | INAIL position codes for the F24 | `autoliquidazione` |

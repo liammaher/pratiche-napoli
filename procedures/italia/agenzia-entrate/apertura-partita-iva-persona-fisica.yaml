@@ -421,6 +421,8 @@ related:
   - napoli/comune/scia-esercizio-vicinato
   - napoli/camera-di-commercio/diritto-annuale
   - napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica
+  - italia/agenzia-entrate/chiusura-partita-iva-persona-fisica
+  - italia/inps/iscrizione-gestione-artigiani-commercianti
 sources:
   - id: ade-che-cose
     label: Agenzia delle Entrate – Partita Iva persone fisiche (AA9/12), "Che cos'è"

@@ -1,0 +1,695 @@
+schema_version: 0
+id: napoli/comune/comunicazione-locazione-breve
+title: Locazione breve turistica a Napoli senza impresa (Comunicazione al SUAP, CUSR, CIN, Alloggiati Web)
+summary: >-
+  Chi, come persona fisica e senza fare impresa, affitta a Napoli un appartamento a uso abitativo
+  per soggiorni fino a 30 giorni (locazione breve, art. 4 D.L. 50/2017) presenta prima di iniziare
+  una Comunicazione al SUAP del Comune su impresainungiorno, riceve dal Comune il codice regionale
+  CUSR, chiede il CIN nazionale e lo espone, comunica gli ospiti su Alloggiati Web e riscuote
+  l'imposta di soggiorno. Dal periodo d'imposta 2026 chi destina alla locazione breve più di due
+  appartamenti è considerato un'impresa e deve presentare invece una SCIA.
+ente:
+  name: Comune di Napoli
+  office: Area Sviluppo Economico – Servizio Sportello Unico Attività Produttive (SUAP)
+  ipa: c_f839
+applies_to:
+  events: [open]
+  audience: [resident, business]
+  sectors: [locazioni brevi, affitti turistici fino a 30 giorni]
+  conditions:
+    - text: >-
+        Locazioni brevi (art. 4, c. 1, D.L. 50/2017): contratti di locazione di immobili a uso
+        abitativo di durata non superiore a 30 giorni, compresi quelli con fornitura di biancheria e
+        pulizia dei locali, stipulati da persone fisiche fuori dall'esercizio di attività d'impresa,
+        direttamente o tramite intermediari immobiliari o portali telematici.
+      status: verified
+      source: dl-50-art4
+    - text: >-
+        Per il SUAP di Napoli la locazione breve senza impresa si avvia con una Comunicazione (non
+        una SCIA) su impresainungiorno; può presentarla anche chi non è proprietario ma ha un valido
+        titolo di disponibilità dell'immobile. L'immobile deve avere destinazione d'uso
+        abitativa/residenziale.
+      status: verified
+      source: indicazioni-rev2
+    - text: >-
+        Secondo il SUAP non sono ammessi servizi accessori come la prima colazione né la
+        somministrazione di alimenti e bevande: gli unici servizi consentiti sono la fornitura di
+        biancheria e asciugamani al check-in e la pulizia al check-out. Con la colazione si tratta
+        di un B&B (procedura separata).
+      status: verified
+      source: indicazioni-rev2
+    - text: >-
+        Numero di appartamenti (art. 1, c. 595, L. 178/2020, testo in vigore dal 1° gennaio 2026):
+        il regime fiscale delle locazioni brevi, con effetto dal periodo d'imposta 2026, è
+        riconosciuto solo se si destinano alla locazione breve non più di due appartamenti per
+        ciascun periodo d'imposta. Negli altri casi l'attività, da chiunque esercitata, si presume
+        svolta in forma imprenditoriale ai sensi dell'art. 2082 del codice civile; vale anche per i
+        contratti conclusi tramite intermediari o portali. Fino al periodo d'imposta 2025 il limite
+        era di quattro appartamenti.
+      status: verified
+      source: l178-c595
+    - text: >-
+        Chi esercita la locazione breve in forma imprenditoriale, anche per effetto del c. 595,
+        deve presentare una SCIA al SUAP del Comune (art. 13-ter, c. 8, D.L. 145/2023); se
+        l'attività è svolta tramite società, la SCIA la presenta il legale rappresentante. A Napoli
+        la SCIA per la locazione breve imprenditoriale richiede planimetria del tecnico e diritti di
+        200 euro: non è oggetto di questa scheda.
+      status: verified
+      source: dl-145-art13ter
+    - text: >-
+        Secondo il SUAP, sentiti uffici ed enti competenti, nella locazione breve si arriva al
+        massimo a 6 camere (se con bagno interno), senza limite fissato di posti letto. Valgono i
+        requisiti igienico-sanitari del D.M. Sanità 5 luglio 1975: soggiorno/cucina di almeno 14 mq,
+        camere di 9 mq (singola) e 14 mq (doppia), più 8 mq per ogni posto letto in più (anche nel
+        soggiorno, oltre i 14 mq minimi); monolocale di almeno 28 mq per una persona e 38 mq per due.
+      status: verified
+      source: indicazioni-rev2
+    - text: >-
+        Centro storico: la variante urbanistica approvata con la delibera C.C. 129 del 15 settembre
+        2026 mette le locazioni brevi che conservano i requisiti delle residenze e non sono gestite
+        in forma imprenditoriale nella sottocategoria a.2 (abitazioni assimilabili a strutture
+        ricettive extralberghiere); quelle senza i requisiti delle residenze o gestite in forma
+        imprenditoriale vanno nella sottocategoria c.2 (attività ricettive).
+      status: verified
+      source: variante-dcc-129
+    - text: >-
+        L'area di regolamentazione (tavola 7a) è una parte del centro storico all'intersezione tra la
+        zona A del Prg e la Buffer Zone UNESCO, esclusi i quartieri a bassa pressione turistica.
+      status: verified
+      source: variante-pagina
+    - text: >-
+        Nell'area di regolamentazione della tavola 7a il mutamento di destinazione d'uso da a.1 (abitazione ordinaria) ad a.2,
+        da conseguire con idoneo titolo abilitativo, è limitato da una soglia minima di residenzialità
+        ordinaria che in prima applicazione è il 70% della superficie catastale dell'intero edificio.
+        Il meccanismo di verifica e le modalità applicative sono rinviati a un provvedimento di
+        Giunta.
+      status: verified
+      source: variante-dcc-129
+    - text: >-
+        Le fonti lette non dicono quale titolo abilitativo serva per passare da a.1 ad a.2, se la
+        Comunicazione al SUAP sia già vincolata alla soglia, se la variante sia stata pubblicata sul
+        BURC (è efficace dal giorno dopo) né se la Giunta abbia fissato il meccanismo di verifica:
+        per un appartamento nel centro storico chiedere al SUAP o al Servizio Pianificazione
+        urbanistica prima di iniziare.
+      status: unverified
+legal_basis:
+  - text: >-
+      D.L. 24 aprile 2017, n. 50, art. 4 (regime fiscale delle locazioni brevi: definizione,
+      cedolare secca, obblighi degli intermediari, responsabilità per l'imposta di soggiorno), testo
+      in vigore fino al 31 dicembre 2026.
+    status: verified
+    source: dl-50-art4
+  - text: >-
+      L. 30 dicembre 2020, n. 178, art. 1, c. 595 (limite di appartamenti e presunzione di attività
+      d'impresa), testo in vigore fino al 31 dicembre 2026.
+    status: verified
+    source: l178-c595
+  - text: >-
+      Dal 1° gennaio 2027 queste norme sono abrogate e il loro contenuto passa agli artt. 207
+      (regime fiscale, limite di due appartamenti) e 208 (intermediari e imposta di soggiorno) del
+      Testo unico delle imposte sui redditi approvato con D.Lgs. 19 giugno 2026, n. 117 (art. 377:
+      si applica dal 1° gennaio 2027).
+    status: verified
+    source: dlgs-117-2026
+  - text: >-
+      D.L. 18 ottobre 2023, n. 145, art. 13-ter, convertito dalla L. 191/2023: CIN, obbligo di
+      esporlo e di indicarlo negli annunci (c. 6), dispositivi di sicurezza (c. 7), SCIA per la
+      forma imprenditoriale (c. 8), sanzioni (c. 9), controlli del Comune tramite la polizia locale
+      (c. 11).
+    status: verified
+    source: dl-145-art13ter
+  - text: >-
+      L.R. Campania 7 agosto 2019, n. 16, art. 13, come modificata dalla L.R. 5 luglio 2023, n. 11
+      (comunicazione al Comune, CUSR, movimento turistico), con le DGR 64/2021 e 552/2023. Il testo
+      della legge non è stato letto: gli obblighi sono riportati dalla guida regionale.
+    status: verified
+    source: guida-regione-2025
+  - text: >-
+      Art. 109 TULPS e D.M. Interno 7 gennaio 2013, modificato dal D.M. 16 settembre 2021
+      (comunicazione degli ospiti alla Questura tramite Alloggiati Web).
+    status: verified
+    source: questura-napoli
+  - text: >-
+      D.M. Sanità 5 luglio 1975 (requisiti igienico-sanitari dei locali di abitazione), richiamato
+      dal SUAP di Napoli per le locazioni brevi.
+    status: verified
+    source: indicazioni-rev2
+deadline:
+  rules:
+    - text: >-
+        La comunicazione al Comune va fatta prima dell'inizio dell'attività di locazione, insieme
+        alla dichiarazione sul rispetto dei requisiti igienico-sanitari e di sicurezza dell'alloggio,
+        che il Comune può verificare.
+      status: verified
+      source: guida-regione-2025
+    - text: >-
+        Il CIN va indicato in ogni annuncio ovunque pubblicato e comunicato ed esposto all'esterno
+        dello stabile: va quindi ottenuto prima di pubblicare annunci e di affittare. In Campania si
+        chiede solo dopo aver ricevuto il CUSR dal Comune.
+      status: verified
+      source: dl-145-art13ter
+    - text: Le generalità degli ospiti vanno comunicate su Alloggiati Web entro 24 ore dall'arrivo.
+      status: verified
+      source: questura-napoli
+    - text: >-
+        Soggiorni inferiori a 24 ore: la Questura di Napoli indica entro 6 ore (citando il D.M. 16
+        settembre 2021), mentre la home page di Alloggiati Web dice che le generalità vanno inviate
+        all'arrivo stesso (citando il D.M. 7 gennaio 2013).
+      status: disputed
+      source: questura-napoli
+    - text: >-
+        Movimento turistico: comunicazione mensile, con specifica giornaliera, alla Regione (la
+        legge parla di "Rilevatore Turistico Regionale"; la guida indica la piattaforma Sinfonia
+        Turismo SMART). Le locazioni brevi non hanno l'obbligo di comunicare i prezzi.
+      status: verified
+      source: guida-regione-2025
+    - text: >-
+        Imposta di soggiorno: iscrizione su GEIS all'inizio dell'attività, dichiarazione e
+        versamento trimestrali entro il 15 del mese successivo alla fine di ogni trimestre (dettagli
+        nella procedura napoli/comune/imposta-di-soggiorno-gestori).
+      status: verified
+      source: avviso-2026
+  lateness:
+    text: >-
+      La mancata comunicazione al Comune dell'avvio della locazione breve comporta una sanzione del
+      Comune da 500,00 a 2.000,00 euro (guida regionale). L'unità priva di CIN è punita con una
+      sanzione da 800 a 8.000 euro in relazione alle dimensioni dell'immobile (art. 13-ter, c. 9).
+      Per l'importo nel caso concreto chiedere al SUAP o alla Polizia locale.
+    status: verified
+    source: guida-regione-2025
+channels:
+  - type: portal
+    name: impresainungiorno – SUAP di Napoli
+    url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: suap-contatti
+    notes: >-
+      Unico canale telematico per le pratiche SUAP, compresa la Comunicazione di locazione breve.
+      Serve la firma digitale del titolare o di un procuratore. Il percorso esatto nel portale non è
+      stato verificato.
+  - type: pec
+    address: suap@pec.comune.napoli.it
+    receipt: legal
+    source: suap-contatti
+    notes: Solo per comunicare con l'ufficio; le pratiche inviate via PEC o email ordinaria non vengono istruite.
+  - type: email
+    address: suaponline@comune.napoli.it
+    receipt: informal
+    source: suap-contatti
+    notes: Solo per informazioni.
+  - type: phone
+    address: 081 7953052
+    hours: martedì, mercoledì e venerdì 14:00–15:00
+    source: suap-contatti
+    notes: Referente SUAP indicato per le locazioni brevi.
+  - type: desk
+    name: Servizio SUAP
+    address: Piazza Cavour 42, II piano, Napoli
+    booking: >-
+      Dal 18 maggio 2026 solo su prenotazione online (pulsante "Prenota appuntamento" della pagina
+      "Avviare, variare, chiudere un'attività produttiva").
+    source: suap-contatti
+  - type: portal
+    name: BDSR – Banca dati strutture ricettive del Ministero del Turismo (CIN)
+    url: https://bdsr.ministeroturismo.gov.it/
+    auth: [spid, cie]
+    source: guida-regione-2025
+    notes: Si usa dopo aver ricevuto il CUSR dal Comune ("Ottieni CIN", inserendo il CUSR di 15 caratteri).
+  - type: portal
+    name: Alloggiati Web – Polizia di Stato
+    url: https://alloggiatiweb.poliziadistato.it/
+    receipt: informal
+    source: questura-napoli
+    notes: >-
+      Le credenziali si chiedono al Commissariato di P.S. competente per l'indirizzo dell'alloggio
+      (modulo della Questura di Napoli). Le ricevute vanno scaricate e conservate 5 anni.
+  - type: portal
+    name: Sinfonia Turismo SMART – Regione Campania (movimento ospiti)
+    url: https://turismo.regione.campania.it/turismoweb/fe-portale-turismo/login
+    auth: [spid, cie, cns]
+    source: guida-regione-2025
+    notes: Assistenza supporto.strutturericettive@regione.campania.it.
+  - type: portal
+    name: GEIS Portal – imposta di soggiorno (Comune di Napoli)
+    url: https://cizrm.municipia.eng.it/?ente=NAPO
+    source: geis-iscrizione
+    notes: >-
+      Nuovi gestori: "Domande Online" → "Procedimenti Tributi Comune di Napoli" → "Nuovo gestore
+      struttura". Procedura separata (napoli/comune/imposta-di-soggiorno-gestori).
+payment:
+  method: pagopa
+  notes:
+    - text: >-
+        Tabella dei diritti d'istruttoria SUAP in vigore dall'11 giugno 2026 (DGC 239/2026), riga
+        S210 "Locazioni brevi non imprenditoriali": 50,00 euro in apertura, 40,00 euro nella colonna
+        VCA (variazioni come subentro o cambio di sede, 80% dell'importo pieno secondo la delibera),
+        nessun importo nella colonna VPF. La riga S209 "Locazioni brevi imprenditoriali" indica
+        200,00 euro in apertura.
+      status: verified
+      source: tabella-2026
+    - text: >-
+        Secondo la delibera non pagano diritti le mere comunicazioni di cessazione; la tabella si
+        applica alle pratiche dall'11 giugno 2026.
+      status: verified
+      source: dgc-239-2026
+    - text: >-
+        Le indicazioni operative del SUAP (anche la revisione del 20 maggio 2026) e la pagina del
+        Comune sulle locazioni brevi dicono invece che per la Comunicazione non sono previsti diritti
+        d'istruttoria né marche da bollo. Sono anteriori alla tabella in vigore dall'11 giugno 2026:
+        controllare l'importo che il portale chiede nella pratica o chiedere al SUAP (081 7953052).
+      status: disputed
+      source: indicazioni-rev2
+    - text: >-
+        La pagina dei diritti SUAP pubblica avvisi sui rimborsi di diritti versati per errore nel
+        2024 e nel 2025 "sia per comunicazioni di locazione breve che per le altre pratiche".
+      status: verified
+      source: diritti
+    - text: >-
+        I diritti SUAP si pagano con pagoPA dentro la pratica su impresainungiorno. La richiesta del
+        CUSR al Comune e del CIN al Ministero non risultano a pagamento nelle fonti lette.
+      status: unverified
+documents:
+  - name: Comunicazione di locazione breve compilata su impresainungiorno e firmata digitalmente
+    required: true
+  - name: Documento di riconoscimento in corso di validità del titolare dell'attività
+    required: true
+  - name: >-
+      Planimetria dell'immobile in scala 1:50 con superfici, altezze, destinazioni d'uso di tutti i
+      locali e numero di posti letto per vano, timbrata e firmata in calce (con documento del
+      tecnico) o firmata digitalmente da un tecnico iscritto all'albo
+    required: true
+    notes: >-
+      Richiesta dalle indicazioni operative del SUAP rev. 2 (maggio 2026); la pagina del Comune
+      aggiornata il 22/05/2026 e le indicazioni del 2024 non la elencano.
+  - name: >-
+      Dichiarazione sul rispetto dei requisiti igienico-sanitari e di sicurezza dell'alloggio
+    required: true
+    notes: >-
+      Prevista dalla legge regionale secondo la guida regionale; non è chiaro se sia una casella del
+      modulo online o un allegato.
+  - name: Dichiarazione sul rispetto dell'art. 2 del D.M. 5 luglio 1975 per la parte abitabile destinata agli ospiti
+    required: false
+    notes: >-
+      Secondo la pagina del Comune solo in caso di locazione parziale; per un monolocale va allegata
+      una dichiarazione o indicato "monolocale" nella descrizione.
+  - name: Procura speciale firmata dal locatore
+    required: false
+    notes: >-
+      Solo se la Comunicazione è firmata e inviata da un altro soggetto o tecnico; non deve essere
+      incompleta, non firmata o con anomalie nella firma.
+  - name: Ricevuta pagoPA dei diritti d'istruttoria
+    required: false
+    notes: Se il portale chiede i 50 euro della riga S210 (vedi pagamento).
+forms:
+  - id: credenziali-alloggiati-web-napoli
+    name: Questura di Napoli – Modulo richiesta credenziali Alloggiati Web
+    url: https://questure.poliziadistato.it/statics/35/modulo-editabile-credenziali-alloggiatiweb---new-.pdf?lang=it
+    source: modulo-alloggiati
+    sha256: d05a415bac4c2a7f052770e155ac96569f97c89ca6f5d6f47484ec18f55e018b
+    signature_required: true
+    fields:
+      - label: Commissariato P.S.
+        map: { ask: "Commissariato di P.S. competente per l'indirizzo dell'appartamento" }
+        notes: La Questura di Napoli rinvia al Commissariato territorialmente competente.
+      - label: Denominazione
+        map: { ask: "Nome con cui identificare l'alloggio (per esempio quello usato negli annunci)" }
+        notes: Il modulo non dice cosa scrivere per una locazione breve senza impresa; chiedere al Commissariato se dubbio.
+      - label: Part.IVA/Cod.Fisc.
+        map: { direct: identity.codice_fiscale }
+        notes: Locazione breve senza impresa → codice fiscale del locatore persona fisica.
+      - label: "Categoria (17 caselle: Casa di Cura, Albergo, Hotel, Bed & Breakfast, Affittacamere, Motel, Villaggio, Residence, Pensione/Locanda, Rifugio alpino, Ostello, Campeggio, Agriturismo, Appartamento turistico, Gestione Appartamenti, Altro, Senza Categoria)"
+        map: { ask: "Categoria da barrare (nessuna si chiama locazione breve; chiedere al Commissariato)" }
+        notes: >-
+          La categoria "Appartamento turistico" ha nel menu Classe le voci Locazione Pura e Locazione
+          Parziale, ma nessuna fonte ufficiale letta dice quale categoria usare per la locazione breve.
+      - label: Classe (menu accanto alla categoria scelta)
+        map: { ask: "Classe da scegliere nel menu della categoria indicata dal Commissariato" }
+      - label: "Collegamento (Nuova Licenza / Cambio Proprietà / Cambio Tipologia)"
+        map: { blank_with_reason: "Per un'attività appena avviata il menu offre Nuova Licenza; confermare col Commissariato." }
+      - label: Indirizzo (via, piazza, corso, vico ecc.)
+        map: { ask: "Via o piazza dell'appartamento dato in locazione breve" }
+        notes: L'indirizzo è quello dell'alloggio affittato, che spesso non coincide con la residenza del locatore.
+      - label: N.civ.
+        map: { ask: "Numero civico dell'appartamento dato in locazione breve" }
+      - label: Scala
+        map: { ask: "Scala dell'edificio dell'appartamento, se c'è" }
+      - label: Piano
+        map: { ask: "Piano dell'appartamento dato in locazione breve" }
+      - label: Int.
+        map: { ask: "Interno dell'appartamento dato in locazione breve" }
+      - label: Comune
+        map: { blank_with_reason: Napoli. }
+      - label: Prov.
+        map: { blank_with_reason: NA. }
+      - label: "Contatti: PEC"
+        map: { direct: identity.pec }
+      - label: "Contatti: Tel. fisso"
+        map: { ask: "Telefono fisso, se c'è" }
+      - label: "Contatti: cellulare"
+        map: { direct: identity.phone }
+      - label: Note
+        map: { ask: Note facoltative per il Commissariato }
+      - label: Data consegna
+        map: { blank_with_reason: Si compila alla consegna delle credenziali. }
+      - label: Firma Consegnatario
+        map: { blank_with_reason: Firma di chi ritira le credenziali; solo la persona. }
+      - label: Timbro e Firma d'Ufficio
+        map: { blank_with_reason: Riservato al Commissariato. }
+steps:
+  - do: >-
+      Controllare che sia davvero una locazione breve senza impresa: persona fisica, immobile a uso
+      abitativo, contratti fino a 30 giorni, nessun servizio oltre biancheria e pulizia, e al
+      massimo due appartamenti in locazione breve nel periodo d'imposta (dal 2026). Con più
+      appartamenti, con una società o con la colazione servono altre procedure (SCIA per la
+      locazione imprenditoriale, B&B)
+    who: anyone
+  - do: >-
+      Controllare con un tecnico che l'appartamento rispetti i requisiti del D.M. 5 luglio 1975
+      indicati dal SUAP (altezze, superfici di camere e soggiorno, finestre apribili, bagno completo)
+    who: professional
+  - do: >-
+      Se l'appartamento è nel centro storico, controllare sulla tavola 7a della variante se è
+      nell'area di regolamentazione e chiedere al SUAP o al Servizio Pianificazione urbanistica come
+      si applica la soglia del 70%
+    who: anyone
+  - do: >-
+      Installare rilevatori funzionanti di gas combustibili e di monossido di carbonio ed estintori
+      portatili a norma (uno ogni 200 mq di pavimento o frazione, almeno uno per piano, in posizioni
+      accessibili e visibili vicino agli accessi e alle aree di maggior pericolo)
+    who: owner
+    human_only: true
+  - do: Farsi preparare dal tecnico la planimetria in scala 1:50 firmata
+    who: professional
+  - do: Procurarsi firma digitale e accesso SPID, CIE o CNS; oppure affidare la pratica a un procuratore
+    who: owner
+  - do: Se si usa un procuratore, firmare la procura speciale
+    who: owner
+    human_only: true
+  - do: Compilare la Comunicazione di locazione breve su impresainungiorno (SUAP di Napoli) e allegare i documenti
+    who: facilitator
+  - do: Se il portale chiede i diritti d'istruttoria (50 euro, riga S210), pagarli con pagoPA dalla pratica
+    who: owner
+    human_only: true
+  - do: Firmare digitalmente la Comunicazione e inviarla al SUAP dal portale, prima di iniziare
+    who: owner
+    human_only: true
+  - do: Attendere il CUSR, che il Comune trasmette via email o PEC e pubblica nell'elenco CUSR
+    who: office
+  - do: Chiedere il CIN sulla BDSR con SPID o CIE, scegliendo "Ottieni CIN" e inserendo il CUSR
+    who: owner
+    human_only: true
+  - do: Esporre il CIN all'esterno dello stabile (rispettando eventuali vincoli) e indicarlo in ogni annuncio
+    who: owner
+  - do: Chiedere le credenziali Alloggiati Web al Commissariato competente con il modulo della Questura
+    who: owner
+    human_only: true
+  - do: >-
+      Iscriversi su GEIS come nuovo gestore per l'imposta di soggiorno (procedura
+      napoli/comune/imposta-di-soggiorno-gestori)
+    who: owner
+    human_only: true
+  - do: Accedere a Sinfonia Turismo SMART per la comunicazione mensile del movimento degli ospiti
+    who: owner
+  - do: >-
+      Presentare o aggiornare la dichiarazione TARI dell'appartamento (procedura
+      napoli/comune/tari-iscrizione-uso-abitativo), indicando se si vuole il numero massimo
+      potenziale di occupanti invece dei 6 convenzionali
+    who: owner
+  - do: >-
+      Decidere con il professionista se optare per la cedolare secca nella dichiarazione dei
+      redditi e quale unità indicare per l'aliquota del 21%
+    who: professional
+after:
+  - Conservare la ricevuta della pratica SUAP, l'eventuale ricevuta pagoPA e copia di quanto inviato.
+  - Annotare CUSR e CIN; controllare che compaiano nell'elenco CUSR pubblicato dal Comune.
+  - >-
+    Comunicare su Alloggiati Web ogni ospite entro 24 ore dall'arrivo; scaricare le ricevute e
+    conservarle 5 anni.
+  - Comunicare ogni mese alla Regione il movimento degli ospiti, con il dettaglio giornaliero.
+  - >-
+    Imposta di soggiorno: dichiarazione e versamento trimestrali su GEIS entro il 15 del mese
+    successivo; dichiarazione annuale nazionale (napoli/comune/imposta-di-soggiorno-gestori).
+  - >-
+    Variazioni (per esempio del titolare) e cessazione si comunicano al Comune tramite SUAP; per i
+    dati legati al CUSR rivolgersi al Comune, non alla Regione.
+  - >-
+    Se nel periodo d'imposta si destina alla locazione breve un terzo appartamento, l'attività si
+    presume imprenditoriale: serve la SCIA al SUAP (e i relativi adempimenti d'impresa).
+pitfalls:
+  - text: >-
+      Diritti d'istruttoria: le indicazioni del SUAP dicono "non sono previsti diritti", ma la
+      tabella in vigore dall'11 giugno 2026 indica 50 euro per le locazioni brevi non
+      imprenditoriali (S210). Usare l'importo che il portale calcola e conservare la ricevuta.
+    status: disputed
+    source: tabella-2026
+  - text: >-
+      La guida regionale (29/10/2025) parla ancora di presunzione d'impresa dalla quinta attività
+      ("più di quattro unità immobiliari"); il testo dell'art. 1, c. 595, L. 178/2020 in vigore dal
+      1° gennaio 2026 fissa il limite a due appartamenti con effetto dal periodo d'imposta 2026. Vale
+      il testo di legge.
+    status: disputed
+    source: l178-c595
+  - text: >-
+      La guida regionale dice che servono nuovi CUSR (e quindi nuovi CIN) quando le attività
+      diventano imprenditoriali e si presenta la SCIA, anche per ognuna di quelle già avviate.
+    status: verified
+    source: guida-regione-2025
+  - text: >-
+      L'obbligo di rilevatori di gas e monossido di carbonio ed estintori riguarda tutte le unità
+      date in locazione breve o turistica, anche senza impresa (art. 13-ter, c. 7, secondo periodo);
+      i requisiti di sicurezza degli impianti del primo periodo sono scritti per le forme
+      imprenditoriali. Senza rilevatori ed estintori la sanzione è da 600 a 6.000 euro per ciascuna
+      violazione (c. 9).
+    status: verified
+    source: dl-145-art13ter
+  - text: >-
+      La guida regionale attribuisce gli obblighi antincendio al comma 8 dell'art. 13-ter e li
+      estende alla sicurezza degli impianti anche per la forma non imprenditoriale; nel testo vigente
+      su Normattiva sono al comma 7 e la sicurezza degli impianti è legata alla forma imprenditoriale.
+    status: disputed
+    source: dl-145-art13ter
+  - text: >-
+      Mancata esposizione o indicazione del CIN: sanzione da 500 a 5.000 euro per ciascuna unità,
+      con rimozione immediata dell'annuncio (art. 13-ter, c. 9). I controlli e le sanzioni spettano
+      al Comune tramite la polizia locale (c. 11).
+    status: verified
+    source: dl-145-art13ter
+  - text: >-
+      In Campania il CIN non sostituisce il CUSR ma si aggiunge: senza CUSR rilasciato dal Comune non
+      si ottiene il CIN. Se il CUSR non compare sulla BDSR, inviare copia della Comunicazione a
+      supporto.strutturericettive@regione.campania.it.
+    status: verified
+    source: guida-regione-2025
+  - text: >-
+      Chi non usa il CUSR o lo riporta in modo errato o ingannevole rischia una sanzione del Comune
+      da 500 a 1.000 euro per ogni attività promossa, commercializzata o comunicata.
+    status: verified
+    source: guida-regione-2025
+  - text: >-
+      Le pratiche SUAP inviate via PEC o email ordinaria non vengono istruite: l'unico canale è
+      impresainungiorno.
+    status: verified
+    source: suap-contatti
+  - text: >-
+      La pagina del Comune sulle locazioni brevi (aggiornata il 22/05/2026) e le indicazioni del 2024
+      non chiedono la planimetria e parlano ancora del portale "TouristTax"; le indicazioni rev. 2
+      allegate all'avviso SUAP del 20/05/2026 chiedono la planimetria 1:50 e rinviano a GEIS.
+    status: disputed
+    source: indicazioni-rev2
+  - text: >-
+      Cedolare secca sulle locazioni brevi: aliquota del 26%, ridotta al 21% per i redditi di una
+      sola unità immobiliare scelta dal contribuente nella dichiarazione dei redditi (art. 4, c. 2,
+      D.L. 50/2017). Le stesse regole valgono per sublocazioni e contratti onerosi del comodatario
+      (c. 3).
+    status: verified
+    source: dl-50-art4
+  - text: >-
+      Se un intermediario o un portale residente incassa i canoni, trattiene una ritenuta d'acconto
+      del 21% (art. 4, c. 5); chi incassa il canone o interviene nel pagamento è responsabile del
+      pagamento dell'imposta di soggiorno e della dichiarazione (c. 5-ter).
+    status: verified
+    source: dl-50-art4
+  - text: >-
+      TARI: per le unità a uso abitativo destinate anche solo temporaneamente alle locazioni brevi si
+      applica la tariffa dei nuclei di 6 componenti a uso continuativo, salvo diversa dichiarazione
+      sul numero potenziale massimo di occupanti (Regolamento TARI, art. 14, c. 8).
+    status: verified
+    source: tari-regolamento
+  - text: >-
+      Dal 1° gennaio 2027 il limite dei due appartamenti è nell'art. 207, c. 4, del nuovo Testo
+      unico delle imposte sui redditi, mentre l'art. 13-ter, c. 8, D.L. 145/2023 rinvia ancora al
+      c. 595 della L. 178/2020, che da quella data è abrogato. Il contenuto della regola non cambia;
+      non è stato verificato come verrà letto il rinvio.
+    status: unverified
+  - text: >-
+      La Comunicazione si compila solo online: non esiste un modello scaricabile del SUAP di Napoli e
+      il modulo online non è stato mappato in questa scheda.
+    status: unverified
+related:
+  - napoli/comune/avvio-bed-and-breakfast
+  - napoli/comune/imposta-di-soggiorno-gestori
+  - napoli/comune/tari-iscrizione-uso-abitativo
+  - italia/agenzia-entrate/apertura-partita-iva-persona-fisica
+sources:
+  - id: indicazioni-rev2
+    label: >-
+      Comune di Napoli – SUAP, "Indicazioni operative per l'esercizio di attività di strutture
+      ricettive extralberghiere e locazioni brevi", revisione 2 (allegato all'avviso del 20/05/2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/05/INDICAZIONI-OPERATIVE-STRUTTURE-RICETTIVE-E-LOCAZIONI-BREVI.rev-2.docx
+    retrieved: 2026-10-25
+    sha256: 0dc8afe0f92181d9ebe4d38c99c3803ccb6c401134839ade4d61e06470cda1f2
+    official: true
+    notes: File Word senza data nel testo; i metadati indicano ultima modifica il 20/05/2026. Distingue locazione breve imprenditoriale (SCIA, 200 euro) e non imprenditoriale (Comunicazione).
+  - id: avviso-2026
+    label: Avviso ai titolari o gestori di strutture ricettive extralberghiere e di attività di locazione breve
+    url: https://www.comune.napoli.it/novita/avviso-ai-titolari-o-gestori-di-strutture-ricettive-extralberghieree-di-attivita-di-locazione-breve/
+    retrieved: 2026-10-25
+    page_updated: 2026-05-20
+    official: true
+    notes: A cura del SUAP; annuncia la nuova modulistica per la forma imprenditoriale e allega le indicazioni rev. 2.
+  - id: pagina-locazioni
+    label: Comune di Napoli – Strutture ricettive extralberghiere e locazione breve (indicazioni operative)
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/strutture-ricettive-extralberghiere-e-locazione-breve/
+    retrieved: 2026-10-25
+    page_updated: 2026-05-22
+    official: true
+    notes: Riporta ancora il testo delle indicazioni del 2024 (nessun diritto, portale TouristTax, niente planimetria).
+  - id: napoli-indicazioni
+    label: >-
+      Comune di Napoli – SUAP, "Indicazioni operative per l'esercizio di attività di strutture
+      ricettive extralberghiere e locazioni brevi" (All. A, versione 2024)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/08/ALL._A_INDICAZIONI_OPERATIVE_STRUTTURE_RICETTIVE_E_LOCAZIONI_BREVI.pdf
+    retrieved: 2026-10-25
+    sha256: 24a2f4c0e84788232c12899ae3163c66b6e3299bbaaf9dec19d49235cfb0f6f3
+    official: true
+    notes: Metadati del PDF con creazione il 19/03/2024; superata dalla revisione 2 per la locazione breve.
+  - id: suap-contatti
+    label: Comune di Napoli – Contatti dello Sportello Unico per le Attività Produttive
+    url: https://www.comune.napoli.it/articolo_tematico/suap/contatti/
+    retrieved: 2026-10-25
+    page_updated: 2026-05-18
+    official: true
+  - id: diritti
+    label: Comune di Napoli – Diritti d'istruttoria SUAP
+    url: https://www.comune.napoli.it/articolo_tematico/suap/diritti-distruttoria-suap/
+    retrieved: 2026-10-25
+    page_updated: 2026-06-11
+    official: true
+  - id: tabella-2026
+    label: Tabella dei diritti d'istruttoria delle pratiche telematiche SUAP 2026 (righe S209-S210)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2021/07/2026-TABELLA-DIRITTI-SUAP-DEF.pdf
+    retrieved: 2026-10-25
+    sha256: 6abd7a3127137927c6d9959f946001c4e51d47afee568317e4e69e5584994d15
+    official: true
+    notes: Righe S209 e S210 con nota "ADEGUATO".
+  - id: dgc-239-2026
+    label: Deliberazione di Giunta Comunale n. 239 del 28 maggio 2026 (nuovi diritti d'istruttoria SUAP)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2021/07/DELIBERAZIONE-GIUNTA-COMUNALE-1.pdf
+    retrieved: 2026-10-25
+    sha256: 5c137d7cf9c352d358105173ecf4240262b31c734492a92c0edb2194bbb24f55
+    official: true
+    notes: PDF scansionato letto tramite il testo OCR incorporato (criteri 100/80/65%, esenzione delle cessazioni).
+  - id: elenco-cusr
+    label: Comune di Napoli – Elenco delle strutture ricettive e delle locazioni brevi con relativo CUSR
+    url: https://www.comune.napoli.it/articolo_tematico/suap/elenco-delle-strutture-ricettive-e-delle-locazioni-brevi-con-relativo-cusr/
+    retrieved: 2026-10-25
+    page_updated: 2026-10-19
+    official: true
+  - id: guida-regione-2025
+    label: >-
+      Regione Campania – "Strutture ricettive e attività di locazione turistica e breve. Come
+      orientarsi" (guida, 29/10/2025)
+    url: https://www.regione.campania.it/sites/default/assets/asset/documents/come-orientarsi-guida-per-le-strutture-ricettive-e-locazioni-turistiche-brevi-29-10-25.pdf
+    retrieved: 2026-10-25
+    sha256: f28db27902f04a2ada3ec484cd60c2b8ce2358f79240e90731320fceddd78d42
+    official: true
+    notes: Anteriore alla modifica del c. 595 in vigore dal 1° gennaio 2026 (parla ancora di quattro unità).
+  - id: dl-50-art4
+    label: D.L. 24 aprile 2017, n. 50, art. 4 (Normattiva, testo in vigore dal 12/08/2026 al 31/12/2026)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2017-04-24;50~art4
+    retrieved: 2026-10-25
+    official: true
+    notes: Il link apre la versione in vigore dal 1° gennaio 2027 (commi abrogati dal D.Lgs. 117/2026); il testo citato è la versione precedente, dall'elenco degli aggiornamenti.
+  - id: l178-c595
+    label: L. 30 dicembre 2020, n. 178, art. 1, c. 595 (Normattiva, testo in vigore dal 1° gennaio 2026)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2020-12-30;178~art1-com595
+    retrieved: 2026-10-25
+    official: true
+    notes: Confrontate le versioni in vigore dal 31/12/2025 (quattro appartamenti, dal 2021), dal 1/1/2026 e dall'8/8/2026 (due appartamenti, dal 2026) e dal 1/1/2027 (comma abrogato dal D.Lgs. 117/2026).
+  - id: dlgs-117-2026
+    label: D.Lgs. 19 giugno 2026, n. 117 – Testo unico delle imposte sui redditi, artt. 207, 208 e 377 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-06-19;117
+    retrieved: 2026-10-25
+    official: true
+  - id: dl-145-art13ter
+    label: D.L. 18 ottobre 2023, n. 145, art. 13-ter (Normattiva, testo in vigore dal 1-1-2025)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2023-10-18;145~art13ter
+    retrieved: 2026-10-25
+    official: true
+  - id: questura-napoli
+    label: Questura di Napoli – Alloggiati Web, richiesta credenziali
+    url: https://questure.poliziadistato.it/it/Napoli/articolo/8865cd3ef6f68f1c082829213
+    retrieved: 2026-10-25
+    page_updated: 2026-04-23
+    official: true
+  - id: alloggiati-portale
+    label: Polizia di Stato – Portale Alloggiati Web (home page)
+    url: https://alloggiatiweb.poliziadistato.it/PortaleAlloggiati/
+    retrieved: 2026-10-25
+    official: true
+  - id: modulo-alloggiati
+    label: Questura di Napoli – Modulo editabile richiesta credenziali Alloggiati Web
+    url: https://questure.poliziadistato.it/statics/35/modulo-editabile-credenziali-alloggiatiweb---new-.pdf?lang=it
+    retrieved: 2026-10-25
+    sha256: d05a415bac4c2a7f052770e155ac96569f97c89ca6f5d6f47484ec18f55e018b
+    official: true
+    notes: Modulo AcroForm; nessuna categoria chiamata locazione breve.
+  - id: geis-iscrizione
+    label: Iscrizione a GEIS Portal per nuovo gestore – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/imposta-di-soggiorno/iscrizione-a-geis-portal-per-nuovo-gestore/
+    retrieved: 2026-10-25
+    page_updated: 2025-11-11
+    official: true
+  - id: tari-regolamento
+    label: Regolamento TARI, allegato alla delibera C.C. n. 37 del 19 giugno 2023 (artt. 4 e 14, c. 8)
+    url: https://www.comune.napoli.it/flex/files/1/c/7/D.007ae011f89c784022b3/DELIBERA_DI_C.C._N._37_DEL_19_GIUGNO_2023.pdf
+    retrieved: 2026-10-25
+    sha256: 15c491cd7e69bada6fbed48c345c72177cb147bb95cded0314b6cca75635ea6f
+    official: true
+    notes: Modifiche successive al 2023 non controllate.
+  - id: variante-pagina
+    label: Comune di Napoli – Variante per la salvaguardia dell'offerta abitativa nel centro storico
+    url: https://www.comune.napoli.it/articolo_tematico/urbana-urbanistica-napoli/puc/variante-per-la-salvaguardia-dellofferta-abitativa-nel-centro-storico/
+    retrieved: 2026-10-25
+    page_updated: 2026-10-07
+    official: true
+  - id: variante-dcc-129
+    label: >-
+      Deliberazione C.C. n. 129 del 15/9/2026 – approvazione della variante (PDF con la proposta
+      di Giunta n. 374/2026 e il testo degli artt. 21 e 63)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/10/delib.-Cc-n.-129-2026-approvazione-variante-offerta-abitativa-centro-storico.pdf
+    retrieved: 2026-10-25
+    sha256: c9e44e5e0fb5fde0cc21c2b8148e8d5cb9b4442b363417135d9f1cf86e7dac4b
+    official: true
+    notes: Efficace dal giorno dopo la pubblicazione sul BURC (non verificata).
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: letti le indicazioni operative del SUAP di Napoli (versione 2024 e revisione 2 del maggio
+    2026), l'avviso SUAP del 20/05/2026, la pagina del Comune sulle locazioni brevi, la pagina
+    contatti SUAP, la pagina dei diritti SUAP, la tabella diritti 2026 (S209-S210) e il testo OCR
+    della DGC 239/2026, la pagina dell'elenco CUSR, la pagina di iscrizione a GEIS; la guida
+    regionale del 29/10/2025; su Normattiva l'art. 4 D.L. 50/2017, l'art. 1 c. 595 L. 178/2020
+    (versioni dal 2025 al 2027), gli artt. 207, 208 e 377 del Testo unico del D.Lgs. 117/2026 e
+    l'art. 13-ter D.L. 145/2023; la pagina della Questura di Napoli, la home di Alloggiati Web e il
+    modulo credenziali; l'art. 14 del Regolamento TARI; la pagina della variante del centro storico e
+    il testo della DCC 129/2026.
+  notes: >-
+    Non letti il testo della L.R. 16/2019 come modificata dalla L.R. 11/2023 né le DGR 64/2021 e
+    552/2023: gli obblighi regionali vengono dalla guida regionale. Non verificati il modulo e il
+    percorso della Comunicazione su impresainungiorno, la pubblicazione della variante sul BURC e
+    quale legge ha modificato il c. 595 dal 2026.

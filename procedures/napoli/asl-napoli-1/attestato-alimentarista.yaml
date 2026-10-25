@@ -1,0 +1,344 @@
+schema_version: 0
+id: napoli/asl-napoli-1/attestato-alimentarista
+title: Attestato di formazione per alimentaristi (ex libretto sanitario) – ASL Napoli 1 Centro e Regione Campania
+summary: >-
+  In Campania il libretto sanitario per chi lavora con gli alimenti è stato sostituito da un
+  corso di formazione in igiene alimentare con esame finale, al termine del quale si riceve un
+  attestato valido tre anni. Riguarda il titolare e tutto il personale di bar, ristoranti,
+  negozi e laboratori alimentari che entra in contatto con gli alimenti, anche familiari e
+  collaboratori occasionali. I corsi li organizzano l'ASL Napoli 1 Centro (UO di Prevenzione
+  Collettiva del distretto) e le agenzie formative autorizzate dalla Regione.
+ente:
+  name: ASL Napoli 1 Centro
+  office: >-
+    Dipartimento di Prevenzione – UOSD Prevenzione Collettiva del distretto sanitario (corsi e
+    prenotazioni) e UOC Igiene degli Alimenti e Nutrizione (SIAN)
+applies_to:
+  events: [open, hire, inspection]
+  audience: [business]
+  sectors:
+    - bar e ristorazione
+    - commercio di alimenti (anche sfusi e ortofrutta)
+    - laboratori di produzione alimentare (pane, pizza, pasticceria, gelateria, gastronomia, pasta fresca…)
+    - lavorazione e vendita di carni, pesce, latte e formaggi
+    - mense e somministrazione pasti in strutture scolastiche e socio-assistenziali
+  conditions:
+    - text: >-
+        Devono formarsi gli operatori del settore alimentare e il personale a contatto, diretto
+        o indiretto, anche temporaneamente, con gli alimenti (produzione, manipolazione,
+        somministrazione, confezionamento, deposito, trasporto, vendita). Sono compresi il
+        conduttore dell'esercizio, i collaboratori familiari e chiunque vi lavori anche gratis,
+        in modo temporaneo o sporadico.
+      status: verified
+      source: surap-faq
+    - text: >-
+        Non devono formarsi gli addetti che svolgono stabilmente ed esclusivamente mansioni senza
+        alcun contatto, neppure sporadico, con gli alimenti.
+      status: verified
+      source: surap-faq
+    - text: >-
+        La formazione è distinta in tre categorie: responsabili di industrie alimentari, addetti
+        di livello di rischio 1 (per esempio baristi, fornai, addetti alla produzione di pizze,
+        alla vendita di alimenti sfusi e ortofrutta, al porzionamento pasti in mense) e addetti
+        di livello di rischio 2 (per esempio cuochi, pasticceri, gelatieri, addetti
+        gastronomia, pasta fresca, latte e formaggi, carni, pesce e molluschi).
+      status: verified
+      source: disciplinare
+    - text: >-
+        Chi lavora come addetto alla ristorazione per diete speciali ha un corso a parte: la
+        richiesta va fatta al SIAN, in via Padula n. 2 (Colonia Geremicca) o via fax al
+        081 2549770, indicando nome, cognome, indirizzo e telefono; il SIAN comunica data e sede.
+      status: verified
+      source: asl-libretto
+legal_basis:
+  - text: >-
+      Reg. CE 852/2004, allegato II, cap. XII: l'operatore del settore alimentare deve assicurare
+      che gli addetti alla manipolazione degli alimenti siano controllati e/o abbiano ricevuto
+      addestramento e/o formazione in materia d'igiene alimentare, in relazione al tipo di
+      attività.
+    status: verified
+    source: cds-7346
+  - text: >-
+      Regione Campania, Decreto Dirigenziale n. 76 del 17/04/2018 "Percorso formativo per
+      alimentaristi" (FAD ammessa, esame finale in presenza davanti a una commissione,
+      riconoscimento degli attestati di enti accreditati in altre Regioni con esame in presenza).
+    status: verified
+    source: dd76
+  - text: >-
+      Regione Campania, Decreto Dirigenziale n. 110 del 24/05/2018: rettifica il DD 76/2018,
+      annulla il disciplinare e gli allegati di quel decreto e approva il disciplinare e il
+      format dell'attestato oggi in vigore.
+    status: verified
+    source: dd110
+  - text: >-
+      Consiglio di Stato, Sez. III, sentenza n. 7346/2020 (decisa il 29 ottobre 2020): annulla in
+      parte il DD 76/2018, nella parte in cui subordina l'efficacia degli attestati ottenuti con
+      corsi e-learning di enti accreditati da altre Regioni a un esame in presenza in Campania.
+    status: verified
+    source: cds-7346
+  - text: >-
+      D.Lgs. 193/2007, art. 6, comma 7: sanzione per chi non elimina entro il termine fissato
+      dall'autorità le inadeguatezze riscontrate nei requisiti o nelle procedure di igiene.
+    status: verified
+    source: dlgs193-art6
+deadline:
+  rules:
+    - text: >-
+        L'attestato ha validità triennale. Alla scadenza dei tre anni serve un corso di
+        aggiornamento, che rilascia un nuovo attestato anch'esso valido tre anni.
+      status: verified
+      source: asl-libretto
+    - text: >-
+        L'aggiornamento è obbligatorio ogni tre anni e ogni volta che lo richiede lo svolgimento
+        di mansioni diverse (per esempio passaggio da addetto a responsabile o da rischio 1 a
+        rischio 2).
+      status: verified
+      source: disciplinare
+    - text: >-
+        Le fonti consultate non fissano un termine entro cui un nuovo assunto deve ottenere
+        l'attestato; in caso di controllo senza attestato si applica la prescrizione a 60 giorni
+        (vedi sotto).
+      status: unverified
+  lateness:
+    text: >-
+      Se al controllo manca l'attestato di formazione o di aggiornamento, l'ASL impartisce una
+      prescrizione a 60 giorni (cap. 6, sez. C della DGRC n. 623 del 15/12/2014). Se la
+      prescrizione non viene rispettata, si contesta l'illecito amministrativo dell'art. 6,
+      comma 7, del D.Lgs. 193/2007, che prevede "la sanzione amministrativa pecuniaria da euro
+      1.000 a euro 6.000". L'importo concreto lo stabilisce l'autorità che accerta: chiederlo
+      all'ufficio, non stimarlo.
+    status: verified
+    source: disciplinare
+channels:
+  - type: desk
+    name: UOSD Prevenzione Collettiva del distretto sanitario di appartenenza (ASL Napoli 1 Centro)
+    url: https://www.aslnapoli1centro.it/area-di-coordinamento-igienistica
+    receipt: informal
+    preferred: true
+    source: asl-libretto
+    notes: >-
+      Le prenotazioni dei corsi ASL si fanno qui, con il modello di domanda e la ricevuta del
+      versamento. Le UOSD sono cinque (distretti 24-31-73, 25-26, 27-29, 28-30, 32-33): indirizzo,
+      orari, telefono e PEC sono nella pagina di ciascuna, raggiungibile dalla pagina dell'Area
+      di Coordinamento Igienistica. La pagina ASL non pubblica il modello di domanda.
+  - type: desk
+    name: Agenzie formative autorizzate dalla Regione Campania per la formazione degli alimentaristi
+    url: https://personalessr.regione.campania.it/formazione-alimentaristi/index
+    receipt: informal
+    source: disciplinare
+    notes: >-
+      Agenzie accreditate nell'elenco regionale (DGR 242/2013) e registrate ai sensi della DGR
+      318/2015. Il disciplinare prevede che la UOD 10 – Personale del SSR pubblichi e aggiorni
+      almeno ogni tre mesi l'elenco degli enti autorizzati; nelle pagine regionali consultate
+      l'elenco non era pubblicato.
+documents:
+  - name: Modello di domanda di iscrizione al corso (corsi ASL)
+    required: true
+    notes: Si ritira o si chiede alla UOSD Prevenzione Collettiva del distretto; non è pubblicato online.
+  - name: Ricevuta del versamento della quota del corso (corsi ASL)
+    required: true
+  - name: Fotocopia dell'attestato già posseduto
+    required: false
+    notes: Solo per il corso di aggiornamento.
+  - name: Documento di riconoscimento in corso di validità
+    required: false
+    notes: >-
+      Il disciplinare lo richiede all'esame in presenza dopo un corso FAD; probabilmente
+      serve comunque all'esame, ma non è scritto per i corsi in aula.
+steps:
+  - do: >-
+      Elencare tutte le persone che lavorano nell'attività (titolare, dipendenti, familiari,
+      collaboratori occasionali) e segnare chi entra in contatto con gli alimenti
+    who: owner
+  - do: >-
+      Per ciascuna stabilire la categoria (responsabile, rischio 1, rischio 2) secondo la
+      mansione; nei casi dubbi chiedere all'ente che organizza il corso o alla UOSD del distretto
+    who: anyone
+  - do: >-
+      Scegliere il corso: ASL (UOSD Prevenzione Collettiva del distretto) oppure un'agenzia
+      formativa autorizzata dalla Regione; per chi ha già l'attestato, il corso di aggiornamento
+    who: owner
+  - do: Per i corsi ASL, compilare il modello di domanda ottenuto dalla UOSD del distretto
+    who: anyone
+  - do: Pagare la quota del corso secondo le istruzioni dell'ente
+    who: owner
+    human_only: true
+  - do: >-
+      Presentare alla UOSD (o all'agenzia) domanda, ricevuta del versamento e, per
+      l'aggiornamento, la fotocopia dell'attestato posseduto
+    who: owner
+    human_only: true
+  - do: Frequentare il corso (in aula o, presso le agenzie che lo offrono, in FAD)
+    who: owner
+    human_only: true
+  - do: >-
+      Sostenere in presenza la verifica finale davanti alla commissione presieduta dal SIAN
+      (test di 20 domande a risposta multipla, superato con almeno 15 risposte esatte)
+    who: owner
+    human_only: true
+  - do: >-
+      Conservare nel locale una copia dell'attestato di ogni addetto e annotare la data di
+      scadenza (tre anni dal rilascio) per prenotare per tempo l'aggiornamento
+    who: owner
+  - do: >-
+      A ogni nuova assunzione o cambio di mansione, controllare che la persona abbia un
+      attestato valido e della categoria giusta, altrimenti iscriverla a un corso
+    who: owner
+  - do: >-
+      Durante un sopralluogo ASL, mostrare gli attestati; se viene impartita una prescrizione,
+      rispettare il termine indicato nel verbale
+    who: owner
+    human_only: true
+after:
+  - Tenere un elenco degli addetti con categoria, numero e data dell'attestato e data di scadenza.
+  - >-
+    Tenere gli attestati con il piano di autocontrollo (HACCP): all'apertura il sopralluogo ASL
+    controlla anche questi documenti (vedi la procedura di registrazione dell'attività alimentare).
+  - Prenotare l'aggiornamento prima della scadenza triennale.
+pitfalls:
+  - text: >-
+      Durata minima dei corsi secondo il disciplinare regionale: 4 ore per il rischio 1, 8 ore
+      per il rischio 2, 12 ore per i responsabili; aggiornamento minimo di 3 ore per gli
+      addetti di rischio 1 e 2 e di 6 ore per i responsabili.
+    status: verified
+    source: disciplinare
+  - text: >-
+      Corsi dell'ASL Napoli 1 Centro: 4 ore per il rischio 1, 8 per il rischio 2, 12 per i
+      responsabili, con versamento di euro 33,33, euro 66,66 ed euro 99,99 (tariffario
+      regionale). Aggiornamento ASL: 4 ore per rischio 1 e 2 (euro 33,33) e 6 ore per i
+      responsabili (euro 66,66). La pagina parla di "versamento di conto corrente" senza
+      indicare il conto né se si paga con pagoPA: chiedere alla UOSD come pagare.
+    status: verified
+    source: asl-libretto
+  - text: >-
+      Le categorie di rischio sono descritte in modo diverso. La pagina dell'ASL Napoli 1 Centro
+      dice che il rischio 1 riguarda gli addetti "che non manipolano gli alimenti" (es.
+      camerieri) e il rischio 2 quelli che li manipolano (es. cuochi). Il disciplinare regionale
+      del DD 110/2018 mette invece nel rischio 1 anche baristi, fornai, addetti alla produzione
+      di pizze e alla vendita di alimenti sfusi, che gli alimenti li manipolano. Per mansioni
+      come pizzaiolo, fornaio o banconiere, chiedere all'ente quale corso vale.
+    status: disputed
+    source: disciplinare
+  - text: >-
+      Il disciplinare regionale (punto H) impone la verifica finale in presenza anche dopo i
+      corsi FAD e, per gli attestati ottenuti con prova finale non in aula, un test presso
+      un'agenzia formativa o l'ASL. Il Consiglio di Stato (sent. 7346/2020) ha annullato il DD
+      76/2018 nella parte in cui subordina l'efficacia degli attestati e-learning di enti
+      accreditati da altre Regioni all'esame in presenza in Campania, e ha affermato che la
+      formazione non è abilitante e può essere data anche con addestramento sul luogo di
+      lavoro. Le pagine regionali pubblicano ancora i decreti del 2018 senza menzionare la
+      sentenza: chi ha un attestato FAD di un'altra Regione dovrebbe chiedere al SIAN dell'ASL
+      se viene accettato.
+    status: disputed
+    source: cds-7346
+  - text: >-
+      La responsabilità della mancata formazione, iniziale e di aggiornamento, è del titolare
+      dell'impresa alimentare, non del singolo dipendente.
+    status: verified
+    source: disciplinare
+  - text: >-
+      L'attestato deve seguire il modello regionale (allegato A al DD 110/2018), con il codice
+      di accreditamento dell'ente, la registrazione ai sensi della DGR 318/2015, la categoria
+      (responsabile, rischio 1 o rischio 2), le ore del corso, il numero dell'attestato e la
+      firma del Presidente della commissione (Direttore del SIAN o delegato).
+    status: verified
+    source: format-attestato
+  - text: >-
+      Gli attestati ottenuti con modalità diverse da quelle del disciplinare prima della sua
+      entrata in vigore restano validi fino alla loro scadenza naturale.
+    status: verified
+    source: disciplinare
+  - text: >-
+      La pagina dell'ASL sul libretto sanitario non riporta date di pubblicazione o di
+      aggiornamento (solo "© 2021" nel piè di pagina) e non cita i decreti regionali del 2018;
+      le quote e le modalità di prenotazione vanno confermate con la UOSD del distretto.
+    status: verified
+    source: asl-libretto
+related:
+  - napoli/asl-napoli-1/registrazione-attivita-alimentare
+  - napoli/comune/scia-somministrazione-alimenti-bevande
+  - napoli/comune/scia-esercizio-vicinato
+sources:
+  - id: asl-libretto
+    label: ASL Napoli 1 Centro – Libretto sanitario alimentaristi (Area informativa, Come fare per…)
+    url: https://www.aslnapoli1centro.it/libretto-sanitario-alimentaristi
+    retrieved: 2026-10-25
+    official: true
+    notes: Pagina senza data; nessun modulo scaricabile collegato.
+  - id: asl-area-igienistica
+    label: ASL Napoli 1 Centro – Area di Coordinamento Igienistica (elenco delle UOSD Prevenzione Collettiva per distretto)
+    url: https://www.aslnapoli1centro.it/area-di-coordinamento-igienistica
+    retrieved: 2026-10-25
+    official: true
+  - id: asl-uosd-28-30
+    label: ASL Napoli 1 Centro – U.O.S.D. Prevenzione Collettiva DD.SS.BB. 28 e 30 (esempio di pagina distrettuale con contatti)
+    url: https://www.aslnapoli1centro.it/u.o.s.d.-prevenzione-collettiva-dd.ss.bb.-28-e-301
+    retrieved: 2026-10-25
+    official: true
+  - id: dd76
+    label: Regione Campania – Decreto Dirigenziale n. 76 del 17/04/2018 "Percorso formativo per alimentaristi"
+    url: https://personalessr.regione.campania.it/public/formalim/normativa/casa_di_vetro/CASA_DEdipart50dg04uod00_20180000076ver02.pdf
+    retrieved: 2026-10-25
+    sha256: 32714dae1a5617b987d7846ca8d83f8e49076a522e141103b216547930f65712
+    official: true
+    notes: Annullato in parte dal Consiglio di Stato, sent. 7346/2020.
+  - id: dd110
+    label: Regione Campania – Decreto Dirigenziale n. 110 del 24/05/2018 "Rettifica ed integrazione decreto n. 76 del 17/04/2018"
+    url: https://personalessr.regione.campania.it/public/formalim/normativa/trasparenza/TRASP_DEdipart50dg04uod00_20180000110ver02.pdf
+    retrieved: 2026-10-25
+    sha256: a7593383daa04d8dc9f886e979561bcea78f824bc72328b599cc2ae8bfbecdfb
+    official: true
+  - id: disciplinare
+    label: Regione Campania – Disciplinare "Formazione dell'alimentarista" (allegato 1 al DD 110/2018)
+    url: https://personalessr.regione.campania.it/public/formalim/normativa/trasparenza/PD20180010973_006744510.pdf
+    retrieved: 2026-10-25
+    sha256: 79957dfbbfca10e3dd63e99e4df54ea654c01ba4487c1c4f6df4f6fc1eafa384
+    official: true
+  - id: format-attestato
+    label: Regione Campania – Format dell'attestato di formazione/aggiornamento (allegato A al DD 110/2018)
+    url: https://personalessr.regione.campania.it/public/formalim/normativa/trasparenza/PD20180010973_006744511.pdf
+    retrieved: 2026-10-25
+    sha256: f13ac8d63f53a747ba7ab51bf14f67ebf8553a68424812a6f16fcf0e7acf0777
+    official: true
+    notes: Modello compilato dall'ente formatore, non dall'impresa; per questo non è mappato.
+  - id: pssr-avvisi
+    label: Regione Campania, portale Personale SSR – Formazione per alimentaristi, Avvisi
+    url: https://personalessr.regione.campania.it/formazione-alimentaristi/index
+    retrieved: 2026-10-25
+    official: true
+    notes: >-
+      Ultimo avviso del 24/05/2018; pagine "Normativa di riferimento" e "Modulistica" (solo
+      verbali d'esame per gli enti). Nessun elenco degli enti autorizzati e nessuna menzione
+      della sentenza del Consiglio di Stato.
+  - id: surap-faq
+    label: SURAP Regione Campania – Come fare per – Attestato di alimentarista
+    url: https://surap.regione.campania.it/index.php/faq/71-avvio-ed-esercizio-di-una-attivita/0informazioni-generiche/96-attestato-di-alimentarista.html
+    retrieved: 2026-10-25
+    official: true
+  - id: cds-7346
+    label: Consiglio di Stato, Sez. III, sentenza n. 7346/2020 (ricorso n. 901/2020, riforma TAR Campania n. 3354/2019)
+    url: https://www.giustizia-amministrativa.it/portale/pages/istituzionale/visualizza?nodeRef=&schema=cds&nrg=202000901&nomeFile=202007346_11.html&subDir=Provvedimenti
+    retrieved: 2026-10-25
+    official: true
+  - id: dlgs193-art6
+    label: D.Lgs. 6 novembre 2007, n. 193, art. 6 (Sanzioni) – Normattiva, testo vigente
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2007-11-06;193~art6!vig=
+    retrieved: 2026-10-25
+    official: true
+    notes: Comma 7 in vigore dal 6/2/2008; Normattiva non segnala abrogazioni dell'articolo.
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: letti la pagina dell'ASL Napoli 1 Centro sul libretto sanitario alimentaristi, le
+    pagine dell'Area igienistica e della UOSD Prevenzione Collettiva 28-30, il DD regionale
+    76/2018, il DD 110/2018 con disciplinare e format dell'attestato (PDF dal portale Personale
+    SSR della Regione), le pagine Avvisi, Normativa e Modulistica di quel portale, la FAQ del
+    SURAP sull'attestato di alimentarista, la sentenza del Consiglio di Stato n. 7346/2020 e
+    l'art. 6 del D.Lgs. 193/2007 su Normattiva.
+  notes: >-
+    Non aperti: DGRC 623/2014 (prescrizione a 60 giorni, citata dal disciplinare), DGR 318/2015,
+    DGR 242/2013, il tariffario regionale dei Dipartimenti di Prevenzione e il testo del Reg.
+    CE 852/2004 su EUR-Lex. Non trovato l'elenco regionale degli enti autorizzati. Il modello di
+    domanda dell'ASL non è pubblicato, quindi nessun modulo è mappato.

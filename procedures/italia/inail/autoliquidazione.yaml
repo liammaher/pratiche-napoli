@@ -1,0 +1,437 @@
+schema_version: 0
+id: italia/inail/autoliquidazione
+title: INAIL – autoliquidazione annuale del premio (artigiani e datori di lavoro)
+summary: >-
+  Ogni anno chi è assicurato all'INAIL come impresa (artigiano, anche senza dipendenti, o datore
+  di lavoro) calcola da solo il premio, cioè la rata anticipata per l'anno in corso più il
+  conguaglio (regolazione) dell'anno precedente, e lo paga con F24 entro il 16 febbraio, in
+  un'unica soluzione o in quattro rate. Entro fine febbraio (2 marzo nel 2026) invia online la
+  dichiarazione delle retribuzioni, con cui sceglie anche le rate e chiede la riduzione per gli
+  artigiani. Le regole sono nazionali: a Napoli non risultano regole locali diverse.
+ente:
+  name: INAIL – Istituto nazionale per l'assicurazione contro gli infortuni sul lavoro
+  office: >-
+    Sede INAIL competente per territorio (il suo codice di cinque cifre va nell'F24 ed è indicato
+    su inail.it, Uffici territoriali)
+applies_to:
+  events: [annual, hire, open]
+  audience: [business]
+  sectors:
+    - artigianato
+    - industria
+    - terziario e altre attività con dipendenti
+  conditions:
+    - text: >-
+        Datori di lavoro soggetti all'assicurazione obbligatoria contro gli infortuni sul lavoro e
+        le malattie professionali: pagano ogni anno il premio in autoliquidazione. Sono esclusi i
+        "premi speciali unitari" di alcune categorie (per esempio studenti, frantoi, pescatori,
+        facchini).
+      status: verified
+      source: inail-con-dipendenti
+    - text: >-
+        Artigiani senza dipendenti soggetti all'assicurazione obbligatoria: pagano ogni anno il
+        premio speciale unitario comunicato dall'INAIL, sempre in autoliquidazione.
+      status: verified
+      source: inail-artigiani
+    - text: >-
+        Sono assicurati, tra gli altri, gli artigiani che prestano abitualmente opera manuale
+        nelle rispettive imprese (art. 4, n. 3, DPR 1124/1965), oltre ai lavoratori dipendenti, agli
+        apprendisti e ai familiari che lavorano con il datore di lavoro.
+      status: verified
+      source: dpr-1124-art4
+    - text: >-
+        Un'impresa individuale commerciale (non artigiana) senza dipendenti né collaboratori
+        normalmente non ha una posizione INAIL e quindi non fa l'autoliquidazione. Nessuna pagina
+        INAIL letta lo dice in modo esplicito: verificarlo con la sede INAIL.
+      status: unverified
+    - text: >-
+        Le imprese artigiane senza dipendenti (o con soli apprendisti) l'anno precedente non sono
+        tenute alla dichiarazione delle retribuzioni, salvo che vogliano scegliere (o revocare) il
+        pagamento in quattro rate; la riduzione artigiani si chiede anch'essa solo con la
+        dichiarazione.
+      status: verified
+      source: inail-dichiarazione-artigiani
+legal_basis:
+  - text: >-
+      Art. 28 del DPR 1124/1965 (premio anticipato sulle retribuzioni presunte, regolazione sulle
+      retribuzioni effettive, comunicazione motivata di riduzione del presunto).
+    status: verified
+    source: dpr-1124-art28
+  - text: >-
+      Termine della dichiarazione delle retribuzioni al 28 febbraio (29 negli anni bisestili):
+      d.m. 9 febbraio 2015; slittamento al primo giorno lavorativo se cade di sabato o festivo.
+    status: verified
+    source: guida-2025-2026
+  - text: >-
+      Pagamento in quattro rate: art. 59, c. 19, legge 449/1997, modificato dall'art. 55, c. 5,
+      legge 144/1999. Riduzione per le imprese artigiane: art. 1, cc. 780-781, legge 296/2006.
+    status: verified
+    source: istruzioni-2025-2026
+deadline:
+  rules:
+    - text: >-
+        Entro il 16 febbraio: calcolare la rata anticipata dell'anno in corso e la regolazione
+        dell'anno precedente, sommarle e pagare con F24 (o F24 EP per gli enti pubblici). Se il
+        termine cade di sabato o festivo, si può pagare il primo giorno lavorativo successivo.
+      status: verified
+      source: guida-2025-2026
+    - text: >-
+        Autoliquidazione 2025/2026: pagamento in unica soluzione o prima rata entro il 16 febbraio
+        2026; dichiarazione delle retribuzioni corrisposte nel 2025 entro il 2 marzo 2026 (il 28
+        febbraio 2026 era sabato). Contributi associativi in unica soluzione entro il 16 febbraio
+        2026.
+      status: verified
+      source: istruzioni-2025-2026
+    - text: >-
+        Riduzione delle retribuzioni presunte: chi prevede di pagare nell'anno retribuzioni minori
+        di quelle dell'anno precedente (per esempio per riduzione o cessazione dell'attività) deve
+        mandare la comunicazione motivata con il servizio "Riduzione presunto" entro il 16
+        febbraio (16 febbraio 2026 per il 2026).
+      status: verified
+      source: istruzioni-2025-2026
+    - text: >-
+        Autoliquidazione 2026/2027: applicando le stesse regole, pagamento entro martedì 16
+        febbraio 2027 e dichiarazione entro lunedì 1° marzo 2027 (il 28 febbraio 2027 è domenica).
+        Date calcolate: l'INAIL non le aveva ancora pubblicate al 25 ottobre 2026. Controllare la
+        guida 2026/2027 quando esce (di solito a dicembre/gennaio).
+      status: unverified
+    - text: >-
+        Ditte che cessano: la dichiarazione delle retribuzioni va inviata entro il giorno 16 del
+        secondo mese successivo alla cessazione, con il servizio "Autoliquidazione ditte cessate".
+        Un artigiano che cessa l'attività deve comunicarlo entro 30 giorni.
+      status: verified
+      source: guida-2025-2026
+  lateness:
+    text: >-
+      Dichiarazione delle retribuzioni mancata o tardiva: sanzione amministrativa da 125,00 a
+      770,00 euro (art. 195 DPR 1124/1965) se non ha portato a un premio inferiore al dovuto;
+      altrimenti sul premio richiesto sono dovute le sanzioni civili (art. 116 legge 388/2000;
+      regola per il pagamento tardivo nelle avvertenze). Non stimare gli importi: farli calcolare
+      alla sede INAIL.
+    status: verified
+    source: guida-2025-2026
+channels:
+  - type: portal
+    name: Servizi online INAIL – AL.P.I. online, Visualizza/Richiesta basi di calcolo, Riduzione presunto, Fascicolo aziende
+    url: https://www.inail.it/portale/it/servizi-online/servizi.html
+    auth: [spid, cie, cns]
+    receipt: informal
+    preferred: true
+    source: accesso-spid-cie-cns
+    notes: >-
+      La dichiarazione delle retribuzioni si presenta solo online (AL.P.I. online, o "Invio
+      telematico dichiarazione salari" per più codici ditta); la ricevuta con la copia della
+      dichiarazione arriva per email. I servizi sono riservati alle imprese e ai loro
+      intermediari (per esempio consulenti del lavoro). Dal 1° ottobre 2021 si accede solo con
+      SPID, CIE o CNS.
+  - type: phone
+    name: Contact center INAIL
+    address: "06.6001"
+    hours: lunedì–venerdì 9:00–18:00 (orario indicato in un avviso del 2020)
+    source: accesso-spid-cie-cns
+payment:
+  method: f24
+  codici_tributo:
+    - "902026 (numero di riferimento dell'autoliquidazione 2025/2026, sezione INAIL dell'F24)"
+    - "causale P"
+  rateazione: >-
+    In quattro rate trimestrali, ognuna pari al 25% del premio annuale, scegliendolo nella
+    dichiarazione delle retribuzioni. Sulle rate dalla seconda in poi si pagano gli interessi al
+    tasso medio dei titoli di Stato dell'anno precedente (2,75% per il 2025): l'INAIL pubblica i
+    coefficienti e AL.P.I. online calcola gli importi di ogni rata.
+  calculator_url: https://www.inail.it/portale/it/servizi-online/servizi.html
+  schedule:
+    - { label: Autoliquidazione 2025/2026 – unica soluzione o rata 1, due: 2026-02-16, source: coefficienti-2026, status: verified }
+    - { label: "Autoliquidazione 2025/2026 – rata 2 (16 maggio era sabato: slitta al lunedì)", due: 2026-05-18, source: coefficienti-2026, status: verified }
+    - { label: "Autoliquidazione 2025/2026 – rata 3 (16 agosto, differita al 20)", due: 2026-08-20, source: coefficienti-2026, status: verified }
+    - { label: Autoliquidazione 2025/2026 – rata 4, due: 2026-11-16, source: coefficienti-2026, status: verified }
+    - { label: "Autoliquidazione 2026/2027 – unica soluzione o rata 1 (data calcolata)", due: 2027-02-16, status: unverified }
+  notes:
+    - text: >-
+        F24 nella sezione "Altri enti previdenziali ed assicurativi – INAIL": codice sede (cinque
+        cifre), codice ditta, codice di controllo (C.C.), numero di riferimento (902026 per
+        l'autoliquidazione 2025/2026), causale "P" e importo. I contributi associativi vanno su
+        righe separate, con il "codice per F24" indicato nelle basi di calcolo.
+      status: verified
+      source: guida-2025-2026
+    - text: >-
+        Il numero di riferimento cambia ogni anno (902026 vale solo per il 2025/2026): per il
+        2026/2027 prenderlo dalla nuova guida o dalle basi di calcolo.
+      status: unverified
+    - text: >-
+        I titolari di partita IVA devono pagare l'F24 solo in via telematica (anche tramite
+        intermediari).
+      status: verified
+      source: guida-2025-2026
+    - text: >-
+        Arrotondamento: al centesimo (superiore se la terza cifra decimale è 5 o più, inferiore se
+        è minore di 5); è ammesso anche arrotondare l'importo finale all'euro (superiore se i
+        centesimi sono più di 49, inferiore se sono meno di 50).
+      status: verified
+      source: guida-2025-2026
+    - text: >-
+        Il saldo a credito va usato prima per eventuali debiti INAIL non iscritti a ruolo; il resto
+        si può compensare in F24 anche con importi dovuti ad altre amministrazioni. Prima di
+        compensare va verificata l'esistenza del credito presso la sede INAIL. Con l'F24 EP non si
+        compensa.
+      status: verified
+      source: guida-2025-2026
+    - text: >-
+        Agli artigiani autonomi senza dipendenti il servizio "Visualizza basi di calcolo" fornisce
+        l'F24 già compilato con i soli premi speciali unitari, da pagare in unica soluzione.
+      status: verified
+      source: guida-2025-2026
+documents:
+  - name: Basi di calcolo del premio (Fascicolo aziende – "Comunicazione basi di calcolo")
+    required: true
+    notes: >-
+      L'INAIL le mette a disposizione online entro fine anno, per ogni codice ditta, con
+      istruzioni, scadenze e prospetto dei dati per calcolare regolazione, rata e contributi
+      associativi.
+  - name: Totale delle retribuzioni effettivamente pagate nell'anno precedente, per voce di tariffa
+    required: false
+    notes: Solo per chi ha dipendenti o collaboratori (dati di solito preparati dal consulente del lavoro).
+  - name: Retribuzioni presunte per l'anno in corso, se più basse dell'anno precedente
+    required: false
+    notes: Servono per la comunicazione "Riduzione presunto" entro il 16 febbraio.
+steps:
+  - do: >-
+      Solo per una nuova impresa: presentare la denuncia di iscrizione all'INAIL all'inizio
+      dell'attività, dentro la pratica di Comunicazione unica al Registro imprese (con
+      dipendenti, se non è possibile subito, entro i cinque giorni successivi all'inizio dei
+      lavori). Entro 30 giorni l'INAIL rilascia il certificato di assicurazione con codice ditta,
+      PAT, elementi di calcolo, premio e scadenza (con il facsimile dell'F24).
+    who: professional
+  - do: Inviare la pratica di Comunicazione unica (firma digitale del titolare o dell'intermediario delegato)
+    who: owner
+    human_only: true
+  - do: >-
+      A fine dicembre o inizio gennaio scaricare le basi di calcolo dal Fascicolo aziende o con
+      "Visualizza basi di calcolo" (accesso del titolare o dell'intermediario con SPID, CIE o CNS)
+    who: owner
+  - do: >-
+      Se nell'anno si pagheranno retribuzioni più basse dell'anno precedente, preparare la
+      comunicazione motivata "Riduzione presunto" con le retribuzioni previste per voce di
+      tariffa
+    who: professional
+  - { do: Inviare la comunicazione "Riduzione presunto" entro il 16 febbraio, who: owner, human_only: true }
+  - do: >-
+      Calcolare il premio (rata anticipata dell'anno in corso più regolazione dell'anno
+      precedente, meno le riduzioni spettanti) e decidere se pagare in un'unica soluzione o in
+      quattro rate. AL.P.I. online fa il calcolo; gli artigiani senza dipendenti trovano l'F24
+      già compilato per l'unica soluzione.
+    who: anyone
+  - { do: Pagare l'F24 (unica soluzione o prima rata del 25%) entro il 16 febbraio, who: owner, human_only: true }
+  - do: >-
+      Compilare la dichiarazione delle retribuzioni in AL.P.I. online: retribuzioni dell'anno
+      precedente, scelta sì/no del pagamento in quattro rate, e, se si hanno i requisiti, la
+      casella "Certifico di essere in possesso dei requisiti ex lege 296/2006, art. 1, commi 780
+      e 781" per la riduzione artigiani dell'anno dopo
+    who: professional
+  - do: >-
+      Inviare la dichiarazione entro il 28 febbraio (2 marzo nel 2026). Obbligatoria per chi ha
+      pagato retribuzioni; un artigiano senza dipendenti la invia solo per le quattro rate o per
+      chiedere la riduzione.
+    who: owner
+    human_only: true
+  - do: Pagare la seconda, terza e quarta rata con gli interessi (importi calcolati da AL.P.I. online)
+    who: owner
+    human_only: true
+after:
+  - Conservare le quietanze F24 e la ricevuta email della dichiarazione delle retribuzioni.
+  - Annotare codice ditta, PAT e codice sede, che servono in ogni F24 INAIL.
+  - >-
+    Se si assumono dipendenti durante l'anno, le loro retribuzioni entreranno nella
+    dichiarazione dell'anno successivo; se cambiano lavorazioni o sedi, verificare con il
+    consulente o la sede INAIL quale denuncia di variazione presentare.
+  - >-
+    Diverse riduzioni (per esempio quella per prevenzione OT23) richiedono la regolarità
+    contributiva e assicurativa verificata con il DURC online: pagare per tempo.
+pitfalls:
+  - text: >-
+      Pagamento mancato o tardivo di premi rilevabili dalle denunce: l'art. 116, c. 8, lett. a),
+      legge 388/2000 prevede una sanzione civile "in ragione d'anno" pari al tasso ufficiale di
+      riferimento maggiorato di 5,5 punti, con un tetto del 40% dei premi non pagati entro la
+      scadenza; la maggiorazione non si applica se si paga spontaneamente, in unica soluzione,
+      entro 120 giorni e prima di contestazioni o richieste. In caso di evasione (lett. b) la
+      sanzione è del 30% annuo, fino al 60%. Non calcolare: chiedere l'importo alla sede INAIL.
+    status: verified
+    source: l-388-2000-art116
+  - text: >-
+      Se la dichiarazione delle retribuzioni non viene presentata, l'INAIL può accertare
+      direttamente le retribuzioni addebitando le spese, oppure liquidare il premio (regolazione
+      e rata) sul doppio delle retribuzioni presunte dell'ultimo periodo assicurativo, salvi
+      premio e sanzioni civili.
+    status: verified
+    source: dpr-1124-art28
+  - text: >-
+      Nuova impresa: la denuncia di iscrizione all'INAIL va fatta contestualmente all'inizio
+      dell'attività con la Comunicazione unica; enti non imprese, armatori e polizze speciali la
+      fanno direttamente online all'INAIL. La denuncia mancata o tardiva comporta sanzioni civili.
+    status: verified
+    source: inail-iscrizione-artigiani
+  - text: >-
+      Con dipendenti: la denuncia di iscrizione indica sedi, attività, lavorazioni e retribuzioni
+      presunte annue; se per la natura o i tempi dei lavori non si può fare all'inizio, va fatta
+      entro i cinque giorni successivi all'inizio dei lavori. Entro 30 giorni l'INAIL rilascia il
+      certificato con codice ditta, PAT, premio e scadenza.
+    status: verified
+    source: inail-iscrizione-dipendenti
+  - text: >-
+      La riduzione per le imprese artigiane (5,07% sulla regolazione 2025) spetta solo alle
+      imprese in regola con gli obblighi di salute e sicurezza del d.lgs. 81/2008, senza
+      infortuni nel biennio 2023-2024, che l'hanno chiesta barrando l'apposita casella nella
+      dichiarazione delle retribuzioni dell'anno prima (inviata entro il 28 febbraio 2025). Vale
+      solo sulla regolazione, non sulla rata. Per averla sulla regolazione 2026 andava barrata la
+      casella nella dichiarazione inviata entro il 2 marzo 2026.
+    status: verified
+    source: istruzioni-2025-2026
+  - text: >-
+      Un artigiano senza dipendenti che paga sempre in unica soluzione con l'F24 precompilato e
+      non invia mai la dichiarazione non chiede la riduzione artigiani, perché si chiede solo lì.
+    status: verified
+    source: guida-2025-2026
+  - text: >-
+      Le aziende artigiane senza dipendenti la cui rata anticipata 2025 comprendeva anche il
+      premio dipendenti, e le aziende non artigiane con soli apprendisti l'anno precedente,
+      devono indicare "zero" nel campo "Retribuzioni complessive" della dichiarazione.
+    status: verified
+    source: guida-2025-2026
+  - text: >-
+      Primo anno di attività: la rata anticipata si calcola sulle retribuzioni presunte indicate
+      nella denuncia di iscrizione (colonna "PRESUNTO" delle basi di calcolo); se manca, sulle
+      retribuzioni effettive dell'anno precedente.
+    status: verified
+    source: guida-2025-2026
+  - text: >-
+      Dal 2026 l'INAIL applica in via provvisoria le nuove aliquote "bonus" per andamento
+      infortunistico favorevole, riservandosi di chiedere i maggiori premi se il decreto
+      interministeriale previsto dal d.l. 159/2025 non arriva o cambia la proposta, o in caso di
+      condanne definitive per gravi violazioni di sicurezza negli ultimi due anni.
+    status: verified
+    source: istruzioni-2025-2026
+  - text: >-
+      Riduzione del tasso per prevenzione (modello OT23): è una domanda separata, con il servizio
+      online "Riduzione per prevenzione" entro il 28 febbraio, per interventi di sicurezza oltre
+      quelli obbligatori fatti nell'anno precedente, con documentazione probante; richiede la
+      regolarità contributiva e assicurativa (DURC).
+    status: verified
+    source: ot23-2027
+  - text: >-
+      Il testo dell'art. 28 DPR 1124/1965 su Normattiva indica ancora "entro il 20 febbraio" per
+      pagamento, dichiarazione e riduzione del presunto; l'INAIL applica il 16 febbraio
+      (pagamento e riduzione del presunto) e il 28 febbraio (dichiarazione, d.m. 9 febbraio
+      2015). Seguire le date INAIL.
+    status: verified
+    source: dpr-1124-art28
+  - text: >-
+      Le scadenze "standard" delle rate (16 maggio, 20 agosto, 16 novembre) slittano al primo
+      giorno lavorativo quando cadono di sabato o festivo: nel 2026 la seconda rata scadeva il 18
+      maggio.
+    status: verified
+    source: coefficienti-2026
+  - text: >-
+      Le pagine INAIL sulla denuncia di iscrizione (pubblicate nel 2021) parlano dello strumento
+      ComUnica; il Registro imprese ora usa DIRE per le pratiche di Comunicazione unica. Vedere la
+      procedura della Camera di commercio collegata.
+    status: unverified
+related:
+  - napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica
+  - italia/inps/iscrizione-gestione-artigiani-commercianti
+  - italia/agenzia-entrate/apertura-partita-iva-persona-fisica
+  - italia/agenzia-entrate-riscossione/rateizzazione-cartella
+sources:
+  - id: istruzioni-2025-2026
+    label: INAIL – Autoliquidazione 2025/2026. Istruzioni operative (22 dicembre 2025)
+    url: https://www.inail.it/content/dam/inail-hub-site/documenti/istruzioni-operative/2025/12/Autoliquidazione%202025-2026%20Istruzioni.pdf
+    retrieved: 2026-10-25
+    page_updated: 2025-12-22
+    sha256: b3355be5fcfe2551ca529971c2ddefc9aca0a4fa0fefe7f9d397b88dbd63cff7
+    official: true
+  - id: guida-2025-2026
+    label: INAIL – Guida all'autoliquidazione 2025/2026, premi e contributi associativi (versione dell'8.1.2026)
+    url: https://www.inail.it/content/dam/assicurazione/documenti/2025/12/Guida%20autoliquidazione%202025-2026.pdf
+    retrieved: 2026-10-25
+    page_updated: 2026-01-08
+    sha256: 292b64eaba6804dfe4e9cbd87f550e5ac4cbf3fbf27595a36f3cb56948bcec68
+    official: true
+  - id: coefficienti-2026
+    label: INAIL – Pagamento in quattro rate dell'autoliquidazione 2025-2026, tasso e coefficienti degli interessi (8 gennaio 2026)
+    url: https://www.inail.it/content/dam/assicurazione/documenti/2026/01/Autoliquidazione%202025-2026%20coefficienti%20per%20il%20calcolo%20degli%20interessi%20da%20applicare%20alle%20rate.pdf
+    retrieved: 2026-10-25
+    page_updated: 2026-01-08
+    sha256: 6e6e576272c8511baebd8eed5e709bb14f447c93769f65db6a38a85340b1c9cb
+    official: true
+  - id: inail-artigiani
+    label: INAIL – Autoliquidazione, impresa artigiana senza dipendenti
+    url: https://www.inail.it/portale/assicurazione/it/Datore-di-Lavoro/Impresa-artigiana-senza-dipendenti/pagamento-premio-assicurativo-e-regolarita-impresa-artigiana/autoliquidazione-impresa-artigiana-senza-dipendenti.html
+    retrieved: 2026-10-25
+    page_updated: 2026-01-09
+    official: true
+  - id: inail-con-dipendenti
+    label: INAIL – Autoliquidazione, impresa con dipendenti
+    url: https://www.inail.it/portale/assicurazione/it/Datore-di-Lavoro/Impresa-con-dipendenti-industria-artigianato-terziario-altre-attivita/pagamento-premio-assicurativo-e-regolarita-impresa-con-dipendenti/autoliquidazione-impresa-con-dipendenti.html
+    retrieved: 2026-10-25
+    page_updated: 2026-01-09
+    official: true
+  - id: inail-dichiarazione-artigiani
+    label: INAIL – Dichiarazione delle retribuzioni, impresa artigiana senza dipendenti
+    url: https://www.inail.it/portale/assicurazione/it/Datore-di-Lavoro/Impresa-artigiana-senza-dipendenti/pagamento-premio-assicurativo-e-regolarita-impresa-artigiana/autoliquidazione-impresa-artigiana-senza-dipendenti/dichiarazione-delle-retribuzioni-impresa-artigiana-senza-dipendenti.html
+    retrieved: 2026-10-25
+    page_updated: 2019-01-11
+    official: true
+    notes: Pagina del 2019 (cita ancora la rata 2015 e il 2016 come anno bisestile); i principi coincidono con la guida 2025/2026.
+  - id: inail-iscrizione-artigiani
+    label: INAIL – Denuncia di iscrizione, impresa artigiana senza dipendenti
+    url: https://www.inail.it/portale/assicurazione/it/Datore-di-Lavoro/Impresa-artigiana-senza-dipendenti/denunce-posizione-assicurativa-impresa-artigiana/denuncia-di-iscrizione-impresa-artigiana-senza-dipendenti.html
+    retrieved: 2026-10-25
+    page_updated: 2021-09-30
+    official: true
+  - id: inail-iscrizione-dipendenti
+    label: INAIL – Denuncia di iscrizione, impresa con dipendenti
+    url: https://www.inail.it/portale/assicurazione/it/Datore-di-Lavoro/Impresa-con-dipendenti-industria-artigianato-terziario-altre-attivita/denunce-posizione-assicurativa-impresa-con-dipendenti/denuncia-di-iscrizione-impresa-con-dipendenti.html
+    retrieved: 2026-10-25
+    page_updated: 2021-09-30
+    official: true
+  - id: accesso-spid-cie-cns
+    label: INAIL – Avviso "Identificazione e accesso ai servizi in rete/online, utilizzo esclusivo Spid, Cie, Cns" (19 ottobre 2020)
+    url: https://www.inail.it/portale/it/inail-comunica/avvisi/avviso.2020.10.identificazione-e-accesso-ai-servizi-in-rete-online-utilizzo-esclusivo-spid-cie-cns.html
+    retrieved: 2026-10-25
+    page_updated: 2020-10-19
+    official: true
+  - id: ot23-2027
+    label: INAIL – Riduzione del tasso medio per prevenzione (OT23) anno 2027, guida
+    url: https://www.inail.it/content/dam/inail-hub-site/documenti/istruzioni-operative/2026/07/OT23%202027%20All2%20Guida%20al%20modello.pdf
+    retrieved: 2026-10-25
+    sha256: 9cff5a7e3cb8c066a2284e7f0fd155081d4d7e30b7cc62eafd4c9df58d6fd0f2
+    official: true
+  - id: dpr-1124-art4
+    label: DPR 30 giugno 1965, n. 1124, art. 4 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1965-06-30;1124~art4
+    retrieved: 2026-10-25
+    official: true
+  - id: dpr-1124-art28
+    label: DPR 30 giugno 1965, n. 1124, art. 28 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1965-06-30;1124~art28
+    retrieved: 2026-10-25
+    official: true
+  - id: l-388-2000-art116
+    label: Legge 23 dicembre 2000, n. 388, art. 116 (Normattiva, testo in vigore dal 31-12-2025)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2000-12-23;388~art116
+    retrieved: 2026-10-25
+    official: true
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: letti per intero le istruzioni operative INAIL del 22/12/2025 e la nota sui
+    coefficienti delle rate dell'8/1/2026; della guida all'autoliquidazione 2025/2026 lette le
+    informazioni generali, i servizi telematici, la riduzione artigiani, le basi di calcolo, la
+    polizza artigiani, l'arrotondamento e la compilazione dell'F24; lette le pagine INAIL su
+    autoliquidazione (con e senza dipendenti), dichiarazione delle retribuzioni, denuncia di
+    iscrizione e accesso con SPID/CIE/CNS, la guida OT23 2027 e, su Normattiva, gli artt. 4 e 28
+    DPR 1124/1965 e l'art. 116, c. 8, legge 388/2000.
+  notes: >-
+    Le date dell'autoliquidazione 2026/2027 sono calcolate e vanno verificate sulla guida
+    2026/2027. Nessuna regola specifica per Napoli trovata.
