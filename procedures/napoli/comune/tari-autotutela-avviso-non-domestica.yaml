@@ -1,0 +1,424 @@
+schema_version: 0
+id: napoli/comune/tari-autotutela-avviso-non-domestica
+title: TARI – richiesta di correzione in autotutela dell'avviso di pagamento, uso non abitativo (Comune di Napoli)
+summary: >-
+  Un'impresa, un professionista o un'associazione che riceve dal Comune di Napoli un avviso di
+  pagamento TARI (avviso bonario) sbagliato per locali a uso non abitativo (superficie,
+  categoria o periodo errati, importo già pagato, locali non suoi) può chiederne l'annullamento o
+  la rettifica in autotutela con il Mod. 7. Nel frattempo il pagamento resta dovuto alle scadenze
+  per l'importo giusto, calcolato da sé.
+ente:
+  name: Comune di Napoli
+  office: Area Entrate – Servizio Gestione TARI (intestazione del Mod. 7)
+  ipa: c_f839
+applies_to:
+  events: [letter]
+  audience: [business]
+  conditions:
+    - text: >-
+        La ditta ha ricevuto un avviso bonario TARI per un'utenza non domestica e ne chiede il
+        riesame in autotutela per ottenerne l'annullamento oppure la rettifica, indicando le
+        motivazioni (Mod. 7).
+      status: verified
+      source: mod-7
+    - text: >-
+        L'istanza la presenta il titolare o il legale rappresentante della ditta, società o
+        associazione intestataria (Mod. 7).
+      status: verified
+      source: mod-7
+    - text: >-
+        Se l'errore dipende da un cambiamento mai dichiarato (per esempio superficie ridotta o
+        locali lasciati senza aver presentato il Mod. 6 o il Mod. 8), l'avviso riflette i dati in
+        possesso dell'ufficio: l'avviso è calcolato sull'ultima dichiarazione presentata e/o sui
+        dati dell'ufficio (art. 27, c. 3). In quel caso va presentata anche la dichiarazione di
+        variazione o di cessazione.
+      status: verified
+      source: regolamento-2023
+legal_basis:
+  - text: >-
+      Regolamento TARI, art. 27, c. 3 (l'avviso di pagamento inviato a ogni contribuente) e
+      art. 39 (contenzioso e autotutela: l'ufficio può annullare l'atto, anche senza istanza,
+      se ne verifica l'illegittimità o l'infondatezza, totale o parziale).
+    status: verified
+    source: regolamento-2023
+  - text: >-
+      Autotutela obbligatoria (art. 10-quater L. 212/2000, testo in vigore dal 20-12-2025):
+      l'amministrazione finanziaria annulla in tutto o in parte atti di imposizione o
+      sanzionatori, anche senza istanza, in caso di manifesta illegittimità per: errore di
+      persona; errore di calcolo; errore sull'individuazione del tributo; errore materiale del
+      contribuente facilmente riconoscibile; errore sul presupposto d'imposta; mancata
+      considerazione di pagamenti regolarmente eseguiti; mancanza di documentazione
+      successivamente sanata. L'obbligo non sussiste dopo una sentenza passata in giudicato
+      favorevole all'amministrazione, né decorso un anno dalla definitività dell'atto per mancata
+      impugnazione.
+    status: verified
+    source: l212-art10quater
+  - text: >-
+      Autotutela facoltativa (art. 10-quinquies L. 212/2000): fuori da quei casi
+      l'amministrazione può comunque annullare in tutto o in parte, anche senza istanza, in
+      presenza di illegittimità o infondatezza dell'atto o dell'imposizione.
+    status: verified
+    source: l212-art10quinquies
+  - text: >-
+      Le norme dello Statuto del contribuente sull'autotutela valgono come principi per gli enti
+      locali, che adeguano i propri ordinamenti e non possono prevedere garanzie inferiori
+      (art. 1, cc. 3-bis e 3-ter, L. 212/2000).
+    status: verified
+    source: l212-art1
+deadline:
+  rules:
+    - text: >-
+        Né il Mod. 7 né il regolamento TARI fissano un termine per presentare l'istanza di
+        autotutela.
+      status: verified
+      source: mod-7
+    - text: >-
+        Il pagamento non aspetta l'esito: se l'avviso non rispecchia la situazione reale, il
+        contribuente deve calcolare da sé la tassa da versare (alle scadenze previste) e
+        comunicare all'ufficio TARI le variazioni con la relativa istanza.
+      status: verified
+      source: mod-7
+    - text: >-
+        Nelle fonti lette (Mod. 7, pagina TARI 2026, regolamento TARI, artt. 10-quater e
+        10-quinquies L. 212/2000) non c'è alcuna norma secondo cui l'istanza di autotutela
+        sospende il pagamento o il termine per fare ricorso. Il termine di 60 giorni per il
+        ricorso decorre dalla notificazione dell'atto impugnato (art. 21, c. 1, D.Lgs. 546/1992).
+      status: verified
+      source: dlgs546-art21
+    - text: >-
+        L'obbligo di annullare in autotutela nei casi dell'art. 10-quater non sussiste più
+        decorso un anno dalla definitività dell'atto per mancata impugnazione.
+      status: verified
+      source: l212-art10quater
+  lateness:
+    text: >-
+      Se si paga meno del dovuto o in ritardo, il regolamento prevede la sanzione del 30%
+      dell'imposta non versata o versata in ritardo, ridotta al 15% se il ritardo non supera 90
+      giorni e all'1% per ogni giorno se non supera 15 giorni (art. 35, cc. 1–2), oltre agli
+      interessi (art. 38); prima dell'accertamento è possibile il ravvedimento operoso
+      (art. 28). Non calcolare da sé gli importi: chiederli all'ufficio TARI.
+    status: verified
+    source: regolamento-2023
+channels:
+  - type: pec
+    address: entrate.tari-tares-tarsu@pec.comune.napoli.it
+    receipt: legal
+    preferred: true
+    source: mod-7
+    notes: >-
+      Dà una ricevuta con valore legale. Anche la pagina TARI 2026 indica questa PEC per l'istanza
+      quando l'avviso non rispecchia la situazione reale.
+  - type: email
+    address: entrate.tari-tares-tarsu@comune.napoli.it
+    receipt: informal
+    source: mod-7
+  - type: post
+    address: Comune di Napoli, Area Entrate, Servizio Gestione TARI, Via Diocleziano 330, 80125 Napoli
+    source: mod-7
+    notes: Raccomandata (A/R secondo la pagina della modulistica).
+  - type: portal
+    name: POTESs – Servizi Tributari
+    url: https://servizionline.comune.napoli.it/web/napoli/servizi-tributari
+    auth: [spid, cie, cns]
+    source: modulistica
+    notes: >-
+      La pagina della modulistica lo indica per le "dichiarazioni TARI"; il Mod. 7 non lo elenca
+      tra i modi di presentazione dell'istanza.
+  - type: desk
+    name: Sportello TARI
+    address: Via Diocleziano 330, 80125 Napoli
+    hours: lunedì–venerdì 8:30–12:30
+    source: mod-7
+    notes: Indicato tra i contatti del Mod. 7, non tra i modi di presentazione.
+  - type: phone
+    address: 081 795 3711
+    hours: tutti i giorni 9:00–13:00 (orario indicato sul modulo)
+    booking: >-
+      Appuntamento telefonico o via mail prenotabile su
+      https://servizionline.comune.napoli.it/web/napoli/tributi
+    source: mod-7
+    notes: >-
+      Il modulo indica anche 081 795 3891 e 081 795 3856 (mercoledì e venerdì, 9–13) e
+      081 795 3734 (giovedì e venerdì, 9–13).
+payment:
+  method: f24
+  codice_ente: F839
+  codici_tributo: ["3944", "TEFA"]
+  calculator_url: https://portaletributi.comune.napoli.it/?ente=NAPO
+  schedule:
+    - { label: Acconto 2026 – rata 1, due: 2026-09-30, source: tari-2026, status: verified }
+    - { label: Acconto 2026 – unica soluzione, due: 2026-10-15, source: tari-2026, status: verified }
+    - { label: Acconto 2026 – rata 2, due: 2026-10-30, source: tari-2026, status: verified }
+    - { label: Acconto 2026 – rata 3, due: 2026-11-30, source: tari-2026, status: verified }
+    - { label: Saldo 2026 (nuovo avviso del Comune), due: 2027-02-16, source: tari-2026, status: verified }
+  notes:
+    - text: >-
+        Il versamento è in autoliquidazione ed è dovuto alle scadenze anche se l'avviso non
+        arriva. Se l'avviso è sbagliato, calcolare l'importo giusto e stampare l'F24 con il
+        simulatore del Comune.
+      status: verified
+      source: tari-2026
+    - text: >-
+        Se si è già pagato più del dovuto, il rimborso va chiesto entro cinque anni dal
+        versamento, o dal giorno in cui è stato accertato il diritto alla restituzione (art. 36,
+        c. 1); in alternativa si può chiedere la compensazione (art. 37). Il modulo è il Mod. 10
+        (istanza rimborso compensazione) della pagina della modulistica.
+      status: verified
+      source: regolamento-2023
+    - text: >-
+        Codice ente F839 (codice catastale di Napoli) e codici tributo 3944 (TARI) e TEFA: non
+        riportati nelle fonti lette; controllarli sull'avviso o con il simulatore del Comune.
+      status: unverified
+documents:
+  - name: Mod. 7 TARI compilato e firmato
+    required: true
+  - name: Copia del documento d'identità del dichiarante
+    required: true
+    notes: Art. 38 DPR 445/2000 (indicato sul modulo).
+  - name: Copia dell'avviso bonario contestato
+    required: false
+    notes: Il modulo non la richiede, ma chiede numero di protocollo e data dell'avviso.
+  - name: Documenti che provano l'errore
+    required: false
+    notes: >-
+      Il modulo non elenca allegati. Per esempio: quietanze F24 già pagate, ricevuta della
+      dichiarazione di variazione o cessazione già presentata, planimetria o visura catastale,
+      contratto o atto che mostra la data di fine dell'occupazione.
+forms:
+  - id: mod-7
+    name: Mod. 7 TARI – Autotutela avviso bonario uso non abitativo
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2020/09/MOD-7-AUTOTUTELA-AVVISO-BONARIO-USO-NON-ABITATIVO.pdf
+    source: mod-7
+    sha256: 3b53bb7df9ab6a06daeb460a30fd5cc0dd830f8ac53efe50b0a9e3cad8683a2c
+    signature_required: true
+    fields:
+      - label: Cod.Contr.
+        map: { blank_with_reason: Spazio riservato all'ufficio. }
+        notes: Il codice contribuente è stampato sull'avviso; si può riportarlo nelle motivazioni.
+      - label: Il/La sottoscritto/a (obbligatorio)
+        map: { concat: [identity.last_name, identity.first_name] }
+      - { label: nato/a a, map: { direct: identity.birth_comune } }
+      - { label: il, map: { direct: identity.date_of_birth } }
+      - { label: C.F. (obbligatorio), map: { direct: identity.codice_fiscale } }
+      - { label: residente in, map: { direct: residenza.comune } }
+      - { label: Via, map: { direct: residenza.indirizzo } }
+      - { label: n°, map: { direct: residenza.civico } }
+      - { label: Telefono (obbligatorio), map: { direct: identity.phone } }
+      - { label: e-mail (obbligatorio), map: { direct: identity.email } }
+      - { label: pec, map: { direct: identity.pec } }
+      - label: nella sua qualità di (titolare / legale rappresentante)
+        map: { direct: business.qualita_dichiarante }
+      - { label: Ragione Sociale, map: { direct: business.denominazione } }
+      - label: C.F. (della ditta)
+        map: { fallback: [business.codice_fiscale, business.partita_iva] }
+        notes: Se l'impresa non ha un codice fiscale diverso, coincide con la partita IVA.
+      - { label: PARTITA IVA, map: { direct: business.partita_iva } }
+      - label: Con sede in via
+        map: { concat: [business.sede_legale_indirizzo, business.sede_legale_civico] }
+      - { label: Comune di, map: { direct: business.sede_legale_comune } }
+      - { label: CAP, map: { direct: business.sede_legale_cap } }
+      - { label: e-mail della ditta (obbligatorio), map: { direct: business.email } }
+      - { label: pec della ditta (obbligatorio), map: { direct: business.pec } }
+      - label: avviso bonario TARI prot. N°
+        map: { ask: "Numero di protocollo stampato sull'avviso bonario contestato" }
+      - label: del
+        map: { ask: "Data dell'avviso bonario contestato" }
+      - label: al fine di ottenerne L'ANNULLAMENTO ovvero LA RETTIFICA
+        map: { ask: "Si chiede l'annullamento dell'avviso (non dovuto) o la rettifica (importo sbagliato)?" }
+      - label: per le seguenti motivazioni
+        map:
+          ask: >-
+            Che cosa è sbagliato nell'avviso (superficie, categoria, periodo, pagamento già fatto,
+            locali non della ditta) e quali documenti lo provano
+        notes: >-
+          Indicare anno, indirizzo e dati catastali dei locali, i dati giusti e gli estremi delle
+          dichiarazioni o dei versamenti già fatti (data, protocollo, importo).
+      - label: Data
+        map: { blank_with_reason: "La scrive il dichiarante quando firma." }
+      - label: Firma (obbligatorio)
+        map: { blank_with_reason: "Firma del dichiarante: solo lui può apporla." }
+steps:
+  - do: >-
+      Controllare l'avviso: anno, indirizzo, superficie, categoria, periodo e versamenti
+      considerati, confrontandoli con le dichiarazioni presentate e le quietanze F24
+    who: anyone
+  - do: >-
+      Se l'errore dipende da un cambiamento non dichiarato, preparare anche il Mod. 6
+      (variazione) o il Mod. 8 (cessazione)
+    who: anyone
+  - { do: Calcolare l'importo giusto con il simulatore del Comune e stampare l'F24, who: anyone }
+  - { do: "Pagare l'importo giusto alle scadenze, senza aspettare la risposta", who: owner, human_only: true }
+  - do: Compilare il Mod. 7 (dati dalla tabella dei campi) e scrivere le motivazioni
+    who: anyone
+  - { do: Firmare il modulo, who: owner, human_only: true }
+  - do: >-
+      Inviare modulo firmato, copia del documento d'identità, copia dell'avviso e prove,
+      preferibilmente via PEC
+    who: owner
+    human_only: true
+  - { do: Annotare data e ricevuta dell'invio e attendere la risposta dell'ufficio, who: owner }
+after:
+  - Conservare la ricevuta della PEC, il modulo inviato e le quietanze F24.
+  - >-
+    Se l'ufficio accoglie l'istanza e si è pagato più del dovuto, chiedere rimborso o
+    compensazione con il Mod. 10.
+  - >-
+    Se invece arriva un avviso di accertamento, controllarne la data di notifica: da lì
+    decorrono i 60 giorni per il ricorso, anche se l'istanza di autotutela è ancora in corso.
+pitfalls:
+  - text: >-
+      Avviso bonario e avviso di accertamento non sono la stessa cosa. L'avviso bonario (avviso
+      di pagamento) arriva per posta ordinaria, mail o PEC, calcolato sull'ultima dichiarazione
+      e/o sui dati dell'ufficio, con gli elementi usati per il calcolo (art. 27, c. 3).
+      L'avviso di accertamento è un atto motivato notificato per rettificare dichiarazioni
+      infedeli o incomplete o per accertare dichiarazioni o versamenti omessi, entro il 31
+      dicembre del quinto anno successivo (art. 32). Contiene l'intimazione a pagare entro il
+      termine per il ricorso ed è titolo esecutivo: decorsi sessanta giorni dal termine ultimo
+      per il pagamento, si passa alla riscossione, anche forzata (art. 33, c. 1).
+    status: verified
+    source: regolamento-2023
+  - text: >-
+      Contro l'avviso di accertamento il ricorso va proposto, a pena di inammissibilità, entro
+      sessanta giorni dalla notificazione (art. 21, c. 1, D.Lgs. 546/1992).
+    status: verified
+    source: dlgs546-art21
+  - text: >-
+      Gli atti impugnabili devono indicare il termine per il ricorso e la corte di giustizia
+      tributaria competente (art. 19, c. 2, D.Lgs. 546/1992). Si può impugnare anche il rifiuto
+      dell'autotutela: espresso o tacito nei casi dell'art. 10-quater L. 212/2000, solo espresso
+      nei casi dell'art. 10-quinquies (art. 19, c. 1, lett. g-bis e g-ter).
+    status: verified
+    source: dlgs546-art19
+  - text: >-
+      Contro il rifiuto tacito dell'autotutela (casi dell'art. 10-quater) il ricorso si può
+      proporre dopo il novantesimo giorno dalla domanda (art. 21, c. 2, D.Lgs. 546/1992).
+    status: verified
+    source: dlgs546-art21
+  - text: >-
+      Reclamo-mediazione: il regolamento TARI (art. 40) dice ancora che per le controversie fino
+      a 50.000 euro il ricorso vale anche come reclamo, non è procedibile per 90 giorni e nel
+      frattempo la riscossione è sospesa, rinviando all'art. 17-bis D.Lgs. 546/1992. Su
+      normattiva l'art. 17-bis risulta abrogato dal D.Lgs. 220/2023 (testo in vigore dal
+      4-1-2024). Non contare sulla mediazione né sulla sospensione che il regolamento collega a
+      essa: chiedere a un professionista.
+    status: disputed
+    source: dlgs546-art17bis
+  - text: >-
+      Il regolamento (art. 39, c. 1) ammette il ricorso anche contro l'avviso bonario di
+      pagamento; l'elenco nazionale degli atti impugnabili (art. 19 D.Lgs. 546/1992) non lo
+      nomina espressamente. Se l'importo è rilevante, valutare con un professionista.
+    status: verified
+    source: regolamento-2023
+  - text: >-
+      Con l'acquiescenza entro il termine per il ricorso (pagamento di tributo, sanzione e
+      interessi) le sanzioni per omessa o infedele dichiarazione sono ridotte a un terzo
+      (art. 35, c. 6). Non calcolare l'importo da sé: chiederlo all'ufficio.
+    status: verified
+    source: regolamento-2023
+  - text: >-
+      Le riduzioni dovute a variazioni (superficie, destinazione d'uso) decorrono dal giorno
+      della variazione solo se la dichiarazione è stata presentata entro i termini; altrimenti
+      dalla data di presentazione (art. 12, c. 5). Una cessazione dichiarata in ritardo e senza
+      documenti idonei si presume avvenuta alla data di presentazione (art. 12, c. 4).
+    status: verified
+    source: regolamento-2023
+  - text: >-
+      Le AVVERTENZE stampate sul Mod. 7 sono quelle dei moduli di dichiarazione (per esempio
+      "valida anche per gli anni successivi") e non riguardano l'istanza di autotutela; il modulo
+      cita ancora il D.Lgs. 196/2003 sulla privacy.
+    status: verified
+    source: mod-7
+  - text: >-
+      Dal 1° gennaio 2027 normattiva riporta le norme del D.Lgs. 546/1992 come abrogate dal
+      testo unico della giustizia tributaria (D.Lgs. 175/2024, come modificato dal D.L.
+      200/2025): da quella data i riferimenti agli artt. 19 e 21 vanno ricontrollati nel testo
+      unico.
+    status: unverified
+related:
+  - napoli/comune/tari-variazione-non-domestica
+  - napoli/comune/tari-cessazione-non-domestica
+  - napoli/comune/tari-iscrizione-non-domestica
+sources:
+  - id: mod-7
+    label: Mod. 7 TARI – Autotutela avviso bonario uso non abitativo (testo, AVVERTENZE, INFORMAZIONI e CONTATTI)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2020/09/MOD-7-AUTOTUTELA-AVVISO-BONARIO-USO-NON-ABITATIVO.pdf
+    retrieved: 2026-10-25
+    sha256: 3b53bb7df9ab6a06daeb460a30fd5cc0dd830f8ac53efe50b0a9e3cad8683a2c
+    official: true
+    notes: PDF creato il 31/03/2026 (metadati; titolo interno "Modello di autotutela TaRSU").
+  - id: modulistica
+    label: TARI – Modalità di presentazione dichiarazioni e modulistica (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/tari-tassa-sui-rifiuti/modalita-di-presentazione-dichiarazioni-e-modulistica/
+    retrieved: 2026-10-25
+    page_updated: 2026-09-02
+    official: true
+    notes: Modulistica aggiornata al 01/04/2026.
+  - id: tari-2026
+    label: TARI 2026 – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/tari-tassa-sui-rifiuti/tari-2026/
+    retrieved: 2026-10-25
+    page_updated: 2026-10-02
+    official: true
+  - id: regolamento-2023
+    label: Regolamento TARI, allegato alla delibera C.C. n. 37 del 19 giugno 2023
+    url: https://www.comune.napoli.it/flex/files/1/c/7/D.007ae011f89c784022b3/DELIBERA_DI_C.C._N._37_DEL_19_GIUGNO_2023.pdf
+    retrieved: 2026-10-25
+    sha256: 15c491cd7e69bada6fbed48c345c72177cb147bb95cded0314b6cca75635ea6f
+    official: true
+    notes: >-
+      Letti gli artt. 12, 27, 28, 32, 33, 35, 36, 37, 38, 39 e 40. Il "Regolamento TARI vigente"
+      linkato dalla pagina TARI 2026 (file diverso, sha256 ab7ee5ea…150c) ha lo stesso testo
+      degli artt. 39 e 40.
+  - id: l212-art10quater
+    label: L. 27 luglio 2000, n. 212 (Statuto del contribuente), art. 10-quater – normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2000-07-27;212~art10quater
+    retrieved: 2026-10-25
+    official: true
+    notes: Testo in vigore dal 20-12-2025.
+  - id: l212-art10quinquies
+    label: L. 27 luglio 2000, n. 212, art. 10-quinquies – normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2000-07-27;212~art10quinquies
+    retrieved: 2026-10-25
+    official: true
+    notes: Testo in vigore dal 18-1-2024.
+  - id: l212-art1
+    label: L. 27 luglio 2000, n. 212, art. 1 – normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2000-07-27;212~art1
+    retrieved: 2026-10-25
+    official: true
+    notes: Testo in vigore dal 18-1-2024.
+  - id: dlgs546-art21
+    label: D.Lgs. 31 dicembre 1992, n. 546, art. 21 (termine per il ricorso) – normattiva, versione vigente al 25-10-2026
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-12-31;546~art21!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+    notes: Testo in vigore dal 4-1-2024.
+  - id: dlgs546-art19
+    label: D.Lgs. 31 dicembre 1992, n. 546, art. 19 (atti impugnabili) – normattiva, versione vigente al 25-10-2026
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-12-31;546~art19!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+    notes: Testo in vigore dal 4-1-2024.
+  - id: dlgs546-art17bis
+    label: D.Lgs. 31 dicembre 1992, n. 546, art. 17-bis (reclamo e mediazione) – normattiva, versione vigente al 25-10-2026
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-12-31;546~art17bis!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+    notes: >-
+      Riporta l'articolo come abrogato dal D.Lgs. 220/2023 (testo in vigore dal 4-1-2024). La
+      versione senza data (in vigore dal 1-1-2027) lo dà abrogato dal D.Lgs. 175/2024 come
+      modificato dal D.L. 200/2025.
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: scaricato e letto con pdftotext il Mod. 7; lette la pagina della modulistica TARI e la
+    pagina TARI 2026; letti gli artt. 12, 27, 28, 32–40 del regolamento approvato con la
+    delibera C.C. 37/2023; letti su normattiva gli artt. 1, 10-quater e 10-quinquies della
+    L. 212/2000 e gli artt. 17-bis, 19 e 21 del D.Lgs. 546/1992 nella versione vigente al
+    25-10-2026.
+  notes: >-
+    Non trovato un regolamento comunale di Napoli sull'autotutela tributaria (l'art. 39, c. 2,
+    del regolamento TARI rinvia ai "Regolamenti comunali"). Non trovati tempi di risposta
+    dell'ufficio.

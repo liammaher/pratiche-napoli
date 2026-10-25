@@ -1,0 +1,523 @@
+schema_version: 0
+id: italia/agenzia-entrate/apertura-partita-iva-persona-fisica
+title: Apertura della partita IVA per persone fisiche – modello AA9/12 (Agenzia delle Entrate)
+summary: >-
+  Chi inizia da solo un'attività di lavoro autonomo (professione, arte) o un'altra attività per cui
+  non è obbligatoria l'iscrizione al Registro delle imprese apre la partita IVA presentando
+  all'Agenzia delle Entrate il modello AA9/12 entro 30 giorni dall'inizio dell'attività. Chi apre
+  un'impresa individuale (commercio, artigianato…) non usa questo modello da solo ma la
+  Comunicazione Unica (ComUnica) alla Camera di Commercio. Procedura nazionale: a Napoli valgono le
+  stesse regole, con due Direzioni Provinciali dell'Agenzia.
+ente:
+  name: Agenzia delle Entrate
+  office: Qualunque ufficio dell'Agenzia (a Napoli Direzione Provinciale I e Direzione Provinciale II)
+applies_to:
+  events: [open]
+  audience: [business]
+  conditions:
+    - text: >-
+        Persona fisica che inizia un'attività professionale o un'altra attività per la quale non è
+        obbligatoria l'iscrizione al Registro delle imprese o al REA: apre la partita IVA con il
+        modello AA9/12.
+      status: verified
+      source: ade-che-cose
+    - text: >-
+        Chi inizia un'attività d'impresa o artigianale (anche come ditta individuale) deve usare la
+        Comunicazione Unica d'impresa (ComUnica), che con un solo invio apre la partita IVA e iscrive
+        al Registro delle imprese o al REA. In quel caso questa procedura non si applica da sola.
+      status: verified
+      source: ade-che-cose
+    - text: >-
+        Il modello AA9/12 serve alle imprese individuali e ai lavoratori autonomi (artisti o
+        professionisti) per inizio attività, variazione dati e cessazione; questa scheda tratta solo
+        l'inizio attività.
+      status: verified
+      source: aa9-istruzioni
+legal_basis:
+  - text: >-
+      Art. 35 del D.P.R. 633/1972 (dichiarazione di inizio, variazione e cessazione attività), nel
+      testo in vigore dal 22/02/2024 al 31/12/2026.
+    status: verified
+    source: dpr633-art35
+  - text: >-
+      Dal 1° gennaio 2027 l'art. 35 è abrogato e sostituito dall'art. 68 del Testo unico IVA
+      (allegato al D.Lgs. 19 gennaio 2026, n. 10; abrogazione all'art. 170, decorrenza all'art. 171),
+      che riprende le stesse regole (30 giorni, modelli approvati dall'Agenzia).
+    status: verified
+    source: tu-iva
+  - text: >-
+      Modello AA9/12 approvato con provvedimento del Direttore dell'Agenzia delle Entrate del 3 giugno
+      2015.
+    status: verified
+    source: ade-normativa
+deadline:
+  rules:
+    - text: Entro 30 giorni dalla data di inizio dell'attività.
+      status: verified
+      source: dpr633-art35
+    - text: >-
+        La data di inizio attività indicata nel modello non può essere successiva alla data di
+        presentazione: il modello non si presenta in anticipo con una data futura.
+      status: verified
+      source: aa9-istruzioni
+    - text: >-
+        Con PEC o raccomandata la dichiarazione si considera presentata il giorno in cui risulta
+        spedita; con l'invio telematico, il giorno in cui l'Agenzia completa la ricezione dei dati.
+      status: verified
+      source: aa9-istruzioni
+  lateness:
+    text: >-
+      Chi, essendovi obbligato, non presenta la dichiarazione di inizio attività, o la presenta con
+      indicazioni incomplete o inesatte tali da non consentire l'individuazione del contribuente o
+      dei luoghi dell'attività o di conservazione delle scritture, è punito con la sanzione da euro
+      500 a euro 2.000 (art. 5, comma 6, D.Lgs. 471/1997). Per l'importo dovuto e per l'eventuale
+      ravvedimento chiedere all'ufficio dell'Agenzia o al proprio intermediario: qui non si calcola.
+    status: verified
+    source: dlgs471-art5
+channels:
+  - type: portal
+    name: Area riservata dell'Agenzia delle Entrate – servizio "Invio documenti"
+    url: https://www.agenziaentrate.gov.it/portale/area-riservata
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: ade-software
+    notes: >-
+      Si compila il modello con il software gratuito dell'Agenzia ("Attribuzione partita Iva") e lo
+      si carica dal percorso "Trasmissione telematiche / Invio documenti". Si accede anche con le
+      credenziali Fisconline/Entratel. La prova della presentazione è la comunicazione di avvenuto
+      ricevimento dell'Agenzia, che contiene il numero di partita IVA. Lo stesso invio può farlo un
+      intermediario abilitato (commercialista, CAF, associazione di categoria).
+  - type: pec
+    name: Direzione Provinciale I di Napoli
+    address: dp.1Napoli@pce.agenziaentrate.it
+    receipt: legal
+    source: ade-pec-dp
+    notes: >-
+      Oggetto "Dichiarazione di inizio attività". Firma digitale, oppure firma autografa con copia
+      del documento d'identità. Si può inviare a una qualunque Direzione Provinciale; la partita IVA
+      viene comunicata allo stesso indirizzo PEC usato per l'invio (regole nella pagina "Come aprire
+      una Partita Iva").
+  - type: pec
+    name: Direzione Provinciale II di Napoli
+    address: dp.2Napoli@pce.agenziaentrate.it
+    receipt: legal
+    source: ade-pec-dp
+    notes: Stesse regole dell'altra PEC; le due Direzioni Provinciali di Napoli sono alternative.
+  - type: desk
+    name: Qualunque ufficio dell'Agenzia delle Entrate, su appuntamento
+    url: https://www.agenziaentrate.gov.it/portale/prenota-un-appuntamento
+    booking: >-
+      Prenotazione online; il servizio da scegliere è "Identificativi fiscali, abilitazioni, consegna
+      documenti e istanze".
+    receipt: informal
+    source: ade-come-aprire
+    notes: >-
+      Il modello si consegna in duplice esemplare, anche tramite persona delegata (quadro Delega),
+      a prescindere dal domicilio fiscale. L'ufficio consegna la copia timbrata (art. 35, comma 7).
+  - type: post
+    name: Raccomandata a un qualunque ufficio dell'Agenzia delle Entrate
+    receipt: informal
+    source: ade-come-aprire
+    notes: >-
+      In unico esemplare, con copia di un documento d'identità valido del dichiarante. Vale la data
+      di spedizione. Le fonti non indicano un indirizzo specifico di Napoli.
+payment:
+  method: none
+  notes:
+    - text: >-
+        Le istruzioni e le pagine dell'Agenzia non prevedono alcun versamento per presentare il
+        modello AA9/12, che si scarica gratuitamente.
+      status: unverified
+documents:
+  - name: Modello AA9/12 compilato e firmato (o file prodotto dal software dell'Agenzia)
+    required: true
+  - name: Copia del documento d'identità valido del dichiarante
+    required: false
+    notes: >-
+      Obbligatoria per l'invio con raccomandata e per la PEC con firma autografa; per la consegna
+      tramite delegato serve il documento del delegante (se in fotocopia resta all'ufficio).
+  - name: Estremi di registrazione del contratto di locazione o comodato del locale
+    required: false
+    notes: Da indicare nel quadro I se il locale dell'attività è detenuto e non posseduto.
+  - name: Documenti eventualmente richiesti dall'ufficio
+    required: false
+    notes: Vanno elencati nel riquadro "Allegati" del quadro I.
+forms:
+  - id: aa9-12
+    name: Modello AA9/12 – Dichiarazione di inizio attività, variazione dati o cessazione attività ai fini IVA (imprese individuali e lavoratori autonomi)
+    url: https://www.agenziaentrate.gov.it/portale/documents/20143/6020466/Modello+aa9_AA9_12+modello.pdf/b160f029-bd20-984e-334d-5f7602c2ae59?t=1749731883657
+    source: aa9-modello
+    sha256: a75a7ddab209b5355dc0ab40f78e6ba27d43806140ab60de1f9c8857dc32c599
+    signature_required: true
+    fields:
+      - label: Codice fiscale (in alto su ogni pagina)
+        map: { direct: identity.codice_fiscale }
+      - label: Pagina n. (su ogni pagina)
+        map: { blank_with_reason: "Numerazione progressiva delle pagine, da scrivere quando il modello è completo." }
+      - label: Quadro A – 1 Inizio attività
+        map: { blank_with_reason: "Casella da barrare: per questa procedura è sempre il tipo 1." }
+      - label: Quadro A – Data inizio
+        map: { direct: business.data_apertura }
+        notes: >-
+          Data di inizio dell'attività (giorno, mese, anno in cifre); non può essere successiva alla
+          data di presentazione.
+      - label: Quadro A – 2 Variazione dati, partita IVA, data variazione e casella L
+        map: { blank_with_reason: "Solo per le variazioni di chi ha già la partita IVA." }
+      - label: Quadro A – 3 Cessazione attività, partita IVA, data cessazione
+        map: { blank_with_reason: Solo per la chiusura della partita IVA. }
+      - label: Quadro A – 4 Richiesta duplicato del certificato di partita IVA
+        map: { blank_with_reason: Solo per chi ha smarrito il certificato. }
+      - label: Quadro B – Ditta ovvero cognome e nome
+        map: { fallback: [business.denominazione, identity.full_name] }
+        notes: >-
+          La denominazione della ditta se esiste, altrimenti cognome e nome, senza abbreviazioni e
+          senza titoli.
+      - label: Quadro B – Riservato a soggetto non residente (indirizzo completo, stato estero, numero identificazione IVA stato estero)
+        map: { blank_with_reason: Solo per soggetti non residenti. }
+      - label: Quadro B – Codice attività
+        map: { direct: business.codice_ateco }
+        notes: >-
+          Codice dell'attività prevalente nella classificazione vigente al momento della
+          presentazione (Ateco 2025).
+      - label: Quadro B – Descrizione attività
+        map: { direct: business.descrizione_attivita }
+        notes: La descrizione corrispondente al codice indicato.
+      - label: Quadro B – Volume d'affari presunto
+        map: { ask: "Si prevede un volume d'affari che comporta un regime IVA speciale (vedi istruzioni)? Se sì, quale importo? Chi sceglie il forfettario lascia vuoto." }
+        notes: >-
+          In unità di euro, arrotondando per eccesso se i decimali sono pari o superiori a 50
+          centesimi, per difetto se inferiori.
+      - label: Quadro B – Acquisti intracomunitari di beni di cui all'art. 60-bis
+        map: { ask: "Si faranno acquisti intracomunitari dei beni indicati dal decreto 22 dicembre 2005 (art. 60-bis)?" }
+        notes: Non serve per entrare nell'archivio VIES (per quello si usa il quadro I).
+      - label: Quadro B – Indirizzo completo del luogo di esercizio (via o piazza, numero civico, scala, interno…)
+        map: { concat: [locale.indirizzo, locale.civico, locale.interno] }
+        notes: >-
+          Sede dell'impresa individuale o, per i lavoratori autonomi, ubicazione dello studio. Se si
+          lavora da casa, è l'indirizzo di casa.
+      - label: Quadro B – Scritture contabili (luogo di esercizio)
+        map: { ask: "Le scritture contabili sono conservate, anche in parte, nel luogo di esercizio?" }
+      - { label: Quadro B – C.A.P., map: { direct: locale.cap } }
+      - { label: Quadro B – Comune (senza abbreviazione), map: { direct: locale.comune } }
+      - { label: Quadro B – Provincia, map: { direct: locale.provincia } }
+      - label: Quadro B – Regime fiscale agevolato
+        map: { direct: business.regime_fiscale }
+        notes: >-
+          Scrivere 2 se si intende aderire al regime forfetario (art. 1, comma 54, L. 190/2014);
+          lasciare vuoto per il regime ordinario. Il valore 1 (regime di vantaggio) non è più
+          utilizzabile da chi apre oggi: vedi avvertenze.
+      - label: Commercio elettronico – Indirizzo del sito web
+        map: { ask: "L'attività vende beni o servizi tramite un sito web? Indirizzo del sito" }
+      - label: Commercio elettronico – Proprio / Ospitante
+        map: { ask: "Il sito è proprio o di terzi (es. un marketplace)?" }
+      - label: Commercio elettronico – Internet service provider
+        map: { ask: Chi fornisce accesso e spazio web al sito }
+      - label: Commercio elettronico – Cessazione
+        map: { blank_with_reason: Solo per chi smette il commercio elettronico (variazione). }
+      - { label: Quadro C – Codice fiscale del titolare, map: { direct: identity.codice_fiscale } }
+      - label: Quadro C – Cognome
+        map: { direct: identity.last_name }
+        notes: Le donne coniugate indicano il cognome da nubile.
+      - { label: Quadro C – Nome, map: { direct: identity.first_name } }
+      - { label: Quadro C – Data di nascita, map: { direct: identity.date_of_birth } }
+      - { label: Quadro C – Comune (o Stato estero) di nascita, map: { direct: identity.birth_comune } }
+      - { label: Quadro C – Provincia di nascita, map: { direct: identity.birth_province } }
+      - label: Quadro C – Residenza anagrafica o domicilio fiscale – indirizzo completo
+        map: { concat: [residenza.indirizzo, residenza.civico, residenza.interno] }
+        notes: >-
+          Per le persone residenti in Italia il domicilio fiscale è nel comune di iscrizione
+          anagrafica (art. 58 D.P.R. 600/1973).
+      - label: Quadro C – Scritture contabili (residenza)
+        map: { ask: "Le scritture contabili sono conservate, anche in parte, all'indirizzo di residenza?" }
+      - { label: Quadro C – C.A.P., map: { direct: residenza.cap } }
+      - { label: Quadro C – Comune (senza abbreviazione), map: { direct: residenza.comune } }
+      - { label: Quadro C – Provincia, map: { direct: residenza.provincia } }
+      - label: Quadro D – Rappresentante (cognome o denominazione, nome, codice carica, data inizio procedimento, cessazione, comune e provincia di nascita, data di nascita, codice fiscale, codice fiscale della società rappresentante fiscale)
+        map: { blank_with_reason: "Solo se a dichiarare è un rappresentante diverso dal titolare (tutore, erede, curatore, rappresentante fiscale di un non residente)." }
+      - label: Quadro E – Sezione 1 (1a cessione o donazione d'azienda, 1b modificazione di società in ditta individuale, 1c successione ereditaria, 2a cessione o donazione di ramo d'azienda, PL, partite IVA o codici fiscali dei soggetti estinti o trasformati)
+        map: { ask: "L'attività inizia rilevando un'azienda o un ramo d'azienda (cessione, donazione, eredità, trasformazione di società)? Se sì, di chi (partita IVA o codice fiscale)?" }
+        notes: In questi casi leggere prima le istruzioni del quadro E.
+      - label: Quadro E – Sezione 2 (casella 3, partita IVA o codice fiscale del conferitario, cessionario o donatario, PL)
+        map: { blank_with_reason: "Riservata a chi cede l'azienda e mantiene la partita IVA (dichiarazione di variazione)." }
+      - label: Quadro E – Sezione 3, casella 4 Acquisizione di azienda in affitto e partita IVA o codice fiscale del locatore
+        map: { ask: "Si prende in affitto un'azienda con trasferimento del plafond (art. 2, comma 2, L. 28/1997)? Se sì, partita IVA o codice fiscale del locatore" }
+      - label: Quadro E – Sezione 3, caselle 5 Affitto dell'unica azienda e 6 Revoca affitto d'azienda
+        map: { blank_with_reason: "Solo per chi ha già la partita IVA (dichiarazione di variazione)." }
+      - label: Quadro F – Sezione 1, depositari e luoghi di conservazione delle scritture contabili (tipo comunicazione A/C, codice fiscale, indirizzo, C.A.P., comune, provincia; fino a tre righe)
+        map: { ask: "Le scritture contabili sono tenute da un'altra persona (es. un commercialista)? Se sì, codice fiscale e indirizzo dove sono conservate" }
+        notes: In sede di inizio attività si barra la casella A.
+      - label: Quadro F – Sezione 2, luoghi di conservazione delle fatture all'estero (tipo comunicazione, indirizzo, città, stato estero)
+        map: { blank_with_reason: "Solo se fatture e registri sono conservati elettronicamente in un altro Stato." }
+      - label: Quadro G – Sezione 1, altre attività esercitate (tipo comunicazione, codice attività, descrizione, volume d'affari presunto, contabilità separata)
+        map: { ask: "Oltre all'attività prevalente se ne svolgono altre con un diverso codice Ateco? Quali?" }
+      - label: Quadro G – Sezione 2, altri luoghi di esercizio o di conservazione delle scritture (tipo comunicazione, tipo sede, indirizzo, scritture contabili, C.A.P., comune, provincia)
+        map: { ask: "L'attività si svolge anche in altri luoghi (negozio, magazzino, laboratorio…)? Indirizzi e tipo di sede" }
+        notes: "Tipo sede: 1 filiale, 2 succursale, 3 magazzino, 4 stabilimento, 5 ufficio, 6 negozio, 7 deposito, 8 laboratorio, 9 cantieri all'estero, A altri."
+      - label: Quadro H – Partita IVA o codice fiscale del rappresentante (art. 1, comma 4, D.P.R. 441/1997)
+        map: { blank_with_reason: "Si usa con la dichiarazione di variazione (tipo 2), non all'apertura." }
+      - label: Quadro I – Indirizzo di posta elettronica
+        map: { fallback: [business.email, identity.email] }
+      - label: Quadro I – Telefono (prefisso e numero)
+        map: { direct: identity.phone }
+        notes: Separare prefisso e numero, senza prefisso internazionale.
+      - label: Quadro I – Fax (prefisso e numero)
+        map: { ask: "Numero di fax, se esiste" }
+      - label: Quadro I – Sito web
+        map: { ask: "Sito web dell'attività, se diverso da quello di commercio elettronico già indicato" }
+      - label: Quadro I – Titolarità dell'immobile
+        map: { direct: locale.titolo }
+        notes: P se posseduto (proprietà, usufrutto); D se detenuto (locazione, comodato).
+      - label: Quadro I – Tipo di catasto
+        map: { ask: "Il locale dell'attività è un fabbricato (F) o un terreno (T)?" }
+      - { label: Quadro I – Sezione, map: { direct: locale.catasto_sezione } }
+      - { label: Quadro I – Foglio, map: { direct: locale.catasto_foglio } }
+      - { label: Quadro I – Particella, map: { direct: locale.catasto_particella } }
+      - { label: Quadro I – Subalterno, map: { direct: locale.catasto_subalterno } }
+      - label: Quadro I – Estremi registrazione contratto di locazione o comodato (data di registrazione, ufficio, numero, sotto numero, serie)
+        map: { ask: "Estremi di registrazione del contratto di locazione o comodato del locale (data, ufficio, numero, sottonumero, serie), se il locale non è di proprietà" }
+        notes: >-
+          Se l'attività si svolge nella casa in affitto, sono gli stessi dati dei campi
+          locazione.data_registrazione, locazione.registrazione_ufficio, locazione.registrazione_numero
+          e locazione.registrazione_serie.
+      - label: Quadro I – Operazioni intracomunitarie, volume acquisti presunto e volume cessioni presunto
+        map: { ask: "Si vogliono fare operazioni intracomunitarie (archivio VIES)? Volume presunto di acquisti e di cessioni, in euro" }
+      - label: Quadro I – Tipologia della clientela
+        map: { ask: "Clientela prevalente: 1 imprese, 2 enti pubblici, 3 consumatori finali, 4 altro" }
+        notes: Solo per le attività indicate dai provvedimenti del 21/12/2006 e 14/01/2008.
+      - label: Quadro I – Luogo di esercizio aperto al pubblico
+        map: { ask: "L'attività si svolge in un luogo aperto al pubblico?" }
+        notes: Solo per le attività indicate dai provvedimenti del 21/12/2006 e 14/01/2008.
+      - label: Quadro I – Investimenti iniziali (0–5.000; 5.001–50.000; 50.001–200.000; oltre 200.000 euro)
+        map: { ask: "Investimenti previsti nel primo anno di attività: in quale fascia?" }
+        notes: Solo per le attività indicate dai provvedimenti del 21/12/2006 e 14/01/2008.
+      - label: Quadro I – Allegati
+        map: { ask: "Documenti richiesti dall'ufficio che si allegano alla dichiarazione (elenco)" }
+      - label: Quadri compilati (A–I) e totale pagine
+        map: { blank_with_reason: "Si barrano i quadri compilati e si scrive il numero totale di pagine a modello finito." }
+      - label: Firma della dichiarazione – Data
+        map: { blank_with_reason: Data della firma; la scrive chi firma. }
+      - label: Firma della dichiarazione – Codice fiscale del firmatario
+        map: { direct: identity.codice_fiscale }
+      - label: Firma del dichiarante
+        map: { blank_with_reason: Firma del titolare; solo la persona può firmare. }
+      - label: Delega (il sottoscritto, delega il Sig., nato a, il, data, firma del dichiarante)
+        map: { ask: "Il modello sarà consegnato in ufficio da un'altra persona? Se sì, nome, luogo e data di nascita del delegato" }
+        notes: La firma della delega la mette solo il dichiarante.
+      - label: Impegno alla presentazione telematica (codice fiscale dell'intermediario, n. iscrizione all'albo dei CAF, caselle di impegno, data dell'impegno, firma dell'intermediario)
+        map: { blank_with_reason: Riservato all'intermediario che trasmette la dichiarazione. }
+steps:
+  - do: >-
+      Verificare se l'attività richiede l'iscrizione al Registro delle imprese o al REA (impresa,
+      artigianato): in quel caso usare ComUnica alla Camera di Commercio invece del modello AA9/12
+    who: anyone
+  - do: Scegliere il codice Ateco 2025 dell'attività prevalente (ed eventuali altri codici)
+    who: anyone
+  - do: >-
+      Decidere se aderire al regime forfetario, verificandone i requisiti (art. 1, commi 54 e
+      seguenti, L. 190/2014), se necessario con un commercialista
+    who: owner
+  - do: >-
+      Compilare il modello AA9/12, con il software gratuito dell'Agenzia oppure sul PDF (dati dalla
+      tabella dei campi)
+    who: anyone
+  - { do: Firmare il modello (o firmarlo digitalmente se si invia via PEC), who: owner, human_only: true }
+  - do: >-
+      Presentarlo entro 30 giorni dall'inizio attività: caricamento nell'area riservata, PEC a una
+      Direzione Provinciale, raccomandata o consegna allo sportello su appuntamento
+    who: owner
+    human_only: true
+  - do: >-
+      Conservare la ricevuta dell'Agenzia o la PEC di risposta con il numero di partita IVA e
+      annotarlo con la data di apertura
+    who: owner
+  - do: >-
+      Se l'Agenzia invita a comparire in ufficio dopo i controlli sulle nuove partite IVA, presentarsi
+      di persona con la documentazione che dimostra l'effettivo esercizio dell'attività
+    who: owner
+    human_only: true
+after:
+  - Conservare il modello firmato e la comunicazione di avvenuto ricevimento con il numero di partita IVA.
+  - Indicare la partita IVA nella home page dell'eventuale sito web e negli altri documenti in cui è richiesta.
+  - >-
+    Ogni variazione dei dati dichiarati (indirizzo, attività, luoghi delle scritture…) va comunicata
+    entro 30 giorni con lo stesso modello AA9/12, barrando il tipo 2.
+  - >-
+    Le opzioni e le revoche IVA e sulle imposte dirette non si comunicano con questo modello ma nel
+    quadro VO della dichiarazione IVA annuale.
+  - >-
+    Se l'attività si svolge in un locale a Napoli, presentare anche la dichiarazione TARI per uso non
+    abitativo entro 90 giorni dall'inizio dell'occupazione.
+  - >-
+    Verificare a parte gli adempimenti previdenziali (INPS o cassa professionale) e, per le attività
+    con locale aperto al pubblico, quelli del SUAP: non passano da questo modello.
+  - >-
+    Se per tre anni non risulta alcuna attività, l'Agenzia può chiudere d'ufficio la partita IVA dopo
+    una comunicazione preventiva (nel Cassetto fiscale, "L'Agenzia scrive"): entro 60 giorni ci si
+    può opporre presso un qualunque ufficio; dopo, si può chiedere la riattivazione motivata.
+pitfalls:
+  - text: >-
+      Le imprese individuali e artigiane non aprono la partita IVA con il solo AA9/12: devono usare
+      ComUnica, che vale anche per il Registro delle imprese.
+    status: verified
+    source: ade-che-cose
+  - text: >-
+      Chi aderisce al regime forfetario barra il codice 2 nella casella "Regime fiscale agevolato" e
+      non indica il volume d'affari presunto, perché quel dato è uno dei presupposti del regime.
+    status: verified
+    source: aa9-istruzioni
+  - text: >-
+      Il modello e il software dell'Agenzia offrono ancora il codice 1, "regime fiscale di vantaggio"
+      (art. 27, commi 1 e 2, D.L. 98/2011); quell'articolo è abrogato dalla L. 190/2014 (art. 1,
+      comma 85) e il comma 88 lo lascia solo a chi lo applicava nel 2014, fino al termine del
+      quinquennio e comunque fino a 35 anni. Chi apre oggi non può sceglierlo.
+    status: verified
+    source: l190-2014
+  - text: >-
+      Dopo l'attribuzione l'Agenzia esegue riscontri automatizzati e specifiche analisi del rischio
+      sulle nuove partite IVA; può invitare a comparire di persona per esibire la documentazione e
+      dimostrare l'effettivo esercizio dell'attività. Se non ci si presenta o l'esito è negativo,
+      l'ufficio chiude la partita IVA (art. 35, commi 15-bis e 15-bis.1). La norma vale per tutte le
+      nuove partite IVA: nessuna fonte ufficiale consultata la limita ai forfettari.
+    status: verified
+    source: dpr633-art35
+  - text: >-
+      Con il provvedimento di cessazione per rischio è irrogata la sanzione di euro 3.000 (art. 11,
+      comma 7-quater, D.Lgs. 471/1997).
+    status: verified
+    source: dlgs471-art11
+  - text: >-
+      Dopo una cessazione per rischio, la stessa persona può riottenere una partita IVA (anche come
+      rappresentante di una nuova società) solo rilasciando una polizza fideiussoria o fideiussione
+      bancaria di durata triennale e di importo non inferiore a 50.000 euro, o pari alle somme dovute
+      per violazioni precedenti se superiori e non versate (art. 35, comma 15-bis.2).
+    status: verified
+    source: dpr633-art35
+  - text: >-
+      La casella del quadro B sugli acquisti intracomunitari "art. 60-bis" non serve per entrare
+      nell'archivio VIES: per le operazioni intracomunitarie si compila il campo apposito del quadro I,
+      che comporta l'inclusione immediata nella banca dati VIES.
+    status: verified
+    source: aa9-istruzioni
+  - text: >-
+      Le istruzioni chiedono i dati senza abbreviazioni (nomi, comuni) e le date in cifre giorno,
+      mese, anno; ogni pagina riporta il codice fiscale ed è numerata.
+    status: verified
+    source: aa9-istruzioni
+  - text: >-
+      Dal 1° gennaio 2027 il riferimento normativo diventa l'art. 68 del Testo unico IVA; modello,
+      istruzioni e pagine dell'Agenzia consultati il 25/10/2026 citano ancora l'art. 35 del D.P.R.
+      633/1972. Controllare se l'Agenzia pubblica un modello aggiornato.
+    status: verified
+    source: tu-iva
+  - text: >-
+      Le istruzioni del modello (2024) non citano la PEC tra i canali di presentazione; la pagina
+      "Come aprire una Partita Iva" la ammette. Le due fonti non si contraddicono, ma chi legge solo
+      le istruzioni non la trova.
+    status: verified
+    source: aa9-istruzioni
+related:
+  - napoli/comune/tari-iscrizione-non-domestica
+  - napoli/comune/scia-esercizio-vicinato
+  - napoli/camera-di-commercio/diritto-annuale
+  - napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica
+sources:
+  - id: ade-che-cose
+    label: Agenzia delle Entrate – Partita Iva persone fisiche (AA9/12), "Che cos'è"
+    url: https://www.agenziaentrate.gov.it/portale/schede/istanze/aa9_11-apertura-variazione-chiusura-pf/scheda-informativa-aa9_11
+    retrieved: 2026-10-25
+    page_updated: 2023-10-30
+    official: true
+  - id: ade-come-aprire
+    label: Agenzia delle Entrate – "Come aprire una Partita Iva" (persone fisiche)
+    url: https://www.agenziaentrate.gov.it/portale/schede/istanze/aa9_11-apertura-variazione-chiusura-pf/quando-utilizzare
+    retrieved: 2026-10-25
+    official: true
+    notes: La pagina non riporta la data di aggiornamento.
+  - id: ade-modello-istruzioni
+    label: Agenzia delle Entrate – Modello AA9/12 e istruzioni (pagina di download)
+    url: https://www.agenziaentrate.gov.it/portale/schede/istanze/aa9_11-apertura-variazione-chiusura-pf/modello-e-istr-pi-pf
+    retrieved: 2026-10-25
+    page_updated: 2024-04-15
+    official: true
+    notes: Il file "Motivi dell'aggiornamento" (28 marzo 2024) riguarda solo la dizione del codice carica 3.
+  - id: aa9-modello
+    label: Modello AA9/12 (PDF)
+    url: https://www.agenziaentrate.gov.it/portale/documents/20143/6020466/Modello+aa9_AA9_12+modello.pdf/b160f029-bd20-984e-334d-5f7602c2ae59?t=1749731883657
+    retrieved: 2026-10-25
+    sha256: a75a7ddab209b5355dc0ab40f78e6ba27d43806140ab60de1f9c8857dc32c599
+    official: true
+  - id: aa9-istruzioni
+    label: Istruzioni per la compilazione del modello AA9/12 (PDF, 2024)
+    url: https://www.agenziaentrate.gov.it/portale/documents/20143/6020466/AA9_12+istruzioni_2024.pdf/3447f8ab-0055-ec13-b96e-9d0ef6d3e3a6?t=1711542402670
+    retrieved: 2026-10-25
+    sha256: 89438517659fe2b209e0f75a43e8eb2f44243b6be676b80da2d83e95030f0d55
+    official: true
+  - id: ade-software
+    label: Agenzia delle Entrate – Software di compilazione del modello AA9/12
+    url: https://www.agenziaentrate.gov.it/portale/schede/istanze/aa9_11-apertura-variazione-chiusura-pf/sw-compilazione-pi-pf
+    retrieved: 2026-10-25
+    official: true
+    notes: Software di inizio attività aggiornato il 01/04/2025, con i codici Ateco 2025.
+  - id: ade-normativa
+    label: Agenzia delle Entrate – Partita Iva persone fisiche, "Normativa e prassi"
+    url: https://www.agenziaentrate.gov.it/portale/schede/istanze/aa9_11-apertura-variazione-chiusura-pf/np-pi-pf-aa9_11
+    retrieved: 2026-10-25
+    official: true
+  - id: provv-inattive-2026
+    label: Provvedimento del Direttore dell'Agenzia delle Entrate del 12 ottobre 2026, prot. 277710/2026 (chiusura d'ufficio delle partite IVA inattive)
+    url: https://www.agenziaentrate.gov.it/portale/documents/20143/10364838/Provvedimento+cessazione+PIVA+inattive.del+12+otttobre+2026.pdf/b15cccc3-c504-c90b-fab4-01a9d5669bbc?t=1791812418541
+    retrieved: 2026-10-25
+    sha256: 8f2d134fe856a8e8a41802eeb4238e75b5d2f3d4dc09d31c8d86ac5c535027ce
+    official: true
+  - id: ade-pec-dp
+    label: Agenzia delle Entrate – Indirizzi PEC delle Direzioni Provinciali
+    url: https://www.agenziaentrate.gov.it/portale/web/guest/agenzia/uffici-e-pec/posta-elettronica-certificata-entrate/pec-direzioni-provinciali
+    retrieved: 2026-10-25
+    official: true
+  - id: ade-area-riservata
+    label: Agenzia delle Entrate – Area riservata (modalità di accesso)
+    url: https://www.agenziaentrate.gov.it/portale/area-riservata
+    retrieved: 2026-10-25
+    official: true
+  - id: dpr633-art35
+    label: D.P.R. 26 ottobre 1972, n. 633, art. 35 (testo vigente al 25/10/2026) – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1972-10-26;633~art35!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+    notes: Versione in vigore dal 22/02/2024 al 31/12/2026.
+  - id: tu-iva
+    label: D.Lgs. 19 gennaio 2026, n. 10 – Testo unico IVA (allegato, artt. 68, 170 e 171) – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2026-01-19;10
+    retrieved: 2026-10-25
+    official: true
+  - id: dlgs471-art5
+    label: D.Lgs. 18 dicembre 1997, n. 471, art. 5 (testo vigente al 25/10/2026) – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1997-12-18;471~art5!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+  - id: dlgs471-art11
+    label: D.Lgs. 18 dicembre 1997, n. 471, art. 11 (testo vigente al 25/10/2026) – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1997-12-18;471~art11!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+  - id: l190-2014
+    label: Legge 23 dicembre 2014, n. 190, art. 1, commi 54, 85 e 88 (testo vigente al 25/10/2026) – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2014-12-23;190~art1!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: letti il modello AA9/12 e le istruzioni 2024 (PDF scaricati, sha256 annotati), le pagine
+    AdE "Che cos'è", "Come aprire una Partita Iva", "Modello e istruzioni", "Software di
+    compilazione", "Normativa e prassi", l'elenco PEC delle Direzioni Provinciali, la pagina
+    dell'area riservata e di prenotazione, il provvedimento del 12/10/2026 sulle partite IVA
+    inattive; su Normattiva l'art. 35 del D.P.R. 633/1972 vigente al 25/10/2026, gli artt. 68, 170
+    e 171 del Testo unico IVA (D.Lgs. 10/2026), gli artt. 5 e 11 del D.Lgs. 471/1997 e l'art. 1,
+    commi 54, 85 e 88 della L. 190/2014.
+  notes: >-
+    Non verificati: indirizzi e orari degli uffici di Napoli (nessuna pagina ufficiale aperta li
+    elenca), l'assenza di costi, gli adempimenti INPS e ComUnica (fuori da questa scheda).
