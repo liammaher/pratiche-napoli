@@ -1,0 +1,531 @@
+schema_version: 0
+id: napoli/comune/nulla-osta-impatto-acustico
+title: Nulla osta di impatto acustico e documentazione di impatto acustico per le attività (Comune di Napoli)
+summary: >-
+  Un'attività che a Napoli usa impianti di diffusione sonora o macchinari rumorosi (bar, ristoranti
+  e pizzerie con musica, locali di intrattenimento, officine, tipografie…) deve allegare alla
+  pratica SUAP la documentazione di impatto acustico preparata da un tecnico competente in
+  acustica e ottenere il nulla osta di impatto acustico del Comune. La richiesta si fa solo dentro
+  la pratica su impresainungiorno; nel centro storico (zone A e B) chi apre un bar o un ristorante
+  deve chiederlo in ogni caso, anche senza musica.
+ente:
+  name: Comune di Napoli
+  office: Area Ambiente – Servizio Tutela dell'Ambiente, della Salute e del Paesaggio (tramite il SUAP)
+  ipa: c_f839
+applies_to:
+  events: [open, events]
+  audience: [business]
+  sectors:
+    - somministrazione di alimenti e bevande con musica o impianti di diffusione sonora
+    - attività di spettacolo e intrattenimento, discoteche, circoli
+    - stabilimenti balneari, palestre e altre attività con impianti rumorosi
+    - officine di autoriparazione, tipografie e litografie
+  conditions:
+    - text: >-
+        Le domande di licenza o di autorizzazione all'esercizio di attività produttive, e quelle
+        per i provvedimenti che abilitano all'uso di immobili per attività produttive, sportive e
+        ricreative, devono contenere una documentazione di previsione di impatto acustico (L.
+        447/1995, art. 8, c. 4).
+      status: verified
+      source: l447-art8
+    - text: >-
+        Per discoteche e per circoli privati e pubblici esercizi in cui sono installati macchinari
+        o impianti rumorosi, la documentazione di impatto acustico va predisposta anche su
+        richiesta dei comuni (art. 8, c. 2, lett. c e d).
+      status: verified
+      source: l447-art8
+    - text: >-
+        Le attività a bassa rumorosità dell'Allegato B al D.P.R. 227/2011 sono escluse dalla
+        documentazione, tranne ristoranti, pizzerie, trattorie, bar, mense, attività ricreative,
+        agrituristiche, culturali e di spettacolo, sale da gioco, palestre e stabilimenti balneari
+        che usano impianti di diffusione sonora o fanno eventi con musica o strumenti musicali:
+        per loro la documentazione di previsione di impatto acustico è obbligatoria (D.P.R.
+        227/2011, art. 4, c. 1).
+      status: verified
+      source: dpr227-art4
+    - text: >-
+        Le semplificazioni del D.P.R. 227/2011 valgono per le categorie di imprese dell'art. 2 del
+        D.M. 18 aprile 2005, che lo attestano con una dichiarazione sostitutiva di certificazione
+        (art. 46 D.P.R. 445/2000) (D.P.R. 227/2011, art. 1).
+      status: verified
+      source: dpr227-art1
+    - text: >-
+        Le categorie del D.M. 18 aprile 2005 sono le micro, piccole e medie imprese (il decreto
+        ministeriale non è stato letto).
+      status: unverified
+    - text: >-
+        A Napoli la musica riservata ai clienti di un bar o ristorante non richiede licenza né
+        SCIA, purché non diventi pubblico spettacolo, ma resta necessario il nulla osta di impatto
+        acustico, da chiedere al servizio controlli ambientali.
+      status: verified
+      source: esercizi-pubblici
+    - text: >-
+        Nelle zone A (centro storico UNESCO) e B (buffer zone) del Piano approvato con la delibera
+        di Consiglio comunale n. 79/2026, ogni nuova attività di somministrazione deve presentare
+        la richiesta di nulla osta di impatto acustico (art. 8 L. 447/1995) come requisito
+        strutturale minimo, asseverato da un tecnico abilitato (Piano, art. 7, c. 3).
+      status: verified
+      source: piano-2026
+    - text: >-
+        Il piano di zonizzazione acustica del Comune subordina al nulla osta l'esercizio delle
+        attività produttive, sportive e ricreative (discoteche, circoli privati e pubblici
+        esercizi) e dei servizi commerciali polifunzionali per cui serve la relazione di impatto
+        acustico (norme di attuazione, art. 7).
+      status: verified
+      source: pza-norme
+legal_basis:
+  - text: >-
+      Legge 26 ottobre 1995, n. 447 (legge quadro sull'inquinamento acustico): art. 8, commi 2, 4,
+      5 e 6 (documentazione di impatto acustico e nulla osta del comune).
+    status: verified
+    source: l447-art8
+  - text: >-
+      L. 447/1995, art. 8, c. 6: se l'attività può superare i valori limite di emissione, la
+      domanda deve indicare le misure previste per ridurre o eliminare le emissioni, ai fini del
+      rilascio del nulla osta da parte del comune.
+    status: verified
+    source: l447-art8
+  - text: >-
+      D.P.R. 19 ottobre 2011, n. 227, artt. 1 e 4 (semplificazione della documentazione di impatto
+      acustico per le imprese).
+    status: verified
+    source: dpr227-art4
+  - text: >-
+      L. 447/1995, art. 2, commi 6 e 7, e d.lgs. 17 febbraio 2017, n. 42, artt. 21 e 22 (tecnico
+      competente in acustica ed elenco nazionale).
+    status: verified
+    source: dlgs42-art21
+  - text: >-
+      Piano di zonizzazione acustica del Comune di Napoli, approvato con deliberazione del
+      Consiglio comunale n. 204 del 21 dicembre 2001; integra il piano regolatore generale.
+    status: verified
+    source: pza-pagina
+  - text: >-
+      Norme di attuazione del Piano di zonizzazione acustica: art. 6 (attività a maggiore impatto
+      acustico), art. 7 (relazione di impatto acustico e nulla osta), art. 13 (manifestazioni e
+      musica all'aperto), art. 21 (sanzioni).
+    status: verified
+    source: pza-norme
+  - text: >-
+      Avviso del Comune: le istanze vanno inserite nella SCIA unica o condizionata ai sensi del
+      d.lgs. 25 novembre 2016, n. 222, dell'art. 8, c. 4, L. 447/1995 e dell'art. 7 del Piano di
+      zonizzazione acustica.
+    status: verified
+    source: avviso-nulla-osta
+  - text: >-
+      Deliberazione di Giunta comunale n. 246 del 18 luglio 2023 (aree del centro storico UNESCO e
+      di alcune buffer zone con limitazioni all'avvio di nuove attività), citata dall'avviso del
+      Comune; il testo della delibera non è stato letto.
+    status: verified
+    source: avviso-nulla-osta
+  - text: >-
+      Piano per le aperture degli esercizi di somministrazione nel centro storico UNESCO e nella
+      buffer zone (delibera C.C. n. 79 del 29 giugno 2026), art. 7.
+    status: verified
+    source: piano-2026
+deadline:
+  rules:
+    - text: >-
+        Dal 1° giugno 2024 l'istanza di nulla osta (anche per voltura per cambio di gestore e
+        subentro) è ricevibile solo se contenuta nella SCIA o domanda di autorizzazione di inizio
+        attività trasmessa al SUAP su impresainungiorno: va quindi presentata insieme alla pratica
+        di apertura, prima di iniziare.
+      status: verified
+      source: avviso-nulla-osta
+    - text: >-
+        Se l'attività è già aperta con un titolo valido e vuole poi usare impianti
+        elettroacustici, presenta l'istanza di nulla osta su impresainungiorno indicando gli
+        estremi del titolo (SCIA di somministrazione, autorizzazione ecc.).
+      status: verified
+      source: avviso-nulla-osta
+    - text: >-
+        Il nulla osta viene rilasciato solo dopo la conclusione positiva, da parte del SUAP, della
+        pratica di inizio attività, voltura o subentro.
+      status: verified
+      source: avviso-nulla-osta
+    - text: >-
+        Il piano di zonizzazione subordina l'esercizio dell'attività al rilascio del nulla osta,
+        sulla base della documentazione presentata e dei controlli finali (norme, art. 7).
+      status: verified
+      source: pza-norme
+    - text: >-
+        Le fonti consultate non indicano un termine per il rilascio del nulla osta: chiederlo al
+        SUAP o al Servizio Tutela dell'Ambiente.
+      status: unverified
+  lateness:
+    text: >-
+      La L. 447/1995 punisce chi supera i valori limite di emissione o immissione con una sanzione
+      amministrativa da 1.000 a 10.000 euro (art. 10, c. 2) e la violazione delle disposizioni
+      dei comuni attuative della legge da 500 a 20.000 euro (art. 10, c. 3). L'importo in
+      concreto lo stabilisce l'ufficio che accerta la violazione.
+    status: verified
+    source: l447-art10
+channels:
+  - type: portal
+    name: impresainungiorno – SUAP del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
+    receipt: legal
+    preferred: true
+    source: suap-contatti
+    notes: >-
+      Unico canale: l'istanza di nulla osta si inserisce nella pratica SUAP (SCIA unica o
+      condizionata, autorizzazione, voltura) oppure, per un'attività già aperta, come pratica a
+      sé con gli estremi del titolo. Le pratiche SUAP inviate via PEC o e-mail non vengono
+      istruite.
+  - type: desk
+    name: SUAP del Comune di Napoli
+    address: Piazza Cavour 42, II piano, Napoli
+    booking: Solo su prenotazione online dalla pagina "Avviare, variare, chiudere un'attività produttiva"
+    source: suap-contatti
+    notes: Per informazioni e assistenza; non per depositare la pratica.
+  - type: desk
+    name: Servizio Tutela dell'Ambiente, della Salute e del Paesaggio – VAS/Acustica
+    address: Via Speranzella 80, 80132 Napoli
+    hours: martedì 9:00–13:00, preferibilmente su appuntamento telefonico
+    source: servizio-tutela-ambiente
+    notes: Ufficio che esprime i pareri di conformità acustica; per informazioni.
+  - type: phone
+    address: 081 7959656 / 081 7959565
+    source: servizio-tutela-ambiente
+    notes: >-
+      Numeri della pagina dell'ufficio (aggiornata il 16/07/2026); la pagina "Rumore ambientale"
+      riporta 081.7956756/7959565.
+  - type: pec
+    address: tutela.asp@pec.comune.napoli.it
+    receipt: legal
+    source: servizio-tutela-ambiente
+    notes: >-
+      PEC del Servizio, per comunicazioni; le istanze di nulla osta sono ricevibili solo tramite
+      impresainungiorno.
+payment:
+  method: pagopa
+  calculator_url: https://static-www.comune.napoli.it/wp-content/uploads/2021/07/2026-TABELLA-DIRITTI-SUAP-DEF.pdf
+  notes:
+    - text: >-
+        Diritti d'istruttoria SUAP in vigore dall'11 giugno 2026 (delibera di Giunta comunale n.
+        239 del 28 maggio 2026).
+      status: verified
+      source: diritti-suap
+    - text: >-
+        Tabella 2026, colonne APERTURA / VCA / VPF: nulla osta di impatto acustico L. 447/1995
+        come procedimento del Servizio Tutela dell'Ambiente (TS 7): 100,00 € / 80,00 € / 65,00 €.
+        Somministrazione in zone non tutelate + notifica sanitaria + nulla osta di impatto
+        acustico (S73): 220,00 € / 176,00 € / 130,00 €. Somministrazione in zone tutelate +
+        notifica sanitaria + nulla osta di impatto acustico (S76): 520,00 € / 416,00 € / 325,00 €.
+      status: verified
+      source: tabella-diritti-2026
+    - text: >-
+        Altre voci della tabella 2026 che comprendono il nulla osta: stabilimento balneare (S101)
+        500,00 €; spettacolo o intrattenimento all'aperto senza strutture con emissioni sonore
+        (S103) 200,00 €; spettacolo o intrattenimento in locali aperti al pubblico (S111) 600,00
+        €; officine di autoriparazione (S147) 200,00 €; tipografie e litografie (S161) 200,00 €
+        (importi di apertura). Le deroghe per manifestazioni ed eventi ex art. 13 del piano di
+        zonizzazione (TS 8) costano 100,00 €.
+      status: verified
+      source: tabella-diritti-2026
+    - text: >-
+        Si paga con pagoPA dentro la pratica su impresainungiorno, come gli altri diritti SUAP.
+        Non è stato verificato se per il nulla osta sia dovuta anche l'imposta di bollo.
+      status: unverified
+documents:
+  - name: Documentazione di previsione di impatto acustico (relazione tecnica)
+    required: true
+    notes: >-
+      Redatta da un tecnico competente in acustica. Secondo il piano di zonizzazione (art. 7)
+      contiene: rilievi fonometrici dello stato di fatto; posizione e descrizione degli impianti
+      rumorosi e loro contributo; verifica dei requisiti di fonoisolamento del D.P.C.M. 5
+      dicembre 1997; contributo complessivo all'inquinamento acustico; verifica dei limiti di
+      emissione e immissione della zona e del criterio differenziale; misure previste per
+      ridurre le emissioni. Se ci sono edifici residenziali vicini, va valutato anche il rumore
+      del traffico indotto, soprattutto di notte (art. 6).
+  - name: Dichiarazione sostitutiva dell'atto di notorietà (art. 8, c. 5, L. 447/1995)
+    required: false
+    notes: >-
+      Alternativa alla documentazione completa per le imprese che rientrano nel D.P.R. 227/2011
+      quando non si superano i limiti di emissione (art. 4, commi 1 e 2). A Napoli è irricevibile
+      per le attività con musica nelle aree del centro storico individuate dalla delibera di
+      Giunta n. 246/2023.
+  - name: Dichiarazione sostitutiva di appartenenza alle categorie di impresa del D.P.R. 227/2011
+    required: false
+    notes: Serve per usare le semplificazioni (art. 1 del D.P.R. 227/2011, art. 46 D.P.R. 445/2000).
+  - name: Estremi del titolo con cui l'attività è già aperta
+    required: false
+    notes: Solo se si chiede il nulla osta per un'attività già in esercizio (SCIA, autorizzazione ecc.).
+  - name: Ricevuta pagoPA dei diritti d'istruttoria SUAP
+    required: true
+steps:
+  - do: >-
+      Verificare in quale classe acustica ricade il locale, con le tavole del piano di
+      zonizzazione acustica (zona centrale, orientale, occidentale, settentrionale), e se è nelle
+      zone A o B del Piano delle somministrazioni 2026
+    who: anyone
+  - do: >-
+      Stabilire se servono la documentazione completa o la dichiarazione sostitutiva: in zona A e
+      B per bar e ristoranti, e per le attività con musica nel centro storico, serve comunque
+      l'istanza di nulla osta con relazione tecnica
+    who: professional
+  - do: >-
+      Incaricare un tecnico competente in acustica iscritto nell'elenco nazionale (ENTECA), che
+      esegue i rilievi fonometrici e redige la documentazione di previsione di impatto acustico
+    who: owner
+  - { do: Redigere la relazione o la dichiarazione e firmarla, who: professional, human_only: true }
+  - do: >-
+      Inserire l'istanza di nulla osta e la documentazione nella pratica SUAP su impresainungiorno
+      (insieme alla SCIA o all'autorizzazione di apertura, voltura o subentro; oppure come pratica
+      a sé con gli estremi del titolo se l'attività è già aperta)
+    who: facilitator
+  - { do: Firmare digitalmente la pratica, who: owner, human_only: true }
+  - { do: Pagare i diritti d'istruttoria con pagoPA nel front office, who: owner, human_only: true }
+  - { do: Inviare la pratica su impresainungiorno, who: owner, human_only: true }
+  - do: >-
+      Attendere l'esito: il nulla osta arriva solo dopo la conclusione positiva della pratica SUAP;
+      non usare gli impianti di diffusione sonora prima del rilascio
+    who: office
+after:
+  - Conservare la ricevuta di impresainungiorno, la relazione del tecnico e il nulla osta nel locale.
+  - >-
+    Usare solo gli impianti descritti nella relazione: se cambiano impianti, disposizione o
+    attività, far aggiornare la documentazione dal tecnico prima di usarli.
+  - >-
+    In caso di cambio di gestore o subentro, la voltura del nulla osta va chiesta dentro la
+    pratica SUAP di subentro.
+  - >-
+    Per eventi o musica all'aperto oltre i limiti, chiedere per tempo l'autorizzazione in deroga
+    prevista dall'art. 13 del piano di zonizzazione.
+pitfalls:
+  - text: >-
+      Le istanze di nulla osta presentate fuori da impresainungiorno (per esempio via PEC
+      all'ufficio ambiente) non sono ricevibili dal 1° giugno 2024.
+    status: verified
+    source: avviso-nulla-osta
+  - text: >-
+      Le dichiarazioni semplificate (art. 4 D.P.R. 227/2011) per attività con emissioni di musica
+      nelle aree del centro storico della delibera di Giunta n. 246/2023 sono irricevibili: lì
+      serve l'istanza di nulla osta con la relazione tecnica.
+    status: verified
+    source: avviso-nulla-osta
+  - text: >-
+      L'avviso non dice espressamente se fuori da quelle aree la dichiarazione semplificata sia
+      accettata in luogo del nulla osta, e non è stato verificato se le aree della delibera n.
+      246/2023 coincidano con le zone A e B del Piano del 2026. Chiedere al SUAP.
+    status: unverified
+  - text: >-
+      La documentazione che attesta emissioni superiori ai limiti della classificazione acustica
+      deve indicare le misure di riduzione ed essere predisposta da un tecnico competente in
+      acustica (D.P.R. 227/2011, art. 4, c. 3).
+    status: verified
+    source: dpr227-art4
+  - text: >-
+      La professione di tecnico competente in acustica si può svolgere solo dopo l'iscrizione
+      nell'elenco nazionale dei tecnici competenti in acustica, tenuto dal Ministero dell'ambiente
+      con ISPRA (L. 447/1995, art. 2, c. 7; d.lgs. 42/2017, art. 21). Controllare l'iscrizione del
+      tecnico prima di incaricarlo.
+    status: verified
+    source: l447-art2
+  - text: >-
+      L'elenco nazionale (ENTECA) si consulta sulla piattaforma ISPRA enteca.isprambiente.it; la
+      pagina è dinamica e non è stata letta.
+    status: unverified
+  - text: >-
+      In Campania le istanze di iscrizione e aggiornamento nell'ENTECA si presentano alla Regione
+      (modelli sulla pagina regionale "Tecnici Competenti in Acustica").
+    status: verified
+    source: regione-campania-tca
+  - text: >-
+      Le norme del piano di zonizzazione (1998–2001) sono in parte superate: indicano come
+      ufficio competente il "Servizio Progettazione e Valutazione Ambientale", rinviano alla L.
+      15/1968 per la dichiarazione ed esprimono le sanzioni in lire (art. 21, che punisce anche la
+      mancata presentazione della relazione di impatto acustico). Prevedono inoltre che, dopo una
+      diffida non rispettata, il Sindaco possa sospendere l'attività fino a 6 mesi e poi ordinarne
+      la chiusura (art. 20).
+    status: verified
+    source: pza-norme
+  - text: >-
+      Oggi i pareri obbligatori di conformità acustica per le attività li esprime il Servizio
+      Tutela dell'Ambiente, della Salute e del Paesaggio, secondo la L. 447/1995 e il piano di
+      zonizzazione vigente.
+    status: verified
+    source: rumore-ambientale
+  - text: >-
+      Le attività a maggiore impatto acustico non dovrebbero insediarsi, per quanto possibile, in
+      edifici prevalentemente residenziali; quelle notturne ad alto impatto (per esempio dancing)
+      in edifici con poche funzioni residenziali e con parcheggi (norme del piano, art. 6).
+    status: verified
+    source: pza-norme
+  - text: >-
+      Anche senza lavori edilizi, chi cambia destinazione d'uso di un'unità immobiliare deve
+      dichiarare che la nuova attività non peggiora le emissioni rumorose; se è previsto un
+      aumento della rumorosità serve la relazione di impatto acustico (norme del piano, art. 7).
+    status: verified
+    source: pza-norme
+  - text: >-
+      Piano-bar, serate musicali, karaoke e simili all'aperto, a supporto dell'attività
+      principale, sono attività rumorose temporanee: gli strumenti e gli amplificatori vanno
+      spenti entro le 24:00 e vanno rispettati i limiti dell'art. 13; oltre 3 giorni, anche non
+      consecutivi, in un bimestre serve un'autorizzazione formale con relazione di impatto
+      acustico (norme del piano, art. 13).
+    status: verified
+    source: pza-norme
+  - text: >-
+      Valori limite di emissione (Leq in dBA, diurno 6–22 / notturno 22–6) riportati dalle norme
+      del piano dal D.P.C.M. 14 novembre 1997: classe I 45/35, II 50/40, III 55/45, IV 60/50, V
+      65/55, VI 65/65. La classe del locale si legge nelle tavole del piano.
+    status: verified
+    source: pza-norme
+  - text: >-
+      Nel punteggio del Piano delle somministrazioni (zone A e B) l'insonorizzazione dei locali
+      certificata da un tecnico iscritto all'albo, con emissioni all'esterno e negli ambienti
+      confinanti inferiori al 10% dei limiti di legge, vale 30 punti (art. 9).
+    status: verified
+    source: piano-2026
+  - text: >-
+      Le due pagine del Comune riportano numeri di telefono diversi per l'ufficio acustica:
+      081.7956756/7959565 ("Rumore ambientale", aggiornata il 13/05/2025) e 081 7959656 / 081
+      7959565 (pagina dell'ufficio, aggiornata il 16/07/2026).
+    status: disputed
+    source: servizio-tutela-ambiente
+  - text: >-
+      L'avviso sul nulla osta non ha una data di pubblicazione propria: la pagina indica solo
+      l'ultimo aggiornamento (04/06/2025), mentre il testo fissa l'obbligo dal 01/06/2024.
+    status: verified
+    source: avviso-nulla-osta
+  - text: >-
+      L'Allegato B del D.P.R. 227/2011 (elenco delle attività a bassa rumorosità) su Normattiva è
+      solo in formato grafico e non è stato letto: per sapere se un'attività senza musica vi
+      rientra, chiedere al tecnico.
+    status: unverified
+related:
+  - napoli/comune/scia-somministrazione-alimenti-bevande
+  - napoli/comune/concessione-suolo-pubblico-dehors
+  - napoli/comune/cila-lavori-edilizi
+  - napoli/asl-napoli-1/registrazione-attivita-alimentare
+sources:
+  - id: avviso-nulla-osta
+    label: Avviso in tema di nulla osta di impatto acustico – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/area-tematica-ambiente/avviso-in-tema-di-nulla-osta-di-impatto-acustico/
+    retrieved: 2026-10-25
+    page_updated: 2025-06-04
+    official: true
+    notes: Obbligo in vigore dal 01/06/2024.
+  - id: rumore-ambientale
+    label: Rumore ambientale – Comune di Napoli (Servizio Tutela dell'Ambiente, della Salute e del Paesaggio)
+    url: https://www.comune.napoli.it/articolo_tematico/area-tematica-ambiente/rumore-ambientale/
+    retrieved: 2026-10-25
+    page_updated: 2025-05-13
+    official: true
+  - id: servizio-tutela-ambiente
+    label: Servizio Tutela dell'Ambiente, della Salute e del Paesaggio – Comune di Napoli
+    url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-tutela-dellambiente-della-salute-e-del-paesaggio/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-16
+    official: true
+  - id: pza-pagina
+    label: Zonizzazione acustica – Comune di Napoli (pagina del piano, con relazione, norme e tavole)
+    url: https://www.comune.napoli.it/articolo_tematico/urbana-urbanistica-napoli/il-prg/zonizzazione-acustica/
+    retrieved: 2026-10-25
+    page_updated: 2025-06-18
+    official: true
+  - id: pza-norme
+    label: Piano di zonizzazione acustica del Comune di Napoli – Normativa di attuazione (revisione maggio 2001)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/05/norm_zon_acust.pdf
+    retrieved: 2026-10-25
+    sha256: 87980f5674d9e9e1bbbe7822c5883e62ba74c95a921ba53046082aabfeb65ec5
+    official: true
+    notes: Testo del 1999–2001; ufficio, rinvii normativi e sanzioni in lire non aggiornati.
+  - id: esercizi-pubblici
+    label: Esercizi pubblici – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/commercio-e-artigianato/avvio-di-attivita-commerciali/esercizi-pubblici/
+    retrieved: 2026-10-25
+    page_updated: 2025-06-04
+    official: true
+    notes: Precedente al Piano delle somministrazioni del 2026.
+  - id: piano-2026
+    label: >-
+      Piano per la programmazione delle aperture degli esercizi di somministrazione nel centro
+      storico UNESCO e nella buffer zone – testo coordinato con emendamenti (SUAP Napoli)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/07/Piano-di-somministrazioni-con-emendamenti.pdf
+    retrieved: 2026-10-25
+    sha256: 6a9f1d69a6275a19dd3887d5889a0f12b8b91fc9a09ea9cac9b1c6d18b7c400b
+    official: true
+    notes: Testo coordinato; fa fede la delibera C.C. 79/2026.
+  - id: tabella-diritti-2026
+    label: Tabella dei diritti d'istruttoria delle pratiche telematiche SUAP 2026
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2021/07/2026-TABELLA-DIRITTI-SUAP-DEF.pdf
+    retrieved: 2026-10-25
+    sha256: 6abd7a3127137927c6d9959f946001c4e51d47afee568317e4e69e5584994d15
+    official: true
+  - id: diritti-suap
+    label: SUAP – Diritti d'istruttoria (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/suap/diritti-distruttoria-suap/
+    retrieved: 2026-10-25
+    page_updated: 2026-06-11
+    official: true
+  - id: suap-contatti
+    label: SUAP – Contatti (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/suap/contatti/
+    retrieved: 2026-10-25
+    page_updated: 2026-05-18
+    official: true
+  - id: l447-art8
+    label: Legge 26 ottobre 1995, n. 447, art. 8 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1995-10-26;447~art8
+    retrieved: 2026-10-25
+    official: true
+  - id: l447-art2
+    label: Legge 26 ottobre 1995, n. 447, art. 2 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1995-10-26;447~art2
+    retrieved: 2026-10-25
+    official: true
+  - id: l447-art10
+    label: Legge 26 ottobre 1995, n. 447, art. 10 – Sanzioni amministrative (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1995-10-26;447~art10
+    retrieved: 2026-10-25
+    official: true
+  - id: dpr227-art1
+    label: D.P.R. 19 ottobre 2011, n. 227, art. 1 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:presidente.repubblica:decreto:2011-09-19;227~art1
+    retrieved: 2026-10-25
+    official: true
+  - id: dpr227-art4
+    label: D.P.R. 19 ottobre 2011, n. 227, art. 4 – Semplificazione della documentazione di impatto acustico (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:presidente.repubblica:decreto:2011-09-19;227~art4
+    retrieved: 2026-10-25
+    official: true
+  - id: dlgs42-art21
+    label: D.lgs. 17 febbraio 2017, n. 42, art. 21 – Elenco dei tecnici competenti in acustica (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2017-02-17;42~art21
+    retrieved: 2026-10-25
+    official: true
+  - id: dlgs42-art22
+    label: D.lgs. 17 febbraio 2017, n. 42, art. 22 – Requisiti per l'iscrizione (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2017-02-17;42~art22
+    retrieved: 2026-10-25
+    official: true
+  - id: regione-campania-tca
+    label: Tecnici Competenti in Acustica – Regione Campania
+    url: https://www.regione.campania.it/aree-tematiche/ambiente/acustica/tecnici-competenti-acustica
+    retrieved: 2026-10-25
+    official: true
+  - id: enteca
+    label: ENTECA – Elenco nazionale dei tecnici competenti in acustica (ISPRA)
+    url: https://enteca.isprambiente.it/
+    retrieved: 2026-10-25
+    official: true
+    notes: Applicazione JavaScript; aperta ma contenuto non letto.
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: letti l'avviso del Comune sul nulla osta di impatto acustico, le pagine comunali Rumore
+    ambientale, Servizio Tutela dell'Ambiente, Zonizzazione acustica, Esercizi pubblici, SUAP
+    Contatti e Diritti d'istruttoria, le norme di attuazione del piano di zonizzazione acustica
+    (DCC 204/2001), l'art. 7 e l'art. 9 del Piano delle somministrazioni 2026, la tabella diritti
+    SUAP 2026, gli artt. 2, 8 e 10 della L. 447/1995, gli artt. 1 e 4 del D.P.R. 227/2011, gli
+    artt. 21 e 22 del d.lgs. 42/2017 e la pagina della Regione Campania sui tecnici competenti in
+    acustica.
+  notes: >-
+    Nessun modulo pubblico da mappare: l'istanza si compila nel front office di impresainungiorno
+    (richiede accesso). Non letti la delibera G.C. 246/2023, il D.M. 18 aprile 2005, l'Allegato B
+    del D.P.R. 227/2011 (solo immagine) e le tavole del piano di zonizzazione. Non verificati con
+    l'ufficio i tempi di rilascio e l'eventuale imposta di bollo.

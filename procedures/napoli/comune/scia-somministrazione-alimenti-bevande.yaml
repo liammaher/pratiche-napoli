@@ -454,6 +454,10 @@ related:
   - napoli/comune/tari-iscrizione-non-domestica
   - napoli/comune/insegna-esercizio
   - napoli/comune/concessione-suolo-pubblico-dehors
+  - napoli/asl-napoli-1/attestato-alimentarista
+  - napoli/comune/nulla-osta-impatto-acustico
+  - napoli/vigili-del-fuoco/scia-prevenzione-incendi
+  - napoli/comune/subingresso-attivita-commerciale
 sources:
   - id: piano-2026
     label: >-

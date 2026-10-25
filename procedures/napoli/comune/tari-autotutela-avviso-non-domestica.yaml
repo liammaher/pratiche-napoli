@@ -338,6 +338,7 @@ related:
   - napoli/comune/tari-variazione-non-domestica
   - napoli/comune/tari-cessazione-non-domestica
   - napoli/comune/tari-iscrizione-non-domestica
+  - italia/pagopa/send-notifiche-digitali
 sources:
   - id: mod-7
     label: Mod. 7 TARI – Autotutela avviso bonario uso non abitativo (testo, AVVERTENZE, INFORMAZIONI e CONTATTI)

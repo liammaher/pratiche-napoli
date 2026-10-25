@@ -535,6 +535,9 @@ related:
   - napoli/comune/tari-iscrizione-non-domestica
   - napoli/comune/insegna-esercizio
   - napoli/asl-napoli-1/registrazione-attivita-alimentare
+  - napoli/comune/subingresso-attivita-commerciale
+  - napoli/comune/cessazione-attivita-commerciale
+  - napoli/vigili-del-fuoco/scia-prevenzione-incendi
 sources:
   - id: suap-servizio
     label: Comune di Napoli – Servizio "Avviare, variare, chiudere un'attività produttiva"

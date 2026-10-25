@@ -1,0 +1,772 @@
+schema_version: 0
+id: napoli/vigili-del-fuoco/scia-prevenzione-incendi
+title: Prevenzione incendi – valutazione del progetto, SCIA antincendio e rinnovo periodico (Vigili del Fuoco di Napoli, tramite SUAP)
+summary: >-
+  Un'attività che rientra nell'elenco dell'Allegato I del D.P.R. 151/2011 (per esempio un negozio
+  con più di 400 mq lordi, un albergo o affittacamere con più di 25 posti letto, un locale di
+  trattenimento con più di 100 persone, una centrale termica oltre 116 kW) deve presentare ai
+  Vigili del Fuoco una SCIA antincendio prima di iniziare, preparata da un tecnico abilitato; per
+  le categorie B e C serve prima l'approvazione del progetto. A Napoli le imprese la presentano
+  tramite il SUAP, e ogni 5 anni va presentata l'attestazione di rinnovo periodico.
+ente:
+  name: Corpo Nazionale dei Vigili del Fuoco – Comando Provinciale di Napoli
+  office: Ufficio Prevenzione Incendi (le pratiche delle imprese arrivano tramite il SUAP del Comune di Napoli)
+applies_to:
+  events: [open, renovate]
+  audience: [business]
+  sectors:
+    - commercio al dettaglio e all'ingrosso
+    - somministrazione di alimenti e bevande e locali di trattenimento
+    - strutture ricettive
+    - laboratori, officine e attività artigiane
+  conditions:
+    - text: >-
+        La procedura vale solo per le attività elencate nell'Allegato I del D.P.R. 151/2011,
+        divise nelle categorie A, B e C secondo dimensione e rischio. Un'attività non in elenco non
+        presenta questa SCIA, ma resta soggetta alle regole generali di sicurezza antincendio dei
+        luoghi di lavoro (vedi pitfalls).
+      status: verified
+      source: dpr151-art2
+    - text: >-
+        Attività 69 – locali di esposizione e/o vendita all'ingrosso o al dettaglio con superficie
+        lorda superiore a 400 mq comprensiva di servizi e depositi: categoria A fino a 600 mq, B
+        oltre 600 e fino a 1.500 mq, C oltre 1.500 mq. Sono escluse le manifestazioni temporanee.
+      status: verified
+      source: vvf-testo-coordinato
+    - text: >-
+        Attività 66 – alberghi, pensioni, motel, residenze turistico-alberghiere, studentati,
+        ostelli, bed & breakfast, dormitori, case per ferie e simili con oltre 25 posti letto:
+        categoria A fino a 50 posti letto, B oltre 50 e fino a 100, C oltre 100.
+      status: verified
+      source: vvf-testo-coordinato
+    - text: >-
+        Un B&B familiare della L.R. Campania 5/2001 ha al massimo 8 posti letto (scheda
+        napoli/comune/avvio-bed-and-breakfast), quindi da solo resta sotto la soglia dei 25 posti
+        letto dell'attività 66.
+      status: unverified
+    - text: >-
+        Attività 65 – locali di spettacolo e di trattenimento in genere, impianti e centri sportivi,
+        palestre, pubblici o privati, con capienza superiore a 100 persone oppure superficie lorda
+        in pianta al chiuso superiore a 200 mq: categoria B fino a 200 persone, C oltre 200
+        persone. Sono escluse le manifestazioni temporanee.
+      status: verified
+      source: vvf-testo-coordinato
+    - text: >-
+        Per stabilire se un ristorante o un bar rientra nell'attività 65, il testo coordinato dei
+        Vigili del Fuoco rinvia alla circolare n. 36 dell'11/12/1985 (punto 9), che non è stata
+        letta qui: farlo valutare al tecnico o chiedere al Comando.
+      status: verified
+      source: vvf-testo-coordinato
+    - text: >-
+        Attività 74 – impianti per la produzione di calore alimentati a combustibile solido, liquido
+        o gassoso con potenzialità superiore a 116 kW: categoria A fino a 350 kW, B oltre 350 e
+        fino a 700 kW, C oltre 700 kW.
+      status: verified
+      source: vvf-testo-coordinato
+    - text: >-
+        Se le apparecchiature di cottura a gas di una cucina (ristorante, bar, panificio) contano
+        come "impianto per la produzione di calore" e come si somma la potenza di più apparecchi è
+        materia di circolari e chiarimenti ministeriali che il testo coordinato cita (circ. 52 del
+        20/11/1982 punto 5; circ. 36 dell'11/12/1985 punto 9; chiarimento del 13/07/2010), non
+        dell'elenco stesso: la soglia di 116 kW per le cucine va confermata dal tecnico o dal
+        Comando.
+      status: verified
+      source: vvf-testo-coordinato
+    - text: >-
+        Altre voci che possono riguardare piccole imprese: 49 (gruppi elettrogeni e cogenerazione
+        oltre 25 kW: A fino a 350 kW, B fino a 700 kW, C oltre); 75 (autorimesse oltre 300 mq
+        coperti: A fino a 1.000 mq, B fino a 3.000 mq, C oltre); 70 (depositi oltre 1.000 mq lordi
+        con più di 5.000 kg di merci e materiali combustibili: B fino a 3.000 mq, C oltre); 72
+        (edifici tutelati dal D.Lgs. 42/2004 aperti al pubblico che contengono musei, biblioteche,
+        mostre o una qualsiasi altra attività dell'Allegato: sempre C); 3 (depositi e rivendite di
+        gas infiammabili in recipienti mobili, per il GPL da 75 kg: A depositi di GPL fino a 300 kg,
+        B rivendite e depositi oltre 300 kg fino a 1.000 kg, C oltre 1.000 kg).
+      status: verified
+      source: vvf-testo-coordinato
+    - text: >-
+        Numero, sottoclasse e categoria esatti di ogni attività (necessari anche per calcolare il
+        versamento) si ricavano dall'Allegato I del D.P.R. 151/2011 e dall'Allegato III del D.M.
+        7 agosto 2012: li individua il tecnico abilitato.
+      status: verified
+      source: vvf-testo-coordinato
+legal_basis:
+  - text: "D.P.R. 1 agosto 2011, n. 151: art. 2 (attività soggette e categorie A, B, C) e Allegato I (elenco)."
+    status: verified
+    source: dpr151-art2
+  - text: D.P.R. 151/2011, art. 3 (valutazione dei progetti per le categorie B e C).
+    status: verified
+    source: dpr151-art3
+  - text: D.P.R. 151/2011, art. 4 (SCIA antincendio e controlli del Comando).
+    status: verified
+    source: dpr151-art4
+  - text: D.P.R. 151/2011, art. 5 (attestazione di rinnovo periodico di conformità antincendio).
+    status: verified
+    source: dpr151-art5
+  - text: D.P.R. 151/2011, art. 6 (obblighi di manutenzione, informazione e registro dei controlli).
+    status: verified
+    source: dpr151-art6
+  - text: D.P.R. 151/2011, art. 10 (raccordo con il SUAP e il D.P.R. 160/2010).
+    status: verified
+    source: dpr151-art10
+  - text: >-
+      D.M. Interno 7 agosto 2012 (contenuto delle istanze, documentazione da allegare, sottoclassi,
+      presentazione tramite SUAP), nel testo coordinato pubblicato dai Vigili del Fuoco.
+    status: verified
+    source: vvf-testo-coordinato
+  - text: D.Lgs. 8 marzo 2006, n. 139, artt. 16 (procedure), 20 (sanzioni) e 23 (oneri dei servizi).
+    status: verified
+    source: dlgs139-art16
+  - text: >-
+      D.M. Interno 2 marzo 2012 come modificato dal D.M. 11 ottobre 2024 (tariffe orarie dei
+      servizi a pagamento dei Vigili del Fuoco).
+    status: verified
+    source: dm-tariffe-2024
+deadline:
+  rules:
+    - text: >-
+        La SCIA va presentata prima di iniziare l'esercizio dell'attività. Il Comando verifica la
+        completezza formale e ne rilascia ricevuta.
+      status: verified
+      source: dpr151-art4
+    - text: >-
+        Categorie B e C: prima dei lavori serve la valutazione del progetto. Il Comando può chiedere
+        integrazioni entro 30 giorni e si pronuncia entro 60 giorni dalla documentazione completa.
+      status: verified
+      source: dpr151-art3
+    - text: >-
+        Dopo la SCIA, entro 60 giorni il Comando effettua i controlli con visite tecniche (per le
+        categorie A e B anche a campione). Se mancano i requisiti vieta la prosecuzione, salvo che
+        l'interessato si metta in regola entro 45 giorni. Per la categoria C la visita c'è sempre e,
+        se l'esito è positivo, il certificato di prevenzione incendi arriva entro 15 giorni dalla
+        visita.
+      status: verified
+      source: dpr151-art4
+    - text: >-
+        Rinnovo periodico ogni 5 anni, contati dalla data di presentazione della prima SCIA (10 anni
+        per le attività 6, 7, 8, 64, 71, 72 e 77). Chi ha ancora un vecchio certificato di
+        prevenzione incendi fa il rinnovo alla sua scadenza.
+      status: verified
+      source: vvf-testo-coordinato
+    - text: >-
+        Modifiche che aggravano il rischio, nuova destinazione dei locali, cambi di lavorazione o di
+        strutture: vanno rifatte le procedure (nuova valutazione del progetto per B e C e nuova
+        SCIA).
+      status: verified
+      source: dpr151-art4
+  lateness:
+    text: >-
+      Il titolare di un'attività soggetta che omette la SCIA o la richiesta di rinnovo periodico è
+      punito con l'arresto fino a un anno o con l'ammenda da 258 a 2.582 euro (art. 20, c. 1, D.Lgs.
+      139/2006); il prefetto può sospendere l'attività fino all'adempimento (art. 20, c. 3). Chi
+      attesta il falso nelle certificazioni rischia la reclusione (art. 20, c. 2). Per il caso
+      concreto chiedere al Comando o a un legale: qui non si stima nulla.
+    status: verified
+    source: dlgs139-art20
+channels:
+  - type: portal
+    name: impresainungiorno – SUAP del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: info-diritti
+    notes: >-
+      Le istanze di prevenzione incendi che rientrano nell'ambito del SUAP si presentano al SUAP,
+      che le trasmette al Comando (D.M. 7/8/2012, art. 10). A Napoli impresainungiorno è l'unico
+      canale telematico delle pratiche SUAP; la SCIA antincendio si aggiunge di solito alla
+      pratica dell'attività (SCIA unica).
+  - type: portal
+    name: PRINCE – Portale di servizi di prevenzione incendi dei Vigili del Fuoco
+    url: https://prevenzioneonline.vigilfuoco.it/prevenzione-online/login
+    auth: [spid]
+    source: vvf-prince
+    notes: >-
+      Il Comando di Napoli accetta le istanze solo per via telematica o con inserimento diretto su
+      PRINCE. Accesso con SPID; le istanze si associano tramite codice fiscale (anche del
+      professionista). Assistenza tecnica: prince@vigilfuoco.it.
+  - type: pec
+    address: com.prev.napoli@cert.vigilfuoco.it
+    receipt: legal
+    source: vvf-napoli
+    notes: PEC dell'Ufficio Prevenzione Incendi del Comando di Napoli.
+  - type: desk
+    name: Comando VVF di Napoli – Ufficio Prevenzione Incendi
+    address: Via Leopoldo Tarantini 1, Napoli
+    hours: martedì 9:00–12:00, giovedì 14:00–16:00, venerdì 9:00–12:00
+    booking: Su appuntamento.
+    source: vvf-napoli
+    notes: Solo consulenze sugli aspetti di competenza dell'ufficio; le istanze sono telematiche.
+  - type: phone
+    address: 081 2595290
+    source: vvf-napoli
+  - type: desk
+    name: Servizio SUAP del Comune di Napoli
+    address: Piazza Cavour 42, II piano, Napoli
+    source: info-diritti
+    notes: Informazioni sulla pratica SUAP; telefono indicato dal SUAP 081 7953054.
+payment:
+  method: pagopa
+  calculator_url: https://www.vigilfuoco.it/documentiat/preventivi
+  notes:
+    - text: >-
+        Il servizio dei Vigili del Fuoco è a pagamento (art. 23 D.Lgs. 139/2006): l'onere è
+        stabilito su base oraria o forfettaria dal decreto del Ministro dell'interno.
+      status: verified
+      source: dlgs139-art23
+    - text: >-
+        Come si calcola: si individuano le attività (numero, sottoclasse, categoria), si ricava dalla
+        tabella ministeriale il numero di ore fissato per il servizio richiesto (valutazione
+        progetto, SCIA, rinnovo, deroga…) e lo si moltiplica per la tariffa oraria. Per deroghe e
+        rinnovi si usa la tariffa dell'esame progetto. Le ore sono nella tabella della circolare n.
+        13061/2011 riportata nel testo coordinato VVF.
+      status: verified
+      source: vvf-testo-coordinato
+    - text: >-
+        Tariffe orarie del D.M. 11 ottobre 2024 (G.U. del 23 ottobre 2024, in vigore dal giorno
+        successivo alla pubblicazione): esame progetto 63,00 euro l'ora, sopralluogo 68,00 euro l'ora. Una prestazione sotto l'ora
+        si paga come un'ora intera; oltre l'ora, le frazioni da 30 minuti in su contano come un'ora
+        intera, quelle sotto i 30 minuti non si contano. Sono a carico del richiedente anche le
+        eventuali indennità di trasferta.
+      status: verified
+      source: dm-tariffe-2024
+    - text: >-
+        L'importo esatto non è calcolato qui: usare il modulo "Importo di una richiesta di
+        prevenzione incendi" sul sito dei Vigili del Fuoco o farlo calcolare al tecnico. La
+        piattaforma PRINCE è già adeguata alle tariffe del D.M. 11 ottobre 2024.
+      status: verified
+      source: vvf-prince
+    - text: >-
+        Il Comando di Napoli chiede di pagare con pagoPA sulla piattaforma dei Vigili del Fuoco
+        (pagopa.vigilfuoco.it), con accesso previa registrazione o SPID; l'attestato si allega alla
+        SCIA.
+      status: verified
+      source: vvf-napoli
+    - text: >-
+        Diritti d'istruttoria del SUAP di Napoli (tabella in vigore dall'11 giugno 2026), colonna
+        apertura: prevenzione incendi come procedimento a sé (S211) 20,00 euro. Righe già
+        combinate: vicinato non alimentare + prevenzione incendi 120,00 euro (S2); vicinato
+        alimentare + notifica + prevenzione incendi 140,00 euro (S5); strutture ricettive + notifica
+        sanitaria + prevenzione incendi 240,00 euro (S96); panifici + notifica sanitaria +
+        prevenzione incendi 140,00 euro (S155); officine di autoriparazione + prevenzione incendi
+        120,00 euro (S148). Per variazioni (VCA) e cambi di persone (VPF) la tabella ha importi
+        diversi.
+      status: verified
+      source: tabella-2026
+    - text: >-
+        Se la combinazione non ha una riga propria (per esempio somministrazione + prevenzione
+        incendi), si applica la "logica del carrello": si sommano i diritti dei singoli procedimenti
+        della pratica.
+      status: verified
+      source: info-diritti
+    - text: >-
+        I diritti SUAP si pagano solo con pagoPA dentro la pratica su impresainungiorno; i diritti
+        di altri enti (qui i Vigili del Fuoco) si pagano con le modalità dell'ente e la ricevuta si
+        allega alla pratica SUAP.
+      status: verified
+      source: info-diritti
+documents:
+  - name: SCIA antincendio (Mod. PIN 2-2023) firmata dal responsabile dell'attività
+    required: true
+  - name: Asseverazione ai fini della sicurezza antincendio (Mod. PIN 2.1-2018) firmata da un tecnico abilitato
+    required: true
+    notes: >-
+      Con le certificazioni e dichiarazioni su elementi costruttivi, prodotti, materiali e impianti
+      rilevanti ai fini antincendio (Allegato II del D.M. 7/8/2012, modelli PIN 2.2–2.5).
+  - name: Relazione tecnica ed elaborati grafici (solo categoria A)
+    required: false
+    notes: >-
+      Per le categorie B e C il progetto è già stato approvato con la valutazione; nella SCIA si
+      indicano data e protocollo dell'approvazione. Il Comando di Napoli chiede file firmati
+      digitalmente con elaborati grafici in formato DWF o DXF.
+  - name: Attestato del versamento ai Vigili del Fuoco
+    required: true
+  - name: Dichiarazione di non aggravio del rischio (Mod. PIN 2.6-2018)
+    required: false
+    notes: Solo per modifiche senza aggravio delle condizioni di sicurezza (art. 4, c. 6, D.P.R. 151/2011).
+  - name: Dichiarazione sull'attuazione del sistema di gestione della sicurezza antincendio (SGSA)
+    required: false
+    notes: Solo se si usa l'approccio ingegneristico (D.M. 9 maggio 2007).
+  - name: Procura/delega al tecnico o all'intermediario, con documento d'identità
+    required: false
+  - name: Istanza di valutazione del progetto (Mod. PIN 1-2023) con relazione tecnica ed elaborati grafici
+    required: false
+    notes: Solo categorie B e C, prima dei lavori.
+  - name: Attestazione di rinnovo periodico (Mod. PIN 3-2023) con asseverazione del professionista antincendio (Mod. PIN 3.1)
+    required: false
+    notes: >-
+      Ogni 5 anni. L'asseverazione serve se ci sono impianti di protezione attiva (esclusi gli
+      estintori) o protezioni per la resistenza al fuoco delle strutture.
+forms:
+  - id: pin-2-2023-scia
+    name: Mod. PIN 2-2023 – Segnalazione certificata di inizio attività ai fini della sicurezza antincendio (in vigore dal 1° marzo 2023)
+    url: https://www.vigilfuoco.it/sites/default/files/2023-08/PIN_2_2023_SCIA_FV.pdf
+    source: pin-2
+    sha256: 08a7bfe125e9b0cefa60c89a098294b7327158e0f07ec57612a3ef81f14cbba6
+    signature_required: true
+    fields:
+      # Pagina 1 – intestazione
+      - label: Rif. Pratica VV.F. n.
+        map: { ask: "Numero di pratica dei Vigili del Fuoco, se già assegnato (per esempio dalla valutazione del progetto)" }
+      - label: Spazio per protocollo
+        map: { blank_with_reason: Riservato all'ufficio. }
+      - label: "Al Comando dei Vigili del Fuoco di ___ (provincia)"
+        map: { blank_with_reason: "Napoli: attività nella provincia di Napoli." }
+      # Dati del responsabile dell'attività
+      - { label: "Il sottoscritto – Cognome", map: { direct: identity.last_name } }
+      - { label: Nome, map: { direct: identity.first_name } }
+      - label: "domiciliato in – indirizzo"
+        map: { direct: domicilio.indirizzo }
+        notes: Il modulo chiede il domicilio; se il registro non ne ha uno, chiedere alla persona quale indirizzo indicare.
+      - { label: n. civico (domicilio), map: { direct: domicilio.civico } }
+      - { label: c.a.p. (domicilio), map: { direct: domicilio.cap } }
+      - { label: comune (domicilio), map: { direct: domicilio.comune } }
+      - { label: provincia (domicilio), map: { direct: domicilio.provincia } }
+      - { label: telefono, map: { direct: identity.phone } }
+      - { label: codice fiscale della persona fisica, map: { direct: identity.codice_fiscale } }
+      - label: "nella sua qualità di (titolare, legale rappresentante, amministratore, etc.)"
+        map: { direct: business.qualita_dichiarante }
+      - label: "della (ragione sociale ditta, impresa, ente, società, associazione, etc.)"
+        map: { direct: business.denominazione }
+      - { label: "con sede in – indirizzo", map: { direct: business.sede_legale_indirizzo } }
+      - { label: n. civico (sede), map: { direct: business.sede_legale_civico } }
+      - { label: c.a.p. (sede), map: { direct: business.sede_legale_cap } }
+      - { label: comune (sede), map: { direct: business.sede_legale_comune } }
+      - { label: provincia (sede), map: { direct: business.sede_legale_provincia } }
+      - { label: telefono (sede), map: { ask: "Telefono dell'impresa" } }
+      - { label: indirizzo di posta elettronica, map: { direct: business.email } }
+      - { label: indirizzo di posta elettronica certificata, map: { direct: business.pec } }
+      # Riferimento alla documentazione (una sola casella)
+      - label: "Con riferimento: ai progetti approvati dal Comando VV.F. in data … prot. n. … (solo per attività di cat. B e C)"
+        map: { ask: "Per attività di categoria B o C: data e protocollo del parere favorevole sul progetto (anche più di uno)" }
+      - label: "oppure: alla documentazione tecnica di progetto di cui alla asseverazione allegata (per attività di cat. A)"
+        map: { ask: "L'attività è di categoria A (nessuna valutazione del progetto)?" }
+        notes: Lo stabilisce il tecnico abilitato.
+      - label: "oppure: alla documentazione tecnica di cui alla asseverazione allegata (cat. A, B, C, modifiche ex art. 4 c. 6 DPR 151/2011 senza aggravio)"
+        map: { ask: "Si tratta di una modifica che non aggrava le condizioni di sicurezza preesistenti?" }
+      - label: Sigla del responsabile dell'attività (pagina 1)
+        map: { blank_with_reason: Sigla del responsabile dell'attività; solo la persona. }
+      # SEGNALA
+      - label: "Segnala l'inizio dell'esercizio dell'attività di: tipo di attività (albergo, scuola, etc.) – in caso di SCIA parziale i riferimenti pertinenti"
+        map: { ask: "Tipo di attività come la descrive il tecnico (per esempio negozio, albergo, centrale termica) ed eventuale lotto o stralcio se SCIA parziale" }
+      - { label: "sita in – indirizzo", map: { direct: locale.indirizzo } }
+      - { label: n. civico (attività), map: { direct: locale.civico } }
+      - { label: c.a.p. (attività), map: { direct: locale.cap } }
+      - { label: Comune (attività), map: { direct: locale.comune } }
+      - { label: provincia (attività), map: { direct: locale.provincia } }
+      - { label: telefono (attività), map: { ask: "Telefono del locale dell'attività" } }
+      - label: "La/e attività oggetto della Segnalazione sono individuate ai n./sotto classe/cat."
+        map: { ask: "Numero, sottoclasse e categoria (A/B/C) di ogni attività dell'Allegato I DPR 151/2011 e del DM 7/8/2012, indicati dal tecnico" }
+      # Pagina 2
+      - label: Dichiarazione di conoscenza e impegno a osservare gli obblighi connessi con l'esercizio dell'attività
+        map: { blank_with_reason: Dichiarazione prestampata che il responsabile fa sua firmando. }
+      - label: Allega l'asseverazione (art. 4 DM 7/8/2012) con i relativi allegati e l'attestato di versamento
+        map: { blank_with_reason: "Dichiarazione prestampata: allegare PIN 2.1 e attestato di versamento." }
+      - label: "Fascicolo della restante documentazione tecnica custodito presso: Nominativo"
+        map: { ask: "Presso chi è custodito il fascicolo della documentazione tecnica (l'attività stessa o altra persona)?" }
+      - label: "Fascicolo custodito presso: indirizzo, n. civico, c.a.p., comune, Provincia"
+        map: { ask: "Indirizzo dove è custodito il fascicolo tecnico (anche il locale dell'attività)" }
+      - label: Attestato di versamento n. … del …
+        map: { ask: "Numero e data della ricevuta del pagamento ai Vigili del Fuoco" }
+      - label: "intestato alla Tesoreria Provinciale dello Stato di … ai sensi del DLgs 139/2006"
+        map: { blank_with_reason: "Napoli (Comando competente); il pagamento si fa con pagoPA dei Vigili del Fuoco." }
+      - label: "per un totale di €"
+        map: { ask: "Importo totale versato ai Vigili del Fuoco (calcolato dal tecnico o con il modulo di calcolo VVF)" }
+      - label: "così distinte – per ogni attività: Attività n., Sottocl./categoria, Nuova / Esistente, D.M. 09-05-2007, RTO/RTV, €, FV"
+        map: { ask: "Per ogni attività: numero, sottoclasse e categoria; se nuova o esistente; se si usa l'approccio ingegneristico (DM 9/5/2007) o le RTO/RTV del Codice (DM 3/8/2015); importo; se c'è un impianto fotovoltaico" }
+        notes: Fino a sei righe sul modulo; le compila il tecnico.
+      # Pagina 3
+      - label: "Eventuale altro indirizzo per la corrispondenza: Cognome, Nome"
+        map: { ask: "Persona a cui inviare la corrispondenza, se diversa (per esempio il tecnico)" }
+      - label: "altro indirizzo: indirizzo, n. civico, c.a.p., comune, Provincia"
+        map: { ask: "Indirizzo per la corrispondenza, se diverso" }
+      - label: "altro indirizzo: telefono, posta elettronica, posta elettronica certificata"
+        map: { ask: "Telefono, email e PEC per la corrispondenza, se diversi" }
+      - { label: Data, map: { ask: Data di sottoscrizione } }
+      - label: Firma
+        map: { blank_with_reason: "Firma del responsabile dell'attività (digitale nella pratica telematica); solo la persona." }
+      # Spazio riservato al delegante
+      - label: "Delega per ritiro e chiarimenti tecnici: Titolo professionale, cognome, nome del delegato"
+        map: { ask: "Tecnico o altra persona delegata a ritirare la ricevuta e a dare chiarimenti (titolo, cognome, nome)" }
+      - label: "Delegato: domiciliato in via/piazza, n. civico, c.a.p., comune, provincia, telefono"
+        map: { ask: Domicilio e telefono del delegato }
+      - label: Delega – Data e Firma
+        map: { blank_with_reason: Firma del responsabile dell'attività che delega; solo la persona. }
+      # Spazi riservati al Comando
+      - label: Spazio riservato al Comando VVF – accertamento dell'identità (art. 38 DPR 445/2000)
+        map: { blank_with_reason: Compilato dal Comando. }
+      - label: Spazio riservato al Comando VVF – Ricevuta presentazione SCIA
+        map: { blank_with_reason: Compilato dal Comando. }
+  - id: pin-3-2023-rinnovo
+    name: Mod. PIN 3-2023 – Attestazione di rinnovo periodico di conformità antincendio (in vigore dal 1° marzo 2023)
+    url: https://www.vigilfuoco.it/sites/default/files/2023-08/PIN_3_2023%20Rinnovo_FV.pdf
+    source: pin-3
+    sha256: 48e12afdc60b23c744c20a6a519b1fadb5dba58e84d16e57365154ca1734d5cb
+    signature_required: true
+    fields:
+      - label: Rif. Pratica VV.F. n.
+        map: { ask: Numero di pratica dei Vigili del Fuoco dell'attività }
+      - label: Spazio per protocollo
+        map: { blank_with_reason: Riservato all'ufficio. }
+      - label: "Al Comando dei Vigili del Fuoco di ___ (Provincia)"
+        map: { blank_with_reason: "Napoli: attività nella provincia di Napoli." }
+      - { label: "Il sottoscritto – Cognome", map: { direct: identity.last_name } }
+      - { label: Nome, map: { direct: identity.first_name } }
+      - label: "domiciliato in – indirizzo"
+        map: { direct: domicilio.indirizzo }
+        notes: Il modulo chiede il domicilio; se il registro non ne ha uno, chiedere alla persona quale indirizzo indicare.
+      - { label: n. civico (domicilio), map: { direct: domicilio.civico } }
+      - { label: c.a.p. (domicilio), map: { direct: domicilio.cap } }
+      - { label: comune (domicilio), map: { direct: domicilio.comune } }
+      - { label: provincia (domicilio), map: { direct: domicilio.provincia } }
+      - { label: telefono, map: { direct: identity.phone } }
+      - { label: C.F. (codice fiscale della persona fisica), map: { direct: identity.codice_fiscale } }
+      - label: "nella sua qualità di (titolare, legale rappresentante, amministratore, etc.)"
+        map: { direct: business.qualita_dichiarante }
+      - label: "della (ragione sociale ditta, impresa, ente, società, associazione, etc.)"
+        map: { direct: business.denominazione }
+      - { label: "con sede in – indirizzo", map: { direct: business.sede_legale_indirizzo } }
+      - { label: n. civico (sede), map: { direct: business.sede_legale_civico } }
+      - { label: c.a.p. (sede), map: { direct: business.sede_legale_cap } }
+      - { label: comune (sede), map: { direct: business.sede_legale_comune } }
+      - { label: provincia (sede), map: { direct: business.sede_legale_provincia } }
+      - { label: telefono (sede), map: { ask: "Telefono dell'impresa" } }
+      - { label: indirizzo di posta elettronica, map: { direct: business.email } }
+      - { label: indirizzo di posta elettronica certificata, map: { direct: business.pec } }
+      - label: "DICHIARA l'assenza di variazione delle condizioni di sicurezza antincendio rispetto a quanto segnalato"
+        map: { ask: "Il responsabile conferma che le condizioni di sicurezza antincendio non sono cambiate rispetto all'ultima SCIA?" }
+        notes: Dichiarazione sostitutiva; la sceglie e la firma solo il responsabile dell'attività.
+      - label: Sigla del responsabile dell'attività (pagina 1)
+        map: { blank_with_reason: Sigla del responsabile dell'attività; solo la persona. }
+      - label: "con la/e SCIA presentate il … (fino a quattro date; in alternativa CPI o ultima attestazione di rinnovo)"
+        map: { ask: "Date di presentazione delle SCIA antincendio (o del certificato di prevenzione incendi, o dell'ultimo rinnovo)" }
+      - label: "relative e/o ricomprese all'attività principale di: tipo di attività"
+        map: { ask: "Tipo di attività principale (come nella SCIA)" }
+      - { label: "sita in – Indirizzo", map: { direct: locale.indirizzo } }
+      - { label: n. civico (attività), map: { direct: locale.civico } }
+      - { label: c.a.p. (attività), map: { direct: locale.cap } }
+      - { label: Comune (attività), map: { direct: locale.comune } }
+      - { label: provincia (attività), map: { direct: locale.provincia } }
+      - { label: telefono (attività), map: { ask: "Telefono del locale dell'attività" } }
+      - label: "individuata al n./sotto classe/cat. e comprendente anche le attività di cui ai nn./sottoclasse/cat."
+        map: { ask: "Numero, sottoclasse e categoria dell'attività principale e delle secondarie (come nella SCIA)" }
+      - label: Dichiara di avere assolto gli obblighi gestionali e osservato divieti, limitazioni e prescrizioni
+        map: { ask: "Il responsabile conferma di aver assolto gli obblighi gestionali antincendio?" }
+      - label: Dichiara di aver mantenuto in efficienza sistemi, impianti, dispositivi e attrezzature e di aver fatto verifiche e manutenzioni
+        map: { ask: "Il responsabile conferma che controlli e manutenzioni sono stati fatti (risultano dal registro dei controlli)?" }
+      - label: "Allega / Non allega l'Asseverazione (a firma di professionista antincendio)"
+        map: { ask: "Ci sono impianti di protezione attiva antincendio (esclusi gli estintori) o protezioni per la resistenza al fuoco delle strutture? Se sì, serve l'asseverazione PIN 3.1" }
+      - label: "Allega la documentazione per le modifiche di cui all'art. 4, comma 8, DM 7/8/2012 (numero e tipologia dei documenti)"
+        map: { ask: "Ci sono state modifiche non sostanziali da documentare con il rinnovo? Quali documenti si allegano?" }
+      - label: Attestato di versamento n. … del …
+        map: { ask: "Numero e data della ricevuta del pagamento ai Vigili del Fuoco" }
+      - label: "intestato alla Tesoreria Provinciale dello Stato di … ai sensi del DLgs 139/2006"
+        map: { blank_with_reason: "Napoli (Comando competente); il pagamento si fa con pagoPA dei Vigili del Fuoco." }
+      - { label: "per un totale di €", map: { ask: Importo totale versato per il rinnovo } }
+      - label: "così distinte – per ogni attività: attività n., Sottocl./categoria, €, FV"
+        map: { ask: "Per ogni attività: numero, sottoclasse e categoria, importo e se c'è un impianto fotovoltaico" }
+        notes: Fino a otto righe sul modulo; le compila il tecnico.
+      - label: "Ulteriore indirizzo per la corrispondenza: Cognome, Nome, indirizzo, n. civico, c.a.p., comune, Provincia, telefono, email, PEC"
+        map: { ask: "Persona e recapiti a cui inviare la corrispondenza, se diversi" }
+      - { label: Data, map: { ask: Data di sottoscrizione } }
+      - label: Firma
+        map: { blank_with_reason: "Firma del responsabile dell'attività (digitale nella pratica telematica); solo la persona." }
+      - label: "Spazio riservato al delegante: Titolo professionale, cognome, nome, domicilio, telefono del delegato"
+        map: { ask: "Persona delegata a ritirare la ricevuta e a dare chiarimenti tecnici, con domicilio e telefono" }
+      - label: Delega – Data e Firma
+        map: { blank_with_reason: Firma del responsabile dell'attività che delega; solo la persona. }
+      - label: Spazio riservato al Comando Provinciale VVF – accertamento identità e ricevuta
+        map: { blank_with_reason: Compilato dal Comando. }
+steps:
+  - do: >-
+      Verificare con un tecnico abilitato se l'attività (o un suo impianto: centrale termica,
+      cucina, gruppo elettrogeno, deposito, autorimessa) rientra nell'Allegato I del D.P.R. 151/2011
+      e con quale numero, sottoclasse e categoria
+    who: professional
+  - do: >-
+      Categorie B e C: prima dei lavori, far preparare il progetto antincendio (relazione tecnica ed
+      elaborati grafici) e presentare l'istanza di valutazione del progetto (Mod. PIN 1-2023) con il
+      relativo versamento; attendere il parere del Comando (entro 60 giorni dalla documentazione completa)
+    who: professional
+  - do: Firmare l'istanza di valutazione del progetto (categorie B e C)
+    who: owner
+    human_only: true
+  - do: >-
+      Realizzare lavori e impianti secondo il progetto approvato (o, per la categoria A, secondo la
+      regola tecnica applicabile) e raccogliere certificazioni e dichiarazioni di installatori e
+      produttori
+    who: professional
+  - do: >-
+      Far redigere al tecnico l'asseverazione (Mod. PIN 2.1) con la distinta delle certificazioni e,
+      per la categoria A, la relazione tecnica e gli elaborati grafici
+    who: professional
+  - do: Calcolare il versamento ai Vigili del Fuoco (ore della tabella ministeriale × tariffa oraria) con il modulo di calcolo VVF
+    who: professional
+  - do: Pagare il versamento ai Vigili del Fuoco con pagoPA e i diritti d'istruttoria SUAP con pagoPA nella pratica
+    who: owner
+    human_only: true
+  - do: >-
+      Compilare la SCIA antincendio (Mod. PIN 2-2023) e inserirla nella pratica SUAP su
+      impresainungiorno, di solito insieme alla SCIA dell'attività (vicinato, somministrazione,
+      struttura ricettiva…)
+    who: facilitator
+  - do: Firmare digitalmente la SCIA antincendio e la pratica SUAP (e l'eventuale procura)
+    who: owner
+    human_only: true
+  - do: Inviare la pratica al SUAP, che la trasmette al Comando
+    who: owner
+    human_only: true
+  - do: Iniziare l'esercizio solo dopo la presentazione e la ricevuta
+    who: owner
+    human_only: true
+  - do: >-
+      Accogliere l'eventuale visita tecnica del Comando nei 60 giorni (sempre per la categoria C) e
+      mettersi in regola entro 45 giorni se richiesto
+    who: owner
+    human_only: true
+  - do: >-
+      Tenere aggiornato il registro dei controlli, delle verifiche, delle manutenzioni e
+      dell'informazione antincendio, da mostrare in caso di controllo
+    who: owner
+  - do: >-
+      Ogni 5 anni dalla prima SCIA, presentare l'attestazione di rinnovo periodico (Mod. PIN 3-2023)
+      con l'eventuale asseverazione PIN 3.1 e il versamento
+    who: owner
+    human_only: true
+after:
+  - Conservare la ricevuta della SCIA, l'asseverazione con gli allegati, le ricevute dei pagamenti e il numero di pratica VVF.
+  - >-
+    Annotare la data di presentazione della prima SCIA: da lì decorrono i 5 anni per il rinnovo
+    periodico (10 per le attività 6, 7, 8, 64, 71, 72 e 77).
+  - >-
+    Se l'attività passa a un nuovo titolare (subingresso, cessione), il nuovo responsabile comunica
+    la voltura al Comando con una dichiarazione sostitutiva (D.M. 7/8/2012, art. 9; Mod. PIN 7).
+  - >-
+    Le modifiche non sostanziali ai fini antincendio si documentano al Comando con il successivo
+    rinnovo periodico (D.M. 7/8/2012, art. 4, c. 8).
+pitfalls:
+  - text: >-
+      Anche sotto le soglie dell'Allegato I restano gli obblighi di sicurezza antincendio dei luoghi
+      di lavoro: il D.M. Interno 3 settembre 2021 fissa i criteri di progettazione, realizzazione
+      ed esercizio, con un allegato per i luoghi di lavoro a basso rischio di incendio (per gli
+      altri vale il Codice di prevenzione incendi, D.M. 3 agosto 2015); ha sostituito il D.M. 10
+      marzo 1998.
+    status: verified
+    source: vvf-dm-03-09-2021
+  - text: >-
+      Il D.M. Interno 2 settembre 2021 fissa i criteri di gestione della sicurezza antincendio in
+      esercizio e in emergenza e le caratteristiche del servizio antincendio (addetti) per tutti i
+      luoghi di lavoro dell'art. 62 D.Lgs. 81/2008. I dettagli (piano di emergenza, formazione degli
+      addetti) non sono riportati qui.
+    status: verified
+    source: gu-dm-02-09-2021
+  - text: >-
+      Il registro dei controlli dell'art. 6 D.P.R. 151/2011 è espressamente richiesto alle attività
+      soggette non disciplinate dal D.Lgs. 81/2008; chi ha lavoratori segue anche gli obblighi di
+      quel decreto.
+    status: verified
+    source: dpr151-art6
+  - text: >-
+      I moduli PIN e il D.M. 7/8/2012 parlano di versamento alla Tesoreria provinciale dello Stato;
+      il Comando di Napoli indica la piattaforma pagoPA dei Vigili del Fuoco. Pagare con pagoPA e
+      riportare sul modulo gli estremi della ricevuta.
+    status: verified
+    source: vvf-napoli
+  - text: >-
+      I moduli PIN 2 e PIN 3 prevedono ancora la firma davanti al pubblico ufficiale o l'invio per
+      posta con copia del documento; il Comando di Napoli accetta solo istanze telematiche con
+      firma digitale.
+    status: verified
+    source: vvf-napoli
+  - text: >-
+      Il diritto d'istruttoria del SUAP (20 euro per la parte antincendio) non sostituisce il
+      versamento ai Vigili del Fuoco: sono due pagamenti distinti.
+    status: verified
+    source: info-diritti
+  - text: >-
+      Una modifica sostanziale (nuova destinazione dei locali, cambi di lavorazione o di strutture,
+      aggravio del rischio) obbliga a ripetere le procedure: non basta il rinnovo.
+    status: verified
+    source: dlgs139-art16
+  - text: >-
+      Per l'autorizzazione di somministrazione in zona tutelata (centro storico UNESCO e Buffer
+      Zone), le certificazioni antincendio vanno trasmesse al SUAP all'avvio dell'attività (scheda
+      napoli/comune/scia-somministrazione-alimenti-bevande).
+    status: unverified
+  - text: >-
+      La pagina del Comando di Napoli cita ancora il D.M. 2/03/2012 per le tariffe della vigilanza
+      antincendio; le tariffe orarie sono state sostituite dal D.M. 11 ottobre 2024.
+    status: verified
+    source: dm-tariffe-2024
+related:
+  - napoli/comune/scia-somministrazione-alimenti-bevande
+  - napoli/comune/scia-esercizio-vicinato
+  - napoli/comune/avvio-bed-and-breakfast
+  - napoli/comune/cila-lavori-edilizi
+  - napoli/asl-napoli-1/registrazione-attivita-alimentare
+sources:
+  - id: dpr151-art2
+    label: D.P.R. 1 agosto 2011, n. 151, art. 2 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:presidente.repubblica:decreto:2011-08-01;151~art2
+    retrieved: 2026-10-25
+    official: true
+  - id: dpr151-art3
+    label: D.P.R. 1 agosto 2011, n. 151, art. 3 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:presidente.repubblica:decreto:2011-08-01;151~art3
+    retrieved: 2026-10-25
+    official: true
+  - id: dpr151-art4
+    label: D.P.R. 1 agosto 2011, n. 151, art. 4 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:presidente.repubblica:decreto:2011-08-01;151~art4
+    retrieved: 2026-10-25
+    official: true
+  - id: dpr151-art5
+    label: D.P.R. 1 agosto 2011, n. 151, art. 5 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:presidente.repubblica:decreto:2011-08-01;151~art5
+    retrieved: 2026-10-25
+    official: true
+  - id: dpr151-art6
+    label: D.P.R. 1 agosto 2011, n. 151, art. 6 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:presidente.repubblica:decreto:2011-08-01;151~art6
+    retrieved: 2026-10-25
+    official: true
+  - id: dpr151-art10
+    label: D.P.R. 1 agosto 2011, n. 151, art. 10 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:presidente.repubblica:decreto:2011-08-01;151~art10
+    retrieved: 2026-10-25
+    official: true
+  - id: vvf-testo-coordinato
+    label: >-
+      Ministero dell'Interno, Dipartimento VVF – Testo coordinato del D.P.R. 151/2011 e del D.M.
+      7 agosto 2012 (ottobre 2024), con Allegato I, note, stralcio del D.M. 11 ottobre 2024 e
+      tabella delle ore
+    url: https://www.vigilfuoco.it/sites/default/files/2024-11/COORD_DPR_01_08_2011_n_151_e_DM_07_08_2012.pdf
+    retrieved: 2026-10-25
+    sha256: ecaa50446d87eca50919c95e70d1bbbf8b8e499ac793f5bc55fcca1370ba33e2
+    official: true
+    notes: >-
+      Testo coordinato del Ministero con esonero di responsabilità; fa fede la Gazzetta Ufficiale.
+      Contiene refusi (per esempio "DPR 160/2011" per 160/2010, "circolare 06/10/2001 n. 13061"
+      accanto a "06/10/2011").
+  - id: dlgs139-art16
+    label: D.Lgs. 8 marzo 2006, n. 139, art. 16 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2006-03-08;139~art16
+    retrieved: 2026-10-25
+    official: true
+  - id: dlgs139-art20
+    label: D.Lgs. 8 marzo 2006, n. 139, art. 20 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2006-03-08;139~art20
+    retrieved: 2026-10-25
+    official: true
+  - id: dlgs139-art23
+    label: D.Lgs. 8 marzo 2006, n. 139, art. 23 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2006-03-08;139~art23
+    retrieved: 2026-10-25
+    official: true
+  - id: dm-tariffe-2024
+    label: D.M. Interno 11 ottobre 2024 (G.U. n. 249 del 23/10/2024) – tariffe dei servizi a pagamento dei Vigili del Fuoco
+    url: https://www.vigilfuoco.it/sites/default/files/2024-10/DM%2011%20ottobre%202024.pdf
+    retrieved: 2026-10-25
+    sha256: 43a5cdc3f20bfb9eec491d8690932963d9120ec0a64cddce16e06425d2928c74
+    official: true
+    notes: Stampa della Gazzetta Ufficiale pubblicata dai Vigili del Fuoco.
+  - id: vvf-modulistica
+    label: Vigili del Fuoco – Modulistica di prevenzione incendi (PIN 1–PIN 7)
+    url: https://www.vigilfuoco.it/servizi-le-aziende-e-i-professionisti/servizi-line-di-prevenzione-incendi/modulistica
+    retrieved: 2026-10-25
+    official: true
+  - id: pin-2
+    label: Mod. PIN 2-2023 SCIA (Vigili del Fuoco)
+    url: https://www.vigilfuoco.it/sites/default/files/2023-08/PIN_2_2023_SCIA_FV.pdf
+    retrieved: 2026-10-25
+    sha256: 08a7bfe125e9b0cefa60c89a098294b7327158e0f07ec57612a3ef81f14cbba6
+    official: true
+  - id: pin-3
+    label: Mod. PIN 3-2023 Rinnovo periodico (Vigili del Fuoco)
+    url: https://www.vigilfuoco.it/sites/default/files/2023-08/PIN_3_2023%20Rinnovo_FV.pdf
+    retrieved: 2026-10-25
+    sha256: 48e12afdc60b23c744c20a6a519b1fadb5dba58e84d16e57365154ca1734d5cb
+    official: true
+  - id: pin-1
+    label: Mod. PIN 1-2023 Valutazione progetto (Vigili del Fuoco)
+    url: https://www.vigilfuoco.it/sites/default/files/2023-05/PIN_1_2023_ValutazioneProgetto_FV.pdf
+    retrieved: 2026-10-25
+    sha256: cab8639c489681dffedb0042d03cad2c369ced9ebc168a5b476ccd07c4bb1a56
+    official: true
+    notes: Letto per descrivere il contenuto; non mappato.
+  - id: pin-2-1
+    label: Mod. PIN 2.1-2018 Asseverazione (Vigili del Fuoco)
+    url: https://www.vigilfuoco.it/sites/default/files/2023-08/PIN_2.1-2018Asseverazione.pdf
+    retrieved: 2026-10-25
+    sha256: 3823f187a2d7116074d22a764d3923b1c2652a5f84bcb84727a1829285b9b0db
+    official: true
+    notes: Compilata e firmata dal tecnico abilitato; non mappata.
+  - id: vvf-prince
+    label: Vigili del Fuoco – Portale di servizi di prevenzione incendi (PRINCE)
+    url: https://www.vigilfuoco.it/servizi-le-aziende-e-i-professionisti/servizi-line-di-prevenzione-incendi/portale-di-servizi-di-prevenzione-incendi
+    retrieved: 2026-10-25
+    official: true
+  - id: vvf-servizi-online
+    label: Vigili del Fuoco – Servizi on line di prevenzione incendi (ricerca attività soggette, calcolo importo)
+    url: https://www.vigilfuoco.it/servizi-le-aziende-e-i-professionisti/servizi-line-di-prevenzione-incendi
+    retrieved: 2026-10-25
+    official: true
+    notes: Il modulo di calcolo (documentiat/preventivi) è un'applicazione interattiva; non è stato provato.
+  - id: vvf-pagopa
+    label: Vigili del Fuoco – PagoPA
+    url: https://www.vigilfuoco.it/pagopa
+    retrieved: 2026-10-25
+    official: true
+  - id: vvf-napoli
+    label: Comando VVF di Napoli – Ufficio Prevenzione Incendi
+    url: https://www.vigilfuoco.it/comando-vvf-napoli/ufficio-prevenzione-incendi
+    retrieved: 2026-10-25
+    official: true
+    notes: Pagina senza data di aggiornamento.
+  - id: tabella-2026
+    label: Comune di Napoli – Tabella dei diritti d'istruttoria delle pratiche telematiche SUAP 2026 (righe S2, S5, S96, S148, S155, S211)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2021/07/2026-TABELLA-DIRITTI-SUAP-DEF.pdf
+    retrieved: 2026-10-25
+    sha256: 6abd7a3127137927c6d9959f946001c4e51d47afee568317e4e69e5584994d15
+    official: true
+  - id: diritti
+    label: Comune di Napoli – Diritti d'istruttoria SUAP
+    url: https://www.comune.napoli.it/articolo_tematico/suap/diritti-distruttoria-suap/
+    retrieved: 2026-10-25
+    page_updated: 2026-06-11
+    official: true
+  - id: info-diritti
+    label: SUAP Napoli – Informazioni sui diritti d'istruttoria delle pratiche telematiche e su come corrisponderli
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/05/INFO_DIRITTI_D_ISTRUTTORIA.pdf
+    retrieved: 2026-10-25
+    sha256: dd76876f846170251f0c7df28cf28d37761a06c0de3d87e26ae87820b495f3dd
+    official: true
+    notes: Documento scritto per i diritti del 2021; la logica del carrello è richiamata dalla pagina dei diritti 2026.
+  - id: vvf-dm-03-09-2021
+    label: Vigili del Fuoco – Notizia sul D.M. Interno 3 settembre 2021 (G.U. n. 259 del 29/10/2021), sicurezza antincendio nei luoghi di lavoro
+    url: https://www.vigilfuoco.it/media/notizie/decreto-ministero-dellinterno-3-settembre-2021-criteri-generali-di-progettazione-realizzazione-ed
+    retrieved: 2026-10-25
+    official: true
+  - id: gu-dm-02-09-2021
+    label: Gazzetta Ufficiale – D.M. Interno 2 settembre 2021 (G.U. n. 237 del 04/10/2021), gestione della sicurezza antincendio nei luoghi di lavoro
+    url: https://www.gazzettaufficiale.it/eli/id/2021/10/04/21A05748/sg
+    retrieved: 2026-10-25
+    official: true
+    notes: Letti titolo e art. 1.
+verification:
+  level: L1
+  date: 2026-10-25
+  by: claude
+  method: >-
+    Desk: lette su Normattiva gli artt. 2, 3, 4, 5, 6, 10 e 11 del D.P.R. 151/2011 e gli artt. 16,
+    20 e 23 del D.Lgs. 139/2006; il testo coordinato VVF del D.P.R. 151/2011 e del D.M. 7/8/2012
+    (Allegato I, righe 3, 49, 65, 66, 69, 70, 72, 74, 75 e note; D.M. 7/8/2012 artt. 1-11; metodo di
+    calcolo dei corrispettivi); il D.M. 11/10/2024 (stampa G.U.); i moduli PIN 1-2023, PIN 2-2023,
+    PIN 2.1-2018 e PIN 3-2023 scaricati dalla modulistica VVF; le pagine VVF su PRINCE, servizi on
+    line, pagoPA e la pagina dell'Ufficio Prevenzione Incendi del Comando di Napoli; la tabella dei
+    diritti SUAP 2026, la pagina dei diritti e la guida ai diritti del SUAP di Napoli; la notizia VVF
+    sul D.M. 3/9/2021 e titolo e art. 1 del D.M. 2/9/2021 in G.U.
+  notes: >-
+    Non lette le circolari ministeriali citate per ristoranti, bar e cucine (circ. 36/1985, 52/1982,
+    chiarimento 13/07/2010), né la regola tecnica sugli impianti termici a gas. Non verificato nel
+    portale impresainungiorno come compare la SCIA antincendio nella pratica di Napoli. Non provato
+    il calcolatore VVF.

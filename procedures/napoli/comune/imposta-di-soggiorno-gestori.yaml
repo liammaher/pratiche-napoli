@@ -681,6 +681,7 @@ related:
   - napoli/comune/tari-iscrizione-non-domestica
   - napoli/comune/tari-iscrizione-uso-abitativo
   - napoli/comune/avvio-bed-and-breakfast
+  - napoli/comune/comunicazione-locazione-breve
 sources:
   - id: comune-2026
     label: Imposta di Soggiorno 2026 – Comune di Napoli
