@@ -8,7 +8,7 @@
   "scripts": {
     "validate": "tsx tools/validate.ts",
     "gen:fields": "tsx tools/gen-fields.ts",
-    "test": "node --import tsx --test tools/*.test.ts",
+    "test": "node --import tsx --test \"tools/**/*.test.ts\"",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

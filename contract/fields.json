@@ -375,12 +375,6 @@
       ]
     },
     {
-      "name": "pratiche",
-      "description": "Procedures in progress with an ente, one set of fields per pratica as <slug>_<campo>. The slug is lower-case words joined by hyphens, e.g. pratiche.tari-iscrizione-2026_stato. Campi: titolo, ente, stato, canale, destinatario, protocollo, data_invio, data_scadenza, data_esito, importo, data_pagamento, prossimo_passo, playbook, note. stato is one of da_fare, in_preparazione, pronta, inviata, in_attesa, completata, respinta, annullata; canale is one of portale, pec, email, sportello, posta, app. data_scadenza is the deadline, tracked by 'pvault expiring' until stato is completata, respinta or annullata. playbook names the procedure's playbook file. Attach submitted files with 'pvault doc add pratiche <file>'.",
-      "fields": [],
-      "dynamic": "<slug>_<campo>"
-    },
-    {
       "name": "nucleo_familiare",
       "description": "Household (stato di famiglia). Add one set of fields per member as membro<N>_<campo>, e.g. nucleo_familiare.membro1_nome, membro1_cognome, membro1_codice_fiscale (validated), membro1_data_nascita, membro1_relazione (coniuge, figlio/a, ...)",
       "fields": [

@@ -42,8 +42,9 @@ npm run validate   # check every procedure
 npm test           # validator tests
 ```
 
-Regenerate the field registry from the vault: `pvault schema --json > schema.json`, then
-`npm run gen:fields -- schema.json`.
+Regenerate the field registry after a vault schema change: `pvault schema --json > schema.json`,
+then `npm run gen:fields -- schema.json`. This saves the schema as `contract/vault-schema.json`
+and rebuilds `contract/fields.json`; never edit `fields.json` by hand (a test checks).
 
 ## Not legal advice
 
