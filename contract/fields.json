@@ -1,0 +1,631 @@
+{
+  "version": "8",
+  "source": "personal-vault RecommendedSchema",
+  "categories": [
+    {
+      "name": "identity",
+      "description": "Personal identity information",
+      "fields": [
+        {
+          "id": "identity.first_name",
+          "description": "First/given name"
+        },
+        {
+          "id": "identity.last_name",
+          "description": "Last/family name"
+        },
+        {
+          "id": "identity.full_name",
+          "description": "Full display name"
+        },
+        {
+          "id": "identity.email",
+          "description": "Primary email address"
+        },
+        {
+          "id": "identity.phone",
+          "description": "Mobile number with country code (e.g. +39 333 123 4567)"
+        },
+        {
+          "id": "identity.pec",
+          "description": "Personal PEC (posta elettronica certificata) address"
+        },
+        {
+          "id": "identity.date_of_birth",
+          "description": "Date of birth"
+        },
+        {
+          "id": "identity.codice_fiscale",
+          "description": "Italian codice fiscale (16 characters, validated)"
+        },
+        {
+          "id": "identity.sex",
+          "description": "Sex as on Italian documents (M or F)"
+        },
+        {
+          "id": "identity.birth_comune",
+          "description": "Comune (or foreign country) of birth"
+        },
+        {
+          "id": "identity.birth_province",
+          "description": "Provincia of birth as 2-letter sigla (e.g. NA), or EE if born abroad"
+        },
+        {
+          "id": "identity.citizenship",
+          "description": "Citizenship (e.g. italiana, britannica)"
+        }
+      ]
+    },
+    {
+      "name": "cie",
+      "description": "Carta d'identità elettronica details. The PIN and PUK can only be stored as personal (never readable by agents).",
+      "fields": [
+        {
+          "id": "cie.numero",
+          "description": "CIE number printed top-right (e.g. CA12345AB, validated)"
+        },
+        {
+          "id": "cie.data_rilascio",
+          "description": "Issue date (YYYY-MM-DD)"
+        },
+        {
+          "id": "cie.data_scadenza",
+          "description": "Expiry date (YYYY-MM-DD)"
+        },
+        {
+          "id": "cie.comune_rilascio",
+          "description": "Comune that issued the card"
+        }
+      ]
+    },
+    {
+      "name": "residenza",
+      "description": "Registered residence (residenza anagrafica, as recorded in ANPR)",
+      "fields": [
+        {
+          "id": "residenza.indirizzo",
+          "description": "Street (via/piazza) without house number"
+        },
+        {
+          "id": "residenza.civico",
+          "description": "House number (numero civico) only, e.g. 544; scala or esponente like 12/B may follow"
+        },
+        {
+          "id": "residenza.interno",
+          "description": "Flat number (interno), e.g. 13; 'int. 13' is saved as 13"
+        },
+        {
+          "id": "residenza.cap",
+          "description": "CAP (5 digits, validated)"
+        },
+        {
+          "id": "residenza.comune",
+          "description": "Comune of residence"
+        },
+        {
+          "id": "residenza.provincia",
+          "description": "Provincia as 2-letter sigla (e.g. NA, validated)"
+        },
+        {
+          "id": "residenza.data_inizio",
+          "description": "Date residence began (YYYY-MM-DD)"
+        }
+      ]
+    },
+    {
+      "name": "domicilio",
+      "description": "Domicile, only if different from residenza",
+      "fields": [
+        {
+          "id": "domicilio.indirizzo",
+          "description": "Street (via/piazza) without house number"
+        },
+        {
+          "id": "domicilio.civico",
+          "description": "House number (numero civico) only, e.g. 544; scala or esponente like 12/B may follow"
+        },
+        {
+          "id": "domicilio.interno",
+          "description": "Flat number (interno), e.g. 13; 'int. 13' is saved as 13"
+        },
+        {
+          "id": "domicilio.cap",
+          "description": "CAP (5 digits, validated)"
+        },
+        {
+          "id": "domicilio.comune",
+          "description": "Comune of domicile"
+        },
+        {
+          "id": "domicilio.provincia",
+          "description": "Provincia as 2-letter sigla (e.g. NA, validated)"
+        }
+      ]
+    },
+    {
+      "name": "abitazione",
+      "description": "The home you live in now (the unit at your residenza or domicilio; the address stays there). Catasto data is on the visura catastale and is needed for TARI, RLI registration and ISEE. Attach the visura and APE with 'pvault doc add abitazione <file>'.",
+      "fields": [
+        {
+          "id": "abitazione.titolo",
+          "description": "How you hold it: proprietario, locatario, comodatario, usufruttuario, ospite or altro (validated)"
+        },
+        {
+          "id": "abitazione.data_inizio",
+          "description": "Date you started living there (YYYY-MM-DD); the 'a decorrere dal' date on TARI forms"
+        },
+        {
+          "id": "abitazione.catasto_sezione",
+          "description": "Sezione urbana from the visura, if any"
+        },
+        {
+          "id": "abitazione.catasto_foglio",
+          "description": "Foglio from the visura (digits, validated)"
+        },
+        {
+          "id": "abitazione.catasto_particella",
+          "description": "Particella (mappale) from the visura (validated)"
+        },
+        {
+          "id": "abitazione.catasto_subalterno",
+          "description": "Subalterno from the visura, exactly as written (digits, validated)"
+        },
+        {
+          "id": "abitazione.catasto_categoria",
+          "description": "Categoria catastale, e.g. A/2 or A/3 (validated; a2 becomes A/2)"
+        },
+        {
+          "id": "abitazione.catasto_rendita",
+          "description": "Rendita catastale in euro (e.g. 512.30)"
+        },
+        {
+          "id": "abitazione.superficie_calpestabile_mq",
+          "description": "Walkable floor area in m² excluding balconies and terraces; the area TARI uses"
+        },
+        {
+          "id": "abitazione.superficie_catastale_mq",
+          "description": "Superficie catastale in m² from the visura"
+        },
+        {
+          "id": "abitazione.vani",
+          "description": "Consistenza in vani from the visura (e.g. 4.5)"
+        },
+        {
+          "id": "abitazione.piano",
+          "description": "Floor (e.g. terra, rialzato, 3)"
+        },
+        {
+          "id": "abitazione.classe_energetica",
+          "description": "Energy class from the APE: A4, A3, A2, A1, B, C, D, E, F or G (validated)"
+        }
+      ]
+    },
+    {
+      "name": "locazione",
+      "description": "Your rental contract, if you rent. Registration details (estremi di registrazione) are on the RLI receipt and are asked for by utility transfers and tax deductions. Attach the contract and receipt with 'pvault doc add locazione <file>'.",
+      "fields": [
+        {
+          "id": "locazione.tipo_contratto",
+          "description": "Contract type (e.g. 4+4 libero, 3+2 concordato, transitorio, studenti)"
+        },
+        {
+          "id": "locazione.data_stipula",
+          "description": "Date the contract was signed (YYYY-MM-DD)"
+        },
+        {
+          "id": "locazione.data_decorrenza",
+          "description": "Date the contract starts (YYYY-MM-DD)"
+        },
+        {
+          "id": "locazione.data_scadenza",
+          "description": "Date the current term ends (YYYY-MM-DD); tracked by 'pvault expiring'"
+        },
+        {
+          "id": "locazione.preavviso_disdetta_mesi",
+          "description": "Months of notice needed to leave (whole number)"
+        },
+        {
+          "id": "locazione.canone_mensile",
+          "description": "Monthly rent in euro (e.g. 750.00)"
+        },
+        {
+          "id": "locazione.spese_condominiali_mensili",
+          "description": "Monthly condominium charges in euro"
+        },
+        {
+          "id": "locazione.deposito_cauzionale",
+          "description": "Security deposit in euro"
+        },
+        {
+          "id": "locazione.cedolare_secca",
+          "description": "Whether the landlord chose cedolare secca (si/no)"
+        },
+        {
+          "id": "locazione.registrazione_codice_identificativo",
+          "description": "Codice identificativo del contratto from the RLI receipt (validated)"
+        },
+        {
+          "id": "locazione.data_registrazione",
+          "description": "Registration date from the RLI receipt (YYYY-MM-DD)"
+        },
+        {
+          "id": "locazione.registrazione_serie",
+          "description": "Registration serie (e.g. 3T)"
+        },
+        {
+          "id": "locazione.registrazione_numero",
+          "description": "Registration numero (and sottonumero, if any)"
+        },
+        {
+          "id": "locazione.registrazione_ufficio",
+          "description": "Agenzia delle Entrate office code (e.g. TNM)"
+        },
+        {
+          "id": "locazione.locatore_nome",
+          "description": "Landlord's name (person or company)"
+        },
+        {
+          "id": "locazione.locatore_codice_fiscale",
+          "description": "Landlord's codice fiscale (validated)"
+        },
+        {
+          "id": "locazione.locatore_iban",
+          "description": "IBAN you pay the rent to (validated; spaces removed)"
+        },
+        {
+          "id": "locazione.locatore_email",
+          "description": "Landlord's email"
+        },
+        {
+          "id": "locazione.locatore_pec",
+          "description": "Landlord's PEC"
+        },
+        {
+          "id": "locazione.locatore_telefono",
+          "description": "Landlord's phone"
+        },
+        {
+          "id": "locazione.amministratore_condominio",
+          "description": "Building manager's name and contact"
+        }
+      ]
+    },
+    {
+      "name": "utenze",
+      "description": "Utility supplies at your home. The POD and PDR identify the meters and are needed for a voltura or subentro.",
+      "fields": [
+        {
+          "id": "utenze.luce_pod",
+          "description": "Electricity POD (e.g. IT001E12345678, validated)"
+        },
+        {
+          "id": "utenze.luce_fornitore",
+          "description": "Electricity supplier"
+        },
+        {
+          "id": "utenze.luce_codice_cliente",
+          "description": "Electricity customer code"
+        },
+        {
+          "id": "utenze.luce_intestatario",
+          "description": "Who the electricity contract is in the name of"
+        },
+        {
+          "id": "utenze.gas_pdr",
+          "description": "Gas PDR (14 digits, validated)"
+        },
+        {
+          "id": "utenze.gas_fornitore",
+          "description": "Gas supplier"
+        },
+        {
+          "id": "utenze.gas_codice_cliente",
+          "description": "Gas customer code"
+        },
+        {
+          "id": "utenze.gas_intestatario",
+          "description": "Who the gas contract is in the name of"
+        },
+        {
+          "id": "utenze.acqua_fornitore",
+          "description": "Water supplier (e.g. ABC Napoli)"
+        },
+        {
+          "id": "utenze.acqua_codice_cliente",
+          "description": "Water customer or utenza code"
+        },
+        {
+          "id": "utenze.acqua_intestatario",
+          "description": "Who the water contract is in the name of"
+        },
+        {
+          "id": "utenze.internet_fornitore",
+          "description": "Internet provider"
+        },
+        {
+          "id": "utenze.internet_codice_cliente",
+          "description": "Internet customer code"
+        }
+      ]
+    },
+    {
+      "name": "tari",
+      "description": "Your TARI (waste tax) position with the Comune. Attach the filed declaration with 'pvault doc add tari <file>'.",
+      "fields": [
+        {
+          "id": "tari.codice_contribuente",
+          "description": "Codice contribuente assigned by the Comune (Cod.Contr. on the forms and payment notices)"
+        },
+        {
+          "id": "tari.data_dichiarazione",
+          "description": "Date you filed the TARI declaration (YYYY-MM-DD)"
+        },
+        {
+          "id": "tari.protocollo",
+          "description": "Protocol number the Comune gave the declaration"
+        },
+        {
+          "id": "tari.superficie_tassata_mq",
+          "description": "Area the Comune taxes, in m², from the payment notice"
+        },
+        {
+          "id": "tari.componenti_tassati",
+          "description": "Number of occupants the Comune taxes, from the payment notice"
+        }
+      ]
+    },
+    {
+      "name": "pratiche",
+      "description": "Procedures in progress with an ente, one set of fields per pratica as <slug>_<campo>. The slug is lower-case words joined by hyphens, e.g. pratiche.tari-iscrizione-2026_stato. Campi: titolo, ente, stato, canale, destinatario, protocollo, data_invio, data_scadenza, data_esito, importo, data_pagamento, prossimo_passo, playbook, note. stato is one of da_fare, in_preparazione, pronta, inviata, in_attesa, completata, respinta, annullata; canale is one of portale, pec, email, sportello, posta, app. data_scadenza is the deadline, tracked by 'pvault expiring' until stato is completata, respinta or annullata. playbook names the procedure's playbook file. Attach submitted files with 'pvault doc add pratiche <file>'.",
+      "fields": [],
+      "dynamic": "<slug>_<campo>"
+    },
+    {
+      "name": "nucleo_familiare",
+      "description": "Household (stato di famiglia). Add one set of fields per member as membro<N>_<campo>, e.g. nucleo_familiare.membro1_nome, membro1_cognome, membro1_codice_fiscale (validated), membro1_data_nascita, membro1_relazione (coniuge, figlio/a, ...)",
+      "fields": [
+        {
+          "id": "nucleo_familiare.numero_componenti",
+          "description": "Number of people in the household, including you"
+        },
+        {
+          "id": "nucleo_familiare.intestatario_scheda",
+          "description": "Whether you are the intestatario della scheda anagrafica (si/no)"
+        }
+      ],
+      "dynamic": "membro<N>_<campo>"
+    },
+    {
+      "name": "business",
+      "description": "Italian business or self-employment details",
+      "fields": [
+        {
+          "id": "business.partita_iva",
+          "description": "Partita IVA (11 digits, validated; IT prefix stripped)"
+        },
+        {
+          "id": "business.denominazione",
+          "description": "Business name or ditta individuale name"
+        },
+        {
+          "id": "business.codice_fiscale",
+          "description": "Business codice fiscale if different from the partita IVA (validated)"
+        },
+        {
+          "id": "business.codice_ateco",
+          "description": "Primary ATECO activity code (e.g. 62.01.00)"
+        },
+        {
+          "id": "business.regime_fiscale",
+          "description": "Tax regime (e.g. forfettario, ordinario)"
+        },
+        {
+          "id": "business.pec",
+          "description": "PEC (certified email) address"
+        },
+        {
+          "id": "business.rea",
+          "description": "REA number (e.g. NA-123456)"
+        },
+        {
+          "id": "business.data_apertura",
+          "description": "Date the partita IVA was opened (YYYY-MM-DD)"
+        }
+      ]
+    },
+    {
+      "name": "permesso_soggiorno",
+      "description": "Permesso / documento di soggiorno (non-EU residents, incl. UK citizens under the Withdrawal Agreement; not needed when identity.citizenship is italiana). Attach scans with 'pvault doc add permesso_soggiorno <file>'.",
+      "fields": [
+        {
+          "id": "permesso_soggiorno.numero",
+          "description": "Document number printed on the card"
+        },
+        {
+          "id": "permesso_soggiorno.tipo",
+          "description": "Type or reason (e.g. Art. 50 TUE, lavoro subordinato, soggiornante di lungo periodo)"
+        },
+        {
+          "id": "permesso_soggiorno.data_rilascio",
+          "description": "Issue date (YYYY-MM-DD)"
+        },
+        {
+          "id": "permesso_soggiorno.data_scadenza",
+          "description": "Expiry date (YYYY-MM-DD); tracked by 'pvault expiring'"
+        },
+        {
+          "id": "permesso_soggiorno.questura_rilascio",
+          "description": "Issuing Questura (e.g. Napoli)"
+        }
+      ]
+    },
+    {
+      "name": "passaporto",
+      "description": "Passport (Italian or foreign)",
+      "fields": [
+        {
+          "id": "passaporto.numero",
+          "description": "Passport number"
+        },
+        {
+          "id": "passaporto.paese_rilascio",
+          "description": "Issuing country (e.g. Regno Unito)"
+        },
+        {
+          "id": "passaporto.data_rilascio",
+          "description": "Issue date (YYYY-MM-DD)"
+        },
+        {
+          "id": "passaporto.data_scadenza",
+          "description": "Expiry date (YYYY-MM-DD); tracked by 'pvault expiring'"
+        },
+        {
+          "id": "passaporto.autorita_rilascio",
+          "description": "Issuing authority (e.g. Questura di Napoli, HM Passport Office)"
+        }
+      ]
+    },
+    {
+      "name": "tessera_sanitaria",
+      "description": "Tessera sanitaria / TEAM card (also shows the codice fiscale)",
+      "fields": [
+        {
+          "id": "tessera_sanitaria.numero",
+          "description": "Card identification number on the back"
+        },
+        {
+          "id": "tessera_sanitaria.data_scadenza",
+          "description": "Expiry date (YYYY-MM-DD); tracked by 'pvault expiring'"
+        },
+        {
+          "id": "tessera_sanitaria.regione",
+          "description": "Region / ASL of enrolment in the SSN"
+        },
+        {
+          "id": "tessera_sanitaria.medico_base",
+          "description": "Medico di base (GP) name"
+        }
+      ]
+    },
+    {
+      "name": "patente",
+      "description": "Driving licence (Italian or foreign)",
+      "fields": [
+        {
+          "id": "patente.numero",
+          "description": "Licence number"
+        },
+        {
+          "id": "patente.categorie",
+          "description": "Categories (e.g. B, A2)"
+        },
+        {
+          "id": "patente.paese_rilascio",
+          "description": "Issuing country"
+        },
+        {
+          "id": "patente.data_rilascio",
+          "description": "Issue date (YYYY-MM-DD)"
+        },
+        {
+          "id": "patente.data_scadenza",
+          "description": "Expiry date (YYYY-MM-DD); tracked by 'pvault expiring'"
+        },
+        {
+          "id": "patente.autorita_rilascio",
+          "description": "Issuing authority (e.g. MIT-UCO, DVLA)"
+        }
+      ]
+    },
+    {
+      "name": "addresses",
+      "description": "Other or foreign addresses (e.g. a previous address abroad). For your Italian address use residenza and domicilio.",
+      "fields": [
+        {
+          "id": "addresses.home_street",
+          "description": "Home street address"
+        },
+        {
+          "id": "addresses.home_city",
+          "description": "Home city"
+        },
+        {
+          "id": "addresses.home_state",
+          "description": "Region, county or state"
+        },
+        {
+          "id": "addresses.home_zip",
+          "description": "Postal code"
+        },
+        {
+          "id": "addresses.home_country",
+          "description": "Country code (e.g. GB)"
+        }
+      ]
+    },
+    {
+      "name": "financial",
+      "description": "Financial and tax information",
+      "fields": [
+        {
+          "id": "financial.iban",
+          "description": "IBAN for refunds (730, INPS) and payments (validated; spaces removed)"
+        },
+        {
+          "id": "financial.filing_status",
+          "description": "US tax filing status (US taxpayers only)"
+        }
+      ]
+    },
+    {
+      "name": "preferences",
+      "description": "User preferences",
+      "fields": [
+        {
+          "id": "preferences.timezone",
+          "description": "Preferred timezone (e.g. Europe/Rome)"
+        },
+        {
+          "id": "preferences.language",
+          "description": "Preferred language (e.g. it, en)"
+        },
+        {
+          "id": "preferences.accesso_pa",
+          "description": "How you log in to government portals by default: spid or cie (validated). With spid, agents use spid.provider"
+        }
+      ]
+    },
+    {
+      "name": "employment",
+      "description": "Employment information",
+      "fields": [
+        {
+          "id": "employment.employer",
+          "description": "Current employer name"
+        },
+        {
+          "id": "employment.title",
+          "description": "Job title"
+        }
+      ]
+    },
+    {
+      "name": "documents",
+      "description": "Document references (user-defined fields)",
+      "fields": [],
+      "open": true
+    }
+  ],
+  "forbidden": {
+    "categories": [
+      "spid",
+      "payment",
+      "medical"
+    ],
+    "fields": [
+      "cie.pin",
+      "cie.puk",
+      "financial.ssn"
+    ]
+  }
+}

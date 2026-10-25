@@ -1,0 +1,24 @@
+{
+  "name": "pratiche-napoli",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Open, verified, machine-readable library of the bureaucratic procedures a Naples business can face",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "validate": "tsx tools/validate.ts",
+    "gen:fields": "tsx tools/gen-fields.ts",
+    "test": "node --import tsx --test tools/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "ajv": "8.17.1",
+    "ajv-formats": "3.0.1",
+    "yaml": "2.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "tsx": "4.19.2",
+    "typescript": "5.7.2"
+  }
+}
