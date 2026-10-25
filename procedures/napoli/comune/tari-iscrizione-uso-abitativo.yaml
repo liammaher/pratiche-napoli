@@ -9,8 +9,6 @@ ente:
   name: Comune di Napoli
   office: Area Entrate – Servizio IMU e TARI
   ipa: c_f839
-  phone: 081 795 3711
-  phone_hours: tutti i giorni 9:00–13:00
 applies_to:
   events: [home, move]
   audience: [resident]
@@ -37,17 +35,25 @@ channels:
     address: entrate.tari-tares-tarsu@pec.comune.napoli.it
     receipt: legal
     preferred: true
+    source: mod-1
     notes: Preferibile per chi ha una PEC, perché dà una ricevuta con valore legale.
   - type: email
     address: entrate.tari-tares-tarsu@comune.napoli.it
     receipt: informal
+    source: mod-1
   - type: post
     address: Comune di Napoli, Area Entrate, Servizio IMU e TARI, Via Diocleziano 330, 80125 Napoli
+    source: mod-1
     notes: Raccomandata.
   - type: desk
     address: Via Diocleziano 330, 80125 Napoli
     hours: lunedì–venerdì 8:30–12:30
     booking: Appuntamento tramite il servizio di prenotazione online del Comune.
+    source: mod-1
+  - type: phone
+    address: 081 795 3711
+    hours: 9:00–13:00 (orario indicato sul modulo)
+    source: mod-1
 payment:
   method: f24
   codice_ente: F839
@@ -61,6 +67,10 @@ payment:
     - { label: Acconto 2026 – rata 3, due: 2026-11-30, source: tari-2026, status: verified }
     - { label: Saldo 2026 (nuovo avviso del Comune), due: 2027-02-16, source: tari-2026, status: verified }
   notes:
+    - text: >-
+        Codice ente F839 (codice catastale di Napoli) e codici tributo 3944 (TARI) e TEFA: non
+        riportati nella pagina TARI 2026; controllarli sull'avviso o con il simulatore del Comune.
+      status: unverified
     - text: L'acconto è il 75% dell'importo calcolato con le tariffe 2025; il saldo usa le tariffe 2026.
       status: verified
       source: tari-2026
@@ -72,7 +82,7 @@ payment:
 documents:
   - name: Mod. 1 TARI compilato e firmato
     required: true
-  - name: Copia di un documento d'identità (CIE o passaporto)
+  - name: Copia di un documento d'identità valido (per esempio CIE o passaporto)
     required: true
     notes: Art. 38 DPR 445/2000.
   - name: Visura catastale
@@ -105,10 +115,19 @@ forms:
           Il modulo offre proprietario / possessore / locatario / altro; "possessore" non è
           ancora un valore ammesso nel registro.
       - label: Appartamento sito in via
-        map: { fallback: [domicilio.*, residenza.*] }
-        notes: Usare il domicilio se diverso dalla residenza.
+        map: { fallback: [domicilio.indirizzo, residenza.indirizzo] }
+        notes: >-
+          Via, civico e interno vengono dallo stesso indirizzo: il domicilio se esiste,
+          altrimenti la residenza. Non mescolare i due.
+      - label: Appartamento sito in via (civico)
+        map: { fallback: [domicilio.civico, residenza.civico] }
+        notes: Stesso indirizzo scelto per la via.
       - { label: piano, map: { direct: abitazione.piano } }
-      - { label: interno, map: { fallback: [domicilio.interno, residenza.interno] } }
+      - label: interno
+        map: { fallback: [domicilio.interno, residenza.interno] }
+        notes: >-
+          Stesso indirizzo scelto per la via: se c'è un domicilio senza interno, lasciare
+          vuoto invece di usare l'interno della residenza.
       - { label: Sez., map: { direct: abitazione.catasto_sezione } }
       - { label: Foglio, map: { direct: abitazione.catasto_foglio } }
       - { label: Part., map: { direct: abitazione.catasto_particella } }
@@ -140,9 +159,10 @@ after:
     Controllare che superficie tassata e numero di componenti dell'avviso corrispondano alla
     superficie calpestabile e al nucleo familiare dichiarati.
 pitfalls:
-  - text: >-
-      Il modulo stampa il vecchio link del simulatore (riscotel.it/calcolotari/napoli); la pagina
-      TARI 2026 del Comune rimanda a portaletributi.comune.napoli.it.
+  - text: Il modulo stampa il vecchio link del simulatore (riscotel.it/calcolotari/napoli).
+    status: verified
+    source: mod-1
+  - text: La pagina TARI 2026 del Comune rimanda al simulatore su portaletributi.comune.napoli.it.
     status: verified
     source: tari-2026
   - text: >-
