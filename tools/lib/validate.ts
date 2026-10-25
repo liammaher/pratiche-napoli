@@ -3,7 +3,7 @@
 // secret, references point somewhere real, verified claims cite an official
 // source, dates aren't in the future, and no personal data slipped in.
 
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, realpathSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import Ajv2020 from "ajv/dist/2020.js";
@@ -28,8 +28,12 @@ export function todayInRome(now = new Date()): string {
   return new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Rome" }).format(now);
 }
 
-// Words that mark a credential in a field name, as the vault's IsCredentialField does.
-const CREDENTIAL = /(^|_)(pin|puk|password|passwd|otp|secret|token)(_|$)/;
+// Words that mark a credential in a field name: the vault's reCredentialWord
+// (internal/vault/italy.go) plus "token". Unlike the vault, any category counts.
+export const CREDENTIAL = /(^|_)(pin\d*|puk\d*|password|passwd|pwd|pw|pass|passcode|otp|totp|username|login|secret|segreto|chiave|token)(_|$)/;
+// The same secrets named in an ask or blank_with_reason text. "PIN 2.1" etc.
+// are the Vigili del Fuoco form names, not PIN codes.
+const ASKS_FOR_SECRET = /\b(pin(?!\s*\d)|puk|password|passcode|otp|codice segreto)\b/i;
 
 export interface Context {
   registry: Registry;
@@ -154,6 +158,11 @@ function checkMapping(map: Record<string, unknown>, registry: Registry): string[
   if ("repeat" in map && !refs[0].includes("<N>")) {
     problems.push(`repeat needs a per-item pattern such as nucleo_familiare.membro<N>_*`);
   }
+  for (const key of ["ask", "blank_with_reason"]) {
+    if (typeof map[key] === "string" && ASKS_FOR_SECRET.test(map[key] as string)) {
+      problems.push(`${key} must not ask for a PIN, password or other secret`);
+    }
+  }
   for (const ref of refs) {
     if (ref.includes("<N>") && !("repeat" in map)) {
       problems.push(`${ref}: "<N>" patterns can only be used with repeat`);
@@ -177,7 +186,9 @@ export function checkFieldRef(ref: string, registry: Registry): string | null {
     // A wildcard or pattern must not sweep in a secret field of the category.
     if (registry.forbidden.fields.some((f) => f.startsWith(`${cat}.`))) return secret;
   }
-  if (field === "*") return null;
+  if (field === "*") {
+    return category.open ? `${ref}: a wildcard over an open category could include anything, secrets too; name the fields` : null;
+  }
   if (CREDENTIAL.test(field.replace(/\*$/, ""))) return secret;
 
   if (category.dynamic) {
@@ -217,17 +228,32 @@ export interface FileResult {
   errors: string[];
 }
 
-// Validates every .yaml/.yml file under dir. A file that isn't valid YAML is
-// reported, not thrown, so one bad file doesn't hide the others.
-export function validateDir(dir: string, registry: Registry, today: string): FileResult[] {
+// Validates every .yaml/.yml file under dir (the procedures root: ids are
+// relative to it). With `only`, just the files under that path are reported,
+// but ids and related links are still resolved against the whole library.
+// A file that can't be read or parsed is reported, not thrown, so one bad file
+// doesn't hide the others.
+export function validateDir(dir: string, registry: Registry, today: string, only?: string): FileResult[] {
   if (!existsDir(dir)) throw new Error(`procedures directory not found: ${dir}`);
   const files = listYaml(dir);
-  const knownIds = new Set(files.map((file) => procedureIdFromPath(path.relative(dir, file))));
+  const idOf = (file: string) => procedureIdFromPath(path.relative(dir, file));
+  const knownIds = new Set(files.map(idOf));
   const ctx: Context = { registry, knownIds, today };
+  const sameId = new Map<string, string[]>();
+  for (const file of files) sameId.set(idOf(file), [...(sameId.get(idOf(file)) ?? []), path.relative(dir, file)]);
+  const inScope = (file: string) => !only || file === only || file.startsWith(only + path.sep);
 
-  return files.map((file) => {
+  return files.filter(inScope).map((file) => {
     const rel = path.relative(dir, file);
-    const text = readFileSync(file, "utf8");
+    const twins = sameId.get(idOf(file))!.filter((r) => r !== rel);
+    if (twins.length) return { rel, errors: [`another file has the same id: ${twins.join(", ")}`] };
+    let text: string;
+    try {
+      // A byte-order mark would hide a %YAML directive from the check below.
+      text = readFileSync(file, "utf8").replace(/^\uFEFF/, "");
+    } catch (e) {
+      return { rel, errors: [`can't read file: ${(e as Error).message}`] };
+    }
     // A %YAML 1.1 directive would turn dates into Date objects and "no" into false.
     if (/^%YAML/m.test(text)) {
       return { rel, errors: ["remove the %YAML directive: procedures are read as YAML 1.2"] };
@@ -240,7 +266,7 @@ export function validateDir(dir: string, registry: Registry, today: string): Fil
     }
     const errors = validateProcedure(doc, rel, ctx);
     // Comments aren't parsed values, so check them as raw text too.
-    text.split("\n").forEach((line, i) => {
+    text.split(/\r\n|\r|\n/).forEach((line, i) => {
       const comment = line.match(/(?:^|\s)#(.*)$/);
       if (!comment) return;
       for (const what of new Set(findPersonalData(comment[1]))) {
@@ -259,11 +285,24 @@ function existsDir(dir: string): boolean {
   }
 }
 
-function listYaml(dir: string): string[] {
+// Follows symlinked directories (once each); a broken symlink named *.yaml is
+// listed so the read error is reported for it.
+function listYaml(dir: string, seen = new Set<string>()): string[] {
+  const real = realpathSync(dir);
+  if (seen.has(real)) return [];
+  seen.add(real);
   const out: string[] = [];
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) out.push(...listYaml(full));
+    let isDir = entry.isDirectory();
+    if (entry.isSymbolicLink()) {
+      try {
+        isDir = statSync(full).isDirectory();
+      } catch {
+        isDir = false; // broken link
+      }
+    }
+    if (isDir) out.push(...listYaml(full, seen));
     else if (/\.ya?ml$/i.test(entry.name)) out.push(full);
   }
   return out.sort();
