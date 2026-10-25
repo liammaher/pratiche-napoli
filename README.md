@@ -25,8 +25,10 @@ an unconfirmed detail is never presented as fact.
 
 ```
 contract/procedure.schema.json   the procedure format (JSON Schema)
-contract/fields.json             shared field-ID registry (e.g. identity.codice_fiscale)
+contract/fields.json             shared field-ID registry (e.g. identity.codice_fiscale), generated
+contract/extensions.json         fields procedures need before the vault has them
 procedures/<ente>/<slug>.yaml    one file per procedure
+docs/discrepancies.md            wrong or contradictory official information we found
 tools/                           validator and generators
 ```
 

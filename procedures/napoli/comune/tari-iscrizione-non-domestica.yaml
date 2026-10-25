@@ -1,0 +1,238 @@
+schema_version: 0
+id: napoli/comune/tari-iscrizione-non-domestica
+title: TARI – nuova iscrizione per uso non abitativo (Comune di Napoli)
+summary: >-
+  Un'impresa, un professionista o un'associazione che inizia a occupare o detenere locali o
+  aree a uso non abitativo a Napoli (negozio, ufficio, laboratorio, magazzino…) deve presentare
+  la dichiarazione TARI con il Mod. 5 entro 90 giorni. Vale anche per gli anni successivi finché
+  non cambia qualcosa.
+ente:
+  name: Comune di Napoli
+  office: Area Entrate – Servizio IMU e TARI
+  ipa: c_f839
+applies_to:
+  events: [open, move]
+  audience: [business]
+  conditions:
+    - text: >-
+        Inizio dell'occupazione o detenzione, a qualsiasi titolo, di locali o aree scoperte a uso
+        non abitativo nel Comune di Napoli.
+      status: verified
+      source: mod-5
+    - text: La dichiarazione spetta al soggetto legalmente responsabile dell'attività (art. 25, c. 3).
+      status: verified
+      source: regolamento-2023
+legal_basis:
+  - text: Regolamento TARI del Comune di Napoli, artt. 25 (obbligo) e 26 (contenuto e presentazione).
+    status: verified
+    source: regolamento-2023
+deadline:
+  rules:
+    - text: >-
+        Entro 90 giorni dalla data di inizio dell'occupazione o detenzione, o dalla variazione dei
+        dati dichiarati (art. 25, c. 5).
+      status: verified
+      source: regolamento-2023
+  lateness:
+    text: >-
+      Per l'omessa dichiarazione il regolamento prevede una sanzione sul primo anno d'imposta dal
+      100% (un anno) al 200% (più di due anni) del tributo, minimo 50 euro (art. 35, c. 3). Farsi
+      calcolare l'importo dall'ufficio: norme nazionali successive possono averlo modificato.
+    status: verified
+    source: regolamento-2023
+channels:
+  - type: pec
+    address: entrate.tari-tares-tarsu@pec.comune.napoli.it
+    receipt: legal
+    preferred: true
+    source: mod-5
+    notes: Dà una ricevuta con valore legale; un'impresa ha comunque l'obbligo di avere una PEC.
+  - type: portal
+    name: POTESs – Servizi Tributari
+    url: https://servizionline.comune.napoli.it/web/napoli/servizi-tributari
+    auth: [spid, cie, cns]
+    source: modulistica
+  - type: email
+    address: entrate.tari-tares-tarsu@comune.napoli.it
+    receipt: informal
+    source: mod-5
+  - type: post
+    address: Comune di Napoli, Area Entrate, Servizio IMU e TARI, Via Diocleziano 330, 80125 Napoli
+    source: mod-5
+    notes: Raccomandata A/R.
+  - type: desk
+    name: Sportello Unico Attività Produttive (SUAP)
+    source: modulistica
+    notes: Per le utenze non domestiche; la pagina non indica l'indirizzo.
+  - type: desk
+    name: Sportello TARI
+    address: Via Diocleziano 330, 80125 Napoli
+    hours: lunedì–venerdì 8:30–12:30
+    source: mod-5
+  - type: phone
+    address: 081 795 3711
+    hours: 9:00–13:00 (orario indicato sul modulo)
+    source: mod-5
+payment:
+  method: f24
+  codice_ente: F839
+  codici_tributo: ["3944", "TEFA"]
+  calculator_url: https://portaletributi.comune.napoli.it/?ente=NAPO
+  schedule:
+    - { label: Acconto 2026 – rata 1, due: 2026-09-30, source: tari-2026, status: verified }
+    - { label: Acconto 2026 – unica soluzione, due: 2026-10-15, source: tari-2026, status: verified }
+    - { label: Acconto 2026 – rata 2, due: 2026-10-30, source: tari-2026, status: verified }
+    - { label: Acconto 2026 – rata 3, due: 2026-11-30, source: tari-2026, status: verified }
+    - { label: Saldo 2026 (nuovo avviso del Comune), due: 2027-02-16, source: tari-2026, status: verified }
+  notes:
+    - text: >-
+        Il pagamento è in autoliquidazione: è dovuto alle scadenze anche se l'avviso non arriva.
+        Se l'avviso non corrisponde alla situazione reale, calcolare la tassa con il simulatore e
+        comunicare le variazioni all'ufficio.
+      status: verified
+      source: mod-5
+    - text: >-
+        Codice ente F839 (codice catastale di Napoli) e codici tributo 3944 (TARI) e TEFA: non
+        riportati nella pagina TARI 2026; controllarli sull'avviso o con il simulatore del Comune.
+      status: unverified
+documents:
+  - name: Mod. 5 TARI compilato e firmato
+    required: true
+  - name: Copia del documento d'identità del dichiarante
+    required: true
+    notes: Art. 38 DPR 445/2000.
+  - name: Planimetria con misure e destinazione d'uso delle diverse aree o locali utilizzati
+    required: true
+  - name: Planimetria catastale con relazione tecnica asseverata da un tecnico abilitato
+    required: false
+    notes: Solo se si chiede la detassazione per la produzione di rifiuti speciali (art. 7 del regolamento).
+forms:
+  - id: mod-5
+    name: Mod. 5 TARI – Iscrizione uso non abitativo
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2020/09/MOD-5-ISCRIZIONE-USO-NON-ABITATIVO.pdf
+    source: mod-5
+    sha256: a279e108154002193aec6805d0e957b9d8675755f159e0d7b955540d0a9221ba
+    signature_required: true
+    fields:
+      - { label: Il/La sottoscritto/a, map: { concat: [identity.last_name, identity.first_name] } }
+      - { label: nato/a, map: { direct: identity.birth_comune } }
+      - { label: nato/a (stato estero), map: { direct: identity.birth_country } }
+      - { label: il, map: { direct: identity.date_of_birth } }
+      - { label: C.F., map: { direct: identity.codice_fiscale } }
+      - { label: residente in, map: { direct: residenza.comune } }
+      - { label: Via, map: { direct: residenza.indirizzo } }
+      - { label: n°, map: { direct: residenza.civico } }
+      - { label: Telefono, map: { direct: identity.phone } }
+      - { label: e-mail, map: { direct: identity.email } }
+      - { label: pec, map: { direct: identity.pec } }
+      - label: nella sua qualità di (titolare / legale rappresentante)
+        map: { direct: business.qualita_dichiarante }
+      - { label: Ragione Sociale, map: { direct: business.denominazione } }
+      - label: C.F. (della ditta)
+        map: { fallback: [business.codice_fiscale, business.partita_iva] }
+        notes: Se l'impresa non ha un codice fiscale diverso, coincide con la partita IVA.
+      - { label: PARTITA IVA, map: { direct: business.partita_iva } }
+      - label: Con sede in via
+        map: { concat: [business.sede_legale_indirizzo, business.sede_legale_civico] }
+      - { label: Comune di, map: { direct: business.sede_legale_comune } }
+      - { label: CAP, map: { direct: business.sede_legale_cap } }
+      - { label: e-mail (della ditta), map: { direct: business.email } }
+      - { label: pec (della ditta), map: { direct: business.pec } }
+      - { label: a decorrere dal, map: { direct: locale.data_inizio } }
+      - { label: Via (immobili), map: { direct: locale.indirizzo } }
+      - { label: n° (immobili), map: { direct: locale.civico } }
+      - { label: 1. Dati catastali – sez., map: { direct: locale.catasto_sezione } }
+      - { label: 1. Dati catastali – fg., map: { direct: locale.catasto_foglio } }
+      - { label: 1. Dati catastali – part., map: { direct: locale.catasto_particella } }
+      - { label: 1. Dati catastali – sub, map: { direct: locale.catasto_subalterno } }
+      - { label: 1. superficie in mq, map: { direct: locale.superficie_mq } }
+      - { label: 1. destinazione d'uso, map: { direct: locale.destinazione_uso } }
+      - label: 2. Dati catastali, superficie e destinazione d'uso
+        map: { ask: "Dati del secondo immobile, se l'attività ne occupa più di uno" }
+      - { label: Descrizione attività, map: { direct: business.descrizione_attivita } }
+      - { label: codice ateco, map: { direct: business.codice_ateco } }
+      - label: Richiesta di detassazione per la produzione di rifiuti speciali
+        map: { ask: "L'attività produce rifiuti speciali e vuole chiedere la detassazione?" }
+      - { label: Eventuali note, map: { ask: Note facoltative per l'ufficio } }
+      - label: Cod.Contr.
+        map: { blank_with_reason: Spazio riservato all'ufficio; il codice contribuente lo assegna il Comune. }
+steps:
+  - do: Procurarsi la visura catastale del locale e una planimetria con misure e destinazione d'uso delle aree
+    who: anyone
+  - { do: Compilare il Mod. 5 (dati dalla tabella dei campi), who: anyone }
+  - { do: Firmare il modulo, who: owner, human_only: true }
+  - do: Inviare modulo firmato, copia del documento d'identità e planimetria, preferibilmente via PEC
+    who: owner
+    human_only: true
+  - { do: Calcolare l'F24 con il simulatore del Comune, who: anyone }
+  - { do: Pagare l'F24 alle scadenze, who: owner, human_only: true }
+  - { do: Annotare il codice contribuente quando il Comune lo comunica, who: owner }
+after:
+  - Conservare la ricevuta della PEC e una copia di tutto quanto inviato.
+  - Annotare codice contribuente, data e protocollo della dichiarazione.
+  - >-
+    Quando arriva l'avviso, controllare che superficie e categoria tassate corrispondano a
+    quanto dichiarato.
+  - >-
+    Se l'attività cambia superficie, destinazione o sede, presentare entro 90 giorni il Mod. 6
+    (variazione); se cessa, il Mod. 8 (cessazione).
+pitfalls:
+  - text: >-
+      Per la detassazione dei rifiuti speciali non basta barrare la casella: va presentato ogni
+      anno entro il 30 giugno il Mod. 9, relativo all'anno precedente, con la documentazione
+      richiesta.
+    status: verified
+    source: mod-5
+  - text: >-
+      Il regolamento (art. 26) indica ancora il portale "Linkmate" per presentare le
+      dichiarazioni.
+    status: verified
+    source: regolamento-2023
+  - text: La pagina della modulistica indica invece il portale POTESs (Servizi Tributari).
+    status: verified
+    source: modulistica
+  - text: >-
+      La pagina della modulistica segnala una chiusura temporanea degli sportelli informativi di
+      Via Diocleziano 330, senza date: verificare prima di andarci.
+    status: verified
+    source: modulistica
+  - text: >-
+      La dichiarazione si può presentare anche tramite CAF, associazioni di categoria o iscritti
+      agli ordini professionali, se convenzionati con il Comune e con delega del contribuente.
+    status: verified
+    source: regolamento-2023
+related: []
+sources:
+  - id: mod-5
+    label: Mod. 5 TARI – Iscrizione uso non abitativo (testo, AVVERTENZE, INFORMAZIONI e CONTATTI)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2020/09/MOD-5-ISCRIZIONE-USO-NON-ABITATIVO.pdf
+    retrieved: 2026-10-25
+    sha256: a279e108154002193aec6805d0e957b9d8675755f159e0d7b955540d0a9221ba
+    official: true
+  - id: modulistica
+    label: TARI – Modalità di presentazione dichiarazioni e modulistica (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/tari-tassa-sui-rifiuti/modalita-di-presentazione-dichiarazioni-e-modulistica/
+    retrieved: 2026-10-25
+    page_updated: 2026-09-02
+    official: true
+    notes: Modulistica aggiornata al 01/04/2026.
+  - id: tari-2026
+    label: TARI 2026 – Comune di Napoli
+    url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/tari-tassa-sui-rifiuti/tari-2026/
+    retrieved: 2026-10-25
+    page_updated: 2026-10-02
+    official: true
+  - id: regolamento-2023
+    label: Regolamento TARI, allegato alla delibera C.C. n. 37 del 19 giugno 2023
+    url: https://www.comune.napoli.it/flex/files/1/c/7/D.007ae011f89c784022b3/DELIBERA_DI_C.C._N._37_DEL_19_GIUGNO_2023.pdf
+    retrieved: 2026-10-25
+    sha256: 15c491cd7e69bada6fbed48c345c72177cb147bb95cded0314b6cca75635ea6f
+    official: true
+    notes: Modifiche successive al 2023 non controllate.
+verification:
+  level: L1
+  date: 2026-10-25
+  by: liam
+  method: >-
+    Desk: letti il Mod. 5, la pagina della modulistica, la pagina TARI 2026 e gli artt. 25, 26 e
+    35 del regolamento approvato con la delibera C.C. 37/2023.
