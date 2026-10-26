@@ -121,8 +121,9 @@ offices' servers as little as possible, since some block an address that asks to
   gave no answer at all to 2 addresses in a row (it accepts connections and then stalls) isn't
   asked the rest of the night, and after an hour nothing more is asked: those addresses count as
   not answering and are asked first the next night, and the run ends and saves what it saw. A 429
-  is tried once more after a pause; if it is still a 429, the rest of that site isn't asked that
-  night either, and counts as refused.
+  is tried once more after a pause; if it is still a 429, the rest of that host isn't asked that
+  night either, its home page included, and counts as refused; what it cut off is asked first the
+  next night.
 - **What it reports:** forms whose content no longer matches the recorded `sha256`; addresses that
   stopped answering; pages that now send you to the site's home or answer with an error page; and
   documents whose address now leads to a web page. Each comes with the procedures that cite it,

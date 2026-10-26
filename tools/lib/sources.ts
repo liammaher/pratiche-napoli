@@ -100,8 +100,8 @@ function slot(url: string): number {
 // any address of it that has never been asked (newly cited, a document whose
 // sha256 was recorded again, or one skipped every night so far) or whose
 // result is a week old, which would otherwise have no recent result at all.
-// Addresses the run's time or a silent site cut off last night go first, so
-// it isn't always the same ones that are left out.
+// Addresses the run's time, a silent site or a 429 cut off last night go
+// first, so it isn't always the same ones that are left out.
 export function tonight(targets: Target[], day: number, state: State = {}): Target[] {
   const probes = refusing(targets, state);
   const stale = (seen: Seen) => day - dayNumber(seen.checkedOn) >= DAYS;
@@ -120,7 +120,7 @@ export function tonight(targets: Target[], day: number, state: State = {}): Targ
   });
   const cutOff = (t: Target) => {
     const seen = state[targetKey(t)];
-    return seen && held(seen) && seen.status === "unreachable" ? 0 : 1;
+    return seen && held(seen) && (seen.status === "unreachable" || seen.detail === TOO_MANY) ? 0 : 1;
   };
   return share.sort((a, b) => cutOff(a) - cutOff(b));
 }
@@ -188,6 +188,7 @@ export function heldBack(targets: Target[], asked: Result[], state: State): Resu
 }
 
 const HELD = "non chiesto stanotte:";
+const TOO_MANY = `${HELD} il sito ha risposto 429 (troppe richieste)`;
 const REFUSED = "HTTP 404, anche per la home del sito";
 const held = (r: { detail?: string }) => !!r.detail?.startsWith(HELD);
 
@@ -237,8 +238,9 @@ const MAX_WAIT_MS = 30_000;
 // tried once more after a pause (Retry-After when the server gives one)
 // before it counts as unreachable. A 403, a 429 and a 404 from a site whose
 // home page is 404 too are the site refusing the checker (blocked, not
-// unreachable); after a 429 nothing more is asked of that site tonight,
-// since asking more is what keeps an address blocked. A site that
+// unreachable); after a 429 nothing more is asked of that host tonight, its
+// home page included, since asking more is what keeps an address blocked
+// (the addresses it cut off go first the next night). A site that
 // accepts connections and then never answers would hold the run for hours
 // (each document gets 4 timeouts, and a retry): after giveUpAfter addresses
 // in a row with no answer at all, the rest of it isn't asked tonight, and
@@ -274,10 +276,10 @@ export async function checkTargets(targets: Target[], fetchFn: typeof fetch, opt
     for (let site = queue.shift(); site; site = queue.shift()) {
       const [, indexes] = site;
       let silentInRow = 0;
-      let tooMany = false;
+      const tooMany = new Set<string>(); // hosts that answered 429
       for (const [k, i] of indexes.entries()) {
-        if (tooMany) {
-          results[i] = { target: targets[i], status: "blocked", detail: `${HELD} il sito ha risposto 429 (troppe richieste)` };
+        if (tooMany.has(hostOf(targets[i].url))) {
+          results[i] = { target: targets[i], status: "blocked", detail: TOO_MANY };
           continue;
         }
         const skip =
@@ -305,12 +307,13 @@ export async function checkTargets(targets: Target[], fetchFn: typeof fetch, opt
           ...(result.validators && { validators: result.validators }),
         };
         silentInRow = result.status === "unreachable" && !answered(result) ? silentInRow + 1 : 0;
-        tooMany = result.detail === "HTTP 429";
+        if (result.detail === "HTTP 429") tooMany.add(hostOf(targets[i].url));
       }
       // Each host's home page, for its own 404s.
       const notFound = indexes.filter((i) => results[i].detail === "HTTP 404");
       for (const home of new Set(notFound.map((i) => origin(targets[i].url)).filter(Boolean))) {
         if (now() - start >= deadlineMs) break;
+        if (tooMany.has(hostOf(home))) continue;
         await sleep(pauseMs);
         const status = await fetchFn(`${home}/`, {
           redirect: "follow",
@@ -498,16 +501,21 @@ export function merge(state: State, results: Result[], checkedOn: string, target
     // changed or not answering stays so, marked as not asked, so a changed
     // form or a gone page doesn't drop out of the report meanwhile.
     const notAsked = !r.askedAt && held(r);
-    if (notAsked && before && (before.status === "changed" || before.status === "unreachable")) r = { ...r, status: before.status, detail: held(before) ? before.detail : `${HELD} ${before.detail ?? before.status}`, ...(before.wayback && { wayback: before.wayback, waybackStatus: before.waybackStatus, waybackOn: before.waybackOn ?? before.checkedOn }) };
-    const askedAt = r.askedAt ?? (notAsked ? before?.askedAt : undefined);
     const answer = r.askedAt ? answerOf(r) : notAsked ? before?.answer : undefined;
+    if (notAsked && before && (before.status === "changed" || before.status === "unreachable")) r = { ...r, status: before.status, detail: held(before) ? before.detail : `${HELD} ${before.detail ?? before.status}`, ...(before.wayback && { wayback: before.wayback, waybackStatus: before.waybackStatus, waybackOn: before.waybackOn ?? before.checkedOn }) };
+    // A refusal says nothing about a document's content either: one found
+    // changed stays changed, with tonight's refusal, so it doesn't drop out of
+    // the report while its site refuses the checker (it may be that site's probe).
+    if (r.askedAt && r.status === "blocked" && before?.status === "changed") r = { ...r, status: "changed", detail: `${r.detail}; ${before.detail?.replace(HELD, "").trim() ?? "cambiato"}` };
+    const askedAt = r.askedAt ?? (notAsked ? before?.askedAt : undefined);
     out[targetKey(r.target)] = {
       status: r.status,
       checkedOn,
       ...(askedAt && { askedAt }),
       ...(answer && { answer }),
       ...(r.detail && { detail: r.detail }),
-      ...(r.validators && { validators: r.validators }),
+      // An address not asked keeps the version it last answered with.
+      ...((r.validators ?? (notAsked ? before?.validators : undefined)) && { validators: r.validators ?? before!.validators }),
       // A new answer is dated tonight, a reused one keeps its date.
       ...(r.wayback && { wayback: r.wayback, ...(r.waybackStatus && { waybackStatus: r.waybackStatus }), waybackOn: r.waybackOn ?? checkedOn }),
       // A streak of failed nights, refused or not answering, goes on until a
