@@ -475,9 +475,9 @@
         ],
         "properties": {
           "field": {
-            "description": "One exact field ID of the vault owner (or, for a person's own data in a procedure with a dichiarante, of the dichiarante), no wildcard or member prefix",
+            "description": "One exact field ID of the vault owner (or, for a person's own data in a procedure with a dichiarante, of the dichiarante), no wildcard or member prefix. A numbered copy of a category (locale2: a second premises) is allowed, as in fieldRef",
             "type": "string",
-            "pattern": "^[a-z_]+\\.[a-z0-9_]+$"
+            "pattern": "^[a-z_]+(?:[2-9]|[1-9][0-9]+)?\\.[a-z0-9_]+$"
           },
           "from": {
             "description": "The document or message the value is read from",
@@ -878,9 +878,9 @@
       "$ref": "#/$defs/party"
     },
     "fieldRef": {
-      "description": "A field ID (category.field) or a whole category (category.*), the vault owner's when unprefixed. A family member's carry their slug (leo:identity.first_name; io is reserved for the owner), and *: means each member (*:identity.first_name)",
+      "description": "A field ID (category.field) or a whole category (category.*), the vault owner's when unprefixed. A family member's carry their slug (leo:identity.first_name; io is reserved for the owner), and *: means each member (*:identity.first_name). A category followed by a number from 2 is the vault's numbered copy of it, with its fields and rules (locale2.indirizzo: a second premises); categories with one_only in the registry have none",
       "type": "string",
-      "pattern": "^(?:(?:\\*|[a-z][a-z0-9-]{0,31}):)?[a-z_]+\\.([a-z0-9_]+|\\*)$"
+      "pattern": "^(?:(?:\\*|[a-z][a-z0-9-]{0,31}):)?[a-z_]+(?:[2-9]|[1-9][0-9]+)?\\.([a-z0-9_]+|\\*)$"
     },
     "mapping": {
       "oneOf": [

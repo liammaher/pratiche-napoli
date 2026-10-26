@@ -7,7 +7,10 @@
    for something not in the registry, use `{ ask: "..." }` and propose the field. A list of
    family members (conviventi, componenti del nucleo) is `{ repeat: famiglia, fields: [...] }`:
    one row per member of the stato di famiglia, each from that member's `*:category.field`
-   (`*:identity.codice_fiscale`). Never name a member's slug.
+   (`*:identity.codice_fiscale`). Never name a member's slug. A second unit of something the vault
+   keeps one of (a second premises) is its numbered copy, `locale2.*`, with the same fields and
+   rules; a row for it says in its `notes` that it is filled only when the vault has one. Categories
+   marked `one_only` in the registry (`famiglia`, `ruolo`) have no copies.
 
    People a business has (procuratore, preposto, soci, responsabile tecnico) are picked by
    their `ruolo`, one of the values in `procedure.schema.json`'s `$defs/ruolo`:

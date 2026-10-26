@@ -399,7 +399,7 @@ forms:
       - { label: c.a.p. (attività), map: { direct: locale.cap } }
       - { label: Comune (attività), map: { direct: locale.comune } }
       - { label: provincia (attività), map: { direct: locale.provincia } }
-      - { label: telefono (attività), map: { ask: "Telefono del locale dell'attività" } }
+      - { label: telefono (attività), map: { direct: locale.telefono } }
       - label: "La/e attività oggetto della Segnalazione sono individuate ai n./sotto classe/cat."
         map: { ask: "Numero, sottoclasse e categoria (A/B/C) di ogni attività dell'Allegato I DPR 151/2011 e del DM 7/8/2012, indicati dal tecnico" }
       # Pagina 2
@@ -492,7 +492,7 @@ forms:
       - { label: c.a.p. (attività), map: { direct: locale.cap } }
       - { label: Comune (attività), map: { direct: locale.comune } }
       - { label: provincia (attività), map: { direct: locale.provincia } }
-      - { label: telefono (attività), map: { ask: "Telefono del locale dell'attività" } }
+      - { label: telefono (attività), map: { direct: locale.telefono } }
       - label: "individuata al n./sotto classe/cat. e comprendente anche le attività di cui ai nn./sottoclasse/cat."
         map: { ask: "Numero, sottoclasse e categoria dell'attività principale e delle secondarie (come nella SCIA)" }
       - label: Dichiara di avere assolto gli obblighi gestionali e osservato divieti, limitazioni e prescrizioni

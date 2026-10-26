@@ -108,6 +108,37 @@ test("an address is taken whole from one place: a person's own, saying so, or th
   assert.deepEqual(validateProcedure(withForm({ label: "Sede", map: { concat: ["business.sede_legale_indirizzo", "business.sede_legale_civico"] } }), PATH, ctx), []);
 });
 
+test("a numbered copy (locale2) reads as its category, a place of its own", () => {
+  const r = ctx.registry;
+  assert.equal(checkFieldRef("locale2.indirizzo", r), null);
+  assert.equal(checkFieldRef("locale12.*", r), null);
+  assert.equal(checkFieldRef("*:cie2.numero", r), null);
+  assert.match(checkFieldRef("locale2.nope", r) ?? "", /unknown field "locale2.nope"/);
+  assert.match(checkFieldRef("spid2.provider", r) ?? "", /secret/);
+  assert.match(checkFieldRef("leo:tari2.protocollo", r) ?? "", /tari is the vault owner's/);
+  // famiglia and ruolo are one per person: the vault refuses copies.
+  assert.match(checkFieldRef("leo:famiglia2.relazione", r) ?? "", /famiglia has no numbered copies/);
+  assert.match(checkFieldRef("*:ruolo2.tipo", r) ?? "", /ruolo has no numbered copies/);
+
+  assert.deepEqual(validateProcedure(withForm({ label: "Via 2", map: { concat: ["locale2.indirizzo", "locale2.civico"] } }), PATH, ctx), []);
+  const errors = errorsFor(
+    withForm(
+      { label: "Via", map: { concat: ["locale.indirizzo", "locale2.civico"] } },
+      { label: "Via 2", map: { fallback: ["locale2.indirizzo", "locale.indirizzo"] }, notes: "Tutto dalla stessa fonte." },
+    ),
+  );
+  assert.match(errors, /field "Via": concat joins locale and locale2/);
+  assert.match(errors, /field "Via 2": fallback mixes locale2 and locale/);
+  // 0, 1 and leading zeros aren't copies the library names.
+  for (const field of ["locale1.indirizzo", "locale0.indirizzo", "locale02.indirizzo"]) {
+    assert.match(errorsFor(withForm({ label: "Via", map: { direct: field } })), /schema:/, field);
+  }
+
+  const doc = minimal();
+  doc.records = [{ field: "locale2.tari_protocollo", from: "Risposta del Comune" }];
+  assert.deepEqual(validateProcedure(doc, PATH, ctx), []);
+});
+
 test("records name exact registered fields, once each, never secrets or tracking", () => {
   const doc = minimal();
   doc.records = [
@@ -679,6 +710,9 @@ test("registry keeps each category's subject and kinds, and each field's kinds",
   assert.throws(one({ kinds: [] }), /category "x" has kinds \[\]/);
   assert.throws(one({ kinds: ["persona", "persona"] }), /has kinds/);
   assert.throws(one({ fields: [{ id: "x.y", description: "", sensitivity: "standard", kinds: "persona" }] }), /field "x.y" has kinds "persona"/);
+  assert.throws(one({ one_only: "yes" }), /"x" has one_only "yes"/);
+  assert.equal(buildRegistry({ version: "1", credentials: WORDS, categories: [{ name: "x", description: "", scope: "person", one_only: true, fields: [{ id: "x.y", description: "", sensitivity: "standard" }] }] }).categories[0].one_only, true);
+  assert.equal("one_only" in reg.categories[0], false);
 });
 
 test("registry rejects malformed vault schemas", () => {

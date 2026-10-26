@@ -301,7 +301,7 @@ forms:
       - { label: Dati del titolare – nato il, map: { direct: identity.date_of_birth } }
       - { label: Dati del titolare – residente in, map: { direct: residenza.comune } }
       - { label: Dati del titolare – prov. (residenza), map: { direct: residenza.provincia } }
-      - { label: Dati del titolare – Stato (residenza), map: { ask: "Stato di residenza del titolare (Italia se residente in Italia)" } }
+      - { label: Dati del titolare – Stato (residenza), map: { direct: residenza.stato }, notes: "Vuoto nel vault vuol dire Italia: scrivere Italia." }
       - { label: Dati del titolare – indirizzo, map: { direct: residenza.indirizzo } }
       - { label: Dati del titolare – n., map: { direct: residenza.civico } }
       - { label: Dati del titolare – C.A.P., map: { direct: residenza.cap } }

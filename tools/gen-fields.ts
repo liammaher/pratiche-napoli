@@ -46,6 +46,9 @@ interface VaultCategory {
   scope: Scope;
   subject?: Subject;
   kinds?: Kind[];
+  // One per holder (famiglia, ruolo): the vault refuses numbered copies of it
+  // (famiglia2), which it allows for any other category (locale2).
+  one_only?: boolean;
   fields: VaultField[] | null;
 }
 
@@ -80,6 +83,8 @@ export interface Registry {
     scope: Scope;
     subject?: Subject;
     kinds?: Kind[];
+    // No numbered copies (see VaultCategory); a procedure may name locale2 but not famiglia2.
+    one_only?: true;
     // vault: false marks a field (or a whole category) the vault doesn't have yet.
     fields: { id: string; description: string; for?: For; kinds?: Kind[]; vault?: false }[];
     vault?: false;
@@ -153,6 +158,7 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
     if (!SCOPES.has(cat.scope)) throw new Error(`category "${cat.name}" needs a scope, person or owner`);
     if (!SUBJECTS.has(cat.subject)) throw new Error(`category "${cat.name}" has subject ${JSON.stringify(cat.subject)}, not persona or impresa`);
     checkKinds(cat.kinds, `category "${cat.name}"`);
+    if (cat.one_only !== undefined && typeof cat.one_only !== "boolean") throw new Error(`category "${cat.name}" has one_only ${JSON.stringify(cat.one_only)}, not true or false`);
     const vaultFields = cat.fields ?? [];
     const fields: Registry["categories"][number]["fields"] = [];
     for (const f of vaultFields) {
@@ -181,6 +187,7 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
       scope: cat.scope,
       ...(cat.subject && { subject: cat.subject }),
       ...(cat.kinds && { kinds: cat.kinds }),
+      ...(cat.one_only && { one_only: true as const }),
       fields,
     };
     if (vaultFields.length === 0) {
