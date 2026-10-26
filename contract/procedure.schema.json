@@ -552,7 +552,7 @@
     "fieldRef": {
       "description": "A field ID (category.field) or a whole category (category.*), the vault owner's when unprefixed. A family member's carry their slug (leo:identity.first_name; io is reserved for the owner), and *: means each member (*:identity.first_name)",
       "type": "string",
-      "pattern": "^(?:(?:\\*|(?!io:)[a-z][a-z0-9-]{0,31}):)?[a-z_]+\\.([a-z0-9_]+|\\*)$"
+      "pattern": "^(?:(?:\\*|[a-z][a-z0-9-]{0,31}):)?[a-z_]+\\.([a-z0-9_]+|\\*)$"
     },
     "mapping": {
       "oneOf": [

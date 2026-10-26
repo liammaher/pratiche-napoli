@@ -31,6 +31,8 @@ export function todayInRome(now = new Date()): string {
 // Words that mark a credential in a field name: the vault's reCredentialWord
 // (internal/vault/italy.go) plus "token". Unlike the vault, any category counts.
 export const CREDENTIAL = /(^|_)(pin\d*|puk\d*|password|passwd|pwd|pw|pass|passcode|otp|totp|username|login|secret|segreto|chiave|token)(_|$)/;
+// A family member's slug, as the vault's reMemberSlug; "io" is reserved.
+const MEMBER_SLUG = /^[a-z][a-z0-9-]{0,31}$/;
 // The same secrets named in an ask or blank_with_reason text. "PIN 2.1" etc.
 // are the Vigili del Fuoco form names, not PIN codes.
 const ASKS_FOR_SECRET = /\b(pin(?!\s*\d)|puk|password|passcode|otp|codice segreto)\b/i;
@@ -170,25 +172,26 @@ function checkMapping(map: Record<string, unknown>, registry: Registry): string[
     }
   }
   for (const ref of refs) {
-    const { member } = splitMember(ref);
-    if (member === "*") {
-      problems.push(`${ref}: *: means each family member, which only repeat: famiglia can fill`);
-      continue;
-    }
-    const problem = member ? namesMember(ref, member) : checkFieldRef(ref, registry);
+    const problem = checkUse(ref, false, registry);
     if (problem) problems.push(problem);
   }
   // repeat: famiglia fills one row per member, from that member's fields.
   for (const ref of Array.isArray(map.fields) ? (map.fields as string[]) : []) {
-    const { member, local } = splitMember(ref);
-    if (member !== "*") {
-      problems.push(member && member !== "io" ? namesMember(ref, member) : `${ref}: each row is a family member's, so write *:${local}`);
-      continue;
-    }
-    const problem = checkFieldRef(ref, registry);
+    const problem = checkUse(ref, true, registry);
     if (problem) problems.push(problem);
   }
   return problems;
+}
+
+// Where a ref may appear: *: (each member) only in a repeat: famiglia row,
+// where every field must be the row member's; a named slug nowhere.
+function checkUse(ref: string, inRow: boolean, registry: Registry): string | null {
+  const problem = checkFieldRef(ref, registry);
+  if (problem) return problem;
+  const { member } = splitMember(ref);
+  if (member === "*") return inRow ? null : `${ref}: *: means each family member, which only repeat: famiglia can fill`;
+  if (member) return namesMember(ref, member);
+  return inRow ? `${ref}: each row is filled from that member's fields, written *:category.field` : null;
 }
 
 // Slugs are chosen per vault (and are often first names), so a procedure
@@ -198,9 +201,12 @@ function namesMember(ref: string, member: string): string {
 }
 
 // "leo:cie.numero" gives "leo" and "cie.numero"; an owner's field has no member.
+// As in the vault, only a ':' before the first '.' starts a prefix.
 export function splitMember(ref: string): { member: string; local: string } {
   const colon = ref.indexOf(":");
-  return colon < 0 ? { member: "", local: ref } : { member: ref.slice(0, colon), local: ref.slice(colon + 1) };
+  const dot = ref.indexOf(".");
+  if (colon < 0 || (dot >= 0 && dot < colon)) return { member: "", local: ref };
+  return { member: ref.slice(0, colon), local: ref.slice(colon + 1) };
 }
 
 export function checkFieldRef(ref: string, registry: Registry): string | null {
@@ -209,6 +215,9 @@ export function checkFieldRef(ref: string, registry: Registry): string | null {
   const secret = `${ref} can't be used in a public procedure: it is (or includes) a secret or payment field`;
   if (registry.forbidden.categories.includes(cat) || registry.forbidden.fields.includes(local)) return secret;
   if (member === "io") return `${ref}: "io" is reserved for the vault's owner, whose fields have no prefix`;
+  if (local !== ref && member !== "*" && !MEMBER_SLUG.test(member)) {
+    return `${ref}: invalid member "${member}": lower-case letters, digits and hyphens, starting with a letter (at most 32)`;
+  }
 
   const category = registry.categories.find((c) => c.name === cat);
   if (!category) return `unknown category "${cat}"`;
@@ -227,7 +236,7 @@ export function checkFieldRef(ref: string, registry: Registry): string | null {
   const known = category.fields.find((f) => f.id === local);
   if (!known) return `unknown field "${local}" (add it to the registry, or use { ask: ... })`;
   if (member && known.for === "owner") return `${ref}: ${local} is the vault owner's field only; drop the "${member}:" prefix`;
-  if (!member && known.for === "member") return `${ref} is a family member's field: use *:${ref} inside repeat: famiglia`;
+  if (!member && known.for === "member") return `${ref} is a family member's field, never the vault owner's`;
   return null;
 }
 
