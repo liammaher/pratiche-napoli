@@ -308,18 +308,27 @@ forms:
       - { label: Dati del titolare – PEC / posta elettronica, map: { fallback: [identity.pec, identity.email] } }
       - { label: Dati del titolare – Telefono fisso / cellulare, map: { direct: identity.phone } }
       # Dati della ditta o società (eventuale)
-      - { label: Dati della ditta o società – in qualità di, map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }, notes: Solo se il titolare agisce per un'impresa. }
-      - { label: Dati della ditta o società – della ditta / società, map: { direct: business.denominazione } }
-      - { label: Dati della ditta o società – codice fiscale / p. IVA, map: { fallback: [business.codice_fiscale, business.partita_iva] } }
-      - { label: Dati della ditta o società – Iscritta alla C.C.I.A.A. di, map: { direct: business.cciaa }, notes: "Il nome della Camera di commercio: per la sigla NA, Napoli." }
-      - { label: Dati della ditta o società – prov. (C.C.I.A.A.), map: { direct: business.cciaa } }
-      - { label: Dati della ditta o società – n. (iscrizione), map: { direct: business.rea } }
-      - { label: Dati della ditta o società – con sede in, map: { direct: business.sede_legale_comune } }
-      - { label: Dati della ditta o società – prov. (sede), map: { direct: business.sede_legale_provincia } }
-      - { label: Dati della ditta o società – indirizzo, map: { concat: [business.sede_legale_indirizzo, business.sede_legale_civico] } }
-      - { label: Dati della ditta o società – PEC / posta elettronica, map: { fallback: [business.pec, business.email] } }
-      - { label: Dati della ditta o società – C.A.P., map: { direct: business.sede_legale_cap } }
-      - { label: Dati della ditta o società – Telefono fisso / cellulare, map: { direct: business.telefono } }
+      - label: Dati della ditta o società – in qualità di
+        map:
+          ask: >-
+            Il titolare presenta la CILA per un'impresa o una società (lavori nei suoi locali o sui
+            suoi immobili)? Se sì, in che qualità (titolare, legale rappresentante); se no, questa
+            sezione resta vuota
+        notes: >-
+          Va chiesto anche quando l'archivio ha i dati di un'impresa: i lavori sulla propria casa di
+          chi ha un'impresa non sono dell'impresa. Se sì, la qualità è business.qualita_dichiarante
+          o, in un archivio d'impresa, ruolo.tipo del firmatario.
+      - { label: Dati della ditta o società – della ditta / società, map: { direct: business.denominazione }, notes: "Solo se il titolare agisce per un'impresa (riga «in qualità di»); altrimenti vuoto." }
+      - { label: Dati della ditta o società – codice fiscale / p. IVA, map: { fallback: [business.codice_fiscale, business.partita_iva] }, notes: "Solo se il titolare agisce per un'impresa (riga «in qualità di»); altrimenti vuoto." }
+      - { label: Dati della ditta o società – Iscritta alla C.C.I.A.A. di, map: { direct: business.cciaa }, notes: "Il nome della Camera di commercio: per la sigla NA, Napoli. Solo se il titolare agisce per un'impresa; altrimenti vuoto." }
+      - { label: Dati della ditta o società – prov. (C.C.I.A.A.), map: { direct: business.cciaa }, notes: "Solo se il titolare agisce per un'impresa (riga «in qualità di»); altrimenti vuoto." }
+      - { label: Dati della ditta o società – n. (iscrizione), map: { direct: business.rea }, notes: "Solo se il titolare agisce per un'impresa (riga «in qualità di»); altrimenti vuoto." }
+      - { label: Dati della ditta o società – con sede in, map: { direct: business.sede_legale_comune }, notes: "Solo se il titolare agisce per un'impresa (riga «in qualità di»); altrimenti vuoto." }
+      - { label: Dati della ditta o società – prov. (sede), map: { direct: business.sede_legale_provincia }, notes: "Solo se il titolare agisce per un'impresa (riga «in qualità di»); altrimenti vuoto." }
+      - { label: Dati della ditta o società – indirizzo, map: { concat: [business.sede_legale_indirizzo, business.sede_legale_civico] }, notes: "Solo se il titolare agisce per un'impresa (riga «in qualità di»); altrimenti vuoto." }
+      - { label: Dati della ditta o società – PEC / posta elettronica, map: { fallback: [business.pec, business.email] }, notes: "Solo se il titolare agisce per un'impresa (riga «in qualità di»); altrimenti vuoto." }
+      - { label: Dati della ditta o società – C.A.P., map: { direct: business.sede_legale_cap }, notes: "Solo se il titolare agisce per un'impresa (riga «in qualità di»); altrimenti vuoto." }
+      - { label: Dati della ditta o società – Telefono fisso / cellulare, map: { direct: business.telefono }, notes: "Solo se il titolare agisce per un'impresa (riga «in qualità di»); altrimenti vuoto." }
       # Dati del procuratore/delegato (in caso di procura)
       - { label: Dati del procuratore/delegato – Cognome, map: { blank_with_reason: "Dati del procuratore (di solito il tecnico incaricato), non del titolare: li inserisce il procuratore." } }
       - { label: Dati del procuratore/delegato – Nome, map: { blank_with_reason: Dati del procuratore; li inserisce il procuratore. } }
@@ -333,8 +342,11 @@ forms:
       - { label: Dati del procuratore/delegato – Telefono fisso / cellulare, map: { blank_with_reason: Dati del procuratore; li inserisce il procuratore. } }
       # Dichiarazioni del titolare
       - label: "a) di avere titolo alla presentazione di questa pratica edilizia in quanto … dell'immobile"
-        map: { direct: locale.titolo }
-        notes: "Per un lavoro sulla propria casa indicare il titolo sull'abitazione (abitazione.titolo). Il modulo chiede la qualità rispetto all'immobile dei lavori: proprietario, comproprietario, usufruttuario, amministratore di condominio…"
+        map: { ask: "A che titolo il titolare ha l'immobile dei lavori: proprietario, comproprietario, usufruttuario, locatario, amministratore di condominio…?" }
+        notes: >-
+          Per i locali dell'impresa è locale.titolo; per la propria casa abitazione.titolo
+          (proprietario, locatario…). Mai il titolo sui locali di un'impresa per lavori a casa, o
+          viceversa.
       - label: "a.1 titolarità esclusiva / a.2 non esclusiva ma con assenso dei terzi titolari"
         map: { ask: "Il titolare ha titolarità esclusiva all'esecuzione dei lavori, o (per esempio inquilino o comproprietario) dispone dell'assenso scritto degli altri titolari?" }
       - label: "b) Opere su parti comuni o modifiche esterne – b.1 non riguardano parti comuni / b.2 parti comuni di un condominio / b.3 parti comuni di un fabbricato non in condominio, con assenso dei comproprietari / b.4 parti comuni senza assenso (art. 1102 c.c.)"
@@ -352,26 +364,29 @@ forms:
         map: { ask: "Solo per presentazione al SUAP: procedimento automatizzato o ordinario? Risponde il tecnico." }
       # e) Localizzazione dell'intervento
       - label: "e) sito in (via, piazza, ecc.)"
-        map: { direct: locale.indirizzo }
+        map: { ask: "Indirizzo dell'immobile dei lavori: sono i locali dell'impresa, la propria casa o un altro immobile?" }
         notes: >-
-          Tutti i dati di questa sezione (indirizzo, civico, interno, CAP, catasto) vengono dallo
-          stesso immobile dei lavori. Per un locale d'impresa usare locale.*; per lavori nella
-          propria casa usare invece abitazione.* e l'indirizzo di residenza o domicilio di quella
-          casa. Non mescolare dati di immobili diversi.
-      - { label: "e) n.", map: { direct: locale.civico } }
+          Va chiesto anche quando l'archivio ha i locali di un'impresa: i lavori sulla propria casa
+          non sono nei locali dell'impresa. Tutti i dati di questa sezione (indirizzo, civico,
+          interno, CAP, catasto) vengono dallo stesso immobile dei lavori. Per un locale d'impresa
+          usare locale.*; per lavori nella propria casa usare invece abitazione.* e l'indirizzo di
+          residenza o domicilio di quella casa. Non mescolare dati di immobili diversi.
+      - { label: "e) n.", map: { direct: locale.civico }, notes: "Solo per i locali dell'impresa (riga «sito in»); per la propria casa residenza.civico o domicilio.civico." }
       - { label: "e) scala", map: { ask: "Scala dell'immobile dei lavori, se c'è" } }
       - { label: "e) piano", map: { ask: "Piano dell'immobile dei lavori" } }
-      - { label: "e) interno", map: { direct: locale.interno } }
-      - { label: "e) C.A.P.", map: { direct: locale.cap } }
+      - { label: "e) interno", map: { direct: locale.interno }, notes: "Solo per i locali dell'impresa (riga «sito in»); per la propria casa residenza.interno o domicilio.interno." }
+      - { label: "e) C.A.P.", map: { direct: locale.cap }, notes: "Solo per i locali dell'impresa (riga «sito in»); per la propria casa residenza.cap o domicilio.cap." }
       - { label: "e) censito al catasto fabbricati / terreni", map: { ask: "L'immobile è censito al catasto fabbricati o al catasto terreni? (di norma fabbricati)" } }
-      - { label: "e) foglio n.", map: { direct: locale.catasto_foglio } }
-      - { label: "e) map.", map: { direct: locale.catasto_particella } }
-      - { label: "e) sub. (se presenti)", map: { direct: locale.catasto_subalterno } }
+      - { label: "e) foglio n.", map: { direct: locale.catasto_foglio }, notes: "Solo per i locali dell'impresa (riga «sito in»); per la propria casa abitazione.catasto_foglio." }
+      - { label: "e) map.", map: { direct: locale.catasto_particella }, notes: "Solo per i locali dell'impresa (riga «sito in»); per la propria casa abitazione.catasto_particella." }
+      - { label: "e) sub. (se presenti)", map: { direct: locale.catasto_subalterno }, notes: "Solo per i locali dell'impresa (riga «sito in»); per la propria casa abitazione.catasto_subalterno." }
       - { label: "e) sez.", map: { ask: "Sezione catastale, se diversa dalla sezione urbana (dalla visura)" } }
-      - { label: "e) sez. urb.", map: { direct: locale.catasto_sezione } }
+      - { label: "e) sez. urb.", map: { direct: locale.catasto_sezione }, notes: "Solo per i locali dell'impresa (riga «sito in»); per la propria casa abitazione.catasto_sezione." }
       - label: "e) avente destinazione d'uso (residenziale, industriale, commerciale, ecc.)"
         map: { direct: locale.destinazione_uso }
-        notes: Per la propria casa scrivere residenziale. Va indicata la destinazione legittima, non quella di fatto.
+        notes: >-
+          Solo per i locali dell'impresa (riga «sito in»); per la propria casa scrivere
+          residenziale. Va indicata la destinazione legittima, non quella di fatto.
       - { label: "e) coordinate (*)", map: { ask: "Coordinate dell'immobile, se richieste (risponde il tecnico)" } }
       # f) – l)
       - label: "f) Contributo di costruzione – f.1 a titolo gratuito / f.2 a titolo oneroso, con f.2.1 ricevuta allegata o f.2.2 pagamento prima dell'inizio lavori"
@@ -426,12 +441,22 @@ forms:
       - { label: "( ) provincia di residenza", map: { direct: residenza.provincia } }
       - { label: in (indirizzo), map: { concat: [residenza.indirizzo, residenza.civico] } }
       - label: "in proprio / in qualità di Legale Rappresentante di"
-        map: { ask: "Dichiara in proprio o come legale rappresentante di un'impresa o ente?" }
-        notes: Se business.qualita_dichiarante è legale_rappresentante, barrare la seconda casella.
-      - { label: "Legale Rappresentante di (denominazione)", map: { direct: business.denominazione } }
-      - { label: C.F. (dell'impresa o ente), map: { fallback: [business.codice_fiscale, business.partita_iva] } }
-      - { label: Pec, map: { fallback: [business.pec, identity.pec] } }
-      - { label: e-mail, map: { fallback: [business.email, identity.email] } }
+        map: { ask: "Dichiara in proprio o come legale rappresentante di un'impresa o ente? (in proprio anche il titolare di una ditta individuale)" }
+        notes: >-
+          Come legale rappresentante solo se la CILA è per l'impresa o l'ente (vedi "Dati della
+          ditta o società"), anche quando l'archivio ha i dati di un'impresa.
+      - label: "Legale Rappresentante di (denominazione)"
+        map: { direct: business.denominazione }
+        notes: Solo come legale rappresentante (riga precedente); altrimenti vuoto.
+      - label: C.F. (dell'impresa o ente)
+        map: { fallback: [business.codice_fiscale, business.partita_iva] }
+        notes: Solo come legale rappresentante; altrimenti vuoto.
+      - label: Pec
+        map: { direct: identity.pec }
+        notes: La PEC del dichiarante; come legale rappresentante si può indicare quella dell'impresa (business.pec).
+      - label: e-mail
+        map: { direct: identity.email }
+        notes: L'e-mail del dichiarante; come legale rappresentante si può indicare quella dell'impresa (business.email).
       - label: "Dichiara di non avere pendenze verso il Comune di Napoli per IMU, Tassa rifiuti, Imposta di soggiorno, Canone di occupazione suolo pubblico (fino al 2020) e Canone patrimoniale (dal 2021)"
         map: { ask: "Il dichiarante conferma di non avere pendenze verso il Comune di Napoli per IMU, TARI, imposta di soggiorno e canoni di suolo pubblico?" }
       - label: "Dichiara di non avere procedure di riscossione coattiva in corso con il concessionario per entrate del Comune di Napoli"
