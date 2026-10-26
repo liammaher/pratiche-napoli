@@ -131,6 +131,14 @@ legal_basis:
     status: verified
     source: piano-2026
 deadline:
+  summary:
+    text: >-
+      Prima di iniziare: l'istanza va dentro la pratica di apertura, voltura o subentro su
+      impresainungiorno; se l'attività è già aperta, prima di usare gli impianti, come pratica a sé
+      con gli estremi del titolo. Il nulla osta arriva solo dopo che il SUAP ha chiuso con esito
+      positivo la pratica di inizio attività, e le fonti non indicano un termine per il rilascio.
+    status: unverified
+    source: avviso-nulla-osta
   rules:
     - text: >-
         Dal 1° giugno 2024 l'istanza di nulla osta (anche per voltura per cambio di gestore e
@@ -193,6 +201,7 @@ appointment:
   source: servizio-tutela-ambiente
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP del Comune di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     receipt: legal
@@ -204,24 +213,28 @@ channels:
       sé con gli estremi del titolo. Le pratiche SUAP inviate via PEC o e-mail non vengono
       istruite.
   - type: desk
+    purpose: info
     name: SUAP del Comune di Napoli
     address: Piazza Cavour 42, II piano, Napoli
     booking: Solo su prenotazione online dalla pagina "Avviare, variare, chiudere un'attività produttiva"
     source: suap-contatti
     notes: Per informazioni e assistenza; non per depositare la pratica.
   - type: desk
+    purpose: info
     name: Servizio Tutela dell'Ambiente, della Salute e del Paesaggio – VAS/Acustica
     address: Via Speranzella 80, 80132 Napoli
     hours: martedì 9:00–13:00, preferibilmente su appuntamento telefonico
     source: servizio-tutela-ambiente
     notes: Ufficio che esprime i pareri di conformità acustica; per informazioni.
   - type: phone
+    purpose: info
     address: 081 7959656 / 081 7959565
     source: servizio-tutela-ambiente
     notes: >-
       Numeri della pagina dell'ufficio (aggiornata il 16/07/2026); la pagina "Rumore ambientale"
       riporta 081.7956756/7959565.
   - type: pec
+    purpose: info
     address: tutela.asp@pec.comune.napoli.it
     receipt: legal
     source: servizio-tutela-ambiente

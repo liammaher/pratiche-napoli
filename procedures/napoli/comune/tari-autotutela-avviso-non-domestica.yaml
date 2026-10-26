@@ -74,6 +74,14 @@ legal_basis:
     status: verified
     source: l212-art1
 deadline:
+  summary:
+    text: >-
+      Non c'è un termine per presentare l'istanza, ma intanto l'importo giusto si paga alle scadenze
+      e nessuna fonte dice che l'istanza sospenda il pagamento o i 60 giorni per il ricorso, che
+      decorrono dalla notifica dell'atto. Un anno dopo che l'atto è diventato definitivo senza
+      ricorso, il Comune non è più obbligato ad annullarlo.
+    status: verified
+    source: mod-7
   rules:
     - text: >-
         Né il Mod. 7 né il regolamento TARI fissano un termine per presentare l'istanza di
@@ -123,6 +131,7 @@ appointment:
   source: mod-7
 channels:
   - type: pec
+    purpose: procedure
     address: entrate.tari-tares-tarsu@pec.comune.napoli.it
     receipt: legal
     preferred: true
@@ -131,14 +140,17 @@ channels:
       Dà una ricevuta con valore legale. Anche la pagina TARI 2026 indica questa PEC per l'istanza
       quando l'avviso non rispecchia la situazione reale.
   - type: email
+    purpose: procedure
     address: entrate.tari-tares-tarsu@comune.napoli.it
     receipt: informal
     source: mod-7
   - type: post
+    purpose: procedure
     address: Comune di Napoli, Area Entrate, Servizio Gestione TARI, Via Diocleziano 330, 80125 Napoli
     source: mod-7
     notes: Raccomandata (A/R secondo la pagina della modulistica).
   - type: portal
+    purpose: procedure
     name: POTESs – Servizi Tributari
     url: https://servizionline.comune.napoli.it/web/napoli/servizi-tributari
     auth: [spid, cie, cns]
@@ -147,12 +159,14 @@ channels:
       La pagina della modulistica lo indica per le "dichiarazioni TARI"; il Mod. 7 non lo elenca
       tra i modi di presentazione dell'istanza.
   - type: desk
+    purpose: info
     name: Sportello TARI
     address: Via Diocleziano 330, 80125 Napoli
     hours: lunedì–venerdì 8:30–12:30
     source: mod-7
     notes: Indicato tra i contatti del Mod. 7, non tra i modi di presentazione.
   - type: phone
+    purpose: info
     address: 081 795 3711
     hours: tutti i giorni 9:00–13:00 (orario indicato sul modulo)
     booking: >-

@@ -88,6 +88,15 @@ legal_basis:
       la norma potrebbe cambiare. Ricontrollare prima di usare questa scheda nel 2027.
     status: unverified
 deadline:
+  summary:
+    text: >-
+      Non c'è un termine per chiedere le rate, ma se non si paga e non le si chiede in tempo ADER
+      avvia il recupero: la cartella indica 60 giorni dalla notifica. A un preavviso di rigetto si
+      risponde entro 10 giorni; la prima rata scade almeno 8 giorni lavorativi dopo l'accoglimento e
+      non pagando 8 rate (o meno, se tra queste c'è l'ultima) si decade e il residuo è dovuto tutto
+      insieme.
+    status: unverified
+    source: ader-cartella
   rules:
     - text: >-
         Le fonti consultate non fissano un termine per chiedere la rateizzazione. La cartella va però
@@ -145,6 +154,7 @@ appointment:
   source: ader-prenota
 channels:
   - type: portal
+    purpose: procedure
     name: Area riservata ADER – servizio "Rateizza adesso" (sezione "Rateizza il debito")
     url: https://servizi.agenziaentrateriscossione.gov.it/equitaliaServiziWeb/home/login.do
     auth: [spid, cie, cns]
@@ -157,11 +167,13 @@ channels:
       con le credenziali dell'Agenzia delle Entrate. Lo possono usare anche una persona di fiducia o
       un intermediario fiscale delegati.
   - type: app
+    purpose: procedure
     name: App Equiclick
     auth: [spid, cie, cns]
     source: vademecum
     notes: Offre lo stesso servizio "Rateizza adesso".
   - type: pec
+    purpose: procedure
     name: Casella rateazioni dell'area territoriale di Napoli (solo modello RS)
     address: rateazioni.na@pec.agenziariscossione.gov.it
     receipt: legal
@@ -170,11 +182,13 @@ channels:
       Va usata la casella della provincia che ha emesso la cartella/avviso, non quella di residenza.
       Allegare copia del documento d'identità.
   - type: pec
+    purpose: procedure
     name: Casella rateazioni della Campania (modelli RDF e RDG, richieste documentate)
     address: CAM.rateazioni@pec.agenziariscossione.gov.it
     receipt: legal
     source: mod-rdf
   - type: desk
+    purpose: procedure
     name: Sportelli territoriali ADER (su appuntamento)
     url: https://www.agenziaentrateriscossione.gov.it/it/servizi/prenota-un-appuntamento/prenota-un-appuntamento-allo-sportello-territoriale/?idServizio=S3
     booking: >-
@@ -185,6 +199,7 @@ channels:
       Giorni e orari vanno controllati sulla pagina del singolo sportello; per l'elenco degli sportelli
       di Napoli usare il servizio di ricerca.
   - type: desk
+    purpose: procedure
     name: Sportello ADER di Napoli – Vomero
     address: Via San Gennaro al Vomero 12, Napoli
     source: ader-vomero
@@ -192,11 +207,13 @@ channels:
       Indirizzo citato in un avviso ADER del 21/10/2026 (sportello chiuso dal 22 al 26 ottobre 2026);
       orari non indicati. Solo su appuntamento. Altri sportelli napoletani non sono stati verificati.
   - type: desk
+    purpose: info
     name: Sportello online (videochiamata)
     url: https://www.agenziaentrateriscossione.gov.it/it/servizi/prenota-un-appuntamento/
     auth: [spid, cie]
     source: ader-prenota
   - type: phone
+    purpose: info
     name: Contact center ADER (informazioni e prenotazioni)
     address: 06 01 01
     hours: operatore lunedì–venerdì 8:00–18:00; risponditore automatico negli altri orari

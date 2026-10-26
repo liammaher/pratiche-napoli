@@ -69,34 +69,41 @@ appointment:
   source: modulistica
 channels:
   - type: pec
+    purpose: procedure
     address: entrate.tari-tares-tarsu@pec.comune.napoli.it
     receipt: legal
     preferred: true
     source: mod-1
     notes: Preferibile per chi ha una PEC, perché dà una ricevuta con valore legale.
   - type: portal
+    purpose: procedure
     name: POTESs – Servizi Tributari
     url: https://servizionline.comune.napoli.it/web/napoli/servizi-tributari
     auth: [spid, cie, cns]
     source: modulistica
   - type: email
+    purpose: procedure
     address: entrate.tari-tares-tarsu@comune.napoli.it
     receipt: informal
     source: mod-1
   - type: post
+    purpose: procedure
     address: Comune di Napoli, Area Entrate, Servizio IMU e TARI, Via Diocleziano 330, 80125 Napoli
     source: mod-1
     notes: Raccomandata A/R.
   - type: desk
+    purpose: procedure
     name: Sportelli URP delle Municipalità
     source: modulistica
     notes: Per le utenze domestiche; la pagina non indica gli indirizzi.
   - type: desk
+    purpose: info
     name: Sportello TARI
     address: Via Diocleziano 330, 80125 Napoli
     hours: lunedì–venerdì 8:30–12:30
     source: mod-1
   - type: phone
+    purpose: info
     address: 081 795 3711
     hours: 9:00–13:00 (orario indicato sul modulo)
     source: mod-1

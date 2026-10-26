@@ -87,6 +87,13 @@ legal_basis:
     status: verified
     source: dlgs42-art21
 deadline:
+  summary:
+    text: >-
+      Prima di iniziare i lavori; se con la CILA si chiedono atti di assenso di altri enti, si
+      inizia solo quando lo Sportello comunica di averli acquisiti. A fine lavori, se serve,
+      l'aggiornamento catastale entro 30 giorni.
+    status: verified
+    source: dpr380-art6bis
   rules:
     - text: >-
         La CILA si presenta prima di iniziare i lavori ("previa comunicazione"); nel modulo si
@@ -139,6 +146,7 @@ appointment:
   source: sue-contatti
 channels:
   - type: portal
+    purpose: procedure
     name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
     url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
     auth: [spid, cie, cns]
@@ -152,6 +160,7 @@ channels:
       quello a cui porta il pulsante "Accedi al Servizio" della scheda POTESs; la pagina "Edilizia
       Privata" del Comune dice ancora che il link "verrà successivamente fornito".
   - type: desk
+    purpose: info
     name: Servizio Sportello Unico Edilizia
     address: Piazza Dante 79, IV piano, 80135 Napoli
     hours: ricevimento del pubblico il mercoledì, 10:00–13:00
@@ -160,11 +169,13 @@ channels:
       Informazioni e accesso agli atti; la CILA non si consegna allo sportello. Orario dalla
       rubrica del SUE aggiornata al 15/06/2026; piano dalla scheda POTESs.
   - type: email
+    purpose: info
     address: sportello.unico.edilizia@comune.napoli.it
     receipt: informal
     source: sue-ufficio
     notes: Solo per informazioni.
   - type: pec
+    purpose: info
     address: sportello.unico.edilizia@pec.comune.napoli.it
     receipt: legal
     source: sue-ufficio
@@ -172,6 +183,7 @@ channels:
       Per comunicare con l'ufficio, non per presentare la CILA: dal 6 luglio 2026 le pratiche via
       PEC sono irricevibili (DD 501/2026).
   - type: phone
+    purpose: info
     address: 081 7953384
     source: sue-ufficio
     notes: Segreteria del Servizio (anche 081 7958216). Rubrica interna completa nel PDF dei contatti.

@@ -77,6 +77,14 @@ legal_basis:
     status: verified
     source: dl-63-2026
 deadline:
+  summary:
+    text: >-
+      Imprese già iscritte: per il 2026 entro il 30 giugno, oppure entro il 30 luglio con la
+      maggiorazione dello 0,40%; per soggetti ISA, forfettari e minimi altre Camere indicano il 20
+      luglio (20 agosto con lo 0,80%), ma Napoli non lo dice: farselo confermare. Nuove iscrizioni:
+      insieme alla domanda oppure con F24 entro 30 giorni dall'invio.
+    status: disputed
+    source: na-lettera-ordinaria
   rules:
     - text: >-
         Imprese già iscritte: il termine coincide con quello di versamento del primo acconto
@@ -123,6 +131,7 @@ appointment:
   source: na-lettera-ordinaria
 channels:
   - type: portal
+    purpose: procedure
     name: Diritto annuale – Calcola e paga (sistema camerale)
     url: https://dirittoannuale.camcom.it
     preferred: true
@@ -132,6 +141,7 @@ channels:
       di stampare l'F24 precompilato. Il sito è un'applicazione web che non è stato possibile
       leggere senza browser: metodo di accesso non verificato.
   - type: email
+    purpose: info
     name: Ufficio Diritto Annuale – Sanzioni – Ruoli
     address: diritto.annuale@na.camcom.it
     receipt: informal

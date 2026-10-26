@@ -32,7 +32,7 @@ function minimal(): Record<string, any> {
     summary: "Una procedura di prova per i test del validatore.",
     ente: { name: "Comune di Napoli" },
     applies_to: { events: ["open"], audience: ["business"] },
-    channels: [{ type: "pec", address: "ufficio@pec.comune.napoli.it" }],
+    channels: [{ type: "pec", purpose: "procedure", address: "ufficio@pec.comune.napoli.it" }],
     steps: [{ do: "Invia il modulo", who: "owner", human_only: true }],
     sources: [{ id: "page", label: "Pagina ufficiale", url: "https://www.comune.napoli.it/", retrieved: "2026-10-25", official: true }],
     verification: { level: "L1", date: "2026-10-25", by: "test", method: "desk" },
@@ -207,6 +207,7 @@ test("verified claims need an official source, and sources must exist", () => {
   const doc = minimal();
   doc.sources.push({ id: "blog", label: "Un blog", retrieved: "2026-10-25" });
   doc.deadline = {
+    summary: { text: "Dipende dal caso", status: "unverified" },
     rules: [
       { text: "Entro 90 giorni", status: "verified" },
       { text: "Entro il 30 giugno", status: "unverified", source: "missing" },
@@ -316,6 +317,30 @@ test("cost, duration and appointment are claims", () => {
   assert.match(errorsFor(doc), /schema: \/headline/);
   delete doc.headline;
   assert.match(errorsFor(doc), /schema: \/ must have required property 'headline'/);
+});
+
+test("a procedure needs a channel that carries it out", () => {
+  const doc = minimal();
+  doc.channels.push({ type: "email", purpose: "info", preferred: true });
+  assert.match(errorsFor(doc), /channels\/1: preferred marks the recommended way/);
+  doc.channels.pop();
+  doc.channels[0].purpose = "info";
+  assert.match(errorsFor(doc), /channels: at least one must have purpose "procedure"/);
+  delete doc.channels[0].purpose;
+  assert.match(errorsFor(doc), /schema: \/channels\/0 must have required property 'purpose'/);
+});
+
+test("several deadline rules need a summary for In breve", () => {
+  const doc = minimal();
+  const rule = { text: "Entro 30 giorni.", status: "verified", source: "page" };
+  doc.deadline = { rules: [rule] };
+  assert.deepEqual(validateProcedure(doc, PATH, ctx), []);
+  doc.deadline.rules.push({ text: "Per le società entro 15 giorni.", status: "verified", source: "page" });
+  assert.match(errorsFor(doc), /deadline: with more than one rule, add a summary covering every case/);
+  doc.deadline.summary = { text: "Entro 30 giorni; per le società entro 15.", status: "verified" };
+  assert.match(errorsFor(doc), /\/deadline\/summary\/status: a verified claim must cite a source/);
+  doc.deadline.summary.source = "page";
+  assert.deepEqual(validateProcedure(doc, PATH, ctx), []);
 });
 
 test("payment codes have a status like any claim", () => {

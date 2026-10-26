@@ -106,6 +106,15 @@ legal_basis:
     status: verified
     source: avviso-zone-tutelate
 deadline:
+  summary:
+    text: >-
+      Bar e ristoranti: SCIA unica entro 90 giorni dall'atto di trasferimento (l'erede entro un anno
+      dalla morte), pena la decadenza; per il vicinato le fonti lette non fissano un termine, ma la
+      comunicazione va fatta prima di lavorare a proprio nome. Si opera appena arriva la ricevuta del
+      SUAP, la variazione TARI va presentata entro 90 giorni e l'erede di un'attività alimentare
+      senza requisiti ha dodici mesi per acquisirli, intanto con un preposto.
+    status: unverified
+    source: lr7-campania
   rules:
     - text: >-
         Bar, ristoranti e altri esercizi di somministrazione: SCIA unica al SUAP entro novanta giorni
@@ -186,6 +195,7 @@ appointment:
   source: suap-contatti
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     auth: [spid, cie, cns]
@@ -197,16 +207,19 @@ channels:
       SPID, CIE, CNS (anche eIDAS o Telemaco). Nel procedimento dell'attività si sceglie l'evento
       "Subentrare nell'esercizio dell'attività".
   - type: pec
+    purpose: info
     address: suap@pec.comune.napoli.it
     receipt: legal
     source: suap-contatti
     notes: Solo per comunicare con l'ufficio; le pratiche inviate via PEC o e-mail non vengono istruite.
   - type: email
+    purpose: info
     address: suaponline@comune.napoli.it
     receipt: informal
     source: suap-contatti
     notes: Solo informazioni.
   - type: desk
+    purpose: info
     name: Servizio SUAP
     address: Piazza Cavour 42, II piano, Napoli
     booking: >-
@@ -215,6 +228,7 @@ channels:
     source: suap-contatti
     notes: Informazioni e assistenza; la pratica si presenta comunque online.
   - type: phone
+    purpose: info
     address: 081 7953054
     source: suap-servizio
 payment:
