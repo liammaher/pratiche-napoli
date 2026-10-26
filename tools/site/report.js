@@ -7,18 +7,25 @@
   const status = form.querySelector(".status");
   const section = form.elements["claim_feedback[0][section]"];
 
-  // The page lists the months up to when it was built; add any since then.
+  // The page lists the months up to when it was built; add any since then,
+  // up to this month in Rome, as the backend counts them (not the browser's).
   const done = form.elements.done;
-  const label = new Intl.DateTimeFormat("it-IT", { month: "long", year: "numeric" });
+  const label = new Intl.DateTimeFormat("it-IT", { month: "long", year: "numeric", timeZone: "UTC" });
   const newest = done.options[1]?.value;
-  const now = new Date();
+  const [year, month] = new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Rome", year: "numeric", month: "2-digit" })
+    .format(new Date())
+    .split("-")
+    .map(Number);
   // Newest first, each one after the last added, before the built list.
   let at = 1;
-  for (let d = new Date(now.getFullYear(), now.getMonth(), 1); newest; d.setMonth(d.getMonth() - 1)) {
-    const value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+  for (let d = new Date(Date.UTC(year, month - 1, 1)); newest; d.setUTCMonth(d.getUTCMonth() - 1)) {
+    const value = d.toISOString().slice(0, 7);
     if (value <= newest) break;
     done.insertBefore(new Option(label.format(d), value), done.options[at++]);
   }
+  // And drop those that have since left the last 12 months, which the backend refuses.
+  const oldest = new Date(Date.UTC(year, month - 12, 1)).toISOString().slice(0, 7);
+  for (const option of [...done.options]) if (option.value && option.value < oldest) option.remove();
 
   // "Segnala" links (and a shared ?sezione= link) preset the part of the page
   // the report is about. The links point at #racconta, so nothing reloads.
@@ -91,10 +98,16 @@
         body: JSON.stringify(report),
       });
       if (res.ok) {
+        const { id } = await res.json().catch(() => ({}));
         form.replaceChildren();
         const done = document.createElement("p");
         done.textContent = "Grazie! Il tuo racconto è arrivato: lo leggiamo prima di usarlo per aggiornare la pagina.";
         form.append(done);
+        if (id) {
+          const code = document.createElement("p");
+          code.textContent = `Il codice del tuo racconto è ${id}: conservalo se vorrai chiederci di vederlo o cancellarlo.`;
+          form.append(code);
+        }
         return;
       }
       const answer = await res.json().catch(() => ({}));

@@ -277,8 +277,9 @@ test("the report form is built from the procedure's own channels, documents and 
   assert.ok(!html.includes("issues/new"));
   assert.ok(body.includes('name="documents[1][asked]" value="no"'));
   assert.ok(body.includes('<option value="2026-10">ottobre 2026</option>'));
-  assert.ok(body.includes('<option value="2024-11">novembre 2024</option>'));
-  assert.ok(!body.includes('value="2024-10"'));
+  // The last 12 months: older reports are refused, having left the figures' window.
+  assert.ok(body.includes('<option value="2025-11">novembre 2025</option>'));
+  assert.ok(!body.includes('value="2025-10"'));
   for (const [id, title] of [["in-breve", "In breve"], ["come", "Come si presenta?"], ["documenti", "Quali documenti servono?"]]) {
     assert.ok(body.includes(`<option value="${id}">${esc(title)}</option>`), id);
     // The link sits under the heading, not in it, and doesn't reload the page.
@@ -320,26 +321,27 @@ test("what people reported shows in In breve and its own section, never as offic
     documents: [{ name: "Modulo", required: true }],
     reported: {
       generated: "2026-10-25",
-      period: { from: "2025-11", to: "2026-09" },
+      period: { from: "2025-11", to: "2026-10" },
       count: 7,
       outcomes: { completata: 4, respinta: 3 },
-      channels: [{ type: "pec", count: 5, days_to_answer: { median: 23, min: 9, max: 41, n: 4 } }],
-      paid_eur: { median: 66.5, min: 16, max: 120, n: 3 },
-      documents: [{ name: "Modulo", asked: 3, of: 4 }],
+      channels: [{ type: "pec", count: 7, days_to_answer: { median: 23, n: 4 } }],
+      paid_eur: { median: 66, n: 3 },
+      documents: [{ name: "Modulo", asked: 3, of: 3 }],
       extra_documents: [{ text: "Planimetria", count: 3 }],
       tips: ["Mandare la PEC al mattino"],
+      basis: [],
     },
   });
   const html = buildSite([p], opts).get("napoli/comune/test/index.html")!;
   assert.ok(html.includes(`<dt>Tempi reali</dt><dd>circa 23 giorni via PEC (4 racconti), secondo chi l'ha fatta. <a href="#esperienze">Racconti</a></dd>`));
   const section = html.match(/<section id="esperienze">(.*?)<\/section>/s)![1];
   assert.ok(section.includes("<h2>Com&#39;è andata ad altri</h2>"));
-  assert.ok(section.includes("Da 7 racconti di chi ha fatto la pratica tra novembre 2025 e settembre 2026"));
+  assert.ok(section.includes("Da 7 racconti di chi ha fatto la pratica tra novembre 2025 e ottobre 2026"));
   assert.ok(section.includes("Non sono una fonte ufficiale"));
   assert.ok(section.includes("4 andate a buon fine, 3 respinte."));
-  assert.ok(section.includes("<strong>Risposta via PEC</strong>: circa 23 giorni, tra 9 e 41 giorni (4 racconti)."));
-  assert.ok(section.includes("<strong>Pagato in tutto</strong>: circa 66,50\u00a0€, tra 16\u00a0€ e 120\u00a0€ (3 racconti)."));
-  assert.ok(section.includes("Modulo, a 3 su 4"));
+  assert.ok(section.includes("<strong>Risposta via PEC</strong>: circa 23 giorni (4 racconti)."));
+  assert.ok(section.includes("<strong>Pagato in tutto</strong>: circa 66\u00a0€ (3 racconti)."));
+  assert.ok(section.includes("Modulo, a 3 su 3"));
   assert.ok(section.includes("Planimetria (3 racconti)"));
   assert.ok(section.includes("<li>Mandare la PEC al mattino</li>"));
   // Never in the search snippet or the structured data.
@@ -351,21 +353,22 @@ test("what people reported shows in In breve and its own section, never as offic
 });
 
 test("same-day answers and no wait read naturally", () => {
-  const stat = (median: number, min: number, max: number) => ({ median, min, max, n: 3 });
+  const stat = (median: number) => ({ median, n: 3 });
   const p = minimal({
     reported: {
       generated: "2026-10-25",
       period: { from: "2026-09", to: "2026-09" },
       count: 3,
-      channels: [{ type: "portal", count: 3, days_to_answer: stat(0, 0, 0) }],
-      desk_wait_minutes: stat(0, 0, 5),
-      paid_eur: stat(16, 16, 16),
+      channels: [{ type: "portal", count: 3, days_to_answer: stat(0) }],
+      desk_wait_minutes: stat(0),
+      paid_eur: stat(16),
+      basis: [],
     },
   });
   const html = buildSite([p], opts).get("napoli/comune/test/index.html")!;
   assert.ok(html.includes("<dd>in giornata via Portale online (3 racconti), secondo chi"));
   assert.ok(html.includes("<strong>Risposta via Portale online</strong>: in giornata (3 racconti)."));
-  assert.ok(html.includes("<strong>Attesa allo sportello</strong>: nessuna attesa, tra 0 e 5 minuti (3 racconti)."));
+  assert.ok(html.includes("<strong>Attesa allo sportello</strong>: nessuna attesa (3 racconti)."));
   assert.ok(html.includes("<strong>Pagato in tutto</strong>: circa 16\u00a0€ (3 racconti)."));
   assert.ok(!html.includes("0 giorni"));
 });

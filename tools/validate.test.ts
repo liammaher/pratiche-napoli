@@ -487,10 +487,50 @@ test("the reported block is checked against the schema and the procedure", () =>
     generated: "2026-10-25",
     period: { from: "2026-01", to: "2026-09" },
     count: 3,
-    channels: [{ type: "pec", count: 3, days_to_answer: { median: 20, min: 9, max: 41, n: 3 } }],
-    documents: [{ name: "Modulo", asked: 2, of: 3 }],
+    channels: [{ type: "pec", count: 3, days_to_answer: { median: 20, n: 3 } }],
+    documents: [{ name: "Modulo", asked: 3, of: 3 }],
+    basis: ["0123456789ab", "123456789abc", "23456789abcd"],
   };
   assert.deepEqual(validateProcedure(doc, PATH, ctx), []);
+
+  // A smallest or largest value is one person's; so is a count of 1 or 2,
+  // given directly or left over beside the total.
+  doc.reported.channels[0].days_to_answer.min = 9;
+  assert.match(errorsFor(doc), /days_to_answer must NOT have additional properties/);
+  delete doc.reported.channels[0].days_to_answer.min;
+  doc.reported.documents = [{ name: "Modulo", asked: 2, of: 3 }];
+  assert.match(errorsFor(doc), /\/reported\/documents\/0\/asked/);
+  doc.reported.documents = [{ name: "Modulo", asked: 3, of: 4 }];
+  assert.match(errorsFor(doc), /reported document "Modulo": those not asked must be none or at least 3/);
+  doc.reported.documents = [{ name: "Modulo", asked: 3, of: 3 }];
+  doc.reported.count = 4;
+  doc.reported.basis.push("3456789abcde");
+  doc.reported.outcomes = { completata: 3 };
+  let errors = errorsFor(doc);
+  assert.match(errors, /reported outcomes leave 1 or 2 reports over/);
+  assert.match(errors, /reported channels leave 1 or 2 reports over/);
+  doc.reported.basis.pop();
+  assert.match(errorsFor(doc), /reported basis has 3 reports, but count is 4/);
+  doc.reported.count = 3;
+  doc.reported.outcomes = { completata: 3 };
+  // A figure answered by 3 of 4 points at the fourth.
+  doc.reported.count = 4;
+  doc.reported.basis.push("3456789abcde");
+  doc.reported.outcomes = { completata: 4 };
+  doc.reported.channels[0].count = 4;
+  doc.reported.paid_eur = { median: 15, n: 3 };
+  doc.reported.rejection_reasons = [{ text: "Manca la firma", count: 3 }];
+  errors = errorsFor(doc);
+  assert.match(errors, /reported paid_eur: those who didn't answer must be none or at least 3/);
+  assert.match(errors, /reported channels\/0\/days_to_answer: those who didn't answer/);
+  assert.match(errors, /reported document "Modulo": those who didn't say/);
+  assert.match(errors, /reported rejection_reasons need the count of refusals/);
+  doc.reported.count = 3;
+  doc.reported.basis.pop();
+  doc.reported.outcomes = { completata: 3 };
+  doc.reported.channels[0].count = 3;
+  delete doc.reported.paid_eur;
+  delete doc.reported.rejection_reasons;
 
   doc.reported.channels[0].days_to_answer.n = 2;
   assert.match(errorsFor(doc), /schema: \/reported\/channels\/0\/days_to_answer\/n must be >= 3/);
@@ -499,7 +539,7 @@ test("the reported block is checked against the schema and the procedure", () =>
   doc.reported.documents = [{ name: "Altro", asked: 4, of: 3 }];
   doc.reported.period = { from: "2026-10", to: "2026-09" };
   doc.reported.generated = "2026-10-26";
-  const errors = errorsFor(doc);
+  errors = errorsFor(doc);
   assert.match(errors, /reported document "Altro" is not in documents/);
   assert.match(errors, /reported document "Altro" was asked more often than reported/);
   assert.match(errors, /reported period starts after it ends/);

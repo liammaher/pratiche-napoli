@@ -67,8 +67,10 @@ export function isIBAN(candidate: string): boolean {
 function containsIBAN(country: string, check: string, rest: string, checkDigits = true): boolean {
   const length = IBAN_LENGTH[country];
   if (!length) return false;
-  const body = rest.replace(SEP_RE, "");
-  return body.length >= length - 4 && (!checkDigits || isIBAN(country + check + body.slice(0, length - 4)));
+  const body = rest.replace(SEP_RE, "").slice(0, length - 4);
+  if (body.length < length - 4) return false;
+  // Without check digits to confirm it, mostly digits, as looksLikeIBAN.
+  return checkDigits ? isIBAN(country + check + body) : (body.match(/\d/g) ?? []).length >= body.length * 0.75;
 }
 
 export interface PersonalDataMatch {
@@ -80,10 +82,11 @@ export interface PersonalDataMatch {
 // Where each piece of personal data sits in text, so it can be cut out. An
 // IBAN's match ends after its country's length, not after the words it swallowed.
 // With checkDigits false, a code with the right shape counts even if its check
-// digits are wrong, as when someone mistypes their own: right for cutting data
-// out of private text, too eager for flagging a shared procedure.
+// digits are wrong, as when someone mistypes their own, and so do the usual
+// slips (see looseMatches): right for cutting data out of private text, too
+// eager for flagging a shared procedure.
 export function matchPersonalData(text: string, { checkDigits = true } = {}): PersonalDataMatch[] {
-  const found: PersonalDataMatch[] = [];
+  const found: PersonalDataMatch[] = checkDigits ? [] : looseMatches(text);
   for (const m of text.matchAll(CF)) {
     if (!checkDigits || isCodiceFiscale(m[0])) found.push({ kind: "codice fiscale", start: m.index, end: m.index + m[0].length });
   }
@@ -100,4 +103,119 @@ export function matchPersonalData(text: string, { checkDigits = true } = {}): Pe
 // Returns a description for each piece of personal data found in text.
 export function findPersonalData(text: string): string[] {
   return matchPersonalData(text).map((m) => m.kind);
+}
+
+// --- Mistyped codes, for cutting them out of private text ---
+
+// What people type in a code by mistake: 0 for O, 1 for I or L, 5 for S...
+const AS_LETTER: Record<string, string> = { "0": "O", "1": "I", "2": "Z", "5": "S", "6": "G", "8": "B" };
+const AS_DIGIT: Record<string, string> = { O: "0", I: "1", L: "1", Z: "2", S: "5", G: "6", B: "8" };
+// Any of these, one or two at a time, may sit between the characters of a code.
+const LOOSE_SEP = /^[ \u00a0\u2009\u202f\t.\-_/\u200b]{1,2}$/;
+// A codice fiscale's shape: L letter, D digit (or omocodia letter), M month letter.
+const CF_SHAPE = "LLLLLLDDMDDLDDDL";
+
+// Letters or digits read from `start`, skipping separators, up to `count`;
+// where each one is in the text, or undefined if the run is shorter.
+function run(text: string, start: number, count: number): number[] | undefined {
+  const at: number[] = [];
+  let i = start;
+  while (at.length < count && i < text.length) {
+    if (/[A-Za-z0-9]/.test(text[i])) {
+      at.push(i++);
+      continue;
+    }
+    let j = i;
+    while (j < text.length && !/[A-Za-z0-9]/.test(text[j])) j++;
+    if (!at.length || j >= text.length || !LOOSE_SEP.test(text.slice(i, j))) return undefined;
+    i = j;
+  }
+  return at.length === count ? at : undefined;
+}
+
+// How many characters of `chars` had to be read as something else to fit
+// `shape` (a digit for a letter, a letter for a digit), or Infinity if some
+// can't fit at all. Omocodia letters count too: rare, and in prose common.
+function swaps(chars: string, shape: string): number {
+  let n = 0;
+  for (const [i, c] of [...chars].entries()) {
+    const kind = shape[i];
+    const letter = /[A-Z]/.test(c);
+    if (kind === "D") {
+      if (/\d/.test(c)) continue;
+      if (!/[LMNPQRSTUV]/.test(c) && !AS_DIGIT[c]) return Infinity;
+      n++;
+    } else {
+      const as = letter ? c : AS_LETTER[c];
+      if (!as || (kind === "M" && !/[A-EHLMPR-T]/.test(as))) return Infinity;
+      if (!letter) n++;
+    }
+  }
+  return n;
+}
+
+// The shapes a codice fiscale typed with one character missing or extra
+// could have: the full one, without any one position, or with one more
+// character anywhere (tried by leaving each of the typed ones out).
+function fitsSomehow(chars: string, fit: (chars: string, shape: string) => boolean): boolean {
+  if (chars.length === 16) return fit(chars, CF_SHAPE);
+  if (chars.length === 15) return [...CF_SHAPE].some((_, k) => fit(chars, CF_SHAPE.slice(0, k) + CF_SHAPE.slice(k + 1)));
+  if (chars.length === 17) return [...chars].some((_, k) => fit(chars.slice(0, k) + chars.slice(k + 1), CF_SHAPE));
+  return false;
+}
+
+// A codice fiscale typed with a slip: any case, at most two letters and
+// digits swapped as above, separators anywhere, one character missing or
+// extra. Ordinary words, even in capitals, need many more swaps to fit.
+function looksLikeCodiceFiscale(chars: string): boolean {
+  return fitsSomehow(chars, (c, shape) => swaps(c, shape) <= 2);
+}
+
+// An IBAN typed with a slip: any case, separators anywhere, one character
+// more or less than its country's length. Two check digits, then mostly
+// digits (even a British IBAN's four letters leave three quarters), which
+// prose never is.
+function looksLikeIBAN(chars: string): boolean {
+  const length = IBAN_LENGTH[chars.slice(0, 2)];
+  if (!length || Math.abs(chars.length - length) > 1 || !/^\d{2}$/.test(chars.slice(2, 4))) return false;
+  const body = chars.slice(4);
+  return (body.match(/\d/g) ?? []).length >= body.length * 0.75;
+}
+
+// Codes typed with a slip, from each word's start: the longest run that looks
+// like one, so "RSS MRA 85 T10 A562 S" goes as a whole.
+function looseMatches(text: string): PersonalDataMatch[] {
+  const found: PersonalDataMatch[] = [];
+  let i = 0;
+  while (i < text.length) {
+    if (!/[A-Za-z0-9]/.test(text[i]) || (i > 0 && /[A-Za-z0-9]/.test(text[i - 1]))) {
+      i++;
+      continue;
+    }
+    const match = attempt(text, i);
+    if (match) {
+      found.push(match);
+      i = match.end;
+    } else i++;
+  }
+  return found;
+}
+
+function attempt(text: string, start: number): PersonalDataMatch | undefined {
+  const tries: [PersonalDataMatch["kind"], number, (chars: string) => boolean][] = [];
+  const country = IBAN_LENGTH[text.slice(start, start + 2).toUpperCase()];
+  if (country) for (const n of [country + 1, country, country - 1]) tries.push(["IBAN", n, looksLikeIBAN]);
+  for (const n of [17, 16, 15]) tries.push(["codice fiscale", n, looksLikeCodiceFiscale]);
+  for (const [kind, count, looks] of tries) {
+    const at = run(text, start, count);
+    if (!at) continue;
+    const end = at[at.length - 1] + 1;
+    // The code must end where a word does, and a codice fiscale written in
+    // pieces is in capitals (as printed on the card), unlike the words of a
+    // sentence; an IBAN's digits tell it from prose in any case.
+    if (end < text.length && /[A-Za-z0-9]/.test(text[end])) continue;
+    if (kind === "codice fiscale" && end - start > count && /[a-z]/.test(text.slice(start, end))) continue;
+    if (looks(at.map((j) => text[j].toUpperCase()).join(""))) return { kind, start, end };
+  }
+  return undefined;
 }
