@@ -1,6 +1,7 @@
 schema_version: 0
 id: napoli/polizia-locale/verbale-pagamento-ricorso
 title: Verbale (multa) della Polizia Locale di Napoli – controllarlo, pagarlo, comunicare il conducente o fare ricorso
+updated: 2026-10-25
 summary: >-
   Chi riceve un verbale della Polizia Locale di Napoli, per una violazione del Codice della Strada
   o di regolamenti comunali, commerciali o ambientali, può pagarlo in misura ridotta, comunicare

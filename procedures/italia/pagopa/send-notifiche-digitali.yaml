@@ -1,6 +1,7 @@
 schema_version: 0
 id: italia/pagopa/send-notifiche-digitali
 title: SEND – ricevere e leggere le notifiche a valore legale della pubblica amministrazione
+updated: 2026-10-25
 summary: >-
   SEND (Servizio Notifiche Digitali, gestito da PagoPA) è la piattaforma con cui comuni, enti e
   agenti della riscossione notificano atti a valore legale (multe, accertamenti, avvisi di

@@ -1,6 +1,7 @@
 schema_version: 0
 id: napoli/comune/imposta-di-soggiorno-gestori
 title: Imposta di soggiorno – obblighi del gestore della struttura ricettiva (Comune di Napoli)
+updated: 2026-10-25
 summary: >-
   Chi gestisce a Napoli un albergo, un B&B, un affittacamere, una casa vacanze o una locazione
   breve deve iscriversi sul portale GEIS del Comune, far pagare l'imposta di soggiorno agli
