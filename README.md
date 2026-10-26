@@ -76,16 +76,21 @@ reports of the last 12 months: outcomes, answer times per channel, desk waits, a
 how often each listed document was asked for, and the maintainer's tips, rejection reasons and
 extra documents. A procedure needs at least 3 reports, and every number in the block, outcome
 and reason counts included, covers at least 3; so does what it leaves over beside the total it
-belongs to (the count, a channel's count, the refusals), unless nothing is, so no one person's
-result can be singled out or worked out. Figures are medians, rounded more coarsely as they grow,
+belongs to (the count, a channel's count, the refusals), unless nothing is, so no figure is one
+report's alone. Figures are medians, rounded more coarsely as they grow,
 never a smallest or largest value. Every version of the block stays in the history, and adding
 and subtracting versions gives the figures of the reports exactly the same versions cover as if
 they were published on their own, so the rules hold in each such group too: new reports come in
 3 or more at a time, reports published together leave together (when one is deleted or leaves the
 window, the others go with it), and a figure is shown only if it holds in every group. `basis`
 holds a random mark of each report, unrelated to its id or receipt, to tell which reports each
-version covered. People's own words are never published. A changed block moves `updated`. The page shows the figures under "Com'è andata ad altri", clearly as reports, not
-official sources. The commands need `--project <id>` or `GCLOUD_PROJECT`, and your personal
+version covered. People's own words are never published. A changed block moves `updated`. The
+page shows the figures under "Com'è andata ad altri", clearly as reports, not official sources.
+
+What 3 can't prevent: a figure true of a whole group (all 3 got an answer in about 25 days) is
+true of each of them, so someone who knows a report is in that group (they know when it was sent,
+or they sent the other two) learns its answer. The privacy page says so; the defence is the
+review at `accept`, which turns away reports that look like one person's. The commands need `--project <id>` or `GCLOUD_PROJECT`, and your personal
 Google credentials (`gcloud auth application-default login`), or `FIRESTORE_EMULATOR_HOST` to
 try them on the emulator.
 
