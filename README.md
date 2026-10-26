@@ -181,13 +181,19 @@ npm install
 npm run validate        # check every procedure
 npm run check:updated   # changed procedures and situations have their updated date bumped
 npm run check:sources   # official pages and forms still answer and match
+npm run check:vault-schema  # contract/vault-schema.json is the vault's current schema
 npm run build           # build the site into site/
 npm test                # tests
 ```
 
-Regenerate the field registry after a vault schema change: `pvault schema --json > schema.json`,
-then `npm run gen:fields -- schema.json`. This saves the schema as `contract/vault-schema.json`
-and rebuilds `contract/fields.json`; never edit `fields.json` by hand (a test checks).
+Regenerate the field registry after a vault schema change: save the vault's `schema.json`
+(or `pvault schema --json > schema.json`), then `npm run gen:fields -- schema.json`. This saves
+the schema as `contract/vault-schema.json` and rebuilds `contract/fields.json`; never edit
+`fields.json` by hand (a test checks). The vault's credential words come with it, and the
+validator refuses any field name that uses one, so the library never keeps its own list.
+`npm run check:vault-schema` compares the saved copy with `schema.json` on the vault's main
+branch; the `Vault schema` workflow runs it every night and on every push to main, with the
+`VAULT_SCHEMA_TOKEN` secret (read access to the vault repository's contents).
 
 ## Not legal advice
 

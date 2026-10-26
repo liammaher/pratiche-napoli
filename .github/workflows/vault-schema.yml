@@ -1,0 +1,43 @@
+name: Vault schema
+
+# contract/vault-schema.json must be the personal vault's current schema
+# (schema.json on main of personal-vault-italia), or the registry misses a
+# new field or credential word. That repository is private, so this needs
+# the VAULT_SCHEMA_TOKEN secret: a fine-grained token with read access to
+# its contents. Pull requests from forks don't get it and only warn; the
+# nightly run and every push to main fail until the copy is regenerated.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "41 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci --ignore-scripts
+
+      - name: Compare with the vault's schema.json
+        env:
+          VAULT_SCHEMA_TOKEN: ${{ secrets.VAULT_SCHEMA_TOKEN }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          if [ -z "$VAULT_SCHEMA_TOKEN" ] && [ "$EVENT" = pull_request ]; then
+            echo "::warning::VAULT_SCHEMA_TOKEN isn't available to this pull request; the nightly run compares the schemas"
+            exit 0
+          fi
+          npm run check:vault-schema

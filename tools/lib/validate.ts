@@ -10,7 +10,7 @@ import path from "node:path";
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import { parse } from "yaml";
-import type { Registry } from "../gen-fields.ts";
+import { isCredentialName, type Registry } from "../gen-fields.ts";
 import { findPersonalData } from "./personal.ts";
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -29,14 +29,14 @@ export function todayInRome(now = new Date()): string {
   return new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Rome" }).format(now);
 }
 
-// Words that mark a credential in a field name: the vault's reCredentialWord
-// (internal/vault/italy.go) plus "token". Unlike the vault, any category counts.
-export const CREDENTIAL = /(^|_)(pin\d*|puk\d*|password|passwd|pwd|pw|pass|passcode|otp|totp|username|login|secret|segreto|chiave|token)(_|$)/;
 // A person's slug, as the vault's reMemberSlug; "io" is reserved.
 const MEMBER_SLUG = /^[a-z][a-z0-9-]{0,31}$/;
-// The same secrets named in an ask or blank_with_reason text. "PIN 2.1" etc.
+// Secrets named in an ask or blank_with_reason text. "PIN 2.1" etc.
 // are the Vigili del Fuoco form names, not PIN codes.
-const ASKS_FOR_SECRET = /\b(pin(?!\s*\d)|puk|password|passcode|otp|codice segreto)\b/i;
+const ASKS_FOR_SECRET = /\b(pin(?!\s*\d)|puk|password|passcode|otp|codice segreto|codic[ei] (di )?sblocco)\b/i;
+// Credentials as a whole, only in an ask: one asked of the person is a login,
+// while a blank_with_reason may well say an office hands some out.
+const ASKS_FOR_CREDENTIALS = /\bcredenzial[ei]\b/i;
 // The ruoli that give a business a procura (the procura category): a client,
 // so the business can act for them. A procuratore holds the business's procura,
 // the other way round. Listed, not excluded, so a new ruolo stays refused.
@@ -307,7 +307,8 @@ function checkMapping(map: Record<string, unknown>, registry: Registry, dichiara
   if (address) problems.push(address);
 
   for (const key of ["ask", "blank_with_reason"]) {
-    if (typeof map[key] === "string" && ASKS_FOR_SECRET.test(map[key] as string)) {
+    const text = map[key];
+    if (typeof text === "string" && (ASKS_FOR_SECRET.test(text) || (key === "ask" && ASKS_FOR_CREDENTIALS.test(text)))) {
       problems.push(`${key} must not ask for a PIN, password or other secret`);
     }
   }
@@ -458,7 +459,7 @@ export function checkFieldRef(ref: string, registry: Registry, person?: string):
     if ((member || person) && all("owner")) return `${ref}: every ${cat} field is the vault owner's only`;
     return null;
   }
-  if (CREDENTIAL.test(field)) return secret;
+  if (isCredentialName(field, registry.credential_word)) return secret;
 
   if (category.open) return null;
   const known = category.fields.find((f) => f.id === local);

@@ -964,5 +964,6 @@
       "cie.puk",
       "financial.ssn"
     ]
-  }
+  },
+  "credential_word": "^((?:(?:pin|puk|pincode|pukcode|password|passwd|pwd|pw|passcode|otp|totp|secret|segreto|segreta|segreti|segrete|credenziale|credenziali|sblocco)s?[0-9]*|(?:pass|username|login|chiave|chiavi)s?[0-9]*))$"
 }
