@@ -38,7 +38,8 @@ test("each figure needs 3 reports of its own; medians and ranges are rounded", (
   )!;
   assert.deepEqual(block.period, { from: "2026-05", to: "2026-09" });
   assert.equal(block.count, 5);
-  assert.deepEqual(block.outcomes, { completata: 4, respinta: 1 });
+  // One refusal isn't published: every count covers at least 3 reports.
+  assert.deepEqual(block.outcomes, { completata: 4 });
   // PEC has 3 reports with days, the desk only 2: no desk channel at all.
   assert.deepEqual(block.channels, [{ type: "pec", count: 3, days_to_answer: { median: 22, min: 9, max: 41, n: 3 } }]);
   assert.deepEqual(block.paid_eur, { median: 16.5, min: 16, max: 17, n: 3 });
@@ -52,21 +53,20 @@ test("an even count's median is the mean of the middle two", () => {
   assert.deepEqual(block.channels![0].days_to_answer, { median: 25, min: 10, max: 41, n: 4 });
 });
 
-test("the maintainer's words are counted, and tips kept once, newest first", () => {
+test("the maintainer's words: counts only from 3, tips kept once, newest first", () => {
   const block = aggregate(
     [
       r({ tip: "Mandare la PEC al mattino", extra_document: "Planimetria", done: "2026-07" }),
       r({ tip: "Portare due copie", extra_document: "Planimetria", rejection_reason: "Manca la firma", done: "2026-09" }),
-      r({ tip: "Mandare la PEC al mattino", extra_document: "Visura storica", done: "2026-08" }),
+      r({ tip: "Mandare la PEC al mattino", extra_document: "Planimetria", done: "2026-08" }),
+      r({ extra_document: "Visura storica", done: "2026-08" }),
     ],
     DOCS,
     TODAY,
   )!;
-  assert.deepEqual(block.extra_documents, [
-    { text: "Planimetria", count: 2 },
-    { text: "Visura storica", count: 1 },
-  ]);
-  assert.deepEqual(block.rejection_reasons, [{ text: "Manca la firma", count: 1 }]);
+  assert.deepEqual(block.extra_documents, [{ text: "Planimetria", count: 3 }]);
+  // A reason one person gave would point at them.
+  assert.equal(block.rejection_reasons, undefined);
   assert.deepEqual(block.tips, ["Portare due copie", "Mandare la PEC al mattino"]);
 });
 

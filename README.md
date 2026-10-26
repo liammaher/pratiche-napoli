@@ -60,8 +60,9 @@ with their consent); see [`reports/`](reports/README.md). Reports are private. A
 reviews them and publishes only aggregates:
 
 ```sh
-npm run reports -- list                 # pending reports, by procedure
+npm run reports -- list [--accepted]    # pending (or accepted) reports, by procedure
 npm run reports -- accept <id> [--tip "…"] [--rejection-reason "…"] [--extra-document "…"]
+                                        # again to change them; "" removes one
 npm run reports -- reject <id>          # or: delete <id>, on a request to erase it
 npm run reports -- export               # accepted reports to reports-cache.json (never commit it)
 npm run reports:aggregate               # update each procedure's `reported` block
@@ -70,8 +71,9 @@ npm run reports:aggregate               # update each procedure's `reported` blo
 `reports:aggregate` writes a `reported` block at the end of each procedure from the accepted
 reports of the last 12 months: outcomes, answer times per channel, desk waits, amounts paid,
 how often each listed document was asked for, and the maintainer's tips, rejection reasons and
-extra documents. A procedure needs at least 3 reports, and each figure at least 3 answers, so no
-one person can be singled out; people's own words are never published. A changed block moves
+extra documents. A procedure needs at least 3 reports, and every number in the block, outcome
+and reason counts included, covers at least 3, so no one person's result can be singled out;
+people's own words are never published. A changed block moves
 `updated`. The page shows the figures under "Com'è andata ad altri", clearly as reports, not
 official sources. The commands need `--project <id>` or `GCLOUD_PROJECT`, and your personal
 Google credentials (`gcloud auth application-default login`), or `FIRESTORE_EMULATOR_HOST` to
