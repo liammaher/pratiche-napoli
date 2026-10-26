@@ -7,6 +7,8 @@
   "license": "MIT",
   "scripts": {
     "validate": "tsx tools/validate.ts",
+    "check:updated": "tsx tools/check-updated.ts",
+    "build": "tsx tools/build-site.ts",
     "gen:fields": "tsx tools/gen-fields.ts",
     "test": "node --import tsx --test \"tools/**/*.test.ts\"",
     "typecheck": "tsc --noEmit"

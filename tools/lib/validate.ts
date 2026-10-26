@@ -1,7 +1,8 @@
 // Checks a procedure against contract/procedure.schema.json and the rules a
 // JSON Schema can't express: field IDs exist in the registry and never reach a
 // secret, references point somewhere real, verified claims cite an official
-// source, dates aren't in the future, and no personal data slipped in.
+// source, dates aren't in the future (nor after `updated`), and no personal
+// data slipped in.
 
 import { readdirSync, readFileSync, realpathSync, statSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -54,6 +55,7 @@ interface Source {
 }
 interface Doc {
   id?: string;
+  updated?: string;
   sources?: Source[];
   forms?: { id: string; fields?: { label: string; map: Record<string, unknown> }[] }[];
   records?: { field: string }[];
@@ -149,6 +151,18 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
 
   const v = d.verification ?? {};
   if (v.date && v.date > ctx.today) errors.push("verification date is in the future");
+
+  // Re-checking a source, verifying or logging a run is a change too, so
+  // none of them can be newer than the procedure's last update.
+  if (d.updated) {
+    if (d.updated > ctx.today) errors.push("updated is in the future");
+    const later = [
+      ...(v.date && v.date > d.updated ? [`verification (${v.date})`] : []),
+      ...(d.sources ?? []).filter((s) => s.retrieved && s.retrieved > d.updated!).map((s) => `source "${s.id}" (${s.retrieved})`),
+      ...(d.run_log ?? []).filter((e) => e.date > d.updated!).map((e) => `run_log entry ${e.date}`),
+    ];
+    if (later.length) errors.push(`updated ${d.updated} is older than ${later.join(", ")}: bump it`);
+  }
   if (v.level && v.level !== "L0" && !(d.sources ?? []).some((s) => s.official && s.url)) {
     errors.push(`level ${v.level} needs at least one official source with a URL`);
   }
@@ -254,6 +268,21 @@ function walk(value: unknown, p: string, visit: (p: string, value: unknown, pare
 export interface FileResult {
   rel: string; // path relative to the procedures directory
   errors: string[];
+  doc?: unknown; // the parsed procedure, when the file could be read and parsed
+}
+
+// Parses a procedure file's text the way the library reads it: without a
+// byte-order mark, as YAML 1.2, refusing a %YAML directive (1.1 would turn
+// dates into Date objects and "no" into false). Throws with the message to report.
+export function parseProcedure(text: string): unknown {
+  // A byte-order mark would hide a %YAML directive from the check below.
+  const clean = text.replace(/^\uFEFF/, "");
+  if (/^%YAML/m.test(clean)) throw new Error("remove the %YAML directive: procedures are read as YAML 1.2");
+  try {
+    return parse(clean, { version: "1.2" });
+  } catch (e) {
+    throw new Error(`not valid YAML: ${(e as Error).message.split("\n")[0]}`);
+  }
 }
 
 // Validates every .yaml/.yml file under dir (the procedures root: ids are
@@ -277,20 +306,15 @@ export function validateDir(dir: string, registry: Registry, today: string, only
     if (twins.length) return { rel, errors: [`another file has the same id: ${twins.join(", ")}`] };
     let text: string;
     try {
-      // A byte-order mark would hide a %YAML directive from the check below.
-      text = readFileSync(file, "utf8").replace(/^\uFEFF/, "");
+      text = readFileSync(file, "utf8");
     } catch (e) {
       return { rel, errors: [`can't read file: ${(e as Error).message}`] };
     }
-    // A %YAML 1.1 directive would turn dates into Date objects and "no" into false.
-    if (/^%YAML/m.test(text)) {
-      return { rel, errors: ["remove the %YAML directive: procedures are read as YAML 1.2"] };
-    }
     let doc: unknown;
     try {
-      doc = parse(text, { version: "1.2" });
+      doc = parseProcedure(text);
     } catch (e) {
-      return { rel, errors: [`not valid YAML: ${(e as Error).message.split("\n")[0]}`] };
+      return { rel, errors: [(e as Error).message] };
     }
     const errors = validateProcedure(doc, rel, ctx);
     // Comments aren't parsed values, so check them as raw text too.
@@ -301,7 +325,7 @@ export function validateDir(dir: string, registry: Registry, today: string, only
         errors.push(`line ${i + 1}: comment looks like it has a ${what}; procedures must not contain personal data`);
       }
     });
-    return { rel, errors };
+    return { rel, errors, doc };
   });
 }
 

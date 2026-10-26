@@ -20,4 +20,10 @@
    fields the registry has; propose the others.
 8. Set `verification` to the level you actually reached, and add a `run_log` line when a real
    case used the procedure (what happened, no personal values).
-9. Run `npm run validate` and `npm test` before opening a pull request.
+9. **Set `updated` to today whenever you change a procedure**, re-checking a source or
+   logging a run included (comments and layout don't count). It is the page's "last updated"
+   date on the site, in the sitemap and in the JSON, so it must never lag behind the content.
+   `npm run check:updated` compares your branch with `origin/main` and fails if you forgot;
+   CI runs it on every pull request.
+10. Run `npm run validate`, `npm run check:updated` and `npm test` before opening a pull
+    request.

@@ -1,6 +1,7 @@
 schema_version: 0
 id: napoli/comune/tari-iscrizione-non-domestica
 title: TARI – nuova iscrizione per uso non abitativo (Comune di Napoli)
+updated: 2026-10-26
 summary: >-
   Un'impresa, un professionista o un'associazione che inizia a occupare o detenere locali o
   aree a uso non abitativo a Napoli (negozio, ufficio, laboratorio, magazzino…) deve presentare
@@ -77,6 +78,7 @@ payment:
   method: f24
   codice_ente: F839
   codici_tributo: ["3944", "TEFA"]
+  status: unverified
   calculator_url: https://portaletributi.comune.napoli.it/?ente=NAPO
   schedule:
     - { label: Acconto 2026 – rata 1, due: 2026-09-30, source: tari-2026, status: verified }

@@ -9,6 +9,7 @@
     "schema_version",
     "id",
     "title",
+    "updated",
     "summary",
     "ente",
     "applies_to",
@@ -30,6 +31,11 @@
       "type": "string",
       "minLength": 3,
       "pattern": "\\S"
+    },
+    "updated": {
+      "description": "The last day anything in this procedure changed, apart from this field and YAML comments or layout. Bump it with every change: the site and the JSON publish it as the page's last update, and CI checks it on pull requests",
+      "type": "string",
+      "format": "date"
     },
     "summary": {
       "description": "Two or three plain-Italian sentences: what it is and who it is for",
@@ -229,6 +235,14 @@
         },
         "rateazione": {
           "$ref": "#/$defs/text"
+        },
+        "status": {
+          "description": "Status of codice_ente, codici_tributo and rateazione; unverified or disputed puts a warning next to each on the site",
+          "$ref": "#/$defs/status"
+        },
+        "source": {
+          "description": "id of the source for codice_ente, codici_tributo and rateazione",
+          "type": "string"
         },
         "calculator_url": {
           "$ref": "#/$defs/httpUrl"
