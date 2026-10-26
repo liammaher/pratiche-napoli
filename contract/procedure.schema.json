@@ -761,7 +761,7 @@
           "uniqueItems": true
         },
         "basis": {
-          "description": "A random mark of each report behind the block, given by the backend and unrelated to the report's id or the receipt its sender got, so the next update can tell which reports each version covered: the block only changes when, across every version, the reports the same versions cover are always at least 3",
+          "description": "A random mark of each report behind the block, given by the backend and unrelated to the report's id or the receipt its sender got, so the next update can tell which reports each version covered: reports come in 3 or more at a time, leave together with those published with them, and each figure holds in every group of reports the same versions cover",
           "type": "array",
           "minItems": 3,
           "uniqueItems": true,

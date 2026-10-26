@@ -111,78 +111,109 @@ test("a document's asked and not asked are each none or 3, one answer per report
   assert.equal(ask([true, true, true], [], []), undefined);
 });
 
-test("a block changes only when no report would stand apart from the last version", () => {
+test("new reports come in together, 3 or more at a time", () => {
   const first = [r(), r(), r()];
   const old = aggregate(first, DOCS, TODAY)!;
-  assert.deepEqual(nextReported([], undefined, first, DOCS, TODAY), { block: old });
-  // One more report: comparing the two versions would describe it.
-  const one = nextReported([], old, [...first, r({ outcome: "respinta" })], DOCS, TODAY);
-  assert.equal(one.block, old);
-  assert.equal(one.held, "1 report would stand apart between published versions; kept as it is");
+  assert.deepEqual(nextReported([], first, DOCS, TODAY), { block: old });
+  // One more report: comparing the two versions would describe it, so it waits.
+  const one = nextReported([old], [...first, r({ outcome: "respinta" })], DOCS, TODAY);
+  assert.ok(sameReported(one.block, old));
+  assert.equal(one.note, "1 new report waits for 3 to come in together");
   // Three more: the new block.
-  const three = nextReported([], old, [...first, r(), r(), r()], DOCS, TODAY);
-  assert.equal(three.held, undefined);
+  const three = nextReported([old], [...first, r(), r(), r()], DOCS, TODAY);
+  assert.equal(three.note, undefined);
   assert.equal(three.block!.count, 6);
-  // Fewer than 3 left: the block goes, which publishes nothing.
-  assert.deepEqual(nextReported([], old, [first[0], first[1], { ...first[2], done: "2025-01" }], DOCS, TODAY), { block: undefined });
 });
 
-test("versions are compared with every earlier one, not just the last", () => {
-  // A = 5 reports; B = A + 3; C = B − 3 (one of A's, two of B's) + 1 refusal.
-  // B against A and C against B each move 3, but C against A is 1 out and 1 in.
-  const a = [r(), r(), r(), r(), r()];
-  const b = [...a, r(), r(), r()];
-  const vA = aggregate(a, DOCS, TODAY)!;
-  const vB = nextReported([], vA, b, DOCS, TODAY).block!;
-  assert.equal(vB.count, 8);
-  const c = [...a.slice(1), b[7], r({ outcome: "respinta" })];
-  const next = nextReported([vA], vB, c, DOCS, TODAY);
-  assert.equal(next.block, vB);
-  assert.match(next.held!, /would stand apart/);
+test("a figure holds in each group of reports the versions tell apart, not just in the whole", () => {
+  // Found in review: 3 of 6 said what they paid; of 3 newcomers, 1 did. The
+  // whole has 4 of 9, but n going from 3 to 4 says one newcomer answered, and
+  // the median moving from 50 to 55 says about how much.
+  const base = [r({ paid_eur: 10 }), r({ paid_eur: 50 }), r({ paid_eur: 90 }), r(), r(), r()];
+  const v1 = aggregate(base, DOCS, TODAY)!;
+  assert.deepEqual(v1.paid_eur, { median: 50, n: 3 });
+  const v2 = nextReported([v1], [...base, r({ paid_eur: 62 }), r(), r()], DOCS, TODAY).block!;
+  assert.equal(v2.count, 9);
+  assert.equal(v2.paid_eur, undefined);
+  // The same for outcomes: { completata: 3, respinta: 3 }, then { respinta: 4 }
+  // would say one newcomer was refused. Completata 3 still holds: none of the
+  // newcomers completed, which is 0 of them.
+  const six = [r(), r(), r(), r({ outcome: "respinta" }), r({ outcome: "respinta" }), r({ outcome: "respinta" })];
+  const w1 = aggregate(six, DOCS, TODAY)!;
+  assert.deepEqual(w1.outcomes, { completata: 3, respinta: 3 });
+  const newcomers = [r({ outcome: "respinta" }), r({ outcome: "rinunciato" }), r({ outcome: "rinunciato" })];
+  assert.deepEqual(nextReported([w1], [...six, ...newcomers], DOCS, TODAY).block!.outcomes, { completata: 3 });
+  // Three newcomers who all did the same are a group of their own, fine.
+  const same = [r({ outcome: "respinta" }), r({ outcome: "respinta" }), r({ outcome: "respinta" })];
+  assert.deepEqual(nextReported([w1], [...six, ...same], DOCS, TODAY).block!.outcomes, { completata: 3, respinta: 6 });
+  // A document, a channel's days, and the desk wait likewise.
+  const asked = (a?: boolean) => r(a === undefined ? {} : { documents: [{ name: "Visura", asked: a }] });
+  const d1 = aggregate([asked(true), asked(true), asked(true)], DOCS, TODAY)!;
+  const d2 = nextReported([d1], [asked(true), asked(true), asked(true), asked(false), asked(), asked()].map((x, i) => (i < 3 ? { ...x, mark: d1.basis[i] } : x)), DOCS, TODAY).block!;
+  assert.equal(d2.count, 6);
+  assert.equal(d2.documents, undefined);
 });
 
-test("no group of reports that the same versions cover is 1 or 2, however many versions are combined", () => {
+test("what a group leaves over holds beside every outcome any version showed for it, not just this one's", () => {
+  // Found in review: alpha alone shows completata and chiesto_altro (its
+  // respinta held back by the tie). With phi it would show completata and
+  // respinta; once alpha leaves, phi alone shows them too. Then alpha's
+  // respinta is V2 − V3, and its rinunciato what is left: 1.
+  const alpha = [
+    ...Array.from({ length: 3 }, () => r({ outcome: "completata" })),
+    ...Array.from({ length: 3 }, () => r({ outcome: "chiesto_altro" })),
+    ...Array.from({ length: 3 }, () => r({ outcome: "respinta" })),
+    r({ outcome: "rinunciato" }),
+  ];
+  const phi = [
+    ...Array.from({ length: 3 }, () => r({ outcome: "completata" })),
+    r({ outcome: "chiesto_altro" }),
+    ...Array.from({ length: 3 }, () => r({ outcome: "respinta" })),
+    r({ outcome: "rinunciato" }),
+    r({ outcome: "rinunciato" }),
+  ];
+  const v0 = aggregate(alpha, DOCS, TODAY)!;
+  assert.deepEqual(v0.outcomes, { completata: 3, chiesto_altro: 3 });
+  // completata, chiesto_altro and respinta together would leave alpha's 1.
+  const v2 = nextReported([v0], [...alpha, ...phi], DOCS, TODAY).block!;
+  assert.deepEqual(v2.outcomes, { completata: 6 });
+});
+
+test("reports published together leave together, however many versions are combined", () => {
   // 6 reports from November, then one (x) from December: 7. Six more: 13.
-  // November leaves the window: 7 again. Each step moves 6 reports, but the
-  // first version plus the last minus the middle is x alone.
+  // November leaves the window: if x stayed, the first version plus the last
+  // minus the middle would be x alone. So x leaves with the November ones.
   const november = Array.from({ length: 6 }, (_, i) => r({ done: "2025-11", outcome: i < 3 ? "completata" : "respinta" }));
   const x = r({ done: "2025-12" });
   const later = Array.from({ length: 6 }, (_, i) => r({ done: "2026-03", outcome: i < 3 ? "completata" : "respinta" }));
-  const v1 = nextReported([], undefined, [...november, x], DOCS, "2026-01-15").block!;
-  const v2 = nextReported([], v1, [...november, x, ...later], DOCS, "2026-04-01").block!;
+  const v1 = nextReported([], [...november, x], DOCS, "2026-01-15").block!;
+  const v2 = nextReported([v1], [...november, x, ...later], DOCS, "2026-04-01").block!;
   assert.equal(v2.count, 13);
-  const v3 = nextReported([v1], v2, [...november, x, ...later], DOCS, "2026-11-02");
-  assert.equal(v3.block, undefined);
-  assert.equal(v3.held, "1 report would stand apart between published versions; removed until it can change");
-  // Once x has left the window too, the November reports and x went the same
-  // way: a group of 7, and the 6 later ones a group of their own.
-  const after = nextReported([v1], v2, [...november, x, ...later], DOCS, "2026-12-01");
-  assert.equal(after.held, undefined);
-  assert.equal(after.block!.count, 6);
-});
-
-test("a block that can't change is removed after 90 days, rather than kept for ever", () => {
-  const first = [1, 2, 3, 4].map(() => r({ done: "2026-05" }));
-  const old = aggregate(first, DOCS, "2026-06-01")!;
-  // One report deleted on request: the block can't change by just that one...
-  const left = first.slice(1);
-  assert.equal(nextReported([], old, left, DOCS, "2026-08-01").block, old);
-  // ...but after 90 days it goes, and the deleted report with it.
-  assert.deepEqual(nextReported([], old, left, DOCS, "2026-09-15"), {
+  const v3 = nextReported([v1, v2], [...november, x, ...later], DOCS, "2026-11-02");
+  assert.equal(v3.note, "1 report left with ones that are gone");
+  assert.deepEqual(v3.block!.basis, later.map((l) => l.mark).sort());
+  // A = 5, B = A + 3, then one of A's and two of B's are gone and a refusal
+  // comes in: what is left of A and B leaves, and the refusal waits.
+  const a = [r(), r(), r(), r(), r()];
+  const b = [...a, r(), r(), r()];
+  const vA = aggregate(a, DOCS, TODAY)!;
+  const vB = nextReported([vA], b, DOCS, TODAY).block!;
+  assert.equal(vB.count, 8);
+  assert.deepEqual(nextReported([vA, vB], [...a.slice(1), b[7], r({ outcome: "respinta" })], DOCS, TODAY), {
     block: undefined,
-    held: "1 report would stand apart between published versions; removed until it can change",
+    note: "5 reports left with ones that are gone; 1 new report waits for 3 to come in together",
   });
 });
 
-test("a removed block is never brought back from the history", () => {
-  // Published, then removed after a deletion; a new report arrives: the old
-  // version, with the deleted report in it, must not come back.
+test("a report deleted on request takes the ones published with it out at once, and never comes back", () => {
   const [a, b, c, d] = [r(), r(), r(), r()];
-  const v1 = aggregate([a, b, c], DOCS, TODAY)!;
-  assert.deepEqual(nextReported([v1], undefined, [a, b, d], DOCS, TODAY), {
-    block: undefined,
-    held: "1 report would stand apart between published versions; none until it can be",
-  });
+  const v1 = aggregate([a, b, c, d], DOCS, TODAY)!;
+  // d is deleted: a, b and c leave with it, so no version tells d apart.
+  assert.deepEqual(nextReported([v1], [a, b, c], DOCS, TODAY), { block: undefined, note: "3 reports left with ones that are gone" });
+  // Three new reports: a block of their own, without the old version.
+  const fresh = [r(), r(), r()];
+  const next = nextReported([v1], [a, b, c, ...fresh], DOCS, TODAY);
+  assert.deepEqual(next.block!.basis, fresh.map((f) => f.mark).sort());
 });
 
 test("a cache of reports needs one valid mark per report", () => {
@@ -207,9 +238,20 @@ test("the maintainer's words: counts only from 3, tips kept once, newest first",
     TODAY,
   )!;
   assert.deepEqual(block.extra_documents, [{ text: "Planimetria", count: 3 }]);
+  // One text per report, so they divide the reports: 3 + 3 + 1 would give the
+  // seventh away, and the smaller text is held back with it.
+  const texts = (...ts: (string | undefined)[]) =>
+    aggregate(ts.map((extra_document) => r({ extra_document })), DOCS, TODAY)!.extra_documents;
+  assert.deepEqual(texts(...Array(3).fill("Planimetria"), ...Array(3).fill("Visura storica"), undefined), [{ text: "Planimetria", count: 3 }]);
+  assert.deepEqual(texts(...Array(3).fill("Planimetria"), ...Array(3).fill("Visura storica")), [
+    { text: "Planimetria", count: 3 },
+    { text: "Visura storica", count: 3 },
+  ]);
   // A reason one person gave would point at them.
   assert.equal(block.rejection_reasons, undefined);
   assert.deepEqual(block.tips, ["Portare due copie", "Mandare la PEC al mattino"]);
+  // A blank tip is none: an empty one would make a block that doesn't validate.
+  assert.equal(aggregate([r({ tip: "   " }), r(), r()], DOCS, TODAY)!.tips, undefined);
 });
 
 test("sameReported ignores when a block was generated", () => {
