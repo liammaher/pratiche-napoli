@@ -84,9 +84,15 @@ function slot(url: string): number {
   return createHash("sha256").update(url).digest().readUInt32BE(0) % DAYS;
 }
 
-// Tonight's share: every document with a sha256, and the pages whose day it is.
-export function tonight(targets: Target[], day: number): Target[] {
-  return targets.filter((t) => t.sha256 || slot(t.url) === day % DAYS);
+// Tonight's share: every document with a sha256, the pages whose day it is,
+// and any page without a saved result from the last week (on the first run,
+// after the saved state is lost, or for a newly cited page), so the report
+// always covers every address, never just the pages a night happened to see.
+export function tonight(targets: Target[], day: number, state: State = {}): Target[] {
+  return targets.filter((t) => {
+    const seen = state[targetKey(t)];
+    return t.sha256 || slot(t.url) === day % DAYS || !seen || day - dayNumber(seen.checkedOn) >= DAYS;
+  });
 }
 
 export interface CheckOptions {
@@ -304,7 +310,8 @@ export async function secondOpinion(
   const { saved, sleep = (ms) => new Promise((r) => setTimeout(r, ms)), pauseMs = 1_000, timeoutMs = 20_000, limit = 30 } = opts;
   const lookup = (url: string) =>
     fetchFn(
-      `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(url)}&output=json&limit=-1&fl=timestamp,statuscode,original`,
+      // Revisit records ("same as an earlier capture") carry no status: skip them.
+      `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(url)}&output=json&limit=-1&fl=timestamp,statuscode,original&filter=!mimetype:warc/revisit`,
       { signal: AbortSignal.timeout(timeoutMs) },
     ).catch(() => undefined);
   const out = [...results];
@@ -330,7 +337,7 @@ export async function secondOpinion(
     out[i] = {
       ...r,
       wayback: timestamp
-        ? `copia del ${timestamp.slice(0, 4)}-${timestamp.slice(4, 6)}-${timestamp.slice(6, 8)} (HTTP ${status}): https://web.archive.org/web/${timestamp}/${original}`
+        ? `copia del ${timestamp.slice(0, 4)}-${timestamp.slice(4, 6)}-${timestamp.slice(6, 8)} (${/^\d{3}$/.test(status) ? `HTTP ${status}` : "stato non registrato"}): https://web.archive.org/web/${timestamp}/${original}`
         : "nessuna copia nell'archivio",
     };
   }
@@ -354,6 +361,15 @@ export const MAX_ITEMS = 25;
 const MAX_REFS = 5;
 const MAX_CHARS = 60_000;
 
+// What the report covers: all checked tonight, or tonight's share and the
+// rest from the previous nights (results carry checkedOn only when older).
+function header(results: Result[], checkedOn: string): string {
+  const tonightCount = results.filter((r) => !r.checkedOn).length;
+  return tonightCount === results.length
+    ? `Controllo delle fonti del ${checkedOn}: ${results.length} indirizzi, tutti controllati stanotte.`
+    : `Controllo delle fonti del ${checkedOn}: ${results.length} indirizzi, ${tonightCount} ${tonightCount === 1 ? "controllato" : "controllati"} stanotte e gli altri nei giorni precedenti (i moduli ogni notte, le pagine una volta a settimana).`;
+}
+
 // Empty unless something changed or stopped answering: addresses that only
 // couldn't be checked, or that a site refused, are listed with them, but
 // don't make a report alone.
@@ -374,7 +390,7 @@ export function report(results: Result[], checkedOn: string): string {
     ...(rs.length > MAX_ITEMS ? [`- e altri ${rs.length - MAX_ITEMS} indirizzi: \`npm run check:sources\` li elenca tutti`] : []),
   ];
   const text = [
-    `Controllo delle fonti del ${checkedOn}: ${results.length} indirizzi con un esito negli ultimi giorni (i moduli ogni notte, le pagine a rotazione nella settimana).`,
+    header(results, checkedOn),
     "",
     ...(changed.length
       ? [

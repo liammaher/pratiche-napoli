@@ -102,7 +102,7 @@ test("unchanged forms and answering pages are fine; a changed form, a 404 and a 
   assert.equal(calls.filter((u) => u.endsWith("slow")).length, 2);
 
   const text = report(results, "2026-10-26");
-  assert.match(text, /Controllo delle fonti del 2026-10-26: 7 indirizzi con un esito negli ultimi giorni/);
+  assert.match(text, /Controllo delle fonti del 2026-10-26: 7 indirizzi, tutti controllati stanotte\./);
   assert.match(text, /## Non controllabili \(1\)[\s\S]*https:\/\/x\.it\/cert \(UNABLE_TO_VERIFY_LEAF_SIGNATURE\)/);
   assert.match(text, /## Moduli o documenti cambiati \(1\)[\s\S]*https:\/\/x\.it\/new\.pdf \(sha256 [0-9a-f]{12}…, registrato [0-9a-f]{12}…\)\n {2}- `napoli\/comune\/a: fonte "new\.pdf"`/);
   assert.match(text, /## Non raggiungibili \(2\)[\s\S]*https:\/\/x\.it\/gone \(HTTP 404\)[\s\S]*https:\/\/x\.it\/slow \(nessuna risposta in 1 s\)/);
@@ -243,7 +243,10 @@ test("documents with a sha256 every night; each page on one fixed night of the w
   const forms = [{ url: "https://x.it/mod.pdf", sha256: sha("v1"), refs: ["p: modulo"] }];
   const all = [...forms, ...pages];
   const day = dayNumber("2026-10-26");
-  const nights = Array.from({ length: 7 }, (_, n) => tonight(all, day + n));
+  // Every page has a fresh result (from yesterday), so only its own night brings it back.
+  const fresh = (d: number): State =>
+    Object.fromEntries(all.map((t) => [targetKey(t), { status: "ok", checkedOn: new Date((d - 1) * 86_400_000).toISOString().slice(0, 10) }]));
+  const nights = Array.from({ length: 7 }, (_, n) => tonight(all, day + n, fresh(day + n)));
   for (const night of nights) {
     assert.ok(night.includes(forms[0]), "the form is checked every night");
     assert.ok(night.length - 1 < 30, "only a share of the pages");
@@ -251,7 +254,7 @@ test("documents with a sha256 every night; each page on one fixed night of the w
   // Over a week every page is checked exactly once, and a week later the same night again.
   const counts = pages.map((p) => nights.filter((night) => night.includes(p)).length);
   assert.ok(counts.every((c) => c === 1));
-  assert.deepEqual(tonight(all, day + 7), nights[0]);
+  assert.deepEqual(tonight(all, day + 7, fresh(day + 7)), nights[0]);
   assert.equal(dayNumber("2026-10-27") - dayNumber("2026-10-26"), 1);
 });
 
@@ -366,4 +369,50 @@ test("the Wayback Machine gives a second opinion on pages that failed, one looku
     undefined,
   ]);
   assert.equal((await secondOpinion(results, fetchFn, { sleep: async () => {}, limit: 1 })).filter((r) => r.wayback).length, 1);
+});
+
+test("pages without a recent saved result are checked tonight, whatever their day", () => {
+  const pages = Array.from({ length: 21 }, (_, i) => ({ url: `https://x.it/q${i}`, refs: ["p: fonte"] }));
+  const day = dayNumber("2026-10-26");
+  // No saved state (first run, or the cache was lost): everything.
+  assert.equal(tonight(pages, day).length, pages.length);
+  // Saved yesterday: only tonight's share.
+  const yesterday: State = Object.fromEntries(pages.map((p) => [targetKey(p), { status: "ok", checkedOn: "2026-10-25" }]));
+  const share = tonight(pages, day, yesterday);
+  assert.ok(share.length < pages.length);
+  // One page missing, one saved a week ago: both come back tonight.
+  const { [targetKey(pages[0])]: _, ...missing } = yesterday;
+  missing[targetKey(pages[1])] = { status: "ok", checkedOn: "2026-10-19" };
+  const due = tonight(pages, day, missing);
+  assert.ok(due.includes(pages[0]) && due.includes(pages[1]));
+  assert.equal(due.length, new Set([...share, pages[0], pages[1]]).size);
+});
+
+test("the header says how much was checked tonight", () => {
+  const a = { url: "https://x.it/a", refs: ["p: fonte"] };
+  const b = { url: "https://x.it/b", refs: ["p: fonte"] };
+  const text = report(
+    [
+      { target: a, status: "unreachable", detail: "HTTP 404" },
+      { target: b, status: "ok", checkedOn: "2026-10-23" },
+    ],
+    "2026-10-26",
+  );
+  assert.match(text, /^Controllo delle fonti del 2026-10-26: 2 indirizzi, 1 controllato stanotte e gli altri nei giorni precedenti/);
+});
+
+test("the archive's revisit records are skipped, and an unknown status is said so", async () => {
+  const asked: string[] = [];
+  const fetchFn = (async (url: string) => {
+    asked.push(url);
+    return Response.json([
+      ["timestamp", "statuscode", "original"],
+      ["20260301000000", "-", "https://x.it/a"],
+    ]);
+  }) as unknown as typeof fetch;
+  const [r] = await secondOpinion([{ target: { url: "https://x.it/a", refs: [] }, status: "blocked", detail: "HTTP 404" }], fetchFn, {
+    sleep: async () => {},
+  });
+  assert.ok(asked[0].includes("&filter=!mimetype:warc/revisit"));
+  assert.equal(r.wayback, "copia del 2026-03-01 (stato non registrato): https://web.archive.org/web/20260301000000/https://x.it/a");
 });

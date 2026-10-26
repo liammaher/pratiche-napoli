@@ -45,7 +45,7 @@ try {
 const today = todayInRome();
 const results = validateDir(path.join(ROOT, "procedures"), loadRegistry(), today);
 const targets = collectTargets(results.flatMap((r) => (r.doc ? [r.doc as Parameters<typeof collectTargets>[0][number]] : [])));
-const share = values.all ? targets : tonight(targets, dayNumber(today));
+const share = values.all ? targets : tonight(targets, dayNumber(today), state);
 console.log(`checking ${share.length} of ${targets.length} addresses…`);
 
 const checked = await checkTargets(share, fetch, {
@@ -73,6 +73,12 @@ mkdirSync(path.dirname(stateFile), { recursive: true });
 writeFileSync(stateFile, JSON.stringify(next, null, 2) + "\n");
 
 const latest = known(next, targets, today);
+// tonight() leaves no address without a recent result; if one is missing,
+// the report would speak for pages nobody checked, so it isn't written.
+if (latest.length < targets.length) {
+  console.error(`only ${latest.length} of ${targets.length} addresses have a recent result; no report written`);
+  process.exit(1);
+}
 const text = report(latest, today);
 if (values.out) writeFileSync(path.resolve(values.out), text);
 const unchecked = latest.filter((r) => r.status === "uncheckable" || r.status === "blocked");
