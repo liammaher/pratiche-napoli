@@ -86,13 +86,16 @@ window, the others go with it), and a figure is shown only if it holds in every 
 holds a random mark of each report, unrelated to its id or receipt, to tell which reports each
 version covered. People's own words are never published. A changed block moves `updated`. The
 page shows the figures under "Com'è andata ad altri", clearly as reports, not official sources.
+The commands need `--project <id>` or `GCLOUD_PROJECT`, and your personal Google credentials
+(`gcloud auth application-default login`), or `FIRESTORE_EMULATOR_HOST` to try them on the
+emulator.
 
-What 3 can't prevent: a figure true of a whole group (all 3 got an answer in about 25 days) is
-true of each of them, so someone who knows a report is in that group (they know when it was sent,
-or they sent the other two) learns its answer. The privacy page says so; the defence is the
-review at `accept`, which turns away reports that look like one person's. The commands need `--project <id>` or `GCLOUD_PROJECT`, and your personal
-Google credentials (`gcloud auth application-default login`), or `FIRESTORE_EMULATOR_HOST` to
-try them on the emulator.
+What 3 can't prevent: a count that covers a whole group (all 3 were refused, all 3 used PEC) is
+true of each of them, so someone who knows a report is in that group, because they know when it
+was sent, learns that much about it. Someone who sends reports of their own next to it can learn
+more: with two at the extremes, a median is the third report's own figure. The review at `accept`
+turns away reports that look like one person's, which helps against the second, not the first.
+The privacy page says so.
 
 ## Situations
 

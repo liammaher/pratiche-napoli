@@ -2,8 +2,8 @@
 // did it found, from the last 12 months. Every published number covers at
 // least MIN reports, outcome and reason counts included, and so does what is
 // left over beside the total it belongs to (the count, a channel's count, the
-// refusals), unless nothing is: so no figure is one report's alone (though
-// one true of a whole group is true of each of its reports, which the
+// refusals), unless nothing is: so no figure is one report's alone (though a
+// count covering a whole group is true of each of its reports, which the
 // privacy page says). A count whose total isn't published isn't either. Figures
 // are rounded medians, never a smallest or largest value, which would be one
 // person's. Every version of the block stays public in the history, and

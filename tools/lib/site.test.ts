@@ -327,6 +327,10 @@ test("the privacy page claims no more than the figures do", () => {
   // Its example is a figure the rounding can give (23 days is shown as 25).
   assert.ok(privacy.includes("circa 25 giorni via PEC, 7 racconti"));
   assert.ok(privacy.includes("restano nella cronologia pubblica"));
+  // What a group gives away is a count, and the review only helps against fakes.
+  assert.ok(privacy.includes("tutti e 3 sono stati respinti"));
+  assert.ok(privacy.includes("non contro il primo"));
+  assert.ok(privacy.includes("le correzioni alla pagina"));
 });
 
 test("what people reported shows in In breve and its own section, never as official", () => {
