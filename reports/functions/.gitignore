@@ -1,0 +1,6 @@
+lib/
+# copied from the repo by scripts/copy-shared.mjs
+src/shared/
+.secret.local
+*.log
+.env.local

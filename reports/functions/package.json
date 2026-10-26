@@ -1,0 +1,28 @@
+{
+  "name": "pratiche-napoli-reports",
+  "private": true,
+  "description": "Receives reports of how a procedure went and keeps them private for review",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "engines": {
+    "node": "22"
+  },
+  "scripts": {
+    "shared": "node scripts/copy-shared.mjs",
+    "build": "npm run shared && tsc -p tsconfig.build.json",
+    "typecheck": "npm run shared && tsc",
+    "test": "npm run shared && node --import tsx --test \"test/**/*.test.ts\"",
+    "test:emulator": "firebase emulators:exec --config ../firebase.json --only firestore --project demo-pratiche-napoli \"npm test\""
+  },
+  "dependencies": {
+    "ajv": "8.17.1",
+    "ajv-formats": "3.0.1",
+    "firebase-admin": "14.5.0",
+    "firebase-functions": "7.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "tsx": "4.19.2",
+    "typescript": "5.7.2"
+  }
+}

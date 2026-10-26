@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/liammaher/pratiche-napoli/contract/report.schema.json",
+  "title": "Report",
+  "description": "How one procedure went for someone who did it, sent to the reports backend. Kept private: only aggregates and rewritten tips are ever published. The month, not the day, keeps a report less identifying.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "procedure",
+    "source",
+    "done",
+    "channel",
+    "office",
+    "outcome"
+  ],
+  "properties": {
+    "procedure": {
+      "description": "id of a procedure in procedures.json",
+      "type": "string",
+      "maxLength": 200,
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*(/[a-z0-9]+(-[a-z0-9]+)*)+$"
+    },
+    "source": {
+      "description": "web: the form on the site; agent: an assistant reporting a pratica it ran, with the user's consent",
+      "enum": [
+        "web",
+        "agent"
+      ]
+    },
+    "done": {
+      "description": "The month the procedure ended or was last worked on, YYYY-MM",
+      "type": "string",
+      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+    },
+    "channel": {
+      "description": "How it was done, as the procedure's channel types",
+      "enum": [
+        "portal",
+        "pec",
+        "email",
+        "desk",
+        "post",
+        "phone",
+        "app"
+      ]
+    },
+    "office": {
+      "description": "Which office or portal: one of the procedure's channel names, or altro",
+      "$ref": "#/$defs/shortText"
+    },
+    "outcome": {
+      "description": "completata: done; chiesto_altro: the ente asked for more; respinta: refused; in_attesa: still waiting; rinunciato: gave up",
+      "enum": [
+        "completata",
+        "chiesto_altro",
+        "respinta",
+        "in_attesa",
+        "rinunciato"
+      ]
+    },
+    "days_to_answer": {
+      "description": "Days from sending the request to the ente's answer",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 730
+    },
+    "desk_wait_minutes": {
+      "description": "Minutes waited at the desk",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 600
+    },
+    "paid_eur": {
+      "description": "Everything paid, in euro",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100000
+    },
+    "documents": {
+      "description": "The procedure's listed documents, each with whether it was asked for",
+      "type": "array",
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "asked"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300,
+            "pattern": "\\S"
+          },
+          "asked": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "extra_documents": {
+      "description": "Documents asked for that the procedure doesn't list",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "pattern": "\\S"
+    },
+    "claim_feedback": {
+      "description": "What the person found about a section of the procedure page",
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "section",
+          "verdict"
+        ],
+        "properties": {
+          "section": {
+            "description": "id of a section of the procedure, e.g. deadline or documents",
+            "type": "string",
+            "maxLength": 64,
+            "pattern": "^[a-z][a-z0-9_]*([.-][a-z0-9_]+)*$"
+          },
+          "verdict": {
+            "description": "sbagliata: wrong; superata: was true but no longer; confermata: matched what happened",
+            "enum": [
+              "sbagliata",
+              "superata",
+              "confermata"
+            ]
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500,
+            "pattern": "\\S"
+          }
+        }
+      }
+    },
+    "note": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1000,
+      "pattern": "\\S"
+    },
+    "consent_contact": {
+      "description": "The person agrees to be written to about this report",
+      "type": "boolean"
+    },
+    "contact_email": {
+      "description": "Stored apart from the report and deleted after 12 months",
+      "type": "string",
+      "format": "email",
+      "maxLength": 254
+    }
+  },
+  "dependentSchemas": {
+    "contact_email": {
+      "required": [
+        "consent_contact"
+      ],
+      "properties": {
+        "consent_contact": {
+          "const": true
+        }
+      }
+    }
+  },
+  "$defs": {
+    "shortText": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "pattern": "\\S"
+    }
+  }
+}
