@@ -120,10 +120,11 @@ test("a 429 or 5xx is tried again after Retry-After; a 404 isn't", async () => {
     if (url.endsWith("busy")) return first ? new Response("", { status: 429, headers: { "retry-after": "7" } }) : new Response("ok");
     if (url.endsWith("down")) return new Response("", { status: 503 });
     if (url.endsWith("long")) return first ? new Response("", { status: 503, headers: { "retry-after": "3600" } }) : new Response("ok");
+    if (url === "https://x.it/") return new Response("home"); // the site's home answers: a real 404
     return new Response("", { status: 404 });
   }) as unknown as typeof fetch;
   const targets = ["busy", "down", "long", "gone"].map((name) => ({ url: `https://x.it/${name}`, refs: ["p: fonte"] }));
-  const results = await checkTargets(targets, fetchFn, { concurrency: 1, sleep: async (ms) => void waits.push(ms) });
+  const results = await checkTargets(targets, fetchFn, { concurrency: 1, pauseMs: 0, sleep: async (ms) => void waits.push(ms) });
   assert.deepEqual(
     results.map((r) => [r.target.url.slice(13), r.status, r.detail]),
     [
@@ -134,7 +135,7 @@ test("a 429 or 5xx is tried again after Retry-After; a 404 isn't", async () => {
     ],
   );
   // 7 s as asked, the default pause, and at most 30 s however long it asks.
-  assert.deepEqual(waits, [7000, 5000, 30000]);
+  assert.deepEqual(waits.filter(Boolean), [7000, 5000, 30000]);
   assert.equal(calls.filter((u) => u.endsWith("gone")).length, 1);
 });
 
@@ -168,4 +169,56 @@ test("an over-long report is cut at a whole address", () => {
   assert.match(text, /\n\n\(Report troncato: `npm run check:sources` lo dà completo\.\)\n$/);
   // The cut never leaves half an address.
   assert.match(text.split("\n\n(Report troncato")[0], /\n {2}- `napoli\/comune\/procedura-0: fonte "f0"`$/);
+});
+
+test("one request at a time per site, with a pause between them; sites in parallel", async () => {
+  const busy = new Map<string, number>();
+  let mostAtOnce = 0;
+  const perSite = new Map<string, number>();
+  const fetchFn = (async (url: string) => {
+    const host = new URL(url).host;
+    busy.set(host, (busy.get(host) ?? 0) + 1);
+    perSite.set(host, Math.max(perSite.get(host) ?? 0, busy.get(host)!));
+    mostAtOnce = Math.max(mostAtOnce, [...busy.values()].reduce((a, b) => a + b, 0));
+    await new Promise((r) => setTimeout(r, 5));
+    busy.set(host, busy.get(host)! - 1);
+    return new Response("ok");
+  }) as unknown as typeof fetch;
+  const pauses: number[] = [];
+  const targets = ["a.it/1", "a.it/2", "a.it/3", "b.it/1", "b.it/2", "c.it/1"].map((p) => ({ url: `https://${p}`, refs: ["p: fonte"] }));
+  const results = await checkTargets(targets, fetchFn, {
+    concurrency: 3,
+    pauseMs: 1500,
+    sleep: async (ms) => void pauses.push(ms),
+  });
+  assert.ok(results.every((r) => r.status === "ok"));
+  assert.deepEqual([...perSite.values()], [1, 1, 1]); // never two at once on a site
+  assert.ok(mostAtOnce > 1, "different sites are checked at the same time");
+  assert.deepEqual(pauses, [1500, 1500, 1500]); // a.it: 2 pauses, b.it: 1, c.it: none
+});
+
+test("a 404 from a site whose home page is also 404 is blocked, not dead", async () => {
+  const fetchFn = (async (url: string) => {
+    if (url.startsWith("https://down.it/")) return new Response("", { status: 404 }); // home too
+    if (url === "https://up.it/") return new Response("home");
+    if (url === "https://up.it/gone") return new Response("", { status: 404 });
+    return new Response("ok");
+  }) as unknown as typeof fetch;
+  const targets = ["https://down.it/a", "https://down.it/b", "https://up.it/gone", "https://up.it/ok"].map((url) => ({ url, refs: ["p: fonte"] }));
+  const results = await checkTargets(targets, fetchFn, { sleep: async () => {} });
+  assert.deepEqual(
+    results.map((r) => [r.target.url, r.status, r.detail]),
+    [
+      ["https://down.it/a", "blocked", "HTTP 404, anche per la home del sito"],
+      ["https://down.it/b", "blocked", "HTTP 404, anche per la home del sito"],
+      ["https://up.it/gone", "unreachable", "HTTP 404"],
+      ["https://up.it/ok", "ok", undefined],
+    ],
+  );
+  const text = report(results, "2026-10-26");
+  assert.match(text, /## Non raggiungibili \(1\)[\s\S]*up\.it\/gone/);
+  assert.match(text, /## Bloccati dal sito \(2\)[\s\S]*down\.it\/a/);
+  // Blocked pages alone don't make a report, and count as unchecked.
+  assert.equal(report(results.filter((r) => r.status === "blocked"), "2026-10-26"), "");
+  assert.match(inconclusive(results.filter((r) => r.status !== "ok"))!, /3 indirizzi su 3/);
 });

@@ -91,10 +91,13 @@ fact and source stays on the procedure. `npm run validate` checks them too, and 
 
 ## Source monitor
 
-`npm run check:sources` re-fetches every official page and form the procedures cite. It reports
-forms whose content no longer matches the recorded `sha256`, and addresses that stopped answering,
-with the procedures that cite them. Addresses whose certificate can't be verified (servers that
-don't send their full chain) are listed but don't make a report on their own. The `Sources`
+`npm run check:sources` re-fetches every official page and form the procedures cite, one request
+at a time per site with a pause between them, since some offices' servers block an address that
+asks too much too fast. It reports forms whose content no longer matches the recorded `sha256`,
+and addresses that stopped answering, with the procedures that cite them. Two kinds are listed but
+don't make a report on their own: addresses whose certificate can't be verified (servers that
+don't send their full chain), and 404s from a site whose home page is also 404, which means the
+site is refusing the checker rather than that the page is gone. The `Sources`
 workflow runs it every night and keeps one issue, "Fonti da ricontrollare", up to date, closing it
 when everything is back as recorded.
 
