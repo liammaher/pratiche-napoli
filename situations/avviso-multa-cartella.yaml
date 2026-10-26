@@ -10,7 +10,7 @@ intro: >-
 steps:
   - procedure: italia/pagopa/send-notifiche-digitali
     when: Se è arrivata come notifica SEND, anche sull'app IO
-  - procedure: napoli/polizia-locale/verbale-pagamento-ricorso
+  - procedure: napoli/comune/verbale-pagamento-ricorso
     when: Una multa della Polizia Locale di Napoli
   - procedure: napoli/comune/tari-autotutela-avviso-non-domestica
     when: Un avviso TARI sbagliato per un'attività

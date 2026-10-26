@@ -505,7 +505,7 @@ pitfalls:
     source: ader-cartella
 related:
   - italia/pagopa/send-notifiche-digitali
-  - napoli/polizia-locale/verbale-pagamento-ricorso
+  - napoli/comune/verbale-pagamento-ricorso
 sources:
   - id: ader-rateizzazione
     label: ADER – La rateizzazione dal 1° gennaio 2025
