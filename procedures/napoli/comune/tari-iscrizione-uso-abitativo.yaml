@@ -7,7 +7,7 @@ aka:
   - tassa rifiuti
   - denuncia TARI
   - Mod. 1 TARI
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Chi inizia a occupare o detenere un'abitazione a Napoli (proprietario, inquilino o altro)
   deve presentare la dichiarazione TARI con il Mod. 1 entro 90 giorni. La dichiarazione vale
@@ -39,6 +39,7 @@ deadline:
         dati dichiarati (art. 25, c. 5).
       status: verified
       source: regolamento-2023
+      compute: { from: abitazione.data_inizio, days: 90 }
   lateness:
     text: >-
       Per l'omessa dichiarazione il regolamento prevede una sanzione sul primo anno d'imposta dal
@@ -161,29 +162,46 @@ forms:
           Dichiara l'intestatario della scheda di famiglia (famiglia.intestatario_scheda). Se non è
           il titolare del vault ma un familiare, nome, nascita, C.F. e recapiti del dichiarante
           vanno presi dai dati di quel familiare, e il titolare del vault va tra i conviventi.
-      - { label: nato/a a, map: { direct: identity.birth_comune } }
-      - { label: nato/a a (stato estero), map: { direct: identity.birth_country } }
-      - { label: il, map: { direct: identity.date_of_birth } }
+      - label: nato/a a
+        map:
+          concat: [identity.birth_comune, identity.birth_country]
+          template: "{identity.birth_comune}[ ({identity.birth_country})]"
+        optional:
+          - field: identity.birth_country
+            required_if:
+              - { field: identity.birth_province, equals: EE }
+              - { field: identity.codice_fiscale, matches: "^.{11}Z" }
+        notes: >-
+          Per chi è nato all'estero, il luogo come scritto sui documenti e lo stato tra parentesi: nel
+          codice fiscale, una Z al dodicesimo carattere indica la nascita all'estero.
+      - { label: il, map: { direct: identity.date_of_birth, template: "{identity.date_of_birth|date}" } }
       - { label: C.F., map: { direct: identity.codice_fiscale } }
       - { label: residente in, map: { direct: residenza.comune } }
       - { label: Via, map: { direct: residenza.indirizzo } }
       - { label: n°, map: { direct: residenza.civico } }
       - { label: Telefono, map: { direct: identity.phone } }
       - { label: e-mail, map: { direct: identity.email } }
-      - { label: pec, map: { direct: identity.pec } }
+      - { label: pec, map: { direct: identity.pec }, optional: [{ field: identity.pec }] }
       - { label: a decorrere dal, map: { direct: abitazione.data_inizio } }
       - label: qualità di (proprietario / possessore / locatario / altro)
         map: { direct: abitazione.titolo }
+        choices:
+          - { box: proprietario, values: [proprietario] }
+          - { box: possessore, values: [] }
+          - { box: locatario, values: [locatario] }
+          - { box: altro, values: [comodatario, usufruttuario, ospite, altro], write_value: true }
         notes: >-
-          "possessore" non è tra i valori dell'abitazione nel registro: scegliere la voce che
-          corrisponde al titolo reale.
+          "possessore" non è tra i valori dell'abitazione nel registro: chi lo è sceglie la voce che
+          corrisponde al titolo reale. Comodatario, usufruttuario e ospite vanno in "altro", scritti
+          accanto.
       - label: Appartamento sito in via
-        map: { fallback: [domicilio.indirizzo, residenza.indirizzo] }
+        map:
+          fallback: [domicilio.indirizzo, residenza.indirizzo]
+          template: "{.indirizzo}, {.civico}[, int. {.interno}][, piano {abitazione.piano}]"
         notes: >-
-          Una sola riga per l'indirizzo: aggiungere civico, interno e piano (domicilio.civico,
-          domicilio.interno o residenza.*, abitazione.piano) dello stesso indirizzo scelto per la
-          via, il domicilio se esiste, altrimenti la residenza. Non mescolare i due: se lì manca il
-          civico, chiederlo; se manca l'interno, non c'è.
+          Una sola riga per l'indirizzo: via, civico, interno e piano dello stesso indirizzo, il
+          domicilio se esiste, altrimenti la residenza. Non mescolare i due: se lì manca il civico,
+          chiederlo; se manca l'interno, non c'è.
       - { label: Sez., map: { direct: abitazione.catasto_sezione } }
       - { label: Foglio, map: { direct: abitazione.catasto_foglio } }
       - { label: Part., map: { direct: abitazione.catasto_particella } }
@@ -201,14 +219,35 @@ forms:
             - "*:identity.birth_country"
             - "*:identity.date_of_birth"
             - "*:identity.codice_fiscale"
+          columns:
+            - { label: Nominativo, template: "{*:identity.last_name} {*:identity.first_name}" }
+            - label: Luogo e data di nascita
+              template: "{*:identity.birth_comune}[ ({*:identity.birth_country})], {*:identity.date_of_birth|date}"
+            - { label: Rapporto di parentela o coabitante, template: "{relazione}" }
+            - { label: Codice fiscale, template: "{*:identity.codice_fiscale}" }
+        optional:
+          - field: "*:identity.birth_country"
+            required_if:
+              - { field: "*:identity.birth_province", equals: EE }
+              - { field: "*:identity.codice_fiscale", matches: "^.{11}Z" }
         notes: >-
           Una riga per ogni familiare nello stato di famiglia (famiglia.stato_famiglia si), tranne
           chi dichiara. Il rapporto non è un campo: è la parentela con il dichiarante, per esteso.
           Se dichiara il titolare del vault è il relazione_label dell'elenco dei familiari
           (moglie, figlia), non il codice di famiglia.relazione (coniuge, figlio); se dichiara un
           altro intestatario, va riferita a lui e chiesta.
+      - label: Coabitanti fuori dallo stato di famiglia (nominativo, luogo e data di nascita, rapporto, codice fiscale)
+        map:
+          ask: >-
+            Abita nella casa, per almeno 60 giorni l'anno, qualcuno che non è nello stato di famiglia?
+            Per ciascuno: nominativo, luogo e data di nascita, rapporto e codice fiscale
+        notes: >-
+          Nella stessa tabella dei conviventi, dopo di loro (Regolamento TARI, art. 14, c. 1). Chi è
+          nello stato di famiglia è già tra i conviventi.
       - label: Richiesta di riduzione del 40% "Uso stagionale"
         map: { ask: "Seconda casa tenuta a disposizione, con già una posizione TARI per l'abitazione principale?" }
+        choices:
+          - { box: Richiesta di riduzione del 40%, values: [si, sì] }
       - { label: Eventuali note, map: { ask: Note facoltative per l'ufficio } }
       - label: Cod.Contr.
         map: { blank_with_reason: Spazio riservato all'ufficio; il codice contribuente lo assegna il Comune. }
@@ -246,6 +285,12 @@ records:
   - field: tari.componenti_tassati
     from: Avviso di pagamento
 pitfalls:
+  - text: >-
+      Tra gli occupanti vanno dichiarate anche le persone che non fanno parte del nucleo familiare
+      anagrafico, se abitano nella casa per almeno 60 giorni nell'anno solare (art. 14, c. 1); se
+      nella casa vivono più nuclei familiari, i componenti di tutti (art. 25, c. 2).
+    status: verified
+    source: regolamento-2023
   - text: >-
       La riduzione del 40% per "uso stagionale" vale solo per un'abitazione tenuta a disposizione
       quando si è già titolari di un'altra posizione TARI per l'abitazione principale.

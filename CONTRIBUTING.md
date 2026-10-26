@@ -57,17 +57,23 @@
    spazzatura").
 7. **Steps that only a person can do** (sign, pay, send, swear, be present) get
    `human_only: true`.
-8. **Data the procedure produces** (a codice contribuente, a REA number) goes in `records`:
+8. **Say what a box needs, not only in notes.** When a box takes several fields, give the row a
+   `template` (a fallback reads its place's other parts as `{.civico}`); mark fields that may be
+   empty with `optional`, and with `required_if` when they are needed in some cases; make a row of
+   boxes to tick `choices`; give a deadline that runs from a date the vault keeps a `compute`. A
+   form with no fillable fields can get a layout in `layouts/` (see the README), measured on the
+   form with the `sha256` the procedure records.
+9. **Data the procedure produces** (a codice contribuente, a REA number) goes in `records`:
    one registry field each, and `from`, the document or message it is read from. List only
    fields the registry has; propose the others.
-9. Set `verification` to the level you actually reached, and add a `run_log` line when a real
+10. Set `verification` to the level you actually reached, and add a `run_log` line when a real
    case used the procedure (what happened, no personal values).
-10. **Set `updated` to today whenever you change a procedure**, re-checking a source or
+11. **Set `updated` to today whenever you change a procedure**, re-checking a source or
    logging a run included (comments and layout don't count). It is the page's "last updated"
    date on the site, in the sitemap and in the JSON, so it must never lag behind the content.
    `npm run check:updated` compares your branch with `origin/main` and fails if you forgot;
    CI runs it on every pull request.
-11. Run `npm run validate`, `npm run check:updated` and `npm test` before opening a pull
+12. Run `npm run validate`, `npm run check:updated` and `npm test` before opening a pull
     request.
 
 ## Situations

@@ -11,6 +11,7 @@ import {
   loadRegistry,
   todayInRome,
   validateDir,
+  validateLayouts,
   validateProcedure,
   validateSituations,
   type Context,
@@ -1087,4 +1088,134 @@ test("a form with the business's data and a person's must say who signs", () => 
   delete doc.dichiarante;
   doc.forms[0].fields.shift();
   assert.deepEqual(validateProcedure(doc, PATH, ctx), []);
+});
+
+// --- Templates, optional fields, boxes to tick, computed deadlines, layouts ---
+
+test("a template says how a row's fields make the box's text", () => {
+  const row = (map: Record<string, unknown>, extra: Record<string, unknown> = {}) => errorsFor(withForm({ label: "X", map, ...extra }));
+  assert.equal(row({ concat: ["identity.birth_comune", "identity.birth_country"], template: "{identity.birth_comune}[ ({identity.birth_country})]" }), "");
+  assert.equal(row({ direct: "identity.date_of_birth", template: "{identity.date_of_birth|date}" }), "");
+  assert.equal(row({ fallback: ["domicilio.indirizzo", "residenza.indirizzo"], template: "{.indirizzo}, {.civico}[, int. {.interno}][, piano {abitazione.piano}]" }), "");
+  assert.match(row({ direct: "identity.date_of_birth", template: "{identity.date_of_birth|upper}" }), /unknown filter \|upper/);
+  assert.match(row({ direct: "identity.email", template: "{identity.email} [{identity.pec}" }), /unclosed \[/);
+  assert.match(row({ direct: "identity.email", template: "{relazione}" }), /\{relazione\} is a family member's/);
+  assert.match(row({ direct: "identity.email", template: "{.civico}" }), /this row has no fallback/);
+  assert.match(row({ concat: ["identity.last_name", "identity.first_name"], template: "{identity.last_name}" }), /doesn't use identity\.first_name/);
+  assert.match(row({ direct: "identity.email", template: "{identity.email} {identity.shoe_size}" }), /unknown field "identity\.shoe_size"/);
+  assert.match(row({ direct: "identity.email", template: "{cie.pin}" }), /secret/);
+  assert.match(row({ fallback: ["domicilio.indirizzo", "residenza.indirizzo"], template: "{.civico}" }), /write the fallback's own field as \{\.indirizzo\}/);
+  assert.match(row({ fallback: ["domicilio.indirizzo", "residenza.civico"], template: "{.indirizzo}" }), /same field of each place/);
+  assert.match(row({ fallback: ["domicilio.indirizzo", "residenza.indirizzo"], template: "{.indirizzo} {residenza.cap}" }, { notes: "Tutto dallo stesso indirizzo." }), /would mix another place/);
+  assert.match(row({ concat: ["residenza.indirizzo", "residenza.civico"], template: "{residenza.indirizzo} {residenza.civico} {domicilio.cap}" }), /template joins residenza and domicilio/);
+  // A template's fields count as the row's for who signs.
+  const doc = withForm({ label: "X", map: { direct: "business.denominazione", template: "{business.denominazione} {identity.last_name}" } });
+  assert.match(errorsFor(doc), /say who signs with dichiarante/);
+});
+
+test("a repeat's columns are filled from its fields, and {relazione} only for family", () => {
+  const fields = ["*:identity.last_name", "*:identity.first_name", "*:identity.codice_fiscale"];
+  const row = (repeat: unknown, columns: unknown) => errorsFor(withForm({ label: "X", map: { repeat, fields, columns } }));
+  assert.equal(row("famiglia", [{ label: "Nome", template: "{*:identity.last_name} {*:identity.first_name}" }, { label: "Rapporto", template: "{relazione}" }]), "");
+  assert.match(row("famiglia", [{ label: "Nato", template: "{*:identity.date_of_birth|date}" }]), /isn't one of the row's fields/);
+  assert.match(row("famiglia", [{ label: "A", template: "{*:identity.last_name}" }, { label: "A", template: "{*:identity.first_name}" }]), /two columns are labelled "A"/);
+  assert.match(row({ ruolo: "socio" }, [{ label: "Rapporto", template: "{relazione}" }]), /people picked by ruolo have none/);
+});
+
+test("optional fields may be empty, unless their required_if holds", () => {
+  const row = (map: Record<string, unknown>, optional: unknown) => errorsFor(withForm({ label: "X", map, optional }));
+  const abroad = [{ field: "identity.birth_province", equals: "EE" }, { field: "identity.codice_fiscale", matches: "^.{11}Z" }];
+  assert.equal(row({ direct: "identity.pec" }, [{ field: "identity.pec" }]), "");
+  assert.equal(row({ concat: ["identity.birth_comune", "identity.birth_country"] }, [{ field: "identity.birth_country", required_if: abroad }]), "");
+  assert.equal(row({ fallback: ["domicilio.indirizzo", "residenza.indirizzo"], template: "{.indirizzo}[, int. {.interno}]" }, [{ field: ".interno" }]), "");
+  assert.match(row({ direct: "identity.pec" }, [{ field: "identity.email" }]), /identity\.email isn't a field this row reads/);
+  assert.match(row({ ask: "Note?" }, [{ field: "identity.pec" }]), /an ask or a blank row reads no fields/);
+  assert.match(row({ direct: "identity.pec" }, [{ field: "identity.pec", required_if: [{ field: "leo:identity.sex", equals: "F" }] }]), /without a prefix/);
+  assert.match(row({ direct: "identity.pec" }, [{ field: "identity.pec", required_if: [{ field: "identity.sex", matches: "(?<=x)y" }] }]), /looks behind/);
+  assert.match(row({ direct: "identity.pec" }, [{ field: "identity.pec", required_if: [{ field: "identity.sex", matches: "(" }] }]), /isn't a regular expression/);
+  assert.match(row({ direct: "identity.pec" }, [{ field: "identity.pec", required_if: [{ field: "identity.sex" }] }]), /schema: .*optional/);
+  const each = { repeat: "famiglia", fields: ["*:identity.birth_country"] };
+  assert.equal(row(each, [{ field: "*:identity.birth_country", required_if: [{ field: "*:identity.birth_province", equals: "EE" }] }]), "");
+  assert.match(row(each, [{ field: "*:identity.birth_country", required_if: [{ field: "identity.birth_province", equals: "EE" }] }]), /each person's fields/);
+});
+
+test("choices are boxes to tick from one field or an ask", () => {
+  const row = (map: Record<string, unknown>, choices: unknown) => errorsFor(withForm({ label: "X", map, choices }));
+  const titolo = [{ box: "proprietario", values: ["proprietario"] }, { box: "altro", values: ["ospite", "altro"], write_value: true }];
+  assert.equal(row({ direct: "abitazione.titolo" }, titolo), "");
+  assert.equal(row({ ask: "Uso stagionale?" }, [{ box: "Riduzione", values: ["si"] }]), "");
+  assert.match(row({ concat: ["identity.last_name", "identity.first_name"] }, titolo), /only a row of one field/);
+  assert.match(row({ direct: "abitazione.titolo" }, [{ box: "a", values: ["x"] }, { box: "b", values: ["x"] }]), /"x" ticks both "a" and "b"/);
+  assert.match(row({ direct: "abitazione.titolo" }, [{ box: "a", values: ["x"], write_value: true }, { box: "b", values: ["y"], write_value: true }]), /only one box/);
+  assert.match(row({ direct: "abitazione.titolo" }, [{ box: "a", values: ["x"] }, { box: "a", values: ["y"] }]), /two boxes are "a"/);
+});
+
+test("a deadline rule can be computed from a date the vault keeps", () => {
+  const doc = minimal();
+  const rule = (compute: unknown) => ({ deadline: { rules: [{ text: "Entro 90 giorni.", status: "unverified", compute }] } });
+  assert.equal(errorsFor({ ...doc, ...rule({ from: "abitazione.data_inizio", days: 90 }) }), "");
+  assert.match(errorsFor({ ...doc, ...rule({ from: "abitazione.data_fine", days: 90 }) }), /deadline\/rules\/0\/compute: unknown field/);
+  assert.match(errorsFor({ ...doc, ...rule({ from: "abitazione.*", days: 90 }) }), /name one date field/);
+  assert.match(errorsFor({ ...doc, ...rule({ from: "abitazione.data_inizio", days: 0 }) }), /schema: .*compute\/days/);
+});
+
+test("a form's fields have distinct labels", () => {
+  assert.match(errorsFor(withForm({ label: "X", map: { direct: "identity.email" } }, { label: "X", map: { direct: "identity.pec" } })), /two fields are labelled "X"/);
+});
+
+function layoutLibrary(layout: Record<string, unknown>): { results: ReturnType<typeof validateLayouts> } {
+  const doc = withForm(
+    { label: "Nome", map: { direct: "identity.first_name" } },
+    { label: "Titolo", map: { direct: "abitazione.titolo" }, choices: [{ box: "proprietario", values: ["proprietario"] }, { box: "altro", values: ["altro"], write_value: true }] },
+    { label: "Conviventi", map: { repeat: "famiglia", fields: ["*:identity.last_name"], columns: [{ label: "Cognome", template: "{*:identity.last_name}" }] } },
+    { label: "Altri", map: { ask: "Altri coabitanti?" } },
+    { label: "Ufficio", map: { blank_with_reason: "Per l'ufficio." } },
+  );
+  doc.forms[0].sha256 = "a".repeat(64);
+  const dir = mkdtempSync(path.join(tmpdir(), "layouts-"));
+  const rel = path.join("napoli", "comune", "test", "mod.json");
+  mkdirSync(path.dirname(path.join(dir, rel)), { recursive: true });
+  writeFileSync(path.join(dir, rel), JSON.stringify(layout));
+  return { results: validateLayouts(dir, [{ rel: "napoli/comune/test.yaml", errors: [], doc }]) };
+}
+
+function goodLayout(): Record<string, any> {
+  return {
+    procedure: "napoli/comune/test",
+    form: "mod",
+    sha256: "a".repeat(64),
+    boxes: [
+      { label: "Nome", rect: [10, 10, 100, 20] },
+      { label: "Titolo", choices: { proprietario: [10, 30, 20, 40], altro: [30, 30, 40, 40] }, write: { altro: [45, 30, 100, 40] } },
+      { label: "Conviventi", table: { rows: [[50, 60], [60, 70]], columns: { Cognome: [10, 100] } } },
+      { label: "Altri", into_table: "Conviventi" },
+      { label: "Ufficio", skip: "Per l'ufficio." },
+    ],
+    unmapped: [{ box: "Data", rect: [10, 80, 50, 90], why: "Al momento della firma.", needed_when: { field: "Titolo", box: "altro" } }],
+  };
+}
+
+test("a layout places every field of its form, at the form's sha256", () => {
+  const errors = (edit: (l: Record<string, any>) => void) => {
+    const l = goodLayout();
+    edit(l);
+    return layoutLibrary(l).results.flatMap((r) => r.errors).join("\n");
+  };
+  assert.equal(errors(() => {}), "");
+  assert.match(errors((l) => (l.sha256 = "b".repeat(64))), /sha256 isn't the form's/);
+  assert.match(errors((l) => (l.form = "other")), /must match its path|has no form other/);
+  assert.match(errors((l) => l.boxes.splice(0, 1)), /field "Nome" has no box/);
+  assert.match(errors((l) => l.boxes.push({ label: "Altro campo", rect: [1, 1, 2, 2] })), /box "Altro campo" is no field of the form/);
+  assert.match(errors((l) => l.boxes.push({ label: "Nome", rect: [1, 1, 2, 2] })), /"Nome" is placed twice/);
+  assert.match(errors((l) => (l.boxes[1] = { label: "Titolo", rect: [1, 1, 2, 2] })), /boxes to tick: place each under choices/);
+  assert.match(errors((l) => delete l.boxes[1].choices.altro), /choices must be the field's boxes/);
+  assert.match(errors((l) => delete l.boxes[1].write), /write must place exactly the boxes with write_value: altro/);
+  assert.match(errors((l) => (l.boxes[2].table.columns = { Nome: [10, 100] })), /columns must be the field's: Cognome/);
+  assert.match(errors((l) => (l.boxes[0] = { label: "Nome", into_table: "Conviventi" })), /only an ask's answers go into another field's table/);
+  assert.match(errors((l) => (l.boxes[3].into_table = "Nome")), /"Nome" is no table on this form/);
+  assert.match(errors((l) => (l.boxes[0] = { label: "Nome", skip: "No." })), /only a blank_with_reason field is skipped/);
+  assert.match(errors((l) => (l.boxes[0] = { label: "Nome", rect: [1, 1, 2, 2], cells: [[1, 2]] })), /give exactly one of/);
+  assert.match(errors((l) => (l.boxes[0] = { label: "Nome", cells: [[1, 2]] })), /cells need a baseline/);
+  assert.match(errors((l) => (l.unmapped[0].needed_when.box = "nessuno")), /needed_when names no box "nessuno"/);
+  assert.match(errors((l) => (l.boxes[0].rect = [1, 2, 3])), /schema: \/boxes\/0\/rect/);
 });
