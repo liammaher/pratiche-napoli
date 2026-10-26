@@ -273,6 +273,9 @@ after:
   - >-
     A ogni nomina o conferma di amministratore unico, delegato o presidente del CdA, indicare nella
     pratica la sua PEC personale.
+records:
+  - field: business.pec
+    from: Visura aggiornata con il nuovo domicilio digitale
 pitfalls:
   - text: >-
       I domicili digitali delle imprese inseriti in INI-PEC sono il mezzo esclusivo di

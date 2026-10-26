@@ -81,6 +81,33 @@ test("form mappings must use registered, non-secret fields", () => {
   assert.match(errors, /spid.password can't be used in a public procedure/);
 });
 
+test("records name exact registered fields, once each, never secrets or tracking", () => {
+  const doc = minimal();
+  doc.records = [
+    { field: "tari.codice_contribuente", from: "Risposta del Comune" },
+    { field: "business.rea", from: "Ricevuta del Registro Imprese" },
+  ];
+  assert.deepEqual(validateProcedure(doc, PATH, ctx), []);
+
+  doc.records.push(
+    { field: "tari.codice_contribuente", from: "Avviso di pagamento" },
+    { field: "identity.shoe_size", from: "Modulo" },
+    { field: "spid.password", from: "Modulo" },
+    { field: "pratiche.tari_protocollo", from: "Ricevuta" },
+  );
+  const errors = errorsFor(doc);
+  assert.match(errors, /records: "tari.codice_contribuente" is listed twice/);
+  assert.match(errors, /records: unknown field "identity.shoe_size"/);
+  assert.match(errors, /records: spid.password can't be used in a public procedure/);
+  assert.match(errors, /records: unknown category "pratiche"/);
+
+  for (const field of ["tari.*", "nucleo_familiare.membro<N>_nome", "pratiche.tari-2026_protocollo"]) {
+    const bad = minimal();
+    bad.records = [{ field, from: "Modulo" }];
+    assert.match(errorsFor(bad), /schema: \/records\/0\/field/);
+  }
+});
+
 test("wildcards can't sweep in secret fields", () => {
   for (const map of [
     { direct: "cie.*" },

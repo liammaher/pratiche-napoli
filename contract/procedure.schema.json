@@ -382,6 +382,26 @@
         "$ref": "#/$defs/text"
       }
     },
+    "records": {
+      "description": "Data the procedure produces that is worth keeping (a codice contribuente, a REA number): one registry field each, and where its value comes from. The person's own tracking of the procedure is not listed here",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["field", "from"],
+        "properties": {
+          "field": {
+            "description": "One exact field ID, no wildcard or per-item pattern",
+            "type": "string",
+            "pattern": "^[a-z_]+\\.[a-z0-9_]+$"
+          },
+          "from": {
+            "description": "The document or message the value is read from",
+            "$ref": "#/$defs/text"
+          }
+        }
+      }
+    },
     "pitfalls": {
       "type": "array",
       "items": {
