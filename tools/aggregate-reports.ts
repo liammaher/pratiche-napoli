@@ -8,16 +8,20 @@
 // an hour of being made: it is removed as soon as it is read, so an old one
 // can't bring back a report deleted since. The history is read from git, and
 // the run stops if it can't be read whole.
-// Usage: npm run reports:aggregate [-- <reports-cache.json>]
+// Usage: npm run reports:aggregate (reads reports-cache.json at the repo root)
 
-import { execFileSync } from "node:child_process";
-import { readFileSync, rmSync, writeFileSync } from "node:fs";
+import { execFileSync, spawnSync } from "node:child_process";
+import { readFileSync, realpathSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { cacheProblem, markProblem, nextReported, sameReported, withReported, type Reported, type ReportsCache, type ReviewedReport } from "./lib/reported.ts";
 import { ROOT, loadRegistry, parseProcedure, todayInRome, validateDir } from "./lib/validate.ts";
 
-// A path given is read from where the command was run (npm keeps it in INIT_CWD).
-const cache = process.argv[2] ? path.resolve(process.env.INIT_CWD ?? process.cwd(), process.argv[2]) : path.join(ROOT, "reports-cache.json");
+// Only the one place export writes, which accept, reject and delete clear.
+if (process.argv[2]) {
+  console.error("reports:aggregate takes no file: it reads reports-cache.json at the repo root (npm run reports -- export)");
+  process.exit(2);
+}
+const cache = path.join(ROOT, "reports-cache.json");
 let read: unknown;
 try {
   read = JSON.parse(readFileSync(cache, "utf8"));
@@ -28,7 +32,12 @@ try {
 }
 const { export: isExport, problem } = cacheProblem(read, new Date());
 if (isExport) {
-  rmSync(cache);
+  try {
+    rmSync(cache);
+  } catch (e) {
+    console.error(`not aggregating: can't remove ${cache}, so it could be used again (${(e as Error).message}): delete it by hand`);
+    process.exit(2);
+  }
   console.log(`(read and removed ${cache}: export again for the next run)`);
 }
 if (problem) {
@@ -56,11 +65,17 @@ const unknown = new Set(reports.map((r) => r.procedure).filter((id) => !known.ha
 for (const id of unknown) console.warn(`! reports for ${id}, which is no longer in the library`);
 
 // Every published version must be read, so anything short of the whole
-// history stops the run: no git, not a checkout (a downloaded copy), or a
-// shallow clone, which has only part of it.
+// history stops the run: no git, not this repository's checkout (a
+// downloaded copy, perhaps inside another repository), or a shallow clone,
+// which has only part of it.
 const git = (...args: string[]) =>
   execFileSync("git", ["-C", ROOT, ...args], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"], maxBuffer: 1 << 30 });
 try {
+  const top = git("rev-parse", "--show-toplevel").trim();
+  if (realpathSync(top) !== realpathSync(ROOT)) {
+    console.error(`not aggregating: ${ROOT} isn't a git checkout of its own (git found ${top}), so earlier versions can't be read`);
+    process.exit(2);
+  }
   if (git("rev-parse", "--is-shallow-repository").trim() === "true") {
     console.error("not aggregating: this clone is shallow, so earlier versions can't be read (git fetch --unshallow)");
     process.exit(2);
@@ -114,15 +129,14 @@ function publishedBlocks(): { blocks: { id: string; block: Reported }[]; unread:
   const out = new Map<string, { id: string; block: Reported }>();
   const unread: string[] = [];
   for (const sha of commits) {
-    let files: string[] = [];
-    try {
-      // "<sha>:<path>" for each file with a block.
-      files = git("grep", "-l", "^reported:", sha, "--", "procedures").split("\n").filter(Boolean);
-    } catch (e) {
-      // git grep exits 1 when no file has one; anything else is an error.
-      if ((e as { status?: number }).status === 1 && !(e as { stderr?: string }).stderr) continue;
-      throw e;
+    // "<sha>:<path>" for each file with a block. git grep exits 1 when no
+    // file has one, and may still say it couldn't read a file (exit 0 or 1):
+    // an error or a failure stops the run, a warning doesn't.
+    const grep = spawnSync("git", ["-C", ROOT, "grep", "-l", "^reported:", sha, "--", "procedures"], { encoding: "utf8", maxBuffer: 1 << 30 });
+    if (grep.error || (grep.status !== 0 && grep.status !== 1) || /^(error|fatal):/m.test(grep.stderr)) {
+      throw Object.assign(new Error(`git grep in ${sha}`), { stderr: grep.stderr || String(grep.error ?? grep.status) });
     }
+    const files = grep.stdout.split("\n").filter(Boolean);
     for (const file of files) {
       try {
         const doc = parseProcedure(git("show", file)) as { id?: string; reported?: Reported } | undefined;

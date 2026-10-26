@@ -209,7 +209,7 @@ export function cacheProblem(cache: unknown, now: Date): { export: boolean; prob
   if (!c || typeof c !== "object" || typeof c.exported !== "string" || !Array.isArray(c.reports)) return { export: false, problem: "not an export of the reports" };
   const age = (now.getTime() - Date.parse(c.exported)) / 60_000;
   if (!(age >= 0)) return { export: true, problem: `exported at ${c.exported}, which isn't a time before now: export the reports again` };
-  if (age > CACHE_MAX_MINUTES) return { export: true, problem: `exported ${Math.round(age)} minutes ago, more than ${CACHE_MAX_MINUTES}: a report deleted or changed since would be in it as it was. Export the reports again` };
+  if (age > CACHE_MAX_MINUTES) return { export: true, problem: `exported ${Math.ceil(age)} minutes ago, more than ${CACHE_MAX_MINUTES}: a report deleted or changed since would be in it as it was. Export the reports again` };
   return { export: true };
 }
 
