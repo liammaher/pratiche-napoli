@@ -15,7 +15,7 @@ steps:
   - procedure: italia/inps/iscrizione-gestione-artigiani-commercianti
     when: L'iscrizione all'INPS e i contributi
   - procedure: napoli/camera-di-commercio/pec-domicilio-digitale-impresa
-    when: La PEC dell'impresa, obbligatoria
+    when: La PEC dell'impresa
   - procedure: napoli/comune/scia-acconciatore-estetista
     when: La SCIA al Comune per aprire il salone
   - procedure: napoli/comune/insegna-esercizio

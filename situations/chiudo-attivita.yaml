@@ -15,4 +15,4 @@ steps:
   - procedure: italia/agenzia-entrate/chiusura-partita-iva-persona-fisica
     when: La chiusura della partita IVA
   - procedure: napoli/camera-di-commercio/diritto-annuale
-    when: Il diritto annuale, che dipende da quando si chiude la posizione
+    when: Il diritto annuale alla chiusura

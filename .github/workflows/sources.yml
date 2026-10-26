@@ -2,7 +2,8 @@ name: Sources
 
 # Every night, re-fetch the official pages and forms the procedures cite and
 # keep one issue listing what changed or stopped answering; close it when
-# everything is back as recorded.
+# everything is back as recorded. A run that couldn't reach most addresses
+# fails instead, leaving the issue as it is.
 on:
   schedule:
     - cron: "17 3 * * *"
@@ -11,6 +12,11 @@ on:
 permissions:
   contents: read
   issues: write
+
+# One run at a time, so two runs can't each open an issue.
+concurrency:
+  group: sources
+  cancel-in-progress: false
 
 jobs:
   check:
@@ -43,5 +49,5 @@ jobs:
               gh issue create --title "$TITLE" --body-file report.md
             fi
           elif [ -n "$number" ]; then
-            gh issue close "$number" --comment "Al controllo di oggi tutte le fonti rispondono e i moduli corrispondono allo sha256 registrato."
+            gh issue close "$number" --comment "Al controllo di oggi nessun modulo è cambiato e tutte le pagine controllate rispondono (quelle con un certificato che il controllo non riesce a verificare restano da guardare a mano)."
           fi
