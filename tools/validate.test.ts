@@ -94,10 +94,16 @@ test("an address is taken whole from one place: a person's own, saying so, or th
     withForm(
       { label: "Int.", map: { fallback: ["domicilio.interno", "residenza.interno"] } },
       { label: "Via", map: { fallback: ["locale.indirizzo", "residenza.indirizzo"] }, notes: "Tutto dalla stessa fonte." },
+      { label: "Sede", map: { fallback: ["business.sede_legale_comune", "residenza.comune"] }, notes: "Tutto dalla stessa fonte." },
+      { label: "Indirizzo", map: { concat: ["domicilio.indirizzo", "residenza.civico"] } },
     ),
   );
   assert.match(errors, /field "Int.": fallback from domicilio to residenza needs notes saying the whole address comes from the same one/);
-  assert.match(errors, /field "Via": fallback mixes locale and residenza: an address is a person's home or the business's premises, never a field from each/);
+  assert.match(errors, /field "Via": fallback mixes locale and residenza: an address is a person's home or the business's, never a field from each/);
+  assert.match(errors, /field "Sede": fallback mixes sede legale and residenza/);
+  assert.match(errors, /field "Indirizzo": concat joins domicilio and residenza: an address's parts come from one place/);
+  // One place's parts, joined, are fine.
+  assert.deepEqual(validateProcedure(withForm({ label: "Sede", map: { concat: ["business.sede_legale_indirizzo", "business.sede_legale_civico"] } }), PATH, ctx), []);
 });
 
 test("records name exact registered fields, once each, never secrets or tracking", () => {

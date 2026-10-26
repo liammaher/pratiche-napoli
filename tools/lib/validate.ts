@@ -288,10 +288,16 @@ function directRefs(map: Record<string, unknown>): string[] {
   ];
 }
 
-// The categories that are an address, and those that are a person's own:
-// an address is taken whole from one place (see addressProblem).
-const ADDRESSES = new Set(["residenza", "domicilio", "locale"]);
+// The places an address can come from: a person's residenza or domicilio,
+// the business's premises (locale) or its registered office. An address is
+// taken whole from one of them (see addressProblem).
 const HOMES = new Set(["residenza", "domicilio"]);
+function placeOf(ref: string): string | undefined {
+  const local = splitMember(ref).local;
+  const category = local.split(".")[0];
+  if (HOMES.has(category) || category === "locale") return category;
+  return local.startsWith("business.sede_legale_") ? "sede legale" : undefined;
+}
 
 // dichiarante: the procedure names who signs, so a person's own data is theirs.
 function checkMapping(map: Record<string, unknown>, registry: Registry, dichiarante: boolean, notes?: string): string[] {
@@ -329,16 +335,19 @@ function checkMapping(map: Record<string, unknown>, registry: Registry, dichiara
   return problems;
 }
 
-// A fallback may go from a person's domicilio to their residenza, if its
-// notes say the whole address comes from the same one (each row falls back
-// on its own, so a domicilio without an interno would get the residenza's);
-// never between a person's home and a business's premises.
+// A concat joins one address's parts, so from one place only. A fallback may
+// go from a person's domicilio to their residenza, if its notes say the whole
+// address comes from the same one (each row falls back on its own, so a
+// domicilio without an interno would get the residenza's); never between a
+// person's home and the business's premises or registered office.
 function addressProblem(map: Record<string, unknown>, notes?: string): string | null {
-  if (!Array.isArray(map.fallback)) return null;
-  const categories = [...new Set((map.fallback as string[]).map((ref) => splitMember(String(ref)).local.split(".")[0]))].filter((c) => ADDRESSES.has(c));
-  if (categories.length < 2) return null;
-  if (!categories.every((c) => HOMES.has(c))) return `fallback mixes ${categories.join(" and ")}: an address is a person's home or the business's premises, never a field from each`;
-  return notes?.trim() ? null : `fallback from ${categories.join(" to ")} needs notes saying the whole address comes from the same one`;
+  const places = (refs: unknown) => [...new Set((Array.isArray(refs) ? refs : []).flatMap((ref) => placeOf(String(ref)) ?? []))];
+  const joined = places(map.concat);
+  if (joined.length > 1) return `concat joins ${joined.join(" and ")}: an address's parts come from one place`;
+  const fallen = places(map.fallback);
+  if (fallen.length < 2) return null;
+  if (!fallen.every((p) => HOMES.has(p))) return `fallback mixes ${fallen.join(" and ")}: an address is a person's home or the business's, never a field from each`;
+  return notes?.trim() ? null : `fallback from ${fallen.join(" to ")} needs notes saying the whole address comes from the same one`;
 }
 
 // Where a ref may appear: *: (each person) only in a repeat row, where every
