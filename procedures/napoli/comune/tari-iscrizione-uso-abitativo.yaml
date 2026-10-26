@@ -149,7 +149,19 @@ forms:
       - label: Autorimessa/cantinola/posto auto (via, dati catastali, superficie, pertinenza)
         map: { ask: "Dati del box, cantina o posto auto, se c'è; indicare se è pertinenza dell'abitazione" }
       - label: Conviventi (nominativo, luogo e data di nascita, rapporto, codice fiscale)
-        map: { repeat: nucleo_familiare.membro<N>_* }
+        map:
+          repeat: famiglia
+          fields:
+            - "*:identity.last_name"
+            - "*:identity.first_name"
+            - "*:identity.birth_comune"
+            - "*:identity.date_of_birth"
+            - "*:famiglia.relazione"
+            - "*:identity.codice_fiscale"
+        notes: >-
+          Una riga per ogni familiare nello stato di famiglia (famiglia.stato_famiglia si). Come
+          rapporto scrivere la parentela per esteso (moglie, figlia: il relazione_label
+          dell'elenco dei familiari), non il codice di famiglia.relazione (coniuge, figlio).
       - label: Richiesta di riduzione del 40% "Uso stagionale"
         map: { ask: "Seconda casa tenuta a disposizione, con già una posizione TARI per l'abitazione principale?" }
       - { label: Eventuali note, map: { ask: Note facoltative per l'ufficio } }

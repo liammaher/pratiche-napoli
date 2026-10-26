@@ -4,7 +4,10 @@
    (without `.yaml`). Lower-case words joined by hyphens.
 2. **No personal data, ever.** No names, codici fiscali, addresses, IBANs, amounts or dates
    that belong to a person. Form fields map to IDs in `contract/fields.json`. If a form asks
-   for something not in the registry, use `{ ask: "..." }` and propose the field.
+   for something not in the registry, use `{ ask: "..." }` and propose the field. A list of
+   family members (conviventi, componenti del nucleo) is `{ repeat: famiglia, fields: [...] }`:
+   one row per member of the stato di famiglia, each from that member's `*:category.field`
+   (`*:identity.codice_fiscale`). Never name a member's slug.
 3. **Official sources first.** Cite the ente's own page, regulation, decision or form. Third-
    party guides are only for finding official pages.
 4. **Mark every claim honestly.** `verified` needs a `source`. If you believe something but

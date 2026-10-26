@@ -74,8 +74,8 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
       const inBadMap = badMaps.some((p) => e.instancePath === p || e.instancePath.startsWith(`${p}/`));
       if (inBadMap && e.keyword !== "oneOf") continue;
       const message = inBadMap
-        ? "must be exactly one of direct, concat (2+), fallback (2+), repeat, blank_with_reason or ask, " +
-          "with field IDs like identity.email"
+        ? "must be exactly one of direct, concat (2+), fallback (2+), repeat: famiglia with fields, " +
+          "blank_with_reason or ask, with field IDs like identity.email"
         : e.message;
       errors.push(`schema: ${e.instancePath || "/"} ${message}`);
     }
@@ -161,20 +161,28 @@ export function procedureIdFromPath(relPath: string): string {
 function checkMapping(map: Record<string, unknown>, registry: Registry): string[] {
   const problems: string[] = [];
   const refs: string[] = [];
-  for (const key of ["direct", "repeat"]) if (typeof map[key] === "string") refs.push(map[key] as string);
+  if (typeof map.direct === "string") refs.push(map.direct);
   for (const key of ["concat", "fallback"]) if (Array.isArray(map[key])) refs.push(...(map[key] as string[]));
 
-  if ("repeat" in map && !refs[0].includes("<N>")) {
-    problems.push(`repeat needs a per-item pattern such as nucleo_familiare.membro<N>_*`);
-  }
   for (const key of ["ask", "blank_with_reason"]) {
     if (typeof map[key] === "string" && ASKS_FOR_SECRET.test(map[key] as string)) {
       problems.push(`${key} must not ask for a PIN, password or other secret`);
     }
   }
   for (const ref of refs) {
-    if (ref.includes("<N>") && !("repeat" in map)) {
-      problems.push(`${ref}: "<N>" patterns can only be used with repeat`);
+    const { member } = splitMember(ref);
+    if (member === "*") {
+      problems.push(`${ref}: *: means each family member, which only repeat: famiglia can fill`);
+      continue;
+    }
+    const problem = member ? namesMember(ref, member) : checkFieldRef(ref, registry);
+    if (problem) problems.push(problem);
+  }
+  // repeat: famiglia fills one row per member, from that member's fields.
+  for (const ref of Array.isArray(map.fields) ? (map.fields as string[]) : []) {
+    const { member, local } = splitMember(ref);
+    if (member !== "*") {
+      problems.push(member && member !== "io" ? namesMember(ref, member) : `${ref}: each row is a family member's, so write *:${local}`);
       continue;
     }
     const problem = checkFieldRef(ref, registry);
@@ -183,42 +191,44 @@ function checkMapping(map: Record<string, unknown>, registry: Registry): string[
   return problems;
 }
 
+// Slugs are chosen per vault (and are often first names), so a procedure
+// can't name one.
+function namesMember(ref: string, member: string): string {
+  return `${ref}: a procedure can't name a particular family member ("${member}"); use *: inside repeat: famiglia`;
+}
+
+// "leo:cie.numero" gives "leo" and "cie.numero"; an owner's field has no member.
+export function splitMember(ref: string): { member: string; local: string } {
+  const colon = ref.indexOf(":");
+  return colon < 0 ? { member: "", local: ref } : { member: ref.slice(0, colon), local: ref.slice(colon + 1) };
+}
+
 export function checkFieldRef(ref: string, registry: Registry): string | null {
-  const [cat, field] = ref.split(".", 2);
+  const { member, local } = splitMember(ref);
+  const [cat, field] = local.split(".", 2);
   const secret = `${ref} can't be used in a public procedure: it is (or includes) a secret or payment field`;
-  if (registry.forbidden.categories.includes(cat) || registry.forbidden.fields.includes(ref)) return secret;
+  if (registry.forbidden.categories.includes(cat) || registry.forbidden.fields.includes(local)) return secret;
+  if (member === "io") return `${ref}: "io" is reserved for the vault's owner, whose fields have no prefix`;
 
   const category = registry.categories.find((c) => c.name === cat);
   if (!category) return `unknown category "${cat}"`;
-
-  if (field === "*" || field.includes("<N>")) {
-    // A wildcard or pattern must not sweep in a secret field of the category.
-    if (registry.forbidden.fields.some((f) => f.startsWith(`${cat}.`))) return secret;
+  if (member && category.scope === "owner") {
+    return `${ref}: ${cat} is the vault owner's (the household's), not each member's; drop the "${member}:" prefix`;
   }
+
   if (field === "*") {
+    // A wildcard must not sweep in a secret field of the category.
+    if (registry.forbidden.fields.some((f) => f.startsWith(`${cat}.`))) return secret;
     return category.open ? `${ref}: a wildcard over an open category could include anything, secrets too; name the fields` : null;
   }
-  if (CREDENTIAL.test(field.replace(/\*$/, ""))) return secret;
+  if (CREDENTIAL.test(field)) return secret;
 
-  if (category.dynamic) {
-    if (category.fields.some((f) => f.id === ref)) return null;
-    return templateMatches(category.dynamic, field)
-      ? null
-      : `${ref} doesn't follow the pattern ${cat}.${category.dynamic}`;
-  }
-  if (field.includes("<N>")) return `${cat} has no per-item fields; "<N>" can't be used`;
   if (category.open) return null;
-  if (category.fields.some((f) => f.id === ref)) return null;
-  return `unknown field "${ref}" (add it to the registry, or use { ask: ... })`;
-}
-
-// "membro<N>_<campo>" accepts membro<N>_*, membro<N>_nome and membro2_nome.
-function templateMatches(template: string, field: string): boolean {
-  const re = template
-    .split(/(<N>|<campo>)/)
-    .map((part) => (part === "<N>" ? "(?:<N>|[1-9][0-9]*)" : part === "<campo>" ? "(?:[a-z0-9_]+|\\*)" : part.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")))
-    .join("");
-  return new RegExp(`^${re}$`).test(field);
+  const known = category.fields.find((f) => f.id === local);
+  if (!known) return `unknown field "${local}" (add it to the registry, or use { ask: ... })`;
+  if (member && known.for === "owner") return `${ref}: ${local} is the vault owner's field only; drop the "${member}:" prefix`;
+  if (!member && known.for === "member") return `${ref} is a family member's field: use *:${ref} inside repeat: famiglia`;
+  return null;
 }
 
 function walk(value: unknown, p: string, visit: (p: string, value: unknown, parent: unknown) => void, parent?: unknown) {
