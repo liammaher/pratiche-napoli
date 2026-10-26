@@ -189,6 +189,8 @@ documents:
     notes: >-
       Indispensabile se si dichiara oltre i 90 giorni: senza, la cessazione vale dalla data di
       presentazione (art. 12, c. 4 del regolamento).
+dichiarante:
+  ruolo: [titolare, legale_rappresentante]
 forms:
   - id: mod-8
     name: Mod. 8 TARI – Cessazione uso non abitativo
@@ -212,7 +214,7 @@ forms:
       - { label: e-mail, map: { direct: identity.email } }
       - { label: pec, map: { direct: identity.pec } }
       - label: nella sua qualità di (titolare / legale rappresentante)
-        map: { direct: business.qualita_dichiarante }
+        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
       - { label: Ragione Sociale, map: { direct: business.denominazione } }
       - label: C.F. (della ditta)
         map: { fallback: [business.codice_fiscale, business.partita_iva] }

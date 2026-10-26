@@ -333,6 +333,8 @@ documents:
   - name: Relazione paesaggistica semplificata e copie cartacee del progetto
     required: false
     notes: Per i tipi C e D in aree con vincolo paesaggistico, e per le aree del Centro Storico che richiedono la Soprintendenza.
+dichiarante:
+  ruolo: [titolare, legale_rappresentante]
 forms:
   - id: dichiarazione-requisiti-igienico-sanitari
     name: Esercizi pubblici – dichiarazione dei requisiti igienico-sanitari (allegato alla richiesta di concessione semplificata e continuativa)
@@ -349,7 +351,7 @@ forms:
         notes: Usare comune, via e numero dello stesso indirizzo (domicilio se diverso dalla residenza).
       - { label: alla via, map: { fallback: [domicilio.indirizzo, residenza.indirizzo] } }
       - { label: n., map: { fallback: [domicilio.civico, residenza.civico] } }
-      - { label: nella qualità di, map: { direct: business.qualita_dichiarante } }
+      - { label: nella qualità di, map: { fallback: [business.qualita_dichiarante, ruolo.tipo] } }
       - label: dell'attività denominata
         map: { direct: business.denominazione }
         notes: Se il locale ha un'insegna diversa dalla ragione sociale, chiedere quale indicare.
@@ -377,7 +379,7 @@ forms:
         notes: Usare comune, via e numero dello stesso indirizzo (domicilio se diverso dalla residenza).
       - { label: alla via, map: { fallback: [domicilio.indirizzo, residenza.indirizzo] } }
       - { label: n., map: { fallback: [domicilio.civico, residenza.civico] } }
-      - { label: nella qualità di, map: { direct: business.qualita_dichiarante } }
+      - { label: nella qualità di, map: { fallback: [business.qualita_dichiarante, ruolo.tipo] } }
       - label: dell'attività denominata
         map: { direct: business.denominazione }
         notes: Se il locale ha un'insegna diversa dalla ragione sociale, chiedere quale indicare.

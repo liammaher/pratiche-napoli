@@ -1,8 +1,8 @@
 # Proposed fields
 
 Form boxes currently mapped with `{ ask: ... }` because the field registry has nothing for
-them. Most-needed so far: `procuratore.*` (5 procedures), `business.soci<N>_*` (3) and
-`business.preposto_*` (2), all people other than the business. When a field is needed by two or more procedures,
+them. Most-needed so far: the previous holder or taker-over (4 procedures) and a second premises
+unit (3). When a field is needed by two or more procedures,
 add it to `contract/extensions.json`, run `npm run gen:fields`, and switch those mappings from `ask` to the new field.
 
 Vault schema 11 added the business fields below, and the procedures now use them:
@@ -21,11 +21,17 @@ Vault schema 11 added the business fields below, and the procedures now use them
 registry too; no form box needs them yet. The phone of the premises ("Telefono (attività)") is still
 `ask`: it is `locale.telefono` below, not the business's.
 
+People other than the business are no longer proposed as fields: in a business vault they are
+people with a `ruolo`, and procedures pick them with `party` and `repeat: { ruolo }` (see
+CONTRIBUTING). The procuratore (`scia-esercizio-vicinato`, `scia-acconciatore-estetista`,
+`subingresso-attivita-commerciale`, `cessazione-attivita-commerciale`, and the ComUnica procura),
+the preposto and the other soci (Allegati B and A) and the responsabili tecnici (Allegati B and
+C of `scia-acconciatore-estetista`) are mapped that way. Still `ask`: whether a procura is used
+at all, the procuratore's "in qualità di", and each person's professional requirement.
+
 | Proposed field | Meaning | Needed by |
 |---|---|---|
 | `business.sede_legale_stato`, `residenza.stato` | Country of registered office / residence | `scia-esercizio-vicinato`, `cila-lavori-edilizi` |
-| `procuratore.*` | Agent filing under a procura speciale (name, CF, birth, residence, PEC, phone, role) | `scia-esercizio-vicinato`, `scia-acconciatore-estetista`, `iscrizione-impresa-individuale-comunica` |
-| `business.preposto_*`, `business.soci<N>_*` | Preposto and partners for Allegati A/B | `scia-esercizio-vicinato` |
 | `business.requisito_professionale_*` | Food professional requirement (type, details, date) | `scia-esercizio-vicinato` |
 | `locale.data_fine` | Date occupation of the premises ended | `tari-cessazione-non-domestica` |
 | `locale.motivo_cessazione` | Why the premises were left | `tari-cessazione-non-domestica` |
@@ -34,11 +40,10 @@ registry too; no form box needs them yet. The phone of the premises ("Telefono (
 | `locale.data_avvio_attivita` | Start of the activity (not of occupation) | `registrazione-attivita-alimentare` |
 | `locale.numero_registrazione_asl`, `locale.linee_attivita_osa` | ASL registration number and activity lines | `registrazione-attivita-alimentare` |
 | A second premises unit (`locale2.*` or `locale.immobile<N>_*`) | Businesses using more than one unit | `tari-*-non-domestica` |
-| Previous holder / taker-over (`subentrante.*`, `precedente_*`) | Voltura and cessione d'azienda | `tari-variazione-non-domestica`, `tari-cessazione-non-domestica` |
+| Previous holder / taker-over (`subentrante.*`, `precedente_*`) | Voltura and cessione d'azienda: the other side of one deal, not a person the business keeps, so not a `ruolo` | `tari-variazione-non-domestica`, `tari-cessazione-non-domestica`, `subingresso-attivita-commerciale`, `registrazione-attivita-alimentare` |
 | `tari_ditta.codice_contribuente`, `tari_ditta.superficie_dichiarata_mq` | The business's own TARI position (`tari.*` is the home's) | `tari-*-non-domestica` |
 | `suap.id_pratica` | Practice code assigned by impresainungiorno | `scia-somministrazione-alimenti-bevande` |
-| `responsabile_tecnico.*` | Technical manager: name, CF, role, qualification (title, issuer, date, act) | `scia-acconciatore-estetista` |
-| `tecnico.*` | Qualified technician: name, CF, ordine/collegio, number, PEC | `cila-lavori-edilizi` |
+| `tecnico.*` | Qualified technician: name, CF, ordine/collegio, number, PEC. The vault has `albo.*` for a person; the CILA leaves these boxes to the tecnico, so no mapping yet | `cila-lavori-edilizi` |
 | `locale.scala`, `locale.piano`, `locale.telefono`, `locale.superficie_totale_mq` | More premises details | `cila-lavori-edilizi`, `scia-acconciatore-estetista` |
 | `locale.catasto_tipo`, `locale.catasto_sezione_censuaria` | Catasto fabbricati/terreni; census section | `cila-lavori-edilizi` |
 | `locale.registrazione_*` | Registration of the lease/comodato for the premises (date, office, number, series) | `apertura-partita-iva-persona-fisica` |

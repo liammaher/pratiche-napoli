@@ -254,6 +254,8 @@ documents:
   - name: Ricevuta pagoPA dei diritti d'istruttoria SUAP
     required: true
     notes: Il portale la genera dentro la pratica.
+dichiarante:
+  ruolo: [titolare, legale_rappresentante]
 forms:
   - id: scheda-anagrafica-campania
     name: >-
@@ -297,7 +299,7 @@ forms:
       - { label: PEC / posta elettronica, map: { fallback: [identity.pec, identity.email] } }
       - { label: Telefono fisso / cellulare, map: { direct: identity.phone } }
       - label: in qualità di (Titolare / Legale rappresentante / Altro)
-        map: { direct: business.qualita_dichiarante }
+        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
         notes: Se il ruolo è diverso da titolare o legale rappresentante, chiedere e scriverlo in "Altro".
       # 2 – Dati della ditta/società/impresa
       - label: "2 – Dati della ditta/società/impresa: Denominazione"
@@ -329,14 +331,15 @@ forms:
         map: { ask: "Altro indirizzo elettronico per le comunicazioni sulla pratica, se diverso dalla PEC" }
       # 3 – Dati del procuratore/delegato
       - label: "3 – Dati del procuratore/delegato: Cognome, Nome"
-        map: { ask: "Cognome e nome del procuratore, se la pratica è presentata con procura" }
+        map: { party: { ruolo: procuratore }, concat: [identity.last_name, identity.first_name] }
         notes: Compilare solo in caso di procura.
-      - { label: codice fiscale (procuratore), map: { ask: Codice fiscale del procuratore } }
-      - { label: "Nato/a a, prov., Stato, il (procuratore)", map: { ask: Luogo e data di nascita del procuratore } }
+      - { label: codice fiscale (procuratore), map: { party: { ruolo: procuratore }, direct: identity.codice_fiscale } }
+      - { label: "Nato/a a, prov., Stato, il (procuratore)", map: { party: { ruolo: procuratore }, concat: [identity.birth_comune, identity.birth_province, identity.birth_country, identity.date_of_birth] } }
       - label: "residente in, prov., Stato, indirizzo, n., C.A.P. (procuratore)"
-        map: { ask: Residenza del procuratore }
-      - { label: PEC / posta elettronica (procuratore), map: { ask: PEC o email del procuratore } }
-      - { label: Telefono fisso / cellulare (procuratore), map: { ask: Telefono del procuratore } }
+        map: { party: { ruolo: procuratore }, concat: [residenza.comune, residenza.provincia, residenza.indirizzo, residenza.civico, residenza.cap] }
+        notes: Per chi risiede in Italia lo Stato è Italia; non è nel registro.
+      - { label: PEC / posta elettronica (procuratore), map: { party: { ruolo: procuratore }, fallback: [identity.pec, identity.email] } }
+      - { label: Telefono fisso / cellulare (procuratore), map: { party: { ruolo: procuratore }, direct: identity.phone } }
       - label: "in qualità di: Procuratore/delegato / Agenzia per le imprese – Denominazione"
         map: { ask: "Il procuratore agisce come persona delegata o come Agenzia per le imprese (con denominazione)?" }
       # 4 – Dati dell'attività
@@ -409,7 +412,7 @@ forms:
         map: { ask: "Qualifica di acconciatore ottenuta all'estero e riconosciuta in Italia (estremi del decreto)?" }
       - { label: "oppure: altro (specificare) – acconciatore", map: { ask: "Altro titolo di abilitazione di acconciatore (specificare)" } }
       - label: "OPPURE: il/i Responsabile/i tecnico/i è/sono (Nome, Cognome, CF; Titolare / Socio partecipante al lavoro / Familiare coadiuvante / Dipendente) – Allegato B"
-        map: { ask: "Nome, cognome, codice fiscale e ruolo nell'impresa di ogni responsabile tecnico acconciatore diverso dal dichiarante" }
+        map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:identity.first_name", "*:identity.last_name", "*:identity.codice_fiscale", "*:ruolo.tipo"] }
         notes: Uno per ogni sede; serve l'Allegato B per ciascuno.
       - label: "Estetista – di essere Responsabile tecnico e: qualificazione professionale di estetista (rilasciata da, in data, atto n.)"
         map: { ask: "Il dichiarante è responsabile tecnico con qualificazione di estetista? Ente che l'ha rilasciata, data e numero dell'atto" }
@@ -421,7 +424,7 @@ forms:
         map: { ask: "Qualifica di estetista ottenuta all'estero e riconosciuta in Italia (estremi del decreto)?" }
       - { label: "oppure: altro (specificare) – estetista", map: { ask: "Altro titolo di qualificazione di estetista (specificare)" } }
       - label: "OPPURE: il/i Responsabile/i tecnico/i è/sono (Nome, Cognome, CF; ruolo) – Allegato C"
-        map: { ask: "Nome, cognome, codice fiscale e ruolo nell'impresa di ogni responsabile tecnico estetista diverso dal dichiarante" }
+        map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:identity.first_name", "*:identity.last_name", "*:identity.codice_fiscale", "*:ruolo.tipo"] }
         notes: Uno per ogni sede; serve l'Allegato C per ciascuno.
       # 2 – Trasferimento di sede
       - label: "2 – Trasferimento di sede (SCIA/DIA/autorizzazione prot./n., del; DA indirizzo; A indirizzo, Comune, Prov.; centro commerciale; telefono, fax)"
@@ -472,14 +475,15 @@ forms:
         map: { blank_with_reason: Dovuta solo con una SCIA condizionata (domanda contestuale). }
       # Allegato A – altri soci
       - label: "Allegato A (uno per socio) – Cognome, Nome"
-        map: { ask: Cognome e nome di ciascun altro socio }
-      - { label: "Allegato A – C.F.", map: { ask: Codice fiscale del socio } }
-      - { label: "Allegato A – Data di nascita", map: { ask: Data di nascita del socio } }
-      - { label: "Allegato A – Cittadinanza", map: { ask: Cittadinanza del socio } }
-      - { label: "Allegato A – Sesso", map: { ask: Sesso del socio } }
-      - { label: "Allegato A – Luogo di nascita: Stato, Provincia, Comune", map: { ask: Luogo di nascita del socio } }
+        map: { repeat: { ruolo: [socio, amministratore], except: dichiarante }, fields: ["*:identity.last_name", "*:identity.first_name"] }
+        notes: Un Allegato A per ogni altro socio o amministratore.
+      - { label: "Allegato A – C.F.", map: { repeat: { ruolo: [socio, amministratore], except: dichiarante }, fields: ["*:identity.codice_fiscale"] } }
+      - { label: "Allegato A – Data di nascita", map: { repeat: { ruolo: [socio, amministratore], except: dichiarante }, fields: ["*:identity.date_of_birth"] } }
+      - { label: "Allegato A – Cittadinanza", map: { repeat: { ruolo: [socio, amministratore], except: dichiarante }, fields: ["*:identity.citizenship"] } }
+      - { label: "Allegato A – Sesso", map: { repeat: { ruolo: [socio, amministratore], except: dichiarante }, fields: ["*:identity.sex"] } }
+      - { label: "Allegato A – Luogo di nascita: Stato, Provincia, Comune", map: { repeat: { ruolo: [socio, amministratore], except: dichiarante }, fields: ["*:identity.birth_country", "*:identity.birth_province", "*:identity.birth_comune"] } }
       - label: "Allegato A – Residenza: Provincia, Comune, Via/Piazza, N., C.A.P."
-        map: { ask: Residenza del socio }
+        map: { repeat: { ruolo: [socio, amministratore], except: dichiarante }, fields: ["*:residenza.provincia", "*:residenza.comune", "*:residenza.indirizzo", "*:residenza.civico", "*:residenza.cap"] }
       - label: "Allegato A – in qualità di SOCIO/A della Società"
         map: { direct: business.denominazione }
       - label: "Allegato A – dichiara che non sussistono cause di divieto, decadenza o sospensione (art. 67 D.Lgs. 159/2011)"
@@ -488,14 +492,15 @@ forms:
         map: { blank_with_reason: Firma del socio; solo la persona. }
       # Allegato B – responsabile tecnico acconciatore
       - label: "Allegato B (acconciatore) – Cognome, Nome"
-        map: { ask: Cognome e nome del responsabile tecnico acconciatore }
-      - { label: "Allegato B – C.F.", map: { ask: Codice fiscale del responsabile tecnico } }
-      - { label: "Allegato B – Data di nascita", map: { ask: Data di nascita del responsabile tecnico } }
-      - { label: "Allegato B – Cittadinanza", map: { ask: Cittadinanza del responsabile tecnico } }
-      - { label: "Allegato B – Sesso", map: { ask: Sesso del responsabile tecnico } }
-      - { label: "Allegato B – Luogo di nascita: Stato, Provincia, Comune", map: { ask: Luogo di nascita del responsabile tecnico } }
+        map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:identity.last_name", "*:identity.first_name"] }
+        notes: Un Allegato B per ogni responsabile tecnico acconciatore diverso dal dichiarante.
+      - { label: "Allegato B – C.F.", map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:identity.codice_fiscale"] } }
+      - { label: "Allegato B – Data di nascita", map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:identity.date_of_birth"] } }
+      - { label: "Allegato B – Cittadinanza", map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:identity.citizenship"] } }
+      - { label: "Allegato B – Sesso", map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:identity.sex"] } }
+      - { label: "Allegato B – Luogo di nascita: Stato, Provincia, Comune", map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:identity.birth_country", "*:identity.birth_province", "*:identity.birth_comune"] } }
       - label: "Allegato B – Residenza: Provincia, Comune, Via/Piazza, N., C.A.P."
-        map: { ask: Residenza del responsabile tecnico }
+        map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:residenza.provincia", "*:residenza.comune", "*:residenza.indirizzo", "*:residenza.civico", "*:residenza.cap"] }
       - label: "Allegato B – in qualità di RESPONSABILE TECNICO/A della Ditta individuale / Società"
         map: { direct: business.denominazione }
       - label: "Allegato B – dichiara che non sussistono cause di divieto, decadenza o sospensione"
@@ -508,14 +513,15 @@ forms:
         map: { blank_with_reason: Firma del responsabile tecnico; solo la persona. }
       # Allegato C – responsabile tecnico estetista
       - label: "Allegato C (estetista) – Cognome, Nome"
-        map: { ask: Cognome e nome del responsabile tecnico estetista }
-      - { label: "Allegato C – C.F.", map: { ask: Codice fiscale del responsabile tecnico } }
-      - { label: "Allegato C – Data di nascita", map: { ask: Data di nascita del responsabile tecnico } }
-      - { label: "Allegato C – Cittadinanza", map: { ask: Cittadinanza del responsabile tecnico } }
-      - { label: "Allegato C – Sesso", map: { ask: Sesso del responsabile tecnico } }
-      - { label: "Allegato C – Luogo di nascita: Stato, Provincia, Comune", map: { ask: Luogo di nascita del responsabile tecnico } }
+        map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:identity.last_name", "*:identity.first_name"] }
+        notes: Un Allegato C per ogni responsabile tecnico estetista diverso dal dichiarante.
+      - { label: "Allegato C – C.F.", map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:identity.codice_fiscale"] } }
+      - { label: "Allegato C – Data di nascita", map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:identity.date_of_birth"] } }
+      - { label: "Allegato C – Cittadinanza", map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:identity.citizenship"] } }
+      - { label: "Allegato C – Sesso", map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:identity.sex"] } }
+      - { label: "Allegato C – Luogo di nascita: Stato, Provincia, Comune", map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:identity.birth_country", "*:identity.birth_province", "*:identity.birth_comune"] } }
       - label: "Allegato C – Residenza: Provincia, Comune, Via/Piazza, N., C.A.P."
-        map: { ask: Residenza del responsabile tecnico }
+        map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:residenza.provincia", "*:residenza.comune", "*:residenza.indirizzo", "*:residenza.civico", "*:residenza.cap"] }
       - label: "Allegato C – in qualità di RESPONSABILE TECNICO/A della Ditta individuale / Società"
         map: { direct: business.denominazione }
       - label: "Allegato C – dichiara che non sussistono cause di divieto, decadenza o sospensione"

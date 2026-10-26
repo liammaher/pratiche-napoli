@@ -202,6 +202,8 @@ documents:
   - name: Numero di partita IVA da chiudere
     required: true
     notes: Si trova nel certificato di attribuzione o nella ricevuta dell'apertura.
+dichiarante:
+  ruolo: titolare
 forms:
   - id: aa9-12
     name: Modello AA9/12 – Dichiarazione di inizio attività, variazione dati o cessazione attività ai fini IVA (imprese individuali e lavoratori autonomi)

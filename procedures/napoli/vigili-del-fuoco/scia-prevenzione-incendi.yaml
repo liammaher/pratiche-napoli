@@ -340,6 +340,8 @@ documents:
     notes: >-
       Ogni 5 anni. L'asseverazione serve se ci sono impianti di protezione attiva (esclusi gli
       estintori) o protezioni per la resistenza al fuoco delle strutture.
+dichiarante:
+  ruolo: [titolare, legale_rappresentante]
 forms:
   - id: pin-2-2023-scia
     name: Mod. PIN 2-2023 – Segnalazione certificata di inizio attività ai fini della sicurezza antincendio (in vigore dal 1° marzo 2023)
@@ -368,7 +370,7 @@ forms:
       - { label: telefono, map: { direct: identity.phone } }
       - { label: codice fiscale della persona fisica, map: { direct: identity.codice_fiscale } }
       - label: "nella sua qualità di (titolare, legale rappresentante, amministratore, etc.)"
-        map: { direct: business.qualita_dichiarante }
+        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
       - label: "della (ragione sociale ditta, impresa, ente, società, associazione, etc.)"
         map: { direct: business.denominazione }
       - { label: "con sede in – indirizzo", map: { direct: business.sede_legale_indirizzo } }
@@ -465,7 +467,7 @@ forms:
       - { label: telefono, map: { direct: identity.phone } }
       - { label: C.F. (codice fiscale della persona fisica), map: { direct: identity.codice_fiscale } }
       - label: "nella sua qualità di (titolare, legale rappresentante, amministratore, etc.)"
-        map: { direct: business.qualita_dichiarante }
+        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
       - label: "della (ragione sociale ditta, impresa, ente, società, associazione, etc.)"
         map: { direct: business.denominazione }
       - { label: "con sede in – indirizzo", map: { direct: business.sede_legale_indirizzo } }
