@@ -116,9 +116,15 @@ test("export has only accepted reports, without the person's text, contact or re
   assert.equal(out[1].rejection_reason, "Manca la firma");
 });
 
-test("export refuses an accepted report without a mark", async () => {
+test("export refuses an accepted report without a mark; accepting gives it one", async () => {
   await db.doc("reports/done").update({ mark: FieldValue.delete() });
   await assert.rejects(exportAccepted(db), /report done has no mark/);
+  await accept(db, "done", {});
+  assert.match((await db.doc("reports/done").get()).data()!.mark, /^[0-9a-f]{12}$/);
+  // An existing mark is kept.
+  await accept(db, "b1", {});
+  assert.equal((await db.doc("reports/b1").get()).data()!.mark, "0000000000b1");
+  assert.equal((await exportAccepted(db)).length, 2);
 });
 
 test("accepting again changes the maintainer's fields; an empty one is removed", async () => {

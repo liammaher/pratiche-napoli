@@ -115,34 +115,46 @@ export function aggregate(reports: ReviewedReport[], documents: string[], today:
   return out;
 }
 
-// What the procedure's block becomes. `history` is every version published
-// before (oldest first, the current one last), all public in the history.
-// Adding and subtracting versions' figures can describe any group of reports
-// that exactly the same versions cover, so the new block replaces the current
-// one only if, across all of them and it, every such group has at least MIN
-// reports. Comparing two versions at a
-// time isn't enough: 7, then 13, then 7 reports again can each move by 6, yet
-// the first plus the last minus the middle is the one report in all three.
-// Otherwise the current block stays, for at most MAX_HOLD_DAYS: after that it
-// is removed (publishing nothing gives nothing away), so a report deleted on
-// request or gone from the window doesn't stay in the figures for long.
-// `held` says why.
+// What the procedure's block becomes. `history` is every version of it ever
+// published, in any order: all are public in the repository's history.
+// `current` is the block in the procedure now, if it has one. Adding and
+// subtracting versions' figures can describe any group of reports that
+// exactly the same versions cover, so the new block replaces the current one
+// only if, across all of them and it, every such group has at least MIN
+// reports. Comparing two versions at a time isn't enough: 7, then 13, then 7
+// reports again can each move by 6, yet the first plus the last minus the
+// middle is the one report in all three. Otherwise the current block stays,
+// for at most MAX_HOLD_DAYS: after that it is removed (publishing nothing
+// gives nothing away), so a report deleted on request or gone from the window
+// doesn't stay in the figures for long. A procedure without a block keeps
+// none: an older version is never brought back. `held` says why.
 export function nextReported(
   history: Reported[],
+  current: Reported | undefined,
   reports: ReviewedReport[],
   documents: string[],
   today: string,
 ): { block: Reported | undefined; held?: string } {
   const block = aggregate(reports, documents, today);
-  const current = history.at(-1);
   if (!block) return { block: undefined };
-  const versions = [...history, block].map((v) => new Set(v.basis ?? []));
+  const versions = [...history, ...(current ? [current] : []), block].map((v) => new Set(v.basis ?? []));
   const groups = group([...new Set(versions.flatMap((v) => [...v]))], (mark) => versions.map((v) => (v.has(mark) ? 1 : 0)).join(""));
   const smallest = Math.min(...[...groups.values()].map((g) => g.length));
   if (safe(smallest)) return { block };
   const why = `${smallest} ${smallest === 1 ? "report" : "reports"} would stand apart between published versions`;
   if (current && dayNumber(today) - dayNumber(current.generated) <= MAX_HOLD_DAYS) return { block: current, held: `${why}; kept as it is` };
-  return { block: undefined, held: `${why}; removed until it can change` };
+  return { block: undefined, held: `${why}; ${current ? "removed until it can change" : "none until it can be"}` };
+}
+
+// Marks a cache of reports must have: one each, unique, as the backend makes
+// them. An export from before marks, or two caches merged, would otherwise
+// give a basis that groups the wrong reports. The problem, or undefined.
+export function markProblem(reports: ReviewedReport[]): string | undefined {
+  const bad = reports.find((r) => typeof r.mark !== "string" || !/^[0-9a-f]{12}$/.test(r.mark));
+  if (bad) return `a report without a mark (${JSON.stringify(bad.mark ?? null)}) for ${bad.procedure}: export the reports again`;
+  const seen = new Set<string>();
+  const twice = reports.find((r) => seen.size === seen.add(r.mark).size);
+  return twice ? `the mark ${twice.mark} is on two reports: export the reports again` : undefined;
 }
 
 export const MAX_HOLD_DAYS = 90;
