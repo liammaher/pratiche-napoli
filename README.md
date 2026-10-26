@@ -103,14 +103,21 @@ fact and source stays on the procedure. `npm run validate` checks them too, and 
 offices' servers as little as possible, since some block an address that asks too much too fast:
 
 - **When:** documents with a `sha256` every night, other pages on a fixed night of the week, plus
-  any page that didn't answer last time and any without a result from the last week (so the first
-  run, or one after the saved state is lost, checks everything; `--all` always does). A page its
-  site refused waits for its night, unless another address on that host answered the night before:
-  then the block is over and the page is checked at once.
+  any page that didn't answer or was refused last time, and any without a result from the last
+  week (so the first run, or one after the saved state is lost, checks everything; `--all` always
+  does). But a host whose last two answers were refusals (by the time of the request, so a site
+  that blocks partway through a night counts; pages the archive saw gone, and requests with no
+  answer at all, say nothing about the host either way) is asked one address a night, the one it
+  refused last, documents included, until it answers, plus any address it has never been asked or
+  whose result is a week old; the rest of it counts as refused with it. An address not asked keeps
+  its last answer, and what was changed or not answering stays reported, marked as not asked.
 - **How gently:** one request at a time per site (hosts of one domain, like `www.` and
   `static-www.comune.napoli.it`, are one site), with a pause between them. Each request carries the
   ETag and Last-Modified from the last check, so an unchanged file answers 304 without its body;
-  once a week, on its own night, each document is downloaded and hashed whole anyway.
+  once a week, on its own night, each document is downloaded and hashed whole anyway. A site that
+  gave no answer at all to 2 addresses in a row (it accepts connections and then stalls) isn't
+  asked the rest of the night, and after an hour nothing more is asked: those addresses count as
+  not answering and are asked first the next night, and the run ends and saves what it saw.
 - **What it reports:** forms whose content no longer matches the recorded `sha256`; addresses that
   stopped answering; pages that now send you to the site's home or answer with an error page; and
   documents whose address now leads to a web page. Each comes with the procedures that cite it,
