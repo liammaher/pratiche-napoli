@@ -1,7 +1,7 @@
 # Proposed fields
 
 Form boxes currently mapped with `{ ask: ... }` because the field registry has nothing for
-them. Most-needed so far: the premises' phone (`locale.telefono`, 5 procedures), the country of
+them. Most-needed so far: the premises' phone (`locale.telefono`, 6 procedures), the country of
 residence or registered office (5), the previous holder or taker-over (4) and a second premises
 unit (3). When a field is needed by two or more procedures,
 add it to `contract/extensions.json`, run `npm run gen:fields`, and switch those mappings from `ask` to the new field.
@@ -45,7 +45,7 @@ The acconciatore Allegato B and estetista Allegato C both list every responsabil
 | Proposed field | Meaning | Needed by |
 |---|---|---|
 | `business.sede_legale_stato`, `residenza.stato` | Country of registered office / residence | `scia-esercizio-vicinato`, `scia-acconciatore-estetista`, `subingresso-attivita-commerciale`, `cessazione-attivita-commerciale`, `cila-lavori-edilizi` |
-| `locale.telefono` | Phone of the premises ("Telefono (attività)"), not the business's | `scia-esercizio-vicinato`, `scia-acconciatore-estetista`, `subingresso-attivita-commerciale`, `cessazione-attivita-commerciale`, `scia-prevenzione-incendi` |
+| `locale.telefono` | Phone of the premises ("Telefono (attività)"), not the business's | `scia-esercizio-vicinato`, `scia-acconciatore-estetista`, `subingresso-attivita-commerciale`, `cessazione-attivita-commerciale`, `scia-prevenzione-incendi`, `registrazione-attivita-alimentare` |
 | `business.requisito_professionale_*` | Food professional requirement (type, details, date) | `scia-esercizio-vicinato`, `subingresso-attivita-commerciale` |
 | `locale.data_fine` | Date occupation of the premises ended | `tari-cessazione-non-domestica` |
 | `locale.motivo_cessazione` | Why the premises were left | `tari-cessazione-non-domestica` |

@@ -152,8 +152,8 @@ deadline:
 cost:
   text: >-
     Imposta di bollo 17,50 € e diritti di segreteria 18,00 €, addebitati sul conto Telemaco.
-    Il diritto annuale del primo anno, che si paga all'invio, è a parte. Se la pratica è
-    rifiutata o archiviata, i diritti di segreteria non vengono restituiti.
+    Il diritto annuale del primo anno è a parte. Se la pratica è rifiutata o archiviata, i
+    diritti di segreteria non vengono restituiti.
   status: verified
   source: sari-iscrizione
 duration:
