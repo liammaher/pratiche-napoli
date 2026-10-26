@@ -1,0 +1,16 @@
+schema_version: 0
+id: affitto-ai-turisti
+headline: "Affittare ai turisti a Napoli: affitto breve, B&B e imposta di soggiorno"
+aka: [affitti brevi Napoli, casa vacanze, aprire un B&B, Airbnb Napoli]
+updated: 2026-10-26
+intro: >-
+  Le pratiche di chi ospita turisti a Napoli: l'affitto breve di una casa senza partita IVA, il
+  Bed and Breakfast nella casa in cui si vive e l'imposta di soggiorno, che riguarda entrambi.
+  Ogni pratica dice a chi si applica; scadenze e fonti sono nelle pagine delle singole pratiche.
+steps:
+  - procedure: napoli/comune/comunicazione-locazione-breve
+    when: L'affitto breve di una casa, senza partita IVA
+  - procedure: napoli/comune/avvio-bed-and-breakfast
+    when: Il Bed and Breakfast nella casa in cui si vive
+  - procedure: napoli/comune/imposta-di-soggiorno-gestori
+    when: L'imposta di soggiorno, per chi ospita

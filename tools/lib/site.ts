@@ -79,6 +79,16 @@ export interface Procedure {
   reported?: Reported;
 }
 
+// A situation only points at procedures (contract/situation.schema.json).
+export interface Situation {
+  id: string;
+  headline: string;
+  aka?: string[];
+  updated: string;
+  intro: string;
+  steps: { procedure: string; when: string }[];
+}
+
 export interface SiteOptions {
   baseUrl: string; // absolute, no trailing slash
   repoUrl: string;
@@ -153,7 +163,7 @@ const PURPOSE: Record<string, string> = { info: "solo informazioni", payment: "p
 
 // --- Whole site ---
 
-export function buildSite(procedures: Procedure[], opts: SiteOptions): Map<string, string> {
+export function buildSite(procedures: Procedure[], opts: SiteOptions, situations: Situation[] = []): Map<string, string> {
   // A path set twice would silently replace a page (an id like napoli/comune
   // is also an ente's folder), so that is an error.
   const files = new (class extends Map<string, string> {
@@ -164,8 +174,8 @@ export function buildSite(procedures: Procedure[], opts: SiteOptions): Map<strin
   })();
   const byId = new Map(procedures.map((p) => [p.id, p]));
   const entes = groupByEnte(procedures);
-  const updated = latest(procedures.map((p) => p.updated));
-  const site = { opts, byId, updated };
+  const updated = latest([...procedures, ...situations].map((x) => x.updated));
+  const site: Site = { opts, byId, updated, situations };
 
   files.set("index.html", renderHome(entes, site));
   for (const e of entes) files.set(`${e.path}/index.html`, renderEnte(e, site));
@@ -181,6 +191,12 @@ export function buildSite(procedures: Procedure[], opts: SiteOptions): Map<strin
   files.set("llms.txt", renderLlmsTxt(entes, site));
   files.set("style.css", opts.css);
   files.set("404.html", render404(site));
+  if (situations.length) {
+    files.set("situazioni/index.html", renderSituations(site));
+    for (const s of situations) files.set(`situazioni/${s.id}/index.html`, renderSituation(s, site));
+  }
+  files.set("come-lavoriamo/index.html", renderAbout(site));
+  files.set("aggiornamenti/index.html", renderUpdates(procedures, site));
   files.set("privacy/index.html", renderPrivacy(site));
   files.set("grazie/index.html", renderThanks(site));
   if (opts.reports) files.set("report.js", opts.reports.script);
@@ -190,7 +206,8 @@ export function buildSite(procedures: Procedure[], opts: SiteOptions): Map<strin
 interface Site {
   opts: SiteOptions;
   byId: Map<string, Procedure>;
-  updated: string; // the newest procedure's updated date
+  updated: string; // the newest updated date of any procedure or situation
+  situations: Situation[];
 }
 
 interface Ente {
@@ -229,6 +246,9 @@ const folderOf = (id: string) => id.slice(0, id.lastIndexOf("/"));
 // What a page is called: the searcher's words when there are some, else the official name.
 const heading = (p: Procedure) => p.headline ?? p.title;
 const latest = (dates: string[]) => dates.reduce((a, b) => (b > a ? b : a), "");
+// A situation's page changes when it or any of its procedures does.
+const situationUpdated = (s: Situation, site: Site) =>
+  latest([s.updated, ...s.steps.map((x) => site.byId.get(x.procedure)?.updated ?? "")]);
 // From a page at `dir/index.html` back to the site root.
 const rootFrom = (dir: string) => (dir ? "../".repeat(dir.split("/").length) : "");
 
@@ -284,7 +304,7 @@ function footer(root: string, site: Site): string {
 <p><strong>${SITE_NAME} è un progetto indipendente</strong>: non è un sito del Comune di Napoli né di altri enti.
 Le informazioni servono a capire e preparare una pratica, non sono consulenza legale: prima di agire controlla sempre la fonte ufficiale citata.</p>
 <p>Libreria aggiornata il ${time(site.updated)}.
-<a href="${root}privacy/">Privacy</a> · <a href="${root}procedures.json">Dati in JSON</a> · <a href="${root}llms.txt">llms.txt</a> · <a href="${esc(repo)}">Codice e contenuti su GitHub</a>.
+<a href="${root}come-lavoriamo/">Come lavoriamo</a> · <a href="${root}aggiornamenti/">Aggiornamenti</a> · <a href="${root}privacy/">Privacy</a> · <a href="${root}procedures.json">Dati in JSON</a> · <a href="${root}llms.txt">llms.txt</a> · <a href="${esc(repo)}">Codice e contenuti su GitHub</a>.
 Contenuti con licenza <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.it">CC BY-SA 4.0</a>.</p>
 </footer>`;
 }
@@ -304,7 +324,14 @@ ${procedureList(e.procedures, "")}
 <p class="meta">${count} pratiche · libreria aggiornata il ${time(site.updated)}</p>
 <label class="search">Cerca una pratica <input type="search" id="q" placeholder="es. TARI, insegna, partita IVA" autocomplete="off"></label>
 <p id="none" class="meta" hidden>Nessuna pratica trovata.</p>
-${sections}
+${
+  site.situations.length
+    ? `<section class="ente" data-ente>
+<h2><a href="situazioni/">Per situazione</a></h2>
+${situationList(site.situations, "")}
+</section>\n`
+    : ""
+}${sections}
 <script>
 // Hides the pratiche (and whole enti) that don't match the search box.
 const norm = (s) => s.toLowerCase().normalize("NFD").replace(/[\\u0300-\\u036f]/g, "");
@@ -436,7 +463,7 @@ function renderProcedure(p: Procedure, ente: Ente, site: Site): string {
       "Verifica",
       `<p>Livello ${esc(v.level)}: ${esc(levelText(v.level))}. Ultima verifica il ${time(v.date)} (${esc(v.by)}).</p>
 <p>${esc(v.method)}</p>${v.notes ? `\n<p>${esc(v.notes)}</p>` : ""}
-<p>Ogni affermazione indica se è verificata su una fonte ufficiale, <span class="badge">da verificare</span> o con <span class="badge">fonti in contrasto</span>.</p>`,
+<p>Ogni affermazione indica se è verificata su una fonte ufficiale, <span class="badge">da verificare</span> o con <span class="badge">fonti in contrasto</span>. <a href="${root}come-lavoriamo/">Come lavoriamo</a></p>`,
     ),
   ];
   const body = `<nav class="crumbs"><a href="${root}">Tutte le pratiche</a> › <a href="${root}${ente.path}/">${esc(ente.name)}</a></nav>
@@ -444,7 +471,7 @@ function renderProcedure(p: Procedure, ente: Ente, site: Site): string {
 <h1>${esc(heading(p))}</h1>
 ${p.headline ? `<p class="official">${esc(p.title)}</p>\n` : ""}${p.aka?.length ? `<p class="meta">Conosciuta anche come: ${esc(p.aka.join(", "))}</p>\n` : ""}<p class="lead">${esc(p.summary)}</p>
 <p class="meta">Aggiornata il ${time(p.updated)} · verificata il ${time(v.date)}, ${esc(levelText(v.level))} · ${esc([p.ente.name, p.ente.office].filter(Boolean).join(", "))}</p>
-${reports ? '<p class="actions"><a href="#racconta">Hai fatto questa pratica? Racconta com\'è andata</a></p>\n' : ""}${quickAnswer(p, cite, !!reports)}
+${partOf(p, site)}${reports ? '<p class="actions"><a href="#racconta">Hai fatto questa pratica? Racconta com\'è andata</a></p>\n' : ""}${quickAnswer(p, cite, !!reports)}
 ${sections.filter(Boolean).join("\n")}
 ${reports ? reportForm(p, shown, site) : ""}
 <p class="actions">${
@@ -740,6 +767,13 @@ function renderIndexJson(procedures: Procedure[], entes: Ente[], site: Site): st
         schema: `${base}/contract/procedure.schema.json`,
         fields: `${base}/contract/fields.json`,
         license: { content: "CC BY-SA 4.0", code: "MIT" },
+        situations: site.situations.map((s) => ({
+          id: s.id,
+          headline: s.headline,
+          updated: situationUpdated(s, site),
+          url: `${base}/situazioni/${s.id}/`,
+          procedures: s.steps.map((x) => x.procedure),
+        })),
         procedures: entes.flatMap((e) =>
           e.procedures.map((p) => ({
             id: p.id,
@@ -769,6 +803,11 @@ function renderSitemap(procedures: Procedure[], entes: Ente[], site: Site): stri
     [`${base}/`, site.updated],
     ...entes.map((e): [string, string] => [`${base}/${e.path}/`, e.updated]),
     ...procedures.map((p): [string, string] => [`${base}/${p.id}/`, p.updated]),
+    ...(site.situations.length ? [[`${base}/situazioni/`, latest(site.situations.map((s) => situationUpdated(s, site)))] as [string, string]] : []),
+    ...site.situations.map((s): [string, string] => [`${base}/situazioni/${s.id}/`, situationUpdated(s, site)]),
+    [`${base}/come-lavoriamo/`, site.updated],
+    [`${base}/aggiornamenti/`, site.updated],
+    [`${base}/privacy/`, site.updated],
   ];
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -796,6 +835,12 @@ function renderLlmsTxt(entes: Ente[], site: Site): string {
     `- [Procedure schema](${base}/contract/procedure.schema.json): JSON Schema of each procedure file`,
     `- [Field registry](${base}/contract/fields.json): the field IDs form fields map to`,
   ];
+  if (site.situations.length) {
+    lines.push("", "## Situations", "", "Each lists the procedures a situation involves; facts and sources are on the procedures' pages.", "");
+    for (const s of site.situations) {
+      lines.push(`- [${s.headline}](${base}/situazioni/${s.id}/): ${s.intro} Procedures: ${s.steps.map((x) => x.procedure).join(", ")}.`);
+    }
+  }
   for (const e of entes) {
     lines.push("", `## ${e.name}`, "");
     for (const p of e.procedures) {
@@ -1045,4 +1090,168 @@ function experiences(r: Reported, p: Procedure): string {
   return `<p class="meta">Da ${nReports(r.count)} di chi ha fatto la pratica tra ${month(r.period.from)} e ${month(r.period.to)}, letti da noi prima di pubblicarli; i consigli sono riscritti da noi. Non sono una fonte ufficiale: ${p.cost || p.duration ? "costi e termini ufficiali sono più su" : "per le regole valgono le fonti ufficiali"}.</p>
 ${items.length ? list(items) : ""}
 ${tips}`;
+}
+
+// --- Situations, about, updates ---
+
+function situationList(situations: Situation[], root: string): string {
+  const items = situations.map(
+    (s) => `<li data-search="${esc([s.headline, ...(s.aka ?? []), s.intro].join(" "))}"><a href="${root}situazioni/${s.id}/">${esc(s.headline)}</a>
+<p>${esc(s.intro)}</p></li>`,
+  );
+  return `<ul class="procedures">\n${items.join("\n")}\n</ul>`;
+}
+
+// "Fa parte di: Aprire un bar…, Chiudere un'attività…" under a procedure's dates.
+function partOf(p: Procedure, site: Site): string {
+  const root = rootFrom(p.id);
+  const mine = site.situations.filter((s) => s.steps.some((x) => x.procedure === p.id));
+  return mine.length
+    ? `<p class="meta">Fa parte di: ${mine.map((s) => `<a href="${root}situazioni/${s.id}/">${esc(s.headline)}</a>`).join(" · ")}</p>\n`
+    : "";
+}
+
+function renderSituations(site: Site): string {
+  return page(
+    {
+      dir: "situazioni",
+      title: "Le pratiche per situazione",
+      description: "Aprire un bar o un negozio, chiudere un'attività, affittare ai turisti, una multa: tutte le pratiche di ogni situazione, a Napoli.",
+      updated: latest(site.situations.map((s) => situationUpdated(s, site))),
+      jsonLd: { "@context": "https://schema.org", "@type": "CollectionPage", name: "Le pratiche per situazione", inLanguage: "it" },
+    },
+    `<nav class="crumbs"><a href="../">Tutte le pratiche</a></nav>
+<h1>Le pratiche per situazione</h1>
+${situationList(site.situations, "../")}`,
+    site,
+  );
+}
+
+// Each step links to its procedure and repeats only that procedure's own
+// deadline, with its status: the facts and their sources stay there.
+function renderSituation(s: Situation, site: Site): string {
+  const root = rootFrom(`situazioni/${s.id}`);
+  const updated = situationUpdated(s, site);
+  const noCite: Cite = () => "";
+  const steps = s.steps.map((step) => {
+    const p = site.byId.get(step.procedure)!;
+    const due = deadlineSummary(p);
+    return `<li><a href="${root}${p.id}/">${esc(heading(p))}</a>
+<p>${esc(step.when)}</p>${due ? `\n<p class="note">Scadenza: ${claim(due, noCite)}</p>` : ""}</li>`;
+  });
+  const url = `${site.opts.baseUrl}/situazioni/${s.id}/`;
+  return page(
+    {
+      dir: `situazioni/${s.id}`,
+      title: s.headline,
+      description: s.intro,
+      updated,
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: s.headline,
+        ...(s.aka?.length ? { alternateName: s.aka } : {}),
+        description: s.intro,
+        url,
+        inLanguage: "it",
+        dateModified: updated,
+        breadcrumb: breadcrumbs(site, [
+          ["Per situazione", "situazioni"],
+          [s.headline, `situazioni/${s.id}`],
+        ]),
+        mainEntity: {
+          "@type": "ItemList",
+          itemListElement: s.steps.map((step, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            name: heading(site.byId.get(step.procedure)!),
+            url: `${site.opts.baseUrl}/${step.procedure}/`,
+          })),
+        },
+      },
+    },
+    `<nav class="crumbs"><a href="${root}">Tutte le pratiche</a> › <a href="${root}situazioni/">Per situazione</a></nav>
+<h1>${esc(s.headline)}</h1>
+${s.aka?.length ? `<p class="meta">Conosciuta anche come: ${esc(s.aka.join(", "))}</p>\n` : ""}<p class="lead">${esc(s.intro)}</p>
+<p class="meta">Aggiornata il ${time(updated)}</p>
+<ol class="steps">
+${steps.join("\n")}
+</ol>`,
+    site,
+  );
+}
+
+function renderAbout(site: Site): string {
+  const contact = site.opts.reports?.contact;
+  const repo = site.opts.repoUrl;
+  const body = `<h1>Come lavoriamo</h1>
+<p class="lead">${SITE_NAME} spiega le pratiche burocratiche di Napoli in modo chiaro, con le fonti ufficiali per ogni informazione. È un progetto indipendente: non è un sito del Comune di Napoli né di altri enti.</p>
+<h2>Da dove vengono le informazioni</h2>
+<p>Ogni pratica è scritta leggendo le fonti ufficiali dell'ente: pagine, regolamenti, delibere e moduli. Ogni affermazione cita la sua fonte, numerata in fondo alla pagina, e dice se è <strong>verificata</strong> su una fonte ufficiale, <span class="badge">da verificare</span> o con <span class="badge">fonti in contrasto</span>, quando le fonti ufficiali non concordano. Le guide di terzi servono solo a trovare le pagine ufficiali.</p>
+<h2>Quanto è verificata una pratica</h2>
+<ul>
+<li><strong>L0</strong>: ${esc(LEVELS.L0)}.</li>
+<li><strong>L1</strong>: ${esc(LEVELS.L1)}.</li>
+<li><strong>L2</strong>: ${esc(LEVELS.L2)}.</li>
+<li><strong>L3</strong>: ${esc(LEVELS.L3)}.</li>
+</ul>
+<h2>Le date</h2>
+<p>Ogni pagina dice quando è stata aggiornata l'ultima volta e quando è stata verificata. Ogni notte un controllo automatico riscarica i moduli e le pagine ufficiali citate e segnala quelli cambiati o non più raggiungibili, perché vengano ricontrollati. Le pagine cambiate di recente sono negli <a href="../aggiornamenti/">aggiornamenti</a>.</p>
+<h2>I racconti di chi ha fatto la pratica</h2>
+<p>Chi ha fatto una pratica può raccontare com'è andata. Leggiamo ogni racconto prima di usarlo e pubblichiamo solo statistiche, quando ogni numero viene da almeno 3 racconti, e consigli riscritti da noi: mai un racconto così com'è. Sono indicati come racconti, non come fonti ufficiali. <a href="../privacy/">Come trattiamo i dati</a></p>
+<h2>Errori e correzioni</h2>
+<p>Ogni pagina ha un modo per segnalare un errore. Correggiamo la pratica dopo averlo ricontrollato sulle fonti, e annotiamo gli errori che troviamo nelle fonti ufficiali stesse nel <a href="${esc(`${repo}/blob/main/docs/discrepancies.md`)}">registro delle discrepanze</a>. La storia di ogni modifica è pubblica su <a href="${esc(repo)}">GitHub</a>.</p>
+<h2>Dati aperti</h2>
+<p>Ogni pratica è disponibile anche in JSON, con l'elenco completo in <a href="../procedures.json">procedures.json</a> e una mappa per gli assistenti AI in <a href="../llms.txt">llms.txt</a>. I contenuti sono sotto licenza <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.it">CC BY-SA 4.0</a>, il codice sotto licenza MIT.</p>
+<h2>Non è consulenza legale</h2>
+<p>Le informazioni servono a capire e preparare una pratica. Prima di agire controlla sempre la fonte ufficiale citata, o chiedi all'ufficio.</p>
+<h2>Contatti</h2>
+<p>${contact ? `Scrivi a <a href="mailto:${esc(contact)}">${esc(contact)}</a>, o apri una segnalazione su <a href="${esc(repo)}">GitHub</a>.` : `Apri una segnalazione su <a href="${esc(repo)}">GitHub</a> (è pubblica: non scrivere dati personali).`}</p>`;
+  return page(
+    {
+      dir: "come-lavoriamo",
+      title: "Come lavoriamo",
+      description: `Come ${SITE_NAME} scrive e verifica le pratiche: fonti ufficiali, livelli di verifica, date, racconti di chi le ha fatte, correzioni.`,
+      updated: site.updated,
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        name: "Come lavoriamo",
+        inLanguage: "it",
+        about: { "@type": "Organization", name: SITE_NAME, url: `${site.opts.baseUrl}/` },
+      },
+    },
+    body,
+    site,
+  );
+}
+
+// The 50 most recent changes to procedures and situations, newest first.
+function renderUpdates(procedures: Procedure[], site: Site): string {
+  const repo = site.opts.repoUrl;
+  const entries = [
+    ...procedures.map((p) => ({ updated: p.updated, title: heading(p), href: `../${p.id}/`, file: `procedures/${p.id}.yaml` })),
+    ...site.situations.map((s) => ({ updated: s.updated, title: s.headline, href: `../situazioni/${s.id}/`, file: `situations/${s.id}.yaml` })),
+  ]
+    .sort((a, b) => b.updated.localeCompare(a.updated) || a.title.localeCompare(b.title, "it"))
+    .slice(0, 50);
+  const items = entries.map(
+    (e) =>
+      `<li>${time(e.updated)}: <a href="${e.href}">${esc(e.title)}</a> <span class="note">(<a href="${esc(`${repo}/commits/main/${e.file}`)}">cosa è cambiato</a>)</span></li>`,
+  );
+  return page(
+    {
+      dir: "aggiornamenti",
+      title: "Aggiornamenti",
+      description: `Le pratiche e le situazioni aggiornate di recente su ${SITE_NAME}, con la storia delle modifiche.`,
+      updated: site.updated,
+      jsonLd: { "@context": "https://schema.org", "@type": "CollectionPage", name: "Aggiornamenti", inLanguage: "it", dateModified: site.updated },
+    },
+    `<h1>Aggiornamenti</h1>
+<p class="lead">Le pagine cambiate di recente, dalla più nuova. Per ognuna, la storia delle modifiche è su GitHub.</p>
+<ul>
+${items.join("\n")}
+</ul>`,
+    site,
+  );
 }

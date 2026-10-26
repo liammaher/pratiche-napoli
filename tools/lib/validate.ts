@@ -393,3 +393,42 @@ function listYaml(dir: string, seen = new Set<string>()): string[] {
   }
   return out.sort();
 }
+
+// --- Situations ---
+
+const checkSituation = ajv.compile(JSON.parse(readFileSync(path.join(ROOT, "contract", "situation.schema.json"), "utf8")));
+
+// Validates every situation under dir (situations/): the schema, its id as
+// its file name, steps pointing at procedures in the library (each once),
+// dates, and no personal data. A missing directory means no situations.
+export function validateSituations(dir: string, knownIds: Set<string>, today: string): FileResult[] {
+  if (!existsDir(dir)) return [];
+  return listYaml(dir).map((file) => {
+    const rel = path.relative(dir, file);
+    let doc: unknown;
+    try {
+      doc = parseProcedure(readFileSync(file, "utf8"));
+    } catch (e) {
+      return { rel, errors: [(e as Error).message] };
+    }
+    if (!checkSituation(doc)) {
+      return { rel, errors: (checkSituation.errors ?? []).map((e) => `schema: ${e.instancePath || "/"} ${e.message}`) };
+    }
+    const s = doc as { id: string; updated: string; steps: { procedure: string }[] };
+    const errors: string[] = [];
+    const expected = rel.replace(/\\/g, "/").replace(/\.ya?ml$/i, "");
+    if (s.id !== expected) errors.push(`id "${s.id}" must match its file name "${expected}"`);
+    if (s.updated > today) errors.push("updated is in the future");
+    const seen = new Set<string>();
+    for (const step of s.steps) {
+      if (!knownIds.has(step.procedure)) errors.push(`step "${step.procedure}" is not a procedure in the library`);
+      if (seen.has(step.procedure)) errors.push(`step "${step.procedure}" is listed twice`);
+      seen.add(step.procedure);
+    }
+    walk(doc, "", (p, value) => {
+      if (typeof value !== "string") return;
+      for (const what of new Set(findPersonalData(value))) errors.push(`${p}: looks like a ${what}; situations must not contain personal data`);
+    });
+    return { rel, errors, doc };
+  });
+}

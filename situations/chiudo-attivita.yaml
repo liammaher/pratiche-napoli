@@ -1,0 +1,18 @@
+schema_version: 0
+id: chiudo-attivita
+headline: "Chiudere un'attività a Napoli: le pratiche da fare"
+aka: [cessazione attività, chiudere la ditta, chiudere un negozio, chiudere un bar]
+updated: 2026-10-26
+intro: >-
+  Le pratiche di chi chiude a Napoli un negozio, un bar o ristorante o un salone come ditta
+  individuale. La prima pagina è la lista completa dei passaggi; le altre spiegano i passaggi che
+  hanno una pratica a sé. Scadenze e fonti sono nelle pagine delle singole pratiche.
+steps:
+  - procedure: napoli/comune/cessazione-attivita-commerciale
+    when: La lista di tutti i passaggi, in ordine
+  - procedure: napoli/comune/tari-cessazione-non-domestica
+    when: La chiusura della TARI dei locali
+  - procedure: italia/agenzia-entrate/chiusura-partita-iva-persona-fisica
+    when: La chiusura della partita IVA
+  - procedure: napoli/camera-di-commercio/diritto-annuale
+    when: Il diritto annuale alla chiusura

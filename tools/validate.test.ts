@@ -12,6 +12,7 @@ import {
   todayInRome,
   validateDir,
   validateProcedure,
+  validateSituations,
   type Context,
 } from "./lib/validate.ts";
 
@@ -698,4 +699,52 @@ test("gen-fields runs when invoked through a symlinked path", () => {
   assert.equal(run.status, 0, run.stderr);
   assert.match(run.stdout, /wrote/);
   assert.equal(readFileSync(FIELDS_PATH, "utf8"), before);
+});
+
+const SITUATION = {
+  schema_version: 0,
+  id: "apro-test",
+  headline: "Aprire un test a Napoli: le pratiche",
+  updated: "2026-10-25",
+  intro: "Le pratiche di chi apre un test.",
+  steps: [
+    { procedure: "napoli/comune/test", when: "La prima" },
+    { procedure: "napoli/comune/other", when: "La seconda" },
+  ],
+};
+
+test("situations point at procedures that exist, each once, with their file name as id", () => {
+  const known = new Set(["napoli/comune/test", "napoli/comune/other"]);
+  const ok = tempLibrary({ "apro-test.yaml": JSON.stringify(SITUATION) });
+  assert.deepEqual(validateSituations(ok, known, "2026-10-25")[0].errors, []);
+
+  const bad = {
+    ...SITUATION,
+    id: "altro",
+    updated: "2026-10-26",
+    steps: [
+      { procedure: "napoli/comune/test", when: "Una" },
+      { procedure: "napoli/comune/test", when: "Di nuovo" },
+      { procedure: "napoli/comune/missing", when: "Nessuna" },
+    ],
+    intro: "Chiamare RSSMRA85T10A562S",
+  };
+  const errors = validateSituations(tempLibrary({ "apro-test.yaml": JSON.stringify(bad) }), known, "2026-10-25")[0].errors.join("\n");
+  assert.match(errors, /id "altro" must match its file name "apro-test"/);
+  assert.match(errors, /updated is in the future/);
+  assert.match(errors, /step "napoli\/comune\/test" is listed twice/);
+  assert.match(errors, /step "napoli\/comune\/missing" is not a procedure in the library/);
+  assert.match(errors, /\/intro: looks like a codice fiscale/);
+
+  const one = { ...SITUATION, steps: [SITUATION.steps[0]] };
+  assert.match(validateSituations(tempLibrary({ "apro-test.yaml": JSON.stringify(one) }), known, "2026-10-25")[0].errors.join(), /schema: \/steps must NOT have fewer than 2 items/);
+  assert.deepEqual(validateSituations(path.join(tmpdir(), "no-such-dir-xyz"), known, "2026-10-25"), []);
+});
+
+test("the real situations validate against the real library", () => {
+  const procedures = validateDir(path.join(ROOT, "procedures"), ctx.registry, todayInRome());
+  const ids = new Set(procedures.map((r) => (r.doc as { id: string }).id));
+  const situations = validateSituations(path.join(ROOT, "situations"), ids, todayInRome());
+  assert.ok(situations.length >= 7);
+  for (const s of situations) assert.deepEqual(s.errors, [], s.rel);
 });

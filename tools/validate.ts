@@ -1,9 +1,10 @@
-// Validates every procedure under procedures/ (or the directory given).
+// Validates every procedure under procedures/ (or the directory given), and,
+// for the whole library, the situations under situations/.
 // Exits non-zero on any error, or when there is nothing to validate.
 // Usage: npm run validate [-- <dir>]
 
 import path from "node:path";
-import { ROOT, loadRegistry, todayInRome, validateDir } from "./lib/validate.ts";
+import { ROOT, loadRegistry, procedureIdFromPath, todayInRome, validateDir, validateSituations } from "./lib/validate.ts";
 
 const library = path.join(ROOT, "procedures");
 const target = path.resolve(process.argv[2] ?? library);
@@ -25,8 +26,18 @@ if (results.length === 0) {
   process.exit(1);
 }
 
+// Situations point at procedures, so they're checked with the real library.
+const situations =
+  inLibrary && target === library
+    ? validateSituations(
+        path.join(ROOT, "situations"),
+        new Set(results.map((r) => procedureIdFromPath(r.rel))),
+        todayInRome(),
+      ).map((r) => ({ ...r, rel: path.join("situations", r.rel) }))
+    : [];
+
 let failed = 0;
-for (const { rel, errors } of results) {
+for (const { rel, errors } of [...results, ...situations]) {
   if (errors.length) {
     failed++;
     console.error(`✗ ${rel}`);
@@ -35,5 +46,5 @@ for (const { rel, errors } of results) {
     console.log(`✓ ${rel}`);
   }
 }
-console.log(`\n${results.length - failed}/${results.length} procedures valid`);
+console.log(`\n${results.length + situations.length - failed}/${results.length + situations.length} procedures and situations valid`);
 process.exit(failed ? 1 : 0);

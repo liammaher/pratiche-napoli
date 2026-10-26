@@ -1,0 +1,36 @@
+schema_version: 0
+id: apro-bar-ristorante
+headline: "Aprire un bar, un ristorante o una pizzeria a Napoli: tutte le pratiche"
+aka: [aprire un locale, licenza bar, aprire una pizzeria, pratiche per aprire un ristorante]
+updated: 2026-10-26
+intro: >-
+  Le pratiche che può incontrare chi apre a Napoli un bar, un ristorante o una pizzeria come ditta
+  individuale. Non servono tutte a tutti: ogni pratica dice a chi si applica. Le scadenze qui sotto
+  vengono dalle pagine delle singole pratiche, dove ci sono anche le fonti.
+steps:
+  - procedure: napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica
+    when: Iscrivere la ditta al Registro Imprese della Camera di Commercio
+  - procedure: italia/agenzia-entrate/apertura-partita-iva-persona-fisica
+    when: La partita IVA
+  - procedure: italia/inps/iscrizione-gestione-artigiani-commercianti
+    when: L'iscrizione all'INPS come commerciante e i contributi
+  - procedure: napoli/camera-di-commercio/pec-domicilio-digitale-impresa
+    when: La PEC dell'impresa
+  - procedure: napoli/asl-napoli-1/attestato-alimentarista
+    when: La formazione per chi lavora con gli alimenti (l'ex libretto sanitario)
+  - procedure: napoli/comune/scia-somministrazione-alimenti-bevande
+    when: La SCIA o l'autorizzazione del Comune per aprire il locale
+  - procedure: napoli/asl-napoli-1/registrazione-attivita-alimentare
+    when: La registrazione sanitaria dell'attività alimentare
+  - procedure: napoli/vigili-del-fuoco/scia-prevenzione-incendi
+    when: La prevenzione incendi, se il locale è tra le attività soggette
+  - procedure: napoli/comune/nulla-osta-impatto-acustico
+    when: Il nulla osta acustico, se nel locale c'è musica
+  - procedure: napoli/comune/insegna-esercizio
+    when: L'insegna
+  - procedure: napoli/comune/concessione-suolo-pubblico-dehors
+    when: I tavolini all'aperto (dehors)
+  - procedure: napoli/comune/tari-iscrizione-non-domestica
+    when: La TARI del locale
+  - procedure: napoli/camera-di-commercio/diritto-annuale
+    when: Il diritto annuale alla Camera di Commercio, ogni anno

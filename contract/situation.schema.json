@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/liammaher/pratiche-napoli/contract/situation.schema.json",
+  "title": "Situation",
+  "description": "A life or business situation (opening a bar, closing a business, a fine in the post) and the procedures it involves. It only points at procedures: every fact, deadline and source stays on the procedures' own pages.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "headline",
+    "updated",
+    "intro",
+    "steps"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 0
+    },
+    "id": {
+      "description": "The file name under situations/ without .yaml",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "headline": {
+      "description": "The page title in the words people search with",
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 90,
+      "pattern": "\\S"
+    },
+    "aka": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/text"
+      },
+      "uniqueItems": true
+    },
+    "updated": {
+      "description": "The last day anything in this file changed, as for procedures",
+      "type": "string",
+      "format": "date"
+    },
+    "intro": {
+      "description": "Two or three plain-Italian sentences: who this is for, and that each procedure says whether it applies",
+      "type": "string",
+      "minLength": 10,
+      "pattern": "\\S"
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "procedure",
+          "when"
+        ],
+        "properties": {
+          "procedure": {
+            "description": "id of a procedure in the library",
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*(/[a-z0-9]+(-[a-z0-9]+)*)+$"
+          },
+          "when": {
+            "description": "What this procedure is for in this situation, in a few words; no deadlines or amounts, which come from the procedure",
+            "$ref": "#/$defs/text"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    }
+  }
+}
