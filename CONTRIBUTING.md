@@ -15,13 +15,23 @@
    field (also with `concat` or `fallback`; fields without a prefix), and
    `{ repeat: { ruolo: [socio, amministratore], except: dichiarante }, fields: [...] }` fills one
    row per such person. A business procedure (`business` in its `audience`; only such a one) says who signs with
-   `dichiarante: { ruolo: [titolare, legale_rappresentante] }`; then `identity.*`, `residenza.*`,
+   `dichiarante: { ruolo: [titolare, legale_rappresentante] }` (only those two: `$defs/signer`;
+   a procuratore is a `party` of its own); then `identity.*`, `residenza.*`,
    the other categories about a person and `ruolo.*` are the dichiarante's, in the forms and in
    `records`, while `business.*` and `locale.*` stay the business's. In a personal vault that is the owner; in a business vault,
    the person with that ruolo. Someone who is only the other side of one deal (the cedente, the
    subentrante) stays an `ask`. `procura.*` is a procura a person gave the business, so `party`
    and `repeat: { ruolo }` read it only from ruolo `cliente`: a procuratore holds the business's
    procura, not one they gave it. (`repeat: famiglia` may read it: a family member's delega.)
+
+   A box that applies only in some cases (the vehicle is a company's, a procura is used) is
+   settled first by an `ask` row, and the rows that depend on it say so in their `notes`: a
+   vault that has a business's data doesn't make every pratica the business's. Likewise, a
+   `fallback` must not reach a field that may belong to something else (a business's partita
+   IVA or PEC on a personal pratica), first or not: read only the person's own field, or `ask`.
+   Contacts (PEC, e-mail) are the person's own, and the business's only where the pratica is the
+   business's. An address is taken whole from one place (residenza or domicilio, the business's
+   premises or one's home), never a box from each: say so on every row of it.
 3. **Official sources first.** Cite the ente's own page, regulation, decision or form. Third-
    party guides are only for finding official pages.
 4. **Mark every claim honestly.** `verified` needs a `source`. If you believe something but

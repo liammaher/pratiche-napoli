@@ -346,8 +346,29 @@
       }
     },
     "dichiarante": {
-      "description": "Who signs the forms for the business. In the forms and records, unprefixed fields of a person's own categories (subject persona, scope person: identity, residenza, cie...) and ruolo.* are the dichiarante's: in a personal vault the owner, whose role is business.qualita_dichiarante; in a business vault the person whose ruolo.tipo includes one of these. business.* and locale.* stay the vault's own",
-      "$ref": "#/$defs/party"
+      "description": "Who signs the forms for the business. In the forms and records, unprefixed fields of a person's own categories (subject persona, scope person: identity, residenza, cie...) and ruolo.* are the dichiarante's: in a personal vault the owner, whose role is business.qualita_dichiarante; in a business vault the person whose ruolo.tipo includes one of these. business.* and locale.* stay the vault's own. Only a ruolo that signs for the business: see $defs/signer",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ruolo"
+      ],
+      "properties": {
+        "ruolo": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/signer"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/signer"
+              }
+            }
+          ]
+        }
+      }
     },
     "forms": {
       "type": "array",
@@ -844,6 +865,13 @@
           ]
         }
       }
+    },
+    "signer": {
+      "description": "A ruolo that signs a business's forms and declarations: the titolare of a ditta individuale, or a società's legale rappresentante. A client, a supplier or an employee never signs for it; a procuratore acts under the procura the business gave, a party of its own",
+      "enum": [
+        "titolare",
+        "legale_rappresentante"
+      ]
     },
     "partyRef": {
       "description": "Read the fields from this person instead of the vault's owner. Nobody with the ruolo (always so in a personal vault): ask the person filling in; several: they pick one. The fields are written without a prefix",
