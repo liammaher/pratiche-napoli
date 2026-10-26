@@ -51,6 +51,12 @@ export async function reject(db: Firestore, id: string, now = new Date()): Promi
   await setStatus(db, id, "rejected", now, {});
 }
 
+// For a request from someone who left their email: their reports' ids.
+export async function findByEmail(db: Firestore, email: string): Promise<string[]> {
+  const snap = await db.collection("contacts").where("contact_email", "==", email.trim()).get();
+  return snap.docs.map((d) => d.id).sort();
+}
+
 // For a request to delete someone's data: the report and its contact.
 export async function remove(db: Firestore, id: string): Promise<void> {
   const ref = db.doc(`reports/${id}`);

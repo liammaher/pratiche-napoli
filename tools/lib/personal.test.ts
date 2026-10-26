@@ -83,3 +83,31 @@ test("without check digits, mistyped codes still match", () => {
     assert.equal(text.slice(m.start, m.end), found, text);
   }
 });
+
+test("without check digits, the usual slips still match", () => {
+  for (const [text, found] of [
+    ["il mio cf è RSSMRA85T1OA562S, scusate", "RSSMRA85T1OA562S"], // O for 0
+    ["cf: rssmra85t10a562s", "rssmra85t10a562s"], // lower case
+    ["codice RSS MRA 85 T10 A562 S grazie", "RSS MRA 85 T10 A562 S"], // other grouping
+    ["cf RSSMR85T10A562S e basta", "RSSMR85T10A562S"], // one letter missing
+    ["RSS/MRA/85T10/A562S", "RSS/MRA/85T10/A562S"], // slashes
+    ["iban it60x0542811101000000123456 ok", "it60x0542811101000000123456"], // lower case
+    ["IBAN IT60 X054 2811 1010 0000 0123 45 per", "IT60 X054 2811 1010 0000 0123 45"], // one digit short
+    ["IBAN IT60  X054  2811 1010 0000 0123 456", "IT60  X054  2811 1010 0000 0123 456"], // double spaces
+  ]) {
+    const ms = matchPersonalData(text, { checkDigits: false });
+    assert.ok(ms.some((m) => text.slice(m.start, m.end) === found), `${text}: ${JSON.stringify(ms.map((m) => text.slice(m.start, m.end)))}`);
+  }
+});
+
+test("the slips don't catch ordinary text", () => {
+  for (const text of [
+    "Ho pagato 16 euro di bollo e 66,50 di diritti il 15 ottobre 2026, alle 9:30.",
+    "Mod. 1 TARI, protocollo PG/2026/0812345 del 12/10/2026: risposta dopo 23 giorni via PEC.",
+    "es. 1250 euro per la SCIA, poi il sopralluogo dei Vigili del Fuoco in via Toledo 156.",
+    "napoli/comune/tari-iscrizione-uso-abitativo",
+    "Sono andato allo sportello di via Diaz alle 8, ho aspettato circa 45 minuti in coda.",
+  ]) {
+    assert.deepEqual(matchPersonalData(text, { checkDigits: false }), [], text);
+  }
+});

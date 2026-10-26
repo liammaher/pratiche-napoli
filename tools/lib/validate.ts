@@ -62,7 +62,11 @@ interface Doc {
   reported?: {
     generated: string;
     period: { from: string; to: string };
+    count: number;
+    outcomes?: Record<string, number>;
+    channels?: { count: number }[];
     documents?: { name: string; asked: number; of: number }[];
+    basis: string[];
   };
   sources?: Source[];
   dichiarante?: unknown;
@@ -171,10 +175,21 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
     if (rep.generated > ctx.today) errors.push("reported was generated in the future");
     if (rep.period.from > rep.period.to) errors.push("reported period starts after it ends");
     const listed = new Set((d.documents ?? []).map((doc) => doc.name));
+    // What the counts leave over beside the total would be someone's result.
+    const leftover = (n: number) => n !== 0 && n < 3;
     for (const doc of rep.documents ?? []) {
       if (!listed.has(doc.name)) errors.push(`reported document "${doc.name}" is not in documents`);
       if (doc.asked > doc.of) errors.push(`reported document "${doc.name}" was asked more often than reported`);
+      else if (leftover(doc.of - doc.asked)) errors.push(`reported document "${doc.name}": those not asked must be none or at least 3`);
     }
+    const sum = (ns: number[]) => ns.reduce((a, b) => a + b, 0);
+    if (rep.outcomes && leftover(rep.count - sum(Object.values(rep.outcomes)))) {
+      errors.push("reported outcomes leave 1 or 2 reports over beside the count");
+    }
+    if (rep.channels && leftover(rep.count - sum(rep.channels.map((c) => c.count)))) {
+      errors.push("reported channels leave 1 or 2 reports over beside the count");
+    }
+    if (rep.basis.length !== rep.count) errors.push(`reported basis has ${rep.basis.length} reports, but count is ${rep.count}`);
   }
 
   for (const r of d.related ?? []) {
