@@ -122,3 +122,19 @@ test("the slips don't catch ordinary text", () => {
     assert.deepEqual(matchPersonalData(text, { checkDigits: false }), [], text);
   }
 });
+
+test("without check digits, codes written up against other text are cut out when their check digits hold", () => {
+  const loose = (t: string) => matchPersonalData(t, { checkDigits: false }).map((m) => t.slice(m.start, m.end));
+  const cf = "RSSMRA80A01F839W";
+  assert.deepEqual(loose(`cf${cf}`), [cf]);
+  assert.deepEqual(loose(`${cf}grazie`), [cf]);
+  assert.deepEqual(loose(`${cf}BNCLRA85T41F839X`), [cf, "BNCLRA85T41F839X"]);
+  assert.deepEqual(loose("IBANIT60X0542811101000000123456"), ["IT60X0542811101000000123456"]);
+  // Full-width characters, and a soft hyphen inside a code.
+  const whole = (t: string) => matchPersonalData(t, { checkDigits: false }).some((m) => m.start === 0 && m.end === t.length);
+  assert.ok(whole("\uff32\uff33\uff33\uff2d\uff32\uff21\uff18\uff10\uff21\uff10\uff11\uff26\uff18\uff13\uff19\uff37"));
+  assert.ok(whole("RSS\u00adMRA80A01F839W"));
+  // Long words, and a glued code whose check digits don't hold, are left alone.
+  assert.deepEqual(loose("precipitevolissimevolmente supercalifragilistichespiralidoso"), []);
+  assert.deepEqual(loose("cfRSSMRA80A01F839X"), []);
+});

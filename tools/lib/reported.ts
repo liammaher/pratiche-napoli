@@ -69,20 +69,33 @@ export function aggregate(reports: ReviewedReport[], documents: string[], today:
   return figures([inWindow(reports, today)], documents, today);
 }
 
+// What earlier versions published about a group: the outcomes, channels and
+// texts they gave counts for. Adding and subtracting versions gives the
+// group's count of each, so what is left over beside them must hold too, in
+// this version as in those, even where this one shows fewer.
+interface Shown {
+  outcomes: Set<string>;
+  channels: Set<string>;
+  extra: Set<string>;
+  reasons: Set<string>;
+}
+const nothingShown = (): Shown => ({ outcomes: new Set(), channels: new Set(), extra: new Set(), reasons: new Set() });
+
 // The block for `groups` of reports together, each figure published only if
 // it holds in every group on its own; the whole is all of them, so it holds
-// there too. Undefined when the groups have fewer than MIN reports.
-function figures(groups: ReviewedReport[][], documents: string[], today: string): Reported | undefined {
+// there too. `shown` is, for each group, what earlier versions published
+// about it. Undefined when the groups have fewer than MIN reports.
+function figures(groups: ReviewedReport[][], documents: string[], today: string, shown: Shown[] = groups.map(nothingShown)): Reported | undefined {
   const all = groups.flat();
   if (all.length < MIN) return undefined;
   const { from, to } = windowOf(today);
   // The period is the window itself: the first or last report's month would be one person's.
   const out = { generated: today, period: { from, to }, count: all.length } as Reported;
 
-  const outcomes = new Map(safeCounts(groups, (r) => r.outcome));
+  const outcomes = new Map(safeCounts(groups, (r) => r.outcome, shown.map((s) => s.outcomes)));
   if (outcomes.size) out.outcomes = Object.fromEntries(OUTCOMES.flatMap((o) => (outcomes.has(o) ? [[o, outcomes.get(o)!]] : [])));
 
-  const channels = safeCounts(groups, (r) => r.channel).map(([type, count]) => {
+  const channels = safeCounts(groups, (r) => r.channel, shown.map((s) => s.channels)).map(([type, count]) => {
     const days = stat(
       groups.map((g) => g.filter((r) => r.channel === type)),
       (r) => r.days_to_answer,
@@ -112,11 +125,11 @@ function figures(groups: ReviewedReport[][], documents: string[], today: string)
   if (docs.length) out.documents = docs;
 
   // One text per report: the texts divide the reports, like the outcomes do.
-  const extra = safeCounts(groups, (r) => r.extra_document?.trim() || undefined).map(([text, count]) => ({ text, count }));
+  const extra = safeCounts(groups, (r) => r.extra_document?.trim() || undefined, shown.map((s) => s.extra)).map(([text, count]) => ({ text, count }));
   if (extra.length) out.extra_documents = extra;
   // Reasons only beside a published count of refusals, which they divide.
   const rejected = out.outcomes?.respinta ? groups.map((g) => g.filter((r) => r.outcome === "respinta")) : [];
-  const reasons = safeCounts(rejected, (r) => r.rejection_reason?.trim() || undefined).map(([text, count]) => ({ text, count }));
+  const reasons = safeCounts(rejected, (r) => r.rejection_reason?.trim() || undefined, shown.map((s) => s.reasons)).map(([text, count]) => ({ text, count }));
   if (reasons.length) out.rejection_reasons = reasons;
   // Newest first; the same tip written twice is shown once.
   const tips = [...new Set([...all].sort((a, b) => b.done.localeCompare(a.done)).flatMap((r) => (r.tip?.trim() ? [r.tip.trim()] : [])))];
@@ -149,11 +162,21 @@ export function nextReported(
   const marks = new Set(versions.flatMap((v) => [...v]));
   const covered = group([...marks], (mark) => versions.map((v) => (v.has(mark) ? 1 : 0)).join(""));
   const kept: ReviewedReport[][] = [];
+  const shown: Shown[] = [];
   let left = 0;
   for (const ms of covered.values()) {
     const rs = ms.flatMap((m) => recent.get(m) ?? []);
-    if (rs.length === ms.length && rs.length >= MIN) kept.push(rs);
-    else left += rs.length;
+    if (rs.length === ms.length && rs.length >= MIN) {
+      kept.push(rs);
+      // The versions that covered this group (all of it: it is a group).
+      const covering = published.filter((_, i) => versions[i].has(ms[0]));
+      shown.push({
+        outcomes: new Set(covering.flatMap((v) => Object.keys(v.outcomes ?? {}))),
+        channels: new Set(covering.flatMap((v) => (v.channels ?? []).map((c) => c.type))),
+        extra: new Set(covering.flatMap((v) => (v.extra_documents ?? []).map((d) => d.text))),
+        reasons: new Set(covering.flatMap((v) => (v.rejection_reasons ?? []).map((d) => d.text))),
+      });
+    } else left += rs.length;
   }
   const fresh = [...recent.values()].filter((r) => !marks.has(r.mark));
   const waiting = fresh.length < MIN ? fresh.length : 0;
@@ -162,7 +185,7 @@ export function nextReported(
     waiting && `${waiting} new ${waiting === 1 ? "report waits" : "reports wait"} for ${MIN} to come in together`,
   ].filter(Boolean);
   return {
-    block: figures(waiting ? kept : [...kept, fresh].filter((g) => g.length), documents, today),
+    block: waiting || !fresh.length ? figures(kept, documents, today, shown) : figures([...kept, fresh], documents, today, [...shown, nothingShown()]),
     ...(notes.length && { note: notes.join("; ") }),
   };
 }
@@ -182,18 +205,25 @@ export function markProblem(reports: ReviewedReport[]): string | undefined {
 const safe = (n: number) => n === 0 || n >= MIN;
 
 // The counts of `key` that can be published: each none or at least MIN in
-// every group, and what they leave over in each group too. While a group's
-// remainder is 1 or 2, the smallest count is held back with it. A report
-// whose key is undefined is only ever part of the remainder.
-function safeCounts(groups: ReviewedReport[][], key: (r: ReviewedReport) => string | undefined): [string, number][] {
+// every group, and what they leave over in each group too, beside them and
+// beside the keys earlier versions showed for that group (`shown`, one set
+// per group). While a group's remainder is 1 or 2, the smallest count is
+// held back with it. A report whose key is undefined is only ever part of
+// the remainder.
+function safeCounts(
+  groups: ReviewedReport[][],
+  key: (r: ReviewedReport) => string | undefined,
+  shown: Set<string>[] = groups.map(() => new Set()),
+): [string, number][] {
   const count = (rs: ReviewedReport[], k: string) => rs.filter((r) => key(r) === k).length;
   const all = groups.flat();
   const kept = [...new Set(all.flatMap((r) => key(r) ?? []))]
     .filter((k) => groups.every((g) => safe(count(g, k))))
     .map((k): [string, number] => [k, count(all, k)])
     .sort(([a, x], [b, y]) => y - x || a.localeCompare(b, "it"));
-  const rest = (g: ReviewedReport[]) => g.length - kept.reduce((sum, [k]) => sum + count(g, k), 0);
-  while (kept.length && !groups.every((g) => safe(rest(g)))) kept.pop();
+  const rest = (g: ReviewedReport[], i: number) =>
+    g.length - [...new Set([...kept.map(([k]) => k), ...shown[i]])].reduce((sum, k) => sum + count(g, k), 0);
+  while (kept.length && !groups.every((g, i) => safe(rest(g, i)))) kept.pop();
   return kept;
 }
 

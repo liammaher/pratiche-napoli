@@ -42,6 +42,15 @@ const known = new Set(results.map((r) => (r.doc as { id: string }).id));
 const unknown = new Set(reports.map((r) => r.procedure).filter((id) => !known.has(id)));
 for (const id of unknown) console.warn(`! reports for ${id}, which is no longer in the library`);
 
+// A shallow clone has only part of the history, so versions would be missed.
+try {
+  if (execFileSync("git", ["-C", ROOT, "rev-parse", "--is-shallow-repository"], { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim() === "true") {
+    console.error("not aggregating: this clone is shallow, so earlier versions can't be read (git fetch --unshallow)");
+    process.exit(2);
+  }
+} catch {
+  // not a git checkout
+}
 const { blocks: everPublished, unread } = publishedBlocks();
 // A version left out would merge groups of reports it tells apart.
 if (unread.length) {
@@ -76,7 +85,10 @@ function publishedBlocks(): { blocks: { id: string; block: Reported }[]; unread:
   const git = (...args: string[]) => execFileSync("git", ["-C", ROOT, ...args], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
   let commits: string[] = [];
   try {
-    commits = git("rev-list", "--all", "--", "procedures").split("\n").filter(Boolean);
+    // Every commit, not only those `-- procedures` keeps: history
+    // simplification skips the side of a merge that ended up unchanged, a
+    // published version reverted on a branch included.
+    commits = git("rev-list", "--all").split("\n").filter(Boolean);
   } catch {
     return { blocks: [], unread: [] }; // not a git checkout: only the working tree
   }
