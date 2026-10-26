@@ -9,11 +9,11 @@ intro: >-
   nelle pagine delle singole pratiche.
 steps:
   - procedure: napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica
-    when: Iscrivere la ditta al Registro Imprese della Camera di Commercio
-  - procedure: italia/agenzia-entrate/apertura-partita-iva-persona-fisica
-    when: La partita IVA
+    when: Iscrivere la ditta al Registro Imprese della Camera di Commercio, aprendo anche la partita IVA
   - procedure: italia/inps/iscrizione-gestione-artigiani-commercianti
     when: L'iscrizione all'INPS e i contributi
+  - procedure: italia/inail/autoliquidazione
+    when: L'assicurazione INAIL e il premio di ogni anno, per chi deve averla
   - procedure: napoli/camera-di-commercio/pec-domicilio-digitale-impresa
     when: La PEC dell'impresa
   - procedure: napoli/comune/scia-acconciatore-estetista

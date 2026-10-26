@@ -112,8 +112,11 @@ deadline:
       dell'imposta non versata o versata in ritardo, ridotta al 15% se il ritardo non supera 90
       giorni e all'1% per ogni giorno se non supera 15 giorni (art. 35, cc. 1–2), oltre agli
       interessi (art. 38); prima dell'accertamento è possibile il ravvedimento operoso
-      (art. 28). Non calcolare da sé gli importi: chiederli all'ufficio TARI.
-    status: verified
+      (art. 28). Per le violazioni dal 1° settembre 2024, però, l'art. 13 del D.Lgs. 471/1997,
+      a cui la legge rinvia per l'omesso versamento della TARI, prevede il 25%, ridotto alla metà
+      fino a 90 giorni di ritardo, e per ritardi fino a 15 giorni a un quindicesimo di quella metà
+      per ogni giorno. Non calcolare da sé gli importi: chiederli all'ufficio TARI.
+    status: disputed
     source: regolamento-2023
 duration:
   text: >-
@@ -433,6 +436,12 @@ sources:
     retrieved: 2026-10-25
     official: true
     notes: Testo in vigore dal 4-1-2024.
+  - id: dlgs-471-art13
+    label: D.Lgs. 18 dicembre 1997, n. 471, art. 13 (Normattiva, testo vigente al 25/10/2026)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1997-12-18;471~art13!vig=2026-10-25
+    retrieved: 2026-10-25
+    official: true
+    notes: 25% dal D.Lgs. 87/2024 per le violazioni dal 1° settembre 2024; articolo abrogato dal 1° gennaio 2027 (D.Lgs. 173/2024).
   - id: dlgs546-art19
     label: D.Lgs. 31 dicembre 1992, n. 546, art. 19 (atti impugnabili) – normattiva, versione vigente al 25-10-2026
     url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1992-12-31;546~art19!vig=2026-10-25

@@ -144,6 +144,23 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
     if (problem) errors.push(`records: ${problem}`);
   }
 
+  // Forms or records with the business's data and a person's need to say
+  // whose that person's is: in a business vault there's no one else it could be.
+  if (d.dichiarante === undefined) {
+    const refs = [
+      ...(d.forms ?? []).flatMap((f) => (f.fields ?? []).flatMap((x) => (x.map.party ? [] : directRefs(x.map)))),
+      ...(d.records ?? []).map((r) => r.field),
+    ].filter((ref) => !splitMember(ref).member);
+    const isBusiness = (ref: string) => /^(business|locale)\./.test(ref);
+    // Anything else a person keeps: identity, residenza, but also addresses or preferences.
+    const isPerson = (ref: string) => registryCategory(ref, ctx.registry)?.scope === "person" && !isBusiness(ref);
+    const business = refs.find(isBusiness);
+    const person = refs.find(isPerson);
+    if (business && person) {
+      errors.push(`uses the business's ${business} and a person's ${person}: say who signs with dichiarante: { ruolo: [...] }`);
+    }
+  }
+
   walk(d, "", (p, value, parent) => {
     if (typeof value === "string") {
       for (const what of new Set(findPersonalData(value))) {
@@ -253,12 +270,18 @@ export function procedureIdFromPath(relPath: string): string {
   return relPath.replace(/\\/g, "/").replace(/^procedures\//, "").replace(/\.ya?ml$/i, "");
 }
 
+// The fields a mapping reads directly (not a repeat's rows).
+function directRefs(map: Record<string, unknown>): string[] {
+  return [
+    ...(typeof map.direct === "string" ? [map.direct] : []),
+    ...["concat", "fallback"].flatMap((key) => (Array.isArray(map[key]) ? (map[key] as string[]) : [])),
+  ];
+}
+
 // dichiarante: the procedure names who signs, so a person's own data is theirs.
 function checkMapping(map: Record<string, unknown>, registry: Registry, dichiarante: boolean): string[] {
   const problems: string[] = [];
-  const refs: string[] = [];
-  if (typeof map.direct === "string") refs.push(map.direct);
-  for (const key of ["concat", "fallback"]) if (Array.isArray(map[key])) refs.push(...(map[key] as string[]));
+  const refs = directRefs(map);
 
   for (const key of ["ask", "blank_with_reason"]) {
     if (typeof map[key] === "string" && ASKS_FOR_SECRET.test(map[key] as string)) {
@@ -330,6 +353,8 @@ function checkDichiaranteRef(ref: string, registry: Registry): string | null {
     ? asOwner
     : `${ref}: no dichiarante can have it, neither the owner of a personal vault nor a person with a ruolo in a business vault`;
 }
+
+const registryCategory = (ref: string, registry: Registry) => registry.categories.find((c) => c.name === ref.split(".")[0]);
 
 // A person's own data, which a procedure's dichiarante supplies: categories
 // about a person that each person has (identity, residenza, cie...), and ruolo.
