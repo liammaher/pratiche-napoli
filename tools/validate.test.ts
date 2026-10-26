@@ -106,7 +106,7 @@ test("records name exact registered fields, once each, never secrets or tracking
 
   const member = minimal();
   member.records = [{ field: "famiglia.relazione", from: "Modulo" }];
-  assert.match(errorsFor(member), /records: famiglia.relazione is a family member's field, never the vault owner's/);
+  assert.match(errorsFor(member), /records: famiglia.relazione is another person's field, never the vault owner's/);
   assert.doesNotMatch(errorsFor(member), /repeat/);
 
   for (const field of ["tari.*", "*:identity.first_name", "leo:cie.numero", "pratiche.tari-2026_protocollo"]) {
@@ -140,7 +140,7 @@ test("member refs: scopes, owner-only and member-only fields", () => {
   assert.equal(checkFieldRef("*:identity.*", r), null);
   assert.equal(checkFieldRef("*:famiglia.relazione", r), null);
   assert.equal(checkFieldRef("famiglia.intestatario_scheda", r), null);
-  assert.match(checkFieldRef("famiglia.relazione", r) ?? "", /family member's field, never the vault owner's/);
+  assert.match(checkFieldRef("famiglia.relazione", r) ?? "", /another person's field, never the vault owner's/);
   assert.match(checkFieldRef("*:famiglia.intestatario_scheda", r) ?? "", /owner's field only/);
   assert.match(checkFieldRef("*:abitazione.superficie_calpestabile_mq", r) ?? "", /drop the "\*:" prefix/);
   assert.match(checkFieldRef("leo:tari.*", r) ?? "", /vault owner's \(the household's\)/);
@@ -158,25 +158,30 @@ test("member refs: scopes, owner-only and member-only fields", () => {
 test("repeat: famiglia fills each row from *: fields, and only it can use them", () => {
   const row = (fields: string[]) => errorsFor(withForm({ label: "X", map: { repeat: "famiglia", fields } }));
   assert.equal(row(["*:identity.last_name", "*:identity.codice_fiscale", "*:famiglia.relazione"]), "");
-  assert.match(row(["identity.first_name"]), /each row is filled from that member's fields, written \*:category.field/);
-  assert.match(row(["tari.codice_contribuente"]), /each row is filled from that member's fields/);
+  assert.match(row(["identity.first_name"]), /each row is filled from that person's fields, written \*:category.field/);
+  assert.match(row(["tari.codice_contribuente"]), /each row is filled from that person's fields/);
   assert.match(row(["io:identity.first_name"]), /"io" is reserved/);
   assert.match(errorsFor(withForm({ label: "X", map: { direct: "io:identity.first_name" } })), /"io" is reserved/);
-  assert.match(row(["leo:identity.first_name"]), /can't name a particular family member \("leo"\)/);
+  assert.match(row(["leo:identity.first_name"]), /can't name a particular person \("leo"\)/);
   assert.match(row(["*:tari.codice_contribuente"]), /vault owner's/);
-  assert.match(errorsFor(withForm({ label: "X", map: { direct: "*:identity.first_name" } })), /only repeat: famiglia can fill/);
+  assert.match(errorsFor(withForm({ label: "X", map: { direct: "*:identity.first_name" } })), /only repeat can fill/);
   assert.match(
     errorsFor(withForm({ label: "X", map: { concat: ["leo:identity.last_name", "identity.first_name"] } })),
-    /can't name a particular family member/,
+    /can't name a particular person/,
   );
   assert.match(errorsFor(withForm({ label: "X", map: { direct: "nucleo_familiare.membro1_nome" } })), /unknown category "nucleo_familiare"/);
   assert.match(errorsFor(withForm({ label: "X", map: { direct: "pratiche.slug_stato" } })), /unknown category "pratiche"/);
 });
 
-test("repeat takes only famiglia, with fields, and <N> patterns are refused", () => {
+test("repeat takes famiglia or { ruolo }, with fields, and <N> patterns are refused", () => {
   for (const map of [
     { repeat: "nucleo_familiare.membro<N>_*" },
     { repeat: "famiglia" },
+    { repeat: { ruolo: "socio" } },
+    { repeat: { ruolo: "cugino" }, fields: ["*:identity.last_name"] },
+    { repeat: { ruolo: [] }, fields: ["*:identity.last_name"] },
+    { repeat: { ruolo: "socio", except: "titolare" }, fields: ["*:identity.last_name"] },
+    { repeat: "socio", fields: ["*:identity.last_name"] },
     { repeat: "famiglia", fields: [] },
     { repeat: "identity.email", fields: ["*:identity.email"] },
     { repeat: "famiglia", fields: ["*:identity.first_name", "*:identity.first_name"] },
@@ -187,8 +192,118 @@ test("repeat takes only famiglia, with fields, and <N> patterns are refused", ()
   }
 });
 
+test("party reads a person picked by ruolo, written without a prefix", () => {
+  const ok = (map: Record<string, unknown>) => assert.deepEqual(validateProcedure(withForm({ label: "X", map }), PATH, ctx), [], JSON.stringify(map));
+  const bad = (map: Record<string, unknown>, re: RegExp) => assert.match(errorsFor(withForm({ label: "X", map })), re, JSON.stringify(map));
+  const procuratore = { ruolo: "procuratore" };
+  ok({ party: procuratore, direct: "identity.codice_fiscale" });
+  ok({ party: { ruolo: ["socio", "amministratore"] }, concat: ["identity.last_name", "identity.first_name"] });
+  ok({ party: procuratore, fallback: ["identity.pec", "identity.email"] });
+  ok({ party: { ruolo: "preposto" }, direct: "ruolo.data_inizio" }); // the person's own ruolo
+  ok({ party: procuratore, direct: "business.denominazione" }); // a company can be a party
+  ok({ party: procuratore, direct: "residenza.*" });
+
+  bad({ party: procuratore, direct: "*:identity.last_name" }, /inside party, write the field without a prefix/);
+  bad({ party: procuratore, concat: ["leo:identity.last_name", "identity.first_name"] }, /inside party, write the field without a prefix/);
+  bad({ party: procuratore, direct: "tari.codice_contribuente" }, /tari is the vault owner's \(the household's\); the person with that ruolo can't have it/);
+  bad({ party: procuratore, direct: "famiglia.intestatario_scheda" }, /owner's field only; the person with that ruolo can't have it/);
+  bad({ party: procuratore, direct: "famiglia.relazione" }, /famiglia is only in personal vaults, and people with a ruolo are in a business vault/);
+  bad({ party: procuratore, direct: "business.qualita_dichiarante" }, /business.qualita_dichiarante is only in personal vaults/);
+  bad({ party: procuratore, direct: "cie.pin" }, /secret/);
+  bad({ party: procuratore, direct: "identity.shoe_size" }, /unknown field "identity.shoe_size"/);
+
+  for (const map of [
+    { party: { ruolo: "cugino" }, direct: "identity.last_name" },
+    { party: {}, direct: "identity.last_name" },
+    { party: "procuratore", direct: "identity.last_name" },
+    { party: { ruolo: "socio", slug: "leo" }, direct: "identity.last_name" },
+    { party: procuratore, ask: "Nome del procuratore" },
+    { party: procuratore, repeat: "famiglia", fields: ["*:identity.last_name"] },
+  ]) {
+    assert.match(errorsFor(withForm({ label: "X", map })), /must be exactly one of/, JSON.stringify(map));
+  }
+});
+
+test("repeat by ruolo fills one row per person with it, from what a business vault keeps", () => {
+  const doc = withForm({
+    label: "Allegato A",
+    map: { repeat: { ruolo: ["socio", "amministratore"], except: "dichiarante" }, fields: ["*:identity.last_name", "*:ruolo.quota_percentuale"] },
+  });
+  doc.dichiarante = { ruolo: "legale_rappresentante" };
+  assert.deepEqual(validateProcedure(doc, PATH, ctx), []);
+  delete doc.dichiarante;
+  assert.match(errorsFor(doc), /except: dichiarante needs the procedure's dichiarante/);
+
+  const row = (repeat: unknown, fields: string[]) => errorsFor(withForm({ label: "X", map: { repeat, fields } }));
+  assert.equal(row({ ruolo: "socio" }, ["*:identity.codice_fiscale", "*:ruolo.data_inizio"]), "");
+  assert.match(row({ ruolo: "socio" }, ["*:famiglia.relazione"]), /famiglia is only in personal vaults/);
+  assert.match(row({ ruolo: "socio" }, ["identity.last_name"]), /each row is filled from that person's fields/);
+  assert.match(row("famiglia", ["*:ruolo.tipo"]), /ruolo is only in business vaults, and family members are in a personal vault/);
+  assert.match(row("famiglia", ["*:business.qualita_dichiarante"]), /^$/); // a member's own business, in a personal vault
+});
+
+test("with a dichiarante, a person's own data is theirs and the rest stays the vault owner's", () => {
+  const fields = [
+    { label: "Cognome", map: { direct: "identity.last_name" } },
+    { label: "Residenza", map: { concat: ["residenza.indirizzo", "residenza.civico"] } },
+    { label: "Permesso", map: { direct: "permesso_soggiorno.numero" } },
+    { label: "In qualità di", map: { fallback: ["business.qualita_dichiarante", "ruolo.tipo"] } },
+    { label: "Ditta", map: { direct: "business.denominazione" } },
+    { label: "Locale", map: { direct: "locale.indirizzo" } },
+    { label: "TARI", map: { direct: "tari.codice_contribuente" } }, // the owner's household, never rebound
+  ];
+  const doc = withForm(...fields);
+  doc.dichiarante = { ruolo: ["titolare", "legale_rappresentante"] };
+  assert.deepEqual(validateProcedure(doc, PATH, ctx), []);
+
+  delete doc.dichiarante;
+  assert.match(errorsFor(doc), /ruolo.tipo is another person's field, never the vault owner's/);
+
+  // The dichiarante is a personal vault's owner or a person with a ruolo, so
+  // a field either of them has is fine, one neither has is not.
+  const signed = (map: Record<string, unknown>) => {
+    const d = withForm({ label: "X", map });
+    d.dichiarante = { ruolo: "titolare" };
+    return errorsFor(d);
+  };
+  assert.equal(signed({ direct: "famiglia.intestatario_scheda" }), "");
+  assert.equal(signed({ direct: "ruolo.*" }), "");
+  for (const ref of ["famiglia.relazione", "famiglia.stato_famiglia"]) {
+    assert.match(signed({ direct: ref }), /no dichiarante can have it, neither the owner of a personal vault nor a person with a ruolo/, ref);
+  }
+  assert.match(signed({ direct: "identity.shoe_size" }), /unknown field "identity.shoe_size"/);
+  assert.match(signed({ direct: "cie.pin" }), /secret/);
+
+  // records are read the same way.
+  const rec = minimal();
+  rec.records = [{ field: "ruolo.data_inizio", from: "Atto di nomina" }];
+  assert.match(errorsFor(rec), /records: ruolo.data_inizio is another person's field/);
+  rec.dichiarante = { ruolo: "titolare" };
+  assert.equal(errorsFor(rec), "");
+  rec.records.push({ field: "famiglia.relazione", from: "Modulo" });
+  assert.match(errorsFor(rec), /records: famiglia.relazione: no dichiarante can have it/);
+
+  for (const dichiarante of [{ ruolo: "boss" }, "titolare", { ruolo: [] }, {}]) {
+    const d = minimal();
+    d.dichiarante = dichiarante;
+    assert.match(errorsFor(d), /schema: \/dichiarante/, JSON.stringify(dichiarante));
+  }
+});
+
+test("the schema's ruolo list is the vault's ruolo.tipo list", () => {
+  const vault = JSON.parse(readFileSync(VAULT_SCHEMA_PATH, "utf8")) as VaultSchema;
+  const tipo = vault.categories.find((c) => c.name === "ruolo")!.fields!.find((f) => f.id === "ruolo.tipo")!;
+  const listed = tipo.description.match(/one or more of: ([a-z_, ]+?) \(/)?.[1].split(", ");
+  const schema = JSON.parse(readFileSync(path.join(ROOT, "contract", "procedure.schema.json"), "utf8"));
+  assert.deepEqual(schema.$defs.ruolo.enum, listed, "update $defs.ruolo in procedure.schema.json");
+});
+
 test("field refs: categories, wildcards and forbidden fields", () => {
   const r = ctx.registry;
+  // A wildcard can't be only fields its holder never has.
+  assert.match(checkFieldRef("ruolo.*", r) ?? "", /every ruolo field is another person's, never the vault owner's/);
+  assert.equal(checkFieldRef("*:ruolo.*", r), null);
+  assert.equal(checkFieldRef("famiglia.*", r), null); // has the owner's intestatario_scheda
   assert.equal(checkFieldRef("business.partita_iva", r), null);
   assert.equal(checkFieldRef("residenza.*", r), null);
   assert.equal(checkFieldRef("documents.anything", r), null); // open category
@@ -197,7 +312,13 @@ test("field refs: categories, wildcards and forbidden fields", () => {
 });
 
 test("a malformed mapping gives one readable error", () => {
-  for (const map of [{ ask: "a", direct: "identity.email" }, { concat: ["Identity.Email"] }]) {
+  for (const map of [
+    { ask: "a", direct: "identity.email" },
+    { concat: ["Identity.Email"] },
+    { party: { ruolo: "cugino" }, direct: "identity.last_name" },
+    { party: { ruolo: ["socio", "cugino"] }, concat: ["identity.last_name", "identity.first_name"] },
+    { repeat: { ruolo: "socio", except: "titolare" }, fields: ["*:identity.last_name"] },
+  ]) {
     const errors = validateProcedure(withForm({ label: "X", map }), PATH, ctx);
     assert.equal(errors.length, 1, JSON.stringify(errors));
     assert.match(errors[0], /^schema: \/forms\/0\/fields\/0\/map must be exactly one of direct, concat/);
@@ -438,6 +559,29 @@ test("registry leaves secrets and internal categories out", () => {
   assert.equal(checkFieldRef("cieid.otp_seed2", reg), "cieid.otp_seed2 can't be used in a public procedure: it is (or includes) a secret or payment field");
 });
 
+test("registry keeps each category's subject and kinds, and each field's kinds", () => {
+  const reg = buildRegistry({
+    version: "1",
+    categories: [
+      { name: "ruolo", description: "", scope: "person", kinds: ["impresa"], fields: [{ id: "ruolo.tipo", description: "", sensitivity: "standard", for: "member" }] },
+      { name: "business", description: "", scope: "person", subject: "impresa", fields: [
+        { id: "business.qualita_dichiarante", description: "", sensitivity: "standard", kinds: ["persona"] },
+        { id: "business.pec", description: "", sensitivity: "standard" },
+      ] },
+    ],
+  });
+  assert.deepEqual(reg.categories.map((c) => [c.name, c.subject, c.kinds]), [["ruolo", undefined, ["impresa"]], ["business", "impresa", undefined]]);
+  assert.deepEqual(reg.categories[1].fields.map((f) => [f.id, f.kinds]), [["business.qualita_dichiarante", ["persona"]], ["business.pec", undefined]]);
+  assert.equal("kinds" in reg.categories[1].fields[1], false);
+
+  const one = (cat: Record<string, unknown>) => () => buildRegistry({ version: "1", categories: [{ name: "x", description: "", scope: "person", fields: [], ...cat }] } as any);
+  assert.throws(one({ subject: "azienda" }), /"x" has subject "azienda"/);
+  assert.throws(one({ kinds: ["studio"] }), /category "x" has kinds \["studio"\]/);
+  assert.throws(one({ kinds: [] }), /category "x" has kinds \[\]/);
+  assert.throws(one({ kinds: ["persona", "persona"] }), /has kinds/);
+  assert.throws(one({ fields: [{ id: "x.y", description: "", sensitivity: "standard", kinds: "persona" }] }), /field "x.y" has kinds "persona"/);
+});
+
 test("registry rejects malformed vault schemas", () => {
   assert.throws(() => buildRegistry({ version: "9" } as any), /not a vault schema/);
   assert.throws(
@@ -487,6 +631,15 @@ test("extensions add fields marked as not yet in the vault, and can't clash or r
   assert.throws(ext([{ name: "nuova", fields: [{ id: "nuova.x", description: "" }] }]), /needs a description/);
   assert.throws(ext([{ name: "nuova", description: "x", fields: [{ id: "nuova.x", description: "" }] }]), /needs a scope/);
   assert.throws(ext([{ name: "business", fields: [{ id: "locale.x", description: "" }] }]), /listed under category "business"/);
+
+  // A new category may say what it describes and where it exists; a vault one keeps the vault's.
+  const req = buildRegistry(schema, {
+    categories: [{ name: "requisito", description: "x", scope: "person", subject: "persona", kinds: ["impresa"], fields: [{ id: "requisito.tipo", description: "", kinds: ["impresa"] }] }],
+  }).categories.find((c) => c.name === "requisito")!;
+  assert.deepEqual([req.subject, req.kinds, req.fields[0].kinds], ["persona", ["impresa"], ["impresa"]]);
+  assert.throws(ext([{ name: "nuova", description: "x", scope: "person", subject: "azienda", fields: [] }]), /has subject "azienda"/);
+  assert.throws(ext([{ name: "nuova", description: "x", scope: "person", fields: [{ id: "nuova.x", description: "", kinds: ["x"] }] }]), /"nuova.x" has kinds/);
+  assert.throws(ext([{ name: "business", subject: "persona", fields: [] }]), /can't change the scope, subject or kinds of vault category "business"/);
 });
 
 test("every registry field is usable and every forbidden one is refused", () => {

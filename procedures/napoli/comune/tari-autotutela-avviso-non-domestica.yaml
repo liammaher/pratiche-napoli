@@ -221,6 +221,8 @@ documents:
       Il modulo non elenca allegati. Per esempio: quietanze F24 già pagate, ricevuta della
       dichiarazione di variazione o cessazione già presentata, planimetria o visura catastale,
       contratto o atto che mostra la data di fine dell'occupazione.
+dichiarante:
+  ruolo: [titolare, legale_rappresentante]
 forms:
   - id: mod-7
     name: Mod. 7 TARI – Autotutela avviso bonario uso non abitativo
@@ -244,7 +246,7 @@ forms:
       - { label: e-mail (obbligatorio), map: { direct: identity.email } }
       - { label: pec, map: { direct: identity.pec } }
       - label: nella sua qualità di (titolare / legale rappresentante)
-        map: { direct: business.qualita_dichiarante }
+        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
       - { label: Ragione Sociale, map: { direct: business.denominazione } }
       - label: C.F. (della ditta)
         map: { fallback: [business.codice_fiscale, business.partita_iva] }

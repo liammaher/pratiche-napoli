@@ -319,6 +319,8 @@ documents:
   - name: Firma digitale, PEC dell'impresa e conto Telemaco con credito
     required: true
     notes: Per la Comunicazione Unica di cancellazione.
+dichiarante:
+  ruolo: [titolare, legale_rappresentante]
 forms:
   - id: scheda-anagrafica
     name: Scheda anagrafica – modulistica unificata Regione Campania (parte comune a tutti i moduli SUAP)
@@ -360,16 +362,18 @@ forms:
       - { label: PEC / posta elettronica, map: { fallback: [identity.pec, identity.email] } }
       - { label: Telefono fisso / cellulare, map: { direct: identity.phone } }
       - label: in qualità di (Titolare / Legale rappresentante / Altro)
-        map: { direct: business.qualita_dichiarante }
+        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
         notes: Per una ditta individuale, Titolare.
       # 2 – Dati della ditta/società/impresa
       - { label: "2 – Dati della ditta: Denominazione", map: { direct: business.denominazione } }
-      - { label: Forma giuridica, map: { ask: "Forma giuridica dell'impresa (per questa lista: ditta individuale)" } }
+      - { label: Forma giuridica, map: { direct: business.forma_giuridica } }
       - label: codice fiscale / p. IVA
         map: { fallback: [business.codice_fiscale, business.partita_iva] }
       - label: iscritta alla C.C.I.A.A. di ... prov.
-        map: { direct: business.rea }
-        notes: La sigla davanti al numero REA (per esempio NA) indica la Camera di Commercio e la provincia.
+        map: { fallback: [business.cciaa, business.rea] }
+        notes: >-
+          La sigla della provincia (per esempio NA) indica la Camera di Commercio e la provincia; in
+          mancanza, è quella davanti al numero REA.
       - { label: n. REA, map: { direct: business.rea } }
       - label: non ancora iscritta / non necessita di iscrizione al R.I.
         map: { blank_with_reason: "Non si barra: chi chiude un'attività commerciale è iscritto al Registro Imprese." }
@@ -379,21 +383,22 @@ forms:
       - { label: indirizzo (sede legale), map: { direct: business.sede_legale_indirizzo } }
       - { label: n. (sede legale), map: { direct: business.sede_legale_civico } }
       - { label: C.A.P. (sede legale), map: { direct: business.sede_legale_cap } }
-      - { label: Telefono fisso / cell. (impresa), map: { ask: "Telefono dell'impresa" } }
+      - { label: Telefono fisso / cell. (impresa), map: { direct: business.telefono } }
       - { label: fax, map: { blank_with_reason: Facoltativo; il registro non ha un campo fax. } }
       - { label: PEC (impresa), map: { direct: business.pec } }
       - label: Altro domicilio elettronico per invio delle comunicazioni inerenti la pratica
         map: { ask: "Altro indirizzo elettronico per le comunicazioni sulla pratica, se diverso dalla PEC" }
       # 3 – Dati del procuratore/delegato
       - label: "3 – Dati del procuratore/delegato: Cognome e Nome"
-        map: { ask: "Cognome e nome del procuratore, se la pratica è presentata con procura" }
+        map: { party: { ruolo: procuratore }, concat: [identity.last_name, identity.first_name] }
         notes: Compilare solo in caso di procura.
-      - { label: codice fiscale (procuratore), map: { ask: Codice fiscale del procuratore } }
-      - { label: "Nato/a a, prov., Stato, il (procuratore)", map: { ask: Luogo e data di nascita del procuratore } }
+      - { label: codice fiscale (procuratore), map: { party: { ruolo: procuratore }, direct: identity.codice_fiscale } }
+      - { label: "Nato/a a, prov., Stato, il (procuratore)", map: { party: { ruolo: procuratore }, concat: [identity.birth_comune, identity.birth_province, identity.birth_country, identity.date_of_birth] } }
       - label: "residente in, prov., Stato, indirizzo, n., C.A.P. (procuratore)"
-        map: { ask: Residenza del procuratore }
-      - { label: PEC / posta elettronica (procuratore), map: { ask: PEC o email del procuratore } }
-      - { label: Telefono fisso / cellulare (procuratore), map: { ask: Telefono del procuratore } }
+        map: { party: { ruolo: procuratore }, concat: [residenza.comune, residenza.provincia, residenza.indirizzo, residenza.civico, residenza.cap] }
+        notes: Per chi risiede in Italia lo Stato è Italia; non è nel registro.
+      - { label: PEC / posta elettronica (procuratore), map: { party: { ruolo: procuratore }, fallback: [identity.pec, identity.email] } }
+      - { label: Telefono fisso / cellulare (procuratore), map: { party: { ruolo: procuratore }, direct: identity.phone } }
       - label: "in qualità di: Procuratore/delegato / Agenzia per le imprese – Denominazione"
         map: { ask: "Il procuratore agisce come persona delegata o come Agenzia per le imprese (con denominazione)?" }
       # 4 – Dati dell'attività/intervento
@@ -437,8 +442,11 @@ forms:
       - label: del (data del titolo)
         map: { ask: "Data della SCIA, DIA o autorizzazione con cui è stata avviata l'attività" }
       - label: "Nel caso di cessazione: contestuale alla comunicazione / con decorrenza dal"
-        map: { ask: "La cessazione vale dal giorno di invio o da una data diversa (quale)?" }
-        notes: La data deve coincidere con quella comunicata al Registro Imprese e all'Agenzia delle Entrate.
+        map: { direct: business.data_cessazione }
+        notes: >-
+          Se la data è il giorno di invio si barra "contestuale", altrimenti "con decorrenza dal" e
+          la data. Deve coincidere con quella comunicata al Registro Imprese e all'Agenzia delle
+          Entrate.
       - label: "Nel caso di sospensione temporanea: contestuale / dal ... al ..."
         map: { blank_with_reason: Solo per la sospensione temporanea. }
       - { label: Data, map: { ask: Data di sottoscrizione } }
