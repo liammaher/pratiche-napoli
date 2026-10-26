@@ -94,13 +94,15 @@ function slot(url: string): number {
 // and any page that didn't answer or was refused last time, so one that is
 // back clears the report the next night rather than on its day. But a host
 // that refuses the checker (see refusing) is asked only its probe, documents
-// included: asking every night is what keeps an address blocked.
+// included, since asking every night is what keeps an address blocked; and
+// any address of it never checked (newly cited, or a document whose sha256
+// was recorded again), which would otherwise have no result at all.
 export function tonight(targets: Target[], day: number, state: State = {}): Target[] {
   const probes = refusing(targets, state);
   return targets.filter((t) => {
-    const probe = probes.get(hostOf(t.url));
-    if (probe) return targetKey(t) === probe;
     const seen = state[targetKey(t)];
+    const probe = probes.get(hostOf(t.url));
+    if (probe) return targetKey(t) === probe || !seen;
     return (
       t.sha256 ||
       slot(t.url) === day % DAYS ||
@@ -112,41 +114,66 @@ export function tonight(targets: Target[], day: number, state: State = {}): Targ
   });
 }
 
-// The hosts refusing the checker: those whose latest answer, among the cited
-// addresses, was a refusal (blocked). The latest by the time it was asked,
-// not the night: a site that blocks an address after so many requests
-// answers the first ones of a night and refuses the rest. For each, the
-// address it refused last, by targetKey: its one probe a night, until it
-// answers.
+// The hosts refusing the checker: those whose latest answers, among the
+// cited addresses, were refusals (a 404 with one for the home page too,
+// whether the archive saw the page gone or not: from here the two look the
+// same). The latest by the time they were asked, not the night: a site that
+// blocks an address after so many requests answers the first ones of a night
+// and refuses the rest. It takes the last two answers (or the only one) to
+// start, so one removed file asked last on a host whose home is 404 doesn't
+// stop the rest of it being checked; on the nights after, the probe alone
+// decides. For each host, the address refused last, by targetKey: its one
+// probe a night, until it stops refusing.
 export function refusing(targets: Target[], state: State): Map<string, string> {
-  const latest = new Map<string, { key: string; seen: Seen }>();
+  const byHost = new Map<string, { key: string; seen: Seen }[]>();
   for (const t of targets) {
     const seen = state[targetKey(t)];
     // An address not asked (held back with its host) says nothing.
     if (!seen || held(seen)) continue;
-    const when = (s: Seen) => s.askedAt ?? s.checkedOn;
-    const last = latest.get(hostOf(t.url));
-    if (!last || when(seen) > when(last.seen)) latest.set(hostOf(t.url), { key: targetKey(t), seen });
+    byHost.set(hostOf(t.url), [...(byHost.get(hostOf(t.url)) ?? []), { key: targetKey(t), seen }]);
   }
-  return new Map([...latest].flatMap(([host, { key, seen }]) => (seen.status === "blocked" ? [[host, key]] : [])));
+  const when = (s: Seen) => s.askedAt ?? s.checkedOn;
+  return new Map(
+    [...byHost].flatMap(([host, answers]) => {
+      const last = answers.sort((a, b) => (when(a.seen) < when(b.seen) ? 1 : when(a.seen) > when(b.seen) ? -1 : 0)).slice(0, 2);
+      return last.every((a) => refused(a.seen)) ? [[host, last[0].key]] : [];
+    }),
+  );
 }
+
+const refused = (r: { detail?: string }) => !!r.detail?.startsWith(REFUSED);
 
 // The other addresses of each host that refused its probe again tonight: not
 // asked, so they count as refused with it. Their streak goes on, and after a
-// week the report says that nothing on that site is being checked.
+// week the report says that nothing on that site is being checked. One that
+// was changed or not answering stays so, marked as not asked: a gone page or
+// a changed form mustn't drop out of the report while its host refuses.
 export function heldBack(targets: Target[], asked: Result[], state: State): Result[] {
   const probes = refusing(targets, state);
   const askedKeys = new Set(asked.map((r) => targetKey(r.target)));
   const refusedAgain = new Map(
-    asked.flatMap((r) => (r.status === "blocked" && probes.get(hostOf(r.target.url)) === targetKey(r.target) ? [[hostOf(r.target.url), r.target.url]] : [])),
+    asked.flatMap((r) => (refused(r) && probes.get(hostOf(r.target.url)) === targetKey(r.target) ? [[hostOf(r.target.url), r.target.url]] : [])),
   );
-  return targets.flatMap((t) => {
+  return targets.flatMap((t): Result[] => {
     const probe = refusedAgain.get(hostOf(t.url));
-    return probe && !askedKeys.has(targetKey(t)) ? [{ target: t, status: "blocked" as const, detail: `${HELD} il sito rifiuta il controllo (prova: ${probe})` }] : [];
+    if (!probe || askedKeys.has(targetKey(t))) return [];
+    const seen = state[targetKey(t)];
+    if (seen && (seen.status === "changed" || seen.status === "unreachable")) {
+      return [
+        {
+          target: t,
+          status: seen.status,
+          detail: held(seen) ? seen.detail : `${HELD} ${seen.detail ?? seen.status}`,
+          ...(seen.wayback && { wayback: seen.wayback, waybackStatus: seen.waybackStatus, waybackOn: seen.waybackOn ?? seen.checkedOn }),
+        },
+      ];
+    }
+    return [{ target: t, status: "blocked", detail: `${HELD} il sito rifiuta il controllo (prova: ${probe})` }];
   });
 }
 
 const HELD = "non chiesto stanotte:";
+const REFUSED = "HTTP 404, anche per la home del sito";
 const held = (r: { detail?: string }) => !!r.detail?.startsWith(HELD);
 
 const hostOf = (url: string) => new URL(url).host;
@@ -262,7 +289,7 @@ export async function checkTargets(targets: Target[], fetchFn: typeof fetch, opt
         );
         if (status !== 404) continue;
         for (const i of notFound.filter((i) => origin(targets[i].url) === home)) {
-          results[i] = { ...results[i], status: "blocked", detail: "HTTP 404, anche per la home del sito" };
+          results[i] = { ...results[i], status: "blocked", detail: REFUSED };
         }
       }
     }
@@ -551,7 +578,7 @@ function withArchive(r: Result, wayback: string, status: string | undefined): Re
   const gone = r.status === "blocked" && /^(404|410)$/.test(status ?? "");
   return {
     ...r,
-    ...(gone && { status: "unreachable", detail: `HTTP 404, anche per la home del sito, e HTTP ${status} nell'archivio` }),
+    ...(gone && { status: "unreachable", detail: `${REFUSED}, e HTTP ${status} nell'archivio` }),
     wayback,
     ...(status && { waybackStatus: status }),
   };
@@ -571,7 +598,8 @@ export function inconclusive(results: Result[]): string | undefined {
   if (!results.length) return "nessun indirizzo da controllare";
   const silent = (r: Result) => r.status === "uncheckable" || (r.status === "unreachable" && !answered(r));
   const bySite = new Map<string, Result[]>();
-  for (const r of results) bySite.set(siteOf(r.target.url), [...(bySite.get(siteOf(r.target.url)) ?? []), r]);
+  // An address not asked (the run's time was up) says nothing either way.
+  for (const r of results.filter((r) => !held(r))) bySite.set(siteOf(r.target.url), [...(bySite.get(siteOf(r.target.url)) ?? []), r]);
   const failed = [...bySite.values()].filter((rs) => rs.every(silent)).length;
   return failed > bySite.size / 2 ? `${failed} siti su ${bySite.size} senza risposta` : undefined;
 }
@@ -647,7 +675,7 @@ export function report(results: Result[], checkedOn: string): string {
       ? [
           `## Bloccati dal sito da almeno una settimana (${longBlocked.length})`,
           "",
-          "Il sito rifiuta il controllo automatico da almeno 7 giorni, quindi questi indirizzi non vengono più controllati (se un modulo cambia, non lo vediamo). Aprirli a mano da un browser, e confrontare i moduli con lo sha256 registrato finché il blocco dura.",
+          "Rispondono 404, come la home del sito, da almeno 7 giorni: o il sito rifiuta il controllo automatico, e allora i suoi indirizzi non vengono controllati (se un modulo cambia, non lo vediamo), o la pagina è stata tolta. Aprirli a mano da un browser, e confrontare i moduli con lo sha256 registrato finché il blocco dura.",
           "",
           ...items(longBlocked),
           "",
