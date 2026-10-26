@@ -1,7 +1,10 @@
 // Runs the handler against the Firestore emulator: npm run test:emulator.
 
-import { beforeEach, test } from "node:test";
+import { after, beforeEach, test } from "node:test";
 import assert from "node:assert/strict";
+import type { AddressInfo } from "node:net";
+import { http } from "@google-cloud/functions-framework";
+import { getTestServer } from "@google-cloud/functions-framework/testing";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
 import { createHandler, MAX_BYTES, parseForm, rateLimitAddress, type Req, type Res } from "../src/handler";
@@ -32,6 +35,22 @@ const REPORT = {
   days_to_answer: 12,
   documents: [{ name: "Contratto di locazione", asked: true }],
 };
+
+// The same handler behind the functions framework that Cloud Run functions
+// runs, so its body parsing (rawBody, form and text bodies) is covered too.
+http("submitReport", (req, res) => handler(req, res));
+const server = getTestServer("submitReport").listen(0, "127.0.0.1");
+after(() => server.close());
+
+async function viaFramework(body: string, type: string, ip = `203.0.113.${nextIp++}`) {
+  const { port } = server.address() as AddressInfo;
+  return fetch(`http://127.0.0.1:${port}/`, {
+    method: "POST",
+    headers: { "Content-Type": type, "X-Forwarded-For": ip, Origin: "https://example.org" },
+    body,
+    redirect: "manual",
+  });
+}
 
 interface Reply {
   status: number;
@@ -219,13 +238,13 @@ test("IPv6 addresses in one /64 share a limit", async () => {
 test("personal data in text fields is replaced and the report flagged", async () => {
   const reply = await postJson({
     ...REPORT,
-    note: "Il mio cf è RSS MRA 85T10 A562S, l'ho dovuto ripetere due volte",
+    note: "Il mio cf è RSS MRA 85T10 A562S, l'ho dovuto ripetere due volte (sul modulo avevo scritto RSSMRA85T10A562X)",
     documents: [{ name: "Bonifico su IT60 X054 2811 1010 0000 0123 456", asked: true }],
     claim_feedback: [{ section: "payment", verdict: "sbagliata", text: "pagato da RSSMRA85T10A562S" }],
   });
   assert.equal(reply.status, 201);
   const [doc] = await docs("reports");
-  assert.equal(doc.get("note"), "Il mio cf è [rimosso], l'ho dovuto ripetere due volte");
+  assert.equal(doc.get("note"), "Il mio cf è [rimosso], l'ho dovuto ripetere due volte (sul modulo avevo scritto [rimosso])");
   assert.equal(doc.get("documents")[0].name, "Bonifico su [rimosso]");
   assert.equal(doc.get("claim_feedback")[0].text, "pagato da [rimosso]");
   assert.equal(doc.get("pii_redacted"), true);
@@ -250,7 +269,7 @@ test("a contact email is stored only in contacts, and only with consent", async 
 
 test("bodies over 10 KB, other types and other methods are refused", async () => {
   assert.equal((await postJson({ ...REPORT, note: "x".repeat(MAX_BYTES) })).status, 413);
-  assert.equal((await send("hello", { type: "text/plain" })).status, 415);
+  assert.equal((await send("hello", { type: "application/xml" })).status, 415);
   assert.equal((await send("{nope", {})).status, 400);
   assert.equal((await send("", { method: "GET" })).status, 405);
   assert.equal((await docs("reports")).length, 0);
@@ -312,6 +331,34 @@ test("Italian numbers in forms are read as meant", () => {
   assert.deepEqual(parseForm("paid_eur=1.250,50"), { paid_eur: 1250.5 });
   assert.deepEqual(parseForm("paid_eur=16.50"), { paid_eur: 16.5 });
   assert.deepEqual(parseForm("paid_eur=0x10"), { paid_eur: "0x10" });
+});
+
+test("through the functions framework, JSON, text/plain and form posts are stored", async () => {
+  for (const type of ["application/json", "text/plain;charset=UTF-8"]) {
+    const res = await viaFramework(JSON.stringify(REPORT), type);
+    assert.equal(res.status, 201, type);
+    assert.equal(res.headers.get("access-control-allow-origin"), "https://example.org");
+  }
+  const { documents, days_to_answer, ...fields } = REPORT;
+  const form = await viaFramework(
+    new URLSearchParams({ ...fields, days_to_answer: String(days_to_answer), "documents[0][name]": documents[0].name, "documents[0][asked]": "si" }).toString(),
+    "application/x-www-form-urlencoded",
+  );
+  assert.equal(form.status, 303);
+  assert.equal(form.headers.get("location"), `${SITE}/grazie/`);
+  const stored = (await docs("reports")).map((d) => {
+    const { received_at, ...rest } = d.data();
+    return rest;
+  });
+  assert.equal(stored.length, 3);
+  for (const report of stored) assert.deepEqual(report, { ...REPORT, status: "pending", schema_version: 0, pii_redacted: false });
+});
+
+test("through the functions framework, malformed text/plain JSON gets a 400 with CORS", async () => {
+  const res = await viaFramework("{nope", "text/plain");
+  assert.equal(res.status, 400);
+  assert.equal(res.headers.get("access-control-allow-origin"), "https://example.org");
+  assert.equal(((await res.json()) as { error: string }).error, "bad_json");
 });
 
 test("form fields with odd indexes stay for the schema to reject", () => {
