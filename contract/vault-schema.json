@@ -1,5 +1,5 @@
 {
-  "version": "11",
+  "version": "12",
   "categories": [
     {
       "name": "identity",
@@ -607,6 +607,37 @@
         {
           "id": "ruolo.poteri",
           "description": "Powers of an amministratore or procuratore, as on the visura camerale",
+          "sensitivity": "standard",
+          "for": "member"
+        }
+      ]
+    },
+    {
+      "name": "procura",
+      "description": "A delega or procura a person gave you (or, in a business vault, the business): e.g. a client's procura speciale for a SUE/SUAP filing, the Agenzia delle Entrate delega unica, an INPS delega. Only on another person, e.g. rossi:procura.ente; a second one goes in procura2. Attach the signed procura with 'pvault doc add rossi:procura <file>'. data_scadenza is tracked by 'pvault expiring'. Never store the person's SPID or CIE credentials instead: act with your own and the procura.",
+      "scope": "person",
+      "fields": [
+        {
+          "id": "procura.ente",
+          "description": "Who the procura is for: the ente or portal (e.g. SUE Comune di Napoli, Agenzia delle Entrate, INPS)",
+          "sensitivity": "standard",
+          "for": "member"
+        },
+        {
+          "id": "procura.oggetto",
+          "description": "What it allows, as written in it (e.g. presentazione CILA per l'immobile di via Roma 1)",
+          "sensitivity": "standard",
+          "for": "member"
+        },
+        {
+          "id": "procura.data_conferimento",
+          "description": "Date it was given or signed (YYYY-MM-DD)",
+          "sensitivity": "standard",
+          "for": "member"
+        },
+        {
+          "id": "procura.data_scadenza",
+          "description": "Date it ends (YYYY-MM-DD); tracked by 'pvault expiring'",
           "sensitivity": "standard",
           "for": "member"
         }
