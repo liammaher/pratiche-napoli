@@ -102,3 +102,8 @@ you can do them. Don't use another account that the CLI is logged into.
    are listed and active; if not, add them for the `expires_at` field.
 
 The function's URL is printed at the end of the deploy; the site's form posts to it.
+Build the site with it and the address for data requests:
+
+```bash
+REPORTS_URL=<function URL> CONTACT_EMAIL=<address> npm run build
+```

@@ -83,6 +83,9 @@ export interface SiteOptions {
   css: string;
   schema: string; // contract/procedure.schema.json, published as is
   fields: string; // contract/fields.json
+  // The report form appears only with both: where reports go, and whom
+  // people can write to about their data (the privacy page names it).
+  reports?: { url: string; contact: string; script: string };
 }
 
 export const SITE_NAME = "Pratiche Napoli";
@@ -175,6 +178,9 @@ export function buildSite(procedures: Procedure[], opts: SiteOptions): Map<strin
   files.set("llms.txt", renderLlmsTxt(entes, site));
   files.set("style.css", opts.css);
   files.set("404.html", render404(site));
+  files.set("privacy/index.html", renderPrivacy(site));
+  files.set("grazie/index.html", renderThanks(site));
+  if (opts.reports) files.set("report.js", opts.reports.script);
   return files;
 }
 
@@ -275,7 +281,7 @@ function footer(root: string, site: Site): string {
 <p><strong>${SITE_NAME} è un progetto indipendente</strong>: non è un sito del Comune di Napoli né di altri enti.
 Le informazioni servono a capire e preparare una pratica, non sono consulenza legale: prima di agire controlla sempre la fonte ufficiale citata.</p>
 <p>Libreria aggiornata il ${time(site.updated)}.
-<a href="${root}procedures.json">Dati in JSON</a> · <a href="${root}llms.txt">llms.txt</a> · <a href="${esc(repo)}">Codice e contenuti su GitHub</a>.
+<a href="${root}privacy/">Privacy</a> · <a href="${root}procedures.json">Dati in JSON</a> · <a href="${root}llms.txt">llms.txt</a> · <a href="${esc(repo)}">Codice e contenuti su GitHub</a>.
 Contenuti con licenza <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.it">CC BY-SA 4.0</a>.</p>
 </footer>`;
 }
@@ -378,43 +384,50 @@ function renderProcedure(p: Procedure, ente: Ente, site: Site): string {
   const root = rootFrom(p.id);
   const cite = citer(p);
   const v = p.verification;
+  const reports = site.opts.reports;
+  // Every section shown, for the form's "which part was wrong" choice.
+  const shown: [string, string][] = [["in-breve", "In breve"]];
+  const sec = (id: string, title: string, body: string) => {
+    shown.push([id, title]);
+    return section(id, title, body, !!reports);
+  };
   // Headings are the questions people ask; ids stay fixed for links.
   const sections = [
-    section("chi", "Chi deve farla?", appliesTo(p, cite)),
-    p.legal_basis?.length ? section("norme", "Su quali norme si basa?", claimList(p.legal_basis, cite)) : "",
-    p.deadline ? section("scadenza", "Entro quando va fatta?", deadline(p.deadline, cite)) : "",
-    section(
+    sec("chi", "Chi deve farla?", appliesTo(p, cite)),
+    p.legal_basis?.length ? sec("norme", "Su quali norme si basa?", claimList(p.legal_basis, cite)) : "",
+    p.deadline ? sec("scadenza", "Entro quando va fatta?", deadline(p.deadline, cite)) : "",
+    sec(
       "come",
       "Come si presenta?",
       [...p.channels.filter((c) => c.purpose === "procedure"), ...p.channels.filter((c) => c.purpose !== "procedure")]
         .map((c) => channel(c, cite))
         .join("\n"),
     ),
-    p.payment ? section("pagamento", "Come si paga?", payment(p.payment, cite)) : "",
-    p.documents?.length ? section("documenti", "Quali documenti servono?", documents(p.documents)) : "",
-    p.forms?.length ? section("moduli", "Quali moduli servono?", forms(p.forms, cite)) : "",
-    section("passaggi", "Quali sono i passaggi?", steps(p.steps)),
-    p.after?.length ? section("dopo", "Cosa succede dopo l'invio?", list(p.after.map(esc))) : "",
+    p.payment ? sec("pagamento", "Come si paga?", payment(p.payment, cite)) : "",
+    p.documents?.length ? sec("documenti", "Quali documenti servono?", documents(p.documents)) : "",
+    p.forms?.length ? sec("moduli", "Quali moduli servono?", forms(p.forms, cite)) : "",
+    sec("passaggi", "Quali sono i passaggi?", steps(p.steps)),
+    p.after?.length ? sec("dopo", "Cosa succede dopo l'invio?", list(p.after.map(esc))) : "",
     p.records?.length
-      ? section(
+      ? sec(
           "conservare",
           "Cosa conservare",
           list(p.records.map((r) => `<strong>${esc(humanField(r.field))}</strong>: ${esc(r.from)}`)),
         )
       : "",
-    p.pitfalls?.length ? section("attenzione", "A cosa fare attenzione?", claimList(p.pitfalls, cite)) : "",
+    p.pitfalls?.length ? sec("attenzione", "A cosa fare attenzione?", claimList(p.pitfalls, cite)) : "",
     p.related?.length
-      ? section(
+      ? sec(
           "collegate",
           "Pratiche collegate",
           list(p.related.map((id) => `<a href="${root}${id}/">${esc(site.byId.has(id) ? heading(site.byId.get(id)!) : id)}</a>`)),
         )
       : "",
     p.run_log?.length
-      ? section("casi", "Casi reali", list(p.run_log.map((r) => `${time(r.date)}: ${esc(r.note)}`)))
+      ? sec("casi", "Casi reali", list(p.run_log.map((r) => `${time(r.date)}: ${esc(r.note)}`)))
       : "",
-    section("fonti", "Fonti", sources(p.sources)),
-    section(
+    sec("fonti", "Fonti", sources(p.sources)),
+    sec(
       "verifica",
       "Verifica",
       `<p>Livello ${esc(v.level)}: ${esc(levelText(v.level))}. Ultima verifica il ${time(v.date)} (${esc(v.by)}).</p>
@@ -422,15 +435,19 @@ function renderProcedure(p: Procedure, ente: Ente, site: Site): string {
 <p>Ogni affermazione indica se è verificata su una fonte ufficiale, <span class="badge">da verificare</span> o con <span class="badge">fonti in contrasto</span>.</p>`,
     ),
   ];
-  const issue = `${site.opts.repoUrl}/issues/new?title=${encodeURIComponent(`Errore in ${p.id}`)}`;
   const body = `<nav class="crumbs"><a href="${root}">Tutte le pratiche</a> › <a href="${root}${ente.path}/">${esc(ente.name)}</a></nav>
 <article>
 <h1>${esc(heading(p))}</h1>
 ${p.headline ? `<p class="official">${esc(p.title)}</p>\n` : ""}${p.aka?.length ? `<p class="meta">Conosciuta anche come: ${esc(p.aka.join(", "))}</p>\n` : ""}<p class="lead">${esc(p.summary)}</p>
 <p class="meta">Aggiornata il ${time(p.updated)} · verificata il ${time(v.date)}, ${esc(levelText(v.level))} · ${esc([p.ente.name, p.ente.office].filter(Boolean).join(", "))}</p>
-${quickAnswer(p, cite)}
+${reports ? '<p class="actions"><a href="#racconta">Hai fatto questa pratica? Racconta com\'è andata</a></p>\n' : ""}${quickAnswer(p, cite, !!reports)}
 ${sections.filter(Boolean).join("\n")}
-<p class="actions"><a href="${esc(issue)}">Segnala un errore</a> · <a href="${root}${p.id}.json">Questa pratica in JSON</a></p>
+${reports ? reportForm(p, shown, site) : ""}
+<p class="actions">${
+    reports
+      ? ""
+      : `<a href="${esc(`${site.opts.repoUrl}/issues/new?title=${encodeURIComponent(`Errore in ${p.id}`)}`)}">Segnala un errore su GitHub</a> (la segnalazione è pubblica: non scrivere dati personali) · `
+  }<a href="${root}${p.id}.json">Questa pratica in JSON</a></p>
 </article>`;
   const url = `${site.opts.baseUrl}/${p.id}/`;
   return page(
@@ -439,7 +456,7 @@ ${sections.filter(Boolean).join("\n")}
       title: heading(p),
       description: describe(p),
       updated: p.updated,
-      head: `<link rel="alternate" type="application/json" href="${root}${p.id}.json">\n`,
+      head: `<link rel="alternate" type="application/json" href="${root}${p.id}.json">\n${reports ? `<script src="${root}report.js" defer></script>\n` : ""}`,
       jsonLd: {
         "@context": "https://schema.org",
         "@type": "WebPage",
@@ -508,15 +525,21 @@ function citer(p: Procedure): Cite {
   return (id) => (id && n.has(id) ? ` <a class="cite" href="#fonte-${esc(id)}">[${n.get(id)}]</a>` : "");
 }
 
-function section(id: string, title: string, body: string): string {
-  return `<section id="${id}">\n<h2>${esc(title)}</h2>\n${body}\n</section>`;
+// With `flag`, a link under the heading opens the report form preset to this
+// section (report.js presets it). It stays out of the <h2>, whose text is the
+// question people search for, and points at #racconta so the page doesn't reload.
+function section(id: string, title: string, body: string, flag = false): string {
+  return `<section id="${id}">\n<h2>${esc(title)}</h2>\n${flag ? flagLink(id) : ""}${body}\n</section>`;
 }
+
+const flagLink = (id: string) =>
+  `<p class="flag"><a href="#racconta" data-section="${id}">Segnala un errore in questa parte</a></p>\n`;
 
 const ONLINE = new Set(["portal", "pec", "email", "app"]);
 
 // The "In breve" box: the answers people look for first, each with its
 // status and source, linking down to the section that explains it.
-function quickAnswer(p: Procedure, cite: Cite): string {
+function quickAnswer(p: Procedure, cite: Cite, flag: boolean): string {
   // Only channels that carry out the procedure answer "online?": many PECs and
   // emails are for questions, and filings sent there aren't processed.
   const ways = p.channels.filter((c) => c.purpose === "procedure");
@@ -547,6 +570,7 @@ function quickAnswer(p: Procedure, cite: Cite): string {
   ];
   return `<section id="in-breve" class="quick">
 <h2>In breve</h2>
+${flag ? flagLink("in-breve") : ""}
 <dl>
 ${rows.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join("\n")}
 </dl>
@@ -807,4 +831,146 @@ function levelText(level: string): string {
 // tari.codice_contribuente → "codice contribuente"
 function humanField(id: string): string {
   return id.slice(id.indexOf(".") + 1).replace(/_/g, " ");
+}
+
+// --- Reports ---
+
+const OUTCOMES: [string, string][] = [
+  ["completata", "È andata a buon fine"],
+  ["chiesto_altro", "Mi hanno chiesto altro"],
+  ["respinta", "È stata respinta"],
+  ["in_attesa", "Sto ancora aspettando"],
+  ["rinunciato", "Ho rinunciato"],
+];
+const VERDICTS: [string, string][] = [
+  ["sbagliata", "era sbagliata"],
+  ["superata", "non è più vera"],
+  ["confermata", "era giusta"],
+];
+
+// The months a report can be about, newest first: the last two years.
+function recentMonths(built: Date): [string, string][] {
+  const fmt = new Intl.DateTimeFormat("it-IT", { month: "long", year: "numeric", timeZone: "UTC" });
+  return Array.from({ length: 24 }, (_, i) => {
+    const d = new Date(Date.UTC(built.getUTCFullYear(), built.getUTCMonth() - i, 1));
+    return [d.toISOString().slice(0, 7), fmt.format(d)] as [string, string];
+  });
+}
+
+// The "how did it go" form. It posts as a plain form (the backend answers with
+// a redirect to /grazie/), and report.js sends it as JSON when JavaScript runs.
+// Its fields come from the procedure: channels, offices, documents, sections.
+function reportForm(p: Procedure, shown: [string, string][], site: Site): string {
+  const reports = site.opts.reports!;
+  const root = rootFrom(p.id);
+  const options = (pairs: [string, string][], blank?: string) =>
+    (blank !== undefined ? `<option value="">${esc(blank)}</option>` : "") +
+    pairs.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join("");
+  const types = [...new Set([...p.channels.map((c) => c.type), ...Object.keys(CHANNELS)])];
+  // Each office remembers its channel type, so picking one can preset "how".
+  const offices = new Map<string, string>();
+  for (const c of p.channels) {
+    const name = (c.name ?? CHANNELS[c.type] ?? c.type).slice(0, 120);
+    if (!offices.has(name)) offices.set(name, c.type);
+  }
+  const docs = (p.documents ?? []).slice(0, 50);
+  const radio = (name: string, value: string, label: string, required = false) =>
+    `<label class="choice"><input type="radio" name="${name}" value="${value}"${required ? " required" : ""}> ${esc(label)}</label>`;
+  return `<section id="racconta" class="report">
+<h2>Hai fatto questa pratica? Racconta com'è andata</h2>
+<p>Ci aiuti a tenere questa pagina vera. Non pubblichiamo il tuo racconto: solo statistiche, quando sono almeno 3, e consigli riscritti da noi. <strong>Non scrivere nomi, codici fiscali, indirizzi o altri dati personali.</strong> <a href="${root}privacy/">Come usiamo i dati</a></p>
+<form method="post" action="${esc(reports.url)}" data-report>
+<input type="hidden" name="procedure" value="${esc(p.id)}">
+<input type="hidden" name="source" value="web">
+<div class="hp" aria-hidden="true"><label>Lascia vuoto <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+<label>Quando l'hai fatta (o ci hai lavorato l'ultima volta)?
+<select name="done" required>${options(recentMonths(site.opts.built), "Scegli il mese")}</select></label>
+<label>Come l'hai presentata?
+<select name="channel" required>${options(types.map((t) => [t, CHANNELS[t] ?? t]), "Scegli")}</select></label>
+<label>A quale ufficio o portale?
+<select name="office" required><option value="">Scegli</option>${[...offices]
+    .map(([name, type]) => `<option value="${esc(name)}" data-type="${type}">${esc(name)}</option>`)
+    .join("")}<option value="altro">Altro</option></select></label>
+<fieldset><legend>Com'è finita?</legend>
+${OUTCOMES.map(([v, l], i) => radio("outcome", v, l, i === 0)).join("\n")}
+</fieldset>
+<label>Dopo quanti giorni ti hanno risposto? <input type="number" name="days_to_answer" min="0" max="730" inputmode="numeric"></label>
+<label>Se sei andato allo sportello, quanti minuti hai aspettato? <input type="number" name="desk_wait_minutes" min="0" max="600" inputmode="numeric"></label>
+<label>Quanto hai pagato in tutto, in euro? (per esempio 16, 66,50 o 1.250) <input type="text" name="paid_eur" inputmode="decimal" pattern="[0-9]{1,3}(\\.[0-9]{3})+(,[0-9]{1,2})?|[0-9]+([.,][0-9]{1,2})?" title="Un importo come 16, 66,50 o 1.250"></label>
+${
+  docs.length
+    ? `<fieldset><legend>Quali di questi documenti ti hanno chiesto?</legend>
+${docs
+  .map(
+    (d, i) => `<fieldset class="doc"><legend>${esc(d.name)}</legend><input type="hidden" name="documents[${i}][name]" value="${esc(d.name)}">
+${radio(`documents[${i}][asked]`, "si", "sì")} ${radio(`documents[${i}][asked]`, "no", "no")}</fieldset>`,
+  )
+  .join("\n")}
+</fieldset>`
+    : ""
+}
+<label>Ti hanno chiesto altri documenti? Quali? <textarea name="extra_documents" maxlength="300" rows="2"></textarea></label>
+<fieldset><legend>Qualcosa su questa pagina era sbagliato o superato?</legend>
+<label>Quale parte <select name="claim_feedback[0][section]">${options([...shown, ["pagina", "Tutta la pagina, o non so"]], "Nessuna")}</select></label>
+<label>L'informazione <select name="claim_feedback[0][verdict]">${options(VERDICTS, "Scegli")}</select></label>
+<label>Cosa hai trovato invece? <textarea name="claim_feedback[0][text]" maxlength="500" rows="2"></textarea></label>
+</fieldset>
+<label>Un consiglio per chi la fa dopo di te? <textarea name="note" maxlength="1000" rows="3"></textarea></label>
+<label class="choice"><input type="checkbox" name="consent_contact"> Potete scrivermi per chiarimenti su questo racconto</label>
+<label>La tua email (solo se hai spuntato la casella sopra) <input type="email" name="contact_email" maxlength="254" autocomplete="email"></label>
+<p><button type="submit">Invia il racconto</button></p>
+<p class="status" role="status" aria-live="polite"></p>
+</form>
+</section>`;
+}
+
+function renderPrivacy(site: Site): string {
+  const contact = site.opts.reports?.contact;
+  const body = `<h1>Privacy</h1>
+<p>${SITE_NAME} non usa cookie né strumenti di tracciamento. Come per ogni sito, il servizio che lo ospita registra per motivi tecnici e di sicurezza l'indirizzo IP e le pagine richieste (log di accesso); non li usiamo per nient'altro.</p>
+<h2>I racconti di chi ha fatto una pratica</h2>
+<p>Se compili il modulo "Racconta com'è andata", riceviamo solo quello che scrivi: il mese, il canale e l'ufficio, com'è finita, tempi, importi, quali documenti ti hanno chiesto e le tue note. Lo usiamo per un solo scopo: tenere aggiornate le pagine delle pratiche.</p>
+<ul>
+<li><strong>Cosa pubblichiamo</strong>: mai il tuo racconto così com'è. Solo statistiche, quando i racconti sono almeno 3 (per esempio "risposta in circa 23 giorni via PEC, 7 segnalazioni"), e consigli che riscriviamo noi.</li>
+<li><strong>Dati personali</strong>: non ne chiediamo e ti chiediamo di non scriverne. Codici fiscali e IBAN scritti per errore vengono tolti automaticamente all'arrivo.</li>
+<li><strong>Indirizzo IP</strong>: non lo salviamo con il racconto. Per limitare gli invii ripetuti teniamo per un'ora un codice pseudonimo ricavato dall'indirizzo, poi lo cancelliamo.</li>
+<li><strong>Email</strong>: la chiediamo solo se spunti la casella per essere ricontattato. È conservata separata dal racconto e cancellata dopo 12 mesi.</li>
+<li><strong>Dove</strong>: su Google Firebase, in un database nell'Unione europea (Milano), accessibile solo a chi cura il progetto.</li>
+<li><strong>Per quanto</strong>: i racconti restano finché servono alle statistiche, che usano quelli degli ultimi 12 mesi. Puoi chiedere in ogni momento di vederli, correggerli o cancellarli.</li>
+<li><strong>Base giuridica</strong>: il tuo consenso, che dai inviando il modulo (e spuntando la casella, per l'email). Puoi revocarlo quando vuoi.</li>
+</ul>
+<h2>Contatti</h2>
+${
+  contact
+    ? `<p>Per qualunque richiesta sui tuoi dati scrivi a <a href="mailto:${esc(contact)}">${esc(contact)}</a>. Puoi anche presentare reclamo al <a href="https://www.garanteprivacy.it/">Garante per la protezione dei dati personali</a>.</p>`
+    : "<p>Il modulo per i racconti non è ancora attivo: al momento, oltre ai log tecnici del servizio di hosting, non raccogliamo alcun dato.</p>"
+}`;
+  return page(
+    {
+      dir: "privacy",
+      title: "Privacy",
+      description: `Come ${SITE_NAME} tratta i racconti di chi ha fatto una pratica: cosa raccoglie, cosa pubblica, dove e per quanto.`,
+      updated: site.updated,
+      jsonLd: { "@context": "https://schema.org", "@type": "WebPage", name: "Privacy", inLanguage: "it" },
+    },
+    body,
+    site,
+  );
+}
+
+function renderThanks(site: Site): string {
+  return page(
+    {
+      dir: "grazie",
+      head: '<meta name="robots" content="noindex">\n',
+      title: "Grazie",
+      description: "Il tuo racconto è arrivato.",
+      updated: site.updated,
+      jsonLd: { "@context": "https://schema.org", "@type": "WebPage", name: "Grazie" },
+    },
+    `<h1>Grazie!</h1>
+<p>Il tuo racconto è arrivato. Lo leggiamo prima di usarlo, e quando con altri racconti dice qualcosa di nuovo aggiorniamo la pagina della pratica.</p>
+<p><a href="../">Torna a tutte le pratiche</a></p>`,
+    site,
+  );
 }

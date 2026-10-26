@@ -367,3 +367,14 @@ test("form fields with odd indexes stay for the schema to reject", () => {
     documents: [{ asked: true }],
   });
 });
+
+test("a form correction missing its section or verdict is kept, not refused", () => {
+  assert.deepEqual(parseForm("claim_feedback[0][verdict]=superata&claim_feedback[0][text]=Ora+90+giorni"), {
+    claim_feedback: [{ section: "pagina", verdict: "superata", text: "Ora 90 giorni" }],
+  });
+  assert.deepEqual(parseForm("claim_feedback[0][section]=scadenza&claim_feedback[0][text]=Ora+90+giorni"), {
+    claim_feedback: [{ section: "scadenza", verdict: "sbagliata", text: "Ora 90 giorni" }],
+  });
+  // A section chosen and nothing else said is no correction.
+  assert.deepEqual(parseForm("claim_feedback[0][section]=scadenza"), {});
+});
