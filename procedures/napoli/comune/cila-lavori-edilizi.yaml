@@ -372,22 +372,22 @@ forms:
           interno, CAP, catasto) vengono dallo stesso immobile dei lavori. Per un locale d'impresa
           usare locale.*; per lavori nella propria casa usare invece abitazione.* e l'indirizzo di
           residenza o domicilio di quella casa. Non mescolare dati di immobili diversi.
-      - { label: "e) n.", map: { direct: locale.civico }, notes: "Solo per i locali dell'impresa (riga «sito in»); per la propria casa residenza.civico o domicilio.civico." }
+      - { label: "e) n.", map: { ask: "Numero civico dell'immobile dei lavori (lo stesso di «sito in»)" }, notes: "Per i locali dell'impresa locale.civico; per la propria casa residenza.civico o domicilio.civico." }
       - { label: "e) scala", map: { ask: "Scala dell'immobile dei lavori, se c'è" } }
       - { label: "e) piano", map: { ask: "Piano dell'immobile dei lavori" } }
-      - { label: "e) interno", map: { direct: locale.interno }, notes: "Solo per i locali dell'impresa (riga «sito in»); per la propria casa residenza.interno o domicilio.interno." }
-      - { label: "e) C.A.P.", map: { direct: locale.cap }, notes: "Solo per i locali dell'impresa (riga «sito in»); per la propria casa residenza.cap o domicilio.cap." }
+      - { label: "e) interno", map: { ask: "Interno dell'immobile dei lavori, se c'è (lo stesso di «sito in»)" }, notes: "Per i locali dell'impresa locale.interno; per la propria casa residenza.interno o domicilio.interno." }
+      - { label: "e) C.A.P.", map: { ask: "CAP dell'immobile dei lavori (lo stesso di «sito in»)" }, notes: "Per i locali dell'impresa locale.cap; per la propria casa residenza.cap o domicilio.cap." }
       - { label: "e) censito al catasto fabbricati / terreni", map: { ask: "L'immobile è censito al catasto fabbricati o al catasto terreni? (di norma fabbricati)" } }
-      - { label: "e) foglio n.", map: { direct: locale.catasto_foglio }, notes: "Solo per i locali dell'impresa (riga «sito in»); per la propria casa abitazione.catasto_foglio." }
-      - { label: "e) map.", map: { direct: locale.catasto_particella }, notes: "Solo per i locali dell'impresa (riga «sito in»); per la propria casa abitazione.catasto_particella." }
-      - { label: "e) sub. (se presenti)", map: { direct: locale.catasto_subalterno }, notes: "Solo per i locali dell'impresa (riga «sito in»); per la propria casa abitazione.catasto_subalterno." }
+      - { label: "e) foglio n.", map: { ask: "Foglio catastale dell'immobile dei lavori (lo stesso di «sito in»)" }, notes: "Per i locali dell'impresa locale.catasto_foglio; per la propria casa abitazione.catasto_foglio." }
+      - { label: "e) map.", map: { ask: "Particella (mappale) catastale dell'immobile dei lavori (lo stesso di «sito in»)" }, notes: "Per i locali dell'impresa locale.catasto_particella; per la propria casa abitazione.catasto_particella." }
+      - { label: "e) sub. (se presenti)", map: { ask: "Subalterno catastale dell'immobile dei lavori, se c'è (lo stesso di «sito in»)" }, notes: "Per i locali dell'impresa locale.catasto_subalterno; per la propria casa abitazione.catasto_subalterno." }
       - { label: "e) sez.", map: { ask: "Sezione catastale, se diversa dalla sezione urbana (dalla visura)" } }
-      - { label: "e) sez. urb.", map: { direct: locale.catasto_sezione }, notes: "Solo per i locali dell'impresa (riga «sito in»); per la propria casa abitazione.catasto_sezione." }
+      - { label: "e) sez. urb.", map: { ask: "Sezione urbana catastale dell'immobile dei lavori, se c'è (lo stesso di «sito in»)" }, notes: "Per i locali dell'impresa locale.catasto_sezione; per la propria casa abitazione.catasto_sezione." }
       - label: "e) avente destinazione d'uso (residenziale, industriale, commerciale, ecc.)"
-        map: { direct: locale.destinazione_uso }
+        map: { ask: "Destinazione d'uso legittima dell'immobile dei lavori (lo stesso di «sito in»)" }
         notes: >-
-          Solo per i locali dell'impresa (riga «sito in»); per la propria casa scrivere
-          residenziale. Va indicata la destinazione legittima, non quella di fatto.
+          Per i locali dell'impresa locale.destinazione_uso; per la propria casa residenziale. Va
+          indicata la destinazione legittima, non quella di fatto.
       - { label: "e) coordinate (*)", map: { ask: "Coordinate dell'immobile, se richieste (risponde il tecnico)" } }
       # f) – l)
       - label: "f) Contributo di costruzione – f.1 a titolo gratuito / f.2 a titolo oneroso, con f.2.1 ricevuta allegata o f.2.2 pagamento prima dell'inizio lavori"
@@ -450,8 +450,11 @@ forms:
         map: { direct: business.denominazione }
         notes: Solo come legale rappresentante (riga precedente); altrimenti vuoto.
       - label: C.F. (dell'impresa o ente)
-        map: { fallback: [business.codice_fiscale, business.partita_iva] }
-        notes: Solo come legale rappresentante; altrimenti vuoto.
+        map: { direct: business.codice_fiscale }
+        notes: >-
+          Solo come legale rappresentante; altrimenti vuoto. Il codice fiscale dell'impresa (per una
+          ditta individuale quello del titolare, mai la partita IVA); se business.codice_fiscale non
+          c'è, chiederlo.
       - label: Pec
         map: { direct: identity.pec }
         notes: La PEC del dichiarante; come legale rappresentante si può indicare quella dell'impresa (business.pec).
