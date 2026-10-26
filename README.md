@@ -102,7 +102,9 @@ offices' servers as little as possible, since some block an address that asks to
 
 - **When:** documents with a `sha256` every night, other pages on a fixed night of the week, plus
   any page that didn't answer last time and any without a result from the last week (so the first
-  run, or one after the saved state is lost, checks everything; `--all` always does).
+  run, or one after the saved state is lost, checks everything; `--all` always does). A page its
+  site refused waits for its night, unless another address on that host answered the night before:
+  then the block is over and the page is checked at once.
 - **How gently:** one request at a time per site (hosts of one domain, like `www.` and
   `static-www.comune.napoli.it`, are one site), with a pause between them. Each request carries the
   ETag and Last-Modified from the last check, so an unchanged file answers 304 without its body;
@@ -116,8 +118,10 @@ offices' servers as little as possible, since some block an address that asks to
   that don't send their full chain), and 404s from a site whose home page is also 404, which means
   the site is refusing the checker rather than that the page is gone (unless the Wayback Machine
   also last saw the page as 404: then it is reported as gone, every night until it answers). A
-  page refused for 7 days or more is reported, though: while the block lasts nothing on it is
-  checked, forms included, so the issue stays open.
+  page that has failed for 7 days or more in a row (refused, or not answering at all) and is still
+  refused is reported, though: while the block lasts nothing on it is checked, forms included, so
+  the issue stays open. The archive's answer is reused for a week, and kept when it can't be
+  renewed.
 
 The latest result per address is saved (`--state`, by default `.cache/sources-state.json`), so
 each night's report covers the whole week. A run in which most sites gave no answer at all says
