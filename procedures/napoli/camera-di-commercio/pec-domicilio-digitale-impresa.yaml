@@ -1,6 +1,7 @@
 schema_version: 0
 id: napoli/camera-di-commercio/pec-domicilio-digitale-impresa
 title: PEC (domicilio digitale) dell'impresa e degli amministratori nel Registro Imprese – Camera di Commercio di Napoli
+updated: 2026-10-26
 summary: >-
   Ogni impresa iscritta al Registro Imprese, sia individuale sia società, deve avere un
   domicilio digitale (una casella PEC attiva, intestata solo a lei) iscritto nel registro, e deve

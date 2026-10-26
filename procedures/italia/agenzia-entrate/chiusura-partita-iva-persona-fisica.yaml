@@ -1,6 +1,7 @@
 schema_version: 0
 id: italia/agenzia-entrate/chiusura-partita-iva-persona-fisica
 title: Chiusura della partita IVA per persone fisiche – modello AA9/12 (Agenzia delle Entrate)
+updated: 2026-10-25
 summary: >-
   Il professionista, l'artista o il titolare di un'attività non iscritta al Registro delle imprese
   che smette di lavorare chiude la partita IVA presentando all'Agenzia delle Entrate il modello

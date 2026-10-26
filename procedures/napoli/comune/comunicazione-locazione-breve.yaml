@@ -1,6 +1,7 @@
 schema_version: 0
 id: napoli/comune/comunicazione-locazione-breve
 title: Locazione breve turistica a Napoli senza impresa (Comunicazione al SUAP, CUSR, CIN, Alloggiati Web)
+updated: 2026-10-25
 summary: >-
   Chi, come persona fisica e senza fare impresa, affitta a Napoli un appartamento a uso abitativo
   per soggiorni fino a 30 giorni (locazione breve, art. 4 D.L. 50/2017) presenta prima di iniziare

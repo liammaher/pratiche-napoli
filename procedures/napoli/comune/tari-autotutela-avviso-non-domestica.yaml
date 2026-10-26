@@ -1,6 +1,7 @@
 schema_version: 0
 id: napoli/comune/tari-autotutela-avviso-non-domestica
 title: TARI – richiesta di correzione in autotutela dell'avviso di pagamento, uso non abitativo (Comune di Napoli)
+updated: 2026-10-26
 summary: >-
   Un'impresa, un professionista o un'associazione che riceve dal Comune di Napoli un avviso di
   pagamento TARI (avviso bonario) sbagliato per locali a uso non abitativo (superficie,
@@ -144,6 +145,7 @@ payment:
   method: f24
   codice_ente: F839
   codici_tributo: ["3944", "TEFA"]
+  status: unverified
   calculator_url: https://portaletributi.comune.napoli.it/?ente=NAPO
   schedule:
     - { label: Acconto 2026 – rata 1, due: 2026-09-30, source: tari-2026, status: verified }

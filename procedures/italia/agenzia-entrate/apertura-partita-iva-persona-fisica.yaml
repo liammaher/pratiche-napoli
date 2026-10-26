@@ -1,6 +1,7 @@
 schema_version: 0
 id: italia/agenzia-entrate/apertura-partita-iva-persona-fisica
 title: Apertura della partita IVA per persone fisiche – modello AA9/12 (Agenzia delle Entrate)
+updated: 2026-10-26
 summary: >-
   Chi inizia da solo un'attività di lavoro autonomo (professione, arte) o un'altra attività per cui
   non è obbligatoria l'iscrizione al Registro delle imprese apre la partita IVA presentando

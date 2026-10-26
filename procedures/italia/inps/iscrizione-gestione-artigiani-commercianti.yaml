@@ -1,6 +1,7 @@
 schema_version: 0
 id: italia/inps/iscrizione-gestione-artigiani-commercianti
 title: Iscrizione alla Gestione Artigiani o Commercianti e contributi 2026 (INPS)
+updated: 2026-10-25
 summary: >-
   Il titolare di una ditta individuale artigiana o commerciale, e i familiari che lavorano con lui
   in modo abituale e prevalente, devono essere iscritti all'INPS nella Gestione Artigiani o nella

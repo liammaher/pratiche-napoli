@@ -21,6 +21,31 @@ its official sources and how far it has been verified.
 Individual claims (a deadline, a fee) also carry `verified`, `unverified` or `disputed`, so
 an unconfirmed detail is never presented as fact.
 
+## Last updated
+
+Every procedure has an `updated` date: the last day anything in it changed. The validator
+checks that nothing in the file (a verification, a source check, a run) is newer than it, and
+`npm run check:updated` fails when a procedure changed on a branch without its date moving.
+The site shows the date on each page and publishes it in the structured data, the sitemap
+(`lastmod`) and the JSON; the library's date is that of its newest procedure.
+
+## Site and JSON
+
+`npm run build` writes a static site to `site/`, ready for any static host:
+
+| Path | What |
+|---|---|
+| `/<id>/` | one page per procedure, e.g. `/napoli/comune/tari-iscrizione-uso-abitativo/` |
+| `/<id>.json` | the same procedure as JSON, exactly as in its YAML file |
+| `/<ente folder>/` | the procedures of one ente, e.g. `/napoli/comune/` |
+| `/procedures.json` | index of all procedures with their `updated` dates, and the library's |
+| `/contract/*.json` | the procedure schema and field registry |
+| `/sitemap.xml`, `/robots.txt`, `/llms.txt` | for search engines and AI assistants |
+
+Set `SITE_URL` to the public address (default `https://liammaher.github.io/pratiche-napoli`);
+it is used for canonical links, the sitemap and the JSON index. Links between pages are
+relative. The build refuses a library that doesn't validate.
+
 ## Layout
 
 ```
@@ -29,7 +54,8 @@ contract/fields.json             shared field-ID registry (e.g. identity.codice_
 contract/extensions.json         fields procedures need before the vault has them
 procedures/<ente>/<slug>.yaml    one file per procedure
 docs/discrepancies.md            wrong or contradictory official information we found
-tools/                           validator and generators
+tools/                           validator, site builder and generators
+tools/site/style.css             the site's stylesheet
 ```
 
 Form fields map to IDs in `contract/fields.json`, never to personal values. The same IDs are
@@ -40,8 +66,10 @@ agent with the person's consent can pre-fill a form, but the library never depen
 
 ```sh
 npm install
-npm run validate   # check every procedure
-npm test           # validator tests
+npm run validate        # check every procedure
+npm run check:updated   # changed procedures have their updated date bumped
+npm run build           # build the site into site/
+npm test                # tests
 ```
 
 Regenerate the field registry after a vault schema change: `pvault schema --json > schema.json`,

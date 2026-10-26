@@ -1,6 +1,7 @@
 schema_version: 0
 id: napoli/comune/tari-iscrizione-uso-abitativo
 title: TARI – nuova iscrizione per uso abitativo (Comune di Napoli)
+updated: 2026-10-26
 summary: >-
   Chi inizia a occupare o detenere un'abitazione a Napoli (proprietario, inquilino o altro)
   deve presentare la dichiarazione TARI con il Mod. 1 entro 90 giorni. La dichiarazione vale
@@ -79,6 +80,7 @@ payment:
   method: f24
   codice_ente: F839
   codici_tributo: ["3944", "TEFA"]
+  status: unverified
   rateazione: 0101 (unica soluzione)
   calculator_url: https://portaletributi.comune.napoli.it/?ente=NAPO
   schedule:
