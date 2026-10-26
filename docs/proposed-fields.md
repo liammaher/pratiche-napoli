@@ -59,6 +59,7 @@ The acconciatore Allegato B and estetista Allegato C both list every responsabil
 |---|---|---|
 | `business.requisito_professionale_*` | Food professional requirement (type, details, date) | `scia-esercizio-vicinato`, `subingresso-attivita-commerciale` |
 | `locale.data_fine` | Date occupation of the premises ended | `tari-cessazione-non-domestica` |
+| `famiglia.dimora` (si/no) | The person lives in the home at least 60 days a year, though not in the stato di famiglia: TARI counts them (Regolamento TARI art. 14, c. 1). Until then, the Mod. 1's coabitanti are an `ask` | `tari-iscrizione-uso-abitativo` |
 | `locale.motivo_cessazione` | Why the premises were left | `tari-cessazione-non-domestica` |
 | `locale.superficie_vendita_mq` (+ alimentare / non alimentare) | Selling area, not the whole surface | `scia-esercizio-vicinato` |
 | `locale.posti_a_sedere_totali`, `locale.servizi_igienici` | Seats and toilets | `concessione-suolo-pubblico-dehors` |

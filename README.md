@@ -111,6 +111,27 @@ for. Situations only point at procedures: the page shows each procedure's own de
 fact and source stays on the procedure. `npm run validate` checks them too, and they have an
 `updated` date like procedures.
 
+## Filling a form
+
+A form's `fields` say what goes in each box; a few optional keys let a tool fill it without
+reading the notes (a person reading the notes is still fine):
+
+- `map.template` writes a row's fields as the box wants them: `{identity.birth_comune}[
+  ({identity.birth_country})]`. `[...]` is left out when a field in it is empty, `{...|date}`
+  writes a date as DD/MM/YYYY, and in a `fallback` `{.civico}` is the civico of the place it picked.
+  A `repeat` row's `columns` are templates too, over `*:` fields and `{relazione}`.
+- `optional` lists the fields a row may leave empty; `required_if` says when one is needed after
+  all (the stato estero of someone born abroad). Every other field must have a value, or the person
+  is asked.
+- `choices` makes a row boxes to tick, each with the values that tick it (`write_value` writes the
+  value too, as on "altro ____").
+- A deadline rule's `compute` dates it: `{ from: abitazione.data_inizio, days: 90 }`.
+
+For a form with no fillable fields, `layouts/<procedure id>/<form id>.json`
+([schema](contract/layout.schema.json)) says where each field goes on the PDF, for the form's exact
+`sha256`: when the form changes, its layout no longer validates until it is measured again.
+`npm run validate` checks that every field of the form has one box of the right kind.
+
 ## Source monitor
 
 `npm run check:sources` re-fetches the official pages and forms the procedures cite, asking the
@@ -163,10 +184,12 @@ everything is back as recorded.
 
 ```
 contract/procedure.schema.json   the procedure format (JSON Schema)
+contract/layout.schema.json      where a form's fields go on its PDF
 contract/fields.json             shared field-ID registry (e.g. identity.codice_fiscale), generated
 contract/extensions.json         fields procedures need before the vault has them
 procedures/<ente>/<slug>.yaml    one file per procedure
 situations/<id>.yaml             the procedures of one situation
+layouts/<id>/<form>.json         a form's layout, for one version of it
 docs/discrepancies.md            wrong or contradictory official information we found
 tools/                           validator, site builder and generators
 tools/site/style.css             the site's stylesheet

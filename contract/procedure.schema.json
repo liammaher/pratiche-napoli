@@ -152,7 +152,7 @@
         "rules": {
           "type": "array",
           "items": {
-            "$ref": "#/$defs/claim"
+            "$ref": "#/$defs/deadlineRule"
           }
         },
         "lateness": {
@@ -421,6 +421,68 @@
                 },
                 "notes": {
                   "$ref": "#/$defs/text"
+                },
+                "optional": {
+                  "description": "Fields of this row that may be empty (the box, or that part of it, is left blank), unless one of required_if holds. Any other field the row reads must have a value, or the person is asked",
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "field"
+                    ],
+                    "properties": {
+                      "field": {
+                        "oneOf": [
+                          {
+                            "$ref": "#/$defs/fieldRef"
+                          },
+                          {
+                            "description": "A field of the place a fallback picked",
+                            "type": "string",
+                            "pattern": "^\\.[a-z0-9_]+$"
+                          }
+                        ]
+                      },
+                      "required_if": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "$ref": "#/$defs/condition"
+                        }
+                      }
+                    }
+                  }
+                },
+                "choices": {
+                  "description": "The row is boxes to tick: each box is ticked when the field's value (or the answer, for an ask) is one of its values. write_value also writes the value next to the box, as on an \"altro ____\"",
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "box",
+                      "values"
+                    ],
+                    "properties": {
+                      "box": {
+                        "$ref": "#/$defs/text"
+                      },
+                      "values": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "write_value": {
+                        "type": "boolean"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -897,6 +959,9 @@
             },
             "direct": {
               "$ref": "#/$defs/fieldRef"
+            },
+            "template": {
+              "$ref": "#/$defs/template"
             }
           }
         },
@@ -916,6 +981,9 @@
               "items": {
                 "$ref": "#/$defs/fieldRef"
               }
+            },
+            "template": {
+              "$ref": "#/$defs/template"
             }
           }
         },
@@ -936,6 +1004,9 @@
               "items": {
                 "$ref": "#/$defs/fieldRef"
               }
+            },
+            "template": {
+              "$ref": "#/$defs/template"
             }
           }
         },
@@ -976,6 +1047,27 @@
               "uniqueItems": true,
               "items": {
                 "$ref": "#/$defs/fieldRef"
+              }
+            },
+            "columns": {
+              "description": "The form's columns, each filled for every person (a row of the table)",
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "label",
+                  "template"
+                ],
+                "properties": {
+                  "label": {
+                    "$ref": "#/$defs/text"
+                  },
+                  "template": {
+                    "$ref": "#/$defs/template"
+                  }
+                }
               }
             }
           }
@@ -1037,6 +1129,89 @@
         "n": {
           "type": "integer",
           "minimum": 3
+        }
+      }
+    },
+    "template": {
+      "description": "How a row's fields make one box's text. {category.field} is a field's value (*:category.field in a repeat's columns), {.field} that field of the place a fallback picked, {relazione} a family member's relazione as forms write it (moglie, figlio); {...|date} writes a YYYY-MM-DD date as DD/MM/YYYY. A part in [...] is left out when a field in it is empty; a field outside [...] must have a value. \\[, \\], \\{ and \\} are the characters themselves",
+      "type": "string",
+      "minLength": 1
+    },
+    "condition": {
+      "description": "A fact about the vault's data: the field equals a value, or matches a regular expression (the subset JavaScript and Python read alike: no lookbehind, no named groups)",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "field",
+            "equals"
+          ],
+          "properties": {
+            "field": {
+              "$ref": "#/$defs/fieldRef"
+            },
+            "equals": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "field",
+            "matches"
+          ],
+          "properties": {
+            "field": {
+              "$ref": "#/$defs/fieldRef"
+            },
+            "matches": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
+    },
+    "deadlineRule": {
+      "description": "A deadline rule; compute, when the rule is a fixed time after a date the vault keeps, lets a tool date it",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text",
+        "status"
+      ],
+      "properties": {
+        "text": {
+          "$ref": "#/$defs/text"
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        },
+        "source": {
+          "description": "id of a source in this procedure",
+          "type": "string"
+        },
+        "compute": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "from",
+            "days"
+          ],
+          "properties": {
+            "from": {
+              "description": "The date field the time runs from (the vault owner's, or the dichiarante's)",
+              "$ref": "#/$defs/fieldRef"
+            },
+            "days": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
         }
       }
     }
