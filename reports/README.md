@@ -24,7 +24,11 @@ maintainer's tools, through the Admin SDK, read or write.
 
 ## Sending a report
 
-`POST` the report as JSON (`Content-Type: application/json`); the answer is
+`POST` the report as JSON. From a browser, send it as `Content-Type: text/plain`:
+the request needs no CORS preflight, and malformed JSON gets this function's
+`400 bad_json` with CORS headers, where with `application/json` the hosting
+framework rejects it first with a bare HTML page. Other clients can use
+`application/json`. The answer is
 `201 {"ok": true}`, or an error with `error` and `message`, for example `400
 invalid_report`, `400 unknown_procedure`, `413` (over 10 KB) or `429` (rate limit).
 

@@ -72,3 +72,14 @@ test("matches cover the personal data and nothing after it", () => {
     assert.equal(text.slice(m.start, m.end), found, text);
   }
 });
+
+test("without check digits, mistyped codes still match", () => {
+  for (const [text, found] of [
+    ["cf RSSMRA85T10A562X grazie", "RSSMRA85T10A562X"], // wrong check letter
+    ["IBAN IT61 X054 2811 1010 0000 0123 456 per", "IT61 X054 2811 1010 0000 0123 456"], // wrong check digits
+  ]) {
+    assert.deepEqual(findPersonalData(text), [], text);
+    const [m] = matchPersonalData(text, { checkDigits: false });
+    assert.equal(text.slice(m.start, m.end), found, text);
+  }
+});

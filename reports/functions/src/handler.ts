@@ -86,7 +86,11 @@ export function createHandler(config: Config): Handler {
       res.set("Allow", "POST, OPTIONS");
       return fail(405, "method_not_allowed", "Si accettano solo invii (POST).");
     }
-    if (!form && type !== "application/json") {
+    // The functions framework answers malformed application/json itself, with
+    // an HTML 400 and no CORS headers. It never fails on text/plain, so browsers
+    // should send the JSON as text/plain: then every error comes from here, and
+    // no preflight is needed either.
+    if (!form && type !== "application/json" && type !== "text/plain") {
       return fail(415, "unsupported_type", "Invia il resoconto come JSON o come modulo.");
     }
     const raw = req.rawBody ?? Buffer.alloc(0);
@@ -189,14 +193,15 @@ export function rateLimitAddress(ip: string): string {
   return `${full.slice(0, 4).map((g) => parseInt(g, 16).toString(16)).join(":")}::/64`;
 }
 
-// Cuts personal data out of every string in the report.
+// Cuts personal data out of every string in the report, mistyped codes too: a
+// codice fiscale with one wrong letter still identifies its owner.
 export function redact(value: unknown): { value: unknown; redacted: boolean } {
   let redacted = false;
   const walk = (v: unknown): unknown => {
     if (typeof v === "string") {
       let out = "";
       let at = 0;
-      for (const m of matchPersonalData(v).sort((a, b) => a.start - b.start)) {
+      for (const m of matchPersonalData(v, { checkDigits: false }).sort((a, b) => a.start - b.start)) {
         if (m.start >= at) out += v.slice(at, m.start) + REMOVED;
         at = Math.max(at, m.end);
       }

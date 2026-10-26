@@ -64,11 +64,11 @@ export function isIBAN(candidate: string): boolean {
 
 // The run after an IBAN's check digits can swallow following words ("… 1332 e
 // conserva"), so only the first `length` characters of a known country are tested.
-function containsIBAN(country: string, check: string, rest: string): boolean {
+function containsIBAN(country: string, check: string, rest: string, checkDigits = true): boolean {
   const length = IBAN_LENGTH[country];
   if (!length) return false;
   const body = rest.replace(SEP_RE, "");
-  return body.length >= length - 4 && isIBAN(country + check + body.slice(0, length - 4));
+  return body.length >= length - 4 && (!checkDigits || isIBAN(country + check + body.slice(0, length - 4)));
 }
 
 export interface PersonalDataMatch {
@@ -79,13 +79,16 @@ export interface PersonalDataMatch {
 
 // Where each piece of personal data sits in text, so it can be cut out. An
 // IBAN's match ends after its country's length, not after the words it swallowed.
-export function matchPersonalData(text: string): PersonalDataMatch[] {
+// With checkDigits false, a code with the right shape counts even if its check
+// digits are wrong, as when someone mistypes their own: right for cutting data
+// out of private text, too eager for flagging a shared procedure.
+export function matchPersonalData(text: string, { checkDigits = true } = {}): PersonalDataMatch[] {
   const found: PersonalDataMatch[] = [];
   for (const m of text.matchAll(CF)) {
-    if (isCodiceFiscale(m[0])) found.push({ kind: "codice fiscale", start: m.index, end: m.index + m[0].length });
+    if (!checkDigits || isCodiceFiscale(m[0])) found.push({ kind: "codice fiscale", start: m.index, end: m.index + m[0].length });
   }
   for (const m of text.matchAll(IBAN_START)) {
-    if (!containsIBAN(m[1], m[2], m[3])) continue;
+    if (!containsIBAN(m[1], m[2], m[3], checkDigits)) continue;
     let left = IBAN_LENGTH[m[1]];
     let end = m.index;
     while (left > 0) if (/[A-Za-z0-9]/.test(text[end++])) left--;
