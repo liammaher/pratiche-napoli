@@ -150,10 +150,13 @@ test("the home search looks only at titles and summaries", () => {
   assert.ok(html.includes("li.dataset.search"));
 });
 
-test("two pages at one path, or one folder naming two enti, stop the build", () => {
-  assert.throws(() => buildSite([minimal(), minimal({ id: "napoli/comune" })], opts), /two pages would be written at napoli\/comune\/index\.html/);
+test("two pages at one path, one folder naming two enti, or two folders one ente stop the build", () => {
+  assert.throws(() => buildSite([minimal(), minimal({ id: "napoli/comune", ente: { name: "Napoli" } })], opts), /two pages would be written at napoli\/comune\/index\.html/);
   const suap = minimal({ id: "napoli/comune/other", ente: { name: "Comune di Napoli – SUAP" } });
   assert.throws(() => buildSite([minimal(), suap], opts), /napoli\/comune name different enti: Comune di Napoli \/ Comune di Napoli – SUAP/);
+  // The home page would have two sections called Comune di Napoli.
+  const elsewhere = minimal({ id: "napoli/polizia-locale/other" });
+  assert.throws(() => buildSite([minimal(), elsewhere], opts), /napoli\/comune and napoli\/polizia-locale are both Comune di Napoli: one folder per ente/);
 });
 
 test("the headline titles the page; the official name and everyday names come under it", () => {
