@@ -1222,5 +1222,10 @@
       "scope": "person",
       "fields": []
     }
-  ]
+  ],
+  "credentials": {
+    "secret": "^((?:pin|puk|pincode|pukcode|password|passwd|pwd|pw|passcode|otp|totp|secret|segreto|segreta|segreti|segrete|credenziale|credenziali|sblocco)s?[0-9]*)$",
+    "credential": "^((?:(?:pin|puk|pincode|pukcode|password|passwd|pwd|pw|passcode|otp|totp|secret|segreto|segreta|segreti|segrete|credenziale|credenziali|sblocco)s?[0-9]*|(?:pass|username|login|chiave|chiavi)s?[0-9]*))$",
+    "identity": "^((?:spid|cieid|cie|firma|firmadigitale|cns|smartcard)[0-9]*)$"
+  }
 }
