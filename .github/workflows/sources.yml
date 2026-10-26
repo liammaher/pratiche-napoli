@@ -4,7 +4,7 @@ name: Sources
 # procedures cite and keep one issue listing what changed or stopped
 # answering this week; close it when everything is back as recorded. The
 # latest result per address, with its ETag and Last-Modified, is kept in the
-# Actions cache between runs. A run that couldn't reach most addresses fails
+# Actions cache between runs. A run in which most sites gave no answer fails
 # instead, leaving the issue and the saved state as they are.
 on:
   schedule:
@@ -28,8 +28,9 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-latest
-    # A site that accepts connections and then stalls could otherwise hold the
-    # job for hours; cut short, it saves nothing and the next night retries.
+    # The check gives up on a site that stalls and stops asking after an hour
+    # (see checkTargets), so this only catches the unexpected; cut short, the
+    # job saves nothing.
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v5

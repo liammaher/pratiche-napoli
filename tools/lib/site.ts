@@ -1259,7 +1259,7 @@ function renderAbout(site: Site): string {
 <li><strong>L3</strong>: ${esc(LEVELS.L3)}.</li>
 </ul>
 <h2>Le date</h2>
-<p>Ogni pagina dice quando è stata aggiornata l'ultima volta e quando è stata verificata. Un controllo automatico riscarica ogni notte i moduli ufficiali citati, e ogni settimana le pagine, e segnala quelli cambiati o non più raggiungibili, perché vengano ricontrollati. Le pagine cambiate di recente sono negli <a href="../aggiornamenti/">aggiornamenti</a>.</p>
+<p>Ogni pagina dice quando è stata aggiornata l'ultima volta e quando è stata verificata. Un controllo automatico verifica ogni notte i moduli ufficiali citati (e una volta a settimana li riscarica per intero), e ogni settimana le pagine, e segnala i moduli cambiati e gli indirizzi non più raggiungibili, perché vengano ricontrollati. Le pagine cambiate di recente sono negli <a href="../aggiornamenti/">aggiornamenti</a>.</p>
 <h2>I racconti di chi ha fatto la pratica</h2>
 <p>Chi ha fatto una pratica può raccontare com'è andata. Leggiamo ogni racconto prima di usarlo e pubblichiamo solo statistiche, quando ogni numero viene da almeno 3 racconti, e consigli riscritti da noi: mai un racconto così com'è. Sono indicati come racconti, non come fonti ufficiali. <a href="../privacy/">Come trattiamo i dati</a></p>
 <h2>Errori e correzioni</h2>
