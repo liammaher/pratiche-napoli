@@ -20,7 +20,7 @@ ente:
   ipa: c_f839
 applies_to:
   events: [open]
-  audience: [business]
+  audience: [business, resident]
   sectors: [strutture ricettive extralberghiere, bed and breakfast]
   conditions:
     - text: >-
@@ -322,6 +322,8 @@ documents:
   - name: Iscrizione del titolare al Registro delle imprese
     required: false
     notes: Solo per il B&B in forma imprenditoriale.
+dichiarante:
+  ruolo: titolare
 forms:
   - id: credenziali-alloggiati-web-napoli
     name: Questura di Napoli – Modulo richiesta credenziali Alloggiati Web

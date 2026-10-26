@@ -119,10 +119,8 @@ cost:
   text: >-
     Diritti d'istruttoria del SUAP (tabella 2026), con pagoPA nella pratica: 20 euro per la
     notifica sanitaria, che di solito è già compresa nella riga della pratica dell'attività (per
-    esempio 120 euro per bar o ristorante con notifica). In più i diritti sanitari dell'ASL: 20
-    euro per ogni linea d'attività all'avvio, 20 euro in tutto per il subingresso, niente per
-    cessazione e sospensione, secondo il decreto regionale del 2020 (confermare l'importo attuale
-    con l'ASL). Nessuna imposta di bollo.
+    esempio 120 euro per bar o ristorante con notifica). Nessuna imposta di bollo. In più ci sono
+    i diritti sanitari dell'ASL, con bonifico: vedi come si paga.
   status: verified
   source: tabella-diritti-2026
 duration:
@@ -276,7 +274,7 @@ forms:
         map: { ask: "Stato in cui si trova lo stabilimento (Italia per un locale a Napoli)" }
       - { label: 1.1 indirizzo, map: { direct: locale.indirizzo } }
       - { label: 1.1 n., map: { direct: locale.civico } }
-      - { label: 1.1 Telefono fisso / cell., map: { direct: identity.phone } }
+      - { label: 1.1 Telefono fisso / cell., map: { fallback: [business.telefono, identity.phone] } }
       - label: 1.1 fax
         map: { blank_with_reason: Facoltativo. }
       - label: 1.1 Altro domicilio elettronico per invio delle comunicazioni inerenti la pratica

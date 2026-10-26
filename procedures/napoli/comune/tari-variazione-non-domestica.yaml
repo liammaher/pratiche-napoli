@@ -147,7 +147,9 @@ channels:
     hours: tutti i giorni 9:00–13:00 (orario indicato sul modulo)
     source: mod-6
     notes: >-
-      Il modulo indica anche 081 795 3891 e 081 795 3856 (mercoledì e venerdì, 9–13) e
+      Il modulo indica per prenotare un appuntamento telefonico o via mail
+      https://servizionline.comune.napoli.it/web/napoli/tributi, ma il 26/10/2026 la pagina
+      non esisteva (errore 404). Il modulo indica anche 081 795 3891 e 081 795 3856 (mercoledì e venerdì, 9–13) e
       081 795 3734 (giovedì e venerdì, 9–13).
 payment:
   method: f24
