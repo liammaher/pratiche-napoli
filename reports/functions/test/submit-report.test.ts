@@ -111,8 +111,10 @@ test("a valid JSON report is stored pending review", async () => {
   // The report's code, for asking later to see or delete it.
   assert.deepEqual(reply.body, { ok: true, id: doc.id });
   assert.equal(more.length, 0);
-  const { received_at, expires_at, ...stored } = doc.data();
+  const { received_at, expires_at, mark, ...stored } = doc.data();
   assert.deepEqual(stored, { ...REPORT, status: "pending", schema_version: 0, pii_redacted: false });
+  // Random, and nothing like the id the sender got.
+  assert.match(mark, /^[0-9a-f]{12}$/);
   assert.ok(received_at instanceof Timestamp);
   assert.equal(received_at.toMillis(), NOW.getTime());
   // Deleted once its month (2026-09) leaves the 12-month window.
@@ -360,7 +362,7 @@ test("through the functions framework, JSON, text/plain and form posts are store
   assert.equal(form.status, 303);
   assert.match(form.headers.get("location")!, new RegExp(`^${SITE}/grazie/#[A-Za-z0-9]{20}$`));
   const stored = (await docs("reports")).map((d) => {
-    const { received_at, expires_at, ...rest } = d.data();
+    const { received_at, expires_at, mark, ...rest } = d.data();
     return rest;
   });
   assert.equal(stored.length, 3);

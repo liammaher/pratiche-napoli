@@ -3,7 +3,7 @@
 import { beforeEach, test } from "node:test";
 import assert from "node:assert/strict";
 import { initializeApp } from "firebase-admin/app";
-import { getFirestore, Timestamp } from "firebase-admin/firestore";
+import { FieldValue, getFirestore, Timestamp } from "firebase-admin/firestore";
 import { accept, describe, exportAccepted, exportPath, findByEmail, list, reject, remove, show } from "../scripts/review";
 
 const PROJECT = "demo-pratiche-napoli";
@@ -24,6 +24,7 @@ const report = (procedure: string, minute: number, extra: Record<string, unknown
   claim_feedback: [{ section: "scadenza", verdict: "sbagliata", text: "testo" }],
   status: "pending",
   received_at: Timestamp.fromDate(new Date(Date.UTC(2026, 9, 20, 10, minute))),
+  mark: `${procedure.slice(-1)}${minute}`.padStart(12, "0"),
   ...extra,
 });
 
@@ -93,18 +94,18 @@ test("delete removes the report and its contact", async () => {
   await assert.rejects(remove(db, "a1"), /no report a1/);
 });
 
-test("export has only accepted reports, without the person's text or contact", async () => {
+test("export has only accepted reports, without the person's text, contact or receipt", async () => {
   await accept(db, "b1", { rejection_reason: "Manca la firma" });
   const out = await exportAccepted(db);
   // By procedure, then month.
-  assert.deepEqual(out.map((r) => r.id), ["done", "b1"]);
+  assert.deepEqual(out.map((r) => r.mark), ["0000000000a0", "0000000000b1"]);
   for (const r of out) {
-    for (const hidden of ["note", "claim_feedback", "office", "contact_email", "consent_contact", "status", "received_at"]) {
+    for (const hidden of ["id", "note", "claim_feedback", "office", "contact_email", "consent_contact", "status", "received_at"]) {
       assert.equal(r[hidden], undefined, hidden);
     }
   }
-  assert.deepEqual(out.find((r) => r.id === "done"), {
-    id: "done",
+  assert.deepEqual(out[0], {
+    mark: "0000000000a0",
     procedure: "napoli/comune/a",
     done: "2026-09",
     channel: "pec",
@@ -112,7 +113,18 @@ test("export has only accepted reports, without the person's text or contact", a
     days_to_answer: 20,
     tip: "Portare la visura",
   });
-  assert.equal(out.find((r) => r.id === "b1")!.rejection_reason, "Manca la firma");
+  assert.equal(out[1].rejection_reason, "Manca la firma");
+});
+
+test("export refuses an accepted report without a mark; accepting gives it one", async () => {
+  await db.doc("reports/done").update({ mark: FieldValue.delete() });
+  await assert.rejects(exportAccepted(db), /report done has no mark/);
+  await accept(db, "done", {});
+  assert.match((await db.doc("reports/done").get()).data()!.mark, /^[0-9a-f]{12}$/);
+  // An existing mark is kept.
+  await accept(db, "b1", {});
+  assert.equal((await db.doc("reports/b1").get()).data()!.mark, "0000000000b1");
+  assert.equal((await exportAccepted(db)).length, 2);
 });
 
 test("accepting again changes the maintainer's fields; an empty one is removed", async () => {

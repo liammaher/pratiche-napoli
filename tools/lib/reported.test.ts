@@ -1,13 +1,13 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { parse } from "yaml";
-import { addMonths, aggregate, fingerprint, nextReported, sameReported, withReported, type ReviewedReport } from "./reported.ts";
+import { addMonths, aggregate, markProblem, nextReported, sameReported, withReported, type ReviewedReport } from "./reported.ts";
 
 const TODAY = "2026-10-26";
 const DOCS = ["Mod. 1", "Visura"];
 let n = 0;
 const r = (extra: Partial<ReviewedReport> = {}): ReviewedReport => ({
-  id: `r${n++}`,
+  mark: (n++).toString(16).padStart(12, "0"),
   procedure: "napoli/comune/test",
   done: "2026-09",
   channel: "pec",
@@ -111,21 +111,20 @@ test("a document's asked and not asked are each none or 3, one answer per report
   assert.equal(ask([true, true, true], [], []), undefined);
 });
 
-test("a block changes only when, against every earlier version, at least 3 reports came in or dropped out", () => {
+test("a block changes only when no report would stand apart from the last version", () => {
   const first = [r(), r(), r()];
   const old = aggregate(first, DOCS, TODAY)!;
-  assert.deepEqual(nextReported([], first, DOCS, TODAY), { block: old });
+  assert.deepEqual(nextReported([], undefined, first, DOCS, TODAY), { block: old });
   // One more report: comparing the two versions would describe it.
-  const one = nextReported([old], [...first, r({ outcome: "respinta" })], DOCS, TODAY);
+  const one = nextReported([], old, [...first, r({ outcome: "respinta" })], DOCS, TODAY);
   assert.equal(one.block, old);
-  assert.match(one.held!, /fewer than 3 reports in or out since the version of 2026-10-26; kept as it is/);
+  assert.equal(one.held, "1 report would stand apart between published versions; kept as it is");
   // Three more: the new block.
-  const three = nextReported([old], [...first, r(), r(), r()], DOCS, TODAY);
+  const three = nextReported([], old, [...first, r(), r(), r()], DOCS, TODAY);
   assert.equal(three.held, undefined);
   assert.equal(three.block!.count, 6);
   // Fewer than 3 left: the block goes, which publishes nothing.
-  assert.deepEqual(nextReported([old], [first[0], first[1], { ...first[2], done: "2025-01" }], DOCS, TODAY), { block: undefined });
-  assert.match(fingerprint("abc"), /^[0-9a-f]{12}$/);
+  assert.deepEqual(nextReported([], old, [first[0], first[1], { ...first[2], done: "2025-01" }], DOCS, TODAY), { block: undefined });
 });
 
 test("versions are compared with every earlier one, not just the last", () => {
@@ -134,12 +133,32 @@ test("versions are compared with every earlier one, not just the last", () => {
   const a = [r(), r(), r(), r(), r()];
   const b = [...a, r(), r(), r()];
   const vA = aggregate(a, DOCS, TODAY)!;
-  const vB = nextReported([vA], b, DOCS, TODAY).block!;
+  const vB = nextReported([], vA, b, DOCS, TODAY).block!;
   assert.equal(vB.count, 8);
   const c = [...a.slice(1), b[7], r({ outcome: "respinta" })];
-  const next = nextReported([vA, vB], c, DOCS, TODAY);
+  const next = nextReported([vA], vB, c, DOCS, TODAY);
   assert.equal(next.block, vB);
-  assert.match(next.held!, /since the version of 2026-10-26/);
+  assert.match(next.held!, /would stand apart/);
+});
+
+test("no group of reports that the same versions cover is 1 or 2, however many versions are combined", () => {
+  // 6 reports from November, then one (x) from December: 7. Six more: 13.
+  // November leaves the window: 7 again. Each step moves 6 reports, but the
+  // first version plus the last minus the middle is x alone.
+  const november = Array.from({ length: 6 }, (_, i) => r({ done: "2025-11", outcome: i < 3 ? "completata" : "respinta" }));
+  const x = r({ done: "2025-12" });
+  const later = Array.from({ length: 6 }, (_, i) => r({ done: "2026-03", outcome: i < 3 ? "completata" : "respinta" }));
+  const v1 = nextReported([], undefined, [...november, x], DOCS, "2026-01-15").block!;
+  const v2 = nextReported([], v1, [...november, x, ...later], DOCS, "2026-04-01").block!;
+  assert.equal(v2.count, 13);
+  const v3 = nextReported([v1], v2, [...november, x, ...later], DOCS, "2026-11-02");
+  assert.equal(v3.block, undefined);
+  assert.equal(v3.held, "1 report would stand apart between published versions; removed until it can change");
+  // Once x has left the window too, the November reports and x went the same
+  // way: a group of 7, and the 6 later ones a group of their own.
+  const after = nextReported([v1], v2, [...november, x, ...later], DOCS, "2026-12-01");
+  assert.equal(after.held, undefined);
+  assert.equal(after.block!.count, 6);
 });
 
 test("a block that can't change is removed after 90 days, rather than kept for ever", () => {
@@ -147,12 +166,31 @@ test("a block that can't change is removed after 90 days, rather than kept for e
   const old = aggregate(first, DOCS, "2026-06-01")!;
   // One report deleted on request: the block can't change by just that one...
   const left = first.slice(1);
-  assert.equal(nextReported([old], left, DOCS, "2026-08-01").block, old);
+  assert.equal(nextReported([], old, left, DOCS, "2026-08-01").block, old);
   // ...but after 90 days it goes, and the deleted report with it.
-  assert.deepEqual(nextReported([old], left, DOCS, "2026-09-15"), {
+  assert.deepEqual(nextReported([], old, left, DOCS, "2026-09-15"), {
     block: undefined,
-    held: "fewer than 3 reports in or out since the version of 2026-06-01; removed until it can change",
+    held: "1 report would stand apart between published versions; removed until it can change",
   });
+});
+
+test("a removed block is never brought back from the history", () => {
+  // Published, then removed after a deletion; a new report arrives: the old
+  // version, with the deleted report in it, must not come back.
+  const [a, b, c, d] = [r(), r(), r(), r()];
+  const v1 = aggregate([a, b, c], DOCS, TODAY)!;
+  assert.deepEqual(nextReported([v1], undefined, [a, b, d], DOCS, TODAY), {
+    block: undefined,
+    held: "1 report would stand apart between published versions; none until it can be",
+  });
+});
+
+test("a cache of reports needs one valid mark per report", () => {
+  assert.equal(markProblem([r(), r()]), undefined);
+  assert.match(markProblem([r(), { ...r(), mark: undefined as unknown as string }])!, /a report without a mark \(null\) for napoli\/comune\/test: export the reports again/);
+  assert.match(markProblem([r({ mark: "abc" })])!, /without a mark \("abc"\)/);
+  const twice = r();
+  assert.match(markProblem([twice, r(), { ...twice }])!, new RegExp(`the mark ${twice.mark} is on two reports`));
 });
 
 test("the maintainer's words: counts only from 3, tips kept once, newest first", () => {
