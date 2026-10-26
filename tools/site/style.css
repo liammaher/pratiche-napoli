@@ -126,6 +126,40 @@ ul.procedures p { margin: .2rem 0; }
 ul.procedures a { font-weight: 600; }
 
 .actions { margin: 2rem 0; }
+.flag { font-size: .8rem; font-weight: 400; margin-left: .4rem; }
+
+/* "Racconta com'è andata": the report form. */
+.report form { display: grid; gap: .9rem; }
+.report label { display: block; font-weight: 600; }
+.report label.choice { font-weight: 400; display: inline-flex; gap: .35rem; align-items: center; margin-right: 1rem; }
+.report input:not([type=radio]):not([type=checkbox]), .report select, .report textarea {
+  display: block;
+  width: 100%;
+  margin-top: .3rem;
+  padding: .5rem .6rem;
+  font: inherit;
+  font-weight: 400;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: .4rem;
+}
+.report fieldset { border: 1px solid var(--line); border-radius: .5rem; padding: .6rem 1rem; margin: 0; display: grid; gap: .5rem; }
+.report legend { font-weight: 600; padding: 0 .3rem; }
+.report .doc span { display: block; }
+.report button {
+  font: inherit;
+  font-weight: 600;
+  padding: .6rem 1.2rem;
+  color: var(--bg);
+  background: var(--accent);
+  border: 0;
+  border-radius: .4rem;
+  cursor: pointer;
+}
+.report button:disabled { opacity: .6; cursor: default; }
+/* The honeypot: out of sight for people, still in the form for bots. */
+.hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
 
 footer.site {
   margin-top: 3rem;
@@ -137,7 +171,7 @@ footer.site {
 }
 
 @media print {
-  header.site, footer.site, .actions, .search { display: none; }
+  header.site, footer.site, .actions, .search, .report, .flag { display: none; }
   details { display: block; }
   body { background: #fff; color: #000; }
 }

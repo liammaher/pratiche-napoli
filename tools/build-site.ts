@@ -3,7 +3,9 @@
 // directory that isn't empty and isn't an earlier build.
 // Usage: npm run build [-- <out dir>]
 // SITE_URL sets the public base URL used in canonical links, the sitemap and
-// the JSON index (default: the GitHub Pages address).
+// the JSON index (default: the GitHub Pages address). REPORTS_URL (the
+// submitReport function) and CONTACT_EMAIL (named on the privacy page) together
+// turn on the report form; with only one of them the build stops.
 
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -25,6 +27,11 @@ if (invalid.length) {
 
 const procedures = results.map((r) => r.doc as Procedure);
 const read = (...p: string[]) => readFileSync(path.join(ROOT, ...p), "utf8");
+const { REPORTS_URL, CONTACT_EMAIL } = process.env;
+if (!REPORTS_URL !== !CONTACT_EMAIL) {
+  console.error("set both REPORTS_URL and CONTACT_EMAIL for the report form, or neither");
+  process.exit(1);
+}
 const files = buildSite(procedures, {
   baseUrl,
   repoUrl,
@@ -32,6 +39,7 @@ const files = buildSite(procedures, {
   css: read("tools", "site", "style.css"),
   schema: read("contract", "procedure.schema.json"),
   fields: read("contract", "fields.json"),
+  reports: REPORTS_URL && CONTACT_EMAIL ? { url: REPORTS_URL, contact: CONTACT_EMAIL, script: read("tools", "site", "report.js") } : undefined,
 });
 
 if (existsSync(out) && readdirSync(out).length && !existsSync(path.join(out, "procedures.json"))) {

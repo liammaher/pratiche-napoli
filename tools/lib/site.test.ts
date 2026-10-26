@@ -1,7 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import path from "node:path";
-import { buildSite, time, type Procedure, type SiteOptions } from "./site.ts";
+import { buildSite, esc, time, type Procedure, type SiteOptions } from "./site.ts";
 import { ROOT, loadRegistry, todayInRome, validateDir } from "./validate.ts";
 
 const opts: SiteOptions = {
@@ -15,6 +16,8 @@ const opts: SiteOptions = {
 
 const library = validateDir(path.join(ROOT, "procedures"), loadRegistry(), todayInRome()).map((r) => r.doc as Procedure);
 const files = buildSite(library, opts);
+const reports = { url: "https://europe-west8-example.cloudfunctions.net/submitReport", contact: "privacy@example.org", script: "// report.js" };
+const withForm = buildSite(library, { ...opts, reports });
 
 function minimal(over: Partial<Procedure> = {}): Procedure {
   return {
@@ -69,14 +72,17 @@ test("the sitemap, JSON index and llms.txt carry the same dates", () => {
   assert.match(files.get("robots.txt")!, new RegExp(`Sitemap: ${opts.baseUrl}/sitemap.xml`));
 });
 
-test("every relative link points to a page or file the site has", () => {
-  for (const [file, content] of files) {
-    if (!file.endsWith(".html") || file === "404.html") continue;
-    for (const [, href] of content.matchAll(/href="([^"]+)"/g)) {
-      if (/^(https?:|mailto:|tel:|#)/.test(href)) continue;
-      const target = path.posix.normalize(path.posix.join(path.posix.dirname(file), href.replace(/#.*/, "")));
-      const resolved = href.endsWith("/") || target === "." ? path.posix.join(target === "." ? "" : target, "index.html") : target;
-      assert.ok(files.has(resolved), `${file} links to ${href} (${resolved})`);
+test("every relative link points to a page or file the site has, with or without the form", () => {
+  for (const site of [files, withForm]) {
+    for (const [file, content] of site) {
+      if (!file.endsWith(".html") || file === "404.html") continue;
+      for (const [, href] of content.matchAll(/(?:href|src)="([^"]+)"/g)) {
+        // ?sezione=…#racconta links stay on the same page.
+        if (/^(https?:|mailto:|tel:|#|\?)/.test(href)) continue;
+        const target = path.posix.normalize(path.posix.join(path.posix.dirname(file), href.replace(/#.*/, "")));
+        const resolved = href.endsWith("/") || target === "." ? path.posix.join(target === "." ? "" : target, "index.html") : target;
+        assert.ok(site.has(resolved), `${file} links to ${href} (${resolved})`);
+      }
     }
   }
 });
@@ -229,5 +235,55 @@ test("In breve says when a procedure can't be done online, and leaves out what i
   assert.ok(box.includes("<dd>No: sportello, posta."));
   for (const missing of ["Scadenza", "Costo", "Tempi", "Appuntamento", "Documenti", "Cosa devi fare tu"]) {
     assert.ok(!box.includes(`<dt>${missing}</dt>`), missing);
+  }
+});
+
+test("without a reports URL there is no form, no Segnala link and no report.js", () => {
+  const html = files.get("napoli/comune/tari-iscrizione-uso-abitativo/index.html")!;
+  for (const missing of ["<form", 'class="flag"', "report.js", "#racconta", "issues/new"]) assert.ok(!html.includes(missing), missing);
+  assert.ok(!files.has("report.js"));
+  assert.ok(files.get("privacy/index.html")!.includes("non è ancora attivo"));
+  assert.ok(files.get("grazie/index.html")!.includes('<meta name="robots" content="noindex">'));
+  for (const [file, content] of files) if (file.endsWith(".html") && file !== "404.html") assert.ok(content.includes('privacy/">Privacy</a>'), file);
+});
+
+test("the report form is built from the procedure's own channels, documents and sections", () => {
+  const p = minimal({
+    channels: [
+      { type: "portal", purpose: "procedure", name: "POTESs" },
+      { type: "pec", purpose: "info" },
+    ],
+    documents: [
+      { name: "Mod. 1 \"TARI\"", required: true },
+      { name: "Visura", required: false },
+    ],
+  });
+  const site = buildSite([p], { ...opts, reports });
+  const html = site.get("napoli/comune/test/index.html")!;
+  const form = html.match(/<form method="post" action="([^"]+)" data-report>(.*?)<\/form>/s)!;
+  assert.equal(form[1], reports.url);
+  const body = form[2];
+  assert.ok(body.includes('<input type="hidden" name="procedure" value="napoli/comune/test">'));
+  assert.ok(body.includes('<option value="POTESs" data-type="portal">POTESs</option><option value="PEC" data-type="pec">PEC</option><option value="altro">Altro</option>'));
+  assert.ok(body.includes('<input type="hidden" name="documents[0][name]" value="Mod. 1 &quot;TARI&quot;">'));
+  assert.ok(body.includes('name="documents[1][asked]" value="no"'));
+  assert.ok(body.includes('<option value="2026-10">ottobre 2026</option>'));
+  assert.ok(body.includes('<option value="2024-11">novembre 2024</option>'));
+  assert.ok(!body.includes('value="2024-10"'));
+  for (const [id, title] of [["in-breve", "In breve"], ["come", "Come si presenta?"], ["documenti", "Quali documenti servono?"]]) {
+    assert.ok(body.includes(`<option value="${id}">${esc(title)}</option>`), id);
+    assert.ok(html.includes(`<a class="flag" href="?sezione=${id}#racconta" data-section="${id}">Segnala</a>`), id);
+  }
+  assert.ok(body.includes('name="website"'));
+  assert.ok(html.includes('<script src="../../../report.js" defer></script>'));
+  assert.equal(site.get("report.js"), reports.script);
+  assert.ok(site.get("privacy/index.html")!.includes('<a href="mailto:privacy@example.org">privacy@example.org</a>'));
+});
+
+test("section ids fit the report schema's pattern for claim_feedback sections", () => {
+  const schema = JSON.parse(readFileSync(path.join(ROOT, "contract", "report.schema.json"), "utf8"));
+  const pattern = new RegExp(schema.properties.claim_feedback.items.properties.section.pattern);
+  for (const [, id] of withForm.get("napoli/comune/tari-iscrizione-uso-abitativo/index.html")!.matchAll(/data-section="([^"]+)"/g)) {
+    assert.match(id, pattern);
   }
 });
