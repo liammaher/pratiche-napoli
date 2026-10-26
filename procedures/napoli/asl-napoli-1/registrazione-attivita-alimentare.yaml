@@ -82,6 +82,13 @@ legal_basis:
     status: verified
     source: surap-disciplina
 deadline:
+  summary:
+    text: >-
+      Prima di iniziare: con la SCIA si parte subito dopo la presentazione o dalla data indicata nel
+      modulo. La registrazione non scade e non va rinnovata, ma le modifiche all'attività o allo
+      stabilimento vanno comunicate tempestivamente.
+    status: verified
+    source: comune-zone-tutelate
   rules:
     - text: >-
         La notifica va presentata prima di iniziare: con la SCIA l'attività può partire subito dopo
@@ -136,6 +143,7 @@ appointment:
   source: comune-suap-contatti
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP del Comune di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     preferred: true
@@ -145,12 +153,14 @@ channels:
       email non vengono istruite. La notifica sanitaria va inserita nella pratica SUAP (di solito
       la SCIA unica dell'attività); il SUAP la trasmette all'ASL.
   - type: desk
+    purpose: info
     name: SUAP – Comune di Napoli
     address: Piazza Cavour 42, II piano, Napoli
     booking: Solo su prenotazione online, dalla pagina "Avviare, variare, chiudere un'attività produttiva".
     source: comune-suap-contatti
     notes: Per informazioni e assistenza; le pratiche si presentano solo su impresainungiorno.
   - type: pec
+    purpose: info
     name: UOC Igiene degli Alimenti e Nutrizione (SIAN) – ASL Napoli 1 Centro
     address: sian@pec.aslna1centro.it
     source: asl-sian-uoc
@@ -158,6 +168,7 @@ channels:
       Per chiarimenti con l'ASL, non per presentare la notifica (che passa dal SUAP). Sede: Via
       Comunale del Principe 13/A, c/o Presidio Frullone, plesso laterale, V piano.
   - type: phone
+    purpose: info
     name: SIAN – ASL Napoli 1 Centro
     address: 081 2549829 / 081 2549832 / 081 2549837
     source: asl-sian-uoc

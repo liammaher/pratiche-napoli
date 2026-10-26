@@ -95,6 +95,15 @@ legal_basis:
     status: verified
     source: regolamento-cup
 deadline:
+  summary:
+    text: >-
+      La comunicazione al SUAP non ha un termine; entro 30 giorni dalla cessazione si cancella la
+      ditta dal Registro Imprese (la Comunicazione Unica chiude anche partita IVA e INAIL) ed entro
+      90 giorni si presenta il Mod. 8 TARI. La rinuncia all'insegna va entro il 31 gennaio dell'anno
+      dopo, la cancellazione entro il 30 gennaio evita il diritto annuale dell'anno dopo e la vendita
+      di liquidazione si comunica almeno 15 giorni prima.
+    status: verified
+    source: sari-cancellazione
   rules:
     - text: >-
         Comunicazione di cessazione al SUAP: né il D.Lgs. 114/1998 né il modulo regionale fissano un
@@ -188,6 +197,7 @@ appointment:
   source: suap-contatti
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     auth: [spid, cie, cns]
@@ -202,6 +212,7 @@ channels:
       Ristorazione e Somministrazione > zona tutelata o non tutelata > Cessare l'attività. Servono
       firma digitale e PEC.
   - type: portal
+    purpose: procedure
     name: DIRE – Depositi e Istanze al Registro imprese (Comunicazione Unica)
     url: https://dire.registroimprese.it
     receipt: legal
@@ -211,6 +222,7 @@ channels:
       Registro Imprese"). Dalla stessa pratica si può aprire impresainungiorno con il pulsante SUAP e
       importare la comunicazione di cessazione per il SUAP, inviando tutto insieme.
   - type: desk
+    purpose: info
     name: Servizio SUAP
     address: Piazza Cavour 42, II piano, Napoli
     booking: >-
@@ -219,15 +231,18 @@ channels:
     source: suap-contatti
     notes: Informazioni e assistenza; la comunicazione si presenta comunque online.
   - type: pec
+    purpose: info
     address: suap@pec.comune.napoli.it
     receipt: legal
     source: suap-contatti
     notes: Solo per comunicare con l'ufficio, non per presentare la pratica.
   - type: phone
+    purpose: info
     name: SUAP
     address: 081 7953054
     source: suap-servizio
   - type: pec
+    purpose: related
     name: Agenzia delle Entrate – qualunque Direzione Provinciale (solo modello AA9/12)
     receipt: legal
     source: ade-chiudere

@@ -87,6 +87,15 @@ legal_basis:
       Soprintendenza.
     status: unverified
 deadline:
+  summary:
+    text: >-
+      Prima di occupare il suolo serve la concessione: la continuativa arriva in 90 giorni
+      (integrazioni entro 30), la semplificata entro 10 giorni; per i dehors C e D e nel Centro
+      Storico con Soprintendenza le copie cartacee vanno consegnate entro 7 giorni dall'invio. Il
+      rinnovo della semplificata va chiesto almeno 10 giorni prima della scadenza; per la
+      continuativa le fonti indicano 1° settembre–30 novembre oppure 7 giorni prima: chiedere al SUAP.
+    status: disputed
+    source: regolamento-dehors
   rules:
     - text: >-
         La concessione va ottenuta prima di occupare il suolo: l'occupazione senza concessione è
@@ -168,6 +177,7 @@ appointment:
   source: suap-contatti
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP del Comune di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     preferred: true
@@ -177,6 +187,7 @@ channels:
       istruite. L'istanza è in bollo e i patti e condizioni della concessione si restituiscono
       firmati digitalmente; il tipo di accesso al portale non è stato verificato.
   - type: desk
+    purpose: info
     name: SUAP – Unità Operativa Occupazione Suolo Pubblico
     address: Piazza Cavour 42, II piano, 80137 Napoli
     hours: >-
@@ -186,10 +197,12 @@ channels:
       un'attività produttiva")
     source: suap-contatti
   - type: phone
+    purpose: info
     address: 081 7953376 / 081 7953377
     source: suap-contatti
     notes: Numeri dell'Unità Operativa Occupazione Suolo Pubblico del SUAP.
   - type: pec
+    purpose: related
     address: entrate.cosap@pec.comune.napoli.it
     receipt: legal
     source: cup-occupazione
@@ -197,11 +210,13 @@ channels:
       Servizio Gestione Canoni: rinuncia alla concessione (insieme al SUAP), richieste di dilazione,
       chiarimenti sul canone. Non è un canale per la domanda di concessione.
   - type: desk
+    purpose: related
     name: Ufficio CUP Occupazione di Suolo (Servizio Gestione Canoni e Altri Tributi)
     address: Via Diocleziano 330, primo piano, Napoli
     hours: lunedì–venerdì 8:30–12:30
     source: cup-occupazione
   - type: email
+    purpose: info
     address: entrate.cosap@comune.napoli.it
     receipt: informal
     source: cup-occupazione

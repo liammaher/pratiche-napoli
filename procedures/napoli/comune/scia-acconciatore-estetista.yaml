@@ -87,6 +87,14 @@ legal_basis:
     status: verified
     source: l241-art19
 deadline:
+  summary:
+    text: >-
+      Prima di aprire: si apre appena arriva la ricevuta della SCIA, ma l'acconciatore che consuma
+      più di 1 mc d'acqua al giorno deve aspettare il rilascio dell'AUA; il salone va aperto entro 60
+      giorni dalla SCIA, salvo proroga. Entro 60 giorni il Comune può vietare l'attività o chiedere
+      di mettersi in regola, dando almeno 30 giorni.
+    status: verified
+    source: suap-servizio
   rules:
     - text: >-
         La SCIA va presentata prima di aprire: l'attività può iniziare dalla data di inoltro (art. 8,
@@ -146,6 +154,7 @@ appointment:
   source: suap-contatti
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     auth: [spid, cie, cns]
@@ -157,6 +166,7 @@ channels:
       accesso con SPID, CIE, CNS (o eIDAS, Telemaco). Il percorso nel portale non è stato
       controllato: la sezione informativa richiede un captcha.
   - type: pec
+    purpose: info
     address: suap@pec.comune.napoli.it
     receipt: legal
     source: suap-contatti
@@ -164,11 +174,13 @@ channels:
       Solo per comunicare con l'ufficio: le pratiche trasmesse via PEC o email ordinaria non vengono
       istruite.
   - type: email
+    purpose: info
     address: suaponline@comune.napoli.it
     receipt: informal
     source: suap-contatti
     notes: Solo per informazioni; non per presentare la SCIA.
   - type: desk
+    purpose: info
     name: Servizio SUAP
     address: Piazza Cavour 42, II piano, Napoli
     booking: >-
@@ -179,6 +191,7 @@ channels:
       Informazioni e assistenza; la SCIA si presenta comunque online. La pagina contatti elenca un
       gruppo di referenti per acconciatori, centri estetici e abbronzanti, tatuatori e piercing.
   - type: phone
+    purpose: info
     address: 081 7953054
     source: suap-servizio
 payment:

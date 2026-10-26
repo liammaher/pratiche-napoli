@@ -77,6 +77,17 @@ legal_basis:
     status: verified
     source: l689-art18
 deadline:
+  summary:
+    text: >-
+      Codice della Strada, dalla contestazione o notifica: pagare entro 60 giorni (con lo sconto del
+      30% entro 5, dove previsto; in alcuni casi il pagamento ridotto non è ammesso e la somma la
+      fissa il Prefetto), rateazione entro 30, dati del conducente non identificato entro 60 se il
+      verbale toglie punti, ricorso al Prefetto entro 60 se non si è pagato oppure al Giudice di
+      Pace entro 30 (60 per chi risiede
+      all'estero). Altre violazioni: pagamento ridotto entro 60 giorni e scritti difensivi entro 30;
+      contro un'ordinanza-ingiunzione, opposizione o pagamento entro 30 giorni dalla notifica.
+    status: verified
+    source: cds-202
   rules:
     - text: >-
         Codice della Strada, pagamento in misura ridotta: entro 60 giorni dalla contestazione o
@@ -169,15 +180,16 @@ appointment:
   source: visione-copie
 channels:
   - type: portal
+    purpose: related
     name: POTESs – Multe al CdS e Sanzioni Amministrative
     url: https://servizionline.comune.napoli.it/web/napoli/sanzioni-amministrative
     auth: [spid, cie, cns]
-    preferred: true
     source: potess-sanzioni
     notes: >-
       Per consultare preavvisi e verbali e, solo per ZTL e aree pedonali, le immagini delle
       violazioni.
   - type: portal
+    purpose: procedure
     name: PartenoPay (pagoPA del Comune di Napoli)
     url: https://partenopay.comune.napoli.it/
     auth: [none, spid]
@@ -187,6 +199,7 @@ channels:
       Amministrative, Multe per Violazioni al Codice della Strada. Si paga online o si stampa
       l'avviso pagoPA da pagare a uffici postali, banche, ATM, tabaccherie e home banking CBILL.
   - type: desk
+    purpose: procedure
     name: Servizio Sanzioni Amministrative (sportello e box informazioni)
     address: Via Diocleziano 330, 80124 Napoli
     hours: martedì, giovedì e venerdì 8:00–13:00
@@ -199,6 +212,7 @@ channels:
       conducente e istanze di rateazione. Il portale POTESs e il modulo del conducente indicano
       anche martedì e giovedì 14:00–17:00.
   - type: pec
+    purpose: procedure
     name: Ufficio Ricorsi al Prefetto e patente a punti
     address: ricorsi.prefetto@pec.comune.napoli.it
     receipt: legal
@@ -208,6 +222,7 @@ channels:
       conducente. La legge ammette il ricorso via PEC all'ufficio dell'organo accertatore
       (art. 203 CdS).
   - type: pec
+    purpose: procedure
     name: U.O. Ingiunzioni (violazioni diverse dal CdS)
     address: sanzioni.amministrative.ingiunzioni@pec.comune.napoli.it
     receipt: legal
@@ -216,16 +231,19 @@ channels:
       Per scritti difensivi, ricevute di pagamento e rateazione delle ingiunzioni. Nell'oggetto
       indicare "scritti difensivi verbale n…" o "pagamento verbale n…".
   - type: pec
+    purpose: related
     name: Ufficio Ruoli e Sgravi (cartelle esattoriali)
     address: sanzioni.amministrative.ruolisgravi@pec.comune.napoli.it
     receipt: legal
     source: cartelle
   - type: pec
+    purpose: procedure
     name: Ufficio Rateizzi
     address: sanzioni.amministrative.rateizzi@pec.comune.napoli.it
     receipt: legal
     source: rateizzazione-cds
   - type: post
+    purpose: procedure
     name: Ricorso al Prefetto tramite il Comune
     address: >-
       Al Prefetto di Napoli tramite Servizio Sanzioni Amministrative – Ufficio Ricorsi al
@@ -233,6 +251,7 @@ channels:
     source: mod-ricorso
     notes: Raccomandata A/R.
   - type: post
+    purpose: procedure
     name: Ricorso direttamente al Prefetto di Napoli
     address: Prefettura di Napoli, Via Vespucci 172, Napoli
     source: cds-verbali
@@ -240,6 +259,7 @@ channels:
       Raccomandata A/R. Il numero civico 172 lo indica il Comune; la Prefettura scrive solo che
       l'Area III ha sede in Via Vespucci.
   - type: pec
+    purpose: procedure
     name: Prefettura di Napoli (ricorso firmato digitalmente)
     address: prefettura.prefna@pec.interno.it
     receipt: legal
@@ -248,12 +268,14 @@ channels:
       Indirizzo indicato nella pagina dei ricorsi; altre pagine della Prefettura indicano
       protocollo.prefna@pec.interno.it. Non si può usare l'e-mail ordinaria.
   - type: desk
+    purpose: procedure
     name: Ufficio del Giudice di Pace di Napoli
     address: Via Foria 2 (ex Caserma Garibaldi), Napoli
     source: cds-verbali
     notes: >-
       Deposito o raccomandata A/R del ricorso; il Comune chiede l'originale più 5 copie.
   - type: phone
+    purpose: info
     name: Servizio Sanzioni Amministrative
     address: 081 7957211
     source: servizio-sanzioni

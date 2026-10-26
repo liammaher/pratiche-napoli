@@ -75,6 +75,12 @@ legal_basis:
     status: verified
     source: suap-procedura
 deadline:
+  summary:
+    text: >-
+      Prima di aprire: si apre appena arriva la ricevuta di avvio pratica della SCIA. Entro 60 giorni
+      il Comune può vietare l'attività o chiedere di mettersi in regola, dando almeno 30 giorni.
+    status: verified
+    source: suap-servizio
   rules:
     - text: >-
         La SCIA va presentata prima di aprire: l'attività può iniziare dalla data di
@@ -121,6 +127,7 @@ appointment:
   source: suap-contatti
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     auth: [spid, cie, cns]
@@ -133,6 +140,7 @@ channels:
       Commercio al Dettaglio in area Privata > Esercizio di vicinato (Negozio) > settore NON
       alimentare oppure Alimentare o Misto > Aprire l'attività.
   - type: pec
+    purpose: info
     address: suap@pec.comune.napoli.it
     receipt: legal
     source: suap-contatti
@@ -140,11 +148,13 @@ channels:
       Solo per comunicare con l'ufficio: le pratiche trasmesse via PEC o email ordinaria non
       vengono istruite.
   - type: email
+    purpose: info
     address: suaponline@comune.napoli.it
     receipt: informal
     source: suap-contatti
     notes: Solo per informazioni; non per presentare la SCIA.
   - type: desk
+    purpose: info
     name: Servizio SUAP
     address: Piazza Cavour 42, II piano, 80137 Napoli
     booking: >-
@@ -153,6 +163,7 @@ channels:
     source: suap-contatti
     notes: Informazioni e assistenza; la SCIA si presenta comunque online.
   - type: phone
+    purpose: info
     address: 081 7953054
     source: suap-servizio
 payment:

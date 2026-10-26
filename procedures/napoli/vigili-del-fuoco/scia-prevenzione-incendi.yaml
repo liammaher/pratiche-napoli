@@ -125,6 +125,15 @@ legal_basis:
     status: verified
     source: dm-tariffe-2024
 deadline:
+  summary:
+    text: >-
+      La SCIA va presentata prima di iniziare, e per le categorie B e C prima dei lavori serve il
+      parere sul progetto (entro 60 giorni dalla documentazione completa); il Comando controlla entro
+      60 giorni e chi non è in regola ha 45 giorni per adeguarsi. Il rinnovo è ogni 5 anni dalla
+      prima SCIA (10 per le attività 6, 7, 8, 64, 71, 72 e 77; alla scadenza per i vecchi
+      certificati) e le modifiche che aggravano il rischio richiedono una nuova SCIA.
+    status: verified
+    source: dpr151-art4
   rules:
     - text: >-
         La SCIA va presentata prima di iniziare l'esercizio dell'attività. Il Comando verifica la
@@ -193,6 +202,7 @@ appointment:
   source: vvf-napoli
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP del Comune di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     auth: [spid, cie, cns]
@@ -205,6 +215,7 @@ channels:
       canale telematico delle pratiche SUAP; la SCIA antincendio si aggiunge di solito alla
       pratica dell'attività (SCIA unica).
   - type: portal
+    purpose: procedure
     name: PRINCE – Portale di servizi di prevenzione incendi dei Vigili del Fuoco
     url: https://prevenzioneonline.vigilfuoco.it/prevenzione-online/login
     auth: [spid]
@@ -214,11 +225,13 @@ channels:
       PRINCE. Accesso con SPID; le istanze si associano tramite codice fiscale (anche del
       professionista). Assistenza tecnica: prince@vigilfuoco.it.
   - type: pec
+    purpose: info
     address: com.prev.napoli@cert.vigilfuoco.it
     receipt: legal
     source: vvf-napoli
     notes: PEC dell'Ufficio Prevenzione Incendi del Comando di Napoli.
   - type: desk
+    purpose: info
     name: Comando VVF di Napoli – Ufficio Prevenzione Incendi
     address: Via Leopoldo Tarantini 1, Napoli
     hours: martedì 9:00–12:00, giovedì 14:00–16:00, venerdì 9:00–12:00
@@ -226,9 +239,11 @@ channels:
     source: vvf-napoli
     notes: Solo consulenze sugli aspetti di competenza dell'ufficio; le istanze sono telematiche.
   - type: phone
+    purpose: info
     address: 081 2595290
     source: vvf-napoli
   - type: desk
+    purpose: info
     name: Servizio SUAP del Comune di Napoli
     address: Piazza Cavour 42, II piano, Napoli
     source: info-diritti

@@ -75,6 +75,15 @@ legal_basis:
     status: verified
     source: suap-procedura
 deadline:
+  summary:
+    text: >-
+      Prima di installare o modificare l'insegna: si installa appena arriva la ricevuta della SCIA
+      (con il pagamento del canone allegato, se dovuto), ma in area con tutela paesaggistica solo
+      dopo l'autorizzazione paesaggistica. Negli anni dopo il primo il canone si paga entro il 30
+      aprile o in tre rate fino al 30 ottobre; per il 2026 le scadenze sono 31 agosto, 30 ottobre e
+      30 dicembre.
+    status: verified
+    source: regolamento-cup
   rules:
     - text: >-
         La SCIA va presentata prima di installare o modificare l'insegna: l'installazione senza la
@@ -146,6 +155,7 @@ appointment:
   source: suap-contatti
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP del Comune di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     auth: [spid, cie, cns]
@@ -156,6 +166,7 @@ channels:
       È l'unico canale per presentare la SCIA: le pratiche inviate per PEC o email ordinaria non
       vengono istruite. Servono anche PEC e firma digitale (pagina del servizio SUAP).
   - type: desk
+    purpose: info
     name: Servizio SUAP
     address: Piazza Cavour 42, II piano, 80137 Napoli
     booking: Solo su prenotazione dal portale del cittadino (portalecittadino.comune.napoli.it)
@@ -163,26 +174,31 @@ channels:
     source: suap-contatti
     notes: Per informazioni sulla pratica; la SCIA si presenta comunque online.
   - type: email
+    purpose: info
     address: suaponline@comune.napoli.it
     receipt: informal
     source: suap-contatti
     notes: Solo informazioni; non per inviare la SCIA.
   - type: pec
+    purpose: related
     address: canonepubblicita@pec.comune.napoli.it
     receipt: legal
     source: cup-esposizioni
     notes: Ufficio CUP Pubblicità, per il canone (informazioni, avviso PagoPA, istanze di dilazione).
   - type: email
+    purpose: related
     address: entrate.pubblicita@comune.napoli.it
     receipt: informal
     source: cup-esposizioni
     notes: Ufficio CUP Pubblicità, per il canone.
   - type: desk
+    purpose: related
     name: Ufficio CUP Pubblicità
     address: Via Diocleziano 330, primo piano, Napoli
     hours: lunedì–venerdì 8:30–12:30
     source: cup-esposizioni
   - type: phone
+    purpose: related
     name: Ufficio CUP Pubblicità
     address: 081 7953748 / 081 7953784 / 081 7953768 / 081 7953764 / 081 7953863
     hours: lunedì–venerdì 8:30–12:30

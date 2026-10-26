@@ -77,6 +77,17 @@ legal_basis:
     status: verified
     source: inad
 deadline:
+  summary:
+    text: >-
+      Non c'è nulla da presentare: i termini per pagare o impugnare partono dal perfezionamento,
+      cioè quando si apre la notifica su SEND o IO oppure, se non la si apre prima, 7 giorni dopo la
+      consegna in PEC, 15 dopo l'avviso di mancato recapito se la PEC non funziona, 10 dopo la
+      consegna o il ritiro della raccomandata (20 dopo l'avviso di giacenza se non la si ritira
+      entro 10 giorni) o 10 dopo il deposito su SEND se si è irreperibili. Senza PEC, aprendola
+      entro 5 giorni dall'avviso di cortesia si evita la raccomandata; la data esatta si legge su
+      SEND in "Stato della notifica".
+    status: verified
+    source: dl-76-2020-art-26
   rules:
     - text: >-
         Non c'è nulla da presentare per "ricevere" una notifica: gli effetti legali partono dal
@@ -172,6 +183,7 @@ appointment:
   source: punti-di-ritiro
 channels:
   - type: portal
+    purpose: procedure
     name: SEND – area personale (cittadini, professionisti, ditte individuali e imprese)
     url: https://notifichedigitali.it/
     auth: [spid, cie]
@@ -185,6 +197,7 @@ channels:
       Le ditte individuali usano l'accesso da persona fisica. L'apertura su SEND perfeziona la
       notifica e genera le attestazioni opponibili a terzi.
   - type: app
+    purpose: procedure
     name: App IO – servizio "SEND - Notifiche digitali"
     source: hc-recapiti
     notes: >-
@@ -193,6 +206,7 @@ channels:
       app la si perfeziona e si può pagare. Con IO si può anche inquadrare il codice QR di un
       avviso cartaceo.
   - type: desk
+    purpose: procedure
     name: Punti di ritiro SEND (esercizi convenzionati)
     url: https://notifichedigitali.it/punti-di-ritiro
     source: punti-di-ritiro
@@ -202,6 +216,7 @@ channels:
       prevista) per operazione. L'elenco dei punti si consulta sulla mappa del sito; non è stato
       verificato quali punti ci siano a Napoli.
   - type: portal
+    purpose: related
     name: INAD – eleggere il domicilio digitale (persone fisiche)
     url: https://domiciliodigitale.gov.it/dgit/home/public/
     auth: [spid, cie, cns]

@@ -56,6 +56,8 @@ interface Source {
 interface Doc {
   id?: string;
   updated?: string;
+  channels?: { purpose?: string; preferred?: boolean }[];
+  deadline?: { summary?: unknown; rules?: unknown[] };
   sources?: Source[];
   forms?: { id: string; fields?: { label: string; map: Record<string, unknown> }[] }[];
   records?: { field: string }[];
@@ -139,6 +141,19 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
       }
     }
   });
+
+  if (!(d.channels ?? []).some((c) => c.purpose === "procedure")) {
+    errors.push('channels: at least one must have purpose "procedure", the way to carry it out');
+  }
+  (d.channels ?? []).forEach((c, i) => {
+    if (c.preferred && c.purpose !== "procedure") {
+      errors.push(`channels/${i}: preferred marks the recommended way to carry out the procedure, so its purpose must be "procedure"`);
+    }
+  });
+  // One rule can stand alone in "In breve"; several need a summary that covers every case.
+  if ((d.deadline?.rules?.length ?? 0) > 1 && !d.deadline?.summary) {
+    errors.push("deadline: with more than one rule, add a summary covering every case");
+  }
 
   for (const r of d.related ?? []) {
     if (r === d.id) errors.push("a procedure can't be related to itself");

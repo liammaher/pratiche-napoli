@@ -132,6 +132,16 @@ legal_basis:
     status: verified
     source: napoli-indicazioni
 deadline:
+  summary:
+    text: >-
+      Prima di aprire si presenta la SCIA: si può iniziare da quel giorno e il Comune ha 60 giorni
+      per vietare la prosecuzione o chiedere di mettersi in regola. Poi: ospiti su Alloggiati Web
+      entro 24 ore dall'arrivo (per soggiorni sotto le 24 ore le fonti non concordano), prezzi alla
+      Regione entro il 1° ottobre (le modifiche dal 1° giugno entro il 1° marzo), soggiorni di al
+      massimo 30 giorni consecutivi, sospensione o chiusura comunicate prima al Comune (dopo sei
+      mesi di sospensione si presume la rinuncia).
+    status: disputed
+    source: l241-art19
   rules:
     - text: >-
         La SCIA va presentata prima di iniziare: l'attività può iniziare dalla data di
@@ -196,6 +206,7 @@ appointment:
   source: suap-contatti
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     auth: [spid, cie, cns]
@@ -206,16 +217,19 @@ channels:
       Unico canale telematico per la SCIA del B&B (lo conferma anche il documento operativo del
       SUAP). Servono firma digitale e PEC. Il percorso esatto nel portale non è stato verificato.
   - type: pec
+    purpose: info
     address: suap@pec.comune.napoli.it
     receipt: legal
     source: suap-contatti
     notes: Solo per comunicare con l'ufficio; le pratiche inviate via PEC o email ordinaria non vengono istruite.
   - type: email
+    purpose: info
     address: suaponline@comune.napoli.it
     receipt: informal
     source: suap-contatti
     notes: Solo per informazioni.
   - type: desk
+    purpose: info
     name: Servizio SUAP
     address: Piazza Cavour 42, II piano, Napoli
     booking: >-
@@ -223,22 +237,26 @@ channels:
       pagina "Avviare, variare, chiudere un'attività produttiva").
     source: suap-contatti
   - type: phone
+    purpose: info
     address: 081 7953051
     source: suap-contatti
     notes: Referente SUAP indicato per strutture ricettive extralberghiere e Bed & breakfast.
   - type: portal
+    purpose: related
     name: BDSR – Banca dati strutture ricettive del Ministero del Turismo (CIN)
     url: https://bdsr.ministeroturismo.gov.it/
     auth: [spid, cie]
     source: guida-regione-2025
     notes: Si usa dopo aver ricevuto il CUSR dal Comune ("Ottieni CIN").
   - type: portal
+    purpose: related
     name: Sinfonia Turismo SMART – Regione Campania (movimento ospiti e prezzi)
     url: https://turismo.regione.campania.it/turismoweb/fe-portale-turismo/login
     auth: [spid, cie, cns]
     source: guida-regione-2025
     notes: Assistenza supporto.strutturericettive@regione.campania.it.
   - type: portal
+    purpose: related
     name: Alloggiati Web – Polizia di Stato
     url: https://alloggiatiweb.poliziadistato.it/
     receipt: informal
@@ -248,6 +266,7 @@ channels:
       struttura (modulo della Questura di Napoli). Le ricevute vanno scaricate (restano
       disponibili 30 giorni) e conservate 5 anni.
   - type: desk
+    purpose: related
     name: Questura di Napoli
     address: Via Medina 75, 80133 Napoli
     source: questura-napoli

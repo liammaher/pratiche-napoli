@@ -102,6 +102,15 @@ legal_basis:
     status: verified
     source: sari-artigiana
 deadline:
+  summary:
+    text: >-
+      Entro 30 giorni dall'inizio dell'attività, contati dal giorno dopo (se l'ultimo giorno è
+      sabato o festivo vale il primo giorno lavorativo successivo); per l'impresa artigiana la
+      stessa Comunicazione Unica vale anche per l'Albo, e l'annotazione decorre dall'invio. Se
+      l'impresa è iscritta prima come inattiva, l'inizio attività si denuncia al REA entro 30
+      giorni.
+    status: verified
+    source: cc-2196
   rules:
     - text: >-
         Iscrizione entro 30 giorni dall'inizio dell'impresa (art. 2196 c.c.).
@@ -164,6 +173,7 @@ appointment:
   source: ri-strumenti
 channels:
   - type: portal
+    purpose: procedure
     name: DIRE – Depositi e Istanze al Registro imprese
     url: https://dire.registroimprese.it
     receipt: legal
@@ -175,6 +185,7 @@ channels:
       2026 il vecchio strumento ComUnica non è più disponibile e l'invio avviene dalla funzione
       integrata in DIRE. Serve l'adesione gratuita a Telemaco con credito sul conto.
   - type: pec
+    purpose: info
     address: registroimprese@na.legalmail.camcom.it
     receipt: legal
     source: na-sedi
@@ -182,12 +193,14 @@ channels:
       PEC dell'Area Anagrafe Economica (Registro Imprese), per comunicare con l'ufficio; la
       pratica di iscrizione si invia in via telematica dal sistema del Registro Imprese.
   - type: desk
+    purpose: info
     name: Registro Imprese
     address: Corso Meridionale 58, 80143 Napoli
     hours: lunedì–giovedì 8:50–12:00; venerdì 8:50–11:00 (orari uffici)
     source: na-sedi
     notes: La pagina "Sanzioni" scrive CAP 80142 per lo stesso indirizzo.
   - type: desk
+    purpose: info
     name: Ufficio Artigianato (Albo e sezione imprese artigiane)
     address: Corso Meridionale 58, Palazzo Borsa Merci, Napoli
     hours: sportello martedì e giovedì lavorativi 10:30–11:30; informazioni dal martedì al venerdì 12:00–13:00 e 14:00–15:00
@@ -197,11 +210,13 @@ channels:
       diversi (artigianato@na.legalmail.camcom.it, un link ad "artigianto@…" e
       artigianato@na.legalmail.it): verificarla prima di scrivere.
   - type: phone
+    purpose: info
     name: URP Camera di Commercio
     address: 081 7607712 / 081 7607716
     hours: lunedì–venerdì 8:50–12:30
     source: na-sedi
   - type: portal
+    purpose: related
     name: SARI – Supporto Specialistico Registro Imprese (Camera di Napoli)
     url: https://supportospecialisticori.infocamere.it/sariWeb/na
     auth: [none]

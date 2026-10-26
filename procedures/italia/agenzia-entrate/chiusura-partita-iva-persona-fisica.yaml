@@ -78,6 +78,14 @@ legal_basis:
     status: verified
     source: dl7-2007-art9
 deadline:
+  summary:
+    text: >-
+      Entro 30 giorni dalla cessazione, cioè da quando sono finite le operazioni di liquidazione, e
+      non prima: la data di cessazione non può essere successiva a quella di presentazione. Con PEC
+      o raccomandata conta il giorno di spedizione, online quello in cui l'Agenzia completa la
+      ricezione.
+    status: verified
+    source: dpr633-art35
   rules:
     - text: Entro 30 giorni dalla data di cessazione dell'attività.
       status: verified
@@ -125,6 +133,7 @@ appointment:
   source: ade-come-chiudere
 channels:
   - type: portal
+    purpose: procedure
     name: Area riservata dell'Agenzia delle Entrate – servizio "Invio documenti"
     url: https://www.agenziaentrate.gov.it/portale/area-riservata
     auth: [spid, cie, cns]
@@ -138,6 +147,7 @@ channels:
       ricevimento dell'Agenzia. Lo stesso invio può farlo un intermediario abilitato (commercialista,
       CAF, associazione di categoria).
   - type: pec
+    purpose: procedure
     name: Direzione Provinciale I di Napoli
     address: dp.1Napoli@pce.agenziaentrate.it
     receipt: legal
@@ -148,12 +158,14 @@ channels:
       pagina delle PEC); la ricevuta di attestazione della cessazione arriva allo stesso indirizzo PEC
       usato per l'invio.
   - type: pec
+    purpose: procedure
     name: Direzione Provinciale II di Napoli
     address: dp.2Napoli@pce.agenziaentrate.it
     receipt: legal
     source: ade-pec-dp
     notes: Stesse regole dell'altra PEC; le due Direzioni Provinciali di Napoli sono alternative.
   - type: desk
+    purpose: procedure
     name: Qualunque ufficio dell'Agenzia delle Entrate, su appuntamento
     url: https://www.agenziaentrate.gov.it/portale/prenota-un-appuntamento
     booking: Prenotazione con il servizio "Prenota un appuntamento" del sito dell'Agenzia.
@@ -164,6 +176,7 @@ channels:
       duplice esemplare a un qualunque ufficio, a prescindere dal domicilio fiscale; l'ufficio
       consegna la copia timbrata (art. 35, comma 7).
   - type: post
+    purpose: procedure
     name: Raccomandata a un qualunque ufficio dell'Agenzia delle Entrate
     receipt: informal
     source: ade-come-chiudere

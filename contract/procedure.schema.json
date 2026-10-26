@@ -144,6 +144,10 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "summary": {
+          "description": "The deadline in one or two sentences covering every case, for the page's \"In breve\"; required when there is more than one rule",
+          "$ref": "#/$defs/claim"
+        },
         "rules": {
           "type": "array",
           "items": {
@@ -174,9 +178,19 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "type"
+          "type",
+          "purpose"
         ],
         "properties": {
+          "purpose": {
+            "description": "What the channel is for: procedure, to carry out the procedure itself (file, request, read); info, only questions and assistance; payment; related, another service or a linked step. Only procedure channels answer \"can it be done online\"",
+            "enum": [
+              "procedure",
+              "info",
+              "payment",
+              "related"
+            ]
+          },
           "type": {
             "enum": [
               "portal",

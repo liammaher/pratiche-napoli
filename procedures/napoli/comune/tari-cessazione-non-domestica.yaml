@@ -49,6 +49,12 @@ legal_basis:
     status: verified
     source: regolamento-2023
 deadline:
+  summary:
+    text: >-
+      Entro 90 giorni dalla fine dell'occupazione dei locali: se si dichiara entro questo termine,
+      la TARI è dovuta solo fino al giorno della cessazione.
+    status: verified
+    source: regolamento-2023
   rules:
     - text: >-
         Entro 90 giorni dalla data in cui è cessata l'occupazione o la detenzione (art. 25, cc. 5
@@ -95,6 +101,7 @@ appointment:
   source: modulistica
 channels:
   - type: pec
+    purpose: procedure
     address: entrate.tari-tares-tarsu@pec.comune.napoli.it
     receipt: legal
     preferred: true
@@ -103,28 +110,34 @@ channels:
       Dà una ricevuta con valore legale, utile a dimostrare di aver dichiarato entro i 90 giorni;
       un'impresa ha comunque l'obbligo di avere una PEC.
   - type: portal
+    purpose: procedure
     name: POTESs – Servizi Tributari
     url: https://servizionline.comune.napoli.it/web/napoli/servizi-tributari
     auth: [spid, cie, cns]
     source: modulistica
   - type: email
+    purpose: procedure
     address: entrate.tari-tares-tarsu@comune.napoli.it
     receipt: informal
     source: mod-8
   - type: post
+    purpose: procedure
     address: Comune di Napoli, Area Entrate, Servizio IMU e TARI, Via Diocleziano 330, 80125 Napoli
     source: mod-8
     notes: Raccomandata (A/R secondo la pagina della modulistica).
   - type: desk
+    purpose: procedure
     name: Sportello Unico Attività Produttive (SUAP)
     source: modulistica
     notes: Per le utenze non domestiche; la pagina non indica l'indirizzo.
   - type: desk
+    purpose: info
     name: Sportello TARI
     address: Via Diocleziano 330, 80125 Napoli
     hours: lunedì–venerdì 8:30–12:30
     source: mod-8
   - type: phone
+    purpose: info
     address: 081 795 3711
     hours: tutti i giorni 9:00–13:00 (orario indicato sul modulo)
     source: mod-8

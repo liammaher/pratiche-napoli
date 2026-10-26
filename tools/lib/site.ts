@@ -17,6 +17,7 @@ interface Claim {
 }
 interface Channel {
   type: string;
+  purpose: "procedure" | "info" | "payment" | "related";
   name?: string;
   url?: string;
   address?: string;
@@ -47,7 +48,7 @@ export interface Procedure {
   ente: { name: string; office?: string };
   applies_to: { events: string[]; audience: string[]; sectors?: string[]; conditions?: Claim[] };
   legal_basis?: Claim[];
-  deadline?: { rules?: Claim[]; lateness?: Claim };
+  deadline?: { summary?: Claim; rules?: Claim[]; lateness?: Claim };
   cost?: Claim;
   duration?: Claim;
   appointment?: Claim;
@@ -141,6 +142,8 @@ const WHO: Record<string, string> = {
   anyone: "Chiunque, anche chi ti aiuta",
 };
 const STATUS: Record<string, string> = { unverified: "da verificare", disputed: "fonti in contrasto" };
+// Channels that don't carry out the procedure say so on their card.
+const PURPOSE: Record<string, string> = { info: "solo informazioni", payment: "per pagare", related: "servizio collegato" };
 
 // --- Whole site ---
 
@@ -380,7 +383,13 @@ function renderProcedure(p: Procedure, ente: Ente, site: Site): string {
     section("chi", "Chi deve farla?", appliesTo(p, cite)),
     p.legal_basis?.length ? section("norme", "Su quali norme si basa?", claimList(p.legal_basis, cite)) : "",
     p.deadline ? section("scadenza", "Entro quando va fatta?", deadline(p.deadline, cite)) : "",
-    section("come", "Come si presenta?", p.channels.map((c) => channel(c, cite)).join("\n")),
+    section(
+      "come",
+      "Come si presenta?",
+      [...p.channels.filter((c) => c.purpose === "procedure"), ...p.channels.filter((c) => c.purpose !== "procedure")]
+        .map((c) => channel(c, cite))
+        .join("\n"),
+    ),
     p.payment ? section("pagamento", "Come si paga?", payment(p.payment, cite)) : "",
     p.documents?.length ? section("documenti", "Quali documenti servono?", documents(p.documents)) : "",
     p.forms?.length ? section("moduli", "Quali moduli servono?", forms(p.forms, cite)) : "",
@@ -508,13 +517,18 @@ const ONLINE = new Set(["portal", "pec", "email", "app"]);
 // The "In breve" box: the answers people look for first, each with its
 // status and source, linking down to the section that explains it.
 function quickAnswer(p: Procedure, cite: Cite): string {
-  const online = p.channels.filter((c) => ONLINE.has(c.type));
+  // Only channels that carry out the procedure answer "online?": many PECs and
+  // emails are for questions, and filings sent there aren't processed.
+  const ways = p.channels.filter((c) => c.purpose === "procedure");
+  const online = ways.filter((c) => ONLINE.has(c.type));
   const channelName = (c: Channel) =>
     `${CHANNELS[c.type] ?? c.type}${c.name ? ` (${c.name})` : ""}${c.auth?.length ? `, con ${c.auth.map((a) => AUTH[a] ?? a).join(", ")}` : ""}`;
   const required = (p.documents ?? []).filter((d) => d.required).length;
-  const personal = p.steps.filter((s) => s.human_only).length;
+  // Steps by a professional or the office aren't the reader's to do.
+  const yours = p.steps.filter((s) => s.human_only && s.who === "owner");
+  const due = deadlineSummary(p);
   const rows: [string, string][] = [
-    ...(p.deadline?.rules?.[0] ? [["Scadenza", `${claim(p.deadline.rules[0], cite)} <a href="#scadenza">Dettagli</a>`] as [string, string]] : []),
+    ...(due ? [["Scadenza", `${claim(due, cite)} <a href="#scadenza">Dettagli</a>`] as [string, string]] : []),
     ...(p.cost ? [["Costo", claim(p.cost, cite)] as [string, string]] : []),
     ...(p.duration ? [["Tempi", claim(p.duration, cite)] as [string, string]] : []),
     [
@@ -522,13 +536,13 @@ function quickAnswer(p: Procedure, cite: Cite): string {
       `${
         online.length
           ? `Sì: ${esc(online.map(channelName).join("; "))}.`
-          : `No: ${esc([...new Set(p.channels.map((c) => CHANNELS[c.type] ?? c.type))].join(", ").toLowerCase())}.`
+          : `No: ${esc([...new Set(ways.map((c) => CHANNELS[c.type] ?? c.type))].join(", ").toLowerCase())}.`
       } <a href="#come">Dettagli</a>`,
     ],
     ...(p.appointment ? [["Appuntamento", claim(p.appointment, cite)] as [string, string]] : []),
     ...(required ? [["Documenti", `${required} ${required === 1 ? "obbligatorio" : "obbligatori"}. <a href="#documenti">Elenco</a>`] as [string, string]] : []),
-    ...(personal
-      ? [["Cosa devi fare tu", `${personal === 1 ? "1 passaggio" : `${personal} passaggi`} (firmare, pagare, inviare…). <a href="#passaggi">Passaggi</a>`] as [string, string]]
+    ...(yours.length
+      ? [["Cosa devi fare tu", `${esc(yours.map((s) => s.do.replace(/\.$/, "")).join("; "))}. <a href="#passaggi">Passaggi</a>`] as [string, string]]
       : []),
   ];
   return `<section id="in-breve" class="quick">
@@ -539,10 +553,17 @@ ${rows.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join("\n")}
 </section>`;
 }
 
+// The deadline for "In breve": the summary, or the only rule there is.
+function deadlineSummary(p: Procedure): Claim | undefined {
+  const rules = p.deadline?.rules ?? [];
+  return p.deadline?.summary ?? (rules.length === 1 ? rules[0] : undefined);
+}
+
 // The meta description: the summary's first sentence, then the quick facts.
+// Search snippets drop the page's badges, so only verified facts go in.
 function describe(p: Procedure): string {
   const first = p.summary.match(/^.*?[.!?](?=\s|$)/)?.[0] ?? p.summary;
-  const facts = [p.deadline?.rules?.[0], p.cost, p.duration].filter((c): c is Claim => !!c).map((c) => c.text);
+  const facts = [deadlineSummary(p), p.cost, p.duration].filter((c): c is Claim => c?.status === "verified").map((c) => c.text);
   return [first, ...facts].join(" ");
 }
 
@@ -598,7 +619,7 @@ function channel(c: Channel, cite: Cite): string {
     c.notes ? esc(c.notes) : "",
   ].filter(Boolean);
   return `<div class="card">
-<h3>${esc(CHANNELS[c.type] ?? c.type)}${c.preferred ? ' <span class="badge good">consigliato</span>' : ""}${cite(c.source)}</h3>
+<h3>${esc(CHANNELS[c.type] ?? c.type)}${c.preferred ? ' <span class="badge good">consigliato</span>' : ""}${PURPOSE[c.purpose] ? ` <span class="badge soft">${PURPOSE[c.purpose]}</span>` : ""}${cite(c.source)}</h3>
 ${rows.map((r) => `<p>${r}</p>`).join("\n")}
 </div>`;
 }

@@ -24,7 +24,7 @@ function minimal(over: Partial<Procedure> = {}): Procedure {
     summary: "Una procedura di prova.",
     ente: { name: "Comune di Napoli" },
     applies_to: { events: ["home"], audience: ["resident"] },
-    channels: [{ type: "pec", address: "ufficio@pec.comune.napoli.it" }],
+    channels: [{ type: "pec", purpose: "procedure", address: "ufficio@pec.comune.napoli.it" }],
     steps: [{ do: "Invia", who: "owner" }],
     sources: [{ id: "page", label: "Pagina", url: "https://www.comune.napoli.it/", retrieved: "2026-10-25", official: true }],
     verification: { level: "L1", date: "2026-10-25", by: "test", method: "desk" },
@@ -118,7 +118,7 @@ test("dates are written in Italian, in the date given whatever the time zone", (
 });
 
 test("a phone field with several numbers links each one", () => {
-  const site = buildSite([minimal({ channels: [{ type: "phone", address: "081 7953748 / 081 7953784 – 081 7953768" }] })], opts);
+  const site = buildSite([minimal({ channels: [{ type: "phone", purpose: "info", address: "081 7953748 / 081 7953784 – 081 7953768" }] })], opts);
   const html = site.get("napoli/comune/test/index.html")!;
   assert.ok(
     html.includes(
@@ -168,8 +168,9 @@ test("In breve answers the first questions, with status and source", () => {
     duration: { text: "Risposta in 30 giorni.", status: "unverified" },
     appointment: { text: "Non serve.", status: "verified", source: "page" },
     channels: [
-      { type: "desk", name: "Sportello" },
-      { type: "portal", name: "POTESs", auth: ["spid", "cie"] },
+      { type: "desk", purpose: "procedure", name: "Sportello" },
+      { type: "pec", purpose: "info", notes: "Solo per informazioni." },
+      { type: "portal", purpose: "procedure", name: "POTESs", auth: ["spid", "cie"] },
     ],
     documents: [
       { name: "Modulo", required: true },
@@ -177,7 +178,9 @@ test("In breve answers the first questions, with status and source", () => {
     ],
     steps: [
       { do: "Compila", who: "anyone" },
-      { do: "Firma", who: "owner", human_only: true },
+      { do: "Firma il modulo.", who: "owner", human_only: true },
+      { do: "Assevera i lavori", who: "professional", human_only: true },
+      { do: "Paga l'F24", who: "owner", human_only: true },
     ],
   });
   const html = buildSite([p], opts).get("napoli/comune/test/index.html")!;
@@ -186,17 +189,45 @@ test("In breve answers the first questions, with status and source", () => {
   assert.ok(box.includes(`<dt>Scadenza</dt><dd>Entro 90 giorni. ${cite} <a href="#scadenza">Dettagli</a></dd>`));
   assert.ok(box.includes(`<dt>Costo</dt><dd>Gratuita. ${cite}</dd>`));
   assert.ok(box.includes('<dt>Tempi</dt><dd>Risposta in 30 giorni. <span class="badge">da verificare</span></dd>'));
-  assert.ok(box.includes("<dt>Si può fare online?</dt><dd>Sì: Portale online (POTESs), con SPID, CIE."));
+  // The information-only PEC is not a way to do it online.
+  assert.ok(box.includes('<dt>Si può fare online?</dt><dd>Sì: Portale online (POTESs), con SPID, CIE. <a href="#come">'));
   assert.ok(box.includes(`<dt>Appuntamento</dt><dd>Non serve. ${cite}</dd>`));
   assert.ok(box.includes("<dt>Documenti</dt><dd>1 obbligatorio."));
-  assert.ok(box.includes("<dt>Cosa devi fare tu</dt><dd>1 passaggio"));
+  // Only the owner's steps, not the professional's.
+  assert.ok(box.includes("<dt>Cosa devi fare tu</dt><dd>Firma il modulo; Paga l&#39;F24. <a"));
   for (const id of ["scadenza", "come", "documenti", "passaggi"]) assert.ok(html.includes(`<section id="${id}">`), id);
-  assert.match(html, /<meta name="description" content="Una procedura di prova\. Entro 90 giorni\. Gratuita\. Risposta in 30 giorni\.">/);
+  // Unverified facts stay out of the description, which search snippets show without badges.
+  assert.match(html, /<meta name="description" content="Una procedura di prova\. Entro 90 giorni\. Gratuita\.">/);
+  // Channels that carry out the procedure come first; the others say what they are for.
+  const come = html.match(/<section id="come">(.*?)<\/section>/s)![1];
+  assert.ok(come.indexOf("POTESs") < come.indexOf("<h3>PEC"));
+  assert.ok(come.includes('<h3>PEC <span class="badge soft">solo informazioni</span></h3>'));
+});
+
+test("several deadline rules are summed up, never cut to the first", () => {
+  const rules = [
+    { text: "Zona C: prima di aprire.", status: "verified" as const, source: "page" },
+    { text: "Zone A e B: dopo l'autorizzazione.", status: "verified" as const, source: "page" },
+  ];
+  const without = buildSite([minimal({ deadline: { rules } })], opts).get("napoli/comune/test/index.html")!;
+  assert.ok(!without.match(/<section id="in-breve".*?<\/section>/s)![0].includes("<dt>Scadenza</dt>"));
+  const summary = { text: "Prima di aprire in zona C; nelle zone A e B dopo l'autorizzazione.", status: "disputed" as const, source: "page" };
+  const html = buildSite([minimal({ deadline: { summary, rules } })], opts).get("napoli/comune/test/index.html")!;
+  assert.ok(html.includes('<dt>Scadenza</dt><dd>Prima di aprire in zona C; nelle zone A e B dopo l&#39;autorizzazione. <span class="badge">fonti in contrasto</span>'));
+  assert.match(html, /<meta name="description" content="Una procedura di prova\.">/);
 });
 
 test("In breve says when a procedure can't be done online, and leaves out what isn't known", () => {
-  const html = buildSite([minimal({ channels: [{ type: "desk" }, { type: "post" }] })], opts).get("napoli/comune/test/index.html")!;
+  const channels = [
+    { type: "desk", purpose: "procedure" as const },
+    { type: "post", purpose: "procedure" as const },
+    { type: "phone", purpose: "info" as const },
+    { type: "email", purpose: "info" as const },
+  ];
+  const html = buildSite([minimal({ channels })], opts).get("napoli/comune/test/index.html")!;
   const box = html.match(/<section id="in-breve" class="quick">(.*?)<\/section>/s)![1];
   assert.ok(box.includes("<dd>No: sportello, posta."));
-  for (const missing of ["Scadenza", "Costo", "Tempi", "Appuntamento", "Documenti"]) assert.ok(!box.includes(`<dt>${missing}</dt>`), missing);
+  for (const missing of ["Scadenza", "Costo", "Tempi", "Appuntamento", "Documenti", "Cosa devi fare tu"]) {
+    assert.ok(!box.includes(`<dt>${missing}</dt>`), missing);
+  }
 });

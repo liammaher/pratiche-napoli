@@ -85,6 +85,13 @@ legal_basis:
     status: verified
     source: dlgs193-art6
 deadline:
+  summary:
+    text: >-
+      L'attestato vale tre anni: alla scadenza, e ogni volta che si passa a mansioni diverse, serve
+      un corso di aggiornamento. Per chi viene assunto le fonti non fissano un termine; se al
+      controllo manca l'attestato, l'ASL dà una prescrizione a 60 giorni.
+    status: unverified
+    source: asl-libretto
   rules:
     - text: >-
         L'attestato ha validità triennale. Alla scadenza dei tre anni serve un corso di
@@ -138,6 +145,7 @@ appointment:
   source: asl-libretto
 channels:
   - type: desk
+    purpose: procedure
     name: UOSD Prevenzione Collettiva del distretto sanitario di appartenenza (ASL Napoli 1 Centro)
     url: https://www.aslnapoli1centro.it/area-di-coordinamento-igienistica
     receipt: informal
@@ -149,6 +157,7 @@ channels:
       orari, telefono e PEC sono nella pagina di ciascuna, raggiungibile dalla pagina dell'Area
       di Coordinamento Igienistica. La pagina ASL non pubblica il modello di domanda.
   - type: desk
+    purpose: procedure
     name: Agenzie formative autorizzate dalla Regione Campania per la formazione degli alimentaristi
     url: https://personalessr.regione.campania.it/formazione-alimentaristi/index
     receipt: informal
