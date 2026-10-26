@@ -1,7 +1,13 @@
 schema_version: 0
 id: napoli/comune/avvio-bed-and-breakfast
 title: Aprire un Bed and Breakfast a Napoli (SCIA al SUAP, CUSR, CIN, Alloggiati Web)
-updated: 2026-10-25
+headline: "Come aprire un B&B a Napoli: SCIA al SUAP, codice CUSR e CIN"
+aka:
+  - bed & breakfast
+  - B and B
+  - camere con colazione
+  - struttura ricettiva extralberghiera
+updated: 2026-10-26
 summary: >-
   Chi vuole ospitare turisti a Napoli offrendo alloggio e prima colazione in una parte della casa
   in cui vive (al massimo 4 camere e 8 posti letto) apre un Bed and Breakfast secondo la L.R.
@@ -166,6 +172,28 @@ deadline:
       concreto chiedere al SUAP o alla Polizia locale.
     status: verified
     source: lr-5-2001
+cost:
+  text: >-
+    Diritti d'istruttoria SUAP: 200 euro, 220 con la notifica sanitaria (colazione con prodotti
+    preparati), 240 con anche la prevenzione incendi (righe S94–S96), pagati con pagoPA nella
+    pratica. Le fonti non indicano marche da bollo; a parte c'è il compenso del tecnico che firma
+    la planimetria.
+  status: verified
+  source: tabella-2026
+duration:
+  text: >-
+    Con la SCIA si può iniziare dalla data di presentazione; entro 60 giorni il Comune, se mancano
+    i requisiti, vieta la prosecuzione o chiede di conformarsi. Per gli annunci serve però il CIN,
+    che si chiede dopo aver ricevuto il CUSR dal Comune, in tempi che le fonti non indicano.
+  status: verified
+  source: l241-art19
+appointment:
+  text: >-
+    Non serve: la SCIA si presenta solo online su impresainungiorno. Lo sportello SUAP di Piazza
+    Cavour 42 (II piano) riceve dal 18 maggio 2026 solo su prenotazione online, con il pulsante
+    "Prenota appuntamento" della pagina "Avviare, variare, chiudere un'attività produttiva".
+  status: verified
+  source: suap-contatti
 channels:
   - type: portal
     name: impresainungiorno – SUAP di Napoli

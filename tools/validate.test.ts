@@ -27,6 +27,7 @@ function minimal(): Record<string, any> {
     schema_version: 0,
     id: "napoli/comune/test",
     title: "Test procedure",
+    headline: "Come fare la procedura di prova",
     updated: "2026-10-25",
     summary: "Una procedura di prova per i test del validatore.",
     ente: { name: "Comune di Napoli" },
@@ -298,6 +299,23 @@ test("updated is required, not in the future, and not older than anything it cov
   stale.run_log = [{ date: "2026-10-24", note: "Caso reale" }];
   const errors = errorsFor(stale);
   assert.match(errors, /updated 2026-10-20 is older than verification \(2026-10-25\), source "page" \(2026-10-25\), run_log entry 2026-10-24: bump it/);
+});
+
+test("cost, duration and appointment are claims", () => {
+  const doc = minimal();
+  doc.cost = { text: "Gratuita.", status: "verified" };
+  assert.match(errorsFor(doc), /\/cost\/status: a verified claim must cite a source/);
+  doc.cost.source = "page";
+  doc.duration = { text: "30 giorni.", status: "unverified" };
+  doc.appointment = { text: "Non serve.", status: "verified", source: "nope" };
+  assert.match(errorsFor(doc), /\/appointment\/source: unknown source "nope"/);
+  doc.appointment.source = "page";
+  doc.aka = ["provina"];
+  assert.deepEqual(validateProcedure(doc, PATH, ctx), []);
+  doc.headline = "Troppo";
+  assert.match(errorsFor(doc), /schema: \/headline/);
+  delete doc.headline;
+  assert.match(errorsFor(doc), /schema: \/ must have required property 'headline'/);
 });
 
 test("payment codes have a status like any claim", () => {

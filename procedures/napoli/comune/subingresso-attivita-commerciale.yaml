@@ -1,7 +1,14 @@
 schema_version: 0
 id: napoli/comune/subingresso-attivita-commerciale
 title: Subingresso in un negozio, bar o ristorante già avviato (cessione o affitto d'azienda) – SUAP del Comune di Napoli
-updated: 2026-10-25
+headline: "Comprare o prendere in affitto un bar o un negozio avviato a Napoli: il subingresso"
+aka:
+  - voltura licenza
+  - cambio intestazione licenza
+  - passaggio di gestione
+  - rilevare un'attività
+  - subentro
+updated: 2026-10-26
 summary: >-
   Chi compra o prende in affitto un'azienda commerciale già avviata a Napoli (negozio di vicinato,
   bar, ristorante) deve intestarsi il titolo del precedente gestore con una comunicazione di
@@ -149,6 +156,34 @@ deadline:
       stabilisce l'ufficio che accerta la violazione.
     status: verified
     source: lr7-campania
+cost:
+  text: >-
+    Diritti d'istruttoria SUAP (tabella 2026, colonna delle variazioni), con pagoPA nella pratica:
+    negozio non alimentare 80 euro; negozio alimentare con notifica sanitaria 96 euro; bar o
+    ristorante fuori dalle zone tutelate 96 euro con la notifica sanitaria (176 con il nulla osta
+    di impatto acustico). Per le zone tutelate la tabella ha righe da 336 e 416 euro, ma non dice
+    se valgono per il subingresso: lo stabilisce il procedimento scelto su impresainungiorno. Con
+    alcolici o prevenzione incendi gli importi salgono (vedi la tabella). A parte si pagano i
+    diritti sanitari dell'ASL, l'eventuale SCIA di subentro nell'insegna (80 euro) e il notaio per
+    il contratto.
+  status: verified
+  source: tabella-2026
+duration:
+  text: >-
+    Con la comunicazione o la SCIA unica di subingresso si lavora a proprio nome appena arriva la
+    ricevuta di avvio pratica del SUAP (o dalla data di decorrenza indicata); il Comune indica 30
+    giorni di istruttoria per le comunicazioni e 60 per le SCIA. Nel centro storico UNESCO e nella
+    buffer zone il regime del subingresso è controverso: chiedere al SUAP prima di firmare.
+  status: verified
+  source: suap-servizio
+appointment:
+  text: >-
+    Non serve per il SUAP: la pratica si presenta solo online su impresainungiorno. Per
+    informazioni e assistenza il SUAP (Piazza Cavour 42) riceve solo su prenotazione online, con il
+    pulsante "Prenota appuntamento" della pagina "Avviare, variare, chiudere un'attività
+    produttiva". Il contratto si firma prima dal notaio.
+  status: verified
+  source: suap-contatti
 channels:
   - type: portal
     name: impresainungiorno – SUAP di Napoli

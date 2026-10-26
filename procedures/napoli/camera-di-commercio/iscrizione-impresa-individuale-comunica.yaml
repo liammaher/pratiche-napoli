@@ -1,6 +1,13 @@
 schema_version: 0
 id: napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica
 title: Iscrizione di un'impresa individuale al Registro delle Imprese con ComUnica – Camera di Commercio di Napoli
+headline: "Aprire una ditta individuale a Napoli: iscrizione al Registro Imprese con ComUnica"
+aka:
+  - Comunicazione Unica
+  - iscrizione Camera di Commercio
+  - partita IVA ditta individuale
+  - numero REA
+  - impresa artigiana
 updated: 2026-10-26
 summary: >-
   Chi apre una ditta individuale con sede nella provincia di Napoli la iscrive al Registro delle
@@ -133,6 +140,28 @@ deadline:
       Annuale e Sanzioni del Registro Imprese.
     status: verified
     source: na-sanzioni
+cost:
+  text: >-
+    Imposta di bollo 17,50 € e diritti di segreteria 18,00 €, addebitati sul conto Telemaco,
+    più il diritto annuale del primo anno. Se la pratica è rifiutata o archiviata, i diritti
+    di segreteria non vengono restituiti.
+  status: verified
+  source: sari-iscrizione
+duration:
+  text: >-
+    Il Registro Imprese rilascia la ricevuta subito all'invio e, se ci sono i presupposti di
+    legge, la ricevuta permette di avviare l'attività da quel momento. Gli enti comunicano
+    subito codice fiscale e partita IVA ed entro i quattro giorni successivi gli altri dati
+    delle posizioni registrate.
+  status: verified
+  source: dl-7-2007
+appointment:
+  text: >-
+    Non serve: la pratica si compila e si invia online, con lo strumento gratuito DIRE del
+    Registro Imprese o con un software di mercato, firmata digitalmente dal titolare o da un
+    intermediario con procura.
+  status: verified
+  source: ri-strumenti
 channels:
   - type: portal
     name: DIRE – Depositi e Istanze al Registro imprese

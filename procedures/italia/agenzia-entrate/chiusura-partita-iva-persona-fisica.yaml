@@ -1,7 +1,13 @@
 schema_version: 0
 id: italia/agenzia-entrate/chiusura-partita-iva-persona-fisica
 title: Chiusura della partita IVA per persone fisiche – modello AA9/12 (Agenzia delle Entrate)
-updated: 2026-10-25
+headline: "Chiudere la partita IVA come persona fisica: cessazione attività con il modello AA9/12"
+aka:
+  - chiusura P.IVA
+  - cancellare la partita IVA
+  - partita IVA inattiva
+  - chiudere partita IVA forfettaria
+updated: 2026-10-26
 summary: >-
   Il professionista, l'artista o il titolare di un'attività non iscritta al Registro delle imprese
   che smette di lavorare chiude la partita IVA presentando all'Agenzia delle Entrate il modello
@@ -104,6 +110,19 @@ deadline:
       intermediario: qui non si calcola nulla.
     status: verified
     source: dl193-art7quater
+cost:
+  text: >-
+    Il modello AA9/12 e il software dell'Agenzia sono gratuiti, e né le istruzioni né le
+    pagine dell'Agenzia prevedono un versamento per presentare la cessazione; nessuna fonte
+    ufficiale letta lo dice però in modo esplicito.
+  status: unverified
+  source: aa9-istruzioni
+appointment:
+  text: >-
+    Serve solo per consegnare il modello in ufficio: si prenota con "Prenota un
+    appuntamento" sul sito dell'Agenzia. Online, via PEC o con raccomandata non serve.
+  status: verified
+  source: ade-come-chiudere
 channels:
   - type: portal
     name: Area riservata dell'Agenzia delle Entrate – servizio "Invio documenti"

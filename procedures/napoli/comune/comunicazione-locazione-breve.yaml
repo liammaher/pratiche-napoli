@@ -1,7 +1,13 @@
 schema_version: 0
 id: napoli/comune/comunicazione-locazione-breve
 title: Locazione breve turistica a Napoli senza impresa (Comunicazione al SUAP, CUSR, CIN, Alloggiati Web)
-updated: 2026-10-25
+headline: "Affitti brevi a Napoli senza partita IVA: comunicazione al SUAP, CUSR e CIN"
+aka:
+  - affitto turistico
+  - Airbnb
+  - locazione turistica
+  - codice identificativo nazionale
+updated: 2026-10-26
 summary: >-
   Chi, come persona fisica e senza fare impresa, affitta a Napoli un appartamento a uso abitativo
   per soggiorni fino a 30 giorni (locazione breve, art. 4 D.L. 50/2017) presenta prima di iniziare
@@ -178,6 +184,29 @@ deadline:
       Per l'importo nel caso concreto chiedere al SUAP o alla Polizia locale.
     status: verified
     source: guida-regione-2025
+cost:
+  text: >-
+    Secondo la tabella dei diritti SUAP in vigore dall'11 giugno 2026 la Comunicazione costa 50
+    euro di diritti d'istruttoria (riga S210), da pagare con pagoPA nella pratica. Le indicazioni
+    operative del SUAP e la pagina del Comune, precedenti, dicono invece che non sono previsti né
+    diritti né marche da bollo: pagare l'importo che chiede il portale.
+  status: disputed
+  source: tabella-2026
+duration:
+  text: >-
+    La Comunicazione va presentata prima di iniziare, ma per pubblicare annunci serve il CIN, che
+    in Campania si chiede solo dopo aver ricevuto il CUSR, trasmesso dal Comune via email o PEC.
+    Le fonti lette non dicono in quanto tempo il Comune assegna il CUSR.
+  status: verified
+  source: guida-regione-2025
+appointment:
+  text: >-
+    Non serve: la Comunicazione si presenta solo online su impresainungiorno. Lo sportello SUAP di
+    Piazza Cavour 42 (II piano) riceve dal 18 maggio 2026 solo su prenotazione online, con il
+    pulsante "Prenota appuntamento" della pagina "Avviare, variare, chiudere un'attività
+    produttiva".
+  status: verified
+  source: suap-contatti
 channels:
   - type: portal
     name: impresainungiorno – SUAP di Napoli

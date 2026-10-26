@@ -1,7 +1,9 @@
 schema_version: 0
 id: napoli/camera-di-commercio/diritto-annuale
 title: Diritto annuale 2026 – Camera di Commercio di Napoli
-updated: 2026-10-25
+headline: "Diritto annuale Camera di Commercio di Napoli 2026: quanto e quando pagare"
+aka: [tassa camerale, tassa Camera di Commercio, diritto camerale, codice tributo 3850]
+updated: 2026-10-26
 summary: >-
   Il diritto annuale è il tributo che ogni impresa iscritta o annotata nel Registro delle
   Imprese, e ogni soggetto iscritto al REA, versa ogni anno alla Camera di Commercio della
@@ -113,6 +115,12 @@ deadline:
       calcolo su dirittoannuale.camcom.it o chiederlo all'Ufficio Diritto Annuale.
     status: verified
     source: na-lettera-ordinaria
+appointment:
+  text: >-
+    Non serve: si paga online con pagoPA dalla funzione "calcola e paga" di
+    dirittoannuale.camcom.it, oppure con il modello F24 (F24 Web, banca o Poste Italiane).
+  status: verified
+  source: na-lettera-ordinaria
 channels:
   - type: portal
     name: Diritto annuale – Calcola e paga (sistema camerale)

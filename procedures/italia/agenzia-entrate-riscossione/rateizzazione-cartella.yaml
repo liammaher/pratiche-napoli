@@ -1,7 +1,14 @@
 schema_version: 0
 id: italia/agenzia-entrate-riscossione/rateizzazione-cartella
 title: Rateizzazione di cartelle e avvisi di Agenzia delle entrate-Riscossione
-updated: 2026-10-25
+headline: "Come rateizzare una cartella esattoriale con l'Agenzia delle entrate-Riscossione"
+aka:
+  - rateizzazione Equitalia
+  - dilazione cartelle
+  - Rateizza adesso
+  - piano di rateizzazione
+  - rate ADER
+updated: 2026-10-26
 summary: >-
   Chi ha ricevuto una cartella di pagamento (o un avviso di accertamento esecutivo o un avviso di
   addebito INPS) affidato ad Agenzia delle entrate-Riscossione e non riesce a pagare tutto subito
@@ -120,6 +127,22 @@ deadline:
       chiedere il calcolo ad ADER (060101, sportello o area riservata).
     status: verified
     source: vademecum
+duration:
+  text: >-
+    Con "Rateizza adesso" (area riservata o app Equiclick) o allo sportello, se ci sono i
+    requisiti, il piano di rateizzazione si ottiene subito. Con il modello inviato via PEC
+    ADER avvia il procedimento e poi manda il provvedimento con il piano e i moduli delle
+    prime 12 rate; la guida ADER non dice entro quanti giorni. La prima rata scade non prima
+    di 8 giorni lavorativi dall'accoglimento.
+  status: verified
+  source: vademecum
+appointment:
+  text: >-
+    Non serve per chiedere le rate online ("Rateizza adesso") o via PEC. Per andare allo
+    sportello ADER si prenota un appuntamento online con "Trova lo sportello e prenota"
+    oppure tramite operatore al numero 06 01 01.
+  status: verified
+  source: ader-prenota
 channels:
   - type: portal
     name: Area riservata ADER – servizio "Rateizza adesso" (sezione "Rateizza il debito")

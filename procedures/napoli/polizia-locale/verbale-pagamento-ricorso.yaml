@@ -1,7 +1,13 @@
 schema_version: 0
 id: napoli/polizia-locale/verbale-pagamento-ricorso
 title: Verbale (multa) della Polizia Locale di Napoli – controllarlo, pagarlo, comunicare il conducente o fare ricorso
-updated: 2026-10-25
+headline: "Multa dei vigili a Napoli: come pagarla, contestarla o comunicare il conducente"
+aka:
+  - contravvenzione
+  - verbale dei vigili urbani
+  - ricorso al Prefetto
+  - multa ZTL
+updated: 2026-10-26
 summary: >-
   Chi riceve un verbale della Polizia Locale di Napoli, per una violazione del Codice della Strada
   o di regolamenti comunali, commerciali o ambientali, può pagarlo in misura ridotta, comunicare
@@ -137,6 +143,30 @@ deadline:
       farseli indicare dal Servizio Sanzioni Amministrative o leggerli sull'atto ricevuto.
     status: verified
     source: cds-203
+cost:
+  text: >-
+    Il ricorso al Prefetto si scrive in carta libera, senza marca da bollo. Il ricorso al Giudice
+    di Pace è soggetto al contributo unificato e alle spese forfettizzate (art. 10, c. 6-bis, DPR
+    115/2002): chiederne l'importo alla cancelleria. La multa e le spese di notifica sono a parte,
+    come scritte sul verbale.
+  status: verified
+  source: prefettura-ricorsi
+duration:
+  text: >-
+    Il Prefetto deve decidere sul ricorso entro 180 giorni se è presentato all'organo accertatore
+    (il Comune), entro 210 se presentato tramite la Prefettura; se non decide in tempo, il ricorso
+    si intende accolto (art. 204, c. 1-bis CdS). La decisione va poi notificata entro 150 giorni.
+  status: verified
+  source: prefettura-ricorsi
+appointment:
+  text: >-
+    Per pagare non serve: si paga online con pagoPA o con il bollettino. Ricorsi, comunicazioni e
+    istanze si depositano allo sportello di Via Diocleziano 330 (martedì, giovedì e venerdì
+    8:00–13:00), per cui il Comune non indica appuntamento, o si inviano via PEC o raccomandata.
+    L'appuntamento serve per vedere il verbale in ufficio senza copia: al telefono 081 7957292 o
+    con la prenotazione online del Comune.
+  status: verified
+  source: visione-copie
 channels:
   - type: portal
     name: POTESs – Multe al CdS e Sanzioni Amministrative
@@ -704,6 +734,15 @@ sources:
     url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1981-11-24;689~art28
     retrieved: 2026-10-25
     official: true
+  - id: dpr115-art10
+    label: D.P.R. 30 maggio 2002, n. 115, art. 10 (esenzioni, contributo unificato) – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2002-05-30;115~art10
+    retrieved: 2026-10-26
+    official: true
+    notes: >-
+      Testo in vigore dal 26-11-2024. Il c. 6-bis assoggetta le opposizioni alle sanzioni
+      amministrative al contributo unificato e alle spese forfettizzate (art. 30); l'art. 7, c. 13,
+      D.Lgs. 150/2011 vi rinvia.
 verification:
   level: L1
   date: 2026-10-25

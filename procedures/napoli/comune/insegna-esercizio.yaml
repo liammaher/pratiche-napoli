@@ -1,7 +1,9 @@
 schema_version: 0
 id: napoli/comune/insegna-esercizio
 title: Insegna di esercizio – SCIA e canone unico per esposizione pubblicitaria (Comune di Napoli)
-updated: 2026-10-25
+headline: "Mettere l'insegna al negozio a Napoli: SCIA e quando si paga il canone"
+aka: [permesso insegna, autorizzazione insegna, tassa insegna, imposta sulla pubblicità, vetrofanie]
+updated: 2026-10-26
 summary: >-
   Un negozio, un locale o un'altra attività che a Napoli installa o modifica la propria insegna
   deve prima presentare una SCIA al SUAP del Comune tramite impresainungiorno. Le insegne della
@@ -119,6 +121,29 @@ deadline:
       calcolare gli importi dall'Ufficio CUP Pubblicità.
     status: verified
     source: cup-esposizioni
+cost:
+  text: >-
+    Diritti d'istruttoria SUAP (tabella 2026), con pagoPA: 100 euro per una nuova insegna, 80 euro
+    per modificarla o subentrare. Se le insegne della sede superano in tutto 5 mq si paga anche il
+    canone unico, che va versato prima della SCIA e poi ogni anno; fino a 5 mq sono esenti. Il
+    compenso del tecnico e dell'installatore non è compreso.
+  status: verified
+  source: tabella-diritti-2026
+duration:
+  text: >-
+    L'insegna si può installare appena arriva la ricevuta di avvio pratica del SUAP, che ha poi 60
+    giorni per l'istruttoria. Su un edificio tutelato come bene culturale serve prima
+    l'autorizzazione della Soprintendenza; in area con vincolo paesaggistico la SCIA vale solo
+    dopo l'autorizzazione paesaggistica.
+  status: verified
+  source: suap-servizio
+appointment:
+  text: >-
+    Non serve: la SCIA si presenta solo online su impresainungiorno. Per informazioni il SUAP
+    (Piazza Cavour 42) riceve solo su prenotazione dal portale del cittadino; per il canone
+    l'Ufficio CUP Pubblicità (Via Diocleziano 330) è aperto dal lunedì al venerdì, 8:30–12:30.
+  status: verified
+  source: suap-contatti
 channels:
   - type: portal
     name: impresainungiorno – SUAP del Comune di Napoli
