@@ -275,7 +275,8 @@ forms:
       - { label: 1.1 indirizzo, map: { direct: locale.indirizzo } }
       - { label: 1.1 n., map: { direct: locale.civico } }
       - label: 1.1 Telefono fisso / cell.
-        map: { ask: "Telefono dello stabilimento (del locale, non dell'impresa)" }
+        map: { direct: locale.telefono }
+        notes: Il telefono dello stabilimento, non business.telefono dell'impresa.
       - label: 1.1 fax
         map: { blank_with_reason: Facoltativo. }
       - label: 1.1 Altro domicilio elettronico per invio delle comunicazioni inerenti la pratica

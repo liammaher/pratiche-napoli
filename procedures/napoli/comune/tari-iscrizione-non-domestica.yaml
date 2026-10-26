@@ -191,8 +191,17 @@ forms:
       - { label: 1. Dati catastali – sub, map: { direct: locale.catasto_subalterno } }
       - { label: 1. superficie in mq, map: { direct: locale.superficie_mq } }
       - { label: 1. destinazione d'uso, map: { direct: locale.destinazione_uso } }
-      - label: 2. Dati catastali, superficie e destinazione d'uso
-        map: { ask: "Dati del secondo immobile, se l'attività ne occupa più di uno" }
+      - label: 2. Dati catastali – sez.
+        map: { direct: locale2.catasto_sezione }
+        notes: >-
+          Solo se l'attività occupa un secondo immobile, nel vault locale2.*; altrimenti vuoto. Il
+          modulo ha una sola via per gli immobili: se locale2 ha un altro indirizzo, chiedere
+          all'ufficio come dichiararlo.
+      - { label: 2. Dati catastali – fg., map: { direct: locale2.catasto_foglio } }
+      - { label: 2. Dati catastali – part., map: { direct: locale2.catasto_particella } }
+      - { label: 2. Dati catastali – sub, map: { direct: locale2.catasto_subalterno } }
+      - { label: 2. superficie in mq, map: { direct: locale2.superficie_mq } }
+      - { label: 2. destinazione d'uso, map: { direct: locale2.destinazione_uso } }
       - { label: Descrizione attività, map: { direct: business.descrizione_attivita } }
       - { label: codice ateco, map: { direct: business.codice_ateco } }
       - label: Richiesta di detassazione per la produzione di rifiuti speciali
@@ -220,6 +229,17 @@ after:
   - >-
     Se l'attività cambia superficie, destinazione o sede, presentare entro 90 giorni il Mod. 6
     (variazione); se cessa, il Mod. 8 (cessazione).
+records:
+  - field: business.tari_codice_contribuente
+    from: Risposta del Comune o avviso di pagamento (Cod.Contr.)
+  - field: locale.tari_data_dichiarazione
+    from: Ricevuta della PEC o dell'email inviata, o timbro dello sportello
+  - field: locale.tari_protocollo
+    from: Risposta del Comune, se indica il protocollo della dichiarazione
+  - field: locale.tari_superficie_tassata_mq
+    from: Avviso di pagamento
+  - field: locale.tari_categoria
+    from: Avviso di pagamento (categoria tariffaria)
 pitfalls:
   - text: >-
       Per la detassazione dei rifiuti speciali non basta barrare la casella: va presentato ogni

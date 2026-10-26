@@ -204,6 +204,9 @@ forms:
     fields:
       - label: Cod.Contr.
         map: { blank_with_reason: Spazio riservato all'ufficio. }
+        notes: >-
+          Il codice contribuente della ditta (business.tari_codice_contribuente) si può citare nel
+          testo della PEC.
       - { label: Il/La sottoscritto/a, map: { concat: [identity.last_name, identity.first_name] } }
       - { label: nato/a a, map: { direct: identity.birth_comune } }
       - { label: il, map: { direct: identity.date_of_birth } }
@@ -260,8 +263,16 @@ forms:
       - { label: A. 1. Dati catastali – sub, map: { direct: locale.catasto_subalterno } }
       - { label: A. 1. superficie in mq, map: { direct: locale.superficie_mq } }
       - { label: A. 1. destinazione d'uso, map: { direct: locale.destinazione_uso } }
-      - label: A. 2. Dati catastali, superficie e destinazione d'uso
-        map: { ask: "Dati del secondo immobile, se la voltura ne riguarda più di uno" }
+      - label: A. 2. Dati catastali – sez.
+        map: { direct: locale2.catasto_sezione }
+        notes: >-
+          Solo se la voltura riguarda anche un secondo immobile, nel vault locale2.*; altrimenti
+          vuoto.
+      - { label: A. 2. Dati catastali – fg., map: { direct: locale2.catasto_foglio } }
+      - { label: A. 2. Dati catastali – part., map: { direct: locale2.catasto_particella } }
+      - { label: A. 2. Dati catastali – sub, map: { direct: locale2.catasto_subalterno } }
+      - { label: A. 2. superficie in mq, map: { direct: locale2.superficie_mq } }
+      - { label: A. 2. destinazione d'uso, map: { direct: locale2.destinazione_uso } }
       - label: A. Motivo della voltura (cessione d'azienda / cessione di ramo d'azienda / altro)
         map: { ask: "Motivo della voltura: cessione d'azienda, cessione di ramo d'azienda o altro (specificare)" }
       - label: B. Dall'immobile – 1. Dati catastali, superficie e destinazione d'uso
@@ -274,14 +285,26 @@ forms:
       - { label: B. All'immobile – 1. Dati catastali – sub, map: { direct: locale.catasto_subalterno } }
       - { label: B. All'immobile – 1. superficie in mq, map: { direct: locale.superficie_mq } }
       - { label: B. All'immobile – 1. destinazione d'uso, map: { direct: locale.destinazione_uso } }
-      - label: B. All'immobile – 2. Dati catastali, superficie e destinazione d'uso
-        map: { ask: "Dati del secondo immobile nuovo, se più di uno" }
+      - label: B. All'immobile – 2. Dati catastali – sez.
+        map: { direct: locale2.catasto_sezione }
+        notes: >-
+          Solo se i nuovi locali comprendono un secondo immobile, nel vault locale2.* (aggiornato
+          come locale.*); altrimenti vuoto.
+      - { label: B. All'immobile – 2. Dati catastali – fg., map: { direct: locale2.catasto_foglio } }
+      - { label: B. All'immobile – 2. Dati catastali – part., map: { direct: locale2.catasto_particella } }
+      - { label: B. All'immobile – 2. Dati catastali – sub, map: { direct: locale2.catasto_subalterno } }
+      - { label: B. All'immobile – 2. superficie in mq, map: { direct: locale2.superficie_mq } }
+      - { label: B. All'immobile – 2. destinazione d'uso, map: { direct: locale2.destinazione_uso } }
       - { label: C. Dati catastali – Sez., map: { direct: locale.catasto_sezione } }
       - { label: C. Dati catastali – Foglio, map: { direct: locale.catasto_foglio } }
       - { label: C. Dati catastali – Part., map: { direct: locale.catasto_particella } }
       - { label: C. Dati catastali – Sub., map: { direct: locale.catasto_subalterno } }
       - label: C. Superficie dichiarata in precedenza mq
-        map: { ask: "Superficie dichiarata in precedenza, in mq (dalla dichiarazione precedente o dall'avviso di pagamento)" }
+        map: { direct: locale.tari_superficie_tassata_mq }
+        notes: >-
+          La superficie che il Comune tassa finora, dall'ultimo avviso: leggerla prima di
+          aggiornare il vault. Se la dichiarazione precedente ne riportava un'altra, va quella
+          dichiarata: chiederla.
       - { label: C. Superficie attuale mq, map: { direct: locale.superficie_mq } }
       - label: Richiesta di detassazione per la produzione di rifiuti speciali
         map: { ask: "L'attività produce rifiuti speciali e vuole chiedere la detassazione?" }
@@ -320,6 +343,17 @@ after:
     di decorrenza corrispondano a quanto dichiarato; le differenze sono di regola conteggiate a
     conguaglio.
   - Se l'attività cessa del tutto, presentare il Mod. 8 (cessazione uso non abitativo).
+records:
+  - field: business.tari_codice_contribuente
+    from: Risposta del Comune o avviso di pagamento (Cod.Contr.), se cambia con la voltura
+  - field: locale.tari_data_dichiarazione
+    from: Ricevuta della PEC o dell'email inviata, o timbro dello sportello
+  - field: locale.tari_protocollo
+    from: Risposta del Comune, se indica il protocollo della dichiarazione
+  - field: locale.tari_superficie_tassata_mq
+    from: Avviso di pagamento successivo
+  - field: locale.tari_categoria
+    from: Avviso di pagamento successivo (categoria tariffaria)
 pitfalls:
   - text: >-
       Una diminuzione (meno superficie, categoria più bassa) dichiarata dopo i 90 giorni vale solo

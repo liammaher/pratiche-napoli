@@ -23,7 +23,7 @@ test("each kind of change is named", () => {
   now.categories = now.categories.filter((c) => c.name !== "patente");
   now.credentials = { ...now.credentials, secret: "^(pin)$" };
   assert.deepEqual(schemaDifferences(saved, now), [
-    "version 12 → 99",
+    `version ${saved.version} → 99`,
     "category identity changed",
     "field identity.first_name changed",
     "new field identity.soprannome",
