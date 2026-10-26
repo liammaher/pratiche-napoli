@@ -391,7 +391,7 @@
         "required": ["field", "from"],
         "properties": {
           "field": {
-            "description": "One exact field ID, no wildcard or per-item pattern",
+            "description": "One exact field ID of the vault owner, no wildcard or member prefix",
             "type": "string",
             "pattern": "^[a-z_]+\\.[a-z0-9_]+$"
           },
@@ -550,9 +550,9 @@
       }
     },
     "fieldRef": {
-      "description": "A field ID (category.field), a whole category (category.*), or a dynamic pattern such as nucleo_familiare.membro<N>_*",
+      "description": "A field ID (category.field) or a whole category (category.*), the vault owner's when unprefixed. A family member's carry their slug (leo:identity.first_name; io is reserved for the owner), and *: means each member (*:identity.first_name)",
       "type": "string",
-      "pattern": "^[a-z_]+\\.([a-z0-9_]+|\\*|[a-z0-9_]*<N>[a-z0-9_]*\\*?)$"
+      "pattern": "^(?:(?:\\*|[a-z][a-z0-9-]{0,31}):)?[a-z_]+\\.([a-z0-9_]+|\\*)$"
     },
     "mapping": {
       "oneOf": [
@@ -602,15 +602,24 @@
           }
         },
         {
-          "description": "One row per item, e.g. per household member",
+          "description": "One row per family member in the vault owner's stato di famiglia (famiglia.stato_famiglia si), filled from that member's fields, written *:category.field",
           "type": "object",
           "additionalProperties": false,
           "required": [
-            "repeat"
+            "repeat",
+            "fields"
           ],
           "properties": {
             "repeat": {
-              "$ref": "#/$defs/fieldRef"
+              "const": "famiglia"
+            },
+            "fields": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/fieldRef"
+              }
             }
           }
         },

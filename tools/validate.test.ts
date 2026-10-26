@@ -4,7 +4,7 @@ import { mkdtempSync, mkdirSync, readFileSync, symlinkSync, writeFileSync } from
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
-import { EXTENSIONS_PATH, FIELDS_PATH, VAULT_SCHEMA_PATH, buildRegistry, renderRegistry } from "./gen-fields.ts";
+import { EXTENSIONS_PATH, FIELDS_PATH, VAULT_SCHEMA_PATH, buildRegistry, renderRegistry, type VaultSchema } from "./gen-fields.ts";
 import {
   ROOT,
   checkFieldRef,
@@ -68,7 +68,7 @@ test("form mappings must use registered, non-secret fields", () => {
     { label: "CF", map: { direct: "identity.codice_fiscale" } },
     { label: "Nome", map: { concat: ["identity.last_name", "identity.first_name"] } },
     { label: "Indirizzo", map: { fallback: ["domicilio.*", "residenza.*"] } },
-    { label: "Conviventi", map: { repeat: "nucleo_familiare.membro<N>_*" } },
+    { label: "Conviventi", map: { repeat: "famiglia", fields: ["*:identity.first_name", "*:famiglia.relazione"] } },
     { label: "Codice", map: { blank_with_reason: "assegnato dal Comune" } },
     { label: "Insegna", map: { ask: "Testo dell'insegna" } },
   );
@@ -101,7 +101,12 @@ test("records name exact registered fields, once each, never secrets or tracking
   assert.match(errors, /records: spid.password can't be used in a public procedure/);
   assert.match(errors, /records: unknown category "pratiche"/);
 
-  for (const field of ["tari.*", "nucleo_familiare.membro<N>_nome", "pratiche.tari-2026_protocollo"]) {
+  const member = minimal();
+  member.records = [{ field: "famiglia.relazione", from: "Modulo" }];
+  assert.match(errorsFor(member), /records: famiglia.relazione is a family member's field, never the vault owner's/);
+  assert.doesNotMatch(errorsFor(member), /repeat/);
+
+  for (const field of ["tari.*", "*:identity.first_name", "leo:cie.numero", "pratiche.tari-2026_protocollo"]) {
     const bad = minimal();
     bad.records = [{ field, from: "Modulo" }];
     assert.match(errorsFor(bad), /schema: \/records\/0\/field/);
@@ -118,23 +123,65 @@ test("wildcards can't sweep in secret fields", () => {
   }
 });
 
-test("credential-like names are refused in open and per-item categories", () => {
+test("credential-like names are refused in open categories and member rows", () => {
   for (const ref of ["documents.cie_pin", "documents.spid_password", "documents.otp"]) {
     assert.match(checkFieldRef(ref, ctx.registry) ?? "", /secret/, ref);
   }
-  assert.match(errorsFor(withForm({ label: "X", map: { repeat: "nucleo_familiare.membro<N>_cie_pin" } })), /secret/);
+  assert.match(errorsFor(withForm({ label: "X", map: { repeat: "famiglia", fields: ["*:documents.cie_pin"] } })), /secret/);
 });
 
-test("per-item patterns must follow the category template and only appear in repeat", () => {
+test("member refs: scopes, owner-only and member-only fields", () => {
   const r = ctx.registry;
-  assert.equal(checkFieldRef("nucleo_familiare.membro<N>_nome", r), null);
-  assert.equal(checkFieldRef("nucleo_familiare.membro2_nome", r), null);
-  assert.equal(checkFieldRef("nucleo_familiare.numero_componenti", r), null);
-  assert.match(checkFieldRef("nucleo_familiare.<N>", r) ?? "", /doesn't follow the pattern/);
-  assert.match(checkFieldRef("nucleo_familiare.membro_nome", r) ?? "", /doesn't follow the pattern/);
-  assert.match(checkFieldRef("pratiche.slug_stato", r) ?? "", /unknown category "pratiche"/);
-  assert.match(errorsFor(withForm({ label: "X", map: { direct: "nucleo_familiare.membro<N>_nome" } })), /only be used with repeat/);
-  assert.match(errorsFor(withForm({ label: "X", map: { repeat: "identity.email" } })), /repeat needs a per-item pattern/);
+  assert.equal(checkFieldRef("*:identity.first_name", r), null);
+  assert.equal(checkFieldRef("leo:cie.numero", r), null);
+  assert.equal(checkFieldRef("*:identity.*", r), null);
+  assert.equal(checkFieldRef("*:famiglia.relazione", r), null);
+  assert.equal(checkFieldRef("famiglia.intestatario_scheda", r), null);
+  assert.match(checkFieldRef("famiglia.relazione", r) ?? "", /family member's field, never the vault owner's/);
+  assert.match(checkFieldRef("*:famiglia.intestatario_scheda", r) ?? "", /owner's field only/);
+  assert.match(checkFieldRef("*:abitazione.superficie_calpestabile_mq", r) ?? "", /drop the "\*:" prefix/);
+  assert.match(checkFieldRef("leo:tari.*", r) ?? "", /vault owner's \(the household's\)/);
+  assert.match(checkFieldRef("io:identity.first_name", r) ?? "", /reserved for the vault's owner/);
+  for (const ref of ["Leo:identity.first_name", "leo rossi:identity.first_name", "9leo:identity.first_name", ":identity.first_name"]) {
+    assert.match(checkFieldRef(ref, r) ?? "", /invalid member/, ref);
+  }
+  // As in the vault, a ':' after the first '.' isn't a prefix.
+  assert.match(checkFieldRef("identity.a:b", r) ?? "", /unknown field "identity.a:b"/);
+  assert.match(checkFieldRef("*:cie.pin", r) ?? "", /secret/);
+  assert.match(checkFieldRef("*:cie.*", r) ?? "", /secret/);
+  assert.match(checkFieldRef("*:identity.shoe_size", r) ?? "", /unknown field "identity.shoe_size"/);
+});
+
+test("repeat: famiglia fills each row from *: fields, and only it can use them", () => {
+  const row = (fields: string[]) => errorsFor(withForm({ label: "X", map: { repeat: "famiglia", fields } }));
+  assert.equal(row(["*:identity.last_name", "*:identity.codice_fiscale", "*:famiglia.relazione"]), "");
+  assert.match(row(["identity.first_name"]), /each row is filled from that member's fields, written \*:category.field/);
+  assert.match(row(["tari.codice_contribuente"]), /each row is filled from that member's fields/);
+  assert.match(row(["io:identity.first_name"]), /"io" is reserved/);
+  assert.match(errorsFor(withForm({ label: "X", map: { direct: "io:identity.first_name" } })), /"io" is reserved/);
+  assert.match(row(["leo:identity.first_name"]), /can't name a particular family member \("leo"\)/);
+  assert.match(row(["*:tari.codice_contribuente"]), /vault owner's/);
+  assert.match(errorsFor(withForm({ label: "X", map: { direct: "*:identity.first_name" } })), /only repeat: famiglia can fill/);
+  assert.match(
+    errorsFor(withForm({ label: "X", map: { concat: ["leo:identity.last_name", "identity.first_name"] } })),
+    /can't name a particular family member/,
+  );
+  assert.match(errorsFor(withForm({ label: "X", map: { direct: "nucleo_familiare.membro1_nome" } })), /unknown category "nucleo_familiare"/);
+  assert.match(errorsFor(withForm({ label: "X", map: { direct: "pratiche.slug_stato" } })), /unknown category "pratiche"/);
+});
+
+test("repeat takes only famiglia, with fields, and <N> patterns are refused", () => {
+  for (const map of [
+    { repeat: "nucleo_familiare.membro<N>_*" },
+    { repeat: "famiglia" },
+    { repeat: "famiglia", fields: [] },
+    { repeat: "identity.email", fields: ["*:identity.email"] },
+    { repeat: "famiglia", fields: ["*:identity.first_name", "*:identity.first_name"] },
+    { direct: "nucleo_familiare.membro<N>_nome" },
+    { direct: "Leo:identity.first_name" },
+  ]) {
+    assert.match(errorsFor(withForm({ label: "X", map })), /must be exactly one of/, JSON.stringify(map));
+  }
 });
 
 test("field refs: categories, wildcards and forbidden fields", () => {
@@ -142,7 +189,6 @@ test("field refs: categories, wildcards and forbidden fields", () => {
   assert.equal(checkFieldRef("business.partita_iva", r), null);
   assert.equal(checkFieldRef("residenza.*", r), null);
   assert.equal(checkFieldRef("documents.anything", r), null); // open category
-  assert.match(checkFieldRef("identity.membro<N>_nome", r) ?? "", /no per-item fields/);
   assert.match(checkFieldRef("cie.pin", r) ?? "", /secret/);
   assert.match(checkFieldRef("nope.field", r) ?? "", /unknown category/);
 });
@@ -265,35 +311,45 @@ test("registry leaves secrets and internal categories out", () => {
   const reg = buildRegistry({
     version: "1",
     categories: [
-      { name: "cie", description: "", fields: [
+      { name: "cie", description: "", scope: "person", fields: [
         { id: "cie.numero", description: "", sensitivity: "sensitive" },
         { id: "cie.pin", description: "", sensitivity: "critical" },
         { id: "cie.new_tier", description: "", sensitivity: "Critical" },
       ] },
-      { name: "spid", description: "", fields: [{ id: "spid.password", description: "", sensitivity: "personal" }] },
-      { name: "cieid", description: "", fields: [
+      { name: "spid", description: "", scope: "person", fields: [{ id: "spid.password", description: "", sensitivity: "personal" }] },
+      { name: "cieid", description: "", scope: "person", fields: [
         { id: "cieid.password", description: "", sensitivity: "personal" },
         { id: "cieid.otp_seed", description: "", sensitivity: "critical" },
       ] },
-      { name: "pratiche", description: "", fields: [] },
-      { name: "nucleo_familiare", description: "", fields: [] },
-      { name: "documents", description: "", fields: null },
+      { name: "pratiche", description: "", scope: "owner", fields: [] },
+      { name: "famiglia", description: "", scope: "person", fields: [
+        { id: "famiglia.intestatario_scheda", description: "", sensitivity: "standard", for: "owner" },
+        { id: "famiglia.relazione", description: "", sensitivity: "standard", for: "member" },
+      ] },
+      { name: "tari", description: "", scope: "owner", fields: [{ id: "tari.protocollo", description: "", sensitivity: "standard" }] },
+      { name: "documents", description: "", scope: "person", fields: null },
     ],
   });
-  assert.deepEqual(reg.categories.map((c) => c.name), ["cie", "nucleo_familiare", "documents"]);
+  assert.deepEqual(reg.categories.map((c) => [c.name, c.scope]), [["cie", "person"], ["famiglia", "person"], ["tari", "owner"], ["documents", "person"]]);
   assert.deepEqual(reg.categories[0].fields.map((f) => f.id), ["cie.numero"]);
   assert.deepEqual(reg.forbidden.fields, ["cie.new_tier", "cie.pin", "cieid.otp_seed", "cieid.password"]);
   assert.ok(reg.forbidden.categories.includes("cieid"));
-  assert.equal(reg.categories[1].dynamic, "membro<N>_<campo>");
-  assert.equal(reg.categories[2].open, true);
+  assert.deepEqual(reg.categories[1].fields.map((f) => [f.id, f.for]), [["famiglia.intestatario_scheda", "owner"], ["famiglia.relazione", "member"]]);
+  assert.equal("for" in reg.categories[2].fields[0], false);
+  assert.equal(reg.categories[3].open, true);
   assert.equal(checkFieldRef("cieid.otp_seed2", reg), "cieid.otp_seed2 can't be used in a public procedure: it is (or includes) a secret or payment field");
 });
 
 test("registry rejects malformed vault schemas", () => {
   assert.throws(() => buildRegistry({ version: "9" } as any), /not a vault schema/);
   assert.throws(
-    () => buildRegistry({ version: "1", categories: [{ name: "x", description: "", fields: [{ id: "y.z", description: "", sensitivity: "standard" }] }] }),
+    () => buildRegistry({ version: "1", categories: [{ name: "x", description: "", scope: "person", fields: [{ id: "y.z", description: "", sensitivity: "standard" }] }] }),
     /listed under category "x"/,
+  );
+  assert.throws(() => buildRegistry({ version: "1", categories: [{ name: "x", description: "", fields: [] }] } as any), /"x" needs a scope/);
+  assert.throws(
+    () => buildRegistry({ version: "1", categories: [{ name: "x", description: "", scope: "person", fields: [{ id: "x.y", description: "", sensitivity: "standard", for: "child" }] }] } as any),
+    /"x.y" is for "child"/,
   );
 });
 
@@ -304,38 +360,45 @@ test("fields.json is exactly what gen-fields builds from the saved vault schema"
 });
 
 test("extensions add fields marked as not yet in the vault, and can't clash or reach secrets", () => {
-  const schema = {
+  const schema: VaultSchema = {
     version: "1",
     categories: [
-      { name: "business", description: "", fields: [{ id: "business.partita_iva", description: "", sensitivity: "standard" }] },
-      { name: "spid", description: "", fields: [{ id: "spid.password", description: "", sensitivity: "personal" }] },
-      { name: "documents", description: "", fields: null },
+      { name: "business", description: "", scope: "person", fields: [{ id: "business.partita_iva", description: "", sensitivity: "standard" }] },
+      { name: "spid", description: "", scope: "person", fields: [{ id: "spid.password", description: "", sensitivity: "personal" }] },
+      { name: "documents", description: "", scope: "person", fields: null },
     ],
   };
   const reg = buildRegistry(schema, {
     categories: [
       { name: "business", fields: [{ id: "business.email", description: "" }] },
-      { name: "locale", description: "Premises", fields: [{ id: "locale.superficie_mq", description: "" }] },
+      { name: "locale", description: "Premises", scope: "person", fields: [{ id: "locale.superficie_mq", description: "" }] },
     ],
   });
   const business = reg.categories.find((c) => c.name === "business")!;
   assert.deepEqual(business.fields.map((f) => [f.id, f.vault]), [["business.partita_iva", undefined], ["business.email", false]]);
   const locale = reg.categories.find((c) => c.name === "locale")!;
   assert.equal(locale.vault, false);
+  assert.equal(locale.scope, "person");
   assert.equal(checkFieldRef("locale.superficie_mq", reg), null);
 
   const ext = (categories: any[]) => () => buildRegistry(schema, { categories });
   assert.throws(ext([{ name: "business", fields: [{ id: "business.partita_iva", description: "" }] }]), /already exists/);
   assert.throws(ext([{ name: "spid", fields: [{ id: "spid.otp", description: "" }] }]), /can't add to category "spid"/);
   assert.throws(ext([{ name: "pratiche", fields: [{ id: "pratiche.x", description: "" }] }]), /can't add to category "pratiche"/);
-  assert.throws(ext([{ name: "documents", fields: [{ id: "documents.x", description: "" }] }]), /open or per-item/);
+  assert.throws(ext([{ name: "documents", fields: [{ id: "documents.x", description: "" }] }]), /open category "documents"/);
   assert.throws(ext([{ name: "nuova", fields: [{ id: "nuova.x", description: "" }] }]), /needs a description/);
+  assert.throws(ext([{ name: "nuova", description: "x", fields: [{ id: "nuova.x", description: "" }] }]), /needs a scope/);
   assert.throws(ext([{ name: "business", fields: [{ id: "locale.x", description: "" }] }]), /listed under category "business"/);
 });
 
 test("every registry field is usable and every forbidden one is refused", () => {
   const reg = ctx.registry;
-  for (const c of reg.categories) for (const f of c.fields) assert.equal(checkFieldRef(f.id, reg), null, f.id);
+  for (const c of reg.categories) {
+    for (const f of c.fields) {
+      const ref = f.for === "member" ? `*:${f.id}` : f.id;
+      assert.equal(checkFieldRef(ref, reg), null, ref);
+    }
+  }
   for (const f of reg.forbidden.fields) assert.notEqual(checkFieldRef(f, reg), null, f);
 });
 
@@ -426,7 +489,7 @@ test("every credential word the vault knows is refused", () => {
     "spid_username", "spid_login", "cie_segreto", "spid_chiave", "api_token", "spid_password", "cie_otp"]) {
     assert.match(checkFieldRef(`documents.${name}`, ctx.registry) ?? "", /secret/, name);
   }
-  assert.match(errorsFor(withForm({ label: "X", map: { repeat: "nucleo_familiare.membro<N>_spid_username" } })), /secret/);
+  assert.match(errorsFor(withForm({ label: "X", map: { repeat: "famiglia", fields: ["*:documents.spid_username"] } })), /secret/);
 });
 
 test("a wildcard over an open category is refused", () => {
@@ -504,9 +567,9 @@ test("registry ids all match the schema's field reference pattern", () => {
 });
 
 test("extension entries are validated", () => {
-  const schema = { version: "1", categories: [
-    { name: "business", description: "", fields: [{ id: "business.partita_iva", description: "", sensitivity: "standard" }] },
-    { name: "cie", description: "", fields: [
+  const schema: VaultSchema = { version: "1", categories: [
+    { name: "business", description: "", scope: "person", fields: [{ id: "business.partita_iva", description: "", sensitivity: "standard" }] },
+    { name: "cie", description: "", scope: "person", fields: [
       { id: "cie.numero", description: "", sensitivity: "sensitive" },
       { id: "cie.pin", description: "", sensitivity: "critical" },
     ] },
@@ -522,8 +585,8 @@ test("extension entries are validated", () => {
 
 test("empty vault categories are secret unless listed as open", () => {
   const reg = buildRegistry({ version: "1", categories: [
-    { name: "documents", description: "", fields: null },
-    { name: "carte", description: "", fields: [] },
+    { name: "documents", description: "", scope: "person", fields: null },
+    { name: "carte", description: "", scope: "person", fields: [] },
   ] });
   assert.deepEqual(reg.categories.map((c) => c.name), ["documents"]);
   assert.ok(reg.forbidden.categories.includes("carte"));
