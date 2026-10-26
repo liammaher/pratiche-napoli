@@ -105,31 +105,37 @@ offices' servers as little as possible, since some block an address that asks to
 - **When:** documents with a `sha256` every night, other pages on a fixed night of the week, plus
   any page that didn't answer or was refused last time, and any without a result from the last
   week (so the first run, or one after the saved state is lost, checks everything; `--all` always
-  does). But a host whose last two answers were refusals (by the time of the request, so a site
-  that blocks partway through a night counts; pages the archive saw gone, and requests with no
-  answer at all, say nothing about the host either way) is asked one address a night, the one it
-  refused last, documents included, until it answers, plus any address it has never been asked or
-  whose result is a week old; the rest of it counts as refused with it. An address not asked keeps
-  its last answer, and what was changed or not answering stays reported, marked as not asked.
+  does). A refusal is a 403, a 429, or a 404 from a site whose home page is 404 too. A host whose
+  last two answers were refusals (by the time of the request, so a site that blocks partway through
+  a night counts; pages the archive saw gone, requests with no answer at all and server errors say
+  nothing about the host either way) is asked one address a night, documents included, until it
+  answers, plus any address it has never been asked or whose result is a week old; the rest of it
+  counts as refused with it. That one address is the one asked longest ago, so it moves through
+  them all, and a removed file can't keep a host that answers the rest from being checked. An
+  address not asked keeps its last answer, and what was changed or not answering stays reported,
+  marked as not asked.
 - **How gently:** one request at a time per site (hosts of one domain, like `www.` and
   `static-www.comune.napoli.it`, are one site), with a pause between them. Each request carries the
   ETag and Last-Modified from the last check, so an unchanged file answers 304 without its body;
   once a week, on its own night, each document is downloaded and hashed whole anyway. A site that
   gave no answer at all to 2 addresses in a row (it accepts connections and then stalls) isn't
   asked the rest of the night, and after an hour nothing more is asked: those addresses count as
-  not answering and are asked first the next night, and the run ends and saves what it saw.
+  not answering and are asked first the next night, and the run ends and saves what it saw. A 429
+  is tried once more after a pause; if it is still a 429, the rest of that host isn't asked that
+  night either, its home page included, and counts as refused; what it cut off is asked first the
+  next night.
 - **What it reports:** forms whose content no longer matches the recorded `sha256`; addresses that
   stopped answering; pages that now send you to the site's home or answer with an error page; and
   documents whose address now leads to a web page. Each comes with the procedures that cite it,
   and for pages that failed, what the Internet Archive's Wayback Machine last saw, a second opinion
   on whether a page is gone.
 - **Listed but not reported on their own:** addresses whose certificate can't be verified (servers
-  that don't send their full chain), and 404s from a site whose home page is also 404, which means
-  the site is refusing the checker rather than that the page is gone (unless the Wayback Machine
-  also last saw the page as 404: then it is reported as gone, every night until it answers). A
-  page that has failed for 7 days or more in a row (refused, or not answering at all) and is still
-  refused is reported, though: while the block lasts nothing on it is checked, forms included, so
-  the issue stays open. The archive's answer is reused for a week, and kept when it can't be
+  that don't send their full chain), and refusals (a 403, a 429, a 404 from a site whose home page
+  is also 404), which mean the site is refusing the checker rather than that the page is gone
+  (unless a 404's home is 404 and the Wayback Machine also last saw the page as 404: then it is
+  reported as gone, every night until it answers). A page that has failed for 7 days or more in a
+  row (refused, or not answering at all) and is still refused is reported, though: while the block
+  lasts nothing on it is checked, forms included, so the issue stays open. The archive's answer is reused for a week, and kept when it can't be
   renewed.
 
 The latest result per address is saved (`--state`, by default `.cache/sources-state.json`), so

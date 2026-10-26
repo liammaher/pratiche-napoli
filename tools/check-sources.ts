@@ -1,11 +1,11 @@
 // Checks the official pages and forms the procedures cite (see lib/sources.ts)
 // and prints what to re-verify: every document with a sha256, and tonight's
 // seventh of the other pages (all of them with --all), but only one address
-// of a site that refused the checker last. The latest result for
-// each address, with its ETag and Last-Modified, is kept in --state between
-// runs, so the report covers the whole week. With --out, also writes the
-// report there, an empty file when everything answers as recorded: the
-// nightly workflow turns it into a GitHub issue. Exits 0 when the check ran,
+// of a site that refuses the checker (a 403, a 429, a 404 with its home's).
+// The latest result for each address, with its ETag and Last-Modified, is
+// kept in --state between runs, so the report covers the whole week. With
+// --out, also writes the report there, an empty file when everything answers
+// as recorded: the nightly workflow turns it into a GitHub issue. Exits 0 when the check ran,
 // problems or not, and 1 when it says nothing (most sites gave no answer),
 // writing no report and keeping the state as it was.
 // Usage: npm run check:sources [-- --all] [--state file] [--out report.md]
