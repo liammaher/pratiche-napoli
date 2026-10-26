@@ -327,6 +327,9 @@ test("with a dichiarante, a person's own data is theirs and the rest stays the v
   const doc = withForm(...fields);
   doc.dichiarante = { ruolo: ["titolare", "legale_rappresentante"] };
   assert.deepEqual(validateProcedure(doc, PATH, ctx), []);
+  // The home is only in personal vaults, but a row needs only one vault that
+  // can fill it: a ditta individuale files a business procedure from its owner's.
+  assert.deepEqual(ctx.registry.categories.find((c) => c.name === "tari")?.kinds, ["persona"]);
 
   delete doc.dichiarante;
   assert.match(errorsFor(doc), /ruolo.tipo is another person's field, never the vault owner's/);
