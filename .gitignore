@@ -6,3 +6,5 @@ dist/
 * [0-9].*
 # accepted reports exported by npm run reports -- export; private, never commit
 reports-cache.json
+# the source monitor's saved results (npm run check:sources)
+.cache/

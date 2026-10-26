@@ -1,13 +1,20 @@
 name: Sources
 
-# Every night, re-fetch the official pages and forms the procedures cite and
-# keep one issue listing what changed or stopped answering; close it when
-# everything is back as recorded. A run that couldn't reach most addresses
-# fails instead, leaving the issue as it is.
+# Every night, re-fetch the official forms and a seventh of the pages the
+# procedures cite and keep one issue listing what changed or stopped
+# answering this week; close it when everything is back as recorded. The
+# latest result per address, with its ETag and Last-Modified, is kept in the
+# Actions cache between runs. A run that couldn't reach most addresses fails
+# instead, leaving the issue and the saved state as they are.
 on:
   schedule:
     - cron: "17 3 * * *"
   workflow_dispatch:
+    inputs:
+      all:
+        description: Check every page tonight, not just tonight's share
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -32,8 +39,21 @@ jobs:
       - name: Install
         run: npm ci --ignore-scripts
 
+      - name: Restore the last results
+        uses: actions/cache/restore@v4
+        with:
+          path: .cache/sources-state.json
+          key: sources-state-${{ github.run_id }}
+          restore-keys: sources-state-
+
       - name: Check sources
-        run: npm run -s check:sources -- --out report.md
+        run: npm run -s check:sources -- --out report.md ${{ inputs.all && '--all' || '' }}
+
+      - name: Save the results
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/sources-state.json
+          key: sources-state-${{ github.run_id }}
 
       - name: Update the issue
         env:
