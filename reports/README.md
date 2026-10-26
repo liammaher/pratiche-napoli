@@ -12,7 +12,7 @@ maintainer are ever published, never a report as written.
 - `reports/{id}`: the report's fields, plus `status: "pending"`, `received_at`,
   `schema_version: 0`, `mark` (12 random hex digits that stand for the report in the
   published figures' `basis`, so the id, which is the sender's receipt, can't find it
-  there) and `pii_redacted` (true when personal data was replaced
+  there; a report stored without one gets it when accepted) and `pii_redacted` (true when personal data was replaced
   with `[rimosso]`, including codes with the usual slips: lower case, 0 for O,
   other groupings, a character missing or extra). Deleted once its month leaves the
   12-month window the figures use, whatever its status (`expires_at`, Firestore TTL);

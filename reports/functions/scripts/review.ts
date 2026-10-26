@@ -7,6 +7,7 @@
 
 import path from "node:path";
 import { FieldValue, type Firestore } from "firebase-admin/firestore";
+import { newMark } from "../src/mark";
 
 type Data = Record<string, unknown>;
 
@@ -125,7 +126,8 @@ async function setStatus(db: Firestore, id: string, status: string, now: Date, e
   await db.runTransaction(async (t) => {
     const doc = await t.get(ref);
     if (!doc.exists) throw new Error(`no report ${id}`);
-    t.update(ref, { status, reviewed_at: now, ...extra });
+    // A report stored before marks were gets one, so export can use it.
+    t.update(ref, { status, reviewed_at: now, ...(typeof doc.get("mark") !== "string" && { mark: newMark() }), ...extra });
   });
 }
 
