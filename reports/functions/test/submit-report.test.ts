@@ -4,7 +4,7 @@ import { beforeEach, test } from "node:test";
 import assert from "node:assert/strict";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
-import { createHandler, MAX_BYTES, parseForm, type Req, type Res } from "../src/handler";
+import { createHandler, MAX_BYTES, parseForm, rateLimitAddress, type Req, type Res } from "../src/handler";
 import { procedureIndex } from "../src/procedures";
 
 const PROJECT = "demo-pratiche-napoli";
@@ -150,9 +150,12 @@ test("a report the schema rejects is answered 400 and not stored", async () => {
     assert.equal(reply.status, 400, JSON.stringify(bad));
     assert.equal((reply.body as { error: string }).error, "invalid_report");
   }
-  const form = await postForm({ procedure: REPORT.procedure, source: "web" });
+  const form = await postForm({ procedure: REPORT.procedure, source: "web", done: "1999-12", days_to_answer: "12 giorni" });
   assert.equal(form.status, 400);
   assert.match(form.headers["content-type"], /text\/html/);
+  for (const field of ["done", "days_to_answer", "channel", "office", "outcome"]) {
+    assert.match(String(form.body), new RegExp(`<code>${field}</code>`), field);
+  }
   assert.equal((await docs("reports")).length, 0);
 });
 
@@ -188,15 +191,29 @@ test("the 11th report from one address in an hour is refused", async () => {
   assert.equal((await postJson(REPORT, { ip: "192.0.2.45" })).status, 201);
   assert.equal((await docs("reports")).length, 11);
 
+  // Rejected reports don't use up the hour.
+  for (let i = 0; i < 12; i++) assert.equal((await postJson({ ...REPORT, outcome: "boh" }, { ip: "192.0.2.46" })).status, 400);
+  assert.equal((await postJson(REPORT, { ip: "192.0.2.46" })).status, 201);
+
   // Only a hash and a count are kept, and they expire at the end of the hour.
   const limits = await docs("ratelimits");
-  assert.equal(limits.length, 2);
+  assert.equal(limits.length, 3);
   for (const doc of limits) {
     assert.match(doc.id, /^[0-9a-f]{64}$/);
     assert.deepEqual(Object.keys(doc.data()).sort(), ["count", "expires_at"]);
     assert.equal(doc.get("expires_at").toMillis(), Date.parse("2026-10-15T11:00:00Z"));
     assert.doesNotMatch(JSON.stringify(doc.data()), /192\.0\.2/);
   }
+});
+
+test("IPv6 addresses in one /64 share a limit", async () => {
+  for (let i = 0; i < 10; i++) assert.equal((await postJson(REPORT, { ip: `2001:db8:1:2::${i + 1}` })).status, 201);
+  assert.equal((await postJson(REPORT, { ip: "2001:db8:1:2:abcd:1:2:3" })).status, 429);
+  assert.equal((await postJson(REPORT, { ip: "2001:db8:1:3::1" })).status, 201);
+  assert.equal(rateLimitAddress("2001:0DB8:0001:0002:0000:0000:0000:0001"), "2001:db8:1:2::/64");
+  assert.equal(rateLimitAddress("2001:db8::1"), "2001:db8:0:0::/64");
+  assert.equal(rateLimitAddress("::ffff:192.0.2.1"), "192.0.2.1");
+  assert.equal(rateLimitAddress("192.0.2.1"), "192.0.2.1");
 });
 
 test("personal data in text fields is replaced and the report flagged", async () => {
@@ -258,6 +275,43 @@ test("the procedure index is fetched once and its ids cached", async () => {
   assert.deepEqual([...(await ids())], ["napoli/comune/a", "napoli/comune/b"]);
   assert.equal(a, b);
   assert.equal(fetches, 1);
+});
+
+test("a site outage falls back to the last list and retries after a few minutes", async () => {
+  let clock = 0;
+  let fetches = 0;
+  let up = true;
+  const ids = procedureIndex(
+    "https://example.org/procedures.json",
+    async () => {
+      fetches++;
+      if (!up) throw new Error("down");
+      return { procedures: [{ id: "napoli/comune/a" }] };
+    },
+    () => clock,
+  );
+  await ids();
+  up = false;
+  clock = 61 * 60 * 1000;
+  assert.deepEqual([...(await ids())], ["napoli/comune/a"]);
+  clock += 60 * 1000;
+  await ids();
+  assert.equal(fetches, 2);
+  clock += 5 * 60 * 1000;
+  up = true;
+  await ids();
+  assert.equal(fetches, 3);
+});
+
+test("Italian numbers in forms are read as meant", () => {
+  assert.deepEqual(parseForm("paid_eur=1.000&desk_wait_minutes=45&days_to_answer=12,5"), {
+    paid_eur: 1000,
+    desk_wait_minutes: 45,
+    days_to_answer: 12.5,
+  });
+  assert.deepEqual(parseForm("paid_eur=1.250,50"), { paid_eur: 1250.5 });
+  assert.deepEqual(parseForm("paid_eur=16.50"), { paid_eur: 16.5 });
+  assert.deepEqual(parseForm("paid_eur=0x10"), { paid_eur: "0x10" });
 });
 
 test("form fields with odd indexes stay for the schema to reject", () => {

@@ -14,8 +14,9 @@ maintainer are ever published, never a report as written.
   with `[rimosso]`).
 - `contacts/{id}`: `contact_email`, only when the person ticked `consent_contact`,
   with the same id as the report. Deleted after 12 months (`expires_at`, Firestore TTL).
-- `ratelimits/{hash}`: a count per hour per salted SHA-256 of the sender's IP, so
-  at most 10 reports an hour come from one address. The IP itself is never
+- `ratelimits/{hash}`: a count per hour per salted SHA-256 of the sender's IP (for
+  IPv6, its /64), so at most 10 stored reports an hour come from one address.
+  Rejected reports don't count. The IP itself is never
   stored. Deleted after the hour (`expires_at`, Firestore TTL).
 
 `firestore.rules` denies all client access: only the function and the
@@ -43,7 +44,7 @@ function fetches on the first report and keeps for an hour.
 
 ## Running the tests
 
-You need Node 22, Java 11 or later and the Firebase CLI. The tests use the
+You need Node 22, Java 21 or later and the Firebase CLI (v15). The tests use the
 `demo-pratiche-napoli` project, which only exists in the emulator, so no login
 is needed and nothing reaches a real project.
 
@@ -61,6 +62,10 @@ cd reports && firebase emulators:start --only functions,firestore
 
 The function is at `http://127.0.0.1:5001/demo-pratiche-napoli/europe-west8/submitReport`
 and the stored documents are in the emulator UI at http://127.0.0.1:4000/firestore.
+
+`lib/` is built on your machine before a deploy (the `predeploy` hook); the empty
+`gcp-build` script stops Google's build from running `npm run build` again on
+the uploaded files, which leave out `src/` and `scripts/`.
 
 ## Deploying (for the maintainer)
 
