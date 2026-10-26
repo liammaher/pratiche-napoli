@@ -1,0 +1,26 @@
+schema_version: 0
+id: apro-parrucchiere-estetista
+headline: "Aprire un parrucchiere, un barbiere o un centro estetico a Napoli: le pratiche"
+aka: [aprire un salone, aprire un centro estetico, aprire una barberia]
+updated: 2026-10-26
+intro: >-
+  Le pratiche che può incontrare chi apre a Napoli un salone di acconciatore, un barbiere o un
+  centro estetico come ditta individuale. Ogni pratica dice a chi si applica; scadenze e fonti sono
+  nelle pagine delle singole pratiche.
+steps:
+  - procedure: napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica
+    when: Iscrivere la ditta al Registro Imprese della Camera di Commercio
+  - procedure: italia/agenzia-entrate/apertura-partita-iva-persona-fisica
+    when: La partita IVA
+  - procedure: italia/inps/iscrizione-gestione-artigiani-commercianti
+    when: L'iscrizione all'INPS e i contributi
+  - procedure: napoli/camera-di-commercio/pec-domicilio-digitale-impresa
+    when: La PEC dell'impresa, obbligatoria
+  - procedure: napoli/comune/scia-acconciatore-estetista
+    when: La SCIA al Comune per aprire il salone
+  - procedure: napoli/comune/insegna-esercizio
+    when: L'insegna
+  - procedure: napoli/comune/tari-iscrizione-non-domestica
+    when: La TARI del salone
+  - procedure: napoli/camera-di-commercio/diritto-annuale
+    when: Il diritto annuale alla Camera di Commercio, ogni anno

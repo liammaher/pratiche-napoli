@@ -38,6 +38,8 @@ The site shows the date on each page and publishes it in the structured data, th
 | `/<id>/` | one page per procedure, e.g. `/napoli/comune/tari-iscrizione-uso-abitativo/`, titled with its `headline` and opening with an "In breve" box (deadline, cost, time, online or not, appointment, documents) |
 | `/<id>.json` | the same procedure as JSON, exactly as in its YAML file |
 | `/<ente folder>/` | the procedures of one ente, e.g. `/napoli/comune/` |
+| `/situazioni/<id>/` | the procedures of one situation, e.g. `/situazioni/apro-bar-ristorante/` |
+| `/come-lavoriamo/`, `/aggiornamenti/` | how the library is written and verified; the 50 latest changes |
 | `/procedures.json` | index of all procedures with their `updated` dates, and the library's |
 | `/contract/*.json` | the procedure schema and field registry |
 | `/sitemap.xml`, `/robots.txt`, `/llms.txt` | for search engines and AI assistants |
@@ -79,6 +81,23 @@ official sources. The commands need `--project <id>` or `GCLOUD_PROJECT`, and yo
 Google credentials (`gcloud auth application-default login`), or `FIRESTORE_EMULATOR_HOST` to
 try them on the emulator.
 
+## Situations
+
+`situations/<id>.yaml` ([schema](contract/situation.schema.json)) groups the procedures one
+situation involves, such as opening a bar or receiving a fine, with a few words on what each is
+for. Situations only point at procedures: the page shows each procedure's own deadline, and every
+fact and source stays on the procedure. `npm run validate` checks them too, and they have an
+`updated` date like procedures.
+
+## Source monitor
+
+`npm run check:sources` re-fetches every official page and form the procedures cite. It reports
+forms whose content no longer matches the recorded `sha256`, and addresses that stopped answering,
+with the procedures that cite them. Addresses whose certificate can't be verified (servers that
+don't send their full chain) are listed but don't make a report on their own. The `Sources`
+workflow runs it every night and keeps one issue, "Fonti da ricontrollare", up to date, closing it
+when everything is back as recorded.
+
 ## Layout
 
 ```
@@ -86,6 +105,7 @@ contract/procedure.schema.json   the procedure format (JSON Schema)
 contract/fields.json             shared field-ID registry (e.g. identity.codice_fiscale), generated
 contract/extensions.json         fields procedures need before the vault has them
 procedures/<ente>/<slug>.yaml    one file per procedure
+situations/<id>.yaml             the procedures of one situation
 docs/discrepancies.md            wrong or contradictory official information we found
 tools/                           validator, site builder and generators
 tools/site/style.css             the site's stylesheet
@@ -100,7 +120,8 @@ agent with the person's consent can pre-fill a form, but the library never depen
 ```sh
 npm install
 npm run validate        # check every procedure
-npm run check:updated   # changed procedures have their updated date bumped
+npm run check:updated   # changed procedures and situations have their updated date bumped
+npm run check:sources   # official pages and forms still answer and match
 npm run build           # build the site into site/
 npm test                # tests
 ```
