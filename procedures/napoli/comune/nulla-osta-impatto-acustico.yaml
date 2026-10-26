@@ -1,7 +1,13 @@
 schema_version: 0
 id: napoli/comune/nulla-osta-impatto-acustico
 title: Nulla osta di impatto acustico e documentazione di impatto acustico per le attività (Comune di Napoli)
-updated: 2026-10-25
+headline: "Musica nel bar o nel locale a Napoli: il nulla osta di impatto acustico"
+aka:
+  - permesso per la musica nel bar
+  - licenza musica
+  - relazione fonometrica
+  - tecnico competente in acustica
+updated: 2026-10-26
 summary: >-
   Un'attività che a Napoli usa impianti di diffusione sonora o macchinari rumorosi (bar, ristoranti
   e pizzerie con musica, locali di intrattenimento, officine, tipografie…) deve allegare alla
@@ -125,6 +131,14 @@ legal_basis:
     status: verified
     source: piano-2026
 deadline:
+  summary:
+    text: >-
+      Prima di iniziare: l'istanza va dentro la pratica di apertura, voltura o subentro su
+      impresainungiorno; se l'attività è già aperta, prima di usare gli impianti, come pratica a sé
+      con gli estremi del titolo. Il nulla osta arriva solo dopo che il SUAP ha chiuso con esito
+      positivo la pratica di inizio attività, e le fonti non indicano un termine per il rilascio.
+    status: unverified
+    source: avviso-nulla-osta
   rules:
     - text: >-
         Dal 1° giugno 2024 l'istanza di nulla osta (anche per voltura per cambio di gestore e
@@ -161,8 +175,33 @@ deadline:
       concreto lo stabilisce l'ufficio che accerta la violazione.
     status: verified
     source: l447-art10
+cost:
+  text: >-
+    Diritti d'istruttoria SUAP (tabella 2026), con pagoPA nella pratica: 100 euro per il nulla osta
+    chiesto da solo (80 euro per le variazioni). Dentro la pratica di apertura di un bar o
+    ristorante si paga la riga combinata: 220 euro fuori dalle zone tutelate e 520 euro nelle zone
+    tutelate, notifica sanitaria compresa. Il compenso del tecnico competente in acustica non è
+    compreso; per l'imposta di bollo le fonti non dicono se è dovuta.
+  status: verified
+  source: tabella-diritti-2026
+duration:
+  text: >-
+    Le fonti del Comune non indicano un termine per il rilascio: il nulla osta arriva solo dopo che
+    il SUAP ha chiuso con esito positivo la pratica di apertura, voltura o subentro, e fino ad
+    allora non si possono usare gli impianti di diffusione sonora.
+  status: verified
+  source: avviso-nulla-osta
+appointment:
+  text: >-
+    La domanda si presenta solo dentro la pratica su impresainungiorno. Per informazioni il SUAP
+    (Piazza Cavour 42) riceve solo su prenotazione online; l'ufficio acustica del Servizio Tutela
+    dell'Ambiente (Via Speranzella 80) riceve il martedì dalle 9 alle 13, preferibilmente su
+    appuntamento telefonico.
+  status: verified
+  source: servizio-tutela-ambiente
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP del Comune di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     receipt: legal
@@ -174,24 +213,28 @@ channels:
       sé con gli estremi del titolo. Le pratiche SUAP inviate via PEC o e-mail non vengono
       istruite.
   - type: desk
+    purpose: info
     name: SUAP del Comune di Napoli
     address: Piazza Cavour 42, II piano, Napoli
     booking: Solo su prenotazione online dalla pagina "Avviare, variare, chiudere un'attività produttiva"
     source: suap-contatti
     notes: Per informazioni e assistenza; non per depositare la pratica.
   - type: desk
+    purpose: info
     name: Servizio Tutela dell'Ambiente, della Salute e del Paesaggio – VAS/Acustica
     address: Via Speranzella 80, 80132 Napoli
     hours: martedì 9:00–13:00, preferibilmente su appuntamento telefonico
     source: servizio-tutela-ambiente
     notes: Ufficio che esprime i pareri di conformità acustica; per informazioni.
   - type: phone
+    purpose: info
     address: 081 7959656 / 081 7959565
     source: servizio-tutela-ambiente
     notes: >-
       Numeri della pagina dell'ufficio (aggiornata il 16/07/2026); la pagina "Rumore ambientale"
       riporta 081.7956756/7959565.
   - type: pec
+    purpose: info
     address: tutela.asp@pec.comune.napoli.it
     receipt: legal
     source: servizio-tutela-ambiente

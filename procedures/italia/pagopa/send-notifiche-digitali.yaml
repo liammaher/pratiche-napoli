@@ -1,7 +1,14 @@
 schema_version: 0
 id: italia/pagopa/send-notifiche-digitali
 title: SEND – ricevere e leggere le notifiche a valore legale della pubblica amministrazione
-updated: 2026-10-25
+headline: "Notifica a valore legale SEND: come leggerla, quando conta e quanto costa"
+aka:
+  - Servizio Notifiche Digitali
+  - notifica su app IO
+  - avviso di avvenuta ricezione
+  - raccomandata SEND
+  - codice IUN
+updated: 2026-10-26
 summary: >-
   SEND (Servizio Notifiche Digitali, gestito da PagoPA) è la piattaforma con cui comuni, enti e
   agenti della riscossione notificano atti a valore legale (multe, accertamenti, avvisi di
@@ -70,6 +77,17 @@ legal_basis:
     status: verified
     source: inad
 deadline:
+  summary:
+    text: >-
+      Non c'è nulla da presentare: i termini per pagare o impugnare partono dal perfezionamento,
+      cioè quando si apre la notifica su SEND o IO oppure, se non la si apre prima, 7 giorni dopo la
+      consegna in PEC, 15 dopo l'avviso di mancato recapito se la PEC non funziona, 10 dopo la
+      consegna o il ritiro della raccomandata (20 dopo l'avviso di giacenza se non la si ritira
+      entro 10 giorni) o 10 dopo il deposito su SEND se si è irreperibili. Senza PEC, aprendola
+      entro 5 giorni dall'avviso di cortesia si evita la raccomandata; la data esatta si legge su
+      SEND in "Stato della notifica".
+    status: verified
+    source: dl-76-2020-art-26
   rules:
     - text: >-
         Non c'è nulla da presentare per "ricevere" una notifica: gli effetti legali partono dal
@@ -139,8 +157,33 @@ deadline:
       chiedere all'ente mittente, i cui riferimenti sono di solito nei documenti allegati.
     status: verified
     source: hc-domande-contenuto
+cost:
+  text: >-
+    Le spese di notifica sono a carico del destinatario e si aggiungono all'importo da
+    pagare. Per la notifica digitale il centro assistenza SEND scrive "massimo 2€", le FAQ
+    del sito "2€"; se parte la raccomandata si aggiungono stampa e invio, che variano. Al
+    Punto di ritiro la stampa dell'avviso costa 1,40 € (più IVA se prevista), e altri 1,40 €
+    quella degli atti.
+  status: disputed
+  source: hc-costi
+duration:
+  text: >-
+    La notifica si perfeziona quando il destinatario o un delegato la apre su SEND o su IO;
+    se non la apre prima, il settimo giorno dopo la consegna dell'avviso alla PEC, oppure il
+    decimo giorno dopo il perfezionamento della raccomandata con l'avviso di avvenuta
+    ricezione.
+  status: verified
+  source: dl-76-2020-art-26
+appointment:
+  text: >-
+    Non serve: la notifica si legge online su SEND o nell'app IO. Chi non ha SPID o CIE, o
+    vuole una copia cartacea, può andare a un Punto di ritiro convenzionato con l'avviso di
+    avvenuta ricezione, un documento d'identità valido e il codice fiscale.
+  status: verified
+  source: punti-di-ritiro
 channels:
   - type: portal
+    purpose: procedure
     name: SEND – area personale (cittadini, professionisti, ditte individuali e imprese)
     url: https://notifichedigitali.it/
     auth: [spid, cie]
@@ -154,6 +197,7 @@ channels:
       Le ditte individuali usano l'accesso da persona fisica. L'apertura su SEND perfeziona la
       notifica e genera le attestazioni opponibili a terzi.
   - type: app
+    purpose: procedure
     name: App IO – servizio "SEND - Notifiche digitali"
     source: hc-recapiti
     notes: >-
@@ -162,6 +206,7 @@ channels:
       app la si perfeziona e si può pagare. Con IO si può anche inquadrare il codice QR di un
       avviso cartaceo.
   - type: desk
+    purpose: procedure
     name: Punti di ritiro SEND (esercizi convenzionati)
     url: https://notifichedigitali.it/punti-di-ritiro
     source: punti-di-ritiro
@@ -171,6 +216,7 @@ channels:
       prevista) per operazione. L'elenco dei punti si consulta sulla mappa del sito; non è stato
       verificato quali punti ci siano a Napoli.
   - type: portal
+    purpose: related
     name: INAD – eleggere il domicilio digitale (persone fisiche)
     url: https://domiciliodigitale.gov.it/dgit/home/public/
     auth: [spid, cie, cns]

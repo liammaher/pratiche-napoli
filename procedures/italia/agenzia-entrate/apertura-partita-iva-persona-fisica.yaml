@@ -1,6 +1,12 @@
 schema_version: 0
 id: italia/agenzia-entrate/apertura-partita-iva-persona-fisica
 title: Apertura della partita IVA per persone fisiche – modello AA9/12 (Agenzia delle Entrate)
+headline: "Aprire la partita IVA a Napoli come persona fisica: modello AA9/12"
+aka:
+  - partita IVA libero professionista
+  - partita IVA forfettaria
+  - dichiarazione di inizio attività
+  - codice ATECO
 updated: 2026-10-26
 summary: >-
   Chi inizia da solo un'attività di lavoro autonomo (professione, arte) o un'altra attività per cui
@@ -52,6 +58,13 @@ legal_basis:
     status: verified
     source: ade-normativa
 deadline:
+  summary:
+    text: >-
+      Entro 30 giorni dall'inizio dell'attività, e non prima: la data di inizio non può essere
+      successiva a quella di presentazione. Con PEC o raccomandata conta il giorno di spedizione,
+      online quello in cui l'Agenzia completa la ricezione.
+    status: verified
+    source: dpr633-art35
   rules:
     - text: Entro 30 giorni dalla data di inizio dell'attività.
       status: verified
@@ -75,8 +88,31 @@ deadline:
       ravvedimento chiedere all'ufficio dell'Agenzia o al proprio intermediario: qui non si calcola.
     status: verified
     source: dlgs471-art5
+cost:
+  text: >-
+    Il modello AA9/12 e il software di compilazione dell'Agenzia sono gratuiti, e né le
+    istruzioni né le pagine dell'Agenzia prevedono un versamento per presentarlo; nessuna
+    fonte ufficiale letta lo dice però in modo esplicito.
+  status: unverified
+  source: aa9-istruzioni
+duration:
+  text: >-
+    Con l'invio telematico il numero di partita IVA è nella comunicazione di avvenuto
+    ricevimento dell'Agenzia; allo sportello lo attribuisce l'ufficio. Le istruzioni non
+    indicano tempi in giorni.
+  status: verified
+  source: aa9-istruzioni
+appointment:
+  text: >-
+    Serve solo per consegnare il modello in ufficio: si prenota con "Prenota un
+    appuntamento" sul sito dell'Agenzia, scegliendo il servizio "Identificativi fiscali,
+    abilitazioni, consegna documenti e istanze". Online, via PEC o con raccomandata non
+    serve.
+  status: verified
+  source: ade-come-aprire
 channels:
   - type: portal
+    purpose: procedure
     name: Area riservata dell'Agenzia delle Entrate – servizio "Invio documenti"
     url: https://www.agenziaentrate.gov.it/portale/area-riservata
     auth: [spid, cie, cns]
@@ -90,6 +126,7 @@ channels:
       ricevimento dell'Agenzia, che contiene il numero di partita IVA. Lo stesso invio può farlo un
       intermediario abilitato (commercialista, CAF, associazione di categoria).
   - type: pec
+    purpose: procedure
     name: Direzione Provinciale I di Napoli
     address: dp.1Napoli@pce.agenziaentrate.it
     receipt: legal
@@ -100,12 +137,14 @@ channels:
       viene comunicata allo stesso indirizzo PEC usato per l'invio (regole nella pagina "Come aprire
       una Partita Iva").
   - type: pec
+    purpose: procedure
     name: Direzione Provinciale II di Napoli
     address: dp.2Napoli@pce.agenziaentrate.it
     receipt: legal
     source: ade-pec-dp
     notes: Stesse regole dell'altra PEC; le due Direzioni Provinciali di Napoli sono alternative.
   - type: desk
+    purpose: procedure
     name: Qualunque ufficio dell'Agenzia delle Entrate, su appuntamento
     url: https://www.agenziaentrate.gov.it/portale/prenota-un-appuntamento
     booking: >-
@@ -117,6 +156,7 @@ channels:
       Il modello si consegna in duplice esemplare, anche tramite persona delegata (quadro Delega),
       a prescindere dal domicilio fiscale. L'ufficio consegna la copia timbrata (art. 35, comma 7).
   - type: post
+    purpose: procedure
     name: Raccomandata a un qualunque ufficio dell'Agenzia delle Entrate
     receipt: informal
     source: ade-come-aprire

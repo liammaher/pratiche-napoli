@@ -1,6 +1,13 @@
 schema_version: 0
 id: napoli/comune/tari-variazione-non-domestica
 title: TARI – variazione per uso non abitativo (Comune di Napoli)
+headline: "TARI di un'attività a Napoli: come comunicare cambio di superficie, locali o voltura"
+aka:
+  - tassa sulla spazzatura
+  - tassa rifiuti
+  - voltura TARI
+  - cambio superficie TARI
+  - Mod. 6 TARI
 updated: 2026-10-26
 summary: >-
   Un'impresa, un professionista o un'associazione già iscritti alla TARI a Napoli per locali a uso
@@ -50,6 +57,13 @@ legal_basis:
     status: verified
     source: regolamento-2023
 deadline:
+  summary:
+    text: >-
+      Entro 90 giorni dalla variazione. Gli aumenti valgono dal giorno della variazione; le
+      riduzioni anche, ma solo se si dichiara entro i 90 giorni, altrimenti dalla data di
+      presentazione.
+    status: verified
+    source: regolamento-2023
   rules:
     - text: >-
         Entro 90 giorni dalla data in cui si è verificata la variazione (art. 25, cc. 5 e 6).
@@ -72,36 +86,63 @@ deadline:
       norme nazionali successive possono averli modificati.
     status: verified
     source: regolamento-2023
+cost:
+  text: >-
+    Nessun costo indicato: come dichiarazione tributaria è esente dall'imposta di bollo (D.P.R.
+    642/1972, tabella B, art. 5, testo in vigore fino al 31/12/2026) e né il modulo né la pagina
+    della modulistica chiedono diritti. La TARI si paga a parte, con F24.
+  status: verified
+  source: dpr642-tabella-b
+duration:
+  text: >-
+    La variazione vale dal giorno in cui è avvenuta; se fa diminuire la tassa, solo se dichiarata
+    entro 90 giorni, altrimenti dalla data di presentazione (art. 12, c. 5). Le differenze sono di
+    regola conteggiate a conguaglio; il regolamento non fissa un termine di risposta dell'ufficio.
+  status: verified
+  source: regolamento-2023
+appointment:
+  text: >-
+    Non serve: la dichiarazione si presenta online sui Servizi Tributari (POTESs, con SPID, CIE o
+    CNS), via PEC, email o raccomandata A/R, senza andare allo sportello.
+  status: verified
+  source: modulistica
 channels:
   - type: pec
+    purpose: procedure
     address: entrate.tari-tares-tarsu@pec.comune.napoli.it
     receipt: legal
     preferred: true
     source: mod-6
     notes: Dà una ricevuta con valore legale; un'impresa ha comunque l'obbligo di avere una PEC.
   - type: portal
+    purpose: procedure
     name: POTESs – Servizi Tributari
     url: https://servizionline.comune.napoli.it/web/napoli/servizi-tributari
     auth: [spid, cie, cns]
     source: modulistica
   - type: email
+    purpose: procedure
     address: entrate.tari-tares-tarsu@comune.napoli.it
     receipt: informal
     source: mod-6
   - type: post
+    purpose: procedure
     address: Comune di Napoli, Area Entrate, Servizio IMU e TARI, Via Diocleziano 330, 80125 Napoli
     source: mod-6
     notes: Raccomandata (A/R secondo la pagina della modulistica).
   - type: desk
+    purpose: procedure
     name: Sportello Unico Attività Produttive (SUAP)
     source: modulistica
     notes: Per le utenze non domestiche; la pagina non indica l'indirizzo.
   - type: desk
+    purpose: info
     name: Sportello TARI
     address: Via Diocleziano 330, 80125 Napoli
     hours: lunedì–venerdì 8:30–12:30
     source: mod-6
   - type: phone
+    purpose: info
     address: 081 795 3711
     hours: tutti i giorni 9:00–13:00 (orario indicato sul modulo)
     source: mod-6
@@ -322,11 +363,6 @@ pitfalls:
     status: disputed
     source: modulistica
   - text: >-
-      La pagina della modulistica segnala una chiusura temporanea degli sportelli informativi di
-      Via Diocleziano 330, senza date: verificare prima di andarci.
-    status: verified
-    source: modulistica
-  - text: >-
       La dichiarazione si può presentare anche tramite CAF, associazioni di categoria o iscritti
       agli ordini professionali, se convenzionati con il Comune e con delega del contribuente.
     status: verified
@@ -364,6 +400,20 @@ sources:
     sha256: 15c491cd7e69bada6fbed48c345c72177cb147bb95cded0314b6cca75635ea6f
     official: true
     notes: Modifiche successive al 2023 non controllate.
+  - id: dpr642-tabella-b
+    label: >-
+      D.P.R. 26 ottobre 1972, n. 642, allegato B (atti esenti dall'imposta di bollo in modo
+      assoluto), art. 5 – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1972-10-26;642
+    retrieved: 2026-10-26
+    official: true
+    notes: >-
+      Letto il testo in vigore dal 10-12-2000 al 31-12-2026: esenti le dichiarazioni e denunzie
+      presentate ai competenti uffici ai fini dell'applicazione delle leggi tributarie, esclusi
+      ricorsi, opposizioni e altri atti difensivi del contribuente. Dal 1° gennaio 2027 l'articolo
+      è abrogato dal D.Lgs. 1 agosto 2025, n. 123 (testo unico dell'imposta di registro e degli
+      altri tributi indiretti), come modificato dal D.L. 200/2025: la norma corrispondente non è
+      stata controllata.
 verification:
   level: L1
   date: 2026-10-25

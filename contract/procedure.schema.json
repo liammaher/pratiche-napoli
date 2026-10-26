@@ -9,6 +9,7 @@
     "schema_version",
     "id",
     "title",
+    "headline",
     "updated",
     "summary",
     "ente",
@@ -31,6 +32,21 @@
       "type": "string",
       "minLength": 3,
       "pattern": "\\S"
+    },
+    "headline": {
+      "description": "The page title in the words people search with, a question or an action (\"Come iscriversi alla TARI a Napoli dopo un trasloco\"); title stays the official name",
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 90,
+      "pattern": "\\S"
+    },
+    "aka": {
+      "description": "Everyday names people use for this procedure (\"tassa sulla spazzatura\"), for search",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/text"
+      },
+      "uniqueItems": true
     },
     "updated": {
       "description": "The last day anything in this procedure changed, apart from this field and YAML comments or layout. Bump it with every change: the site and the JSON publish it as the page's last update, and CI checks it on pull requests",
@@ -128,6 +144,10 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "summary": {
+          "description": "The deadline in one or two sentences covering every case, for the page's \"In breve\"; required when there is more than one rule",
+          "$ref": "#/$defs/claim"
+        },
         "rules": {
           "type": "array",
           "items": {
@@ -139,6 +159,18 @@
         }
       }
     },
+    "cost": {
+      "description": "What the procedure costs in total (fees, marche da bollo, diritti), or that it is free; not the tax it registers you for. Shown in the page's \"In breve\"",
+      "$ref": "#/$defs/claim"
+    },
+    "duration": {
+      "description": "How long until the result: the office's time limit or the official practice (\"il SUAP ha 60 giorni per i controlli\"). Shown in \"In breve\"",
+      "$ref": "#/$defs/claim"
+    },
+    "appointment": {
+      "description": "Whether an appointment is needed, and how to book one. Shown in \"In breve\"",
+      "$ref": "#/$defs/claim"
+    },
     "channels": {
       "type": "array",
       "minItems": 1,
@@ -146,9 +178,19 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "type"
+          "type",
+          "purpose"
         ],
         "properties": {
+          "purpose": {
+            "description": "What the channel is for: procedure, to carry out the procedure itself (file, request, read); info, only questions and assistance; payment; related, another service or a linked step. Only procedure channels answer \"can it be done online\"",
+            "enum": [
+              "procedure",
+              "info",
+              "payment",
+              "related"
+            ]
+          },
           "type": {
             "enum": [
               "portal",

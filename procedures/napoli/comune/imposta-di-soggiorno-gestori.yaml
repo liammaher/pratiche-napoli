@@ -1,7 +1,13 @@
 schema_version: 0
 id: napoli/comune/imposta-di-soggiorno-gestori
 title: Imposta di soggiorno – obblighi del gestore della struttura ricettiva (Comune di Napoli)
-updated: 2026-10-25
+headline: "Imposta di soggiorno a Napoli per B&B e affitti brevi: iscrizione GEIS e versamenti"
+aka:
+  - tassa di soggiorno
+  - tourist tax
+  - tassa turistica
+  - dichiarazione trimestrale imposta di soggiorno
+updated: 2026-10-26
 summary: >-
   Chi gestisce a Napoli un albergo, un B&B, un affittacamere, una casa vacanze o una locazione
   breve deve iscriversi sul portale GEIS del Comune, far pagare l'imposta di soggiorno agli
@@ -79,6 +85,14 @@ legal_basis:
     status: verified
     source: comune-2026
 deadline:
+  summary:
+    text: >-
+      Iscrizione su GEIS all'inizio dell'attività; ogni trimestre dichiarazione (anche senza imposta
+      da versare) e riversamento entro il 15 aprile, 15 luglio, 15 ottobre e 15 gennaio;
+      dichiarazione annuale entro il 30 giugno dell'anno dopo. Non è chiaro se il Modello 21 vada
+      ancora presentato entro il 30 gennaio: chiederlo all'Ufficio Imposta di Soggiorno.
+    status: disputed
+    source: modalita
   rules:
     - text: >-
         Iscrizione su GEIS Portal contemporaneamente all'inizio dell'attività (obbligo in vigore dal
@@ -124,8 +138,31 @@ deadline:
       funzione "Ravvedimento" di GEIS o con l'ufficio.
     status: verified
     source: dlgs-23-art4
+cost:
+  text: >-
+    Le pagine del Comune, il manuale e le FAQ di GEIS non indicano diritti per l'iscrizione o per
+    le dichiarazioni, che come dichiarazioni tributarie sono esenti dall'imposta di bollo (D.P.R.
+    642/1972, tabella B, art. 5, testo in vigore fino al 31/12/2026). L'imposta riscossa dagli
+    ospiti si riversa a parte, con pagoPA.
+  status: verified
+  source: dpr642-tabella-b
+duration:
+  text: >-
+    Ogni dichiarazione trimestrale inviata su GEIS viene protocollata all'invio, con numero
+    progressivo e di protocollo, e se ne scarica la ricevuta PDF. Il manuale non dice in quanto
+    tempo l'ufficio esamina la domanda "Nuovo gestore struttura" o le richieste di modifica.
+  status: verified
+  source: geis-manuale
+appointment:
+  text: >-
+    Non serve: iscrizione, dichiarazioni e versamenti si fanno online su GEIS. Per chiarimenti
+    l'Ufficio Imposta di Soggiorno, in Via Diocleziano 330, riceve il pubblico dal lunedì al
+    venerdì 8:30–12:30 secondo la pagina generale, che non parla di appuntamento.
+  status: verified
+  source: comune-index
 channels:
   - type: portal
+    purpose: procedure
     name: GEIS Portal – Portale Multiservizi del Comune di Napoli
     url: https://cizrm.municipia.eng.it/?ente=NAPO
     auth: [spid, cie, cns]
@@ -137,6 +174,7 @@ channels:
       della struttura. La pagina del Comune indica SPID, CIE o TS-CNS; il manuale cita SPID o CIE,
       le FAQ solo SPID. Ogni dichiarazione inviata riceve numero e protocollo e una ricevuta PDF.
   - type: pec
+    purpose: procedure
     address: entrate.impostasoggiorno@pec.comune.napoli.it
     receipt: legal
     source: modalita
@@ -145,11 +183,13 @@ channels:
       Comune, con motivo, copia del versamento e documento del legale rappresentante, entro le stesse
       scadenze. Anche per il Modello 21 firmato digitalmente.
   - type: email
+    purpose: procedure
     address: entrate.impostasoggiorno@comune.napoli.it
     receipt: informal
     source: modalita
     notes: Alternativa alla PEC per la dichiarazione di emergenza quando GEIS non funziona.
   - type: desk
+    purpose: info
     name: Ufficio Imposta di Soggiorno (Servizio Gestione Canoni e Altri Tributi)
     address: Via Diocleziano 330, 1° piano, 80124 Napoli
     source: comune-2026
@@ -157,10 +197,12 @@ channels:
       Orario incerto: la pagina generale indica lunedì–venerdì 8:30–12:30, la pagina degli accordi
       con gli intermediari 9:00–13:00.
   - type: phone
+    purpose: info
     address: 081 7953749 – 081 7956901
     source: comune-index
     notes: Numeri indicati sulla pagina generale dell'imposta "per chiarimenti", subito dopo l'avviso sul CIN.
   - type: portal
+    purpose: procedure
     name: Agenzia delle Entrate – area riservata (dichiarazione annuale imposta di soggiorno)
     url: https://portale.agenziaentrate.gov.it/PortaleWeb/home
     receipt: legal
@@ -694,9 +736,13 @@ sources:
   - id: comune-index
     label: Imposta di Soggiorno – pagina generale (Comune di Napoli)
     url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/imposta-di-soggiorno/
-    retrieved: 2026-10-25
+    retrieved: 2026-10-26
+    page_updated: 2026-01-14
     official: true
-    notes: Senza data di aggiornamento; riporta le tariffe 2026, il quadro sanzionatorio dopo la delibera C.C. 12/2020 e i recapiti.
+    notes: >-
+      Indica "ultimo aggiornamento 14/01/2026" ma cita la delibera G.C. 89 del 12/03/2026;
+      riporta le tariffe 2026, il quadro sanzionatorio dopo la delibera C.C. 12/2020 e i
+      recapiti.
   - id: modalita
     label: Modalità presentazione dichiarazioni e versamenti – Comune di Napoli
     url: https://www.comune.napoli.it/articolo_tematico/tributi-locali/imposta-di-soggiorno/modalita-presentazione-dichiarazioni-e-versamenti/
@@ -845,6 +891,20 @@ sources:
     retrieved: 2026-10-25
     sha256: 17b39ee077cb7c4d80428b8cf657702c59dd5c6cfec7d373ec72402ff62ab115
     official: true
+  - id: dpr642-tabella-b
+    label: >-
+      D.P.R. 26 ottobre 1972, n. 642, allegato B (atti esenti dall'imposta di bollo in modo
+      assoluto), art. 5 – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1972-10-26;642
+    retrieved: 2026-10-26
+    official: true
+    notes: >-
+      Letto il testo in vigore dal 10-12-2000 al 31-12-2026: esenti le dichiarazioni e denunzie
+      presentate ai competenti uffici ai fini dell'applicazione delle leggi tributarie, esclusi
+      ricorsi, opposizioni e altri atti difensivi del contribuente. Dal 1° gennaio 2027 l'articolo
+      è abrogato dal D.Lgs. 1 agosto 2025, n. 123 (testo unico dell'imposta di registro e degli
+      altri tributi indiretti), come modificato dal D.L. 200/2025: la norma corrispondente non è
+      stata controllata.
 verification:
   level: L1
   date: 2026-10-25

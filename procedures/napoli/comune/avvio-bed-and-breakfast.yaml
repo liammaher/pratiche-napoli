@@ -1,7 +1,13 @@
 schema_version: 0
 id: napoli/comune/avvio-bed-and-breakfast
 title: Aprire un Bed and Breakfast a Napoli (SCIA al SUAP, CUSR, CIN, Alloggiati Web)
-updated: 2026-10-25
+headline: "Come aprire un B&B a Napoli: SCIA al SUAP, codice CUSR e CIN"
+aka:
+  - bed & breakfast
+  - B and B
+  - camere con colazione
+  - struttura ricettiva extralberghiera
+updated: 2026-10-26
 summary: >-
   Chi vuole ospitare turisti a Napoli offrendo alloggio e prima colazione in una parte della casa
   in cui vive (al massimo 4 camere e 8 posti letto) apre un Bed and Breakfast secondo la L.R.
@@ -126,6 +132,16 @@ legal_basis:
     status: verified
     source: napoli-indicazioni
 deadline:
+  summary:
+    text: >-
+      Prima di aprire si presenta la SCIA: si può iniziare da quel giorno e il Comune ha 60 giorni
+      per vietare la prosecuzione o chiedere di mettersi in regola. Poi: ospiti su Alloggiati Web
+      entro 24 ore dall'arrivo (per soggiorni sotto le 24 ore le fonti non concordano), prezzi alla
+      Regione entro il 1° ottobre (le modifiche dal 1° giugno entro il 1° marzo), soggiorni di al
+      massimo 30 giorni consecutivi, sospensione o chiusura comunicate prima al Comune (dopo sei
+      mesi di sospensione si presume la rinuncia).
+    status: disputed
+    source: l241-art19
   rules:
     - text: >-
         La SCIA va presentata prima di iniziare: l'attività può iniziare dalla data di
@@ -166,8 +182,31 @@ deadline:
       concreto chiedere al SUAP o alla Polizia locale.
     status: verified
     source: lr-5-2001
+cost:
+  text: >-
+    Diritti d'istruttoria SUAP: 200 euro, 220 con la notifica sanitaria (colazione con prodotti
+    preparati), 240 con anche la prevenzione incendi (righe S94–S96), pagati con pagoPA nella
+    pratica. Le fonti non indicano marche da bollo; a parte c'è il compenso del tecnico che firma
+    la planimetria.
+  status: verified
+  source: tabella-2026
+duration:
+  text: >-
+    Con la SCIA si può iniziare dalla data di presentazione; entro 60 giorni il Comune, se mancano
+    i requisiti, vieta la prosecuzione o chiede di conformarsi. Per gli annunci serve però il CIN,
+    che si chiede dopo aver ricevuto il CUSR dal Comune, in tempi che le fonti non indicano.
+  status: verified
+  source: l241-art19
+appointment:
+  text: >-
+    Non serve: la SCIA si presenta solo online su impresainungiorno. Lo sportello SUAP di Piazza
+    Cavour 42 (II piano) riceve dal 18 maggio 2026 solo su prenotazione online, con il pulsante
+    "Prenota appuntamento" della pagina "Avviare, variare, chiudere un'attività produttiva".
+  status: verified
+  source: suap-contatti
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     auth: [spid, cie, cns]
@@ -178,16 +217,19 @@ channels:
       Unico canale telematico per la SCIA del B&B (lo conferma anche il documento operativo del
       SUAP). Servono firma digitale e PEC. Il percorso esatto nel portale non è stato verificato.
   - type: pec
+    purpose: info
     address: suap@pec.comune.napoli.it
     receipt: legal
     source: suap-contatti
     notes: Solo per comunicare con l'ufficio; le pratiche inviate via PEC o email ordinaria non vengono istruite.
   - type: email
+    purpose: info
     address: suaponline@comune.napoli.it
     receipt: informal
     source: suap-contatti
     notes: Solo per informazioni.
   - type: desk
+    purpose: info
     name: Servizio SUAP
     address: Piazza Cavour 42, II piano, Napoli
     booking: >-
@@ -195,22 +237,26 @@ channels:
       pagina "Avviare, variare, chiudere un'attività produttiva").
     source: suap-contatti
   - type: phone
+    purpose: info
     address: 081 7953051
     source: suap-contatti
     notes: Referente SUAP indicato per strutture ricettive extralberghiere e Bed & breakfast.
   - type: portal
+    purpose: related
     name: BDSR – Banca dati strutture ricettive del Ministero del Turismo (CIN)
     url: https://bdsr.ministeroturismo.gov.it/
     auth: [spid, cie]
     source: guida-regione-2025
     notes: Si usa dopo aver ricevuto il CUSR dal Comune ("Ottieni CIN").
   - type: portal
+    purpose: related
     name: Sinfonia Turismo SMART – Regione Campania (movimento ospiti e prezzi)
     url: https://turismo.regione.campania.it/turismoweb/fe-portale-turismo/login
     auth: [spid, cie, cns]
     source: guida-regione-2025
     notes: Assistenza supporto.strutturericettive@regione.campania.it.
   - type: portal
+    purpose: related
     name: Alloggiati Web – Polizia di Stato
     url: https://alloggiatiweb.poliziadistato.it/
     receipt: informal
@@ -220,6 +266,7 @@ channels:
       struttura (modulo della Questura di Napoli). Le ricevute vanno scaricate (restano
       disponibili 30 giorni) e conservate 5 anni.
   - type: desk
+    purpose: related
     name: Questura di Napoli
     address: Via Medina 75, 80133 Napoli
     source: questura-napoli

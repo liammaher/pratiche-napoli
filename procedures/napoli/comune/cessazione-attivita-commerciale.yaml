@@ -1,7 +1,14 @@
 schema_version: 0
 id: napoli/comune/cessazione-attivita-commerciale
 title: Chiudere un negozio, un bar, un ristorante o un salone a Napoli – lista dei passaggi
-updated: 2026-10-25
+headline: "Come chiudere un'attività commerciale a Napoli: SUAP, Camera di Commercio e TARI"
+aka:
+  - cessazione attività
+  - chiusura partita IVA
+  - cancellazione ditta individuale
+  - chiudere la licenza
+  - comunicazione di cessazione
+updated: 2026-10-26
 summary: >-
   Chi chiude a Napoli un esercizio di vicinato, un bar o ristorante o un salone di acconciatore
   o estetista deve comunicare la cessazione al SUAP del Comune su impresainungiorno e poi chiudere
@@ -88,6 +95,15 @@ legal_basis:
     status: verified
     source: regolamento-cup
 deadline:
+  summary:
+    text: >-
+      La comunicazione al SUAP non ha un termine; entro 30 giorni dalla cessazione si cancella la
+      ditta dal Registro Imprese (la Comunicazione Unica chiude anche partita IVA e INAIL) ed entro
+      90 giorni si presenta il Mod. 8 TARI. La rinuncia all'insegna va entro il 31 gennaio dell'anno
+      dopo, la cancellazione entro il 30 gennaio evita il diritto annuale dell'anno dopo e la vendita
+      di liquidazione si comunica almeno 15 giorni prima.
+    status: verified
+    source: sari-cancellazione
   rules:
     - text: >-
         Comunicazione di cessazione al SUAP: né il D.Lgs. 114/1998 né il modulo regionale fissano un
@@ -154,8 +170,34 @@ deadline:
       stimarle, chiedere all'ufficio.
     status: verified
     source: na-sanzioni
+cost:
+  text: >-
+    La comunicazione di cessazione al SUAP risulta gratuita nella tabella dei diritti linkata dal
+    Comune (0 euro), ma la tabella 2026 non la elenca e impresainungiorno chiede comunque la
+    ricevuta di un versamento: chiedere al SUAP prima di inviare. La cancellazione della ditta
+    individuale dal Registro Imprese costa 17,50 euro di imposta di bollo, senza diritti di
+    segreteria; la cessazione della registrazione sanitaria non ha diritti ASL né bollo. Restano
+    da pagare TARI, canoni e diritto annuale dovuti fino alla chiusura.
+  status: disputed
+  source: tabella-2021
+duration:
+  text: >-
+    La cessazione vale dalla data scelta nel modulo: il giorno stesso dell'invio della
+    comunicazione al SUAP oppure una data indicata, che deve coincidere con quella comunicata al
+    Registro Imprese e all'Agenzia delle Entrate.
+  status: verified
+  source: modulo-cessazione
+appointment:
+  text: >-
+    Non serve: la comunicazione al SUAP si presenta solo online su impresainungiorno e la
+    cancellazione dal Registro Imprese con la Comunicazione Unica su DIRE. Per informazioni il SUAP
+    (Piazza Cavour 42) riceve solo su prenotazione online, con il pulsante "Prenota appuntamento"
+    della pagina "Avviare, variare, chiudere un'attività produttiva".
+  status: verified
+  source: suap-contatti
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     auth: [spid, cie, cns]
@@ -170,6 +212,7 @@ channels:
       Ristorazione e Somministrazione > zona tutelata o non tutelata > Cessare l'attività. Servono
       firma digitale e PEC.
   - type: portal
+    purpose: procedure
     name: DIRE – Depositi e Istanze al Registro imprese (Comunicazione Unica)
     url: https://dire.registroimprese.it
     receipt: legal
@@ -179,6 +222,7 @@ channels:
       Registro Imprese"). Dalla stessa pratica si può aprire impresainungiorno con il pulsante SUAP e
       importare la comunicazione di cessazione per il SUAP, inviando tutto insieme.
   - type: desk
+    purpose: info
     name: Servizio SUAP
     address: Piazza Cavour 42, II piano, Napoli
     booking: >-
@@ -187,15 +231,18 @@ channels:
     source: suap-contatti
     notes: Informazioni e assistenza; la comunicazione si presenta comunque online.
   - type: pec
+    purpose: info
     address: suap@pec.comune.napoli.it
     receipt: legal
     source: suap-contatti
     notes: Solo per comunicare con l'ufficio, non per presentare la pratica.
   - type: phone
+    purpose: info
     name: SUAP
     address: 081 7953054
     source: suap-servizio
   - type: pec
+    purpose: related
     name: Agenzia delle Entrate – qualunque Direzione Provinciale (solo modello AA9/12)
     receipt: legal
     source: ade-chiudere

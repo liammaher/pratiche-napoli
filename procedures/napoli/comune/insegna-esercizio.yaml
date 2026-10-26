@@ -1,7 +1,9 @@
 schema_version: 0
 id: napoli/comune/insegna-esercizio
 title: Insegna di esercizio – SCIA e canone unico per esposizione pubblicitaria (Comune di Napoli)
-updated: 2026-10-25
+headline: "Mettere l'insegna al negozio a Napoli: SCIA e quando si paga il canone"
+aka: [permesso insegna, autorizzazione insegna, tassa insegna, imposta sulla pubblicità, vetrofanie]
+updated: 2026-10-26
 summary: >-
   Un negozio, un locale o un'altra attività che a Napoli installa o modifica la propria insegna
   deve prima presentare una SCIA al SUAP del Comune tramite impresainungiorno. Le insegne della
@@ -73,6 +75,15 @@ legal_basis:
     status: verified
     source: suap-procedura
 deadline:
+  summary:
+    text: >-
+      Prima di installare o modificare l'insegna: si installa appena arriva la ricevuta della SCIA
+      (con il pagamento del canone allegato, se dovuto), ma in area con tutela paesaggistica solo
+      dopo l'autorizzazione paesaggistica. Negli anni dopo il primo il canone si paga entro il 30
+      aprile o in tre rate fino al 30 ottobre; per il 2026 le scadenze sono 31 agosto, 30 ottobre e
+      30 dicembre.
+    status: verified
+    source: regolamento-cup
   rules:
     - text: >-
         La SCIA va presentata prima di installare o modificare l'insegna: l'installazione senza la
@@ -119,8 +130,32 @@ deadline:
       calcolare gli importi dall'Ufficio CUP Pubblicità.
     status: verified
     source: cup-esposizioni
+cost:
+  text: >-
+    Diritti d'istruttoria SUAP (tabella 2026), con pagoPA: 100 euro per una nuova insegna, 80 euro
+    per modificarla o subentrare. Se le insegne della sede superano in tutto 5 mq si paga anche il
+    canone unico, che va versato prima della SCIA e poi ogni anno; fino a 5 mq sono esenti. Il
+    compenso del tecnico e dell'installatore non è compreso.
+  status: verified
+  source: tabella-diritti-2026
+duration:
+  text: >-
+    L'insegna si può installare appena arriva la ricevuta di avvio pratica del SUAP, che ha poi 60
+    giorni per l'istruttoria. Su un edificio tutelato come bene culturale serve prima
+    l'autorizzazione della Soprintendenza; in area con vincolo paesaggistico la SCIA vale solo
+    dopo l'autorizzazione paesaggistica.
+  status: verified
+  source: suap-servizio
+appointment:
+  text: >-
+    Non serve: la SCIA si presenta solo online su impresainungiorno. Per informazioni il SUAP
+    (Piazza Cavour 42) riceve solo su prenotazione dal portale del cittadino; per il canone
+    l'Ufficio CUP Pubblicità (Via Diocleziano 330) è aperto dal lunedì al venerdì, 8:30–12:30.
+  status: verified
+  source: suap-contatti
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP del Comune di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     auth: [spid, cie, cns]
@@ -131,6 +166,7 @@ channels:
       È l'unico canale per presentare la SCIA: le pratiche inviate per PEC o email ordinaria non
       vengono istruite. Servono anche PEC e firma digitale (pagina del servizio SUAP).
   - type: desk
+    purpose: info
     name: Servizio SUAP
     address: Piazza Cavour 42, II piano, 80137 Napoli
     booking: Solo su prenotazione dal portale del cittadino (portalecittadino.comune.napoli.it)
@@ -138,26 +174,31 @@ channels:
     source: suap-contatti
     notes: Per informazioni sulla pratica; la SCIA si presenta comunque online.
   - type: email
+    purpose: info
     address: suaponline@comune.napoli.it
     receipt: informal
     source: suap-contatti
     notes: Solo informazioni; non per inviare la SCIA.
   - type: pec
+    purpose: related
     address: canonepubblicita@pec.comune.napoli.it
     receipt: legal
     source: cup-esposizioni
     notes: Ufficio CUP Pubblicità, per il canone (informazioni, avviso PagoPA, istanze di dilazione).
   - type: email
+    purpose: related
     address: entrate.pubblicita@comune.napoli.it
     receipt: informal
     source: cup-esposizioni
     notes: Ufficio CUP Pubblicità, per il canone.
   - type: desk
+    purpose: related
     name: Ufficio CUP Pubblicità
     address: Via Diocleziano 330, primo piano, Napoli
     hours: lunedì–venerdì 8:30–12:30
     source: cup-esposizioni
   - type: phone
+    purpose: related
     name: Ufficio CUP Pubblicità
     address: 081 7953748 / 081 7953784 / 081 7953768 / 081 7953764 / 081 7953863
     hours: lunedì–venerdì 8:30–12:30

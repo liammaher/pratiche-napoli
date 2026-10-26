@@ -1,7 +1,14 @@
 schema_version: 0
 id: napoli/comune/tari-cessazione-non-domestica
 title: TARI – cessazione per uso non abitativo (Comune di Napoli)
-updated: 2026-10-25
+headline: "Chiudere la TARI a Napoli quando l'attività cessa o lascia i locali"
+aka:
+  - disdetta tassa spazzatura
+  - disdetta TARI
+  - cancellazione TARI
+  - chiusura tassa rifiuti
+  - Mod. 8 TARI
+updated: 2026-10-26
 summary: >-
   Un'impresa, un professionista o un'associazione che smette di occupare o detenere locali o aree
   a uso non abitativo a Napoli (chiusura dell'attività, trasferimento in un altro comune, chiusura
@@ -42,6 +49,12 @@ legal_basis:
     status: verified
     source: regolamento-2023
 deadline:
+  summary:
+    text: >-
+      Entro 90 giorni dalla fine dell'occupazione dei locali: se si dichiara entro questo termine,
+      la TARI è dovuta solo fino al giorno della cessazione.
+    status: verified
+    source: regolamento-2023
   rules:
     - text: >-
         Entro 90 giorni dalla data in cui è cessata l'occupazione o la detenzione (art. 25, cc. 5
@@ -66,8 +79,29 @@ deadline:
       omesso o tardivo versamento (art. 35, cc. 1 e 2). Farsi indicare gli importi dall'ufficio.
     status: verified
     source: regolamento-2023
+cost:
+  text: >-
+    Nessun costo indicato: come dichiarazione tributaria è esente dall'imposta di bollo (D.P.R.
+    642/1972, tabella B, art. 5, testo in vigore fino al 31/12/2026) e né il modulo né la pagina
+    della modulistica chiedono diritti. La TARI si paga a parte, con F24.
+  status: verified
+  source: dpr642-tabella-b
+duration:
+  text: >-
+    La TARI è dovuta fino al giorno in cui è cessata l'occupazione, se la cessazione è dichiarata
+    entro 90 giorni; se è dichiarata dopo e senza prove della data, si presume avvenuta alla data
+    di presentazione (art. 12). Il regolamento non fissa un termine di risposta dell'ufficio.
+  status: verified
+  source: regolamento-2023
+appointment:
+  text: >-
+    Non serve: la dichiarazione si presenta online sui Servizi Tributari (POTESs, con SPID, CIE o
+    CNS), via PEC, email o raccomandata A/R, senza andare allo sportello.
+  status: verified
+  source: modulistica
 channels:
   - type: pec
+    purpose: procedure
     address: entrate.tari-tares-tarsu@pec.comune.napoli.it
     receipt: legal
     preferred: true
@@ -76,28 +110,34 @@ channels:
       Dà una ricevuta con valore legale, utile a dimostrare di aver dichiarato entro i 90 giorni;
       un'impresa ha comunque l'obbligo di avere una PEC.
   - type: portal
+    purpose: procedure
     name: POTESs – Servizi Tributari
     url: https://servizionline.comune.napoli.it/web/napoli/servizi-tributari
     auth: [spid, cie, cns]
     source: modulistica
   - type: email
+    purpose: procedure
     address: entrate.tari-tares-tarsu@comune.napoli.it
     receipt: informal
     source: mod-8
   - type: post
+    purpose: procedure
     address: Comune di Napoli, Area Entrate, Servizio IMU e TARI, Via Diocleziano 330, 80125 Napoli
     source: mod-8
     notes: Raccomandata (A/R secondo la pagina della modulistica).
   - type: desk
+    purpose: procedure
     name: Sportello Unico Attività Produttive (SUAP)
     source: modulistica
     notes: Per le utenze non domestiche; la pagina non indica l'indirizzo.
   - type: desk
+    purpose: info
     name: Sportello TARI
     address: Via Diocleziano 330, 80125 Napoli
     hours: lunedì–venerdì 8:30–12:30
     source: mod-8
   - type: phone
+    purpose: info
     address: 081 795 3711
     hours: tutti i giorni 9:00–13:00 (orario indicato sul modulo)
     source: mod-8
@@ -115,9 +155,8 @@ payment:
     - { label: Saldo 2026 (nuovo avviso del Comune), due: 2027-02-16, source: tari-2026, status: verified }
   notes:
     - text: >-
-        La cessazione non costa nulla, ma la TARI resta dovuta per il periodo dell'anno in cui i
-        locali sono stati occupati (art. 12, c. 1), in autoliquidazione e alle scadenze anche se
-        l'avviso non arriva.
+        La TARI resta dovuta per il periodo dell'anno in cui i locali sono stati occupati
+        (art. 12, c. 1), in autoliquidazione e alle scadenze anche se l'avviso non arriva.
       status: verified
       source: regolamento-2023
     - text: >-
@@ -327,6 +366,20 @@ sources:
     notes: >-
       La pagina TARI 2026 indica come "Regolamento TARI vigente" un PDF con lo stesso testo per gli
       artt. 12, 26 e 35 (controllato il 2026-10-25).
+  - id: dpr642-tabella-b
+    label: >-
+      D.P.R. 26 ottobre 1972, n. 642, allegato B (atti esenti dall'imposta di bollo in modo
+      assoluto), art. 5 – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1972-10-26;642
+    retrieved: 2026-10-26
+    official: true
+    notes: >-
+      Letto il testo in vigore dal 10-12-2000 al 31-12-2026: esenti le dichiarazioni e denunzie
+      presentate ai competenti uffici ai fini dell'applicazione delle leggi tributarie, esclusi
+      ricorsi, opposizioni e altri atti difensivi del contribuente. Dal 1° gennaio 2027 l'articolo
+      è abrogato dal D.Lgs. 1 agosto 2025, n. 123 (testo unico dell'imposta di registro e degli
+      altri tributi indiretti), come modificato dal D.L. 200/2025: la norma corrispondente non è
+      stata controllata.
 verification:
   level: L1
   date: 2026-10-25

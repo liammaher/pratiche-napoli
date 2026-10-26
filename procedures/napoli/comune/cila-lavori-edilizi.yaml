@@ -1,7 +1,13 @@
 schema_version: 0
 id: napoli/comune/cila-lavori-edilizi
 title: CILA – comunicazione di inizio lavori asseverata per lavori interni non strutturali (SUE del Comune di Napoli)
-updated: 2026-10-25
+headline: "CILA a Napoli per lavori interni in casa, negozio o ufficio: come si presenta"
+aka:
+  - ristrutturazione interna
+  - pratica edilizia
+  - permesso per lavori in casa
+  - spostare tramezzi
+updated: 2026-10-26
 summary: >-
   Chi vuole fare a Napoli lavori interni che non toccano le strutture (per esempio spostare
   tramezzi, rifare bagni e impianti in un negozio, un ufficio o una casa) deve presentare prima
@@ -81,6 +87,13 @@ legal_basis:
     status: verified
     source: dlgs42-art21
 deadline:
+  summary:
+    text: >-
+      Prima di iniziare i lavori; se con la CILA si chiedono atti di assenso di altri enti, si
+      inizia solo quando lo Sportello comunica di averli acquisiti. A fine lavori, se serve,
+      l'aggiornamento catastale entro 30 giorni.
+    status: verified
+    source: dpr380-art6bis
   rules:
     - text: >-
         La CILA si presenta prima di iniziare i lavori ("previa comunicazione"); nel modulo si
@@ -109,8 +122,31 @@ deadline:
       al SUE.
     status: verified
     source: dpr380-art6bis
+cost:
+  text: >-
+    Diritti di segreteria di 151,00 euro (riga SUE 13 della tabella), da versare prima di
+    presentare la pratica. Di norma la CILA non paga il contributo di costruzione, salvo che i
+    lavori aumentino il carico urbanistico; le fonti non indicano marche da bollo. A parte c'è il
+    compenso del tecnico.
+  status: verified
+  source: tabella-diritti
+duration:
+  text: >-
+    La CILA non attende un'approvazione: i lavori iniziano alla data indicata nel modulo, dopo la
+    presentazione. Se con la CILA si chiedono atti di assenso di altri enti (per esempio della
+    Soprintendenza), si inizia solo quando lo Sportello Unico comunica di averli acquisiti.
+  status: verified
+  source: cila-modulo
+appointment:
+  text: >-
+    Non serve: la CILA la presenta il tecnico, solo online su Impresa in un giorno. Per
+    informazioni il Servizio Sportello Unico Edilizia riceve il pubblico il mercoledì
+    10:00–13:00 (rubrica del 15/06/2026), senza indicare un appuntamento.
+  status: verified
+  source: sue-contatti
 channels:
   - type: portal
+    purpose: procedure
     name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
     url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
     auth: [spid, cie, cns]
@@ -124,6 +160,7 @@ channels:
       quello a cui porta il pulsante "Accedi al Servizio" della scheda POTESs; la pagina "Edilizia
       Privata" del Comune dice ancora che il link "verrà successivamente fornito".
   - type: desk
+    purpose: info
     name: Servizio Sportello Unico Edilizia
     address: Piazza Dante 79, IV piano, 80135 Napoli
     hours: ricevimento del pubblico il mercoledì, 10:00–13:00
@@ -132,11 +169,13 @@ channels:
       Informazioni e accesso agli atti; la CILA non si consegna allo sportello. Orario dalla
       rubrica del SUE aggiornata al 15/06/2026; piano dalla scheda POTESs.
   - type: email
+    purpose: info
     address: sportello.unico.edilizia@comune.napoli.it
     receipt: informal
     source: sue-ufficio
     notes: Solo per informazioni.
   - type: pec
+    purpose: info
     address: sportello.unico.edilizia@pec.comune.napoli.it
     receipt: legal
     source: sue-ufficio
@@ -144,6 +183,7 @@ channels:
       Per comunicare con l'ufficio, non per presentare la CILA: dal 6 luglio 2026 le pratiche via
       PEC sono irricevibili (DD 501/2026).
   - type: phone
+    purpose: info
     address: 081 7953384
     source: sue-ufficio
     notes: Segreteria del Servizio (anche 081 7958216). Rubrica interna completa nel PDF dei contatti.

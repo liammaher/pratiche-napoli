@@ -1,7 +1,9 @@
 schema_version: 0
 id: napoli/comune/concessione-suolo-pubblico-dehors
 title: Dehors – concessione di suolo pubblico per bar e ristoranti e canone unico (Comune di Napoli)
-updated: 2026-10-25
+headline: "Tavolini all'aperto per bar e ristoranti a Napoli: come chiedere il dehors"
+aka: [permesso dehors, occupazione suolo pubblico, permesso tavolini e sedie, COSAP, OSAP]
+updated: 2026-10-26
 summary: >-
   Un pubblico esercizio (bar, ristorante, pizzeria…) che vuole mettere tavoli, sedie, ombrelloni o
   una struttura coperta su suolo pubblico a Napoli deve prima ottenere la concessione dal SUAP,
@@ -85,6 +87,15 @@ legal_basis:
       Soprintendenza.
     status: unverified
 deadline:
+  summary:
+    text: >-
+      Prima di occupare il suolo serve la concessione: la continuativa arriva in 90 giorni
+      (integrazioni entro 30), la semplificata entro 10 giorni; per i dehors C e D e nel Centro
+      Storico con Soprintendenza le copie cartacee vanno consegnate entro 7 giorni dall'invio. Il
+      rinnovo della semplificata va chiesto almeno 10 giorni prima della scadenza; per la
+      continuativa le fonti indicano 1° settembre–30 novembre oppure 7 giorni prima: chiedere al SUAP.
+    status: disputed
+    source: regolamento-dehors
   rules:
     - text: >-
         La concessione va ottenuta prima di occupare il suolo: l'occupazione senza concessione è
@@ -140,8 +151,33 @@ deadline:
       Gestione Canoni: non stimarli.
     status: verified
     source: cup-occupazione
+cost:
+  text: >-
+    Diritti d'istruttoria SUAP (tabella 2026): 250 euro per la domanda di concessione, 80 euro per
+    il rinnovo, con pagoPA prima dell'invio. Sono dovute anche l'imposta di bollo sull'istanza e
+    sulla concessione (le fonti non indicano l'importo) e il compenso del tecnico che firma il
+    progetto. Prima del rilascio si paga anche il canone unico dell'anno (o la prima rata), che poi
+    si paga ogni anno: lo calcola il SUAP con la formula del regolamento.
+  status: verified
+  source: diritti-suap-2026
+duration:
+  text: >-
+    Concessione continuativa (3 o 5 anni): il procedimento si chiude in 90 giorni, sospesi durante
+    le richieste di integrazione. Concessione semplificata (fino a 120 giorni): il SUAP la rilascia
+    o la nega entro 10 giorni dalla richiesta. In ogni caso i tavolini si mettono solo dopo il
+    rilascio della concessione.
+  status: verified
+  source: regolamento-dehors
+appointment:
+  text: >-
+    La domanda si presenta solo online su impresainungiorno. Per parlare con l'Unità Occupazione
+    Suolo Pubblico del SUAP (Piazza Cavour 42) serve un appuntamento, il lunedì e il giovedì dalle
+    9 alle 12, da prenotare online sul portale del cittadino del Comune.
+  status: verified
+  source: suap-contatti
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP del Comune di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     preferred: true
@@ -151,6 +187,7 @@ channels:
       istruite. L'istanza è in bollo e i patti e condizioni della concessione si restituiscono
       firmati digitalmente; il tipo di accesso al portale non è stato verificato.
   - type: desk
+    purpose: info
     name: SUAP – Unità Operativa Occupazione Suolo Pubblico
     address: Piazza Cavour 42, II piano, 80137 Napoli
     hours: >-
@@ -160,10 +197,12 @@ channels:
       un'attività produttiva")
     source: suap-contatti
   - type: phone
+    purpose: info
     address: 081 7953376 / 081 7953377
     source: suap-contatti
     notes: Numeri dell'Unità Operativa Occupazione Suolo Pubblico del SUAP.
   - type: pec
+    purpose: related
     address: entrate.cosap@pec.comune.napoli.it
     receipt: legal
     source: cup-occupazione
@@ -171,11 +210,13 @@ channels:
       Servizio Gestione Canoni: rinuncia alla concessione (insieme al SUAP), richieste di dilazione,
       chiarimenti sul canone. Non è un canale per la domanda di concessione.
   - type: desk
+    purpose: related
     name: Ufficio CUP Occupazione di Suolo (Servizio Gestione Canoni e Altri Tributi)
     address: Via Diocleziano 330, primo piano, Napoli
     hours: lunedì–venerdì 8:30–12:30
     source: cup-occupazione
   - type: email
+    purpose: info
     address: entrate.cosap@comune.napoli.it
     receipt: informal
     source: cup-occupazione
