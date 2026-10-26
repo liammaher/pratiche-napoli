@@ -216,12 +216,11 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
       else if (leftover(doc.of - doc.asked)) errors.push(`reported document "${doc.name}": those not asked must be none or at least 3`);
       if (leftover(rep.count - doc.of)) errors.push(`reported document "${doc.name}": those who didn't say must be none or at least 3`);
     }
-    // Each figure's answers, and each text's count, against the total they come from.
+    // Each figure's answers against the total they come from.
     const parts: [string, number | undefined, number][] = [
       ["desk_wait_minutes", rep.desk_wait_minutes?.n, rep.count],
       ["paid_eur", rep.paid_eur?.n, rep.count],
       ...(rep.channels ?? []).map((c, i): [string, number | undefined, number] => [`channels/${i}/days_to_answer`, c.days_to_answer?.n, c.count]),
-      ...(rep.extra_documents ?? []).map((d): [string, number, number] => [`extra document "${d.text}"`, d.count, rep.count]),
     ];
     for (const [what, n, total] of parts) {
       if (n !== undefined && leftover(total - n)) errors.push(`reported ${what}: those who didn't answer must be none or at least 3`);
@@ -238,6 +237,10 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
     }
     if (rep.channels && leftover(rep.count - sum(rep.channels.map((c) => c.count)))) {
       errors.push("reported channels leave 1 or 2 reports over beside the count");
+    }
+    // One extra document per report, so the texts divide the reports too.
+    if (rep.extra_documents && leftover(rep.count - sum(rep.extra_documents.map((d) => d.count)))) {
+      errors.push("reported extra_documents leave 1 or 2 reports over beside the count");
     }
     if (rep.basis.length !== rep.count) errors.push(`reported basis has ${rep.basis.length} reports, but count is ${rep.count}`);
   }

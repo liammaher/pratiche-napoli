@@ -126,8 +126,15 @@ async function setStatus(db: Firestore, id: string, status: string, now: Date, e
   await db.runTransaction(async (t) => {
     const doc = await t.get(ref);
     if (!doc.exists) throw new Error(`no report ${id}`);
-    // A report stored before marks were gets one, so export can use it.
-    t.update(ref, { status, reviewed_at: now, ...(typeof doc.get("mark") !== "string" && { mark: newMark() }), ...extra });
+    // A report stored before marks were gets one, so export can use it. So
+    // does one accepted again with other words: to the published figures it
+    // is a new report, since under its old mark comparing versions would show
+    // its one change. The reports published with it leave the figures with
+    // the old mark (see tools/lib/reported.ts).
+    const reworded =
+      doc.get("status") === "accepted" &&
+      Object.entries(extra).some(([field, v]) => (v instanceof FieldValue ? doc.get(field) !== undefined : doc.get(field) !== v));
+    t.update(ref, { status, reviewed_at: now, ...((typeof doc.get("mark") !== "string" || reworded) && { mark: newMark() }), ...extra });
   });
 }
 

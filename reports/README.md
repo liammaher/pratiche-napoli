@@ -68,11 +68,11 @@ note, no correction text, no office, no contact, and the report's `mark` instead
 For a request to see or delete someone's data, find the report by the code they got
 when they sent it (`show <id>`) or by the email they left (`find <email>`), then
 `delete <id>` (it also works once the report has expired and only the contact is left).
-The published figures don't change at once: they are anonymous, and a block only changes
-when, across every version published, the reports exactly the same versions cover are always
-at least 3 (see `tools/lib/reported.ts`). The deleted report's mark stays in the history, but
-nothing links it to the report any more. The report leaves them at the next change, or within 90 days,
-when a block that can't change is removed.
+The deleted report leaves the published figures at the next `reports:aggregate`, and the
+reports first published with it leave with it, so that comparing versions doesn't tell it apart
+(see `tools/lib/reported.ts`). Its mark stays in the history, but nothing links it to the report
+any more. Accepting a report again with other words gives it a new mark, for the same reason: to
+the figures it is a new report, and the ones published with it leave with the old mark.
 
 Accepting is where one person sending three reports to reach the threshold of 3 is
 caught: reports with the same procedure, month and answers that arrived close

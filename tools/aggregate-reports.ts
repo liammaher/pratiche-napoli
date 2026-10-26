@@ -1,9 +1,10 @@
 // Updates every procedure's `reported` block from the accepted reports that
 // `npm run reports -- export` saved (see lib/reported.ts). A procedure whose
 // figures changed gets today's `updated`; one whose reports aged out of the
-// window loses its block. A block stays as it is while, across every version
-// ever published, some reports would stand apart in a group of fewer than 3
-// (see nextReported). Nothing else in the files changes.
+// window loses its block. Reports published together leave together, new ones
+// come in 3 at a time, and a figure is shown only if it holds in each such
+// group, so that comparing versions gives no one away (see nextReported).
+// Nothing else in the files changes.
 // Usage: npm run reports:aggregate [-- <reports-cache.json>]
 
 import { execFileSync } from "node:child_process";
@@ -46,14 +47,13 @@ let changed = 0;
 for (const { rel, doc } of results) {
   const p = doc as { id: string; documents?: { name: string }[]; reported?: Reported };
   const mine = reports.filter((r) => r.procedure === p.id);
-  const { block, held } = nextReported(
-    lineage(p.id, everPublished, [...mine.map((r) => r.mark), ...(p.reported?.basis ?? [])]),
-    p.reported,
+  const { block, note } = nextReported(
+    [...lineage(p.id, everPublished, [...mine.map((r) => r.mark), ...(p.reported?.basis ?? [])]), ...(p.reported ? [p.reported] : [])],
     mine,
     (p.documents ?? []).map((d) => d.name),
     today,
   );
-  if (held) console.log(`= ${rel}: ${held}`);
+  if (note) console.log(`= ${rel}: ${note}`);
   if (sameReported(p.reported, block)) continue;
   const file = path.join(library, rel);
   writeFileSync(file, withReported(readFileSync(file, "utf8"), block, today));
