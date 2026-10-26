@@ -417,10 +417,9 @@ forms:
         notes: >-
           Solo i responsabili tecnici dell'attività di acconciatore (riga 1.1), uno per ogni sede;
           serve l'Allegato B per ciascuno. Chi lo è dell'estetica va nell'Allegato C, qui sotto: se
-          l'archivio non dice di quale attività, chiedere. Per il rapporto con l'impresa una sola voce:
-          Titolare, Socio partecipante al lavoro o Dipendente secondo il suo ruolo.tipo (titolare,
-          socio, dipendente), mai l'elenco intero; il familiare coadiuvante non è un ruolo
-          dell'archivio, quindi chiederlo.
+          l'archivio non dice di quale attività, chiedere. Per il rapporto con l'impresa una sola voce,
+          mai l'elenco intero di ruolo.tipo: Socio partecipante al lavoro se c'è socio, Dipendente se
+          c'è dipendente; altrimenti (familiare coadiuvante, collaboratore, nessuno dei due) chiederlo.
       - label: "Estetista – di essere Responsabile tecnico e: qualificazione professionale di estetista (rilasciata da, in data, atto n.)"
         map: { ask: "Il dichiarante è responsabile tecnico con qualificazione di estetista? Ente che l'ha rilasciata, data e numero dell'atto" }
       - label: "oppure: abilitazione conseguita all'entrata in vigore della L. 1/1990 come titolare, socio, direttore (2 anni) o dipendente (3 anni nel quinquennio) – impresa, n. REA, periodo"
@@ -435,9 +434,9 @@ forms:
         notes: >-
           Solo i responsabili tecnici dell'attività di estetista (riga 1.1), uno per ogni sede; serve
           l'Allegato C per ciascuno. Chi lo è dell'acconciatura va nell'Allegato B, qui sopra: se
-          l'archivio non dice di quale attività, chiedere. Per il ruolo una sola voce secondo il suo
-          ruolo.tipo (titolare, socio, dipendente), mai l'elenco intero; il familiare coadiuvante non è
-          un ruolo dell'archivio, quindi chiederlo.
+          l'archivio non dice di quale attività, chiedere. Per il ruolo una sola voce, mai l'elenco
+          intero di ruolo.tipo: socio se c'è socio, dipendente se c'è dipendente; altrimenti
+          (familiare coadiuvante, collaboratore, nessuno dei due) chiederlo.
       # 2 – Trasferimento di sede
       - label: "2 – Trasferimento di sede (SCIA/DIA/autorizzazione prot./n., del; DA indirizzo; A indirizzo, Comune, Prov.; centro commerciale; telefono, fax)"
         map: { blank_with_reason: Non si compila per una nuova apertura. }

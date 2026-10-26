@@ -182,7 +182,8 @@ forms:
         notes: >-
           Una sola riga per l'indirizzo: aggiungere civico, interno e piano (domicilio.civico,
           domicilio.interno o residenza.*, abitazione.piano) dello stesso indirizzo scelto per la
-          via, il domicilio se esiste, altrimenti la residenza. Non mescolare i due.
+          via, il domicilio se esiste, altrimenti la residenza. Non mescolare i due: se lì manca il
+          civico, chiederlo; se manca l'interno, non c'è.
       - { label: Sez., map: { direct: abitazione.catasto_sezione } }
       - { label: Foglio, map: { direct: abitazione.catasto_foglio } }
       - { label: Part., map: { direct: abitazione.catasto_particella } }
