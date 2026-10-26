@@ -46,6 +46,13 @@ Set `SITE_URL` to the public address (default `https://liammaher.github.io/prati
 it is used for canonical links, the sitemap and the JSON index. Links between pages are
 relative. The build refuses a library that doesn't validate.
 
+Each procedure page can end with a "Racconta com'è andata" form, whose reports go to the
+private backend in [`reports/`](reports/README.md). It appears only when the build gets both
+`REPORTS_URL` (the deployed `submitReport` function) and `CONTACT_EMAIL` (the address the
+`/privacy/` page gives for data requests); with one and not the other the build stops. The
+form works without JavaScript too: the backend answers a plain post with a redirect to
+`/grazie/`.
+
 ## Layout
 
 ```
