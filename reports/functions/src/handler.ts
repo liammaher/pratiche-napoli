@@ -3,7 +3,7 @@
 // email kept apart. Of the sender only a salted hash of the IP is kept, for an
 // hour, to limit how many reports one address can send.
 
-import { createHash } from "node:crypto";
+import { createHash, randomBytes } from "node:crypto";
 import { isIPv6 } from "node:net";
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
@@ -157,6 +157,9 @@ export function createHandler(config: Config): Handler {
         expires_at: Timestamp.fromDate(leavesWindow(report.done)),
         schema_version: 0,
         pii_redacted: redacted,
+        // What stands for the report in the published figures: random, so the
+        // id the sender gets as a receipt can't find it there.
+        mark: randomBytes(6).toString("hex"),
       });
       if (contact_email) {
         const expires = new Date(at);

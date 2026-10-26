@@ -5,13 +5,12 @@
 // refusals), unless nothing is: so no one person's result can be singled out
 // or worked out. A count whose total isn't published isn't either. Figures
 // are rounded medians, never a smallest or largest value, which would be one
-// person's. A block only changes when, against every version published
-// before it (all public, in the history), at least MIN reports came in or
-// dropped out, so comparing versions doesn't single anyone out either.
+// person's. A block only changes when, across every version published before
+// it (all public, in the history), the reports still fall in groups of MIN or
+// more, so comparing versions doesn't single anyone out either.
 // Tips, rejection reasons and extra documents are a maintainer's words,
 // written at review time, never a report's.
 
-import { createHash } from "node:crypto";
 import { stringify } from "yaml";
 import { canonical } from "./updated.ts";
 
@@ -23,7 +22,9 @@ const OUTCOMES = ["completata", "chiesto_altro", "respinta", "in_attesa", "rinun
 // An accepted report as `npm run reports -- export` writes it: the fields the
 // figures need, without the person's own free text or contact.
 export interface ReviewedReport {
-  id: string;
+  // A random token the backend gave the report, unrelated to its id (the
+  // person's receipt): what stands for it in the public `basis`.
+  mark: string;
   procedure: string;
   done: string; // YYYY-MM
   channel: string;
@@ -54,8 +55,8 @@ export interface Reported {
   extra_documents?: { text: string; count: number }[];
   rejection_reasons?: { text: string; count: number }[];
   tips?: string[];
-  // fingerprint() of each report behind the block, so the next update knows
-  // how many came in or dropped out
+  // the mark of each report behind the block, so the next update can tell
+  // which reports each version covered
   basis: string[];
 }
 
@@ -110,15 +111,18 @@ export function aggregate(reports: ReviewedReport[], documents: string[], today:
   const tips = [...new Set([...recent].sort((a, b) => b.done.localeCompare(a.done)).flatMap((r) => (r.tip ? [r.tip.trim()] : [])))];
   if (tips.length) out.tips = tips;
 
-  out.basis = recent.map((r) => fingerprint(r.id)).sort();
+  out.basis = recent.map((r) => r.mark).sort();
   return out;
 }
 
 // What the procedure's block becomes. `history` is every version published
-// before (oldest first, the current one last), all public in the history:
-// the new block replaces the current one only if, against each of them, none
-// or at least MIN reports came in and none or at least MIN dropped out, since
-// the difference between any two versions describes the reports in it.
+// before (oldest first, the current one last), all public in the history.
+// Adding and subtracting versions' figures can describe any group of reports
+// that exactly the same versions cover, so the new block replaces the current
+// one only if, across all of them and it, every such group has at least MIN
+// reports. Comparing two versions at a
+// time isn't enough: 7, then 13, then 7 reports again can each move by 6, yet
+// the first plus the last minus the middle is the one report in all three.
 // Otherwise the current block stays, for at most MAX_HOLD_DAYS: after that it
 // is removed (publishing nothing gives nothing away), so a report deleted on
 // request or gone from the window doesn't stay in the figures for long.
@@ -132,25 +136,17 @@ export function nextReported(
   const block = aggregate(reports, documents, today);
   const current = history.at(-1);
   if (!block) return { block: undefined };
-  const now = new Set(block.basis);
-  const clash = history.find((h) => {
-    const before = new Set(h.basis ?? []);
-    return !safe([...now].filter((f) => !before.has(f)).length) || !safe([...before].filter((f) => !now.has(f)).length);
-  });
-  if (!clash) return { block };
-  const why = `fewer than ${MIN} reports in or out since the version of ${clash.generated}`;
+  const versions = [...history, block].map((v) => new Set(v.basis ?? []));
+  const groups = group([...new Set(versions.flatMap((v) => [...v]))], (mark) => versions.map((v) => (v.has(mark) ? 1 : 0)).join(""));
+  const smallest = Math.min(...[...groups.values()].map((g) => g.length));
+  if (safe(smallest)) return { block };
+  const why = `${smallest} ${smallest === 1 ? "report" : "reports"} would stand apart between published versions`;
   if (current && dayNumber(today) - dayNumber(current.generated) <= MAX_HOLD_DAYS) return { block: current, held: `${why}; kept as it is` };
   return { block: undefined, held: `${why}; removed until it can change` };
 }
 
 export const MAX_HOLD_DAYS = 90;
 const dayNumber = (date: string) => Math.floor(Date.parse(`${date}T00:00:00Z`) / 86_400_000);
-
-// A report's mark in the public block: part of the hash of its private
-// database id, which can't be traced back without the database.
-export function fingerprint(id: string): string {
-  return createHash("sha256").update(id).digest("hex").slice(0, 12);
-}
 
 // A count that can be published, or left as the remainder: none, or MIN or more.
 const safe = (n: number) => n === 0 || n >= MIN;
