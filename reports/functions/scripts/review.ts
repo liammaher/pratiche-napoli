@@ -1,8 +1,9 @@
 // Reviewing reports: list the pending ones, accept (adding the maintainer's own
 // tip, rejection reason or normalised extra document) or reject them, delete one
 // on request, and export the accepted ones for `npm run reports:aggregate`.
-// The export leaves out the person's free text and contact: the published
-// figures only need the structured fields and the maintainer's words.
+// The export leaves out the person's free text and contact, and the report's
+// id (their receipt): the published figures only need the structured fields,
+// the maintainer's words and the report's random mark.
 
 import path from "node:path";
 import { FieldValue, type Firestore } from "firebase-admin/firestore";
@@ -76,8 +77,9 @@ export async function exportAccepted(db: Firestore): Promise<Data[]> {
   return snap.docs
     .map((d) => {
       const data = d.data();
-      const out: Data = { id: d.id };
-      for (const key of [...EXPORTED, "tip", "rejection_reason", "extra_document"]) {
+      if (typeof data.mark !== "string") throw new Error(`report ${d.id} has no mark`);
+      const out: Data = {};
+      for (const key of ["mark", ...EXPORTED, "tip", "rejection_reason", "extra_document"]) {
         if (data[key] !== undefined) out[key] = data[key];
       }
       return out;
