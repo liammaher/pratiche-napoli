@@ -148,6 +148,10 @@ test("accepting again changes the maintainer's fields; an empty one is removed",
   const kept = b1.mark;
   await accept(db, "b1", { extra_document: "" });
   assert.equal((await db.doc("reports/b1").get()).data()!.mark, kept);
+  // Rejected, then accepted with other words: a new mark too.
+  await reject(db, "b1");
+  await accept(db, "b1", { tip: "Mandare la PEC al mattino" });
+  assert.notEqual((await db.doc("reports/b1").get()).data()!.mark, kept);
 });
 
 test("list --accepted shows accepted reports with the maintainer's fields", async () => {

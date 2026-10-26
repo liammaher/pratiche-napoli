@@ -119,7 +119,7 @@ function figures(groups: ReviewedReport[][], documents: string[], today: string)
   const reasons = safeCounts(rejected, (r) => r.rejection_reason?.trim() || undefined).map(([text, count]) => ({ text, count }));
   if (reasons.length) out.rejection_reasons = reasons;
   // Newest first; the same tip written twice is shown once.
-  const tips = [...new Set([...all].sort((a, b) => b.done.localeCompare(a.done)).flatMap((r) => (r.tip ? [r.tip.trim()] : [])))];
+  const tips = [...new Set([...all].sort((a, b) => b.done.localeCompare(a.done)).flatMap((r) => (r.tip?.trim() ? [r.tip.trim()] : [])))];
   if (tips.length) out.tips = tips;
 
   out.basis = all.map((r) => r.mark).sort();

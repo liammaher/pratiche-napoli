@@ -225,6 +225,8 @@ test("the maintainer's words: counts only from 3, tips kept once, newest first",
   // A reason one person gave would point at them.
   assert.equal(block.rejection_reasons, undefined);
   assert.deepEqual(block.tips, ["Portare due copie", "Mandare la PEC al mattino"]);
+  // A blank tip is none: an empty one would make a block that doesn't validate.
+  assert.equal(aggregate([r({ tip: "   " }), r(), r()], DOCS, TODAY)!.tips, undefined);
 });
 
 test("sameReported ignores when a block was generated", () => {
