@@ -99,19 +99,30 @@ fact and source stays on the procedure. `npm run validate` checks them too, and 
 
 `npm run check:sources` re-fetches the official pages and forms the procedures cite, asking the
 offices' servers as little as possible, since some block an address that asks too much too fast:
-documents with a `sha256` every night and other pages on a fixed night of the week, plus any page
-without a result from the last week, so the first run (or one after the saved state is lost) checks
-everything (`--all` always does); one request at a time per site with a pause between them; and each request carries the
-ETag and Last-Modified from the last check, so an unchanged file answers 304 without its body. The
-latest result per address is saved (`--state`, by default `.cache/sources-state.json`), so each
-night's report covers the whole week. For pages that failed, the report adds what the Internet
-Archive's Wayback Machine last saw, a second opinion on whether a page is gone. It reports forms whose content no longer matches the recorded `sha256`,
-and addresses that stopped answering, with the procedures that cite them. Two kinds are listed but
-don't make a report on their own: addresses whose certificate can't be verified (servers that
-don't send their full chain), and 404s from a site whose home page is also 404, which means the
-site is refusing the checker rather than that the page is gone. The `Sources`
-workflow runs it every night, keeps the saved results in the Actions cache, and keeps one issue,
-"Fonti da ricontrollare", up to date, closing it when everything is back as recorded.
+
+- **When:** documents with a `sha256` every night, other pages on a fixed night of the week, plus
+  any page that didn't answer last time and any without a result from the last week (so the first
+  run, or one after the saved state is lost, checks everything; `--all` always does).
+- **How gently:** one request at a time per site (hosts of one domain, like `www.` and
+  `static-www.comune.napoli.it`, are one site), with a pause between them. Each request carries the
+  ETag and Last-Modified from the last check, so an unchanged file answers 304 without its body;
+  once a week, on its own night, each document is downloaded and hashed whole anyway.
+- **What it reports:** forms whose content no longer matches the recorded `sha256`; addresses that
+  stopped answering; pages that now send you to the site's home or answer with an error page; and
+  documents whose address now leads to a web page. Each comes with the procedures that cite it,
+  and for pages that failed, what the Internet Archive's Wayback Machine last saw, a second opinion
+  on whether a page is gone.
+- **Listed but not reported on their own:** addresses whose certificate can't be verified (servers
+  that don't send their full chain), and 404s from a site whose home page is also 404, which means
+  the site is refusing the checker rather than that the page is gone (unless the Wayback Machine
+  also last saw the page as 404: then it is reported as gone).
+
+The latest result per address is saved (`--state`, by default `.cache/sources-state.json`), so
+each night's report covers the whole week. A run in which most sites gave no answer at all says
+nothing (the problem is the checker's network) and changes nothing. The `Sources` workflow runs
+it every night, keeps the saved results in the Actions cache, and keeps one issue, "Fonti da
+ricontrollare", up to date: it comments when new addresses appear, and closes the issue when
+everything is back as recorded.
 
 ## Layout
 
