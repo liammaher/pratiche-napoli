@@ -158,7 +158,7 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
       ...(d.forms ?? []).flatMap((f) => (f.fields ?? []).flatMap((x) => (x.map.party ? [] : directRefs(x.map)))),
       ...(d.records ?? []).map((r) => r.field),
     ].filter((ref) => !splitMember(ref).member);
-    const isBusiness = (ref: string) => /^(business|locale)\./.test(ref);
+    const isBusiness = (ref: string) => ["business", "locale"].includes(categoryOf(ref));
     // Anything else a person keeps: identity, residenza, but also addresses or preferences.
     const isPerson = (ref: string) => registryCategory(ref, ctx.registry)?.scope === "person" && !isBusiness(ref);
     const business = refs.find(isBusiness);
@@ -292,11 +292,13 @@ function directRefs(map: Record<string, unknown>): string[] {
 // the business's premises (locale) or its registered office. An address is
 // taken whole from one of them (see addressProblem).
 const HOMES = new Set(["residenza", "domicilio"]);
+// A numbered copy is a place of its own: locale2 is a second premises.
 function placeOf(ref: string): string | undefined {
-  const local = splitMember(ref).local;
-  const category = local.split(".")[0];
-  if (HOMES.has(category) || category === "locale") return category;
-  return local.startsWith("business.sede_legale_") ? "sede legale" : undefined;
+  const [written, field] = splitMember(ref).local.split(".", 2);
+  const category = categoryOf(ref);
+  if (HOMES.has(category) || category === "locale") return written;
+  if (category !== "business" || !field.startsWith("sede_legale_")) return undefined;
+  return written === category ? "sede legale" : `sede legale of ${written}`;
 }
 
 // dichiarante: the procedure names who signs, so a person's own data is theirs.
@@ -347,7 +349,7 @@ function addressProblem(map: Record<string, unknown>, notes?: string): string | 
   if (joined.length > 1) return `concat joins ${joined.join(" and ")}: an address's parts come from one place`;
   const fallen = places(map.fallback);
   if (fallen.length < 2) return null;
-  if (!fallen.every((p) => HOMES.has(p))) return `fallback mixes ${fallen.join(" and ")}: an address is a person's home or the business's, never a field from each`;
+  if (!fallen.every((p) => HOMES.has(splitCopy(p).base))) return `fallback mixes ${fallen.join(" and ")}: an address is a person's home or the business's, never a field from each`;
   return notes?.trim() ? null : `fallback from ${fallen.join(" to ")} needs notes saying the whole address comes from the same one`;
 }
 
@@ -375,7 +377,7 @@ function checkPartyRef(ref: string, registry: Registry): string | null {
 // A person picked by ruolo can be read for a procura only if every ruolo that
 // picks them is one that gives the business a procura (GIVES_PROCURA).
 function procuraProblem(ref: string, ruolo: unknown): string | null {
-  if (splitMember(ref).local.split(".")[0] !== "procura") return null;
+  if (categoryOf(ref) !== "procura") return null;
   const others = (Array.isArray(ruolo) ? ruolo : [ruolo]).filter((r) => !GIVES_PROCURA.has(r as string));
   if (others.length === 0) return null;
   return `${ref}: procura is one a person gave the business, as a client does, so read it from ruolo ${[...GIVES_PROCURA].join(", ")}, not ${others.join(", ")}`;
@@ -393,22 +395,21 @@ function checkDichiaranteRef(ref: string, registry: Registry): string | null {
     : `${ref}: no dichiarante can have it, neither the owner of a personal vault nor a person with a ruolo in a business vault`;
 }
 
-const registryCategory = (ref: string, registry: Registry) => registry.categories.find((c) => c.name === ref.split(".")[0]);
+const registryCategory = (ref: string, registry: Registry) => registry.categories.find((c) => c.name === categoryOf(ref));
 
 // A person's own data, which a procedure's dichiarante supplies: categories
 // about a person that each person has (identity, residenza, cie...), and ruolo.
 function isPersonData(local: string, registry: Registry): boolean {
-  const category = registry.categories.find((c) => c.name === local.split(".")[0]);
+  const category = registryCategory(local, registry);
   return !!category && category.scope === "person" && (category.subject === "persona" || category.name === "ruolo");
 }
 
 // People with a ruolo are in a business vault and family members in a
 // personal one, so neither can have what only the other kind of vault keeps.
 function kindProblem(ref: string, registry: Registry, kind: "persona" | "impresa"): string | null {
-  const { local } = splitMember(ref);
-  const category = registry.categories.find((c) => c.name === local.split(".")[0]);
-  const field = category?.fields.find((f) => f.id === local);
-  const what = category?.kinds && !category.kinds.includes(kind) ? category.name : field?.kinds && !field.kinds.includes(kind) ? local : null;
+  const category = registryCategory(ref, registry);
+  const field = category?.fields.find((f) => f.id === canonicalLocal(ref));
+  const what = category?.kinds && !category.kinds.includes(kind) ? category.name : field?.kinds && !field.kinds.includes(kind) ? field.id : null;
   if (!what) return null;
   return kind === "impresa"
     ? `${ref}: ${what} is only in personal vaults, and people with a ruolo are in a business vault`
@@ -419,6 +420,27 @@ function kindProblem(ref: string, registry: Registry, kind: "persona" | "impresa
 // can't name one.
 function namesMember(ref: string, member: string): string {
   return `${ref}: a procedure can't name a particular person ("${member}"); use *: inside repeat, or party`;
+}
+
+// A category written with a number from 2 (locale2) is the vault's numbered
+// copy of that category: the same fields and rules, for a second premises or
+// document. Anything else is the category as written.
+export function splitCopy(category: string): { base: string; copy: boolean } {
+  const m = /^([a-z_]+?)([2-9]|[1-9][0-9]+)$/.exec(category);
+  return m ? { base: m[1], copy: true } : { base: category, copy: false };
+}
+
+// The registry category a ref reads, a numbered copy's original included:
+// "*:locale2.indirizzo" gives "locale".
+function categoryOf(ref: string): string {
+  return splitCopy(splitMember(ref).local.split(".")[0]).base;
+}
+
+// A ref's field ID without its person, as the registry lists it:
+// "leo:cie2.numero" gives "cie.numero".
+function canonicalLocal(ref: string): string {
+  const field = splitMember(ref).local.split(".").slice(1).join(".");
+  return `${categoryOf(ref)}.${field}`;
 }
 
 // "leo:cie.numero" gives "leo" and "cie.numero"; an owner's field has no member.
@@ -434,16 +456,19 @@ export function splitMember(ref: string): { member: string; local: string } {
 // owner ("the dichiarante"); their member-only fields are fine, the owner's not.
 export function checkFieldRef(ref: string, registry: Registry, person?: string): string | null {
   const { member, local } = splitMember(ref);
-  const [cat, field] = local.split(".", 2);
+  const [written, field] = local.split(".", 2);
+  const { base: cat, copy } = splitCopy(written);
+  const id = `${cat}.${field}`;
   const secret = `${ref} can't be used in a public procedure: it is (or includes) a secret or payment field`;
-  if (registry.forbidden.categories.includes(cat) || registry.forbidden.fields.includes(local)) return secret;
+  if (registry.forbidden.categories.includes(cat) || registry.forbidden.fields.includes(id)) return secret;
   if (member === "io") return `${ref}: "io" is reserved for the vault's owner, whose fields have no prefix`;
   if (local !== ref && member !== "*" && !MEMBER_SLUG.test(member)) {
     return `${ref}: invalid member "${member}": lower-case letters, digits and hyphens, starting with a letter (at most 32)`;
   }
 
   const category = registry.categories.find((c) => c.name === cat);
-  if (!category) return `unknown category "${cat}"`;
+  if (!category) return `unknown category "${written}"`;
+  if (copy && category.one_only) return `${ref}: ${cat} has no numbered copies, each person has one; use ${cat}.${field}`;
   if (member && category.scope === "owner") {
     return `${ref}: ${cat} is the vault owner's (the household's), not each member's; drop the "${member}:" prefix`;
   }
@@ -462,7 +487,7 @@ export function checkFieldRef(ref: string, registry: Registry, person?: string):
   if (isCredentialName(field, registry)) return secret;
 
   if (category.open) return null;
-  const known = category.fields.find((f) => f.id === local);
+  const known = category.fields.find((f) => f.id === id);
   if (!known) return `unknown field "${local}" (add it to the registry, or use { ask: ... })`;
   if (member && known.for === "owner") return `${ref}: ${local} is the vault owner's field only; drop the "${member}:" prefix`;
   if (person && known.for === "owner") return `${ref}: ${local} is the vault owner's field only; ${person} can't have it`;

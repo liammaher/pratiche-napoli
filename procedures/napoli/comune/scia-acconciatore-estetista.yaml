@@ -292,7 +292,7 @@ forms:
         notes: Solo per cittadini non UE.
       - { label: residente in, map: { direct: residenza.comune } }
       - { label: prov. (di residenza), map: { direct: residenza.provincia } }
-      - { label: Stato (di residenza), map: { ask: "Stato di residenza (Italia se residente in Italia)" } }
+      - { label: Stato (di residenza), map: { direct: residenza.stato }, notes: "Vuoto nel vault vuol dire Italia: scrivere Italia." }
       - { label: indirizzo, map: { direct: residenza.indirizzo } }
       - { label: n., map: { direct: residenza.civico } }
       - { label: C.A.P., map: { direct: residenza.cap } }
@@ -321,7 +321,7 @@ forms:
           Registro delle imprese (art. 12, c. 4): "non necessita di iscrizione" non si applica.
       - { label: "con sede legale in: Comune", map: { direct: business.sede_legale_comune } }
       - { label: prov. (sede legale), map: { direct: business.sede_legale_provincia } }
-      - { label: Stato (sede legale), map: { ask: "Stato della sede legale (Italia se in Italia)" } }
+      - { label: Stato (sede legale), map: { direct: business.sede_legale_stato }, notes: "Vuoto nel vault vuol dire Italia: scrivere Italia." }
       - { label: indirizzo (sede legale), map: { direct: business.sede_legale_indirizzo } }
       - { label: n. (sede legale), map: { direct: business.sede_legale_civico } }
       - { label: C.A.P. (sede legale), map: { direct: business.sede_legale_cap } }
@@ -376,7 +376,7 @@ forms:
       - { label: prov. (attività), map: { direct: locale.provincia } }
       - { label: C.A.P. (attività), map: { direct: locale.cap } }
       - { label: Stato (attività), map: { blank_with_reason: "Italia: il locale è a Napoli." } }
-      - { label: Telefono fisso / cell. (attività), map: { ask: Telefono del salone o centro estetico } }
+      - { label: Telefono fisso / cell. (attività), map: { direct: locale.telefono } }
       - { label: fax (attività), map: { blank_with_reason: Facoltativo; il registro non ha un campo fax. } }
       # Dati catastali
       - { label: "Dati catastali: Foglio n.", map: { direct: locale.catasto_foglio } }

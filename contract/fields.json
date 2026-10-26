@@ -1,5 +1,5 @@
 {
-  "version": "12",
+  "version": "13",
   "source": "personal-vault RecommendedSchema + contract/extensions.json",
   "categories": [
     {
@@ -115,6 +115,10 @@
         {
           "id": "residenza.provincia",
           "description": "Provincia as 2-letter sigla (e.g. NA; the format is checked, not the list)"
+        },
+        {
+          "id": "residenza.stato",
+          "description": "Country of residence, only if outside Italy (e.g. Regno Unito); empty means Italia, which forms asking for the 'stato' take"
         },
         {
           "id": "residenza.data_inizio",
@@ -402,6 +406,7 @@
       "kinds": [
         "persona"
       ],
+      "one_only": true,
       "fields": [
         {
           "id": "famiglia.intestatario_scheda",
@@ -442,6 +447,7 @@
       "kinds": [
         "impresa"
       ],
+      "one_only": true,
       "fields": [
         {
           "id": "ruolo.tipo",
@@ -629,12 +635,20 @@
         {
           "id": "business.sede_legale_provincia",
           "description": "Registered office: provincia as 2-letter sigla (e.g. NA; the format is checked, not the list)"
+        },
+        {
+          "id": "business.sede_legale_stato",
+          "description": "Registered office: country, only if outside Italy; empty means Italia"
+        },
+        {
+          "id": "business.tari_codice_contribuente",
+          "description": "Codice contribuente the Comune assigned the business for TARI on its premises (utenza non domestica; not tari.codice_contribuente, the home's)"
         }
       ]
     },
     {
       "name": "locale",
-      "description": "The business premises (locali) where the activity is carried on, one unit; like abitazione for the home, but with its own address. Catasto data is on the visura catastale. Attach the visura and the lease with 'pvault doc add locale <file>'.",
+      "description": "The business premises (locali) where the activity is carried on, one unit; like abitazione for the home, but with its own address. A second unit is locale2. Catasto data is on the visura catastale; the tari_ fields are the TARI position of these premises. Attach the visura and the lease with 'pvault doc add locale <file>'.",
       "scope": "person",
       "subject": "impresa",
       "fields": [
@@ -697,6 +711,26 @@
         {
           "id": "locale.destinazione_uso",
           "description": "Lawful use of the premises (e.g. negozio, ufficio, laboratorio, magazzino)"
+        },
+        {
+          "id": "locale.telefono",
+          "description": "Phone of the premises, with country code (the shop's or the lab's, not business.telefono)"
+        },
+        {
+          "id": "locale.tari_data_dichiarazione",
+          "description": "Date the TARI declaration for these premises was filed (YYYY-MM-DD)"
+        },
+        {
+          "id": "locale.tari_protocollo",
+          "description": "Protocol number the Comune gave that TARI declaration"
+        },
+        {
+          "id": "locale.tari_superficie_tassata_mq",
+          "description": "Area of these premises the Comune taxes for TARI, in m², from the payment notice"
+        },
+        {
+          "id": "locale.tari_categoria",
+          "description": "TARI tariff category the Comune applies to these premises, as on the payment notice (e.g. 22 ristoranti, trattorie, pizzerie)"
         }
       ]
     },

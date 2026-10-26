@@ -236,7 +236,9 @@ forms:
     fields:
       - label: Cod.Contr.
         map: { blank_with_reason: Spazio riservato all'ufficio. }
-        notes: Il codice contribuente è stampato sull'avviso; si può riportarlo nelle motivazioni.
+        notes: >-
+          Il codice contribuente è stampato sull'avviso (nel vault business.tari_codice_contribuente);
+          si può riportarlo nelle motivazioni.
       - label: Il/La sottoscritto/a (obbligatorio)
         map: { concat: [identity.last_name, identity.first_name] }
       - { label: nato/a a, map: { direct: identity.birth_comune } }
@@ -310,6 +312,11 @@ after:
   - >-
     Se invece arriva un avviso di accertamento, controllarne la data di notifica: da lì
     decorrono i 60 giorni per il ricorso, anche se l'istanza di autotutela è ancora in corso.
+records:
+  - field: locale.tari_superficie_tassata_mq
+    from: Risposta dell'ufficio o avviso rettificato
+  - field: locale.tari_categoria
+    from: Risposta dell'ufficio o avviso rettificato (categoria tariffaria)
 pitfalls:
   - text: >-
       Avviso bonario e avviso di accertamento non sono la stessa cosa. L'avviso bonario (avviso

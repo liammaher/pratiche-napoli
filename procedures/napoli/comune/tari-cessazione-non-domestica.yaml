@@ -204,9 +204,9 @@ forms:
       - label: Cod.Contr.
         map: { blank_with_reason: Spazio riservato all'ufficio. }
         notes: >-
-          Il codice contribuente dell'utenza non domestica, se il Comune l'ha già comunicato
-          all'impresa, si può citare nel testo della PEC. Non è tari.codice_contribuente, che è
-          quello della casa.
+          Il codice contribuente della ditta (business.tari_codice_contribuente), se il Comune l'ha
+          già comunicato, si può citare nel testo della PEC. Non è tari.codice_contribuente, che
+          è quello della casa.
       - { label: Il/La sottoscritto/a, map: { concat: [identity.last_name, identity.first_name] } }
       - { label: nato/a a, map: { direct: identity.birth_comune } }
       - { label: nato/a a (stato estero), map: { direct: identity.birth_country } }
@@ -246,8 +246,13 @@ forms:
       - { label: 1. Dati catastali – fg., map: { direct: locale.catasto_foglio } }
       - { label: 1. Dati catastali – part., map: { direct: locale.catasto_particella } }
       - { label: 1. Dati catastali – sub, map: { direct: locale.catasto_subalterno } }
-      - label: 2. Via e dati catastali
-        map: { ask: "Indirizzo e dati catastali del secondo immobile lasciato, se ce n'è uno" }
+      - label: 2. Via (immobile)
+        map: { concat: [locale2.indirizzo, locale2.civico] }
+        notes: Solo se si lascia anche un secondo immobile, nel vault locale2.*; altrimenti vuoto.
+      - { label: 2. Dati catastali – sez., map: { direct: locale2.catasto_sezione } }
+      - { label: 2. Dati catastali – fg., map: { direct: locale2.catasto_foglio } }
+      - { label: 2. Dati catastali – part., map: { direct: locale2.catasto_particella } }
+      - { label: 2. Dati catastali – sub, map: { direct: locale2.catasto_subalterno } }
       - label: Motivo (a, b, c, d, e)
         map: { ask: "Perché cessa l'occupazione: chiusura definitiva con cessazione della partita IVA, trasferimento in un altro comune, chiusura dell'unità locale, cessione d'azienda o cessione di ramo d'azienda?" }
       - label: a) data di cessazione della Partita IVA
