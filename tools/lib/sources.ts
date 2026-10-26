@@ -7,8 +7,10 @@
 // To ask the offices' servers as little as possible: documents with a sha256
 // are checked every night, other pages one seventh a night (each on a fixed
 // day of the week); requests carry the ETag and Last-Modified from the last
-// check, so an unchanged file answers 304 without its body; and a saved state
-// keeps every address's latest result, so a night's report covers the week.
+// check, so an unchanged file answers 304 without its body; a site that
+// refused the checker is asked one address a night until it answers; and a
+// saved state keeps every address's latest result, so a night's report
+// covers the week.
 
 import { createHash } from "node:crypto";
 
@@ -27,6 +29,7 @@ export interface Validators {
 export interface Result {
   target: Target;
   checkedOn?: string; // YYYY-MM-DD, when it isn't tonight's check
+  askedAt?: string; // when the request was made (ISO time); none for an address not asked
   validators?: Validators; // from an "ok" answer
   wayback?: string; // the Internet Archive's latest copy, for a page that failed
   waybackStatus?: string; // the HTTP status the archive saw for it
@@ -88,29 +91,63 @@ function slot(url: string): number {
 // any page without a saved result from the last week (on the first run,
 // after the saved state is lost, or for a newly cited page), so the report
 // always covers every address, never just the pages a night happened to see,
-// and any page that didn't answer last time, so one that is back clears the
-// report the next night rather than on its day. A page its site refused
-// waits for its day, since asking every night is what gets an address
-// blocked, unless another address on that host answered last night: the
-// block is over, and the page is checked again at once.
+// and any page that didn't answer or was refused last time, so one that is
+// back clears the report the next night rather than on its day. But a host
+// that refuses the checker (see refusing) is asked only its probe, documents
+// included: asking every night is what keeps an address blocked.
 export function tonight(targets: Target[], day: number, state: State = {}): Target[] {
-  const answering = new Set(
-    Object.entries(state)
-      .filter(([, seen]) => day - dayNumber(seen.checkedOn) <= 1 && (seen.status === "ok" || seen.status === "changed"))
-      .map(([key]) => hostOf(key.split(" ")[0])),
-  );
+  const probes = refusing(targets, state);
   return targets.filter((t) => {
+    const probe = probes.get(hostOf(t.url));
+    if (probe) return targetKey(t) === probe;
     const seen = state[targetKey(t)];
     return (
       t.sha256 ||
       slot(t.url) === day % DAYS ||
       !seen ||
       seen.status === "unreachable" ||
-      (seen.status === "blocked" && answering.has(hostOf(t.url))) ||
+      seen.status === "blocked" ||
       day - dayNumber(seen.checkedOn) >= DAYS
     );
   });
 }
+
+// The hosts refusing the checker: those whose latest answer, among the cited
+// addresses, was a refusal (blocked). The latest by the time it was asked,
+// not the night: a site that blocks an address after so many requests
+// answers the first ones of a night and refuses the rest. For each, the
+// address it refused last, by targetKey: its one probe a night, until it
+// answers.
+export function refusing(targets: Target[], state: State): Map<string, string> {
+  const latest = new Map<string, { key: string; seen: Seen }>();
+  for (const t of targets) {
+    const seen = state[targetKey(t)];
+    // An address not asked (held back with its host) says nothing.
+    if (!seen || held(seen)) continue;
+    const when = (s: Seen) => s.askedAt ?? s.checkedOn;
+    const last = latest.get(hostOf(t.url));
+    if (!last || when(seen) > when(last.seen)) latest.set(hostOf(t.url), { key: targetKey(t), seen });
+  }
+  return new Map([...latest].flatMap(([host, { key, seen }]) => (seen.status === "blocked" ? [[host, key]] : [])));
+}
+
+// The other addresses of each host that refused its probe again tonight: not
+// asked, so they count as refused with it. Their streak goes on, and after a
+// week the report says that nothing on that site is being checked.
+export function heldBack(targets: Target[], asked: Result[], state: State): Result[] {
+  const probes = refusing(targets, state);
+  const askedKeys = new Set(asked.map((r) => targetKey(r.target)));
+  const refusedAgain = new Map(
+    asked.flatMap((r) => (r.status === "blocked" && probes.get(hostOf(r.target.url)) === targetKey(r.target) ? [[hostOf(r.target.url), r.target.url]] : [])),
+  );
+  return targets.flatMap((t) => {
+    const probe = refusedAgain.get(hostOf(t.url));
+    return probe && !askedKeys.has(targetKey(t)) ? [{ target: t, status: "blocked" as const, detail: `${HELD} il sito rifiuta il controllo (prova: ${probe})` }] : [];
+  });
+}
+
+const HELD = "non chiesto stanotte:";
+const held = (r: { detail?: string }) => !!r.detail?.startsWith(HELD);
 
 const hostOf = (url: string) => new URL(url).host;
 
@@ -131,8 +168,11 @@ export interface CheckOptions {
   concurrency?: number; // sites checked at the same time
   pauseMs?: number; // between two requests to the same site
   timeoutMs?: number;
+  giveUpAfter?: number; // addresses in a row a site gave no answer for, after which it isn't asked tonight
+  deadlineMs?: number; // after which nothing more is asked tonight
   userAgent?: string;
   sleep?: (ms: number) => Promise<void>; // for tests
+  now?: () => number; // for tests
 }
 
 // Answers that may pass: too many requests, or a server briefly down.
@@ -144,16 +184,28 @@ const MAX_WAIT_MS = 30_000;
 // address that asks too much too fast. A network error, a 429 or a 5xx is
 // tried once more after a pause (Retry-After when the server gives one)
 // before it counts as unreachable. A site whose 404s come with a 404 for its
-// home page too has those marked blocked, not unreachable.
+// home page too has those marked blocked, not unreachable. A site that
+// accepts connections and then never answers would hold the run for hours
+// (each document gets 4 timeouts, and a retry): after giveUpAfter addresses
+// in a row with no answer at all, the rest of it isn't asked tonight, and
+// after deadlineMs nothing more is. Those count as not answering, and are
+// asked again the next night; the run ends either way, and saves what it saw.
 export async function checkTargets(targets: Target[], fetchFn: typeof fetch, opts: CheckOptions = {}): Promise<Result[]> {
   const {
     concurrency = 4,
     pauseMs = 1_500,
     timeoutMs = 30_000,
+    giveUpAfter = 2,
+    deadlineMs = 60 * 60_000,
     userAgent,
     sleep = (ms) => new Promise((r) => setTimeout(r, ms)),
+    now = Date.now,
   } = opts;
   const results: Result[] = new Array(targets.length);
+  const start = now();
+  // Strictly increasing, so two requests never share a time.
+  let last = 0;
+  const stamp = () => new Date((last = Math.max(now(), last + 1))).toISOString();
   // A document is downloaded whole, which on a slow server takes longer.
   const limit = (target: Target) => (target.sha256 ? timeoutMs * 4 : timeoutMs);
   const attempt = (target: Target) =>
@@ -167,8 +219,20 @@ export async function checkTargets(targets: Target[], fetchFn: typeof fetch, opt
   const worker = async () => {
     for (let site = queue.shift(); site; site = queue.shift()) {
       const [, indexes] = site;
+      let silentInRow = 0;
       for (const [k, i] of indexes.entries()) {
+        const skip =
+          silentInRow >= giveUpAfter
+            ? `${HELD} il sito non ha risposto agli ultimi ${giveUpAfter} indirizzi`
+            : now() - start >= deadlineMs
+              ? `${HELD} tempo del controllo finito`
+              : undefined;
+        if (skip) {
+          results[i] = { target: targets[i], status: "unreachable", detail: skip };
+          continue;
+        }
         if (k) await sleep(pauseMs);
+        const askedAt = stamp();
         let result = await attempt(targets[i]);
         if (result.retry) {
           await sleep(Math.max(result.waitMs ?? 5_000, pauseMs));
@@ -177,13 +241,16 @@ export async function checkTargets(targets: Target[], fetchFn: typeof fetch, opt
         results[i] = {
           target: result.target,
           status: result.status,
+          askedAt,
           ...(result.detail && { detail: result.detail }),
           ...(result.validators && { validators: result.validators }),
         };
+        silentInRow = result.status === "unreachable" && !answered(result) ? silentInRow + 1 : 0;
       }
       // Each host's home page, for its own 404s.
       const notFound = indexes.filter((i) => results[i].detail === "HTTP 404");
       for (const home of new Set(notFound.map((i) => origin(targets[i].url)).filter(Boolean))) {
+        if (now() - start >= deadlineMs) break;
         await sleep(pauseMs);
         const status = await fetchFn(`${home}/`, {
           redirect: "follow",
@@ -349,6 +416,7 @@ export interface Seen {
   status: Result["status"];
   detail?: string;
   checkedOn: string;
+  askedAt?: string;
   validators?: Validators;
   wayback?: string;
   waybackStatus?: string;
@@ -368,6 +436,7 @@ export function merge(state: State, results: Result[], checkedOn: string, target
     out[targetKey(r.target)] = {
       status: r.status,
       checkedOn,
+      ...(r.askedAt && { askedAt: r.askedAt }),
       ...(r.detail && { detail: r.detail }),
       ...(r.validators && { validators: r.validators }),
       // A new answer is dated tonight, a reused one keeps its date.
@@ -431,7 +500,8 @@ export async function secondOpinion(
   const out = [...results];
   let asked = 0;
   for (const [i, r] of out.entries()) {
-    if (r.status !== "unreachable" && r.status !== "blocked") continue;
+    // An address not asked tonight has nothing to ask the archive about.
+    if ((r.status !== "unreachable" && r.status !== "blocked") || held(r)) continue;
     const before = saved?.get(targetKey(r.target));
     // State saved before statuses were kept has the status only in the text.
     const reuse = () => before && { ...withArchive(r, before.wayback, before.status ?? before.wayback.match(/\(HTTP (\d{3})\)/)?.[1]), waybackOn: before.on };
@@ -487,6 +557,9 @@ function withArchive(r: Result, wayback: string, status: string | undefined): Re
   };
 }
 
+// An HTTP status, a redirect or an error page is still an answer.
+const answered = (r: Result) => /^(HTTP |rimanda |pagina d'errore)/.test(r.detail ?? "");
+
 // When most sites gave no answer at all (no connection, no certificate the
 // checker could verify), the problem is almost certainly on the checker's
 // side (its network, its certificates), not in the sources: such a run says
@@ -496,8 +569,6 @@ function withArchive(r: Result, wayback: string, status: string | undefined): Re
 // when the run can be trusted.
 export function inconclusive(results: Result[]): string | undefined {
   if (!results.length) return "nessun indirizzo da controllare";
-  // An HTTP status, a redirect or an error page is still an answer.
-  const answered = (r: Result) => /^(HTTP |rimanda |pagina d'errore)/.test(r.detail ?? "");
   const silent = (r: Result) => r.status === "uncheckable" || (r.status === "unreachable" && !answered(r));
   const bySite = new Map<string, Result[]>();
   for (const r of results) bySite.set(siteOf(r.target.url), [...(bySite.get(siteOf(r.target.url)) ?? []), r]);
@@ -513,12 +584,15 @@ const MAX_REFS = 5;
 const MAX_CHARS = 60_000;
 
 // What the report covers: all checked tonight, or tonight's share and the
-// rest from the previous nights (results carry checkedOn only when older).
+// rest from the previous nights (results carry checkedOn only when older),
+// and what a site refusing the checker wasn't asked.
 function header(results: Result[], checkedOn: string): string {
-  const tonightCount = results.filter((r) => !r.checkedOn).length;
-  return tonightCount === results.length
-    ? `Controllo delle fonti del ${checkedOn}: ${results.length} indirizzi, tutti controllati stanotte.`
-    : `Controllo delle fonti del ${checkedOn}: ${results.length} indirizzi, ${tonightCount} ${tonightCount === 1 ? "controllato" : "controllati"} stanotte e gli altri nei giorni precedenti (i moduli ogni notte, le pagine una volta a settimana).`;
+  const notAsked = results.filter((r) => !r.checkedOn && held(r)).length;
+  const tonightCount = results.filter((r) => !r.checkedOn).length - notAsked;
+  const asked = tonightCount === results.length - notAsked
+    ? `${tonightCount === results.length ? "tutti" : tonightCount} ${tonightCount === 1 ? "controllato" : "controllati"} stanotte`
+    : `${tonightCount} ${tonightCount === 1 ? "controllato" : "controllati"} stanotte e gli altri nei giorni precedenti (i moduli ogni notte, le pagine una volta a settimana)`;
+  return `Controllo delle fonti del ${checkedOn}: ${results.length} indirizzi, ${asked}${notAsked ? `; ${notAsked} non ${notAsked === 1 ? "chiesto" : "chiesti"} stanotte, a siti che non rispondono o rifiutano il controllo` : ""}.`;
 }
 
 // Empty unless something changed or stopped answering, or a site has refused
