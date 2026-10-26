@@ -27,6 +27,7 @@ function minimal(): Record<string, any> {
     schema_version: 0,
     id: "napoli/comune/test",
     title: "Test procedure",
+    updated: "2026-10-25",
     summary: "Una procedura di prova per i test del validatore.",
     ente: { name: "Comune di Napoli" },
     applies_to: { events: ["open"], audience: ["business"] },
@@ -281,6 +282,32 @@ test("today is the date in Rome, not UTC", () => {
   assert.equal(todayInRome(new Date("2026-10-25T23:30:00Z")), "2026-10-26");
   assert.equal(todayInRome(new Date("2026-07-01T22:30:00Z")), "2026-07-02");
   assert.equal(todayInRome(new Date("2026-10-25T12:00:00Z")), "2026-10-25");
+});
+
+test("updated is required, not in the future, and not older than anything it covers", () => {
+  const missing = minimal();
+  delete missing.updated;
+  assert.match(errorsFor(missing), /schema: .*updated/);
+
+  const future = minimal();
+  future.updated = "2026-10-26";
+  assert.match(errorsFor(future), /updated is in the future/);
+
+  const stale = minimal();
+  stale.updated = "2026-10-20";
+  stale.run_log = [{ date: "2026-10-24", note: "Caso reale" }];
+  const errors = errorsFor(stale);
+  assert.match(errors, /updated 2026-10-20 is older than verification \(2026-10-25\), source "page" \(2026-10-25\), run_log entry 2026-10-24: bump it/);
+});
+
+test("payment codes have a status like any claim", () => {
+  const doc = minimal();
+  doc.payment = { method: "f24", codice_ente: "F839", status: "verified" };
+  assert.match(errorsFor(doc), /\/payment\/status: a verified claim must cite a source/);
+  doc.payment.source = "page";
+  assert.deepEqual(validateProcedure(doc, PATH, ctx), []);
+  doc.payment.source = "nope";
+  assert.match(errorsFor(doc), /unknown source "nope"/);
 });
 
 test("L1 and above need an official http(s) source", () => {

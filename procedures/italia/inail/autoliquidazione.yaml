@@ -1,6 +1,7 @@
 schema_version: 0
 id: italia/inail/autoliquidazione
 title: INAIL – autoliquidazione annuale del premio (artigiani e datori di lavoro)
+updated: 2026-10-25
 summary: >-
   Ogni anno chi è assicurato all'INAIL come impresa (artigiano, anche senza dipendenti, o datore
   di lavoro) calcola da solo il premio, cioè la rata anticipata per l'anno in corso più il

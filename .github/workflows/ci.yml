@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # check:updated compares with the base branch
 
       - uses: actions/setup-node@v5
         with:
@@ -30,3 +32,10 @@ jobs:
 
       - name: Validate procedures
         run: npm run validate
+
+      - name: Check updated dates
+        if: github.event_name == 'pull_request'
+        run: npm run check:updated -- origin/${{ github.base_ref }}
+
+      - name: Build site
+        run: npm run build

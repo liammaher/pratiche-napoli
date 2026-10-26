@@ -1,6 +1,7 @@
 schema_version: 0
 id: italia/agenzia-entrate-riscossione/rateizzazione-cartella
 title: Rateizzazione di cartelle e avvisi di Agenzia delle entrate-Riscossione
+updated: 2026-10-25
 summary: >-
   Chi ha ricevuto una cartella di pagamento (o un avviso di accertamento esecutivo o un avviso di
   addebito INPS) affidato ad Agenzia delle entrate-Riscossione e non riesce a pagare tutto subito
