@@ -289,20 +289,24 @@ forms:
       - { label: (Prov) di nascita, map: { direct: identity.birth_province } }
       - { label: codice fiscale, map: { direct: identity.codice_fiscale } }
       - label: in proprio (persone fisiche)
-        map: { ask: "La richiesta riguarda debiti propri come persona fisica, o quelli di una ditta, società, associazione o ente per cui firma? (barrare questa casella oppure quella successiva)" }
+        map: { ask: "La richiesta riguarda debiti propri come persona fisica, quelli di una ditta, società, associazione o ente per cui firma, o quelli di una persona di cui è tutore, curatore o amministratore di sostegno? (in proprio: questa casella; altrimenti quella successiva)" }
         notes: >-
           Va chiesto anche quando l'archivio ha i dati di un'impresa: una cartella personale di chi
-          ha un'impresa non è dell'impresa. Le righe "in qualità di", "del/della" e "codice
-          fiscale (del/della)" si compilano solo se non è in proprio.
+          ha un'impresa non è dell'impresa, e nemmeno quella di una persona tutelata. Le righe
+          "in qualità di", "del/della" e "codice fiscale (del/della)" si compilano dai dati
+          dell'impresa solo per una ditta, società, associazione o ente; per un tutelato, con i suoi
+          dati, a mano.
       - label: in qualità di (titolare di ditta individuale / legale rappresentante / tutore / curatore / altro)
         map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
-        notes: Solo se si chiede per una ditta, società, associazione o ente (riga precedente); altrimenti vuoto.
+        notes: >-
+          Solo per una ditta, società, associazione o ente (riga precedente); per un tutore,
+          curatore o amministratore di sostegno la qualità si scrive a mano; in proprio, vuoto.
       - label: del/della
         map: { direct: business.denominazione }
-        notes: Solo se non è in proprio; altrimenti vuoto.
+        notes: Solo per una ditta, società, associazione o ente; per un tutelato il suo nome, a mano; in proprio, vuoto.
       - label: codice fiscale (del/della)
         map: { fallback: [business.codice_fiscale, business.partita_iva] }
-        notes: Solo se non è in proprio; altrimenti vuoto.
+        notes: Solo per una ditta, società, associazione o ente; per un tutelato il suo codice fiscale, a mano; in proprio, vuoto.
       - label: Domicilio per la richiesta – Comune
         map: { direct: residenza.comune }
         notes: >-
@@ -337,8 +341,9 @@ forms:
       - label: di essere … della ditta/società/associazione/ente/soggetto sopra indicato/a (casella e qualità)
         map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
         notes: >-
-          Solo se non è in proprio (righe in alto): firma il titolare, legale rappresentante,
-          tutore, curatore o altro per conto di un soggetto; altrimenti vuoto.
+          Solo se non è in proprio (righe in alto): per una ditta, società, associazione o ente la
+          qualità di chi firma; per un tutore, curatore o amministratore di sostegno, a mano;
+          altrimenti vuoto.
       - label: Luogo e data
         map: { ask: "Luogo e data della firma" }
       - label: Firma
@@ -350,10 +355,10 @@ forms:
         map: { ask: "Il delegante agisce in proprio? (barrare questa casella oppure quella successiva)" }
       - label: Delega – in qualità di
         map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
-        notes: Solo se c'è una delega e il delegante non agisce in proprio (riga precedente); altrimenti vuoto.
+        notes: Solo se c'è una delega e il delegante agisce per una ditta, società o ente (riga precedente); per un tutelato, a mano; altrimenti vuoto.
       - label: Delega – del/della
         map: { direct: business.denominazione }
-        notes: Solo se c'è una delega e il delegante non agisce in proprio; altrimenti vuoto.
+        notes: Solo se c'è una delega e il delegante agisce per una ditta, società o ente; per un tutelato, a mano; altrimenti vuoto.
       - label: Delega – delego il/la Sig./Sig.ra
         map: { ask: "Nome e cognome della persona delegata" }
       - label: Delega – a consegnare / a modificare / a ritirare comunicazioni e provvedimenti (caselle)

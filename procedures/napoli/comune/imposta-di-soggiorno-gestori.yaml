@@ -325,12 +325,14 @@ forms:
           ask: >-
             Codice fiscale del gestore: quello della società se gestisce una società; altrimenti il
             suo (anche per una ditta individuale, il cui codice fiscale è quello del titolare)
-        notes: Per una società è business.codice_fiscale; altrimenti identity.codice_fiscale.
+        notes: >-
+          Per una società è business.codice_fiscale o, se non c'è (quando coincide con la partita
+          IVA), business.partita_iva; altrimenti identity.codice_fiscale.
       - label: Partita IVA
         map: { direct: business.partita_iva }
         notes: >-
           Solo se gestita da un'impresa (riga «In qualità di»); vuoto per il B&B non imprenditoriale
-          e la locazione breve, anche se lei ha una partita IVA per un'altra attività.
+          e la locazione breve, anche se il gestore ha una partita IVA per altro.
       - label: Sede legale a
         map: { direct: business.sede_legale_comune }
         notes: Solo se gestita da un'impresa; altrimenti vuoto.
@@ -434,13 +436,15 @@ forms:
         map: { direct: business.partita_iva }
         notes: >-
           Solo se è attività d'impresa (riga precedente); altrimenti vuoto, anche se il gestore ha
-          una partita IVA per un'altra attività.
+          una partita IVA per altro.
       - label: Codice fiscale (del gestore/mediatore)
         map:
           ask: >-
             Codice fiscale del gestore: quello della società se gestisce una società; altrimenti il
             suo (anche per una ditta individuale, il cui codice fiscale è quello del titolare)
-        notes: Per una società è business.codice_fiscale; altrimenti identity.codice_fiscale.
+        notes: >-
+          Per una società è business.codice_fiscale o, se non c'è (quando coincide con la partita
+          IVA), business.partita_iva; altrimenti identity.codice_fiscale.
       - label: Indirizzo di posta elettronica ordinaria PEO
         map: { direct: identity.email }
         notes: Per una struttura dell'impresa si può indicare quella dell'impresa (business.email), mai quella di un'altra attività.
@@ -515,6 +519,7 @@ forms:
         notes: Solo se firma un rappresentante (per esempio il legale rappresentante di una società).
       - label: Dichiarante diverso – Codice di carica
         map: { ask: "Codice di carica della tabella ministeriale (1 = rappresentante legale)" }
+        notes: Solo se firma un rappresentante; altrimenti vuoto.
       - label: Dichiarante diverso – Codice fiscale società dichiarante
         map: { blank_with_reason: Facoltativo; solo se la carica è ricoperta da una società. }
       - label: Dichiarante diverso – Cognome
@@ -543,7 +548,7 @@ forms:
         map: { blank_with_reason: Lo compila l'intermediario. }
       - label: Dati della struttura ricettiva – Codice fiscale
         map: { ask: "Codice fiscale del gestore, lo stesso indicato sopra" }
-        notes: Codice fiscale del dichiarante riportato in testa al riquadro.
+        notes: Il codice fiscale del gestore riportato in testa al riquadro (per una società, il suo, non quello di chi firma).
       - label: Dati della struttura ricettiva – Progressivo
         map: { ask: Numero progressivo della struttura nella dichiarazione (1 se è una sola) }
       - label: Denominazione della struttura
@@ -557,6 +562,7 @@ forms:
           ricettiva; mai quello di un'altra attività del gestore.
       - label: Codice fiscale della struttura
         map: { ask: "Codice fiscale del gestore della struttura, lo stesso indicato sopra" }
+        notes: Solo per una struttura commerciale (riga «Struttura ricettiva commerciale»); altrimenti vuoto.
       - label: Partita IVA della struttura
         map: { direct: business.partita_iva }
         notes: Solo per una struttura commerciale; altrimenti vuoto.
