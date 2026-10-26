@@ -27,8 +27,8 @@
    A box that applies only in some cases (the vehicle is a company's, a procura is used) is
    settled first by an `ask` row, and the rows that depend on it say so in their `notes`: a
    vault that has a business's data doesn't make every pratica the business's. Likewise, a
-   `fallback` whose first field may belong to something else (a partita IVA for another
-   activity) is the wrong way round, or an `ask`.
+   `fallback` must not reach a field that may belong to something else (a partita IVA or a PEC
+   for another activity), first or not: read only the person's own field, or `ask`.
 3. **Official sources first.** Cite the ente's own page, regulation, decision or form. Third-
    party guides are only for finding official pages.
 4. **Mark every claim honestly.** `verified` needs a `source`. If you believe something but
