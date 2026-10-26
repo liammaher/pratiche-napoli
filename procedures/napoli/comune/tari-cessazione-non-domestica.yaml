@@ -203,7 +203,10 @@ forms:
     fields:
       - label: Cod.Contr.
         map: { blank_with_reason: Spazio riservato all'ufficio. }
-        notes: Il codice contribuente già assegnato (tari.codice_contribuente) si può citare nel testo della PEC.
+        notes: >-
+          Il codice contribuente dell'utenza non domestica, se il Comune l'ha già comunicato
+          all'impresa, si può citare nel testo della PEC. Non è tari.codice_contribuente, che è
+          quello della casa.
       - { label: Il/La sottoscritto/a, map: { concat: [identity.last_name, identity.first_name] } }
       - { label: nato/a a, map: { direct: identity.birth_comune } }
       - { label: nato/a a (stato estero), map: { direct: identity.birth_country } }
@@ -219,8 +222,11 @@ forms:
         map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
       - { label: Ragione Sociale, map: { direct: business.denominazione } }
       - label: C.F. (della ditta)
-        map: { fallback: [business.codice_fiscale, business.partita_iva] }
-        notes: Se l'impresa non ha un codice fiscale diverso, coincide con la partita IVA.
+        map: { direct: business.codice_fiscale }
+        notes: >-
+          Il codice fiscale dell'impresa: per una società di solito coincide con la partita IVA; per
+          una ditta individuale è quello del titolare, mai la partita IVA. Se business.codice_fiscale
+          non c'è, chiederlo.
       - { label: PARTITA IVA, map: { direct: business.partita_iva } }
       - label: Con sede in via
         map: { concat: [business.sede_legale_indirizzo, business.sede_legale_civico] }

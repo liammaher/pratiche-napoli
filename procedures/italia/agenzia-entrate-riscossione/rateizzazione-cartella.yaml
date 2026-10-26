@@ -305,8 +305,11 @@ forms:
         map: { direct: business.denominazione }
         notes: Solo per una ditta, società, associazione o ente; per un tutelato il suo nome, a mano; in proprio, vuoto.
       - label: codice fiscale (del/della)
-        map: { fallback: [business.codice_fiscale, business.partita_iva] }
-        notes: Solo per una ditta, società, associazione o ente; per un tutelato il suo codice fiscale, a mano; in proprio, vuoto.
+        map: { direct: business.codice_fiscale }
+        notes: >-
+          Solo per una ditta, società, associazione o ente; per un tutelato il suo codice fiscale, a
+          mano; in proprio, vuoto. Per una ditta individuale è il codice fiscale del titolare, mai la
+          partita IVA; se business.codice_fiscale non c'è, chiederlo.
       - label: Domicilio per la richiesta – Comune
         map: { direct: residenza.comune }
         notes: >-
