@@ -558,7 +558,7 @@ test("a site that blocks partway through a night is asked once a night until it 
     // The pages were refused from night 0, the forms from night 1.
     if (night === 7) assert.match(text, /Bloccati dal sito da almeno una settimana \(21\)/);
     if (night === 8 || night === 9) assert.match(text, /Bloccati dal sito da almeno una settimana \(27\)/, `night ${night}`);
-    if (night >= 7 && night <= 9) assert.match(text, /^[^\n]*: 27 indirizzi, 1 controllato stanotte; 26 non chiesti stanotte, a siti che/, `night ${night}`);
+    if (night >= 7 && night <= 9) assert.match(text, /^[^\n]*: 27 indirizzi, 1 controllato stanotte; 26 non chiesti stanotte \(siti che/, `night ${night}`);
   }
   // Night 0: the 6 answered requests, the refused ones, the home page. While
   // the block lasts (nights 1 to 9): one probe and its home page. Night 10 the
@@ -783,9 +783,19 @@ test("one removed file asked last on a host whose home is 404 doesn't stop the r
   };
   assert.deepEqual(refusing([ok, removed], state), new Map());
   assert.deepEqual(tonight([ok, removed], dayNumber("2026-10-26"), state), [ok, removed]);
-  // Two refusals in a row are a refusing host, a page the archive saw gone included.
-  state[targetKey(ok)] = { ...state[targetKey(removed)], askedAt: "2026-10-25T03:03:00.000Z", status: "unreachable", detail: "HTTP 404, anche per la home del sito, e HTTP 404 nell'archivio" };
+  // Two refusals in a row are a refusing host.
+  state[targetKey(ok)] = { ...state[targetKey(removed)], askedAt: "2026-10-25T03:03:00.000Z" };
   assert.deepEqual(refusing([ok, removed], state), new Map([["static.ex.it", targetKey(ok)]]));
+  // A page the archive saw gone says nothing about its host: two of them asked
+  // last don't make it refusing, and the answers before them decide.
+  const gone = (at: string) => ({ status: "unreachable" as const, checkedOn: "2026-10-25", askedAt: at, detail: "HTTP 404, anche per la home del sito, e HTTP 404 nell'archivio" });
+  const third = { url: "https://static.ex.it/b.pdf", sha256: sha("b"), refs: [] };
+  const goneTwice: State = {
+    [targetKey(third)]: { status: "ok", checkedOn: "2026-10-25", askedAt: "2026-10-25T03:00:00.000Z" },
+    [targetKey(ok)]: gone("2026-10-25T03:01:00.000Z"),
+    [targetKey(removed)]: gone("2026-10-25T03:02:00.000Z"),
+  };
+  assert.deepEqual(refusing([ok, removed, third], goneTwice), new Map());
 });
 
 test("while its host refuses, a gone page or a changed form stays in the report, marked as not asked", () => {
@@ -805,23 +815,24 @@ test("while its host refuses, a gone page or a changed form stays in the report,
   assert.deepEqual(tonight(targets, dayNumber("2026-10-26"), state), [probe]);
   const asked: Result[] = [{ target: probe, status: "blocked", detail: refusal, askedAt: "2026-10-26T03:00:00.000Z" }];
   const held = heldBack(targets, asked, state);
+  assert.equal(held.length, 3);
+  const next = merge(state, [...asked, ...held], "2026-10-26", targets);
   assert.deepEqual(
-    held.map((r) => [r.target.url, r.status, r.detail]),
+    [gone, changed, quiet].map((t) => [t.url, next[targetKey(t)].status, next[targetKey(t)].detail]),
     [
       [gone.url, "unreachable", `non chiesto stanotte: ${refusal}, e HTTP 404 nell'archivio`],
       [changed.url, "changed", "non chiesto stanotte: sha256 aaa…, registrato bbb…"],
       [quiet.url, "blocked", `non chiesto stanotte: il sito rifiuta il controllo (prova: ${probe.url})`],
     ],
   );
-  const next = merge(state, [...asked, ...held], "2026-10-26", targets);
   assert.equal(next[targetKey(gone)].wayback, wayback);
   assert.equal(next[targetKey(gone)].failingSince, "2026-10-25");
   const text = report(known(next, targets, "2026-10-26"), "2026-10-26");
   assert.match(text, /## Moduli o documenti cambiati \(1\)/);
   assert.match(text, /## Non raggiungibili \(1\)[\s\S]*gone\.pdf/);
   // Held again the next night, it isn't marked twice.
-  const again = heldBack(targets, asked, next);
-  assert.equal(again[0].detail, `non chiesto stanotte: ${refusal}, e HTTP 404 nell'archivio`);
+  const again = merge(next, [{ ...asked[0], askedAt: "2026-10-27T03:00:00.000Z" }, ...heldBack(targets, asked, next)], "2026-10-27", targets);
+  assert.equal(again[targetKey(gone)].detail, `non chiesto stanotte: ${refusal}, e HTTP 404 nell'archivio`);
 });
 
 test("addresses not asked because the run's time was up don't make it inconclusive", () => {
@@ -830,4 +841,54 @@ test("addresses not asked because the run's time was up don't make it inconclusi
     i ? { target, status: "unreachable", detail: "non chiesto stanotte: tempo del controllo finito" } : { target, status: "ok" },
   );
   assert.equal(inconclusive(results), undefined);
+});
+
+test("a refusing host whose probe isn't asked, or doesn't answer at all, stays refusing", () => {
+  const probe = { url: "https://www.ex.it/p", refs: [] };
+  const other = { url: "https://www.ex.it/o", refs: [] };
+  const refusal = "HTTP 404, anche per la home del sito";
+  const state: State = {
+    [other.url]: { status: "blocked", checkedOn: "2026-10-25", askedAt: "2026-10-25T03:00:00.000Z", detail: refusal, answer: "refused" },
+    [probe.url]: { status: "blocked", checkedOn: "2026-10-25", askedAt: "2026-10-25T03:01:00.000Z", detail: refusal, answer: "refused" },
+  };
+  const targets = [probe, other];
+  for (const tonightsProbe of [
+    { target: probe, status: "unreachable" as const, detail: "non chiesto stanotte: tempo del controllo finito" },
+    { target: probe, status: "unreachable" as const, detail: "nessuna risposta in 30 s", askedAt: "2026-10-26T03:00:00.000Z" },
+  ]) {
+    const held = heldBack(targets, [tonightsProbe], state);
+    assert.deepEqual(held.map((r) => r.target.url), [other.url]);
+    const next = merge(state, [tonightsProbe, ...held], "2026-10-26", targets);
+    // Still one probe a night (after a timeout, the last address that refused).
+    assert.deepEqual([...refusing(targets, next).keys()], ["www.ex.it"], tonightsProbe.detail);
+    assert.equal(tonight(targets, dayNumber("2026-10-27"), next).length, 1);
+  }
+});
+
+test("after a long gap a refusing host's week-old addresses are asked, so none is left without a result", () => {
+  const probe = { url: "https://www.ex.it/p", refs: [] };
+  const other = { url: "https://www.ex.it/o", refs: [] };
+  const refusal = "HTTP 404, anche per la home del sito";
+  const state: State = {
+    [other.url]: { status: "blocked", checkedOn: "2026-10-10", askedAt: "2026-10-05T03:00:00.000Z", detail: "non chiesto stanotte: il sito rifiuta il controllo", answer: "refused" },
+    [probe.url]: { status: "blocked", checkedOn: "2026-10-10", askedAt: "2026-10-10T03:01:00.000Z", detail: refusal, answer: "refused" },
+  };
+  assert.deepEqual(tonight([probe, other], dayNumber("2026-10-19"), state), [probe, other]);
+  assert.deepEqual(tonight([probe, other], dayNumber("2026-10-12"), state), [probe]);
+});
+
+test("addresses the run's time cut off last night are asked first", () => {
+  const pages = ["a", "b", "c"].map((p) => ({ url: `https://x.it/${p}`, sha256: sha(p), refs: [] }));
+  const state: State = {
+    [targetKey(pages[2])]: { status: "unreachable", checkedOn: "2026-10-25", detail: "non chiesto stanotte: tempo del controllo finito" },
+  };
+  assert.deepEqual(tonight(pages, dayNumber("2026-10-26"), state), [pages[2], pages[0], pages[1]]);
+});
+
+test("a changed form cut off by the run's time stays changed", () => {
+  const form = { url: "https://x.it/m.pdf", sha256: sha("m"), refs: [] };
+  const state: State = { [targetKey(form)]: { status: "changed", checkedOn: "2026-10-25", askedAt: "2026-10-25T03:00:00.000Z", detail: "sha256 aaa…, registrato bbb…" } };
+  const next = merge(state, [{ target: form, status: "unreachable", detail: "non chiesto stanotte: tempo del controllo finito" }], "2026-10-26", [form]);
+  assert.deepEqual([next[targetKey(form)].status, next[targetKey(form)].detail], ["changed", "non chiesto stanotte: sha256 aaa…, registrato bbb…"]);
+  assert.equal(next[targetKey(form)].askedAt, "2026-10-25T03:00:00.000Z");
 });
