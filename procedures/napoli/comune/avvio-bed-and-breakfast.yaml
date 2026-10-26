@@ -359,7 +359,7 @@ forms:
           campo dall'una e uno dall'altra.
       - label: N.civ.
         map: { fallback: [domicilio.civico, residenza.civico] }
-        notes: Dalla stessa fonte (domicilio o residenza) dell'indirizzo qui sopra.
+        notes: "Dalla stessa fonte (domicilio o residenza) dell'indirizzo qui sopra. Se lì manca, chiederlo: mai prenderlo dall'altra."
       - label: Scala
         map: { ask: "Scala dell'edificio, se c'è" }
       - label: Piano
@@ -369,13 +369,13 @@ forms:
           abitazione.piano; in quello di un'impresa l'abitazione non c'è, perché è del titolare.
       - label: Int.
         map: { fallback: [domicilio.interno, residenza.interno] }
-        notes: Dalla stessa fonte (domicilio o residenza) dell'indirizzo qui sopra.
+        notes: "Dalla stessa fonte (domicilio o residenza) dell'indirizzo qui sopra. Se quella non ha l'interno, resta vuoto: mai quello dell'altra."
       - label: Comune
         map: { fallback: [domicilio.comune, residenza.comune] }
-        notes: Dalla stessa fonte (domicilio o residenza) dell'indirizzo qui sopra.
+        notes: "Dalla stessa fonte (domicilio o residenza) dell'indirizzo qui sopra. Se lì manca, chiederlo: mai prenderlo dall'altra."
       - label: Prov.
         map: { fallback: [domicilio.provincia, residenza.provincia] }
-        notes: Dalla stessa fonte (domicilio o residenza) dell'indirizzo qui sopra.
+        notes: "Dalla stessa fonte (domicilio o residenza) dell'indirizzo qui sopra. Se lì manca, chiederlo: mai prenderlo dall'altra."
       - label: "Contatti: PEC"
         map: { direct: identity.pec }
         notes: >-

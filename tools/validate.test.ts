@@ -70,7 +70,7 @@ test("form mappings must use registered, non-secret fields", () => {
   const doc = withForm(
     { label: "CF", map: { direct: "identity.codice_fiscale" } },
     { label: "Nome", map: { concat: ["identity.last_name", "identity.first_name"] } },
-    { label: "Indirizzo", map: { fallback: ["domicilio.*", "residenza.*"] } },
+    { label: "Indirizzo", map: { fallback: ["domicilio.*", "residenza.*"] }, notes: "Tutto dal domicilio o tutto dalla residenza." },
     { label: "Conviventi", map: { repeat: "famiglia", fields: ["*:identity.first_name", "*:famiglia.relazione"] } },
     { label: "Codice", map: { blank_with_reason: "assegnato dal Comune" } },
     { label: "Insegna", map: { ask: "Testo dell'insegna" } },
@@ -82,6 +82,28 @@ test("form mappings must use registered, non-secret fields", () => {
   const errors = errorsFor(doc);
   assert.match(errors, /unknown field "identity.shoe_size"/);
   assert.match(errors, /spid.password can't be used in a public procedure/);
+});
+
+test("an address is taken whole from one place: a person's own, saying so, or the business's", () => {
+  const ok = withForm(
+    { label: "Via", map: { fallback: ["domicilio.indirizzo", "residenza.indirizzo"] }, notes: "Tutto dalla stessa fonte." },
+    { label: "PEC", map: { fallback: ["identity.pec", "identity.email"] } },
+  );
+  assert.deepEqual(validateProcedure(ok, PATH, ctx), []);
+  const errors = errorsFor(
+    withForm(
+      { label: "Int.", map: { fallback: ["domicilio.interno", "residenza.interno"] } },
+      { label: "Via", map: { fallback: ["locale.indirizzo", "residenza.indirizzo"] }, notes: "Tutto dalla stessa fonte." },
+      { label: "Sede", map: { fallback: ["business.sede_legale_comune", "residenza.comune"] }, notes: "Tutto dalla stessa fonte." },
+      { label: "Indirizzo", map: { concat: ["domicilio.indirizzo", "residenza.civico"] } },
+    ),
+  );
+  assert.match(errors, /field "Int.": fallback from domicilio to residenza needs notes saying the whole address comes from the same one/);
+  assert.match(errors, /field "Via": fallback mixes locale and residenza: an address is a person's home or the business's, never a field from each/);
+  assert.match(errors, /field "Sede": fallback mixes sede legale and residenza/);
+  assert.match(errors, /field "Indirizzo": concat joins domicilio and residenza: an address's parts come from one place/);
+  // One place's parts, joined, are fine.
+  assert.deepEqual(validateProcedure(withForm({ label: "Sede", map: { concat: ["business.sede_legale_indirizzo", "business.sede_legale_civico"] } }), PATH, ctx), []);
 });
 
 test("records name exact registered fields, once each, never secrets or tracking", () => {
