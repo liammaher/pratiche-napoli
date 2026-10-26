@@ -184,6 +184,8 @@ documents:
   - name: Documenti eventualmente richiesti dall'ufficio
     required: false
     notes: Vanno elencati nel riquadro "Allegati" del quadro I.
+dichiarante:
+  ruolo: titolare
 forms:
   - id: aa9-12
     name: Modello AA9/12 – Dichiarazione di inizio attività, variazione dati o cessazione attività ai fini IVA (imprese individuali e lavoratori autonomi)
@@ -249,7 +251,8 @@ forms:
           lasciare vuoto per il regime ordinario. Il valore 1 (regime di vantaggio) non è più
           utilizzabile da chi apre oggi: vedi avvertenze.
       - label: Commercio elettronico – Indirizzo del sito web
-        map: { ask: "L'attività vende beni o servizi tramite un sito web? Indirizzo del sito" }
+        map: { direct: business.sito_web }
+        notes: Solo se l'attività vende beni o servizi tramite il sito; altrimenti il sito va nel Quadro I.
       - label: Commercio elettronico – Proprio / Ospitante
         map: { ask: "Il sito è proprio o di terzi (es. un marketplace)?" }
       - label: Commercio elettronico – Internet service provider
@@ -305,7 +308,8 @@ forms:
       - label: Quadro I – Fax (prefisso e numero)
         map: { ask: "Numero di fax, se esiste" }
       - label: Quadro I – Sito web
-        map: { ask: "Sito web dell'attività, se diverso da quello di commercio elettronico già indicato" }
+        map: { direct: business.sito_web }
+        notes: Solo se non è già indicato come sito di commercio elettronico.
       - label: Quadro I – Titolarità dell'immobile
         map: { direct: locale.titolo }
         notes: P se posseduto (proprietà, usufrutto); D se detenuto (locazione, comodato).

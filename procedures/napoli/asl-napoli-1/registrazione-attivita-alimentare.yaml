@@ -232,6 +232,8 @@ documents:
       direttamente in GISA dopo l'accreditamento.
   - name: Procura, se la pratica la presenta un intermediario
     required: false
+dichiarante:
+  ruolo: [titolare, legale_rappresentante]
 forms:
   - id: notifica-registrazione
     name: Notifica ai fini della registrazione (art. 6, Reg. CE n. 852/2004) – modulo unificato

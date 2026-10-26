@@ -1,11 +1,12 @@
 {
-  "version": "10",
+  "version": "11",
   "source": "personal-vault RecommendedSchema + contract/extensions.json",
   "categories": [
     {
       "name": "identity",
       "description": "Personal identity information",
       "scope": "person",
+      "subject": "persona",
       "fields": [
         {
           "id": "identity.first_name",
@@ -65,6 +66,7 @@
       "name": "cie",
       "description": "Carta d'identità elettronica details. The PIN and PUK can only be stored as personal (never readable by agents).",
       "scope": "person",
+      "subject": "persona",
       "fields": [
         {
           "id": "cie.numero",
@@ -88,6 +90,7 @@
       "name": "residenza",
       "description": "Registered residence (residenza anagrafica, as recorded in ANPR)",
       "scope": "person",
+      "subject": "persona",
       "fields": [
         {
           "id": "residenza.indirizzo",
@@ -123,6 +126,7 @@
       "name": "domicilio",
       "description": "Domicile, only if different from residenza",
       "scope": "person",
+      "subject": "persona",
       "fields": [
         {
           "id": "domicilio.indirizzo",
@@ -154,6 +158,7 @@
       "name": "abitazione",
       "description": "The home you live in now (the unit at your residenza or domicilio; the address stays there). Catasto data is on the visura catastale and is needed for TARI, RLI registration and ISEE. Attach the visura and APE with 'pvault doc add abitazione <file>'.",
       "scope": "owner",
+      "subject": "persona",
       "fields": [
         {
           "id": "abitazione.titolo",
@@ -213,6 +218,7 @@
       "name": "locazione",
       "description": "Your rental contract, if you rent. Registration details (estremi di registrazione) are on the RLI receipt and are asked for by utility transfers and tax deductions. Attach the contract and receipt with 'pvault doc add locazione <file>'.",
       "scope": "owner",
+      "subject": "persona",
       "fields": [
         {
           "id": "locazione.tipo_contratto",
@@ -304,6 +310,7 @@
       "name": "utenze",
       "description": "Utility supplies at your home. The POD and PDR identify the meters and are needed for a voltura or subentro.",
       "scope": "owner",
+      "subject": "persona",
       "fields": [
         {
           "id": "utenze.luce_pod",
@@ -363,6 +370,7 @@
       "name": "tari",
       "description": "Your TARI (waste tax) position with the Comune. Attach the filed declaration with 'pvault doc add tari <file>'.",
       "scope": "owner",
+      "subject": "persona",
       "fields": [
         {
           "id": "tari.codice_contribuente",
@@ -390,6 +398,10 @@
       "name": "famiglia",
       "description": "How your family members relate to you, the vault's owner (as ANPR records every relazione against the intestatario della scheda). Each member is a person with their own data under a prefix, e.g. leo:identity.codice_fiscale, leo:cie.numero; add one with 'pvault member add <slug> --relazione <relazione>'. Member fields: relazione (coniuge, unito_civilmente, convivente, figlio, nipote, genitore, nonno, fratello, nipote_collaterale, zio, cugino, altro_parente, genero_nuora, suocero, cognato, altro_affine, altro); stato_famiglia (si/no: in your stato di famiglia); a_carico_percentuale (0, 50 or 100); genitori (io and/or member slugs, e.g. io,giulia); rappresentanza (tutore, amministratore_sostegno, curatore, delega). Yours: intestatario_scheda (io or a member's slug).",
       "scope": "person",
+      "subject": "persona",
+      "kinds": [
+        "persona"
+      ],
       "fields": [
         {
           "id": "famiglia.intestatario_scheda",
@@ -424,9 +436,45 @@
       ]
     },
     {
-      "name": "business",
-      "description": "Italian business or self-employment details",
+      "name": "ruolo",
+      "description": "What each person in a business vault is to the business (business vaults only; personal vaults use famiglia). Each person has their own data under a prefix, e.g. bianchi:identity.codice_fiscale, bianchi:albo.numero; add one with 'pvault person add <slug> --ruolo <ruolo>'. Fields: tipo (one or more of titolare, legale_rappresentante, socio, amministratore, procuratore, preposto, responsabile_tecnico, dipendente, collaboratore, cliente, fornitore, impresa_esecutrice, altro); data_inizio, data_fine; quota_percentuale (a socio's share, up to 100); poteri (an amministratore's or procuratore's powers). A business vault never holds other people's SPID/CieID accounts or login secrets.",
       "scope": "person",
+      "kinds": [
+        "impresa"
+      ],
+      "fields": [
+        {
+          "id": "ruolo.tipo",
+          "description": "The person's roles for the business, one or more of: titolare, legale_rappresentante, socio, amministratore, procuratore, preposto, responsabile_tecnico, dipendente, collaboratore, cliente, fornitore, impresa_esecutrice, altro (validated; e.g. socio,amministratore)",
+          "for": "member"
+        },
+        {
+          "id": "ruolo.data_inizio",
+          "description": "Date the relationship started (YYYY-MM-DD), e.g. hiring, appointment or engagement",
+          "for": "member"
+        },
+        {
+          "id": "ruolo.data_fine",
+          "description": "Date it ended (YYYY-MM-DD); the start of how long you keep their data",
+          "for": "member"
+        },
+        {
+          "id": "ruolo.quota_percentuale",
+          "description": "A socio's share of the capital, above 0 and up to 100 (e.g. 50 or 33.33)",
+          "for": "member"
+        },
+        {
+          "id": "ruolo.poteri",
+          "description": "Powers of an amministratore or procuratore, as on the visura camerale",
+          "for": "member"
+        }
+      ]
+    },
+    {
+      "name": "business",
+      "description": "An Italian business: in a personal vault, your own ditta or partita IVA; in a business vault, the business itself; for a person in a business vault, a company (e.g. a client)",
+      "scope": "person",
+      "subject": "impresa",
       "fields": [
         {
           "id": "business.partita_iva",
@@ -462,7 +510,70 @@
         },
         {
           "id": "business.qualita_dichiarante",
-          "description": "Your role when you sign for the business: titolare or legale_rappresentante (validated)"
+          "description": "Your role when you sign for the business: titolare or legale_rappresentante (validated). In a business vault the signer's role is their ruolo.tipo",
+          "kinds": [
+            "persona"
+          ]
+        },
+        {
+          "id": "business.forma_giuridica",
+          "description": "Legal form: ditta_individuale, lavoratore_autonomo, srl, srls, snc, sas, spa, sapa, cooperativa, studio_associato, stp, altro (validated; SRL, S.r.l.s., ditta... accepted)"
+        },
+        {
+          "id": "business.telefono",
+          "description": "Business phone number with country code"
+        },
+        {
+          "id": "business.sito_web",
+          "description": "Website address"
+        },
+        {
+          "id": "business.cciaa",
+          "description": "Camera di Commercio of the Registro Imprese registration, as 2-letter provincia sigla (e.g. NA)"
+        },
+        {
+          "id": "business.data_costituzione",
+          "description": "Date a società was constituted, from the atto costitutivo (YYYY-MM-DD); for a ditta use data_inizio_attivita"
+        },
+        {
+          "id": "business.data_inizio_attivita",
+          "description": "Date the activity started, as declared to the Registro Imprese (YYYY-MM-DD); may differ from data_apertura of the partita IVA"
+        },
+        {
+          "id": "business.data_cessazione",
+          "description": "Date the activity ended (YYYY-MM-DD), shared by SUAP, Registro Imprese, Agenzia delle Entrate and TARI"
+        },
+        {
+          "id": "business.capitale_sociale",
+          "description": "Share capital in euro (società di capitali), e.g. 10.000,00"
+        },
+        {
+          "id": "business.inps_matricola",
+          "description": "INPS matricola aziendale (employer position)"
+        },
+        {
+          "id": "business.inail_codice_ditta",
+          "description": "INAIL codice ditta"
+        },
+        {
+          "id": "business.inail_pat",
+          "description": "INAIL PAT (posizione assicurativa territoriale)"
+        },
+        {
+          "id": "business.inail_codice_sede",
+          "description": "INAIL codice sede, as on the F24 for the autoliquidazione"
+        },
+        {
+          "id": "business.ccnl",
+          "description": "Contratto collettivo applied to employees (e.g. Commercio Confcommercio)"
+        },
+        {
+          "id": "business.pec_data_scadenza",
+          "description": "Date the PEC mailbox subscription expires (YYYY-MM-DD); tracked by 'pvault expiring'"
+        },
+        {
+          "id": "business.durc_data_scadenza",
+          "description": "Date the last DURC stops being valid, 120 days after issue (YYYY-MM-DD); tracked by 'pvault expiring'"
         },
         {
           "id": "business.email",
@@ -498,6 +609,7 @@
       "name": "locale",
       "description": "The business premises (locali) where the activity is carried on, one unit; like abitazione for the home, but with its own address. Catasto data is on the visura catastale. Attach the visura and the lease with 'pvault doc add locale <file>'.",
       "scope": "person",
+      "subject": "impresa",
       "fields": [
         {
           "id": "locale.indirizzo",
@@ -562,9 +674,66 @@
       ]
     },
     {
+      "name": "albo",
+      "description": "A professional's registration in an albo (ordine or collegio), e.g. an architect, engineer or geometra; forms ask for it when the person signs as tecnico",
+      "scope": "person",
+      "subject": "persona",
+      "fields": [
+        {
+          "id": "albo.ordine",
+          "description": "Ordine or collegio (e.g. Ordine degli Architetti P.P.C.)"
+        },
+        {
+          "id": "albo.provincia",
+          "description": "Provincia of the ordine as 2-letter sigla (e.g. NA)"
+        },
+        {
+          "id": "albo.numero",
+          "description": "Registration number in the albo"
+        },
+        {
+          "id": "albo.data_iscrizione",
+          "description": "Date of registration (YYYY-MM-DD)"
+        }
+      ]
+    },
+    {
+      "name": "cassa",
+      "description": "A professional's pension fund (cassa di previdenza), e.g. Inarcassa or Cassa Geometri",
+      "scope": "person",
+      "subject": "persona",
+      "fields": [
+        {
+          "id": "cassa.ente",
+          "description": "The cassa (e.g. Inarcassa, CIPAG, Cassa Forense)"
+        },
+        {
+          "id": "cassa.matricola",
+          "description": "Registration number (matricola) with the cassa"
+        }
+      ]
+    },
+    {
+      "name": "firma_digitale",
+      "description": "A person's digital signature or CNS (smart card or remote signature). The PIN and PUK can only be stored as personal (never readable by agents), and a business vault never holds them",
+      "scope": "person",
+      "subject": "persona",
+      "fields": [
+        {
+          "id": "firma_digitale.ente_emittente",
+          "description": "Who issued it (e.g. Camera di Commercio, InfoCert, Aruba, Namirial)"
+        },
+        {
+          "id": "firma_digitale.data_scadenza",
+          "description": "Date the certificate expires (YYYY-MM-DD; usually 3 years); tracked by 'pvault expiring'"
+        }
+      ]
+    },
+    {
       "name": "permesso_soggiorno",
       "description": "Permesso / documento di soggiorno (non-EU residents, incl. UK citizens under the Withdrawal Agreement; not needed when identity.citizenship is italiana). Attach scans with 'pvault doc add permesso_soggiorno <file>'.",
       "scope": "person",
+      "subject": "persona",
       "fields": [
         {
           "id": "permesso_soggiorno.numero",
@@ -592,6 +761,7 @@
       "name": "passaporto",
       "description": "Passport (Italian or foreign)",
       "scope": "person",
+      "subject": "persona",
       "fields": [
         {
           "id": "passaporto.numero",
@@ -619,6 +789,7 @@
       "name": "tessera_sanitaria",
       "description": "Tessera sanitaria / TEAM card (also shows the codice fiscale)",
       "scope": "person",
+      "subject": "persona",
       "fields": [
         {
           "id": "tessera_sanitaria.numero",
@@ -642,6 +813,7 @@
       "name": "patente",
       "description": "Driving licence (Italian or foreign)",
       "scope": "person",
+      "subject": "persona",
       "fields": [
         {
           "id": "patente.numero",
@@ -734,6 +906,7 @@
       "name": "employment",
       "description": "Employment information",
       "scope": "person",
+      "subject": "persona",
       "fields": [
         {
           "id": "employment.employer",

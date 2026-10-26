@@ -300,6 +300,8 @@ documents:
     notes: Solo se la comunicazione non è firmata digitalmente e non c'è procura.
   - name: Ricevuta pagoPA dei diritti d'istruttoria SUAP e ricevute dei diritti di altri enti (ASL)
     required: true
+dichiarante:
+  ruolo: [titolare, legale_rappresentante]
 forms:
   - id: comunicazione-subingresso-campania
     name: >-
@@ -353,7 +355,8 @@ forms:
         map: { ask: Data di registrazione dell'atto }
       # 3 – Variazione della denominazione
       - label: "3 – Variazione della denominazione – In caso di commercio elettronico: indirizzo nuovo sito web"
-        map: { ask: "Solo per il commercio elettronico: indirizzo del nuovo sito web, se cambia" }
+        map: { direct: business.sito_web }
+        notes: Solo per il commercio elettronico, se il sito cambia.
       # Dichiarazioni a) commercio e somministrazione
       - label: "a) Solo per l'attività di commercio: requisiti di onorabilità previsti dalla legge"
         map: { ask: "Il dichiarante conferma di avere i requisiti di onorabilità (art. 71 D.Lgs. 59/2010)? Dichiarazione sotto la propria responsabilità" }
@@ -375,7 +378,8 @@ forms:
       - label: "oppure: pratica professionale – iscrizione al REC / esame di idoneità REC / REC sezione imprese turistiche (anno, CCIAA o ente)"
         map: { ask: "Iscrizione al REC o esame di idoneità REC superato (anno e Camera di commercio o ente)?" }
       - label: "OPPURE: requisiti professionali posseduti dal preposto Sig./ra ... (Allegato B)"
-        map: { ask: "Il requisito professionale lo ha un preposto? Nome del preposto" }
+        map: { party: { ruolo: preposto }, concat: [identity.first_name, identity.last_name] }
+        notes: Solo se il requisito professionale lo ha il preposto (Allegato B).
       # Dichiarazioni b) acconciatore ed estetista
       - label: "b) Attività di acconciatore e/o estetista: assenza di cause antimafia, responsabile tecnico, abilitazione o qualifica, oppure elenco dei responsabili tecnici (Allegati C e D)"
         map: { blank_with_reason: "Solo per acconciatori ed estetisti: non riguarda negozi, bar e ristoranti (vedi napoli/comune/scia-acconciatore-estetista)." }
@@ -420,14 +424,15 @@ forms:
         map: { blank_with_reason: Ricevuta pagoPA generata nella pratica su impresainungiorno. }
       # Allegato A – altri soci
       - label: "Allegato A (uno per socio) – Cognome, Nome"
-        map: { ask: Cognome e nome di ciascun altro socio tenuto ai requisiti }
-      - { label: "Allegato A – C.F.", map: { ask: Codice fiscale del socio } }
-      - { label: "Allegato A – Data di nascita", map: { ask: Data di nascita del socio } }
-      - { label: "Allegato A – Cittadinanza", map: { ask: Cittadinanza del socio } }
-      - { label: "Allegato A – Sesso", map: { ask: Sesso del socio } }
-      - { label: "Allegato A – Luogo di nascita: Stato, Provincia, Comune", map: { ask: Luogo di nascita del socio } }
+        map: { repeat: { ruolo: [socio, amministratore], except: dichiarante }, fields: ["*:identity.last_name", "*:identity.first_name"] }
+        notes: Un Allegato A per ogni altro socio o amministratore tenuto ai requisiti.
+      - { label: "Allegato A – C.F.", map: { repeat: { ruolo: [socio, amministratore], except: dichiarante }, fields: ["*:identity.codice_fiscale"] } }
+      - { label: "Allegato A – Data di nascita", map: { repeat: { ruolo: [socio, amministratore], except: dichiarante }, fields: ["*:identity.date_of_birth"] } }
+      - { label: "Allegato A – Cittadinanza", map: { repeat: { ruolo: [socio, amministratore], except: dichiarante }, fields: ["*:identity.citizenship"] } }
+      - { label: "Allegato A – Sesso", map: { repeat: { ruolo: [socio, amministratore], except: dichiarante }, fields: ["*:identity.sex"] } }
+      - { label: "Allegato A – Luogo di nascita: Stato, Provincia, Comune", map: { repeat: { ruolo: [socio, amministratore], except: dichiarante }, fields: ["*:identity.birth_country", "*:identity.birth_province", "*:identity.birth_comune"] } }
       - label: "Allegato A – Residenza: Provincia, Comune, Via/Piazza, N., C.A.P."
-        map: { ask: Residenza del socio }
+        map: { repeat: { ruolo: [socio, amministratore], except: dichiarante }, fields: ["*:residenza.provincia", "*:residenza.comune", "*:residenza.indirizzo", "*:residenza.civico", "*:residenza.cap"] }
       - label: "Allegato A – in qualità di SOCIO/A della Società"
         map: { direct: business.denominazione }
       - label: "Allegato A – dichiara requisiti di onorabilità (commercio; somministrazione con TULPS; acconciatori/estetisti) e assenza di cause antimafia"
@@ -435,14 +440,14 @@ forms:
       - label: "Allegato A – Data, Firma; informativa Data, Firma"
         map: { blank_with_reason: Firma del socio; solo la persona. }
       # Allegato B – preposto
-      - { label: "Allegato B – Cognome, Nome", map: { ask: Cognome e nome del preposto } }
-      - { label: "Allegato B – C.F.", map: { ask: Codice fiscale del preposto } }
-      - { label: "Allegato B – Data di nascita", map: { ask: Data di nascita del preposto } }
-      - { label: "Allegato B – Cittadinanza", map: { ask: Cittadinanza del preposto } }
-      - { label: "Allegato B – Sesso", map: { ask: Sesso del preposto } }
-      - { label: "Allegato B – Luogo di nascita: Stato, Provincia, Comune", map: { ask: Luogo di nascita del preposto } }
+      - { label: "Allegato B – Cognome, Nome", map: { party: { ruolo: preposto }, concat: [identity.last_name, identity.first_name] } }
+      - { label: "Allegato B – C.F.", map: { party: { ruolo: preposto }, direct: identity.codice_fiscale } }
+      - { label: "Allegato B – Data di nascita", map: { party: { ruolo: preposto }, direct: identity.date_of_birth } }
+      - { label: "Allegato B – Cittadinanza", map: { party: { ruolo: preposto }, direct: identity.citizenship } }
+      - { label: "Allegato B – Sesso", map: { party: { ruolo: preposto }, direct: identity.sex } }
+      - { label: "Allegato B – Luogo di nascita: Stato, Provincia, Comune", map: { party: { ruolo: preposto }, concat: [identity.birth_country, identity.birth_province, identity.birth_comune] } }
       - label: "Allegato B – Residenza: Provincia, Comune, Via/Piazza, N., C.A.P."
-        map: { ask: Residenza del preposto }
+        map: { party: { ruolo: preposto }, concat: [residenza.provincia, residenza.comune, residenza.indirizzo, residenza.civico, residenza.cap] }
       - label: "Allegato B – in qualità di PREPOSTO/A della Ditta individuale / Società"
         map: { direct: business.denominazione }
       - label: "Allegato B – in data (nomina a preposto)"
@@ -498,18 +503,20 @@ forms:
       - { label: PEC / posta elettronica, map: { fallback: [identity.pec, identity.email] } }
       - { label: Telefono fisso / cellulare, map: { direct: identity.phone } }
       - label: in qualità di (Titolare / Legale rappresentante / Altro)
-        map: { direct: business.qualita_dichiarante }
+        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
         notes: Se il ruolo è diverso da titolare o legale rappresentante, chiedere e scriverlo in "Altro".
       # 2 – Dati della ditta/società/impresa (l'impresa che subentra)
       - label: "2 – Dati della ditta/società/impresa: Denominazione"
         map: { direct: business.denominazione }
         notes: È l'impresa che subentra, non quella cedente.
-      - { label: Forma giuridica, map: { ask: "Forma giuridica dell'impresa che subentra (ditta individuale, s.r.l., s.n.c., ...)" } }
+      - { label: Forma giuridica, map: { direct: business.forma_giuridica } }
       - label: codice fiscale / p. IVA
         map: { fallback: [business.codice_fiscale, business.partita_iva] }
       - label: iscritta alla C.C.I.A.A. di ... prov.
-        map: { direct: business.rea }
-        notes: La sigla davanti al numero REA (per esempio NA) indica la Camera di commercio e la provincia.
+        map: { fallback: [business.cciaa, business.rea] }
+        notes: >-
+          La sigla della provincia (per esempio NA) indica la Camera di commercio e la provincia; in
+          mancanza, è quella davanti al numero REA.
       - { label: n. REA, map: { direct: business.rea } }
       - label: non ancora iscritta / non necessita di iscrizione al R.I.
         map: { ask: "L'impresa che subentra non è ancora iscritta al Registro delle imprese?" }
@@ -520,21 +527,22 @@ forms:
       - { label: indirizzo (sede legale), map: { direct: business.sede_legale_indirizzo } }
       - { label: n. (sede legale), map: { direct: business.sede_legale_civico } }
       - { label: C.A.P. (sede legale), map: { direct: business.sede_legale_cap } }
-      - { label: Telefono fisso / cell. (impresa), map: { ask: "Telefono dell'impresa" } }
+      - { label: Telefono fisso / cell. (impresa), map: { direct: business.telefono } }
       - { label: fax, map: { blank_with_reason: Facoltativo; il registro non ha un campo fax. } }
       - { label: PEC (impresa), map: { direct: business.pec } }
       - label: Altro domicilio elettronico per invio delle comunicazioni inerenti la pratica
         map: { ask: "Altro indirizzo elettronico per le comunicazioni sulla pratica, se diverso dalla PEC" }
       # 3 – Dati del procuratore/delegato
       - label: "3 – Dati del procuratore/delegato: Cognome, Nome"
-        map: { ask: "Cognome e nome del procuratore, se la pratica è presentata con procura" }
+        map: { party: { ruolo: procuratore }, concat: [identity.last_name, identity.first_name] }
         notes: Compilare solo in caso di procura.
-      - { label: codice fiscale (procuratore), map: { ask: Codice fiscale del procuratore } }
-      - { label: "Nato/a a, prov., Stato, il (procuratore)", map: { ask: Luogo e data di nascita del procuratore } }
+      - { label: codice fiscale (procuratore), map: { party: { ruolo: procuratore }, direct: identity.codice_fiscale } }
+      - { label: "Nato/a a, prov., Stato, il (procuratore)", map: { party: { ruolo: procuratore }, concat: [identity.birth_comune, identity.birth_province, identity.birth_country, identity.date_of_birth] } }
       - label: "residente in, prov., Stato, indirizzo, n., C.A.P. (procuratore)"
-        map: { ask: Residenza del procuratore }
-      - { label: PEC / posta elettronica (procuratore), map: { ask: PEC o email del procuratore } }
-      - { label: Telefono fisso / cellulare (procuratore), map: { ask: Telefono del procuratore } }
+        map: { party: { ruolo: procuratore }, concat: [residenza.comune, residenza.provincia, residenza.indirizzo, residenza.civico, residenza.cap] }
+        notes: Per chi risiede in Italia lo Stato è Italia; non è nel registro.
+      - { label: PEC / posta elettronica (procuratore), map: { party: { ruolo: procuratore }, fallback: [identity.pec, identity.email] } }
+      - { label: Telefono fisso / cellulare (procuratore), map: { party: { ruolo: procuratore }, direct: identity.phone } }
       - label: "in qualità di: Procuratore/delegato / Agenzia per le imprese – Denominazione"
         map: { ask: "Il procuratore agisce come persona delegata o come Agenzia per le imprese (con denominazione)?" }
       # 4 – Dati dell'attività/intervento

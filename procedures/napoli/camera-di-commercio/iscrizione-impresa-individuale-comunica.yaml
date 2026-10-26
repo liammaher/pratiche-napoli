@@ -286,6 +286,8 @@ documents:
     notes: >-
       A Napoli la pratica SUAP si compila su impresainungiorno e si importa nella pratica del
       Registro Imprese (vedi le procedure SCIA del Comune).
+dichiarante:
+  ruolo: titolare
 forms:
   - id: procura-comunica
     name: Incarico per la sottoscrizione digitale e presentazione telematica della Comunicazione Unica
@@ -297,13 +299,13 @@ forms:
       - label: Codice univoco di identificazione della pratica
         map: { ask: "Codice della pratica generato da DIRE o dal software usato dall'intermediario" }
       - label: conferire al sig.
-        map: { ask: "Nome e cognome dell'intermediario (procuratore) che firma e invia la pratica" }
+        map: { party: { ruolo: procuratore }, concat: [identity.first_name, identity.last_name] }
       - label: in qualità di (1)
         map: { ask: "Qualifica dell'intermediario tra quelle previste dal D.M. 2/11/2007 (es. professionista incaricato)" }
       - { label: COGNOME (riga 1), map: { direct: identity.last_name } }
       - { label: NOME (riga 1), map: { direct: identity.first_name } }
       - label: QUALIFICA (2) (riga 1)
-        map: { direct: business.qualita_dichiarante }
+        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
         notes: Per un'impresa individuale, "titolare".
       - label: FIRMA AUTOGRAFA (riga 1)
         map: { blank_with_reason: "Firma a mano del titolare; il modulo va poi scansionato in PDF e allegato con firma digitale dall'intermediario." }
@@ -333,7 +335,7 @@ forms:
       - { label: N. (residenza), map: { direct: residenza.civico } }
       - { label: CAP (residenza), map: { direct: residenza.cap } }
       - label: "In qualità di: Titolare dell'omonima impresa individuale"
-        map: { direct: business.qualita_dichiarante }
+        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
         notes: Per questa procedura si usa la voce "Titolare".
       - label: Partita IVA (se già iscritto)
         map: { direct: business.partita_iva }
@@ -344,8 +346,8 @@ forms:
       - { label: N. (sede), map: { direct: business.sede_legale_civico } }
       - { label: CAP (sede), map: { direct: business.sede_legale_cap } }
       - label: Tel. (impresa individuale)
-        map: { direct: identity.phone }
-        notes: Il registro non ha un telefono dell'impresa; si usa quello del titolare.
+        map: { fallback: [business.telefono, identity.phone] }
+        notes: Il telefono dell'impresa; se manca, quello del titolare.
       - label: N. R.E.A. (se già iscritto)
         map: { direct: business.rea }
         notes: Vuoto per una prima iscrizione.

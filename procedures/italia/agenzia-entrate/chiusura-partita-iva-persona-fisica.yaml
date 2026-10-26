@@ -202,6 +202,8 @@ documents:
   - name: Numero di partita IVA da chiudere
     required: true
     notes: Si trova nel certificato di attribuzione o nella ricevuta dell'apertura.
+dichiarante:
+  ruolo: titolare
 forms:
   - id: aa9-12
     name: Modello AA9/12 – Dichiarazione di inizio attività, variazione dati o cessazione attività ai fini IVA (imprese individuali e lavoratori autonomi)
@@ -224,9 +226,10 @@ forms:
         map: { direct: business.partita_iva }
         notes: Per la cessazione presentata da un erede, la partita IVA del defunto.
       - label: Quadro A – 3 Data cessazione
-        map: { ask: "In che data è cessata l'attività, cioè quando sono state ultimate le operazioni di liquidazione (ultime fatture, incassi, dismissione dei beni)?" }
+        map: { direct: business.data_cessazione }
         notes: >-
-          Giorno, mese, anno in cifre; non può essere successiva alla data di presentazione. Per
+          Il giorno in cui sono state ultimate le operazioni di liquidazione (ultime fatture,
+          incassi, dismissione dei beni). Giorno, mese, anno in cifre; non può essere successiva alla data di presentazione. Per
           l'erede che non prosegue l'attività è la data del decesso.
       - label: Quadro A – 4 Richiesta duplicato del certificato di partita IVA
         map: { blank_with_reason: Solo per chi ha smarrito il certificato. }

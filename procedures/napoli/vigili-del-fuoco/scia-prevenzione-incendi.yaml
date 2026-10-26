@@ -340,6 +340,8 @@ documents:
     notes: >-
       Ogni 5 anni. L'asseverazione serve se ci sono impianti di protezione attiva (esclusi gli
       estintori) o protezioni per la resistenza al fuoco delle strutture.
+dichiarante:
+  ruolo: [titolare, legale_rappresentante]
 forms:
   - id: pin-2-2023-scia
     name: Mod. PIN 2-2023 – Segnalazione certificata di inizio attività ai fini della sicurezza antincendio (in vigore dal 1° marzo 2023)
@@ -368,7 +370,7 @@ forms:
       - { label: telefono, map: { direct: identity.phone } }
       - { label: codice fiscale della persona fisica, map: { direct: identity.codice_fiscale } }
       - label: "nella sua qualità di (titolare, legale rappresentante, amministratore, etc.)"
-        map: { direct: business.qualita_dichiarante }
+        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
       - label: "della (ragione sociale ditta, impresa, ente, società, associazione, etc.)"
         map: { direct: business.denominazione }
       - { label: "con sede in – indirizzo", map: { direct: business.sede_legale_indirizzo } }
@@ -376,7 +378,7 @@ forms:
       - { label: c.a.p. (sede), map: { direct: business.sede_legale_cap } }
       - { label: comune (sede), map: { direct: business.sede_legale_comune } }
       - { label: provincia (sede), map: { direct: business.sede_legale_provincia } }
-      - { label: telefono (sede), map: { ask: "Telefono dell'impresa" } }
+      - { label: telefono (sede), map: { direct: business.telefono } }
       - { label: indirizzo di posta elettronica, map: { direct: business.email } }
       - { label: indirizzo di posta elettronica certificata, map: { direct: business.pec } }
       # Riferimento alla documentazione (una sola casella)
@@ -465,7 +467,7 @@ forms:
       - { label: telefono, map: { direct: identity.phone } }
       - { label: C.F. (codice fiscale della persona fisica), map: { direct: identity.codice_fiscale } }
       - label: "nella sua qualità di (titolare, legale rappresentante, amministratore, etc.)"
-        map: { direct: business.qualita_dichiarante }
+        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
       - label: "della (ragione sociale ditta, impresa, ente, società, associazione, etc.)"
         map: { direct: business.denominazione }
       - { label: "con sede in – indirizzo", map: { direct: business.sede_legale_indirizzo } }
@@ -473,7 +475,7 @@ forms:
       - { label: c.a.p. (sede), map: { direct: business.sede_legale_cap } }
       - { label: comune (sede), map: { direct: business.sede_legale_comune } }
       - { label: provincia (sede), map: { direct: business.sede_legale_provincia } }
-      - { label: telefono (sede), map: { ask: "Telefono dell'impresa" } }
+      - { label: telefono (sede), map: { direct: business.telefono } }
       - { label: indirizzo di posta elettronica, map: { direct: business.email } }
       - { label: indirizzo di posta elettronica certificata, map: { direct: business.pec } }
       - label: "DICHIARA l'assenza di variazione delle condizioni di sicurezza antincendio rispetto a quanto segnalato"

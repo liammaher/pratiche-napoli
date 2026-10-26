@@ -274,6 +274,8 @@ documents:
   - name: Prospetto di calcolo del contributo di costruzione e ricevuta del versamento
     required: false
     notes: Solo se l'intervento è oneroso.
+dichiarante:
+  ruolo: [titolare, legale_rappresentante]
 forms:
   - id: mod-cila-2025
     name: Mod.CILA-23-06-2025 – Comunicazione inizio lavori asseverata (modello unificato adottato dal SUE di Napoli)
@@ -306,18 +308,18 @@ forms:
       - { label: Dati del titolare – PEC / posta elettronica, map: { fallback: [identity.pec, identity.email] } }
       - { label: Dati del titolare – Telefono fisso / cellulare, map: { direct: identity.phone } }
       # Dati della ditta o società (eventuale)
-      - { label: Dati della ditta o società – in qualità di, map: { direct: business.qualita_dichiarante }, notes: Solo se il titolare agisce per un'impresa. }
+      - { label: Dati della ditta o società – in qualità di, map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }, notes: Solo se il titolare agisce per un'impresa. }
       - { label: Dati della ditta o società – della ditta / società, map: { direct: business.denominazione } }
       - { label: Dati della ditta o società – codice fiscale / p. IVA, map: { fallback: [business.codice_fiscale, business.partita_iva] } }
-      - { label: Dati della ditta o società – Iscritta alla C.C.I.A.A. di, map: { ask: "Camera di commercio di iscrizione dell'impresa (per esempio Napoli)" } }
-      - { label: Dati della ditta o società – prov. (C.C.I.A.A.), map: { ask: "Sigla della provincia della Camera di commercio di iscrizione" } }
+      - { label: Dati della ditta o società – Iscritta alla C.C.I.A.A. di, map: { direct: business.cciaa }, notes: "Il nome della Camera di commercio: per la sigla NA, Napoli." }
+      - { label: Dati della ditta o società – prov. (C.C.I.A.A.), map: { direct: business.cciaa } }
       - { label: Dati della ditta o società – n. (iscrizione), map: { direct: business.rea } }
       - { label: Dati della ditta o società – con sede in, map: { direct: business.sede_legale_comune } }
       - { label: Dati della ditta o società – prov. (sede), map: { direct: business.sede_legale_provincia } }
       - { label: Dati della ditta o società – indirizzo, map: { concat: [business.sede_legale_indirizzo, business.sede_legale_civico] } }
       - { label: Dati della ditta o società – PEC / posta elettronica, map: { fallback: [business.pec, business.email] } }
       - { label: Dati della ditta o società – C.A.P., map: { direct: business.sede_legale_cap } }
-      - { label: Dati della ditta o società – Telefono fisso / cellulare, map: { ask: "Telefono dell'impresa" } }
+      - { label: Dati della ditta o società – Telefono fisso / cellulare, map: { direct: business.telefono } }
       # Dati del procuratore/delegato (in caso di procura)
       - { label: Dati del procuratore/delegato – Cognome, map: { blank_with_reason: "Dati del procuratore (di solito il tecnico incaricato), non del titolare: li inserisce il procuratore." } }
       - { label: Dati del procuratore/delegato – Nome, map: { blank_with_reason: Dati del procuratore; li inserisce il procuratore. } }

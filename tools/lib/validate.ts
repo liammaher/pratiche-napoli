@@ -32,7 +32,7 @@ export function todayInRome(now = new Date()): string {
 // Words that mark a credential in a field name: the vault's reCredentialWord
 // (internal/vault/italy.go) plus "token". Unlike the vault, any category counts.
 export const CREDENTIAL = /(^|_)(pin\d*|puk\d*|password|passwd|pwd|pw|pass|passcode|otp|totp|username|login|secret|segreto|chiave|token)(_|$)/;
-// A family member's slug, as the vault's reMemberSlug; "io" is reserved.
+// A person's slug, as the vault's reMemberSlug; "io" is reserved.
 const MEMBER_SLUG = /^[a-z][a-z0-9-]{0,31}$/;
 // The same secrets named in an ask or blank_with_reason text. "PIN 2.1" etc.
 // are the Vigili del Fuoco form names, not PIN codes.
@@ -65,6 +65,7 @@ interface Doc {
     documents?: { name: string; asked: number; of: number }[];
   };
   sources?: Source[];
+  dichiarante?: unknown;
   forms?: { id: string; fields?: { label: string; map: Record<string, unknown> }[] }[];
   records?: { field: string }[];
   related?: string[];
@@ -76,20 +77,23 @@ interface Doc {
 export function validateProcedure(doc: unknown, relPath: string, ctx: Context): string[] {
   const errors: string[] = [];
   if (!checkSchema(doc)) {
-    // A field mapping that matches no branch makes ajv report every branch;
-    // replace all of that with one message.
+    // A field mapping that matches no branch makes ajv report every branch,
+    // and the oneOfs inside it (party, repeat) once per branch; replace all of
+    // that with one message.
     const all = checkSchema.errors ?? [];
     const badMaps = all
       .filter((e) => e.keyword === "oneOf" && e.instancePath.endsWith("/map"))
       .map((e) => e.instancePath);
     for (const e of all) {
       const inBadMap = badMaps.some((p) => e.instancePath === p || e.instancePath.startsWith(`${p}/`));
-      if (inBadMap && e.keyword !== "oneOf") continue;
+      if (inBadMap && !(e.keyword === "oneOf" && badMaps.includes(e.instancePath))) continue;
       const message = inBadMap
-        ? "must be exactly one of direct, concat (2+), fallback (2+), repeat: famiglia with fields, " +
-          "blank_with_reason or ask, with field IDs like identity.email"
+        ? "must be exactly one of direct, concat (2+), fallback (2+) (each may add party: { ruolo }), " +
+          "repeat: famiglia or repeat: { ruolo } with fields, blank_with_reason or ask, " +
+          "with field IDs like identity.email and ruolo values from $defs/ruolo"
         : e.message;
-      errors.push(`schema: ${e.instancePath || "/"} ${message}`);
+      const line = `schema: ${e.instancePath || "/"} ${message}`;
+      if (!errors.includes(line)) errors.push(line);
     }
     return errors;
   }
@@ -114,7 +118,7 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
     if (formIds.has(f.id)) errors.push(`duplicate form id "${f.id}"`);
     formIds.add(f.id);
     for (const field of f.fields ?? []) {
-      for (const problem of checkMapping(field.map, ctx.registry)) {
+      for (const problem of checkMapping(field.map, ctx.registry, d.dichiarante !== undefined)) {
         errors.push(`form "${f.id}", field "${field.label}": ${problem}`);
       }
     }
@@ -124,7 +128,7 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
   for (const r of d.records ?? []) {
     if (recorded.has(r.field)) errors.push(`records: "${r.field}" is listed twice`);
     recorded.add(r.field);
-    const problem = checkFieldRef(r.field, ctx.registry);
+    const problem = checkUse(r.field, false, ctx.registry, d.dichiarante !== undefined);
     if (problem) errors.push(`records: ${problem}`);
   }
 
@@ -208,7 +212,8 @@ export function procedureIdFromPath(relPath: string): string {
   return relPath.replace(/\\/g, "/").replace(/^procedures\//, "").replace(/\.ya?ml$/i, "");
 }
 
-function checkMapping(map: Record<string, unknown>, registry: Registry): string[] {
+// dichiarante: the procedure names who signs, so a person's own data is theirs.
+function checkMapping(map: Record<string, unknown>, registry: Registry, dichiarante: boolean): string[] {
   const problems: string[] = [];
   const refs: string[] = [];
   if (typeof map.direct === "string") refs.push(map.direct);
@@ -220,32 +225,81 @@ function checkMapping(map: Record<string, unknown>, registry: Registry): string[
     }
   }
   for (const ref of refs) {
-    const problem = checkUse(ref, false, registry);
+    const problem = map.party ? checkPartyRef(ref, registry) : checkUse(ref, false, registry, dichiarante);
     if (problem) problems.push(problem);
   }
-  // repeat: famiglia fills one row per member, from that member's fields.
-  for (const ref of Array.isArray(map.fields) ? (map.fields as string[]) : []) {
-    const problem = checkUse(ref, true, registry);
-    if (problem) problems.push(problem);
+  // repeat fills one row per person (a family member, or someone with a
+  // ruolo), from that person's fields.
+  if (map.repeat !== undefined) {
+    const byRuolo = typeof map.repeat === "object";
+    if (byRuolo && (map.repeat as { except?: string }).except === "dichiarante" && !dichiarante) {
+      problems.push("except: dichiarante needs the procedure's dichiarante");
+    }
+    for (const ref of Array.isArray(map.fields) ? (map.fields as string[]) : []) {
+      const problem = checkUse(ref, true, registry, false) ?? kindProblem(ref, registry, byRuolo ? "impresa" : "persona");
+      if (problem) problems.push(problem);
+    }
   }
   return problems;
 }
 
-// Where a ref may appear: *: (each member) only in a repeat: famiglia row,
-// where every field must be the row member's; a named slug nowhere.
-function checkUse(ref: string, inRow: boolean, registry: Registry): string | null {
-  const problem = checkFieldRef(ref, registry);
+// Where a ref may appear: *: (each person) only in a repeat row, where every
+// field must be the row person's; a named slug nowhere. With a dichiarante,
+// an unprefixed field of a person's own data is the dichiarante's.
+function checkUse(ref: string, inRow: boolean, registry: Registry, dichiarante: boolean): string | null {
+  const { member, local } = splitMember(ref);
+  const problem = !member && dichiarante && isPersonData(local, registry) ? checkDichiaranteRef(ref, registry) : checkFieldRef(ref, registry);
   if (problem) return problem;
-  const { member } = splitMember(ref);
-  if (member === "*") return inRow ? null : `${ref}: *: means each family member, which only repeat: famiglia can fill`;
+  if (member === "*") return inRow ? null : `${ref}: *: means each person of a repeat row, which only repeat can fill`;
   if (member) return namesMember(ref, member);
-  return inRow ? `${ref}: each row is filled from that member's fields, written *:category.field` : null;
+  return inRow ? `${ref}: each row is filled from that person's fields, written *:category.field` : null;
+}
+
+// Inside party, fields are read from the person with that ruolo, who is in a
+// business vault: never a prefix, and nothing only the owner or a personal
+// vault has.
+function checkPartyRef(ref: string, registry: Registry): string | null {
+  const { member } = splitMember(ref);
+  if (member) return `${ref}: inside party, write the field without a prefix; it is read from the person with that ruolo`;
+  return checkFieldRef(ref, registry, "the person with that ruolo") ?? kindProblem(ref, registry, "impresa");
+}
+
+// The dichiarante is the owner of a personal vault or a person with a ruolo in
+// a business vault, so their field must be one at least one of those can have.
+function checkDichiaranteRef(ref: string, registry: Registry): string | null {
+  const asOwner = checkFieldRef(ref, registry);
+  if (!asOwner) return null;
+  const asPerson = checkFieldRef(ref, registry, "the dichiarante") ?? kindProblem(ref, registry, "impresa");
+  if (!asPerson) return null;
+  return asOwner === asPerson
+    ? asOwner
+    : `${ref}: no dichiarante can have it, neither the owner of a personal vault nor a person with a ruolo in a business vault`;
+}
+
+// A person's own data, which a procedure's dichiarante supplies: categories
+// about a person that each person has (identity, residenza, cie...), and ruolo.
+function isPersonData(local: string, registry: Registry): boolean {
+  const category = registry.categories.find((c) => c.name === local.split(".")[0]);
+  return !!category && category.scope === "person" && (category.subject === "persona" || category.name === "ruolo");
+}
+
+// People with a ruolo are in a business vault and family members in a
+// personal one, so neither can have what only the other kind of vault keeps.
+function kindProblem(ref: string, registry: Registry, kind: "persona" | "impresa"): string | null {
+  const { local } = splitMember(ref);
+  const category = registry.categories.find((c) => c.name === local.split(".")[0]);
+  const field = category?.fields.find((f) => f.id === local);
+  const what = category?.kinds && !category.kinds.includes(kind) ? category.name : field?.kinds && !field.kinds.includes(kind) ? local : null;
+  if (!what) return null;
+  return kind === "impresa"
+    ? `${ref}: ${what} is only in personal vaults, and people with a ruolo are in a business vault`
+    : `${ref}: ${what} is only in business vaults, and family members are in a personal vault`;
 }
 
 // Slugs are chosen per vault (and are often first names), so a procedure
 // can't name one.
 function namesMember(ref: string, member: string): string {
-  return `${ref}: a procedure can't name a particular family member ("${member}"); use *: inside repeat: famiglia`;
+  return `${ref}: a procedure can't name a particular person ("${member}"); use *: inside repeat, or party`;
 }
 
 // "leo:cie.numero" gives "leo" and "cie.numero"; an owner's field has no member.
@@ -257,7 +311,9 @@ export function splitMember(ref: string): { member: string; local: string } {
   return { member: ref.slice(0, colon), local: ref.slice(colon + 1) };
 }
 
-export function checkFieldRef(ref: string, registry: Registry): string | null {
+// person: who an unprefixed ref is read from when it may not be the vault's
+// owner ("the dichiarante"); their member-only fields are fine, the owner's not.
+export function checkFieldRef(ref: string, registry: Registry, person?: string): string | null {
   const { member, local } = splitMember(ref);
   const [cat, field] = local.split(".", 2);
   const secret = `${ref} can't be used in a public procedure: it is (or includes) a secret or payment field`;
@@ -272,11 +328,17 @@ export function checkFieldRef(ref: string, registry: Registry): string | null {
   if (member && category.scope === "owner") {
     return `${ref}: ${cat} is the vault owner's (the household's), not each member's; drop the "${member}:" prefix`;
   }
+  if (person && category.scope === "owner") return `${ref}: ${cat} is the vault owner's (the household's); ${person} can't have it`;
 
   if (field === "*") {
     // A wildcard must not sweep in a secret field of the category.
     if (registry.forbidden.fields.some((f) => f.startsWith(`${cat}.`))) return secret;
-    return category.open ? `${ref}: a wildcard over an open category could include anything, secrets too; name the fields` : null;
+    if (category.open) return `${ref}: a wildcard over an open category could include anything, secrets too; name the fields`;
+    // ...nor be all fields its holder can never have.
+    const all = (forWhom: string) => category.fields.length > 0 && category.fields.every((f) => f.for === forWhom);
+    if (!member && !person && all("member")) return `${ref}: every ${cat} field is another person's, never the vault owner's`;
+    if ((member || person) && all("owner")) return `${ref}: every ${cat} field is the vault owner's only`;
+    return null;
   }
   if (CREDENTIAL.test(field)) return secret;
 
@@ -284,7 +346,8 @@ export function checkFieldRef(ref: string, registry: Registry): string | null {
   const known = category.fields.find((f) => f.id === local);
   if (!known) return `unknown field "${local}" (add it to the registry, or use { ask: ... })`;
   if (member && known.for === "owner") return `${ref}: ${local} is the vault owner's field only; drop the "${member}:" prefix`;
-  if (!member && known.for === "member") return `${ref} is a family member's field, never the vault owner's`;
+  if (person && known.for === "owner") return `${ref}: ${local} is the vault owner's field only; ${person} can't have it`;
+  if (!member && !person && known.for === "member") return `${ref} is another person's field, never the vault owner's`;
   return null;
 }
 
