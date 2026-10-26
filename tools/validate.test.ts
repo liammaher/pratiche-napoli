@@ -855,6 +855,12 @@ test("a wildcard over an open category is refused", () => {
 test("ask and blank_with_reason can't request secrets, but form names like PIN 2.1 are fine", () => {
   assert.match(errorsFor(withForm({ label: "X", map: { ask: "PIN della CIE e password SPID del titolare" } })), /must not ask for a PIN/);
   assert.match(errorsFor(withForm({ label: "X", map: { blank_with_reason: "Inserire il codice OTP" } })), /must not ask for a PIN/);
+  for (const ask of ["Credenziali Fisconline del titolare", "Una credenziale di accesso", "Codice di sblocco della CIE", "codici sblocco"]) {
+    assert.match(errorsFor(withForm({ label: "X", map: { ask } })), /must not ask for a PIN/, ask);
+  }
+  assert.match(errorsFor(withForm({ label: "X", map: { blank_with_reason: "Il codice di sblocco della CIE" } })), /must not ask for a PIN/);
+  // Saying an office hands out credentials asks nothing of the person.
+  assert.deepEqual(validateProcedure(withForm({ label: "X", map: { blank_with_reason: "Si compila alla consegna delle credenziali." } }), PATH, ctx), []);
   assert.deepEqual(validateProcedure(withForm({ label: "X", map: { blank_with_reason: "Allegare il modulo PIN 2.1" } }), PATH, ctx), []);
 });
 

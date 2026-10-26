@@ -33,7 +33,10 @@ export function todayInRome(now = new Date()): string {
 const MEMBER_SLUG = /^[a-z][a-z0-9-]{0,31}$/;
 // Secrets named in an ask or blank_with_reason text. "PIN 2.1" etc.
 // are the Vigili del Fuoco form names, not PIN codes.
-const ASKS_FOR_SECRET = /\b(pin(?!\s*\d)|puk|password|passcode|otp|codice segreto)\b/i;
+const ASKS_FOR_SECRET = /\b(pin(?!\s*\d)|puk|password|passcode|otp|codice segreto|codic[ei] (di )?sblocco)\b/i;
+// Credentials as a whole, only in an ask: one asked of the person is a login,
+// while a blank_with_reason may well say an office hands some out.
+const ASKS_FOR_CREDENTIALS = /\bcredenzial[ei]\b/i;
 // The ruoli that give a business a procura (the procura category): a client,
 // so the business can act for them. A procuratore holds the business's procura,
 // the other way round. Listed, not excluded, so a new ruolo stays refused.
@@ -304,7 +307,8 @@ function checkMapping(map: Record<string, unknown>, registry: Registry, dichiara
   if (address) problems.push(address);
 
   for (const key of ["ask", "blank_with_reason"]) {
-    if (typeof map[key] === "string" && ASKS_FOR_SECRET.test(map[key] as string)) {
+    const text = map[key];
+    if (typeof text === "string" && (ASKS_FOR_SECRET.test(text) || (key === "ask" && ASKS_FOR_CREDENTIALS.test(text)))) {
       problems.push(`${key} must not ask for a PIN, password or other secret`);
     }
   }
