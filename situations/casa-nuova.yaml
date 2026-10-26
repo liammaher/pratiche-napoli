@@ -1,0 +1,13 @@
+schema_version: 0
+id: casa-nuova
+headline: "Casa nuova a Napoli: TARI e lavori, cosa fare"
+aka: [trasloco Napoli, nuova casa, cambio casa]
+updated: 2026-10-26
+intro: >-
+  Le pratiche di chi va a vivere in una nuova casa a Napoli, in proprietà o in affitto, e di chi ci
+  fa dei lavori. Scadenze e fonti sono nelle pagine delle singole pratiche.
+steps:
+  - procedure: napoli/comune/tari-iscrizione-uso-abitativo
+    when: La dichiarazione TARI per la nuova casa
+  - procedure: napoli/comune/cila-lavori-edilizi
+    when: La CILA, se si fanno lavori interni

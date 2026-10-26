@@ -1,5 +1,5 @@
-// Checks that every procedure changed since a base commit has its `updated`
-// date bumped (the rule is in lib/updated.ts). The working tree is compared,
+// Checks that every procedure or situation changed since a base commit has its
+// `updated` date bumped (the rule is in lib/updated.ts). The working tree is compared,
 // so an uncommitted change counts as made today; a committed one is dated by
 // the author date of the newest commit that changed the content, which
 // survives a rebase.
@@ -36,7 +36,7 @@ interface Change {
 
 const isYaml = (p: string) => /\.ya?ml$/i.test(p);
 const changes: Change[] = [];
-for (const line of git("-C", top, "diff", "--name-status", "-M", mergeBase, "--", "procedures").split("\n")) {
+for (const line of git("-C", top, "diff", "--name-status", "-M", mergeBase, "--", "procedures", "situations").split("\n")) {
   if (!line) continue;
   const [status, a, b] = line.split("\t");
   if (status === "D") continue;
@@ -44,7 +44,7 @@ for (const line of git("-C", top, "diff", "--name-status", "-M", mergeBase, "--"
   if (!isYaml(p)) continue;
   changes.push({ path: p, oldPath: status === "A" ? undefined : a });
 }
-for (const p of git("-C", top, "ls-files", "--others", "--exclude-standard", "--", "procedures").split("\n")) {
+for (const p of git("-C", top, "ls-files", "--others", "--exclude-standard", "--", "procedures", "situations").split("\n")) {
   if (p && isYaml(p)) changes.push({ path: p });
 }
 

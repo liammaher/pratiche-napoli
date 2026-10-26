@@ -35,3 +35,10 @@
    CI runs it on every pull request.
 11. Run `npm run validate`, `npm run check:updated` and `npm test` before opening a pull
     request.
+
+## Situations
+
+A situation (`situations/<id>.yaml`) lists the procedures someone meets in one situation. Its
+`when` says in a few words what each procedure is for there, and nothing more: no deadlines,
+amounts or rules, which belong to the procedure, with its sources. Add a procedure to every
+situation it belongs to, and keep `updated` current as for procedures.

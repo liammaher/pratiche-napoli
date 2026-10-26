@@ -2,8 +2,8 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import { buildSite, esc, time, type Procedure, type SiteOptions } from "./site.ts";
-import { ROOT, loadRegistry, todayInRome, validateDir } from "./validate.ts";
+import { buildSite, esc, time, type Procedure, type Situation, type SiteOptions } from "./site.ts";
+import { ROOT, loadRegistry, todayInRome, validateDir, validateSituations } from "./validate.ts";
 
 const opts: SiteOptions = {
   baseUrl: "https://example.org/pratiche",
@@ -15,9 +15,12 @@ const opts: SiteOptions = {
 };
 
 const library = validateDir(path.join(ROOT, "procedures"), loadRegistry(), todayInRome()).map((r) => r.doc as Procedure);
-const files = buildSite(library, opts);
+const situations = validateSituations(path.join(ROOT, "situations"), new Set(library.map((p) => p.id)), todayInRome()).map(
+  (r) => r.doc as Situation,
+);
+const files = buildSite(library, opts, situations);
 const reports = { url: "https://europe-west8-example.cloudfunctions.net/submitReport", contact: "privacy@example.org", script: "// report.js" };
-const withForm = buildSite(library, { ...opts, reports });
+const withForm = buildSite(library, { ...opts, reports }, situations);
 
 function minimal(over: Partial<Procedure> = {}): Procedure {
   return {
@@ -365,4 +368,54 @@ test("same-day answers and no wait read naturally", () => {
   assert.ok(html.includes("<strong>Attesa allo sportello</strong>: nessuna attesa, tra 0 e 5 minuti (3 racconti)."));
   assert.ok(html.includes("<strong>Pagato in tutto</strong>: circa 16\u00a0€ (3 racconti)."));
   assert.ok(!html.includes("0 giorni"));
+});
+
+test("situation pages list their procedures with each one's own deadline, never a new fact", () => {
+  const first = minimal({ deadline: { rules: [{ text: "Entro 90 giorni.", status: "unverified" }] } });
+  const second = minimal({ id: "napoli/comune/other", headline: "Altra pratica di prova", updated: "2026-10-26" });
+  const s: Situation = {
+    id: "apro-test",
+    headline: "Aprire un test a Napoli: le pratiche",
+    aka: ["test"],
+    updated: "2026-10-20",
+    intro: "Le pratiche di chi apre un test.",
+    steps: [
+      { procedure: "napoli/comune/test", when: "La prima" },
+      { procedure: "napoli/comune/other", when: "La seconda" },
+    ],
+  };
+  const site = buildSite([first, second], opts, [s]);
+  const page = site.get("situazioni/apro-test/index.html")!;
+  assert.ok(page.includes('<li><a href="../../napoli/comune/test/">Test</a>\n<p>La prima</p>'));
+  assert.ok(page.includes('<p class="note">Scadenza: Entro 90 giorni. <span class="badge">da verificare</span></p>'));
+  assert.ok(!page.includes('class="cite"'));
+  // The page changed when its newest procedure did.
+  assert.ok(page.includes(`Aggiornata il ${time("2026-10-26")}`));
+  assert.ok(site.get("sitemap.xml")!.includes(`<loc>${opts.baseUrl}/situazioni/apro-test/</loc><lastmod>2026-10-26</lastmod>`));
+  const ld = JSON.parse(page.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)![1]);
+  assert.deepEqual(ld.mainEntity.itemListElement.map((i: { url: string }) => i.url), [`${opts.baseUrl}/napoli/comune/test/`, `${opts.baseUrl}/napoli/comune/other/`]);
+  // Linked from the home page, the procedures and the index, and listed for AIs.
+  assert.ok(site.get("index.html")!.includes('<a href="situazioni/apro-test/">Aprire un test a Napoli: le pratiche</a>'));
+  assert.ok(site.get("napoli/comune/test/index.html")!.includes('<p class="meta">Fa parte di: <a href="../../../situazioni/apro-test/">Aprire un test a Napoli: le pratiche</a></p>'));
+  assert.ok(site.get("situazioni/index.html")!.includes('<a href="../situazioni/apro-test/">'));
+  assert.ok(site.get("llms.txt")!.includes("## Situations"));
+  assert.deepEqual(JSON.parse(site.get("procedures.json")!).situations[0].procedures, ["napoli/comune/test", "napoli/comune/other"]);
+});
+
+test("the about and updates pages are built and linked from every page", () => {
+  const about = files.get("come-lavoriamo/index.html")!;
+  for (const level of ["L0", "L1", "L2", "L3"]) assert.ok(about.includes(`<strong>${level}</strong>`), level);
+  assert.ok(about.includes('"@type":"AboutPage"'));
+  assert.ok(about.includes("è pubblica: non scrivere dati personali"));
+  assert.ok(withForm.get("come-lavoriamo/index.html")!.includes("mailto:privacy@example.org"));
+  const updates = files.get("aggiornamenti/index.html")!;
+  const dates = [...updates.matchAll(/<li><time datetime="([\d-]+)">/g)].map((m) => m[1]);
+  assert.ok(dates.length > 0 && dates.length <= 50);
+  assert.deepEqual(dates, [...dates].sort().reverse());
+  assert.ok(updates.includes(`${opts.repoUrl}/commits/main/procedures/`));
+  for (const [file, content] of files) {
+    if (file.endsWith(".html") && file !== "404.html") {
+      assert.ok(content.includes('come-lavoriamo/">Come lavoriamo</a>') && content.includes('aggiornamenti/">Aggiornamenti</a>'), file);
+    }
+  }
 });

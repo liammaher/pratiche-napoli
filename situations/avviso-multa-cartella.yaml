@@ -1,0 +1,18 @@
+schema_version: 0
+id: avviso-multa-cartella
+headline: "Ho ricevuto una multa, un avviso o una cartella a Napoli: cosa fare"
+aka: [multa vigili, notifica SEND, cartella esattoriale, avviso TARI]
+updated: 2026-10-26
+intro: >-
+  Cosa fare quando arriva qualcosa da pagare o da contestare: una notifica digitale, una multa
+  della Polizia Locale, un avviso TARI sbagliato o una cartella. Scadenze e fonti sono nelle pagine
+  delle singole pratiche.
+steps:
+  - procedure: italia/pagopa/send-notifiche-digitali
+    when: Se è arrivata come notifica SEND, anche sull'app IO
+  - procedure: napoli/polizia-locale/verbale-pagamento-ricorso
+    when: Una multa della Polizia Locale di Napoli
+  - procedure: napoli/comune/tari-autotutela-avviso-non-domestica
+    when: Un avviso TARI sbagliato per un'attività
+  - procedure: italia/agenzia-entrate-riscossione/rateizzazione-cartella
+    when: Una cartella da pagare a rate
