@@ -54,6 +54,7 @@ interface Doc {
   id?: string;
   sources?: Source[];
   forms?: { id: string; fields?: { label: string; map: Record<string, unknown> }[] }[];
+  records?: { field: string }[];
   related?: string[];
   run_log?: { date: string }[];
   verification?: { level?: string; date?: string };
@@ -105,6 +106,14 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
         errors.push(`form "${f.id}", field "${field.label}": ${problem}`);
       }
     }
+  }
+
+  const recorded = new Set<string>();
+  for (const r of d.records ?? []) {
+    if (recorded.has(r.field)) errors.push(`records: "${r.field}" is listed twice`);
+    recorded.add(r.field);
+    const problem = checkFieldRef(r.field, ctx.registry);
+    if (problem) errors.push(`records: ${problem}`);
   }
 
   walk(d, "", (p, value, parent) => {

@@ -355,6 +355,9 @@ after:
     Se per tre anni non risulta alcuna attività, l'Agenzia può chiudere d'ufficio la partita IVA dopo
     una comunicazione preventiva (nel Cassetto fiscale, "L'Agenzia scrive"): entro 60 giorni ci si
     può opporre presso un qualunque ufficio; dopo, si può chiedere la riattivazione motivata.
+records:
+  - field: business.partita_iva
+    from: Comunicazione di avvenuto ricevimento con il numero di partita IVA
 pitfalls:
   - text: >-
       Le imprese individuali e artigiane non aprono la partita IVA con il solo AA9/12: devono usare
