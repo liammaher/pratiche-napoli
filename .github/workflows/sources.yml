@@ -66,9 +66,9 @@ jobs:
         run: |
           number=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number,title \
             --jq "map(select(.title == env.TITLE))[0].number // empty")
-          # The addresses that changed or stopped answering (not those only
-          # listed as uncheckable or blocked).
-          urls() { awk '/^## /{keep = /^## (Moduli|Non raggiungibili)/} keep && /^- https?:\/\//{print $2}' | sort -u; }
+          # The addresses that changed, stopped answering or have been blocked
+          # for a week (not those only listed as uncheckable or blocked lately).
+          urls() { awk '/^## /{keep = /^## (Moduli|Non raggiungibili|Bloccati dal sito da almeno)/} keep && /^- https?:\/\//{print $2}' | sort -u; }
           if [ -s report.md ]; then
             if [ -n "$number" ]; then
               # Editing the body notifies nobody, so new addresses get a comment
@@ -85,5 +85,5 @@ jobs:
               gh issue create --title "$TITLE" --body-file report.md
             fi
           elif [ -n "$number" ]; then
-            gh issue close "$number" --comment "Al controllo di oggi nessun modulo è cambiato e tutte le pagine controllate rispondono (quelle con un certificato che il controllo non riesce a verificare restano da guardare a mano)."
+            gh issue close "$number" --comment "Al controllo di oggi nessun modulo è cambiato e tutte le pagine controllate rispondono (quelle con un certificato che il controllo non riesce a verificare, o bloccate dal sito da meno di una settimana, restano da guardare a mano)."
           fi
