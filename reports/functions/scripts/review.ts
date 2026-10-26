@@ -127,12 +127,13 @@ async function setStatus(db: Firestore, id: string, status: string, now: Date, e
     const doc = await t.get(ref);
     if (!doc.exists) throw new Error(`no report ${id}`);
     // A report stored before marks were gets one, so export can use it. So
-    // does one accepted again with other words: to the published figures it
-    // is a new report, since under its old mark comparing versions would show
-    // its one change. The reports published with it leave the figures with
-    // the old mark (see tools/lib/reported.ts).
+    // does one reviewed before (accepted, or rejected after it was) that is
+    // accepted with other words: to the published figures it is a new
+    // report, since under its old mark comparing versions would show its one
+    // change. The reports published with it leave the figures with the old
+    // mark (see tools/lib/reported.ts). A pending report was never published.
     const reworded =
-      doc.get("status") === "accepted" &&
+      doc.get("status") !== "pending" &&
       Object.entries(extra).some(([field, v]) => (v instanceof FieldValue ? doc.get(field) !== undefined : doc.get(field) !== v));
     t.update(ref, { status, reviewed_at: now, ...((typeof doc.get("mark") !== "string" || reworded) && { mark: newMark() }), ...extra });
   });

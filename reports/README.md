@@ -71,8 +71,11 @@ when they sent it (`show <id>`) or by the email they left (`find <email>`), then
 The deleted report leaves the published figures at the next `reports:aggregate`, and the
 reports first published with it leave with it, so that comparing versions doesn't tell it apart
 (see `tools/lib/reported.ts`). Its mark stays in the history, but nothing links it to the report
-any more. Accepting a report again with other words gives it a new mark, for the same reason: to
-the figures it is a new report, and the ones published with it leave with the old mark.
+any more. Accepting a report again with other words, once it has been accepted or rejected, gives
+it a new mark, for the same reason: to the figures it is a new report, and the ones published with
+it leave with the old mark. For the same reason a correction someone asks for is never an edit of
+the stored report, which would keep its mark: delete it, and accept the corrected one, sent again
+through the form, as a new report.
 
 Accepting is where one person sending three reports to reach the threshold of 3 is
 caught: reports with the same procedure, month and answers that arrived close

@@ -42,7 +42,13 @@ const known = new Set(results.map((r) => (r.doc as { id: string }).id));
 const unknown = new Set(reports.map((r) => r.procedure).filter((id) => !known.has(id)));
 for (const id of unknown) console.warn(`! reports for ${id}, which is no longer in the library`);
 
-const everPublished = publishedBlocks();
+const { blocks: everPublished, unread } = publishedBlocks();
+// A version left out would merge groups of reports it tells apart.
+if (unread.length) {
+  console.error(`not aggregating: can't read the published block in ${unread.join(", ")}`);
+  console.error("(a local branch never pushed can be deleted; a version that was pushed stays public, so what it showed must be checked by hand)");
+  process.exit(2);
+}
 let changed = 0;
 for (const { rel, doc } of results) {
   const p = doc as { id: string; documents?: { name: string }[]; reported?: Reported };
@@ -63,16 +69,19 @@ for (const { rel, doc } of results) {
 console.log(`\n${changed} procedures updated from ${reports.length} accepted reports`);
 
 // Every block any procedure file had in the repository's history, on every
-// branch (each was public), with the id of the procedure it was in.
-function publishedBlocks(): { id: string; block: Reported }[] {
+// branch (each was public), with the id of the procedure it was in; and the
+// files with a block that can't be read (a merge conflict left in, a block
+// without its basis), which must not be left out.
+function publishedBlocks(): { blocks: { id: string; block: Reported }[]; unread: string[] } {
   const git = (...args: string[]) => execFileSync("git", ["-C", ROOT, ...args], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
   let commits: string[] = [];
   try {
     commits = git("rev-list", "--all", "--", "procedures").split("\n").filter(Boolean);
   } catch {
-    return []; // not a git checkout: only the working tree
+    return { blocks: [], unread: [] }; // not a git checkout: only the working tree
   }
   const out = new Map<string, { id: string; block: Reported }>();
+  const unread: string[] = [];
   for (const sha of commits) {
     let files: string[] = [];
     try {
@@ -84,13 +93,15 @@ function publishedBlocks(): { id: string; block: Reported }[] {
     for (const file of files) {
       try {
         const doc = parseProcedure(git("show", file)) as { id?: string; reported?: Reported } | undefined;
-        if (doc?.id && doc.reported?.basis) out.set(`${doc.id} ${JSON.stringify(doc.reported)}`, { id: doc.id, block: doc.reported });
+        const basis = doc?.reported?.basis;
+        if (!doc?.id || !Array.isArray(basis) || !basis.every((m) => typeof m === "string")) unread.push(file);
+        else out.set(`${doc.id} ${JSON.stringify(doc.reported)}`, { id: doc.id, block: doc.reported! });
       } catch {
-        // didn't parse there
+        unread.push(file);
       }
     }
   }
-  return [...out.values()];
+  return { blocks: [...out.values()], unread };
 }
 
 // The versions that were this procedure's: those under its id and, through a
