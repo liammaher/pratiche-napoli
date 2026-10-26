@@ -1036,14 +1036,15 @@ function renderPrivacy(site: Site): string {
   const body = `<h1>Privacy</h1>
 <p>${SITE_NAME} non usa cookie né strumenti di tracciamento. Come per ogni sito, il servizio che lo ospita registra per motivi tecnici e di sicurezza l'indirizzo IP e le pagine richieste (log di accesso); non li usiamo per nient'altro.</p>
 <h2>I racconti di chi ha fatto una pratica</h2>
-<p>Se compili il modulo "Racconta com'è andata", riceviamo solo quello che scrivi: il mese, il canale e l'ufficio, com'è finita, tempi, importi, quali documenti ti hanno chiesto e le tue note. Lo usiamo per un solo scopo: tenere aggiornate le pagine delle pratiche.</p>
+<p>Se compili il modulo "Racconta com'è andata", riceviamo solo quello che scrivi: il mese, il canale e l'ufficio, com'è finita, tempi, importi, quali documenti ti hanno chiesto, le tue note e, se ne segnali, le correzioni alla pagina. Lo usiamo per un solo scopo: tenere aggiornate le pagine delle pratiche.</p>
 <ul>
-<li><strong>Cosa pubblichiamo</strong>: mai il tuo racconto così com'è. Solo statistiche in cui ogni numero viene da almeno 3 racconti (per esempio "risposta in circa 23 giorni via PEC, 7 racconti"), sempre valori tipici arrotondati e mai il più alto o il più basso, e consigli che riscriviamo noi. Valgono anche mettendo insieme tutte le versioni pubblicate: i racconti entrano almeno 3 alla volta, escono insieme a quelli con cui sono entrati, e ogni numero vale anche dentro ciascuno di questi gruppi, così confrontando le versioni non si risale a nessuno. Per saperlo pubblichiamo anche un codice casuale per ogni racconto, diverso dal numero di ricevuta che ti diamo: dalla ricevuta non si arriva al codice.</li>
+<li><strong>Cosa pubblichiamo</strong>: mai il tuo racconto così com'è. Solo statistiche in cui ogni numero viene da almeno 3 racconti (per esempio "risposta in circa 25 giorni via PEC, 7 racconti"): il valore tipico (la mediana, arrotondata, tranne quando è di pochi giorni), mai il più alto o il più basso, e consigli scritti da noi. Ogni versione pubblicata resta nella cronologia del progetto, e la regola dei 3 vale anche mettendo insieme le versioni: i racconti entrano almeno 3 alla volta, escono insieme a quelli con cui sono entrati, e ogni numero vale anche dentro ciascuno di questi gruppi. Per saperlo pubblichiamo anche un codice casuale per ogni racconto, diverso dal numero di ricevuta che ti diamo: dalla ricevuta non si arriva al codice.</li>
+<li><strong>Cosa resta possibile</strong>: un gruppo di 3 protegge, ma non del tutto. Se un dato è uguale per tutti e 3 (per esempio tutti e 3 sono stati respinti), chi sa che il tuo racconto è in quel gruppo, perché sa quando l'hai mandato, sa anche com'è andata a te. E chi manda di proposito altri racconti insieme al tuo può risalire anche ai tuoi tempi o importi. Prima di accettarli controlliamo i racconti e scartiamo quelli che sembrano mandati dalla stessa persona: questo aiuta contro il secondo caso, non contro il primo.</li>
 <li><strong>Dati personali</strong>: non ne chiediamo e ti chiediamo di non scriverne. Codici fiscali e IBAN scritti per errore, anche con un errore di battitura, vengono tolti automaticamente all'arrivo.</li>
 <li><strong>Indirizzo IP</strong>: non lo salviamo con il racconto, e il servizio che lo riceve è impostato per non conservarlo nei suoi registri. Per limitare gli invii ripetuti teniamo un codice pseudonimo ricavato dall'indirizzo, valido un'ora e cancellato automaticamente, di norma entro un giorno.</li>
 <li><strong>Email</strong>: la chiediamo solo se spunti la casella per essere ricontattato. È conservata separata dal racconto e cancellata dopo 12 mesi.</li>
-<li><strong>Dove</strong>: su Google Firebase, in un database nell'Unione europea (Milano), accessibile solo a chi cura il progetto.</li>
-<li><strong>Per quanto</strong>: ogni racconto viene cancellato automaticamente 12 mesi dopo il mese della pratica che racconta, quando esce comunque dalle statistiche, che usano solo quelli degli ultimi 12 mesi (può uscirne prima, insieme a quelli con cui è entrato). Per questo il modulo accetta solo pratiche degli ultimi 12 mesi.</li>
+<li><strong>Dove</strong>: su Google Firebase, in un database nell'Unione europea (Milano), accessibile solo a chi cura il progetto. Per calcolare le statistiche chi cura il progetto ne scarica sul proprio computer solo i campi che servono (né le note, né l'ufficio, né l'email), in un file che si usa entro un'ora e viene cancellato appena usato.</li>
+<li><strong>Per quanto</strong>: ogni racconto viene cancellato automaticamente 12 mesi dopo il mese della pratica che racconta, quando esce comunque dalle statistiche, che usano solo quelli degli ultimi 12 mesi (può uscirne prima, insieme a quelli con cui è entrato). Per questo il modulo accetta solo pratiche degli ultimi 12 mesi. Le statistiche già pubblicate, con i codici casuali, restano nella cronologia pubblica del progetto.</li>
 <li><strong>I tuoi diritti</strong>: dopo l'invio ricevi un codice del racconto. Con quel codice, o con l'email se l'hai lasciata, puoi chiederci in ogni momento di vederlo, correggerlo o cancellarlo.</li>
 <li><strong>Base giuridica</strong>: il tuo consenso, che dai inviando il modulo (e spuntando la casella, per l'email). Puoi revocarlo quando vuoi.</li>
 </ul>
@@ -1109,11 +1110,11 @@ const euro = (v: number) =>
 const month = (m: string) => MONTH.format(new Date(`${m}-01T00:00:00Z`));
 const nReports = (n: number) => (n === 1 ? "1 racconto" : `${n} racconti`);
 
-// "in giornata", "circa 1 giorno", "circa 23 giorni"; "nessuna attesa" for 0 minutes.
+// "in giornata", "circa 1 giorno", "circa 25 giorni"; "nessuna attesa" for 0 minutes.
 const days = (n: number) => (n === 0 ? "in giornata" : `circa ${n} ${n === 1 ? "giorno" : "giorni"}`);
 const minutes = (n: number) => (n === 0 ? "nessuna attesa" : `circa ${n} ${n === 1 ? "minuto" : "minuti"}`);
 
-// "circa 23 giorni via PEC (7 racconti)", per channel with enough answers.
+// "circa 25 giorni via PEC (7 racconti)", per channel with enough answers.
 function answerTimes(r?: Reported): string | undefined {
   const parts = (r?.channels ?? []).flatMap((c) =>
     c.days_to_answer ? [`${days(c.days_to_answer.median)} via ${CHANNELS[c.type] ?? c.type} (${nReports(c.days_to_answer.n)})`] : [],

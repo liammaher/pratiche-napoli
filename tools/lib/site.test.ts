@@ -319,6 +319,20 @@ test("the privacy page mentions the host's access logs and calls the IP code pse
   }
 });
 
+test("the privacy page claims no more than the figures do", () => {
+  const privacy = withForm.get("privacy/index.html")!;
+  // A group of 3 doesn't stop everything, and the page says what it leaves.
+  assert.ok(!privacy.includes("non si risale a nessuno"));
+  assert.ok(privacy.includes("Cosa resta possibile"));
+  // Its example is a figure the rounding can give (23 days is shown as 25).
+  assert.ok(privacy.includes("circa 25 giorni via PEC, 7 racconti"));
+  assert.ok(privacy.includes("restano nella cronologia pubblica"));
+  // What a group gives away is a count, and the review only helps against fakes.
+  assert.ok(privacy.includes("tutti e 3 sono stati respinti"));
+  assert.ok(privacy.includes("non contro il primo"));
+  assert.ok(privacy.includes("le correzioni alla pagina"));
+});
+
 test("what people reported shows in In breve and its own section, never as official", () => {
   const p = minimal({
     documents: [{ name: "Modulo", required: true }],
