@@ -102,6 +102,7 @@ export interface SiteOptions {
 }
 
 export const SITE_NAME = "Pratiche Napoli";
+const TITLE_MAX = 65;
 const TAGLINE =
   "Le pratiche burocratiche di Napoli spiegate in modo chiaro: chi deve farle, entro quando, come, con quali documenti. Ogni informazione cita la sua fonte ufficiale.";
 
@@ -137,7 +138,13 @@ const CHANNELS: Record<string, string> = {
   phone: "Telefono",
   app: "App",
 };
-const AUTH: Record<string, string> = { spid: "SPID", cie: "CIE", cns: "CNS", none: "senza credenziali" };
+const AUTH: Record<string, string> = { spid: "SPID", cie: "CIE", cns: "CNS" };
+// "con SPID, CIE", "con SPID o senza credenziali", "senza credenziali".
+const access = (auth: string[]) => {
+  const ways = auth.filter((a) => a !== "none").map((a) => AUTH[a] ?? a);
+  if (!ways.length) return "senza credenziali";
+  return `con ${ways.join(", ")}${auth.includes("none") ? " o senza credenziali" : ""}`;
+};
 const RECEIPT: Record<string, string> = {
   legal: "ricevuta con valore legale",
   informal: "ricevuta senza valore legale",
@@ -267,7 +274,13 @@ interface PageMeta {
 function page(meta: PageMeta, body: string, site: Site): string {
   const root = meta.root ?? rootFrom(meta.dir);
   const url = `${site.opts.baseUrl}/${meta.dir ? meta.dir + "/" : ""}`;
-  const fullTitle = meta.dir ? `${meta.title} | ${SITE_NAME}` : `${SITE_NAME} – ${meta.title}`;
+  // Search results cut titles at about 60 characters: the site's name goes
+  // after a page's own only when both fit, so the headline is never cut for it.
+  const fullTitle = !meta.dir
+    ? `${SITE_NAME} – ${meta.title}`
+    : meta.title.length + SITE_NAME.length + 3 <= TITLE_MAX
+      ? `${meta.title} | ${SITE_NAME}`
+      : meta.title;
   return `<!doctype html>
 <html lang="it">
 <head>
@@ -575,8 +588,7 @@ function quickAnswer(p: Procedure, cite: Cite, flag: boolean): string {
   // emails are for questions, and filings sent there aren't processed.
   const ways = p.channels.filter((c) => c.purpose === "procedure");
   const online = ways.filter((c) => ONLINE.has(c.type));
-  const channelName = (c: Channel) =>
-    `${CHANNELS[c.type] ?? c.type}${c.name ? ` (${c.name})` : ""}${c.auth?.length ? `, con ${c.auth.map((a) => AUTH[a] ?? a).join(", ")}` : ""}`;
+  const channelName = (c: Channel) => `${CHANNELS[c.type] ?? c.type}${c.name ? ` (${c.name})` : ""}${c.auth?.length ? `, ${access(c.auth)}` : ""}`;
   const required = (p.documents ?? []).filter((d) => d.required).length;
   // Steps by a professional or the office aren't the reader's to do.
   const yours = p.steps.filter((s) => s.human_only && s.who === "owner");
@@ -620,9 +632,29 @@ function deadlineSummary(p: Procedure): Claim | undefined {
 // The meta description: the summary's first sentence, then the quick facts.
 // Search snippets drop the page's badges, so only verified facts go in.
 function describe(p: Procedure): string {
-  const first = p.summary.match(/^.*?[.!?](?=\s|$)/)?.[0] ?? p.summary;
-  const facts = [deadlineSummary(p), p.cost, p.duration].filter((c): c is Claim => c?.status === "verified").map((c) => c.text);
+  const first = firstSentence(p.summary);
+  // A fact the sentence already gives ("entro 90 giorni") isn't repeated.
+  const said = (fact: string) => first.toLowerCase().includes(fact.toLowerCase().split(/\s+/).slice(0, 3).join(" "));
+  const facts = [deadlineSummary(p), p.cost, p.duration]
+    .filter((c): c is Claim => c?.status === "verified")
+    .map((c) => c.text)
+    .filter((t) => !said(t));
   return [first, ...facts].join(" ");
+}
+
+// Abbreviations a sentence doesn't end at: "con il Mod. 1", "art. 35", "D.P.R. 151/2011".
+const ABBREVIATION = /(^|[\s(])(mod|modd|art|artt|n|nn|c|cc|co|lett|all|es|ecc|cfr|pag|pagg|ss|sez|tab|reg|rif|tel|dott|sig|sigg|prof|ing|arch|geom|avv|spett|vd|v|p|pp|l|dl|dlgs|dpr|dm|dgr|dcc|dgc|dd|tu|rd|lr|[a-z]\.[a-z.]*)$/i;
+
+// Up to the first full stop that ends a sentence: one followed by a capital
+// letter (or by nothing), after a word that isn't an abbreviation.
+export function firstSentence(text: string): string {
+  for (const m of text.matchAll(/[.!?](?=\s+(\S)|$)/g)) {
+    const next = m[1];
+    if (next !== undefined && !/\p{Lu}/u.test(next)) continue;
+    if (m[0] === "." && ABBREVIATION.test(text.slice(0, m.index))) continue;
+    return text.slice(0, m.index + 1);
+  }
+  return text;
 }
 
 function list(items: string[], cls = ""): string {
@@ -670,7 +702,7 @@ function channel(c: Channel, cite: Cite): string {
     c.name ? esc(c.name) : "",
     address,
     c.url ? `<a href="${esc(c.url)}">${esc(c.url)}</a>` : "",
-    c.auth?.length ? `Accesso con ${esc(c.auth.map((a) => AUTH[a] ?? a).join(", "))}` : "",
+    c.auth?.length ? `Accesso ${esc(access(c.auth))}` : "",
     c.hours ? `Orari: ${esc(c.hours)}` : "",
     c.booking ? `Prenotazione: ${esc(c.booking)}` : "",
     c.receipt ? `Dà una ${esc(RECEIPT[c.receipt] ?? c.receipt)}` : "",
@@ -805,13 +837,15 @@ function renderSitemap(procedures: Procedure[], entes: Ente[], site: Site): stri
     ...procedures.map((p): [string, string] => [`${base}/${p.id}/`, p.updated]),
     ...(site.situations.length ? [[`${base}/situazioni/`, latest(site.situations.map((s) => situationUpdated(s, site)))] as [string, string]] : []),
     ...site.situations.map((s): [string, string] => [`${base}/situazioni/${s.id}/`, situationUpdated(s, site)]),
-    [`${base}/come-lavoriamo/`, site.updated],
     [`${base}/aggiornamenti/`, site.updated],
-    [`${base}/privacy/`, site.updated],
+    // These change with the code, not the library: a lastmod moving with every
+    // procedure would be wrong, and search engines stop trusting a sitemap's dates.
+    [`${base}/come-lavoriamo/`, ""],
+    [`${base}/privacy/`, ""],
   ];
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map(([loc, lastmod]) => `<url><loc>${esc(loc)}</loc><lastmod>${lastmod}</lastmod></url>`).join("\n")}
+${urls.map(([loc, lastmod]) => `<url><loc>${esc(loc)}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ""}</url>`).join("\n")}
 </urlset>
 `;
 }
@@ -1196,7 +1230,7 @@ function renderAbout(site: Site): string {
 <li><strong>L3</strong>: ${esc(LEVELS.L3)}.</li>
 </ul>
 <h2>Le date</h2>
-<p>Ogni pagina dice quando è stata aggiornata l'ultima volta e quando è stata verificata. Ogni notte un controllo automatico riscarica i moduli e le pagine ufficiali citate e segnala quelli cambiati o non più raggiungibili, perché vengano ricontrollati. Le pagine cambiate di recente sono negli <a href="../aggiornamenti/">aggiornamenti</a>.</p>
+<p>Ogni pagina dice quando è stata aggiornata l'ultima volta e quando è stata verificata. Un controllo automatico riscarica ogni notte i moduli ufficiali citati, e ogni settimana le pagine, e segnala quelli cambiati o non più raggiungibili, perché vengano ricontrollati. Le pagine cambiate di recente sono negli <a href="../aggiornamenti/">aggiornamenti</a>.</p>
 <h2>I racconti di chi ha fatto la pratica</h2>
 <p>Chi ha fatto una pratica può raccontare com'è andata. Leggiamo ogni racconto prima di usarlo e pubblichiamo solo statistiche, quando ogni numero viene da almeno 3 racconti, e consigli riscritti da noi: mai un racconto così com'è. Sono indicati come racconti, non come fonti ufficiali. <a href="../privacy/">Come trattiamo i dati</a></p>
 <h2>Errori e correzioni</h2>
