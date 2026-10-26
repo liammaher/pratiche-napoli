@@ -240,7 +240,9 @@ test("In breve says when a procedure can't be done online, and leaves out what i
 
 test("without a reports URL there is no form, no Segnala link and no report.js", () => {
   const html = files.get("napoli/comune/tari-iscrizione-uso-abitativo/index.html")!;
-  for (const missing of ["<form", 'class="flag"', "report.js", "#racconta", "issues/new"]) assert.ok(!html.includes(missing), missing);
+  for (const missing of ["<form", 'class="flag"', "report.js", "#racconta"]) assert.ok(!html.includes(missing), missing);
+  // Until the form is on, errors can still be reported, publicly, with a warning.
+  assert.ok(html.includes("Segnala un errore su GitHub</a> (la segnalazione è pubblica: non scrivere dati personali)"));
   assert.ok(!files.has("report.js"));
   assert.ok(files.get("privacy/index.html")!.includes("non è ancora attivo"));
   assert.ok(files.get("grazie/index.html")!.includes('<meta name="robots" content="noindex">'));
@@ -265,14 +267,19 @@ test("the report form is built from the procedure's own channels, documents and 
   const body = form[2];
   assert.ok(body.includes('<input type="hidden" name="procedure" value="napoli/comune/test">'));
   assert.ok(body.includes('<option value="POTESs" data-type="portal">POTESs</option><option value="PEC" data-type="pec">PEC</option><option value="altro">Altro</option>'));
-  assert.ok(body.includes('<input type="hidden" name="documents[0][name]" value="Mod. 1 &quot;TARI&quot;">'));
+  // Each document is a group named by the document, so "sì" and "no" aren't anonymous.
+  assert.ok(body.includes('<fieldset class="doc"><legend>Mod. 1 &quot;TARI&quot;</legend><input type="hidden" name="documents[0][name]" value="Mod. 1 &quot;TARI&quot;">'));
+  assert.ok(body.includes('<option value="pagina">Tutta la pagina, o non so</option>'));
+  assert.ok(body.includes('pattern="[0-9]{1,3}(\\.[0-9]{3})+(,[0-9]{1,2})?|[0-9]+([.,][0-9]{1,2})?"'));
+  assert.ok(!html.includes("issues/new"));
   assert.ok(body.includes('name="documents[1][asked]" value="no"'));
   assert.ok(body.includes('<option value="2026-10">ottobre 2026</option>'));
   assert.ok(body.includes('<option value="2024-11">novembre 2024</option>'));
   assert.ok(!body.includes('value="2024-10"'));
   for (const [id, title] of [["in-breve", "In breve"], ["come", "Come si presenta?"], ["documenti", "Quali documenti servono?"]]) {
     assert.ok(body.includes(`<option value="${id}">${esc(title)}</option>`), id);
-    assert.ok(html.includes(`<a class="flag" href="?sezione=${id}#racconta" data-section="${id}">Segnala</a>`), id);
+    // The link sits under the heading, not in it, and doesn't reload the page.
+    assert.ok(html.includes(`<h2>${esc(title)}</h2>\n<p class="flag"><a href="#racconta" data-section="${id}">Segnala un errore in questa parte</a></p>`), id);
   }
   assert.ok(body.includes('name="website"'));
   assert.ok(html.includes('<script src="../../../report.js" defer></script>'));
@@ -285,5 +292,22 @@ test("section ids fit the report schema's pattern for claim_feedback sections", 
   const pattern = new RegExp(schema.properties.claim_feedback.items.properties.section.pattern);
   for (const [, id] of withForm.get("napoli/comune/tari-iscrizione-uso-abitativo/index.html")!.matchAll(/data-section="([^"]+)"/g)) {
     assert.match(id, pattern);
+  }
+});
+
+test("the amount pattern accepts what Italians write and nothing else", () => {
+  const html = buildSite([minimal()], { ...opts, reports }).get("napoli/comune/test/index.html")!;
+  // Browsers match the pattern against the whole value.
+  const pattern = new RegExp(`^(?:${html.match(/name="paid_eur" inputmode="decimal" pattern="([^"]+)"/)![1].replace(/&#39;/g, "'")})$`);
+  for (const ok of ["16", "66,50", "16.5", "1.250", "1.250,50", "12500"]) assert.match(ok, pattern, ok);
+  for (const bad of ["1.2.3", "12,345", "€16", "1,250.50", ""]) assert.doesNotMatch(bad, pattern, bad);
+});
+
+test("the privacy page mentions the host's access logs and calls the IP code pseudonymous", () => {
+  for (const site of [files, withForm]) {
+    const privacy = site.get("privacy/index.html")!;
+    assert.ok(privacy.includes("log di accesso"));
+    assert.ok(privacy.includes("codice pseudonimo"));
+    assert.ok(!privacy.includes("senza lasciare dati") && !privacy.includes("non permette di risalirci"));
   }
 });

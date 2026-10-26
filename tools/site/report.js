@@ -7,7 +7,21 @@
   const status = form.querySelector(".status");
   const section = form.elements["claim_feedback[0][section]"];
 
-  // "Segnala" links (and ?sezione=) preset the part of the page the report is about.
+  // The page lists the months up to when it was built; add any since then.
+  const done = form.elements.done;
+  const label = new Intl.DateTimeFormat("it-IT", { month: "long", year: "numeric" });
+  const newest = done.options[1]?.value;
+  const now = new Date();
+  // Newest first, each one after the last added, before the built list.
+  let at = 1;
+  for (let d = new Date(now.getFullYear(), now.getMonth(), 1); newest; d.setMonth(d.getMonth() - 1)) {
+    const value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+    if (value <= newest) break;
+    done.insertBefore(new Option(label.format(d), value), done.options[at++]);
+  }
+
+  // "Segnala" links (and a shared ?sezione= link) preset the part of the page
+  // the report is about. The links point at #racconta, so nothing reloads.
   const preset = (id) => {
     if ([...section.options].some((o) => o.value === id)) section.value = id;
   };
@@ -40,7 +54,11 @@
       } else if (key === "days_to_answer" || key === "desk_wait_minutes") {
         report[key] = Number(value);
       } else if (key === "paid_eur") {
-        report[key] = Number(value.replace(",", "."));
+        // As the backend reads a plain post: 1.250 or 1.250,50 is a thousand
+        // and more; otherwise a comma or a dot is the decimal point.
+        report[key] = /^\d{1,3}(\.\d{3})+(,\d+)?$/.test(value)
+          ? Number(value.replace(/\./g, "").replace(",", "."))
+          : Number(value.replace(",", "."));
       } else if (key === "consent_contact") {
         report[key] = true;
       } else {
@@ -49,7 +67,10 @@
     }
     const asked = documents.filter((d) => d && "asked" in d);
     if (asked.length) report.documents = asked;
-    if (feedback.section && feedback.verdict) report.claim_feedback = [feedback];
+    // As the backend does for a plain post: a correction isn't lost for a
+    // missing choice. No section means the whole page; text with no verdict
+    // says what was found instead.
+    if (feedback.verdict || feedback.text) report.claim_feedback = [{ section: "pagina", verdict: "sbagliata", ...feedback }];
     return report;
   };
 
