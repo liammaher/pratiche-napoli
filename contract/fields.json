@@ -1,5 +1,5 @@
 {
-  "version": "13",
+  "version": "14",
   "source": "personal-vault RecommendedSchema + contract/extensions.json",
   "categories": [
     {
@@ -163,6 +163,9 @@
       "description": "The home you live in now (the unit at your residenza or domicilio; the address stays there). Catasto data is on the visura catastale and is needed for TARI, RLI registration and ISEE. Attach the visura and APE with 'pvault doc add abitazione <file>'.",
       "scope": "owner",
       "subject": "persona",
+      "kinds": [
+        "persona"
+      ],
       "fields": [
         {
           "id": "abitazione.titolo",
@@ -223,6 +226,9 @@
       "description": "Your rental contract, if you rent. Registration details (estremi di registrazione) are on the RLI receipt and are asked for by utility transfers and tax deductions. Attach the contract and receipt with 'pvault doc add locazione <file>'.",
       "scope": "owner",
       "subject": "persona",
+      "kinds": [
+        "persona"
+      ],
       "fields": [
         {
           "id": "locazione.tipo_contratto",
@@ -315,6 +321,9 @@
       "description": "Utility supplies at your home. The POD and PDR identify the meters and are needed for a voltura or subentro.",
       "scope": "owner",
       "subject": "persona",
+      "kinds": [
+        "persona"
+      ],
       "fields": [
         {
           "id": "utenze.luce_pod",
@@ -375,6 +384,9 @@
       "description": "Your TARI (waste tax) position with the Comune. Attach the filed declaration with 'pvault doc add tari <file>'.",
       "scope": "owner",
       "subject": "persona",
+      "kinds": [
+        "persona"
+      ],
       "fields": [
         {
           "id": "tari.codice_contribuente",

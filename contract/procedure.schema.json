@@ -21,6 +21,7 @@
   ],
   "properties": {
     "schema_version": {
+      "description": "The format's version. Readers (the vault's pratica skill) set aside the forms and records of a version they don't know, so raise it when a change would make an older reader misread an entry: a new kind of map, a key renamed or given a new meaning. A new optional key an older reader can safely ignore doesn't need it",
       "const": 0
     },
     "id": {
