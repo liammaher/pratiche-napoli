@@ -29,6 +29,7 @@ export interface Result {
   checkedOn?: string; // YYYY-MM-DD, when it isn't tonight's check
   validators?: Validators; // from an "ok" answer
   wayback?: string; // the Internet Archive's latest copy, for a page that failed
+  waybackOn?: string; // when the archive gave that answer, when it was reused from an earlier night
   // uncheckable: the server's certificate can't be verified (usually a chain
   // it doesn't send in full, which browsers fill in), so nothing is known.
   // blocked: a 404 from a site that also answers 404 for its home page, which
@@ -38,12 +39,9 @@ export interface Result {
   detail?: string;
 }
 
-const CERTIFICATE = new Set([
-  "UNABLE_TO_VERIFY_LEAF_SIGNATURE",
-  "UNABLE_TO_GET_ISSUER_CERT_LOCALLY",
-  "SELF_SIGNED_CERT_IN_CHAIN",
-  "CERT_HAS_EXPIRED",
-]);
+// Certificates that fail only for the checker: an incomplete chain, which
+// browsers complete. An expired one fails for everyone, so it isn't here.
+const CERTIFICATE = new Set(["UNABLE_TO_VERIFY_LEAF_SIGNATURE", "UNABLE_TO_GET_ISSUER_CERT_LOCALLY", "SELF_SIGNED_CERT_IN_CHAIN"]);
 
 interface Cited {
   id: string;
@@ -85,14 +83,28 @@ function slot(url: string): number {
 }
 
 // Tonight's share: every document with a sha256, the pages whose day it is,
-// and any page without a saved result from the last week (on the first run,
+// any page without a saved result from the last week (on the first run,
 // after the saved state is lost, or for a newly cited page), so the report
-// always covers every address, never just the pages a night happened to see.
+// always covers every address, never just the pages a night happened to see,
+// and any page that didn't answer last time, so one that is back clears the
+// report the next night rather than on its day.
 export function tonight(targets: Target[], day: number, state: State = {}): Target[] {
   return targets.filter((t) => {
     const seen = state[targetKey(t)];
-    return t.sha256 || slot(t.url) === day % DAYS || !seen || day - dayNumber(seen.checkedOn) >= DAYS;
+    return t.sha256 || slot(t.url) === day % DAYS || !seen || seen.status === "unreachable" || day - dayNumber(seen.checkedOn) >= DAYS;
   });
+}
+
+// The ETag and Last-Modified to send tonight, by targetKey. On a document's
+// own day of the week none are sent, so it is downloaded and hashed whole: a
+// file replaced without a newer date would otherwise answer 304 for ever.
+export function validatorsTonight(state: State, targets: Target[], day: number): Map<string, Validators> {
+  const out = new Map<string, Validators>();
+  for (const t of targets) {
+    const seen = state[targetKey(t)];
+    if (seen?.validators && !(t.sha256 && slot(t.url) === day % DAYS)) out.set(targetKey(t), seen.validators);
+  }
+  return out;
 }
 
 export interface CheckOptions {
@@ -123,17 +135,19 @@ export async function checkTargets(targets: Target[], fetchFn: typeof fetch, opt
     sleep = (ms) => new Promise((r) => setTimeout(r, ms)),
   } = opts;
   const results: Result[] = new Array(targets.length);
+  // A document is downloaded whole, which on a slow server takes longer.
+  const limit = (target: Target) => (target.sha256 ? timeoutMs * 4 : timeoutMs);
   const attempt = (target: Target) =>
-    checkOne(target, fetchFn, timeoutMs, userAgent, opts.validators?.get(targetKey(target))).catch((e): Checked => {
-      const detail = failure(e as Error, timeoutMs);
+    checkOne(target, fetchFn, limit(target), userAgent, opts.validators?.get(targetKey(target))).catch((e): Checked => {
+      const detail = failure(e as Error, limit(target));
       return { target, status: CERTIFICATE.has(detail) ? "uncheckable" : "unreachable", detail, retry: !CERTIFICATE.has(detail) };
     });
   const sites = new Map<string, number[]>();
-  targets.forEach((t, i) => sites.set(origin(t.url), [...(sites.get(origin(t.url)) ?? []), i]));
+  targets.forEach((t, i) => sites.set(siteOf(t.url), [...(sites.get(siteOf(t.url)) ?? []), i]));
   const queue = [...sites];
   const worker = async () => {
     for (let site = queue.shift(); site; site = queue.shift()) {
-      const [home, indexes] = site;
+      const [, indexes] = site;
       for (const [k, i] of indexes.entries()) {
         if (k) await sleep(pauseMs);
         let result = await attempt(targets[i]);
@@ -148,8 +162,9 @@ export async function checkTargets(targets: Target[], fetchFn: typeof fetch, opt
           ...(result.validators && { validators: result.validators }),
         };
       }
+      // Each host's home page, for its own 404s.
       const notFound = indexes.filter((i) => results[i].detail === "HTTP 404");
-      if (notFound.length && home) {
+      for (const home of new Set(notFound.map((i) => origin(targets[i].url)).filter(Boolean))) {
         await sleep(pauseMs);
         const status = await fetchFn(`${home}/`, {
           redirect: "follow",
@@ -159,14 +174,33 @@ export async function checkTargets(targets: Target[], fetchFn: typeof fetch, opt
           async (res) => (await res.body?.cancel(), res.status),
           () => undefined,
         );
-        if (status === 404) {
-          for (const i of notFound) results[i] = { ...results[i], status: "blocked", detail: "HTTP 404, anche per la home del sito" };
+        if (status !== 404) continue;
+        for (const i of notFound.filter((i) => origin(targets[i].url) === home)) {
+          results[i] = { ...results[i], status: "blocked", detail: "HTTP 404, anche per la home del sito" };
         }
       }
     }
   };
   await Promise.all(Array.from({ length: Math.min(concurrency, sites.size) }, worker));
   return results;
+}
+
+// One site for the pause between requests: hosts of the same domain usually
+// share a server, so www.comune.napoli.it and static-www.comune.napoli.it are
+// one (comune.napoli.it), as are the hosts under agenziaentrate.gov.it. The
+// domain is the last two labels, or three under a short or local second level
+// (gov.it, napoli.it, campania.it).
+export function siteOf(url: string): string {
+  let host: string;
+  try {
+    host = new URL(url).hostname;
+  } catch {
+    return "";
+  }
+  const labels = host.split(".");
+  const second = labels.at(-2) ?? "";
+  const n = labels.length >= 3 && (second.length <= 3 || ["napoli", "campania", "regione"].includes(second)) ? 3 : 2;
+  return labels.slice(-n).join(".");
 }
 
 // "https://servizionline.comune.napoli.it", or "" for an address that isn't a URL.
@@ -210,10 +244,12 @@ async function checkOne(
     headers: Object.keys(headers).length ? headers : undefined,
   });
   // Unchanged since the last check, which (validators are only kept from
-  // "ok" answers) matched the sha256.
+  // "ok" answers) matched the sha256. Only an answer to the version sent says
+  // so: a 304 to a plain request says nothing about a document's content.
   if (res.status === 304) {
     await res.body?.cancel();
-    return { target, status: "ok", validators: known };
+    if (known || !target.sha256) return { target, status: "ok", validators: known };
+    return { target, status: "unreachable", detail: "HTTP 304 a una richiesta senza versione" };
   }
   if (!res.ok) {
     await res.body?.cancel();
@@ -229,14 +265,62 @@ async function checkOne(
   const etag = res.headers.get("etag") ?? undefined;
   const lastModified = res.headers.get("last-modified") ?? undefined;
   const validators = etag || lastModified ? { ...(etag && { etag }), ...(lastModified && { lastModified }) } : undefined;
-  if (!target.sha256) {
+  const html = /^text\/html|xhtml/i.test(res.headers.get("content-type") ?? "");
+  // A page that was removed often sends people to the home page instead.
+  if (sentHome(target.url, res)) {
     await res.body?.cancel();
+    return { target, status: "unreachable", detail: `rimanda alla home: ${res.url}` };
+  }
+  if (!target.sha256) {
+    // Or answers 200 with an error page: its title says so.
+    const title = html ? errorTitle(await start(res)) : (await res.body?.cancel(), undefined);
+    if (title) return { target, status: "unreachable", detail: `pagina d'errore: "${title}"` };
     return { target, status: "ok", ...(validators && { validators }) };
   }
   const actual = createHash("sha256").update(Buffer.from(await res.arrayBuffer())).digest("hex");
-  return actual === target.sha256
-    ? { target, status: "ok", ...(validators && { validators }) }
-    : { target, status: "changed", detail: `sha256 ${actual.slice(0, 12)}…, registrato ${target.sha256.slice(0, 12)}…` };
+  if (actual === target.sha256) return { target, status: "ok", ...(validators && { validators }) };
+  // A document whose address now leads to a web page has moved, not changed.
+  if (res.redirected && html) return { target, status: "unreachable", detail: `rimanda a una pagina web: ${res.url}` };
+  return {
+    target,
+    status: "changed",
+    detail: `sha256 ${actual.slice(0, 12)}…, registrato ${target.sha256.slice(0, 12)}…${html ? "; ora è una pagina web, forse d'errore" : ""}`,
+  };
+}
+
+// Redirected to the site's home from a page that isn't it. "/index.php?id=5"
+// or "/?p=12" is a page, not the home.
+function sentHome(url: string, res: Response): boolean {
+  if (!res.redirected || !res.url) return false;
+  try {
+    const home = (u: URL) => u.pathname.replace(/\/(index\.\w+)?$/, "") === "" && !u.search;
+    return home(new URL(res.url)) && !home(new URL(url));
+  } catch {
+    return false;
+  }
+}
+
+// The first 64 KB of a page's text, enough for its <title>; the rest isn't fetched.
+async function start(res: Response): Promise<string> {
+  const reader = res.body?.getReader();
+  if (!reader) return "";
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  while (size < 65_536) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+    size += value.length;
+  }
+  await reader.cancel();
+  return Buffer.concat(chunks).toString("utf8");
+}
+
+// The <title> of an error page ("Pagina non trovata", "404 Not Found"), or undefined.
+function errorTitle(text: string): string | undefined {
+  const title = text.match(/<title[^>]*>([^<]*)<\/title>/i)?.[1].replace(/\s+/g, " ").trim();
+  // "404" only at the start: a title can cite a law numbered 404.
+  return title && /^(errore |error )?404\b|non (è stata )?trovat|not found|inesistente|non esiste/i.test(title) ? title : undefined;
 }
 
 // --- Saved state and the Internet Archive ---
@@ -255,7 +339,9 @@ export type State = Record<string, Seen>;
 // Tonight's results over the saved state, keeping only addresses still cited.
 export function merge(state: State, results: Result[], checkedOn: string, targets: Target[]): State {
   const cited = new Set(targets.map(targetKey));
-  const out: State = Object.fromEntries(Object.entries(state).filter(([key]) => cited.has(key)));
+  // Results older than known() reads are dropped too: they would say nothing.
+  const recent = (seen: Seen) => dayNumber(checkedOn) - dayNumber(seen.checkedOn) <= DAYS + 1;
+  const out: State = Object.fromEntries(Object.entries(state).filter(([key, seen]) => cited.has(key) && recent(seen)));
   for (const r of results) {
     const before = state[targetKey(r.target)];
     out[targetKey(r.target)] = {
@@ -263,14 +349,17 @@ export function merge(state: State, results: Result[], checkedOn: string, target
       checkedOn,
       ...(r.detail && { detail: r.detail }),
       ...(r.validators && { validators: r.validators }),
-      ...(r.wayback && {
-        wayback: r.wayback,
-        waybackOn: before?.wayback === r.wayback && before.waybackOn ? before.waybackOn : checkedOn,
-      }),
+      // A new answer is dated tonight, a reused one keeps its date; a page
+      // still failing that wasn't looked up tonight keeps the one it had.
+      ...(r.wayback
+        ? { wayback: r.wayback, waybackOn: r.waybackOn ?? checkedOn }
+        : failing(r.status) && before?.wayback && { wayback: before.wayback, waybackOn: before.waybackOn ?? before.checkedOn }),
     };
   }
   return out;
 }
+
+const failing = (status: Result["status"]) => status === "unreachable" || status === "blocked";
 
 // The latest known result for every cited address checked within maxAgeDays
 // (a little over the rotation, so a missed night doesn't drop a problem).
@@ -300,7 +389,7 @@ export async function secondOpinion(
   results: Result[],
   fetchFn: typeof fetch,
   opts: {
-    saved?: Map<string, string>;
+    saved?: Map<string, { wayback: string; on: string }>;
     sleep?: (ms: number) => Promise<void>;
     pauseMs?: number;
     timeoutMs?: number;
@@ -320,7 +409,7 @@ export async function secondOpinion(
     if (r.status !== "unreachable" && r.status !== "blocked") continue;
     const before = saved?.get(targetKey(r.target));
     if (before) {
-      out[i] = { ...r, wayback: before };
+      out[i] = { ...r, wayback: before.wayback, waybackOn: before.on };
       continue;
     }
     if (asked >= limit) continue;
@@ -329,13 +418,19 @@ export async function secondOpinion(
     if (res?.status === 429) {
       await sleep(Math.max(pauseMs, 10_000));
       res = await lookup(r.target.url);
+      // Still too many: no more lookups tonight.
+      if (res?.status === 429) asked = limit;
     }
     const rows = res?.ok ? ((await res.json().catch(() => undefined)) as string[][] | undefined) : undefined;
     if (!rows) continue;
     // A header row, then the latest capture, if there is one.
     const [timestamp, status, original] = rows[1] ?? [];
+    // A site whose home is 404 too looked blocked; if the archive also last
+    // saw the page as gone, it is gone (a file host with no home page).
+    const gone = r.status === "blocked" && /^(404|410)$/.test(status ?? "");
     out[i] = {
       ...r,
+      ...(gone && { status: "unreachable", detail: `HTTP 404, anche per la home del sito, e HTTP ${status} nell'archivio` }),
       wayback: timestamp
         ? `copia del ${timestamp.slice(0, 4)}-${timestamp.slice(4, 6)}-${timestamp.slice(6, 8)} (${/^\d{3}$/.test(status) ? `HTTP ${status}` : "stato non registrato"}): https://web.archive.org/web/${timestamp}/${original}`
         : "nessuna copia nell'archivio",
@@ -344,14 +439,22 @@ export async function secondOpinion(
   return out;
 }
 
-// When most addresses couldn't be reached or checked, the problem is almost
-// certainly on the checker's side (its network, its certificates), not in
-// the sources: such a run says nothing either way, and mustn't report or
-// close anything. The reason, or undefined when the run can be trusted.
+// When most sites gave no answer at all (no connection, no certificate the
+// checker could verify), the problem is almost certainly on the checker's
+// side (its network, its certificates), not in the sources: such a run says
+// nothing either way, and mustn't report or close anything. Sites are
+// counted, not addresses, so one big site refusing the checker (an HTTP
+// answer, or blocked) doesn't silence the rest. The reason, or undefined
+// when the run can be trusted.
 export function inconclusive(results: Result[]): string | undefined {
   if (!results.length) return "nessun indirizzo da controllare";
-  const failed = results.filter((r) => r.status !== "ok" && r.status !== "changed").length;
-  return failed > results.length / 2 ? `${failed} indirizzi su ${results.length} non raggiunti o non controllabili` : undefined;
+  // An HTTP status, a redirect or an error page is still an answer.
+  const answered = (r: Result) => /^(HTTP |rimanda |pagina d'errore)/.test(r.detail ?? "");
+  const silent = (r: Result) => r.status === "uncheckable" || (r.status === "unreachable" && !answered(r));
+  const bySite = new Map<string, Result[]>();
+  for (const r of results) bySite.set(siteOf(r.target.url), [...(bySite.get(siteOf(r.target.url)) ?? []), r]);
+  const failed = [...bySite.values()].filter((rs) => rs.every(silent)).length;
+  return failed > bySite.size / 2 ? `${failed} siti su ${bySite.size} senza risposta` : undefined;
 }
 
 // Sections list at most MAX_ITEMS addresses and MAX_REFS citations each, and
@@ -396,7 +499,7 @@ export function report(results: Result[], checkedOn: string): string {
       ? [
           `## Moduli o documenti cambiati (${changed.length})`,
           "",
-          "Il contenuto non corrisponde più allo sha256 registrato: rileggerli, aggiornare le procedure che li citano, lo sha256, `retrieved`, `verification` e `updated`.",
+          "Il contenuto non corrisponde più allo sha256 registrato: aprirli prima di tutto (se al posto del documento c'è una pagina d'errore o di accesso, il documento è stato spostato: cercarlo e aggiornarne l'indirizzo), poi rileggerli, aggiornare le procedure che li citano, lo sha256, `retrieved`, `verification` e `updated`.",
           "",
           ...items(changed),
           "",
