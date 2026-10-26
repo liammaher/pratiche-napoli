@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import { buildSite, esc, time, type Procedure, type Situation, type SiteOptions } from "./site.ts";
+import { buildSite, esc, firstSentence, time, type Procedure, type Situation, type SiteOptions } from "./site.ts";
 import { ROOT, loadRegistry, todayInRome, validateDir, validateSituations } from "./validate.ts";
 
 const opts: SiteOptions = {
@@ -418,4 +418,32 @@ test("the about and updates pages are built and linked from every page", () => {
       assert.ok(content.includes('come-lavoriamo/">Come lavoriamo</a>') && content.includes('aggiornamenti/">Aggiornamenti</a>'), file);
     }
   }
+});
+
+test("the description ends the first sentence where the sentence ends, not at an abbreviation", () => {
+  assert.equal(firstSentence("Si presenta con il Mod. 1 entro 90 giorni. Poi si paga."), "Si presenta con il Mod. 1 entro 90 giorni.");
+  assert.equal(firstSentence("Rientra nell'Allegato I del D.P.R. 151/2011 (art. 4). Altro."), "Rientra nell'Allegato I del D.P.R. 151/2011 (art. 4).");
+  assert.equal(firstSentence("Locazione breve, art. 4 D.L. 50/2017: si comunica. Poi"), "Locazione breve, art. 4 D.L. 50/2017: si comunica.");
+  assert.equal(firstSentence("Una sola frase senza punto"), "Una sola frase senza punto");
+  const deadline = { rules: [{ text: "Entro 90 giorni dall'inizio.", status: "verified" as const, source: "page" }] };
+  const html = buildSite([minimal({ summary: "Va fatta con il Mod. 1 entro 90 giorni. Altro.", deadline })], opts).get("napoli/comune/test/index.html")!;
+  // The deadline the sentence already gives isn't added again.
+  assert.match(html, /<meta name="description" content="Va fatta con il Mod\. 1 entro 90 giorni\.">/);
+});
+
+test("access reads naturally, also without credentials", () => {
+  const channels = [{ type: "portal", purpose: "procedure" as const, name: "Portale", auth: ["none", "spid"] }];
+  const html = buildSite([minimal({ channels })], opts).get("napoli/comune/test/index.html")!;
+  assert.ok(html.includes("Sì: Portale online (Portale), con SPID o senza credenziali."));
+  assert.ok(html.includes("<p>Accesso con SPID o senza credenziali</p>"));
+  assert.ok(!html.includes("con senza"));
+});
+
+test("long headlines aren't lengthened by the site's name; static pages carry no lastmod", () => {
+  const long = "Una pratica dal titolo molto lungo, come quelli che si cercano davvero";
+  const site = buildSite([minimal({ headline: long })], opts);
+  assert.ok(site.get("napoli/comune/test/index.html")!.includes(`<title>${long}</title>`));
+  const sitemap = site.get("sitemap.xml")!;
+  assert.ok(sitemap.includes(`<url><loc>${opts.baseUrl}/privacy/</loc></url>`));
+  assert.ok(sitemap.includes(`<url><loc>${opts.baseUrl}/come-lavoriamo/</loc></url>`));
 });
