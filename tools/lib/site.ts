@@ -226,13 +226,18 @@ interface Ente {
 
 // One group per folder (an ente's procedures share one), Naples' own offices
 // first, then by how many procedures they have.
-// The folder is named after its procedures' ente, so they must agree on it.
+// The folder is named after its procedures' ente, so they must agree on it,
+// and an ente has one folder: two would be two sections with one name.
 function groupByEnte(procedures: Procedure[]): Ente[] {
   const groups = new Map<string, Procedure[]>();
   for (const p of procedures) groups.set(folderOf(p.id), [...(groups.get(folderOf(p.id)) ?? []), p]);
+  const folders = new Map<string, string>();
   for (const [path, ps] of groups) {
     const names = new Set(ps.map((p) => p.ente.name));
     if (names.size > 1) throw new Error(`procedures in ${path} name different enti: ${[...names].join(" / ")}`);
+    const other = folders.get(ps[0].ente.name);
+    if (other) throw new Error(`${other} and ${path} are both ${ps[0].ente.name}: one folder per ente`);
+    folders.set(ps[0].ente.name, path);
   }
   return [...groups]
     .map(([path, ps]) => ({

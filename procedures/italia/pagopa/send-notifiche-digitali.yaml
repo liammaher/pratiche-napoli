@@ -404,7 +404,7 @@ related:
   - italia/agenzia-entrate-riscossione/rateizzazione-cartella
   - napoli/comune/tari-autotutela-avviso-non-domestica
   - napoli/camera-di-commercio/pec-domicilio-digitale-impresa
-  - napoli/polizia-locale/verbale-pagamento-ricorso
+  - napoli/comune/verbale-pagamento-ricorso
 sources:
   - id: dl-76-2020-art-26
     label: D.L. 16 luglio 2020, n. 76, art. 26 (testo vigente su Normattiva)
