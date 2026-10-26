@@ -175,6 +175,10 @@ tools/site/style.css             the site's stylesheet
 Form fields map to IDs in `contract/fields.json`, never to personal values. The same IDs are
 used by [personal-vault-italia](https://github.com/liammaher/personal-vault-italia), so an
 agent with the person's consent can pre-fill a form, but the library never depends on it.
+Every procedure carries the format's `schema_version`; the vault's pratica skill reads
+version 0 and uses only the sources, deadline, channels and steps of any other, so raise it
+(the `const` in `procedure.schema.json`) when a change would make an older reader misread an
+entry, such as a new kind of map.
 
 ## Use
 
