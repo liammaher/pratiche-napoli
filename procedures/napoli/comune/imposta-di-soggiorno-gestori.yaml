@@ -274,6 +274,8 @@ documents:
   - name: Copia del documento d'identità del legale rappresentante
     required: false
     notes: Solo per la dichiarazione di emergenza via e-mail/PEC e per il Modello 21.
+dichiarante:
+  ruolo: [titolare, legale_rappresentante]
 forms:
   - id: dichiarazione-trimestrale-comune
     name: Imposta di soggiorno – Dichiarazione trimestrale (modulo del Comune, agg. 27/02/2025)

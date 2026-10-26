@@ -141,6 +141,8 @@ documents:
   - name: Planimetria catastale con relazione tecnica asseverata da un tecnico abilitato
     required: false
     notes: Solo se si chiede la detassazione per la produzione di rifiuti speciali (art. 7 del regolamento).
+dichiarante:
+  ruolo: [titolare, legale_rappresentante]
 forms:
   - id: mod-5
     name: Mod. 5 TARI – Iscrizione uso non abitativo
@@ -161,7 +163,7 @@ forms:
       - { label: e-mail, map: { direct: identity.email } }
       - { label: pec, map: { direct: identity.pec } }
       - label: nella sua qualità di (titolare / legale rappresentante)
-        map: { direct: business.qualita_dichiarante }
+        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
       - { label: Ragione Sociale, map: { direct: business.denominazione } }
       - label: C.F. (della ditta)
         map: { fallback: [business.codice_fiscale, business.partita_iva] }

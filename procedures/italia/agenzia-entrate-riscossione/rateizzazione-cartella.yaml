@@ -271,6 +271,8 @@ documents:
   - name: Certificazione ISEE del nucleo familiare (modello RDF) o prospetti e bilancio (modello RDG)
     required: false
     notes: Solo per la richiesta documentata (oltre 84 rate o oltre 120.000 euro).
+dichiarante:
+  ruolo: [titolare, legale_rappresentante]
 forms:
   - id: mod-rs
     name: Mod. RS – Richiesta di rateizzazione per importi fino a 120.000 euro (fino a 84 rate) – Tutti i soggetti
@@ -289,7 +291,7 @@ forms:
       - label: in proprio (persone fisiche)
         map: { ask: "La richiesta riguarda debiti propri come persona fisica? (barrare questa casella oppure quella successiva)" }
       - label: in qualità di (titolare di ditta individuale / legale rappresentante / tutore / curatore / altro)
-        map: { direct: business.qualita_dichiarante }
+        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
         notes: Solo se si chiede per una ditta, società, associazione o ente.
       - { label: del/della, map: { direct: business.denominazione } }
       - label: codice fiscale (del/della)
@@ -323,7 +325,7 @@ forms:
       - label: DICHIARA ALTRESÌ – che non è stato depositato un accordo di ristrutturazione, una transazione, un concordato o una proposta per il sovraindebitamento
         map: { blank_with_reason: "Casella già barrata sul modulo; se una di queste procedure è stata depositata, la richiesta non va firmata." }
       - label: di essere … della ditta/società/associazione/ente/soggetto sopra indicato/a (casella e qualità)
-        map: { direct: business.qualita_dichiarante }
+        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
         notes: Obbligatoria solo se firma il titolare, legale rappresentante, tutore, curatore o altro per conto di un soggetto.
       - label: Luogo e data
         map: { ask: "Luogo e data della firma" }
@@ -335,7 +337,7 @@ forms:
       - label: Delega – in proprio
         map: { ask: "Il delegante agisce in proprio? (barrare questa casella oppure quella successiva)" }
       - label: Delega – in qualità di
-        map: { direct: business.qualita_dichiarante }
+        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
       - label: Delega – del/della
         map: { direct: business.denominazione }
       - label: Delega – delego il/la Sig./Sig.ra

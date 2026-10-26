@@ -335,6 +335,8 @@ documents:
       Per l'autorizzazione in zona tutelata non serve già alla domanda: va trasmesso al SUAP
       all'avvio dell'attività, insieme al nome dell'eventuale preposto e alle certificazioni
       sanitarie e antincendio (L.R. 7/2020, art. 91, c. 4).
+dichiarante:
+  ruolo: [titolare, legale_rappresentante]
 forms:
   - id: nota-condivisione
     name: Nota di condivisione e assunzione di responsabilità da parte dell'intestatario pratica (zone tutelate)
@@ -349,7 +351,7 @@ forms:
       - label: Altro (dati del dichiarante)
         map: { blank_with_reason: Campo libero facoltativo; lasciarlo vuoto se non serve. }
       - label: in qualità di legale rappresentante/titolare
-        map: { direct: business.qualita_dichiarante }
+        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
       - label: della pratica (ID pratica impresainungiorno-Napoli)
         map: { ask: "Codice della pratica assegnato da impresainungiorno-Napoli" }
         notes: Si conosce solo dopo aver creato la pratica nel front office.
