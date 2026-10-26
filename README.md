@@ -104,9 +104,11 @@ offices' servers as little as possible, since some block an address that asks to
 - **When:** documents with a `sha256` every night, other pages on a fixed night of the week, plus
   any page that didn't answer or was refused last time, and any without a result from the last
   week (so the first run, or one after the saved state is lost, checks everything; `--all` always
-  does). But a host whose latest answer was a refusal (by the time of the request, so a site that
-  blocks partway through a night counts) is asked one address a night, the one it refused last,
-  documents included, until it answers; the rest of it counts as refused with it.
+  does). But a host whose last two answers were refusals (by the time of the request, so a site
+  that blocks partway through a night counts; one removed file on a host whose home page is 404
+  doesn't) is asked one address a night, the one it refused last, documents included, until it
+  stops refusing, plus any address it has never been asked; the rest of it counts as refused with
+  it, and what was changed or not answering stays reported, marked as not asked.
 - **How gently:** one request at a time per site (hosts of one domain, like `www.` and
   `static-www.comune.napoli.it`, are one site), with a pause between them. Each request carries the
   ETag and Last-Modified from the last check, so an unchanged file answers 304 without its body;
