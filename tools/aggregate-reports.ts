@@ -13,6 +13,7 @@
 import { execFileSync, spawnSync } from "node:child_process";
 import { readFileSync, realpathSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { fetchPublished } from "./lib/published.ts";
 import { cacheProblem, markProblem, nextReported, sameReported, withReported, type Reported, type ReportsCache, type ReviewedReport } from "./lib/reported.ts";
 import { ROOT, loadRegistry, parseProcedure, todayInRome, validateDir } from "./lib/validate.ts";
 
@@ -66,8 +67,9 @@ for (const id of unknown) console.warn(`! reports for ${id}, which is no longer 
 
 // Every published version must be read, so anything short of the whole
 // history stops the run: no git, not this repository's checkout (a
-// downloaded copy, perhaps inside another repository), or a shallow clone,
-// which has only part of it.
+// downloaded copy, perhaps inside another repository), a shallow clone,
+// which has only part of it, or one that can't fetch what was published
+// from elsewhere (fetchPublished).
 const git = (...args: string[]) =>
   execFileSync("git", ["-C", ROOT, ...args], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"], maxBuffer: 1 << 30 });
 try {
@@ -78,6 +80,11 @@ try {
   }
   if (git("rev-parse", "--is-shallow-repository").trim() === "true") {
     console.error("not aggregating: this clone is shallow, so earlier versions can't be read (git fetch --unshallow)");
+    process.exit(2);
+  }
+  const fetchFailed = fetchPublished(ROOT);
+  if (fetchFailed) {
+    console.error(`not aggregating: can't fetch every published version from origin, including pull requests' branches (${fetchFailed})`);
     process.exit(2);
   }
 } catch (e) {
@@ -124,8 +131,9 @@ console.log(`\n${changed} procedures updated from ${reports.length} accepted rep
 function publishedBlocks(): { blocks: { id: string; block: Reported }[]; unread: string[] } {
   // Every commit, not only those `-- procedures` keeps: history
   // simplification skips the side of a merge that ended up unchanged, a
-  // published version reverted on a branch included.
-  const commits = git("rev-list", "--all").split("\n").filter(Boolean);
+  // published version reverted on a branch included. With the reflogs, a
+  // version a branch was force-pushed away from, once fetched, stays read.
+  const commits = git("rev-list", "--all", "--reflog").split("\n").filter(Boolean);
   const out = new Map<string, { id: string; block: Reported }>();
   const unread: string[] = [];
   for (const sha of commits) {

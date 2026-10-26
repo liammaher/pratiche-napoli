@@ -54,7 +54,9 @@ export interface VaultSchema {
   categories: VaultCategory[];
   // The vault's credential rule, as whole-word patterns: secret anywhere,
   // credential (secret plus username, login...) next to SPID or the CIE.
-  credentials: { secret: string; credential: string; identity: string };
+  // account: the first word of a SPID/CieID account category (spid_poste),
+  // every field of which the vault keeps as a secret.
+  credentials: { secret: string; credential: string; identity: string; account: string };
 }
 
 export interface Extensions {
@@ -88,6 +90,9 @@ export interface Registry {
   // The vault's pattern for one word of a field name (split at _ and -) that
   // names a login secret; see isCredentialName.
   credential_word: string;
+  // The vault's pattern for a word naming SPID, the CIE or a digital
+  // signature: run together with a credential word (ciepin), a secret too.
+  identity_word: string;
 }
 
 const FORBIDDEN_CATEGORIES = ["spid", "payment", "medical"];
@@ -106,10 +111,15 @@ const KINDS = new Set(["persona", "impresa"]);
 
 // A field name naming a login secret: a word the vault calls a credential,
 // in any category (the vault needs SPID or the CIE next to username, login
-// or pass; a public procedure has no use for any of them), or a token.
-export function isCredentialName(name: string, credentialWord: string): boolean {
-  const word = new RegExp(credentialWord);
-  return name.split(/[_-]/).some((w) => w === "token" || word.test(w));
+// or pass; a public procedure has no use for any of them), one run together
+// with a SPID/CIE word as the vault reads it (ciepin, passwordspid), or a token.
+export function isCredentialName(name: string, words: Pick<Registry, "credential_word" | "identity_word">): boolean {
+  const word = new RegExp(words.credential_word);
+  // Both are whole-word patterns, ^(...)$ (buildRegistry checks): their insides, in either order.
+  const credential = words.credential_word.slice(2, -2);
+  const identity = words.identity_word.slice(2, -2);
+  const joined = new RegExp(`^(${identity})(${credential})$|^(${credential})(${identity})$`);
+  return name.split(/[_-]/).some((w) => w === "token" || word.test(w) || joined.test(w));
 }
 
 function checkKinds(kinds: unknown, what: string) {
@@ -124,12 +134,13 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
     throw new Error("not a vault schema: expected { version, categories: [...] }");
   }
   const words = schema.credentials;
-  for (const key of ["secret", "credential", "identity"] as const) {
-    if (typeof words?.[key] !== "string" || !words[key].startsWith("^") || !words[key].endsWith("$")) {
+  for (const key of ["secret", "credential", "identity", "account"] as const) {
+    if (typeof words?.[key] !== "string" || !words[key].startsWith("^(") || !words[key].endsWith(")$")) {
       throw new Error(`not a vault schema: credentials.${key} must be a whole-word pattern (a vault older than schema.json?)`);
     }
     new RegExp(words[key]); // throws on a pattern JavaScript can't read
   }
+  const credentialWords = { credential_word: words.credential, identity_word: words.identity };
   if (!extensions || !Array.isArray(extensions.categories)) {
     throw new Error("not an extensions file: expected { categories: [...] }");
   }
@@ -191,6 +202,11 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
       throw new Error(`extensions can't add to category "${ext.name}"`);
     }
     let entry = categories.find((c) => c.name === ext.name);
+    // The vault keeps every field of a SPID/CieID account category secret.
+    const account = new RegExp(words.account);
+    if (!entry && (isCredentialName(ext.name, credentialWords) || account.test(ext.name.split(/[_-]/)[0]))) {
+      throw new Error(`extension category "${ext.name}" looks like a credential`);
+    }
     if (!entry) {
       if (!ext.description) throw new Error(`new category "${ext.name}" needs a description`);
       if (!SCOPES.has(ext.scope as string)) throw new Error(`new category "${ext.name}" needs a scope, person or owner`);
@@ -215,7 +231,7 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
       checkFieldCategory(f.id, ext.name);
       if (!EXTENSION_ID.test(f.id)) throw new Error(`extension field "${f.id}" must look like category.field_name`);
       if (forbiddenFields.includes(f.id)) throw new Error(`extension field "${f.id}" is a secret field in the vault`);
-      if (isCredentialName(f.id.split(".")[1], words.credential)) throw new Error(`extension field "${f.id}" looks like a credential`);
+      if (isCredentialName(f.id.split(".")[1], credentialWords)) throw new Error(`extension field "${f.id}" looks like a credential`);
       if (vaultIds.has(f.id) || entry.fields.some((e) => e.id === f.id)) {
         throw new Error(`extension field "${f.id}" already exists; remove it from extensions.json`);
       }
@@ -230,6 +246,7 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
     categories,
     forbidden: { categories: forbiddenCategories, fields: forbiddenFields.sort() },
     credential_word: words.credential,
+    identity_word: words.identity,
   };
 }
 

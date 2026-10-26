@@ -965,5 +965,6 @@
       "financial.ssn"
     ]
   },
-  "credential_word": "^((?:(?:pin|puk|pincode|pukcode|password|passwd|pwd|pw|passcode|otp|totp|secret|segreto|segreta|segreti|segrete|credenziale|credenziali|sblocco)s?[0-9]*|(?:pass|username|login|chiave|chiavi)s?[0-9]*))$"
+  "credential_word": "^((?:(?:pin|puk|pincode|pukcode|password|passwd|pwd|pw|passcode|otp|totp|secret|segreto|segreta|segreti|segrete|credenziale|credenziali|sblocco|cvv|cvc|cvn)s?[0-9]*|(?:pass|username|login|chiave|chiavi)s?[0-9]*))$",
+  "identity_word": "^((?:spid(?:spiditaliaregisterit|titrusttechnologies|intesigroupid|posteitaliane|infocamereid|teamsystemid|intesigroup|etnahitech|infocamere|infocertid|namirialid|registerit|spiditalia|teamsystem|infocert|intesiid|lepidaid|namirial|register|sielteid|arubaid|posteid|etnaid|intesi|lepida|sielte|tittid|aruba|poste|timid|etna|titt|tim)?|cieid(?:app)?|cie|firma|firmadigitale|cns|smartcard)[0-9]*)$"
 }
