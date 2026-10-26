@@ -201,10 +201,11 @@ forms:
       - label: Quadro A – 1 Inizio attività
         map: { blank_with_reason: "Casella da barrare: per questa procedura è sempre il tipo 1." }
       - label: Quadro A – Data inizio
-        map: { direct: business.data_apertura }
+        map: { ask: Data di inizio dell'attività }
         notes: >-
           Data di inizio dell'attività (giorno, mese, anno in cifre); non può essere successiva alla
-          data di presentazione.
+          data di presentazione. La partita IVA non esiste ancora, quindi la data si chiede: diventa
+          business.data_apertura solo a modello presentato (records).
       - label: Quadro A – 2 Variazione dati, partita IVA, data variazione e casella L
         map: { blank_with_reason: "Solo per le variazioni di chi ha già la partita IVA." }
       - label: Quadro A – 3 Cessazione attività, partita IVA, data cessazione
@@ -403,6 +404,8 @@ after:
 records:
   - field: business.partita_iva
     from: Comunicazione di avvenuto ricevimento con il numero di partita IVA
+  - field: business.data_apertura
+    from: Data di inizio indicata nel quadro A del modello presentato
 pitfalls:
   - text: >-
       Le imprese individuali e artigiane non aprono la partita IVA con il solo AA9/12: devono usare
