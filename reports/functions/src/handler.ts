@@ -8,6 +8,7 @@ import { isIPv6 } from "node:net";
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import { Timestamp, type Firestore } from "firebase-admin/firestore";
+import { newMark } from "./mark";
 import { matchPersonalData } from "./shared/personal";
 import schema from "./shared/report.schema.json";
 
@@ -157,6 +158,7 @@ export function createHandler(config: Config): Handler {
         expires_at: Timestamp.fromDate(leavesWindow(report.done)),
         schema_version: 0,
         pii_redacted: redacted,
+        mark: newMark(),
       });
       if (contact_email) {
         const expires = new Date(at);

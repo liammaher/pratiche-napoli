@@ -761,7 +761,7 @@
           "uniqueItems": true
         },
         "basis": {
-          "description": "A fingerprint of each report behind the block (the start of the sha256 of its private database id), so the next update can tell how many reports came in or dropped out against every earlier version: the block only changes when that is none or at least 3. They can't be traced back to a report without the private database",
+          "description": "A random mark of each report behind the block, given by the backend and unrelated to the report's id or the receipt its sender got, so the next update can tell which reports each version covered: the block only changes when, across every version, the reports the same versions cover are always at least 3",
           "type": "array",
           "minItems": 3,
           "uniqueItems": true,

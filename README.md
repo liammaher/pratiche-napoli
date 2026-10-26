@@ -78,10 +78,11 @@ extra documents. A procedure needs at least 3 reports, and every number in the b
 and reason counts included, covers at least 3; so does what it leaves over beside the total it
 belongs to (the count, a channel's count, the refusals), unless nothing is, so no one person's
 result can be singled out or worked out. Figures are medians, rounded more coarsely as they grow,
-never a smallest or largest value. Since every version of the block stays in the history, a
-block only changes when, against every earlier version, at least 3 reports came in or dropped
-out (`basis` holds a fingerprint of each report, to tell); a block that can't change for 90
-days is removed until it can. People's own words are never published. A changed block moves
+never a smallest or largest value. Since every version of the block stays in the history, and
+adding and subtracting versions can describe the reports exactly the same versions cover, a
+block only changes when, across every version, each such group has at least 3 reports (`basis`
+holds a random mark of each report, unrelated to its id or receipt, to tell); a block that can't
+change for 90 days is removed until it can. People's own words are never published. A changed block moves
 `updated`. The page shows the figures under "Com'è andata ad altri", clearly as reports, not
 official sources. The commands need `--project <id>` or `GCLOUD_PROJECT`, and your personal
 Google credentials (`gcloud auth application-default login`), or `FIRESTORE_EMULATOR_HOST` to

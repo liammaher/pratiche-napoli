@@ -10,7 +10,9 @@ maintainer are ever published, never a report as written.
 ## What it stores
 
 - `reports/{id}`: the report's fields, plus `status: "pending"`, `received_at`,
-  `schema_version: 0` and `pii_redacted` (true when personal data was replaced
+  `schema_version: 0`, `mark` (12 random hex digits that stand for the report in the
+  published figures' `basis`, so the id, which is the sender's receipt, can't find it
+  there; a report stored without one gets it when accepted) and `pii_redacted` (true when personal data was replaced
   with `[rimosso]`, including codes with the usual slips: lower case, 0 for O,
   other groupings, a character missing or extra). Deleted once its month leaves the
   12-month window the figures use, whatever its status (`expires_at`, Firestore TTL);
@@ -61,14 +63,15 @@ function fetches on the first report and keeps for an hour.
 From the repo root, `npm run reports -- list | show | find | accept | reject | delete | export`
 (see the main README). Each command first says which database it is using. The export,
 `reports-cache.json` at the repo root, keeps only what the published figures need: no
-note, no correction text, no office, no contact.
+note, no correction text, no office, no contact, and the report's `mark` instead of its id.
 
 For a request to see or delete someone's data, find the report by the code they got
 when they sent it (`show <id>`) or by the email they left (`find <email>`), then
 `delete <id>` (it also works once the report has expired and only the contact is left).
 The published figures don't change at once: they are anonymous, and a block only changes
-when at least 3 reports came in or dropped out against every earlier version (see
-`tools/lib/reported.ts`). The report leaves them at the next change, or within 90 days,
+when, across every version published, the reports exactly the same versions cover are always
+at least 3 (see `tools/lib/reported.ts`). The deleted report's mark stays in the history, but
+nothing links it to the report any more. The report leaves them at the next change, or within 90 days,
 when a block that can't change is removed.
 
 Accepting is where one person sending three reports to reach the threshold of 3 is
