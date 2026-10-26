@@ -68,13 +68,17 @@ npm run reports -- accept <id> [--tip "…"] [--rejection-reason "…"] [--extra
                                         # again to change them; "" removes one
 npm run reports -- reject <id>          # or: delete <id>, on a request to erase it
 npm run reports -- export               # accepted reports to reports-cache.json (never commit it)
-npm run reports:aggregate               # update each procedure's `reported` block
+npm run reports:aggregate               # within the hour: update each procedure's `reported` block
 ```
 
-`reports:aggregate` writes a `reported` block at the end of each procedure from the accepted
-reports of the last 12 months: outcomes, answer times per channel, desk waits, amounts paid,
-how often each listed document was asked for, and the maintainer's tips, rejection reasons and
-extra documents. A procedure needs at least 3 reports, and every number in the block, outcome
+`reports:aggregate` reads the export and removes it: an export is used once, and only within an
+hour of being made, since a report deleted or changed after it would still be in it as it was. It
+reads every version of the blocks from the git history, and stops if it can't (no git, a copy
+that isn't its own checkout, a shallow clone, a git error), since a version left out could give
+someone away. It writes a `reported` block at the end of each procedure from the accepted reports
+of the last 12 months: outcomes, answer times per channel, desk waits, amounts paid, how often
+each listed document was asked for, and the maintainer's tips, rejection reasons and extra
+documents. A procedure needs at least 3 reports, and every number in the block, outcome
 and reason counts included, covers at least 3; so does what it leaves over beside the total it
 belongs to (the count, a channel's count, the refusals), unless nothing is, so no one person's
 result can be singled out or worked out. Figures are medians, rounded more coarsely as they grow,

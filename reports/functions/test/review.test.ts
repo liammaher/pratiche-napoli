@@ -160,9 +160,6 @@ test("list --accepted shows accepted reports with the maintainer's fields", asyn
   assert.match(describe(accepted[0]), /tip: Portare la visura/);
 });
 
-test("export writes where the command was run from, or to the repo root", () => {
-  assert.equal(exportPath("tmp/cache.json", "/repo", "/repo"), "/repo/tmp/cache.json");
-  assert.equal(exportPath("cache.json", "/repo/tools", "/repo"), "/repo/tools/cache.json");
-  assert.equal(exportPath("/abs/cache.json", "/repo", "/repo"), "/abs/cache.json");
-  assert.equal(exportPath(undefined, "/elsewhere", "/repo"), "/repo/reports-cache.json");
+test("export writes to the repo root, always", () => {
+  assert.equal(exportPath("/repo"), "/repo/reports-cache.json");
 });

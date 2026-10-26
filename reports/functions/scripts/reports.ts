@@ -6,12 +6,14 @@
 //                                                 (again, to change them; "" removes one)
 //   npm run reports -- reject <id>
 //   npm run reports -- delete <id>               on request: the report and its contact
-//   npm run reports -- export [file]             accepted reports for reports:aggregate
+//   npm run reports -- export                    accepted reports to reports-cache.json, for reports:aggregate within the hour
+// accept, reject and delete also remove the export at the repo root, which
+// no longer matches.
 // The project comes from --project or GCLOUD_PROJECT; credentials from
 // `gcloud auth application-default login` (as your personal account). With
 // FIRESTORE_EMULATOR_HOST set it talks to the emulator instead.
 
-import { writeFileSync } from "node:fs";
+import { existsSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
 import { initializeApp } from "firebase-admin/app";
@@ -19,7 +21,7 @@ import { getFirestore } from "firebase-admin/firestore";
 import { accept, describe, exportAccepted, exportPath, findByEmail, list, reject, remove, show } from "./review";
 
 const USAGE =
-  'commands: list [--accepted], show <id>, find <email>, accept <id> [--tip "…"] [--rejection-reason "…"] [--extra-document "…"], reject <id>, delete <id>, export [file]; with --project <id> or GCLOUD_PROJECT';
+  'commands: list [--accepted], show <id>, find <email>, accept <id> [--tip "…"] [--rejection-reason "…"] [--extra-document "…"], reject <id>, delete <id>, export; with --project <id> or GCLOUD_PROJECT';
 const ROOT = path.resolve(__dirname, "..", "..", "..");
 
 async function main(): Promise<void> {
@@ -49,6 +51,19 @@ async function main(): Promise<void> {
   const need = (what = "a report id") => {
     if (!arg) throw new Error(`${command} needs ${what}`);
     return arg;
+  };
+  // After a change, an earlier export would still have the report as it was
+  // (a deleted one included), and reports:aggregate could publish it.
+  const dropExport = () => {
+    const file = exportPath(ROOT);
+    if (!existsSync(file)) return;
+    try {
+      rmSync(file);
+      console.log(`removed ${file}, which no longer matches: export again before reports:aggregate`);
+    } catch (e) {
+      console.error(`couldn't remove ${file}, which no longer matches: delete it by hand (${(e as Error).message})`);
+      process.exitCode = 1;
+    }
   };
 
   switch (command) {
@@ -81,20 +96,24 @@ async function main(): Promise<void> {
         extra_document: values["extra-document"],
       });
       console.log(`accepted ${arg}`);
+      dropExport();
       return;
     case "reject":
       await reject(db, need());
       console.log(`rejected ${arg}`);
+      dropExport();
       return;
     case "delete":
       await remove(db, need());
       console.log(`deleted ${arg} and its contact`);
+      dropExport();
       return;
     case "export": {
-      const file = exportPath(arg, process.env.INIT_CWD ?? process.cwd(), ROOT);
+      if (arg) throw new Error(`export takes no file: it always writes ${exportPath(ROOT)}`);
+      const file = exportPath(ROOT);
       const reports = await exportAccepted(db);
-      writeFileSync(file, JSON.stringify(reports, null, 2) + "\n");
-      console.log(`wrote ${reports.length} accepted reports to ${file}; now run npm run reports:aggregate`);
+      writeFileSync(file, JSON.stringify({ exported: new Date().toISOString(), reports }, null, 2) + "\n");
+      console.log(`wrote ${reports.length} accepted reports to ${file}; now run npm run reports:aggregate, within the hour`);
       return;
     }
     default:
