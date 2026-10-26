@@ -15,9 +15,9 @@
    field (also with `concat` or `fallback`; fields without a prefix), and
    `{ repeat: { ruolo: [socio, amministratore], except: dichiarante }, fields: [...] }` fills one
    row per such person. A business procedure says who signs with
-   `dichiarante: { ruolo: [titolare, legale_rappresentante] }`; then `identity.*`, `residenza.*`
-   and the other categories about a person are the dichiarante's, while `business.*` and
-   `locale.*` stay the business's. In a personal vault that is the owner; in a business vault,
+   `dichiarante: { ruolo: [titolare, legale_rappresentante] }`; then `identity.*`, `residenza.*`,
+   the other categories about a person and `ruolo.*` are the dichiarante's, in the forms and in
+   `records`, while `business.*` and `locale.*` stay the business's. In a personal vault that is the owner; in a business vault,
    the person with that ruolo. Someone who is only the other side of one deal (the cedente, the
    subentrante) stays an `ask`.
 3. **Official sources first.** Cite the ente's own page, regulation, decision or form. Third-

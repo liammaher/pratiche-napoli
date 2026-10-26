@@ -27,7 +27,10 @@ CONTRIBUTING). The procuratore (`scia-esercizio-vicinato`, `scia-acconciatore-es
 `subingresso-attivita-commerciale`, `cessazione-attivita-commerciale`, and the ComUnica procura),
 the preposto and the other soci (Allegati B and A) and the responsabili tecnici (Allegati B and
 C of `scia-acconciatore-estetista`) are mapped that way. Still `ask`: whether a procura is used
-at all, the procuratore's "in qualità di", and each person's professional requirement.
+at all, the procuratore's "in qualità di", the date of a preposto's nomina (`ruolo.data_inizio`
+is when the relationship began, often the hiring), and each person's professional requirement.
+The acconciatore Allegato B and estetista Allegato C both list every responsabile tecnico, since
+`ruolo` doesn't say which trade: the filler keeps each person on the right one.
 
 | Proposed field | Meaning | Needed by |
 |---|---|---|

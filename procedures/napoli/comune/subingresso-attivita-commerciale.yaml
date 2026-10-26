@@ -451,7 +451,7 @@ forms:
       - label: "Allegato B – in qualità di PREPOSTO/A della Ditta individuale / Società"
         map: { direct: business.denominazione }
       - label: "Allegato B – in data (nomina a preposto)"
-        map: { party: { ruolo: preposto }, direct: ruolo.data_inizio }
+        map: { ask: Data da cui la persona è preposta all'attività }
       - label: "Allegato B – dichiara requisiti di onorabilità e assenza di cause antimafia"
         map: { blank_with_reason: Dichiarazione personale del preposto; la sceglie e la firma solo lui. }
       - label: "Allegato B – requisito professionale (corso; esercizio in proprio; lavoro presso imprese del settore; diploma; qualifica estera; REC)"

@@ -56,7 +56,14 @@ export interface VaultSchema {
 
 export interface Extensions {
   description?: string;
-  categories: { name: string; description?: string; scope?: Scope; fields: { id: string; description: string }[] }[];
+  categories: {
+    name: string;
+    description?: string;
+    scope?: Scope;
+    subject?: Subject;
+    kinds?: Kind[];
+    fields: { id: string; description: string; kinds?: Kind[] }[];
+  }[];
 }
 
 export interface Registry {
@@ -168,10 +175,22 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
     if (!entry) {
       if (!ext.description) throw new Error(`new category "${ext.name}" needs a description`);
       if (!SCOPES.has(ext.scope as string)) throw new Error(`new category "${ext.name}" needs a scope, person or owner`);
-      entry = { name: ext.name, description: ext.description, scope: ext.scope!, vault: false, fields: [] };
+      if (!SUBJECTS.has(ext.subject)) throw new Error(`category "${ext.name}" has subject ${JSON.stringify(ext.subject)}, not persona or impresa`);
+      checkKinds(ext.kinds, `category "${ext.name}"`);
+      entry = {
+        name: ext.name,
+        description: ext.description,
+        scope: ext.scope!,
+        ...(ext.subject && { subject: ext.subject }),
+        ...(ext.kinds && { kinds: ext.kinds }),
+        vault: false,
+        fields: [],
+      };
       categories.push(entry);
     } else if (entry.open) {
       throw new Error(`extensions can't add fixed fields to open category "${ext.name}"`);
+    } else if (ext.subject !== undefined || ext.kinds !== undefined || ext.scope !== undefined) {
+      throw new Error(`extensions can't change the scope, subject or kinds of vault category "${ext.name}"`);
     }
     for (const f of ext.fields) {
       checkFieldCategory(f.id, ext.name);
@@ -181,7 +200,8 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
       if (vaultIds.has(f.id) || entry.fields.some((e) => e.id === f.id)) {
         throw new Error(`extension field "${f.id}" already exists; remove it from extensions.json`);
       }
-      entry.fields.push({ id: f.id, description: f.description, vault: false });
+      checkKinds(f.kinds, `extension field "${f.id}"`);
+      entry.fields.push({ id: f.id, description: f.description, ...(f.kinds && { kinds: f.kinds }), vault: false });
     }
   }
 

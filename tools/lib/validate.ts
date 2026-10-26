@@ -71,20 +71,23 @@ interface Doc {
 export function validateProcedure(doc: unknown, relPath: string, ctx: Context): string[] {
   const errors: string[] = [];
   if (!checkSchema(doc)) {
-    // A field mapping that matches no branch makes ajv report every branch;
-    // replace all of that with one message.
+    // A field mapping that matches no branch makes ajv report every branch,
+    // and the oneOfs inside it (party, repeat) once per branch; replace all of
+    // that with one message.
     const all = checkSchema.errors ?? [];
     const badMaps = all
       .filter((e) => e.keyword === "oneOf" && e.instancePath.endsWith("/map"))
       .map((e) => e.instancePath);
     for (const e of all) {
       const inBadMap = badMaps.some((p) => e.instancePath === p || e.instancePath.startsWith(`${p}/`));
-      if (inBadMap && e.keyword !== "oneOf") continue;
+      if (inBadMap && !(e.keyword === "oneOf" && badMaps.includes(e.instancePath))) continue;
       const message = inBadMap
         ? "must be exactly one of direct, concat (2+), fallback (2+) (each may add party: { ruolo }), " +
-          "repeat: famiglia or repeat: { ruolo } with fields, blank_with_reason or ask, with field IDs like identity.email"
+          "repeat: famiglia or repeat: { ruolo } with fields, blank_with_reason or ask, " +
+          "with field IDs like identity.email and ruolo values from $defs/ruolo"
         : e.message;
-      errors.push(`schema: ${e.instancePath || "/"} ${message}`);
+      const line = `schema: ${e.instancePath || "/"} ${message}`;
+      if (!errors.includes(line)) errors.push(line);
     }
     return errors;
   }
@@ -119,7 +122,7 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
   for (const r of d.records ?? []) {
     if (recorded.has(r.field)) errors.push(`records: "${r.field}" is listed twice`);
     recorded.add(r.field);
-    const problem = checkFieldRef(r.field, ctx.registry);
+    const problem = checkUse(r.field, false, ctx.registry, d.dichiarante !== undefined);
     if (problem) errors.push(`records: ${problem}`);
   }
 
@@ -226,7 +229,7 @@ function checkMapping(map: Record<string, unknown>, registry: Registry, dichiara
 // an unprefixed field of a person's own data is the dichiarante's.
 function checkUse(ref: string, inRow: boolean, registry: Registry, dichiarante: boolean): string | null {
   const { member, local } = splitMember(ref);
-  const problem = checkFieldRef(ref, registry, !member && dichiarante && isPersonData(local, registry) ? "the dichiarante" : undefined);
+  const problem = !member && dichiarante && isPersonData(local, registry) ? checkDichiaranteRef(ref, registry) : checkFieldRef(ref, registry);
   if (problem) return problem;
   if (member === "*") return inRow ? null : `${ref}: *: means each person of a repeat row, which only repeat can fill`;
   if (member) return namesMember(ref, member);
@@ -240,6 +243,18 @@ function checkPartyRef(ref: string, registry: Registry): string | null {
   const { member } = splitMember(ref);
   if (member) return `${ref}: inside party, write the field without a prefix; it is read from the person with that ruolo`;
   return checkFieldRef(ref, registry, "the person with that ruolo") ?? kindProblem(ref, registry, "impresa");
+}
+
+// The dichiarante is the owner of a personal vault or a person with a ruolo in
+// a business vault, so their field must be one at least one of those can have.
+function checkDichiaranteRef(ref: string, registry: Registry): string | null {
+  const asOwner = checkFieldRef(ref, registry);
+  if (!asOwner) return null;
+  const asPerson = checkFieldRef(ref, registry, "the dichiarante") ?? kindProblem(ref, registry, "impresa");
+  if (!asPerson) return null;
+  return asOwner === asPerson
+    ? asOwner
+    : `${ref}: no dichiarante can have it, neither the owner of a personal vault nor a person with a ruolo in a business vault`;
 }
 
 // A person's own data, which a procedure's dichiarante supplies: categories
@@ -299,7 +314,12 @@ export function checkFieldRef(ref: string, registry: Registry, person?: string):
   if (field === "*") {
     // A wildcard must not sweep in a secret field of the category.
     if (registry.forbidden.fields.some((f) => f.startsWith(`${cat}.`))) return secret;
-    return category.open ? `${ref}: a wildcard over an open category could include anything, secrets too; name the fields` : null;
+    if (category.open) return `${ref}: a wildcard over an open category could include anything, secrets too; name the fields`;
+    // ...nor be all fields its holder can never have.
+    const all = (forWhom: string) => category.fields.length > 0 && category.fields.every((f) => f.for === forWhom);
+    if (!member && !person && all("member")) return `${ref}: every ${cat} field is another person's, never the vault owner's`;
+    if ((member || person) && all("owner")) return `${ref}: every ${cat} field is the vault owner's only`;
+    return null;
   }
   if (CREDENTIAL.test(field)) return secret;
 
