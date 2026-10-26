@@ -73,8 +73,9 @@ npm run reports:aggregate               # within the hour: update each procedure
 
 `reports:aggregate` reads the export and removes it: an export is used once, and only within an
 hour of being made, since a report deleted or changed after it would still be in it as it was. It
-reads every version of the blocks from the git history, and stops if it can't (no git, a shallow
-clone, a git error), since a version left out could give someone away. It writes a `reported`
+reads every version of the blocks from the git history, and stops if it can't (no git, a copy
+that isn't its own checkout, a shallow clone, a git error), since a version left out could give
+someone away. It writes a `reported`
 block at the end of each procedure from the accepted reports of the last 12 months: outcomes, answer times per channel, desk waits, amounts paid,
 how often each listed document was asked for, and the maintainer's tips, rejection reasons and
 extra documents. A procedure needs at least 3 reports, and every number in the block, outcome
