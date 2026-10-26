@@ -1,6 +1,13 @@
 schema_version: 0
 id: napoli/comune/tari-autotutela-avviso-non-domestica
 title: TARI – richiesta di correzione in autotutela dell'avviso di pagamento, uso non abitativo (Comune di Napoli)
+headline: "Avviso TARI sbagliato per un'attività a Napoli: come chiedere la correzione"
+aka:
+  - avviso bonario TARI errato
+  - contestare la tassa rifiuti
+  - bolletta spazzatura sbagliata
+  - annullamento avviso TARI
+  - Mod. 7 TARI
 updated: 2026-10-26
 summary: >-
   Un'impresa, un professionista o un'associazione che riceve dal Comune di Napoli un avviso di
@@ -67,6 +74,14 @@ legal_basis:
     status: verified
     source: l212-art1
 deadline:
+  summary:
+    text: >-
+      Non c'è un termine per presentare l'istanza, ma intanto l'importo giusto si paga alle scadenze
+      e nessuna fonte dice che l'istanza sospenda il pagamento o i 60 giorni per il ricorso, che
+      decorrono dalla notifica dell'atto. Un anno dopo che l'atto è diventato definitivo senza
+      ricorso, il Comune non è più obbligato ad annullarlo.
+    status: verified
+    source: mod-7
   rules:
     - text: >-
         Né il Mod. 7 né il regolamento TARI fissano un termine per presentare l'istanza di
@@ -100,8 +115,23 @@ deadline:
       (art. 28). Non calcolare da sé gli importi: chiederli all'ufficio TARI.
     status: verified
     source: regolamento-2023
+duration:
+  text: >-
+    Né il Mod. 7 né il regolamento dicono in quanto tempo l'ufficio risponde, e intanto il
+    pagamento resta dovuto alle scadenze. Nei casi di autotutela obbligatoria (art. 10-quater
+    L. 212/2000), dopo 90 giorni dalla domanda senza risposta si può fare ricorso contro il
+    rifiuto tacito (art. 21, c. 2, D.Lgs. 546/1992).
+  status: verified
+  source: dlgs546-art21
+appointment:
+  text: >-
+    Non serve: l'istanza si invia via PEC, email o raccomandata, come indica il Mod. 7, senza
+    andare allo sportello.
+  status: verified
+  source: mod-7
 channels:
   - type: pec
+    purpose: procedure
     address: entrate.tari-tares-tarsu@pec.comune.napoli.it
     receipt: legal
     preferred: true
@@ -110,14 +140,17 @@ channels:
       Dà una ricevuta con valore legale. Anche la pagina TARI 2026 indica questa PEC per l'istanza
       quando l'avviso non rispecchia la situazione reale.
   - type: email
+    purpose: procedure
     address: entrate.tari-tares-tarsu@comune.napoli.it
     receipt: informal
     source: mod-7
   - type: post
+    purpose: procedure
     address: Comune di Napoli, Area Entrate, Servizio Gestione TARI, Via Diocleziano 330, 80125 Napoli
     source: mod-7
     notes: Raccomandata (A/R secondo la pagina della modulistica).
   - type: portal
+    purpose: procedure
     name: POTESs – Servizi Tributari
     url: https://servizionline.comune.napoli.it/web/napoli/servizi-tributari
     auth: [spid, cie, cns]
@@ -126,17 +159,19 @@ channels:
       La pagina della modulistica lo indica per le "dichiarazioni TARI"; il Mod. 7 non lo elenca
       tra i modi di presentazione dell'istanza.
   - type: desk
+    purpose: info
     name: Sportello TARI
     address: Via Diocleziano 330, 80125 Napoli
     hours: lunedì–venerdì 8:30–12:30
     source: mod-7
     notes: Indicato tra i contatti del Mod. 7, non tra i modi di presentazione.
   - type: phone
+    purpose: info
     address: 081 795 3711
     hours: tutti i giorni 9:00–13:00 (orario indicato sul modulo)
     booking: >-
-      Appuntamento telefonico o via mail prenotabile su
-      https://servizionline.comune.napoli.it/web/napoli/tributi
+      Il modulo indica https://servizionline.comune.napoli.it/web/napoli/tributi per un
+      appuntamento telefonico o via mail, ma il 26/10/2026 la pagina non esisteva (errore 404).
     source: mod-7
     notes: >-
       Il modulo indica anche 081 795 3891 e 081 795 3856 (mercoledì e venerdì, 9–13) e

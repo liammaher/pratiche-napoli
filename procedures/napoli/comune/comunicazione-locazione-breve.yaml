@@ -1,7 +1,13 @@
 schema_version: 0
 id: napoli/comune/comunicazione-locazione-breve
 title: Locazione breve turistica a Napoli senza impresa (Comunicazione al SUAP, CUSR, CIN, Alloggiati Web)
-updated: 2026-10-25
+headline: "Affitti brevi a Napoli senza partita IVA: comunicazione al SUAP, CUSR e CIN"
+aka:
+  - affitto turistico
+  - Airbnb
+  - locazione turistica
+  - codice identificativo nazionale
+updated: 2026-10-26
 summary: >-
   Chi, come persona fisica e senza fare impresa, affitta a Napoli un appartamento a uso abitativo
   per soggiorni fino a 30 giorni (locazione breve, art. 4 D.L. 50/2017) presenta prima di iniziare
@@ -136,6 +142,15 @@ legal_basis:
     status: verified
     source: indicazioni-rev2
 deadline:
+  summary:
+    text: >-
+      Prima di iniziare: comunicazione al SUAP e, prima di pubblicare annunci e affittare, il CIN
+      (che si chiede dopo il CUSR). Poi: ospiti su Alloggiati Web entro 24 ore dall'arrivo (per
+      soggiorni sotto le 24 ore le fonti non concordano), movimento turistico alla Regione ogni
+      mese, imposta di soggiorno con iscrizione su GEIS all'inizio dell'attività e dichiarazione e
+      versamento entro il 15 del mese dopo ogni trimestre.
+    status: disputed
+    source: guida-regione-2025
   rules:
     - text: >-
         La comunicazione al Comune va fatta prima dell'inizio dell'attività di locazione, insieme
@@ -178,8 +193,32 @@ deadline:
       Per l'importo nel caso concreto chiedere al SUAP o alla Polizia locale.
     status: verified
     source: guida-regione-2025
+cost:
+  text: >-
+    Secondo la tabella dei diritti SUAP in vigore dall'11 giugno 2026 la Comunicazione costa 50
+    euro di diritti d'istruttoria (riga S210), da pagare con pagoPA nella pratica. Le indicazioni
+    operative del SUAP e la pagina del Comune, precedenti, dicono invece che non sono previsti né
+    diritti né marche da bollo: pagare l'importo che chiede il portale.
+  status: disputed
+  source: tabella-2026
+duration:
+  text: >-
+    La Comunicazione va presentata prima di iniziare, ma per pubblicare annunci serve il CIN, che
+    in Campania si chiede solo dopo aver ricevuto il CUSR, trasmesso dal Comune via email o PEC.
+    Le fonti lette non dicono in quanto tempo il Comune assegna il CUSR.
+  status: verified
+  source: guida-regione-2025
+appointment:
+  text: >-
+    Non serve: la Comunicazione si presenta solo online su impresainungiorno. Lo sportello SUAP di
+    Piazza Cavour 42 (II piano) riceve dal 18 maggio 2026 solo su prenotazione online, con il
+    pulsante "Prenota appuntamento" della pagina "Avviare, variare, chiudere un'attività
+    produttiva".
+  status: verified
+  source: suap-contatti
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     auth: [spid, cie, cns]
@@ -191,21 +230,25 @@ channels:
       Serve la firma digitale del titolare o di un procuratore. Il percorso esatto nel portale non è
       stato verificato.
   - type: pec
+    purpose: info
     address: suap@pec.comune.napoli.it
     receipt: legal
     source: suap-contatti
     notes: Solo per comunicare con l'ufficio; le pratiche inviate via PEC o email ordinaria non vengono istruite.
   - type: email
+    purpose: info
     address: suaponline@comune.napoli.it
     receipt: informal
     source: suap-contatti
     notes: Solo per informazioni.
   - type: phone
+    purpose: info
     address: 081 7953052
     hours: martedì, mercoledì e venerdì 14:00–15:00
     source: suap-contatti
     notes: Referente SUAP indicato per le locazioni brevi.
   - type: desk
+    purpose: info
     name: Servizio SUAP
     address: Piazza Cavour 42, II piano, Napoli
     booking: >-
@@ -213,12 +256,14 @@ channels:
       "Avviare, variare, chiudere un'attività produttiva").
     source: suap-contatti
   - type: portal
+    purpose: related
     name: BDSR – Banca dati strutture ricettive del Ministero del Turismo (CIN)
     url: https://bdsr.ministeroturismo.gov.it/
     auth: [spid, cie]
     source: guida-regione-2025
     notes: Si usa dopo aver ricevuto il CUSR dal Comune ("Ottieni CIN", inserendo il CUSR di 15 caratteri).
   - type: portal
+    purpose: related
     name: Alloggiati Web – Polizia di Stato
     url: https://alloggiatiweb.poliziadistato.it/
     receipt: informal
@@ -227,12 +272,14 @@ channels:
       Le credenziali si chiedono al Commissariato di P.S. competente per l'indirizzo dell'alloggio
       (modulo della Questura di Napoli). Le ricevute vanno scaricate e conservate 5 anni.
   - type: portal
+    purpose: related
     name: Sinfonia Turismo SMART – Regione Campania (movimento ospiti)
     url: https://turismo.regione.campania.it/turismoweb/fe-portale-turismo/login
     auth: [spid, cie, cns]
     source: guida-regione-2025
     notes: Assistenza supporto.strutturericettive@regione.campania.it.
   - type: portal
+    purpose: related
     name: GEIS Portal – imposta di soggiorno (Comune di Napoli)
     url: https://cizrm.municipia.eng.it/?ente=NAPO
     source: geis-iscrizione

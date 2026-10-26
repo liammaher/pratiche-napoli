@@ -1,7 +1,14 @@
 schema_version: 0
 id: napoli/asl-napoli-1/registrazione-attivita-alimentare
 title: Notifica sanitaria per la registrazione di un'attività alimentare (Reg. CE 852/2004) – ASL Napoli 1 Centro
-updated: 2026-10-25
+headline: "Registrazione sanitaria ASL per bar, ristoranti e negozi alimentari a Napoli"
+aka:
+  - DIA sanitaria
+  - SCIA sanitaria
+  - autorizzazione sanitaria
+  - notifica 852
+  - registrazione ASL alimenti
+updated: 2026-10-26
 summary: >-
   Chi apre a Napoli un'attività che produce, trasforma, deposita, trasporta, vende o somministra
   alimenti (bar, ristorante, negozio alimentare, laboratorio…) deve notificarla all'ASL per la
@@ -75,6 +82,13 @@ legal_basis:
     status: verified
     source: surap-disciplina
 deadline:
+  summary:
+    text: >-
+      Prima di iniziare: con la SCIA si parte subito dopo la presentazione o dalla data indicata nel
+      modulo. La registrazione non scade e non va rinnovata, ma le modifiche all'attività o allo
+      stabilimento vanno comunicate tempestivamente.
+    status: verified
+    source: comune-zone-tutelate
   rules:
     - text: >-
         La notifica va presentata prima di iniziare: con la SCIA l'attività può partire subito dopo
@@ -101,8 +115,35 @@ deadline:
       regionale non indica importi). Per l'importo rivolgersi all'ASL; non stimarlo.
     status: verified
     source: dd117
+cost:
+  text: >-
+    Diritti d'istruttoria del SUAP (tabella 2026), con pagoPA nella pratica: 20 euro per la
+    notifica sanitaria, che di solito è già compresa nella riga della pratica dell'attività (per
+    esempio 120 euro per bar o ristorante con notifica). In più i diritti sanitari dell'ASL: 20
+    euro per ogni linea d'attività all'avvio, 20 euro in tutto per il subingresso, niente per
+    cessazione e sospensione, secondo il decreto regionale del 2020 (confermare l'importo attuale
+    con l'ASL). Nessuna imposta di bollo.
+  status: verified
+  source: tabella-diritti-2026
+duration:
+  text: >-
+    Con la SCIA dell'attività la notifica permette di iniziare subito dopo la presentazione (o
+    dalla data di decorrenza indicata nel modulo); i controlli dell'ASL arrivano dopo, con verifica
+    dei documenti e sopralluogo. La registrazione non scade. Nel centro storico UNESCO e nella
+    buffer zone bar, ristoranti, laboratori e negozi con consumo sul posto aprono solo dopo
+    l'autorizzazione del Comune.
+  status: verified
+  source: comune-zone-tutelate
+appointment:
+  text: >-
+    Non serve: la notifica si presenta solo online su impresainungiorno, dentro la pratica SUAP,
+    e il SUAP la inoltra all'ASL. Per informazioni il SUAP (Piazza Cavour 42) riceve solo su
+    prenotazione online, dalla pagina "Avviare, variare, chiudere un'attività produttiva".
+  status: verified
+  source: comune-suap-contatti
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP del Comune di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     preferred: true
@@ -112,12 +153,14 @@ channels:
       email non vengono istruite. La notifica sanitaria va inserita nella pratica SUAP (di solito
       la SCIA unica dell'attività); il SUAP la trasmette all'ASL.
   - type: desk
+    purpose: info
     name: SUAP – Comune di Napoli
     address: Piazza Cavour 42, II piano, Napoli
     booking: Solo su prenotazione online, dalla pagina "Avviare, variare, chiudere un'attività produttiva".
     source: comune-suap-contatti
     notes: Per informazioni e assistenza; le pratiche si presentano solo su impresainungiorno.
   - type: pec
+    purpose: info
     name: UOC Igiene degli Alimenti e Nutrizione (SIAN) – ASL Napoli 1 Centro
     address: sian@pec.aslna1centro.it
     source: asl-sian-uoc
@@ -125,6 +168,7 @@ channels:
       Per chiarimenti con l'ASL, non per presentare la notifica (che passa dal SUAP). Sede: Via
       Comunale del Principe 13/A, c/o Presidio Frullone, plesso laterale, V piano.
   - type: phone
+    purpose: info
     name: SIAN – ASL Napoli 1 Centro
     address: 081 2549829 / 081 2549832 / 081 2549837
     source: asl-sian-uoc
@@ -523,6 +567,14 @@ sources:
     sha256: dd76876f846170251f0c7df28cf28d37761a06c0de3d87e26ae87820b495f3dd
     official: true
     notes: PDF creato nel novembre 2024; diritti in vigore dal 2 luglio 2021 (DGC n. 249/2021).
+  - id: tabella-diritti-2026
+    label: >-
+      Comune di Napoli – Tabella dei diritti d'istruttoria delle pratiche telematiche SUAP 2026
+      (delibera G.C. n. 239/2026; righe TS 1, S4, S72)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2021/07/2026-TABELLA-DIRITTI-SUAP-DEF.pdf
+    retrieved: 2026-10-26
+    sha256: 6abd7a3127137927c6d9959f946001c4e51d47afee568317e4e69e5584994d15
+    official: true
   - id: impresainungiorno-napoli
     label: impresainungiorno – SUAP di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839

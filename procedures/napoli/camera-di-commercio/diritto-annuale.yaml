@@ -1,7 +1,9 @@
 schema_version: 0
 id: napoli/camera-di-commercio/diritto-annuale
 title: Diritto annuale 2026 – Camera di Commercio di Napoli
-updated: 2026-10-25
+headline: "Diritto annuale Camera di Commercio di Napoli 2026: quanto e quando pagare"
+aka: [tassa camerale, tassa Camera di Commercio, diritto camerale, codice tributo 3850]
+updated: 2026-10-26
 summary: >-
   Il diritto annuale è il tributo che ogni impresa iscritta o annotata nel Registro delle
   Imprese, e ogni soggetto iscritto al REA, versa ogni anno alla Camera di Commercio della
@@ -75,6 +77,14 @@ legal_basis:
     status: verified
     source: dl-63-2026
 deadline:
+  summary:
+    text: >-
+      Imprese già iscritte: per il 2026 entro il 30 giugno, oppure entro il 30 luglio con la
+      maggiorazione dello 0,40%; per soggetti ISA, forfettari e minimi altre Camere indicano il 20
+      luglio (20 agosto con lo 0,80%), ma Napoli non lo dice: farselo confermare. Nuove iscrizioni:
+      insieme alla domanda oppure con F24 entro 30 giorni dall'invio.
+    status: disputed
+    source: na-lettera-ordinaria
   rules:
     - text: >-
         Imprese già iscritte: il termine coincide con quello di versamento del primo acconto
@@ -113,8 +123,15 @@ deadline:
       calcolo su dirittoannuale.camcom.it o chiederlo all'Ufficio Diritto Annuale.
     status: verified
     source: na-lettera-ordinaria
+appointment:
+  text: >-
+    Non serve: si paga online con pagoPA dalla funzione "calcola e paga" di
+    dirittoannuale.camcom.it, oppure con il modello F24 (F24 Web, banca o Poste Italiane).
+  status: verified
+  source: na-lettera-ordinaria
 channels:
   - type: portal
+    purpose: procedure
     name: Diritto annuale – Calcola e paga (sistema camerale)
     url: https://dirittoannuale.camcom.it
     preferred: true
@@ -124,6 +141,7 @@ channels:
       di stampare l'F24 precompilato. Il sito è un'applicazione web che non è stato possibile
       leggere senza browser: metodo di accesso non verificato.
   - type: email
+    purpose: info
     name: Ufficio Diritto Annuale – Sanzioni – Ruoli
     address: diritto.annuale@na.camcom.it
     receipt: informal

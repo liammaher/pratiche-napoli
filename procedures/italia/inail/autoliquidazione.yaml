@@ -1,7 +1,14 @@
 schema_version: 0
 id: italia/inail/autoliquidazione
 title: INAIL – autoliquidazione annuale del premio (artigiani e datori di lavoro)
-updated: 2026-10-25
+headline: "Autoliquidazione INAIL: come calcolare e pagare il premio entro il 16 febbraio"
+aka:
+  - premio INAIL
+  - dichiarazione salari INAIL
+  - dichiarazione delle retribuzioni
+  - AL.P.I. online
+  - F24 INAIL
+updated: 2026-10-26
 summary: >-
   Ogni anno chi è assicurato all'INAIL come impresa (artigiano, anche senza dipendenti, o datore
   di lavoro) calcola da solo il premio, cioè la rata anticipata per l'anno in corso più il
@@ -69,6 +76,15 @@ legal_basis:
     status: verified
     source: istruzioni-2025-2026
 deadline:
+  summary:
+    text: >-
+      Entro il 16 febbraio si paga con F24 (unica soluzione o prima rata) e si chiede l'eventuale
+      riduzione del presunto; la dichiarazione delle retribuzioni si invia entro il 2 marzo 2026
+      (per il 2027 date calcolate, da confermare: 16 febbraio e 1° marzo). Chi cessa la invia entro
+      il 16 del secondo mese dopo la cessazione, e l'artigiano comunica la cessazione entro 30
+      giorni.
+    status: unverified
+    source: guida-2025-2026
   rules:
     - text: >-
         Entro il 16 febbraio: calcolare la rata anticipata dell'anno in corso e la regolazione
@@ -111,8 +127,16 @@ deadline:
       alla sede INAIL.
     status: verified
     source: guida-2025-2026
+appointment:
+  text: >-
+    Non serve: la dichiarazione delle retribuzioni si invia con i servizi telematici
+    dell'INAIL (AL.P.I. online o "Invio telematico dichiarazione salari") e chi ha la
+    partita IVA paga l'F24 solo in via telematica, anche tramite un intermediario.
+  status: verified
+  source: guida-2025-2026
 channels:
   - type: portal
+    purpose: procedure
     name: Servizi online INAIL – AL.P.I. online, Visualizza/Richiesta basi di calcolo, Riduzione presunto, Fascicolo aziende
     url: https://www.inail.it/portale/it/servizi-online/servizi.html
     auth: [spid, cie, cns]
@@ -126,6 +150,7 @@ channels:
       intermediari (per esempio consulenti del lavoro). Dal 1° ottobre 2021 si accede solo con
       SPID, CIE o CNS.
   - type: phone
+    purpose: info
     name: Contact center INAIL
     address: "06.6001"
     hours: lunedì–venerdì 9:00–18:00 (orario indicato in un avviso del 2020)

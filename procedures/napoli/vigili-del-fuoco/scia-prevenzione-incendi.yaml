@@ -1,7 +1,9 @@
 schema_version: 0
 id: napoli/vigili-del-fuoco/scia-prevenzione-incendi
 title: Prevenzione incendi – valutazione del progetto, SCIA antincendio e rinnovo periodico (Vigili del Fuoco di Napoli, tramite SUAP)
-updated: 2026-10-25
+headline: "Pratica antincendio per negozi, locali e alberghi a Napoli: SCIA ai Vigili del Fuoco"
+aka: [CPI, certificato prevenzione incendi, rinnovo CPI, SCIA VVF, parere di conformità antincendio]
+updated: 2026-10-26
 summary: >-
   Un'attività che rientra nell'elenco dell'Allegato I del D.P.R. 151/2011 (per esempio un negozio
   con più di 400 mq lordi, un albergo o affittacamere con più di 25 posti letto, un locale di
@@ -123,6 +125,15 @@ legal_basis:
     status: verified
     source: dm-tariffe-2024
 deadline:
+  summary:
+    text: >-
+      La SCIA va presentata prima di iniziare, e per le categorie B e C prima dei lavori serve il
+      parere sul progetto (entro 60 giorni dalla documentazione completa); il Comando controlla entro
+      60 giorni e chi non è in regola ha 45 giorni per adeguarsi. Il rinnovo è ogni 5 anni dalla
+      prima SCIA (10 per le attività 6, 7, 8, 64, 71, 72 e 77; alla scadenza per i vecchi
+      certificati) e le modifiche che aggravano il rischio richiedono una nuova SCIA.
+    status: verified
+    source: dpr151-art4
   rules:
     - text: >-
         La SCIA va presentata prima di iniziare l'esercizio dell'attività. Il Comando verifica la
@@ -163,8 +174,35 @@ deadline:
       concreto chiedere al Comando o a un legale: qui non si stima nulla.
     status: verified
     source: dlgs139-art20
+cost:
+  text: >-
+    Il versamento ai Vigili del Fuoco dipende dall'attività e dalla categoria: si moltiplicano le
+    ore fissate dalla tabella ministeriale per la tariffa oraria (63 euro l'ora per l'esame
+    progetto, 68 euro per il sopralluogo); l'importo esatto lo dà il modulo di calcolo sul sito dei
+    Vigili del Fuoco e si paga con pagoPA. Se la pratica passa dal SUAP di Napoli si aggiungono i
+    diritti d'istruttoria (20 euro per la parte antincendio, o la riga combinata della tabella
+    2026). Il compenso del tecnico abilitato non è compreso.
+  status: verified
+  source: dm-tariffe-2024
+duration:
+  text: >-
+    Con la SCIA si inizia appena è presentata, con la ricevuta; il Comando ha 60 giorni per i
+    controlli (per la categoria C la visita c'è sempre, e il certificato di prevenzione incendi
+    arriva entro 15 giorni dalla visita con esito positivo). Per le categorie B e C, prima dei
+    lavori, il parere sul progetto arriva entro 60 giorni dalla documentazione completa.
+  status: verified
+  source: dpr151-art4
+appointment:
+  text: >-
+    Non serve per presentare: le istanze sono solo telematiche (tramite il SUAP o su PRINCE).
+    L'Ufficio Prevenzione Incendi del Comando di Napoli (Via Leopoldo Tarantini 1) riceve per
+    consulenze su appuntamento il martedì 9–12, il giovedì 14–16 e il venerdì 9–12; la pagina non
+    dice come prenotare e indica il telefono 081 2595290.
+  status: verified
+  source: vvf-napoli
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP del Comune di Napoli
     url: https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839
     auth: [spid, cie, cns]
@@ -177,6 +215,7 @@ channels:
       canale telematico delle pratiche SUAP; la SCIA antincendio si aggiunge di solito alla
       pratica dell'attività (SCIA unica).
   - type: portal
+    purpose: procedure
     name: PRINCE – Portale di servizi di prevenzione incendi dei Vigili del Fuoco
     url: https://prevenzioneonline.vigilfuoco.it/prevenzione-online/login
     auth: [spid]
@@ -186,11 +225,13 @@ channels:
       PRINCE. Accesso con SPID; le istanze si associano tramite codice fiscale (anche del
       professionista). Assistenza tecnica: prince@vigilfuoco.it.
   - type: pec
+    purpose: info
     address: com.prev.napoli@cert.vigilfuoco.it
     receipt: legal
     source: vvf-napoli
     notes: PEC dell'Ufficio Prevenzione Incendi del Comando di Napoli.
   - type: desk
+    purpose: info
     name: Comando VVF di Napoli – Ufficio Prevenzione Incendi
     address: Via Leopoldo Tarantini 1, Napoli
     hours: martedì 9:00–12:00, giovedì 14:00–16:00, venerdì 9:00–12:00
@@ -198,9 +239,11 @@ channels:
     source: vvf-napoli
     notes: Solo consulenze sugli aspetti di competenza dell'ufficio; le istanze sono telematiche.
   - type: phone
+    purpose: info
     address: 081 2595290
     source: vvf-napoli
   - type: desk
+    purpose: info
     name: Servizio SUAP del Comune di Napoli
     address: Piazza Cavour 42, II piano, Napoli
     source: info-diritti

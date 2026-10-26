@@ -24,7 +24,7 @@ function minimal(over: Partial<Procedure> = {}): Procedure {
     summary: "Una procedura di prova.",
     ente: { name: "Comune di Napoli" },
     applies_to: { events: ["home"], audience: ["resident"] },
-    channels: [{ type: "pec", address: "ufficio@pec.comune.napoli.it" }],
+    channels: [{ type: "pec", purpose: "procedure", address: "ufficio@pec.comune.napoli.it" }],
     steps: [{ do: "Invia", who: "owner" }],
     sources: [{ id: "page", label: "Pagina", url: "https://www.comune.napoli.it/", retrieved: "2026-10-25", official: true }],
     verification: { level: "L1", date: "2026-10-25", by: "test", method: "desk" },
@@ -118,7 +118,7 @@ test("dates are written in Italian, in the date given whatever the time zone", (
 });
 
 test("a phone field with several numbers links each one", () => {
-  const site = buildSite([minimal({ channels: [{ type: "phone", address: "081 7953748 / 081 7953784 – 081 7953768" }] })], opts);
+  const site = buildSite([minimal({ channels: [{ type: "phone", purpose: "info", address: "081 7953748 / 081 7953784 – 081 7953768" }] })], opts);
   const html = site.get("napoli/comune/test/index.html")!;
   assert.ok(
     html.includes(
@@ -145,4 +145,89 @@ test("two pages at one path, or one folder naming two enti, stop the build", () 
   assert.throws(() => buildSite([minimal(), minimal({ id: "napoli/comune" })], opts), /two pages would be written at napoli\/comune\/index\.html/);
   const suap = minimal({ id: "napoli/comune/other", ente: { name: "Comune di Napoli – SUAP" } });
   assert.throws(() => buildSite([minimal(), suap], opts), /napoli\/comune name different enti: Comune di Napoli \/ Comune di Napoli – SUAP/);
+});
+
+test("the headline titles the page; the official name and everyday names come under it", () => {
+  const p = minimal({ headline: "Come fare la prova a Napoli", aka: ["provina", "test"] });
+  const site = buildSite([p], opts);
+  const html = site.get("napoli/comune/test/index.html")!;
+  assert.ok(html.includes("<title>Come fare la prova a Napoli | Pratiche Napoli</title>"));
+  assert.ok(html.includes('<h1>Come fare la prova a Napoli</h1>\n<p class="official">Test</p>'));
+  assert.ok(html.includes("Conosciuta anche come: provina, test"));
+  const ld = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)![1]);
+  assert.deepEqual(ld.about.alternateName, ["Come fare la prova a Napoli", "provina", "test"]);
+  assert.ok(site.get("index.html")!.includes('data-search="Come fare la prova a Napoli Test provina test Una procedura di prova."'));
+  assert.equal(JSON.parse(site.get("procedures.json")!).procedures[0].headline, "Come fare la prova a Napoli");
+  assert.ok(site.get("llms.txt")!.includes("[Come fare la prova a Napoli]("));
+});
+
+test("In breve answers the first questions, with status and source", () => {
+  const p = minimal({
+    deadline: { rules: [{ text: "Entro 90 giorni.", status: "verified", source: "page" }] },
+    cost: { text: "Gratuita.", status: "verified", source: "page" },
+    duration: { text: "Risposta in 30 giorni.", status: "unverified" },
+    appointment: { text: "Non serve.", status: "verified", source: "page" },
+    channels: [
+      { type: "desk", purpose: "procedure", name: "Sportello" },
+      { type: "pec", purpose: "info", notes: "Solo per informazioni." },
+      { type: "portal", purpose: "procedure", name: "POTESs", auth: ["spid", "cie"] },
+    ],
+    documents: [
+      { name: "Modulo", required: true },
+      { name: "Visura", required: false },
+    ],
+    steps: [
+      { do: "Compila", who: "anyone" },
+      { do: "Firma il modulo.", who: "owner", human_only: true },
+      { do: "Assevera i lavori", who: "professional", human_only: true },
+      { do: "Paga l'F24", who: "owner", human_only: true },
+    ],
+  });
+  const html = buildSite([p], opts).get("napoli/comune/test/index.html")!;
+  const box = html.match(/<section id="in-breve" class="quick">(.*?)<\/section>/s)![1];
+  const cite = '<a class="cite" href="#fonte-page">[1]</a>';
+  assert.ok(box.includes(`<dt>Scadenza</dt><dd>Entro 90 giorni. ${cite} <a href="#scadenza">Dettagli</a></dd>`));
+  assert.ok(box.includes(`<dt>Costo</dt><dd>Gratuita. ${cite}</dd>`));
+  assert.ok(box.includes('<dt>Tempi</dt><dd>Risposta in 30 giorni. <span class="badge">da verificare</span></dd>'));
+  // The information-only PEC is not a way to do it online.
+  assert.ok(box.includes('<dt>Si può fare online?</dt><dd>Sì: Portale online (POTESs), con SPID, CIE. <a href="#come">'));
+  assert.ok(box.includes(`<dt>Appuntamento</dt><dd>Non serve. ${cite}</dd>`));
+  assert.ok(box.includes("<dt>Documenti</dt><dd>1 obbligatorio."));
+  // Only the owner's steps, not the professional's.
+  assert.ok(box.includes("<dt>Cosa devi fare tu</dt><dd>Firma il modulo; Paga l&#39;F24. <a"));
+  for (const id of ["scadenza", "come", "documenti", "passaggi"]) assert.ok(html.includes(`<section id="${id}">`), id);
+  // Unverified facts stay out of the description, which search snippets show without badges.
+  assert.match(html, /<meta name="description" content="Una procedura di prova\. Entro 90 giorni\. Gratuita\.">/);
+  // Channels that carry out the procedure come first; the others say what they are for.
+  const come = html.match(/<section id="come">(.*?)<\/section>/s)![1];
+  assert.ok(come.indexOf("POTESs") < come.indexOf("<h3>PEC"));
+  assert.ok(come.includes('<h3>PEC <span class="badge soft">solo informazioni</span></h3>'));
+});
+
+test("several deadline rules are summed up, never cut to the first", () => {
+  const rules = [
+    { text: "Zona C: prima di aprire.", status: "verified" as const, source: "page" },
+    { text: "Zone A e B: dopo l'autorizzazione.", status: "verified" as const, source: "page" },
+  ];
+  const without = buildSite([minimal({ deadline: { rules } })], opts).get("napoli/comune/test/index.html")!;
+  assert.ok(!without.match(/<section id="in-breve".*?<\/section>/s)![0].includes("<dt>Scadenza</dt>"));
+  const summary = { text: "Prima di aprire in zona C; nelle zone A e B dopo l'autorizzazione.", status: "disputed" as const, source: "page" };
+  const html = buildSite([minimal({ deadline: { summary, rules } })], opts).get("napoli/comune/test/index.html")!;
+  assert.ok(html.includes('<dt>Scadenza</dt><dd>Prima di aprire in zona C; nelle zone A e B dopo l&#39;autorizzazione. <span class="badge">fonti in contrasto</span>'));
+  assert.match(html, /<meta name="description" content="Una procedura di prova\.">/);
+});
+
+test("In breve says when a procedure can't be done online, and leaves out what isn't known", () => {
+  const channels = [
+    { type: "desk", purpose: "procedure" as const },
+    { type: "post", purpose: "procedure" as const },
+    { type: "phone", purpose: "info" as const },
+    { type: "email", purpose: "info" as const },
+  ];
+  const html = buildSite([minimal({ channels })], opts).get("napoli/comune/test/index.html")!;
+  const box = html.match(/<section id="in-breve" class="quick">(.*?)<\/section>/s)![1];
+  assert.ok(box.includes("<dd>No: sportello, posta."));
+  for (const missing of ["Scadenza", "Costo", "Tempi", "Appuntamento", "Documenti", "Cosa devi fare tu"]) {
+    assert.ok(!box.includes(`<dt>${missing}</dt>`), missing);
+  }
 });

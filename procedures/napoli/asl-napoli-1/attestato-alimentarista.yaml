@@ -1,7 +1,9 @@
 schema_version: 0
 id: napoli/asl-napoli-1/attestato-alimentarista
 title: Attestato di formazione per alimentaristi (ex libretto sanitario) – ASL Napoli 1 Centro e Regione Campania
-updated: 2026-10-25
+headline: "Libretto sanitario a Napoli: come ottenere l'attestato da alimentarista"
+aka: [corso HACCP, attestato HACCP, corso alimentaristi, formazione igiene alimentare]
+updated: 2026-10-26
 summary: >-
   In Campania il libretto sanitario per chi lavora con gli alimenti è stato sostituito da un
   corso di formazione in igiene alimentare con esame finale, al termine del quale si riceve un
@@ -83,6 +85,13 @@ legal_basis:
     status: verified
     source: dlgs193-art6
 deadline:
+  summary:
+    text: >-
+      L'attestato vale tre anni: alla scadenza, e ogni volta che si passa a mansioni diverse, serve
+      un corso di aggiornamento. Per chi viene assunto le fonti non fissano un termine; se al
+      controllo manca l'attestato, l'ASL dà una prescrizione a 60 giorni.
+    status: unverified
+    source: asl-libretto
   rules:
     - text: >-
         L'attestato ha validità triennale. Alla scadenza dei tre anni serve un corso di
@@ -110,8 +119,33 @@ deadline:
       all'ufficio, non stimarlo.
     status: verified
     source: disciplinare
+cost:
+  text: >-
+    Ai corsi dell'ASL Napoli 1 Centro si versano 33,33 € per il corso di 4 ore (rischio 1),
+    66,66 € per quello di 8 ore (rischio 2) e 99,99 € per quello di 12 ore (responsabili),
+    secondo il tariffario regionale. L'aggiornamento costa 33,33 € (rischio 1 e 2) o 66,66 €
+    (responsabili). Le agenzie formative autorizzate fissano prezzi propri, che le fonti
+    ufficiali non pubblicano.
+  status: verified
+  source: asl-libretto
+duration:
+  text: >-
+    Il corso ASL dura 4, 8 o 12 ore secondo la categoria (aggiornamento 4 o 6 ore) e
+    l'attestato si rilascia al termine del corso; vale tre anni. La pagina dell'ASL non
+    indica quanto si aspetta per avere un posto.
+  status: verified
+  source: asl-libretto
+appointment:
+  text: >-
+    Per i corsi ASL serve la prenotazione presso la UO di Prevenzione Collettiva del proprio
+    distretto, consegnando il modello di domanda e la ricevuta del versamento (per
+    l'aggiornamento anche la fotocopia dell'attestato). Indirizzi, orari e telefoni delle
+    UOSD sono nelle pagine dei distretti.
+  status: verified
+  source: asl-libretto
 channels:
   - type: desk
+    purpose: procedure
     name: UOSD Prevenzione Collettiva del distretto sanitario di appartenenza (ASL Napoli 1 Centro)
     url: https://www.aslnapoli1centro.it/area-di-coordinamento-igienistica
     receipt: informal
@@ -123,6 +157,7 @@ channels:
       orari, telefono e PEC sono nella pagina di ciascuna, raggiungibile dalla pagina dell'Area
       di Coordinamento Igienistica. La pagina ASL non pubblica il modello di domanda.
   - type: desk
+    purpose: procedure
     name: Agenzie formative autorizzate dalla Regione Campania per la formazione degli alimentaristi
     url: https://personalessr.regione.campania.it/formazione-alimentaristi/index
     receipt: informal

@@ -1,7 +1,14 @@
 schema_version: 0
 id: napoli/comune/scia-somministrazione-alimenti-bevande
 title: Aprire un bar o un ristorante – SCIA o autorizzazione per la somministrazione di alimenti e bevande (Comune di Napoli)
-updated: 2026-10-25
+headline: "Aprire un bar o un ristorante a Napoli: SCIA, autorizzazione e requisiti"
+aka:
+  - licenza bar
+  - licenza ristorante
+  - aprire una pizzeria
+  - permesso per aprire un locale
+  - pratica SUAP
+updated: 2026-10-26
 summary: >-
   Chi vuole aprire a Napoli un bar, un ristorante, una pizzeria o un altro locale dove i clienti
   consumano sul posto con servizio deve presentare la pratica al SUAP del Comune, solo online su
@@ -136,6 +143,15 @@ legal_basis:
     status: verified
     source: lr-campania-7-2020
 deadline:
+  summary:
+    text: >-
+      Prima di aprire: in zona C si apre dal giorno della SCIA; nelle zone A e B solo dopo
+      l'autorizzazione (e l'eventuale nulla osta acustico), che arriva in 60 o 90 giorni secondo la
+      fonte. Il titolo decade se l'attività non parte entro sei mesi o resta sospesa più di dodici; il
+      preposto si comunica entro 30 giorni e il subingresso entro 90 giorni dall'atto (un anno se
+      muore il titolare).
+    status: disputed
+    source: lr-campania-7-2020
   rules:
     - text: >-
         Zona C: la SCIA va presentata prima di iniziare; l'attività può partire dal giorno della
@@ -183,8 +199,36 @@ deadline:
       concreto lo stabilisce l'ufficio che accerta la violazione.
     status: verified
     source: lr-campania-7-2020
+cost:
+  text: >-
+    Diritti d'istruttoria SUAP (tabella 2026), da pagare con pagoPA nella pratica: fuori dal centro
+    storico UNESCO e dalla buffer zone 120 euro per bar o ristorante con notifica sanitaria, 220
+    euro se c'è anche il nulla osta di impatto acustico; nelle zone tutelate 420 euro, o 520 con il
+    nulla osta. A parte si pagano i diritti sanitari dell'ASL (vedi la procedura ASL collegata) e,
+    per la domanda di autorizzazione nelle zone tutelate, l'eventuale imposta di bollo. Il compenso
+    del tecnico non è compreso.
+  status: verified
+  source: tabella-diritti-2026
+duration:
+  text: >-
+    Fuori dalle zone tutelate (zona C) si apre il giorno stesso, appena arriva la ricevuta della
+    SCIA, e il SUAP ha 60 giorni per i controlli. Nel centro storico UNESCO e nella buffer zone
+    (zone A e B) si apre solo dopo l'autorizzazione: la L.R. Campania 7/2020 (art. 91) dà al SUAP
+    60 giorni, con silenzio-assenso se non risponde, mentre la pagina del Comune indica 90 giorni
+    per le autorizzazioni. Chiedere al SUAP quale termine applica.
+  status: disputed
+  source: servizio-suap
+appointment:
+  text: >-
+    Non serve: la pratica si presenta solo online su impresainungiorno. Per informazioni e
+    assistenza il SUAP (Piazza Cavour 42) riceve solo su prenotazione online, con il pulsante
+    "Prenota appuntamento" della pagina "Avviare, variare, chiudere un'attività produttiva" del
+    Comune.
+  status: verified
+  source: suap-contatti
 channels:
   - type: portal
+    purpose: procedure
     name: impresainungiorno – SUAP del Comune di Napoli
     url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT
     auth: [spid, cie, cns]
@@ -196,6 +240,7 @@ channels:
       servizio elenca come sistemi di accesso anche eIDAS e Telemaco. Pratiche inviate via PEC o
       e-mail non vengono istruite.
   - type: desk
+    purpose: info
     name: SUAP del Comune di Napoli
     address: Piazza Cavour 42, II piano, Napoli
     booking: Solo su prenotazione online (https://portalecittadino.comune.napoli.it/s/prenotazione-appuntamento)
@@ -205,9 +250,11 @@ channels:
       18 maggio 2026. Il CAP è indicato come 80137 sulla pagina del servizio e come 80100 sui
       documenti del SUAP.
   - type: phone
+    purpose: info
     address: 081 7953054
     source: servizio-suap
   - type: email
+    purpose: info
     address: suaponline@comune.napoli.it
     receipt: informal
     source: suap-contatti

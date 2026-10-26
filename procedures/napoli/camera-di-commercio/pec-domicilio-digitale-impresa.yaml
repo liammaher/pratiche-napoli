@@ -1,6 +1,8 @@
 schema_version: 0
 id: napoli/camera-di-commercio/pec-domicilio-digitale-impresa
 title: PEC (domicilio digitale) dell'impresa e degli amministratori nel Registro Imprese – Camera di Commercio di Napoli
+headline: "PEC obbligatoria per imprese e amministratori: iscriverla al Registro Imprese di Napoli"
+aka: [PEC amministratori, cambio PEC impresa, PEC aziendale, INI-PEC, PEC revocata]
 updated: 2026-10-26
 summary: >-
   Ogni impresa iscritta al Registro Imprese, sia individuale sia società, deve avere un
@@ -91,6 +93,15 @@ legal_basis:
     status: verified
     source: cc-2630
 deadline:
+  summary:
+    text: >-
+      Le nuove imprese indicano la PEC nella domanda di prima iscrizione e gli amministratori
+      insieme alla nomina o conferma; per le imprese già iscritte il termine era il 1° ottobre 2020,
+      per gli amministratori già in carica il 31/12/2025. Il cambio di PEC non ha un termine in
+      giorni (farlo subito); se il Conservatore trova la casella inattiva, se ne indica una nuova
+      entro 30 giorni.
+    status: verified
+    source: dl-185-2008-art16
   rules:
     - text: >-
         Nuove società e nuove imprese individuali: il domicilio digitale va indicato nella domanda di
@@ -135,8 +146,22 @@ deadline:
       del Registro Imprese.
     status: verified
     source: dl-185-2008-art16
+cost:
+  text: >-
+    Iscrivere o cambiare la PEC dell'impresa nel Registro Imprese è gratuito: niente imposta
+    di bollo né diritti di segreteria. La casella PEC si paga al gestore scelto tra quelli
+    autorizzati, con prezzi diversi da gestore a gestore.
+  status: verified
+  source: ri-indirizzo-pec
+appointment:
+  text: >-
+    Non serve: la PEC dell'impresa si comunica online con la Pratica semplice di
+    registroimprese.it, firmando digitalmente come titolare o legale rappresentante.
+  status: verified
+  source: ri-pratiche-semplici
 channels:
   - type: portal
+    purpose: procedure
     name: Pratica semplice – Iscrizione domicilio digitale / PEC per società o impresa individuale
     url: https://ipec-registroimprese.infocamere.it
     preferred: true
@@ -148,6 +173,7 @@ channels:
       Gratuita (niente diritti, bolli o tariffe). Riguarda la PEC dell'impresa; per quella degli
       amministratori la Camera di Napoli indica DIRE.
   - type: portal
+    purpose: procedure
     name: DIRE – Depositi e Istanze Registro Imprese
     url: https://dire.registroimprese.it
     source: ri-indirizzo-pec
@@ -158,6 +184,7 @@ channels:
       "Cariche e organi amministrativi" se si iscrive anche una nomina o conferma). In alternativa
       i software di mercato o un intermediario (associazione di categoria, commercialista).
   - type: pec
+    purpose: info
     address: registroimprese@na.legalmail.camcom.it
     receipt: legal
     source: na-sedi
@@ -166,6 +193,7 @@ channels:
       del Conservatore). La comunicazione della PEC si fa con la pratica telematica, non con una
       PEC all'ufficio.
   - type: desk
+    purpose: info
     name: Registro Imprese
     address: Corso Meridionale 58, 80143 Napoli
     hours: lunedì–giovedì 8:50–12:00; venerdì 8:50–11:00 (orari uffici)
@@ -175,6 +203,7 @@ channels:
       telefono 081 7607714 e orari leggermente diversi: venerdì fino alle 11:30, martedì e giovedì
       anche 14:00–15:00 solo per informazioni.
   - type: phone
+    purpose: info
     name: Informazioni PEC Registro Imprese
     address: 081 7607714
     source: na-avvisi-pec

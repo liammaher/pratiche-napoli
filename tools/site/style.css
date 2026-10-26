@@ -75,6 +75,22 @@ li { margin: .35rem 0; }
 .badge.soft { background: var(--soft-bg); color: var(--soft-text); }
 .cite { font-size: .8rem; text-decoration: none; }
 
+.official { color: var(--muted); margin-top: -.3rem; }
+
+/* "In breve": the first answers, set apart from the sections below. */
+.quick {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: .5rem;
+  padding: .2rem 1rem .6rem;
+  margin: 1.2rem 0;
+}
+.quick h2 { border-top: 0; margin: .6rem 0 .4rem; padding-top: 0; }
+.quick dl { margin: 0; }
+.quick dt { font-weight: 600; margin-top: .5rem; }
+.quick dd { margin: 0; }
+
 .card {
   background: var(--surface);
   border: 1px solid var(--line);
