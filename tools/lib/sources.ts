@@ -16,7 +16,10 @@ export interface Result {
   target: Target;
   // uncheckable: the server's certificate can't be verified (usually a chain
   // it doesn't send in full, which browsers fill in), so nothing is known.
-  status: "ok" | "changed" | "unreachable" | "uncheckable";
+  // blocked: a 404 from a site that also answers 404 for its home page, which
+  // means it is refusing the checker (some servers block an address after
+  // too many requests and answer "not found"), not that the page is gone.
+  status: "ok" | "changed" | "unreachable" | "uncheckable" | "blocked";
   detail?: string;
 }
 
@@ -53,7 +56,8 @@ export function collectTargets(procedures: Cited[]): Target[] {
 }
 
 export interface CheckOptions {
-  concurrency?: number;
+  concurrency?: number; // sites checked at the same time
+  pauseMs?: number; // between two requests to the same site
   timeoutMs?: number;
   userAgent?: string;
   sleep?: (ms: number) => Promise<void>; // for tests
@@ -63,31 +67,69 @@ export interface CheckOptions {
 const RETRY_STATUS = new Set([429, 500, 502, 503, 504]);
 const MAX_WAIT_MS = 30_000;
 
-// Fetches each target (a few at a time, to be gentle with the offices'
-// servers). A network error, a 429 or a 5xx is tried once more after a pause
-// (Retry-After when the server gives one) before it counts as unreachable.
+// Fetches each target, gently: one request at a time per site, with a pause
+// between them, and a few sites at once. Offices' servers can block an
+// address that asks too much too fast. A network error, a 429 or a 5xx is
+// tried once more after a pause (Retry-After when the server gives one)
+// before it counts as unreachable. A site whose 404s come with a 404 for its
+// home page too has those marked blocked, not unreachable.
 export async function checkTargets(targets: Target[], fetchFn: typeof fetch, opts: CheckOptions = {}): Promise<Result[]> {
-  const { concurrency = 4, timeoutMs = 30_000, userAgent, sleep = (ms) => new Promise((r) => setTimeout(r, ms)) } = opts;
+  const {
+    concurrency = 4,
+    pauseMs = 1_500,
+    timeoutMs = 30_000,
+    userAgent,
+    sleep = (ms) => new Promise((r) => setTimeout(r, ms)),
+  } = opts;
   const results: Result[] = new Array(targets.length);
   const attempt = (target: Target) =>
     checkOne(target, fetchFn, timeoutMs, userAgent).catch((e): Checked => {
       const detail = failure(e as Error, timeoutMs);
       return { target, status: CERTIFICATE.has(detail) ? "uncheckable" : "unreachable", detail, retry: !CERTIFICATE.has(detail) };
     });
-  let next = 0;
+  const sites = new Map<string, number[]>();
+  targets.forEach((t, i) => sites.set(origin(t.url), [...(sites.get(origin(t.url)) ?? []), i]));
+  const queue = [...sites];
   const worker = async () => {
-    while (next < targets.length) {
-      const i = next++;
-      let result = await attempt(targets[i]);
-      if (result.retry) {
-        await sleep(result.waitMs ?? 5_000);
-        result = await attempt(targets[i]);
+    for (let site = queue.shift(); site; site = queue.shift()) {
+      const [home, indexes] = site;
+      for (const [k, i] of indexes.entries()) {
+        if (k) await sleep(pauseMs);
+        let result = await attempt(targets[i]);
+        if (result.retry) {
+          await sleep(Math.max(result.waitMs ?? 5_000, pauseMs));
+          result = await attempt(targets[i]);
+        }
+        results[i] = { target: result.target, status: result.status, ...(result.detail && { detail: result.detail }) };
       }
-      results[i] = { target: result.target, status: result.status, ...(result.detail && { detail: result.detail }) };
+      const notFound = indexes.filter((i) => results[i].detail === "HTTP 404");
+      if (notFound.length && home) {
+        await sleep(pauseMs);
+        const status = await fetchFn(`${home}/`, {
+          redirect: "follow",
+          signal: AbortSignal.timeout(timeoutMs),
+          headers: userAgent ? { "user-agent": userAgent } : undefined,
+        }).then(
+          async (res) => (await res.body?.cancel(), res.status),
+          () => undefined,
+        );
+        if (status === 404) {
+          for (const i of notFound) results[i] = { ...results[i], status: "blocked", detail: "HTTP 404, anche per la home del sito" };
+        }
+      }
     }
   };
-  await Promise.all(Array.from({ length: Math.min(concurrency, targets.length) }, worker));
+  await Promise.all(Array.from({ length: Math.min(concurrency, sites.size) }, worker));
   return results;
+}
+
+// "https://servizionline.comune.napoli.it", or "" for an address that isn't a URL.
+function origin(url: string): string {
+  try {
+    return new URL(url).origin;
+  } catch {
+    return "";
+  }
 }
 
 // A result, with whether (and after how long) to try again.
@@ -137,7 +179,7 @@ async function checkOne(target: Target, fetchFn: typeof fetch, timeoutMs: number
 // close anything. The reason, or undefined when the run can be trusted.
 export function inconclusive(results: Result[]): string | undefined {
   if (!results.length) return "nessun indirizzo da controllare";
-  const failed = results.filter((r) => r.status === "unreachable" || r.status === "uncheckable").length;
+  const failed = results.filter((r) => r.status !== "ok" && r.status !== "changed").length;
   return failed > results.length / 2 ? `${failed} indirizzi su ${results.length} non raggiunti o non controllabili` : undefined;
 }
 
@@ -149,11 +191,13 @@ const MAX_REFS = 5;
 const MAX_CHARS = 60_000;
 
 // Empty unless something changed or stopped answering: addresses that only
-// couldn't be checked are listed with them, but don't make a report alone.
+// couldn't be checked, or that a site refused, are listed with them, but
+// don't make a report alone.
 export function report(results: Result[], checkedOn: string): string {
   const changed = results.filter((r) => r.status === "changed");
   const unreachable = results.filter((r) => r.status === "unreachable");
   const uncheckable = results.filter((r) => r.status === "uncheckable");
+  const blocked = results.filter((r) => r.status === "blocked");
   if (!changed.length && !unreachable.length) return "";
   const item = (r: Result) =>
     `- ${r.target.url} (${r.detail})\n${r.target.refs.slice(0, MAX_REFS).map((ref) => `  - \`${ref}\``).join("\n")}${
@@ -193,6 +237,16 @@ export function report(results: Result[], checkedOn: string): string {
           "Il certificato del sito non si verifica dal controllo automatico (di solito manca un certificato intermedio, che i browser recuperano da soli): controllarli a mano ogni tanto.",
           "",
           ...items(uncheckable),
+          "",
+        ]
+      : []),
+    ...(blocked.length
+      ? [
+          `## Bloccati dal sito (${blocked.length})`,
+          "",
+          "Il sito risponde 404 anche alla sua home: di solito blocca il controllo automatico (per esempio dopo troppe richieste), non ha tolto le pagine. Aprirli a mano da un browser.",
+          "",
+          ...items(blocked),
           "",
         ]
       : []),
