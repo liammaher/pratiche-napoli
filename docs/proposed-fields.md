@@ -21,6 +21,14 @@ Vault schema 11 added the business fields below, and the procedures now use them
 registry too; no form box needs them yet. The phone of the premises ("Telefono (attività)") is still
 `ask`: it is `locale.telefono` below, not the business's.
 
+Vault schema 12 added `procura.ente`, `oggetto`, `data_conferimento` and `data_scadenza`: a
+procura or delega a person gave the vault's principal, so a procedure can read it only from that
+person (`party`), never as the owner's or the dichiarante's. No procedure uses it yet, because
+the procure here go the other way: the titolare gives one to the procuratore or the tecnico (the
+SCIA and CILA quadri, the ComUnica procura), and the deleghe on the Agenzia delle Entrate, ADER
+and VVF forms are written on the form itself. None of them asks for a procura's ente, oggetto or
+dates.
+
 People other than the business are no longer proposed as fields: in a business vault they are
 people with a `ruolo`, and procedures pick them with `party` and `repeat: { ruolo }` (see
 CONTRIBUTING). The procuratore (`scia-esercizio-vicinato`, `scia-acconciatore-estetista`,
