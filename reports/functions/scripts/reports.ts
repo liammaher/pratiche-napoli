@@ -6,12 +6,14 @@
 //                                                 (again, to change them; "" removes one)
 //   npm run reports -- reject <id>
 //   npm run reports -- delete <id>               on request: the report and its contact
-//   npm run reports -- export [file]             accepted reports for reports:aggregate
+//   npm run reports -- export [file]             accepted reports for reports:aggregate, within the hour
+// accept, reject and delete also remove the export at the repo root, which
+// no longer matches.
 // The project comes from --project or GCLOUD_PROJECT; credentials from
 // `gcloud auth application-default login` (as your personal account). With
 // FIRESTORE_EMULATOR_HOST set it talks to the emulator instead.
 
-import { writeFileSync } from "node:fs";
+import { existsSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
 import { initializeApp } from "firebase-admin/app";
@@ -50,6 +52,14 @@ async function main(): Promise<void> {
     if (!arg) throw new Error(`${command} needs ${what}`);
     return arg;
   };
+  // After a change, an earlier export would still have the report as it was
+  // (a deleted one included), and reports:aggregate could publish it.
+  const dropExport = () => {
+    const file = exportPath(undefined, ROOT, ROOT);
+    if (!existsSync(file)) return;
+    rmSync(file);
+    console.log(`removed ${file}, which no longer matches: export again before reports:aggregate`);
+  };
 
   switch (command) {
     case "list": {
@@ -81,20 +91,23 @@ async function main(): Promise<void> {
         extra_document: values["extra-document"],
       });
       console.log(`accepted ${arg}`);
+      dropExport();
       return;
     case "reject":
       await reject(db, need());
       console.log(`rejected ${arg}`);
+      dropExport();
       return;
     case "delete":
       await remove(db, need());
       console.log(`deleted ${arg} and its contact`);
+      dropExport();
       return;
     case "export": {
       const file = exportPath(arg, process.env.INIT_CWD ?? process.cwd(), ROOT);
       const reports = await exportAccepted(db);
-      writeFileSync(file, JSON.stringify(reports, null, 2) + "\n");
-      console.log(`wrote ${reports.length} accepted reports to ${file}; now run npm run reports:aggregate`);
+      writeFileSync(file, JSON.stringify({ exported: new Date().toISOString(), reports }, null, 2) + "\n");
+      console.log(`wrote ${reports.length} accepted reports to ${file}; now run npm run reports:aggregate, within the hour`);
       return;
     }
     default:

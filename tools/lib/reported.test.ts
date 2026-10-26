@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { parse } from "yaml";
-import { addMonths, aggregate, markProblem, nextReported, sameReported, withReported, type ReviewedReport } from "./reported.ts";
+import { CACHE_MAX_MINUTES, addMonths, aggregate, cacheProblem, markProblem, nextReported, sameReported, withReported, type ReviewedReport } from "./reported.ts";
 
 const TODAY = "2026-10-26";
 const DOCS = ["Mod. 1", "Visura"];
@@ -289,4 +289,19 @@ test("the block is appended, replaced or removed without touching the rest", () 
 
   const removed = withReported(replaced, undefined, "2026-10-28");
   assert.equal(removed, FILE.replace("updated: 2026-10-01", "updated: 2026-10-28"));
+});
+
+test("an export is used only within the hour, so one made before a deletion can't bring the report back", () => {
+  const now = new Date("2026-10-26T10:00:00Z");
+  const at = (minutes: number) => ({ exported: new Date(now.getTime() - minutes * 60_000).toISOString(), reports: [r()] });
+  assert.deepEqual(cacheProblem(at(5), now), { export: true });
+  assert.deepEqual(cacheProblem(at(CACHE_MAX_MINUTES), now), { export: true });
+  assert.match(cacheProblem(at(CACHE_MAX_MINUTES + 1), now).problem!, /exported 61 minutes ago, more than 60: a report deleted or changed since/);
+  assert.equal(cacheProblem(at(CACHE_MAX_MINUTES + 1), now).export, true);
+  assert.match(cacheProblem(at(-5), now).problem!, /isn't a time before now/);
+  assert.match(cacheProblem({ exported: "yesterday", reports: [] }, now).problem!, /isn't a time before now/);
+  // An export from before exports were dated, or something else: not removed.
+  assert.deepEqual(cacheProblem([r()], now), { export: false, problem: "an export from before exports were dated: export the reports again" });
+  assert.deepEqual(cacheProblem({ procedures: [] }, now), { export: false, problem: "not an export of the reports" });
+  assert.equal(cacheProblem(null, now).export, false);
 });

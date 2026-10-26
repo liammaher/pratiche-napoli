@@ -65,6 +65,10 @@ From the repo root, `npm run reports -- list | show | find | accept | reject | d
 (see the main README). Each command first says which database it is using. The export,
 `reports-cache.json` at the repo root, keeps only what the published figures need: no
 note, no correction text, no office, no contact, and the report's `mark` instead of its id.
+It is dated, and `reports:aggregate` uses it once, within the hour, and removes it; `accept`,
+`reject` and `delete` remove it too, since it no longer matches. So an old export, in this
+checkout or another, can't bring a deleted report back into the figures: export again before
+each `reports:aggregate`.
 
 For a request to see or delete someone's data, find the report by the code they got
 when they sent it (`show <id>`) or by the email they left (`find <email>`), then
