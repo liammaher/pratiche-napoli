@@ -22,6 +22,8 @@ const ctx: Context = {
   today: "2026-10-25",
 };
 const PATH = "procedures/napoli/comune/test.yaml";
+// The vault's credential words, which every schema the tests build carries.
+const WORDS: VaultSchema["credentials"] = JSON.parse(readFileSync(VAULT_SCHEMA_PATH, "utf8")).credentials;
 
 function minimal(): Record<string, any> {
   return {
@@ -623,7 +625,7 @@ test("empty strings and duplicate list items are rejected", () => {
 
 test("registry leaves secrets and internal categories out", () => {
   const reg = buildRegistry({
-    version: "1",
+    version: "1", credentials: WORDS,
     categories: [
       { name: "cie", description: "", scope: "person", fields: [
         { id: "cie.numero", description: "", sensitivity: "sensitive" },
@@ -656,7 +658,7 @@ test("registry leaves secrets and internal categories out", () => {
 
 test("registry keeps each category's subject and kinds, and each field's kinds", () => {
   const reg = buildRegistry({
-    version: "1",
+    version: "1", credentials: WORDS,
     categories: [
       { name: "ruolo", description: "", scope: "person", kinds: ["impresa"], fields: [{ id: "ruolo.tipo", description: "", sensitivity: "standard", for: "member" }] },
       { name: "business", description: "", scope: "person", subject: "impresa", fields: [
@@ -669,7 +671,7 @@ test("registry keeps each category's subject and kinds, and each field's kinds",
   assert.deepEqual(reg.categories[1].fields.map((f) => [f.id, f.kinds]), [["business.qualita_dichiarante", ["persona"]], ["business.pec", undefined]]);
   assert.equal("kinds" in reg.categories[1].fields[1], false);
 
-  const one = (cat: Record<string, unknown>) => () => buildRegistry({ version: "1", categories: [{ name: "x", description: "", scope: "person", fields: [], ...cat }] } as any);
+  const one = (cat: Record<string, unknown>) => () => buildRegistry({ version: "1", credentials: WORDS, categories: [{ name: "x", description: "", scope: "person", fields: [], ...cat }] } as any);
   assert.throws(one({ subject: "azienda" }), /"x" has subject "azienda"/);
   assert.throws(one({ kinds: ["studio"] }), /category "x" has kinds \["studio"\]/);
   assert.throws(one({ kinds: [] }), /category "x" has kinds \[\]/);
@@ -679,13 +681,19 @@ test("registry keeps each category's subject and kinds, and each field's kinds",
 
 test("registry rejects malformed vault schemas", () => {
   assert.throws(() => buildRegistry({ version: "9" } as any), /not a vault schema/);
+  // The credential words come from the vault, never a copy kept here.
+  const words = (credentials: unknown) => () => buildRegistry({ version: "1", categories: [], credentials } as any);
+  assert.throws(words(undefined), /credentials.secret must be a whole-word pattern/);
+  assert.throws(words({ ...WORDS, credential: "pin" }), /credentials.credential must be a whole-word pattern/);
+  assert.throws(words({ ...WORDS, identity: "^(?<x$" }), /Invalid regular expression/);
+  assert.equal(buildRegistry({ version: "1", categories: [], credentials: WORDS }).credential_word, WORDS.credential);
   assert.throws(
-    () => buildRegistry({ version: "1", categories: [{ name: "x", description: "", scope: "person", fields: [{ id: "y.z", description: "", sensitivity: "standard" }] }] }),
+    () => buildRegistry({ version: "1", credentials: WORDS, categories: [{ name: "x", description: "", scope: "person", fields: [{ id: "y.z", description: "", sensitivity: "standard" }] }] }),
     /listed under category "x"/,
   );
-  assert.throws(() => buildRegistry({ version: "1", categories: [{ name: "x", description: "", fields: [] }] } as any), /"x" needs a scope/);
+  assert.throws(() => buildRegistry({ version: "1", credentials: WORDS, categories: [{ name: "x", description: "", fields: [] }] } as any), /"x" needs a scope/);
   assert.throws(
-    () => buildRegistry({ version: "1", categories: [{ name: "x", description: "", scope: "person", fields: [{ id: "x.y", description: "", sensitivity: "standard", for: "child" }] }] } as any),
+    () => buildRegistry({ version: "1", credentials: WORDS, categories: [{ name: "x", description: "", scope: "person", fields: [{ id: "x.y", description: "", sensitivity: "standard", for: "child" }] }] } as any),
     /"x.y" is for "child"/,
   );
 });
@@ -698,7 +706,7 @@ test("fields.json is exactly what gen-fields builds from the saved vault schema"
 
 test("extensions add fields marked as not yet in the vault, and can't clash or reach secrets", () => {
   const schema: VaultSchema = {
-    version: "1",
+    version: "1", credentials: WORDS,
     categories: [
       { name: "business", description: "", scope: "person", fields: [{ id: "business.partita_iva", description: "", sensitivity: "standard" }] },
       { name: "spid", description: "", scope: "person", fields: [{ id: "spid.password", description: "", sensitivity: "personal" }] },
@@ -832,7 +840,8 @@ test("comments in CRLF and CR-only files are still scanned", () => {
 
 test("every credential word the vault knows is refused", () => {
   for (const name of ["cie_pin1", "cie_puk2", "spid_pwd", "spid_pw", "spid_pass", "spid_passcode", "cieid_totp",
-    "spid_username", "spid_login", "cie_segreto", "spid_chiave", "api_token", "spid_password", "cie_otp"]) {
+    "spid_username", "spid_login", "cie_segreto", "spid_chiave", "api_token", "spid_password", "cie_otp",
+    "pincode", "codice_sblocco", "credenziali", "parola-segreta", "passwords", "password2", "spid_chiavi"]) {
     assert.match(checkFieldRef(`documents.${name}`, ctx.registry) ?? "", /secret/, name);
   }
   assert.match(errorsFor(withForm({ label: "X", map: { repeat: "famiglia", fields: ["*:documents.spid_username"] } })), /secret/);
@@ -913,7 +922,7 @@ test("registry ids all match the schema's field reference pattern", () => {
 });
 
 test("extension entries are validated", () => {
-  const schema: VaultSchema = { version: "1", categories: [
+  const schema: VaultSchema = { version: "1", credentials: WORDS, categories: [
     { name: "business", description: "", scope: "person", fields: [{ id: "business.partita_iva", description: "", sensitivity: "standard" }] },
     { name: "cie", description: "", scope: "person", fields: [
       { id: "cie.numero", description: "", sensitivity: "sensitive" },
@@ -930,7 +939,7 @@ test("extension entries are validated", () => {
 });
 
 test("empty vault categories are secret unless listed as open", () => {
-  const reg = buildRegistry({ version: "1", categories: [
+  const reg = buildRegistry({ version: "1", credentials: WORDS, categories: [
     { name: "documents", description: "", scope: "person", fields: null },
     { name: "carte", description: "", scope: "person", fields: [] },
   ] });
