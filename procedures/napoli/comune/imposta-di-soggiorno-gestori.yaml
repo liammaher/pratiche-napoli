@@ -20,7 +20,7 @@ ente:
   ipa: c_f839
 applies_to:
   events: [open, annual]
-  audience: [business]
+  audience: [business, resident]
   sectors:
     - alberghi
     - strutture ricettive extralberghiere (B&B, affittacamere, case e appartamenti per vacanze, case per ferie, agriturismi)
@@ -311,27 +311,50 @@ forms:
       - label: Codice fiscale (del dichiarante)
         map: { direct: identity.codice_fiscale }
       - label: In qualità di legale rappresentante di
-        map: { direct: business.denominazione }
-        notes: Per una ditta individuale o una locazione breve gestita da privato, il nome del gestore.
+        map:
+          ask: >-
+            Gestisce la struttura per un'impresa o una società (di cui è titolare o legale
+            rappresentante)? Se sì, il suo nome; se no, il suo nome e cognome, e i dati della sede
+            legale e la partita IVA restano vuoti
+        notes: >-
+          Va chiesto anche quando l'archivio ha i dati di un'impresa: un B&B non imprenditoriale o
+          una locazione breve di chi ha un'altra attività non sono di quell'attività. Se sì, il nome
+          è business.denominazione.
       - label: Codice fiscale (del gestore)
-        map: { fallback: [business.codice_fiscale, business.partita_iva] }
+        map:
+          ask: >-
+            Codice fiscale del gestore: quello della società se gestisce una società; altrimenti il
+            suo (anche per una ditta individuale, il cui codice fiscale è quello del titolare)
+        notes: Per una società è business.codice_fiscale; altrimenti identity.codice_fiscale.
       - label: Partita IVA
         map: { direct: business.partita_iva }
-        notes: Vuoto per la locazione breve non imprenditoriale.
+        notes: >-
+          Solo se gestita da un'impresa (riga «In qualità di»); vuoto per il B&B non imprenditoriale
+          e la locazione breve, anche se lei ha una partita IVA per un'altra attività.
       - label: Sede legale a
         map: { direct: business.sede_legale_comune }
+        notes: Solo se gestita da un'impresa; altrimenti vuoto.
       - label: Prov. (sede legale)
         map: { direct: business.sede_legale_provincia }
+        notes: Solo se gestita da un'impresa; altrimenti vuoto.
       - label: Via/Piazza (sede legale)
         map: { concat: [business.sede_legale_indirizzo, business.sede_legale_civico] }
+        notes: Solo se gestita da un'impresa; altrimenti vuoto.
       - label: CAP (sede legale)
         map: { direct: business.sede_legale_cap }
+        notes: Solo se gestita da un'impresa; altrimenti vuoto.
       - label: Struttura ricettiva ubicata in Via/Piazza
-        map: { direct: locale.indirizzo }
+        map: { ask: "Indirizzo della struttura (via o piazza)" }
+        notes: >-
+          Per una struttura nei locali dell'impresa sono locale.*; per un B&B o una locazione breve
+          nella casa del gestore, la sua residenza o il suo domicilio. Tutto l'indirizzo dalla
+          stessa fonte, mai i locali di un'altra attività.
       - label: N. (struttura)
-        map: { direct: locale.civico }
+        map: { ask: Numero civico della struttura }
+        notes: Dalla stessa fonte dell'indirizzo della struttura (riga «Via/Piazza»).
       - label: CAP (struttura)
-        map: { direct: locale.cap }
+        map: { ask: CAP della struttura }
+        notes: Dalla stessa fonte dell'indirizzo della struttura (riga «Via/Piazza»).
       - label: Classificazione alberghiera
         map: { ask: "Tipo di struttura (albergo, residenza turistico-alberghiera, B&B, affittacamere, casa vacanze, locazione breve…)" }
       - label: Stelle
@@ -397,9 +420,10 @@ forms:
       - label: Tipologia di dichiarazione (nuova, sostitutiva, multipla)
         map: { ask: "Nuova dichiarazione, sostitutiva (rettifica) o multipla (più invii)?" }
       - label: Comune
-        map: { direct: locale.comune }
+        map: { ask: Comune della struttura (Napoli) }
+        notes: Il comune della struttura, non quello dei locali di un'altra attività del gestore.
       - label: Provincia (sigla)
-        map: { direct: locale.provincia }
+        map: { ask: Provincia (sigla) della struttura (NA) }
       - label: Codice catastale del Comune
         map: { ask: "Codice catastale del comune della struttura (Napoli: F839)" }
       - label: Tipologia del dichiarante (gestore, mediatore della locazione, dichiarante diverso, intermediario)
@@ -408,14 +432,23 @@ forms:
         map: { ask: La struttura è gestita come attività d'impresa? }
       - label: Partita IVA
         map: { direct: business.partita_iva }
+        notes: >-
+          Solo se è attività d'impresa (riga precedente); altrimenti vuoto, anche se il gestore ha
+          una partita IVA per un'altra attività.
       - label: Codice fiscale (del gestore/mediatore)
-        map: { fallback: [business.codice_fiscale, identity.codice_fiscale] }
+        map:
+          ask: >-
+            Codice fiscale del gestore: quello della società se gestisce una società; altrimenti il
+            suo (anche per una ditta individuale, il cui codice fiscale è quello del titolare)
+        notes: Per una società è business.codice_fiscale; altrimenti identity.codice_fiscale.
       - label: Indirizzo di posta elettronica ordinaria PEO
-        map: { fallback: [business.email, identity.email] }
+        map: { direct: identity.email }
+        notes: Per una struttura dell'impresa si può indicare quella dell'impresa (business.email), mai quella di un'altra attività.
       - label: Telefono
         map: { direct: identity.phone }
       - label: Indirizzo di posta elettronica certificata PEC
-        map: { fallback: [business.pec, identity.pec] }
+        map: { direct: identity.pec }
+        notes: Per una struttura dell'impresa si può indicare quella dell'impresa (business.pec), mai quella di un'altra attività.
       - label: Persone fisiche – Cognome
         map: { direct: identity.last_name }
         notes: >-
@@ -423,24 +456,34 @@ forms:
           individuale); per una società si compila "Soggetti diversi dalle persone fisiche".
       - label: Persone fisiche – Nome
         map: { direct: identity.first_name }
+        notes: Solo se il gestore è una persona fisica; altrimenti vuoto.
       - label: Persone fisiche – Sesso
         map: { direct: identity.sex }
+        notes: Solo se il gestore è una persona fisica; altrimenti vuoto.
       - label: Persone fisiche – Data di nascita
         map: { direct: identity.date_of_birth }
+        notes: Solo se il gestore è una persona fisica; altrimenti vuoto.
       - label: Persone fisiche – Comune (o Stato estero) di nascita
         map: { fallback: [identity.birth_comune, identity.birth_country] }
+        notes: Solo se il gestore è una persona fisica; altrimenti vuoto.
       - label: Persone fisiche – Provincia (sigla) di nascita
         map: { direct: identity.birth_province }
+        notes: Solo se il gestore è una persona fisica; altrimenti vuoto.
       - label: Persone fisiche – Domicilio fiscale in Italia – Via/Piazza
         map: { direct: residenza.indirizzo }
+        notes: Solo se il gestore è una persona fisica; altrimenti vuoto.
       - label: Persone fisiche – Domicilio fiscale in Italia – N. civico
         map: { direct: residenza.civico }
+        notes: Solo se il gestore è una persona fisica; altrimenti vuoto.
       - label: Persone fisiche – Domicilio fiscale in Italia – C.A.P.
         map: { direct: residenza.cap }
+        notes: Solo se il gestore è una persona fisica; altrimenti vuoto.
       - label: Persone fisiche – Domicilio fiscale in Italia – Comune
         map: { direct: residenza.comune }
+        notes: Solo se il gestore è una persona fisica; altrimenti vuoto.
       - label: Persone fisiche – Domicilio fiscale in Italia – Provincia (sigla)
         map: { direct: residenza.provincia }
+        notes: Solo se il gestore è una persona fisica; altrimenti vuoto.
       - label: Persone fisiche – Domicilio fiscale in Italia – Frazione, Località
         map: { blank_with_reason: Solo se l'indirizzo è in una frazione o località. }
       - label: Persone fisiche – Domicilio fiscale in uno Stato estero
@@ -450,14 +493,19 @@ forms:
         notes: Solo se il gestore non è una persona fisica; chi firma per la società va in "Dichiarante diverso".
       - label: Soggetti diversi – Sede legale in Italia – Via/Piazza
         map: { direct: business.sede_legale_indirizzo }
+        notes: Solo se il gestore non è una persona fisica; altrimenti vuoto.
       - label: Soggetti diversi – Sede legale in Italia – N. civico
         map: { direct: business.sede_legale_civico }
+        notes: Solo se il gestore non è una persona fisica; altrimenti vuoto.
       - label: Soggetti diversi – Sede legale in Italia – C.A.P.
         map: { direct: business.sede_legale_cap }
+        notes: Solo se il gestore non è una persona fisica; altrimenti vuoto.
       - label: Soggetti diversi – Sede legale in Italia – Comune
         map: { direct: business.sede_legale_comune }
+        notes: Solo se il gestore non è una persona fisica; altrimenti vuoto.
       - label: Soggetti diversi – Sede legale in Italia – Provincia (sigla)
         map: { direct: business.sede_legale_provincia }
+        notes: Solo se il gestore non è una persona fisica; altrimenti vuoto.
       - label: Soggetti diversi – Frazione, Località
         map: { blank_with_reason: Solo se la sede è in una frazione o località. }
       - label: Soggetti diversi – Sede legale in uno Stato estero
@@ -471,16 +519,22 @@ forms:
         map: { blank_with_reason: Facoltativo; solo se la carica è ricoperta da una società. }
       - label: Dichiarante diverso – Cognome
         map: { direct: identity.last_name }
+        notes: Solo se firma un rappresentante; altrimenti vuoto.
       - label: Dichiarante diverso – Nome
         map: { direct: identity.first_name }
+        notes: Solo se firma un rappresentante; altrimenti vuoto.
       - label: Dichiarante diverso – Sesso
         map: { direct: identity.sex }
+        notes: Solo se firma un rappresentante; altrimenti vuoto.
       - label: Dichiarante diverso – Data di nascita
         map: { direct: identity.date_of_birth }
+        notes: Solo se firma un rappresentante; altrimenti vuoto.
       - label: Dichiarante diverso – Comune (o Stato estero) di nascita
         map: { fallback: [identity.birth_comune, identity.birth_country] }
+        notes: Solo se firma un rappresentante; altrimenti vuoto.
       - label: Dichiarante diverso – Provincia (sigla)
         map: { direct: identity.birth_province }
+        notes: Solo se firma un rappresentante; altrimenti vuoto.
       - label: Firma della dichiarazione – Presa di responsabilità
         map: { blank_with_reason: Casella che chi trasmette barra personalmente. }
       - label: Impegno alla presentazione telematica – Codice fiscale intermediario, N. iscrizione all'albo del CAF
@@ -488,7 +542,7 @@ forms:
       - label: Riservato all'intermediario – Soggetto che ha predisposto la dichiarazione, Data dell'impegno, Firma dell'intermediario
         map: { blank_with_reason: Lo compila l'intermediario. }
       - label: Dati della struttura ricettiva – Codice fiscale
-        map: { fallback: [business.codice_fiscale, identity.codice_fiscale] }
+        map: { ask: "Codice fiscale del gestore, lo stesso indicato sopra" }
         notes: Codice fiscale del dichiarante riportato in testa al riquadro.
       - label: Dati della struttura ricettiva – Progressivo
         map: { ask: Numero progressivo della struttura nella dichiarazione (1 se è una sola) }
@@ -498,28 +552,42 @@ forms:
         map: { ask: La struttura è commerciale (impresa) o no? }
       - label: Codice attività della struttura (codice ATECO)
         map: { direct: business.codice_ateco }
+        notes: >-
+          Solo per una struttura commerciale (riga precedente), con il codice dell'attività
+          ricettiva; mai quello di un'altra attività del gestore.
       - label: Codice fiscale della struttura
-        map: { fallback: [business.codice_fiscale, identity.codice_fiscale] }
+        map: { ask: "Codice fiscale del gestore della struttura, lo stesso indicato sopra" }
       - label: Partita IVA della struttura
         map: { direct: business.partita_iva }
+        notes: Solo per una struttura commerciale; altrimenti vuoto.
       - label: Struttura – Via/Piazza
-        map: { direct: locale.indirizzo }
+        map: { ask: "Indirizzo della struttura (via o piazza)" }
+        notes: >-
+          Per una struttura nei locali dell'impresa sono locale.*; per un B&B o una locazione breve
+          nella casa del gestore, la sua residenza o il suo domicilio. Tutto l'indirizzo dalla
+          stessa fonte, mai i locali di un'altra attività.
       - label: Struttura – N. civico
-        map: { direct: locale.civico }
+        map: { ask: Numero civico della struttura }
+        notes: Dalla stessa fonte dell'indirizzo della struttura (riga «Via/Piazza»).
       - label: Struttura – C.A.P.
-        map: { direct: locale.cap }
+        map: { ask: CAP della struttura }
+        notes: Dalla stessa fonte dell'indirizzo della struttura.
       - label: Struttura – Comune
-        map: { direct: locale.comune }
+        map: { ask: Comune della struttura }
+        notes: Dalla stessa fonte dell'indirizzo della struttura.
       - label: Struttura – Provincia (sigla)
-        map: { direct: locale.provincia }
+        map: { ask: Provincia (sigla) della struttura }
+        notes: Dalla stessa fonte dell'indirizzo della struttura.
       - label: Struttura – Frazione, Località
         map: { blank_with_reason: Solo se l'indirizzo è in una frazione o località. }
       - label: Struttura – Indirizzo di posta elettronica ordinaria PEO
-        map: { fallback: [business.email, identity.email] }
+        map: { direct: identity.email }
+        notes: Per una struttura dell'impresa si può indicare quella dell'impresa (business.email), mai quella di un'altra attività.
       - label: Struttura – Telefono
         map: { direct: identity.phone }
       - label: Struttura – Indirizzo PEC
-        map: { fallback: [business.pec, identity.pec] }
+        map: { direct: identity.pec }
+        notes: Per una struttura dell'impresa si può indicare quella dell'impresa (business.pec), mai quella di un'altra attività.
       - label: Periodo primo trimestre – 1 imposta a notte, 2 imposta ridotta, 3 presenze a tariffa ordinaria, 4 presenze esenti, 5 presenze con riduzione
         map: { ask: Dati del I trimestre (dalle dichiarazioni GEIS) }
         notes: Le presenze riscosse e versate da una piattaforma non vanno indicate dal gestore, neppure come esenti (FAQ MEF n. 2–3).
