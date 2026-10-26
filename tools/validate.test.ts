@@ -525,6 +525,14 @@ test("the reported block is checked against the schema and the procedure", () =>
   assert.match(errors, /reported channels\/0\/days_to_answer: those who didn't answer/);
   assert.match(errors, /reported document "Modulo": those who didn't say/);
   assert.match(errors, /reported rejection_reasons need the count of refusals/);
+  // Two texts of 3 out of 7: each leaves 4, but together they leave 1.
+  doc.reported.count = 7;
+  doc.reported.extra_documents = [
+    { text: "Planimetria", count: 3 },
+    { text: "Visura storica", count: 3 },
+  ];
+  assert.match(errorsFor(doc), /reported extra_documents leave 1 or 2 reports over beside the count/);
+  delete doc.reported.extra_documents;
   doc.reported.count = 3;
   doc.reported.basis.pop();
   doc.reported.outcomes = { completata: 3 };

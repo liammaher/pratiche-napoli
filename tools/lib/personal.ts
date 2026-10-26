@@ -5,8 +5,8 @@
 const NOT_ALNUM_BEFORE = "(?<![A-Za-z0-9])";
 const NOT_ALNUM_AFTER = "(?![A-Za-z0-9])";
 const OMO = "[0-9LMNPQRSTUV]";
-// Separators people put inside codes: space, no-break space, tab, dot, hyphen, zero-width space.
-const SEP = "[ \\u00a0\\t.\\-\\u200b]";
+// Separators people put inside codes: space, no-break space, tab, dot, hyphen, zero-width space, soft hyphen.
+const SEP = "[ \\u00a0\\t.\\-\\u200b\\u00ad]";
 const SEP_RE = new RegExp(SEP, "g");
 
 // Codice fiscale, optionally printed in groups ("RSS MRA 85T10 A562S", "RSS-MRA-85T10-A562S").
@@ -85,8 +85,9 @@ export interface PersonalDataMatch {
 // digits are wrong, as when someone mistypes their own, and so do the usual
 // slips (see looseMatches): right for cutting data out of private text, too
 // eager for flagging a shared procedure.
-export function matchPersonalData(text: string, { checkDigits = true } = {}): PersonalDataMatch[] {
-  const found: PersonalDataMatch[] = checkDigits ? [] : looseMatches(text);
+export function matchPersonalData(raw: string, { checkDigits = true } = {}): PersonalDataMatch[] {
+  const text = fold(raw);
+  const found: PersonalDataMatch[] = checkDigits ? [] : [...looseMatches(text), ...embedded(text)];
   for (const m of text.matchAll(CF)) {
     if (!checkDigits || isCodiceFiscale(m[0])) found.push({ kind: "codice fiscale", start: m.index, end: m.index + m[0].length });
   }
@@ -96,6 +97,39 @@ export function matchPersonalData(text: string, { checkDigits = true } = {}): Pe
     let end = m.index;
     while (left > 0) if (/[A-Za-z0-9]/.test(text[end++])) left--;
     found.push({ kind: "IBAN", start: m.index, end });
+  }
+  return found;
+}
+
+// Full-width letters and digits ("ＲＳＳ…") read as the plain ones, one
+// character for one, so where a match is stays where it is in the text.
+function fold(text: string): string {
+  return text.replace(/[\uff01-\uff5e]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0xfee0));
+}
+
+// Codes written up against other letters or digits ("cfRSSMRA…", "IBANIT60…",
+// two codici fiscali run together), for cutting them out of private text:
+// inside a longer run, only a stretch whose check digits hold, and for a
+// codice fiscale one with at least two digits, so long words don't match.
+const CF_STRICT = /^[A-Z]{6}[0-9LMNPQRSTUV]{2}[A-EHLMPR-T][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$/;
+function embedded(text: string): PersonalDataMatch[] {
+  const found: PersonalDataMatch[] = [];
+  for (const m of text.matchAll(/[A-Za-z0-9]{17,}/g)) {
+    const word = m[0];
+    for (let i = 0; i < word.length; i++) {
+      const length = IBAN_LENGTH[word.slice(i, i + 2)];
+      const iban = length ? word.slice(i, i + length) : "";
+      if (length && iban.length === length && /^\d{2}$/.test(iban.slice(2, 4)) && isIBAN(iban)) {
+        found.push({ kind: "IBAN", start: m.index + i, end: m.index + i + length });
+        i += length - 1;
+        continue;
+      }
+      const cf = word.slice(i, i + 16).toUpperCase();
+      if (cf.length === 16 && CF_STRICT.test(cf) && (cf.match(/\d/g) ?? []).length >= 2 && isCodiceFiscale(cf)) {
+        found.push({ kind: "codice fiscale", start: m.index + i, end: m.index + i + 16 });
+        i += 15;
+      }
+    }
   }
   return found;
 }
@@ -111,7 +145,7 @@ export function findPersonalData(text: string): string[] {
 const AS_LETTER: Record<string, string> = { "0": "O", "1": "I", "2": "Z", "5": "S", "6": "G", "8": "B" };
 const AS_DIGIT: Record<string, string> = { O: "0", I: "1", L: "1", Z: "2", S: "5", G: "6", B: "8" };
 // Any of these, one or two at a time, may sit between the characters of a code.
-const LOOSE_SEP = /^[ \u00a0\u2009\u202f\t.\-_/\u200b]{1,2}$/;
+const LOOSE_SEP = /^[ \u00a0\u2009\u202f\t.\-_/\u200b\u00ad]{1,2}$/;
 // A codice fiscale's shape: L letter, D digit (or omocodia letter), M month letter.
 const CF_SHAPE = "LLLLLLDDMDDLDDDL";
 

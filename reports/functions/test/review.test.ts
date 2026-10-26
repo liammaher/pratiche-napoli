@@ -129,14 +129,29 @@ test("export refuses an accepted report without a mark; accepting gives it one",
 
 test("accepting again changes the maintainer's fields; an empty one is removed", async () => {
   await accept(db, "b1", { tip: "Portare la visura stroica", extra_document: "Planimetria" });
+  const mark = (await db.doc("reports/b1").get()).data()!.mark;
+  // The same words again change nothing, the mark included.
+  await accept(db, "b1", { extra_document: "Planimetria" });
+  assert.equal((await db.doc("reports/b1").get()).data()!.mark, mark);
+  // Other words make it a new report to the figures: a new mark.
   await accept(db, "b1", { tip: "Portare la visura storica" });
   let b1 = (await db.doc("reports/b1").get()).data()!;
   assert.equal(b1.tip, "Portare la visura storica");
   assert.equal(b1.extra_document, "Planimetria");
+  assert.notEqual(b1.mark, mark);
+  assert.match(b1.mark, /^[0-9a-f]{12}$/);
   await accept(db, "b1", { extra_document: "" });
   b1 = (await db.doc("reports/b1").get()).data()!;
   assert.equal("extra_document" in b1, false);
   assert.equal(b1.tip, "Portare la visura storica");
+  // Removing a field that isn't there changes nothing either.
+  const kept = b1.mark;
+  await accept(db, "b1", { extra_document: "" });
+  assert.equal((await db.doc("reports/b1").get()).data()!.mark, kept);
+  // Rejected, then accepted with other words: a new mark too.
+  await reject(db, "b1");
+  await accept(db, "b1", { tip: "Mandare la PEC al mattino" });
+  assert.notEqual((await db.doc("reports/b1").get()).data()!.mark, kept);
 });
 
 test("list --accepted shows accepted reports with the maintainer's fields", async () => {
