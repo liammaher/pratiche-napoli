@@ -73,13 +73,15 @@ if (why) {
 }
 // A 304 hands back the validators it was sent, the very same object.
 const notModified = checked.filter((r) => r.status === "ok" && r.validators && r.validators === state[targetKey(r.target)]?.validators).length;
-// The archive's answer from the last week is reused, not asked again.
+// The archive's answer from the last week is reused, not asked again; an
+// older one stands when it can't be renewed.
 const annotated = await secondOpinion(checked, fetch, {
   saved: new Map(
     Object.entries(state).flatMap(([key, seen]) =>
-      seen.wayback && seen.waybackOn && dayNumber(today) - dayNumber(seen.waybackOn) < 7 ? [[key, { wayback: seen.wayback, on: seen.waybackOn }]] : [],
+      seen.wayback ? [[key, { wayback: seen.wayback, status: seen.waybackStatus, on: seen.waybackOn ?? seen.checkedOn }]] : [],
     ),
   ),
+  today,
 });
 
 const next = merge(state, annotated, today, targets);

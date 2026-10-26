@@ -29,7 +29,9 @@ export interface Result {
   checkedOn?: string; // YYYY-MM-DD, when it isn't tonight's check
   validators?: Validators; // from an "ok" answer
   wayback?: string; // the Internet Archive's latest copy, for a page that failed
+  waybackStatus?: string; // the HTTP status the archive saw for it
   waybackOn?: string; // when the archive gave that answer, when it was reused from an earlier night
+  failingSince?: string; // for a page that failed, the first of the nights in a row it did
   // uncheckable: the server's certificate can't be verified (usually a chain
   // it doesn't send in full, which browsers fill in), so nothing is known.
   // blocked: a 404 from a site that also answers 404 for its home page, which
@@ -87,13 +89,30 @@ function slot(url: string): number {
 // after the saved state is lost, or for a newly cited page), so the report
 // always covers every address, never just the pages a night happened to see,
 // and any page that didn't answer last time, so one that is back clears the
-// report the next night rather than on its day.
+// report the next night rather than on its day. A page its site refused
+// waits for its day, since asking every night is what gets an address
+// blocked, unless another address on that host answered last night: the
+// block is over, and the page is checked again at once.
 export function tonight(targets: Target[], day: number, state: State = {}): Target[] {
+  const answering = new Set(
+    Object.entries(state)
+      .filter(([, seen]) => day - dayNumber(seen.checkedOn) <= 1 && (seen.status === "ok" || seen.status === "changed"))
+      .map(([key]) => hostOf(key.split(" ")[0])),
+  );
   return targets.filter((t) => {
     const seen = state[targetKey(t)];
-    return t.sha256 || slot(t.url) === day % DAYS || !seen || seen.status === "unreachable" || day - dayNumber(seen.checkedOn) >= DAYS;
+    return (
+      t.sha256 ||
+      slot(t.url) === day % DAYS ||
+      !seen ||
+      seen.status === "unreachable" ||
+      (seen.status === "blocked" && answering.has(hostOf(t.url))) ||
+      day - dayNumber(seen.checkedOn) >= DAYS
+    );
   });
 }
+
+const hostOf = (url: string) => new URL(url).host;
 
 // The ETag and Last-Modified to send tonight, by targetKey. On a document's
 // own day of the week none are sent, so it is downloaded and hashed whole: a
@@ -332,7 +351,9 @@ export interface Seen {
   checkedOn: string;
   validators?: Validators;
   wayback?: string;
+  waybackStatus?: string;
   waybackOn?: string; // when the archive was asked, so its answer is reused for a week only
+  failingSince?: string;
 }
 export type State = Record<string, Seen>;
 
@@ -343,17 +364,17 @@ export function merge(state: State, results: Result[], checkedOn: string, target
   const recent = (seen: Seen) => dayNumber(checkedOn) - dayNumber(seen.checkedOn) <= DAYS + 1;
   const out: State = Object.fromEntries(Object.entries(state).filter(([key, seen]) => cited.has(key) && recent(seen)));
   for (const r of results) {
-    const before = state[targetKey(r.target)];
+    const before = out[targetKey(r.target)];
     out[targetKey(r.target)] = {
       status: r.status,
       checkedOn,
       ...(r.detail && { detail: r.detail }),
       ...(r.validators && { validators: r.validators }),
-      // A new answer is dated tonight, a reused one keeps its date; a page
-      // still failing that wasn't looked up tonight keeps the one it had.
-      ...(r.wayback
-        ? { wayback: r.wayback, waybackOn: r.waybackOn ?? checkedOn }
-        : failing(r.status) && before?.wayback && { wayback: before.wayback, waybackOn: before.waybackOn ?? before.checkedOn }),
+      // A new answer is dated tonight, a reused one keeps its date.
+      ...(r.wayback && { wayback: r.wayback, ...(r.waybackStatus && { waybackStatus: r.waybackStatus }), waybackOn: r.waybackOn ?? checkedOn }),
+      // A streak of failed nights, refused or not answering, goes on until a
+      // night the page answers (or a result too old to count).
+      ...(failing(r.status) && { failingSince: before && failing(before.status) ? (before.failingSince ?? before.checkedOn) : checkedOn }),
     };
   }
   return out;
@@ -374,6 +395,7 @@ export function known(state: State, targets: Target[], today: string, maxAgeDays
         ...(seen.detail && { detail: seen.detail }),
         ...(seen.checkedOn !== today && { checkedOn: seen.checkedOn }),
         ...(seen.wayback && { wayback: seen.wayback }),
+        ...(seen.failingSince && { failingSince: seen.failingSince }),
       },
     ];
   });
@@ -382,21 +404,24 @@ export function known(state: State, targets: Target[], today: string, maxAgeDays
 // For pages that failed, what the Internet Archive last saw: a second
 // opinion on whether a page is gone or only refusing the checker. It asks the
 // Wayback Machine's CDX search for the latest capture, one page at a time
-// and at most `limit`, reusing an answer saved in the last week (`saved`, by
-// targetKey) instead of asking again; a 429 is retried once after a pause,
-// and a lookup that fails adds nothing.
+// and at most `limit`, reusing an answer saved (`saved`, by targetKey) in the
+// last ARCHIVE_DAYS before `today` instead of asking again; a 429 is retried
+// once after a pause. When an older answer can't be renewed (the lookup
+// fails, or the night's limit is reached), the old one stands: a page gone
+// yesterday is still gone, rather than blocked for a night.
 export async function secondOpinion(
   results: Result[],
   fetchFn: typeof fetch,
   opts: {
-    saved?: Map<string, { wayback: string; on: string }>;
+    saved?: Map<string, { wayback: string; status?: string; on: string }>;
+    today?: string; // without it, every saved answer is reused
     sleep?: (ms: number) => Promise<void>;
     pauseMs?: number;
     timeoutMs?: number;
     limit?: number;
   } = {},
 ): Promise<Result[]> {
-  const { saved, sleep = (ms) => new Promise((r) => setTimeout(r, ms)), pauseMs = 1_000, timeoutMs = 20_000, limit = 30 } = opts;
+  const { saved, today, sleep = (ms) => new Promise((r) => setTimeout(r, ms)), pauseMs = 1_000, timeoutMs = 20_000, limit = 30 } = opts;
   const lookup = (url: string) =>
     fetchFn(
       // Revisit records ("same as an earlier capture") carry no status: skip them.
@@ -408,11 +433,16 @@ export async function secondOpinion(
   for (const [i, r] of out.entries()) {
     if (r.status !== "unreachable" && r.status !== "blocked") continue;
     const before = saved?.get(targetKey(r.target));
-    if (before) {
-      out[i] = { ...r, wayback: before.wayback, waybackOn: before.on };
+    // State saved before statuses were kept has the status only in the text.
+    const reuse = () => before && { ...withArchive(r, before.wayback, before.status ?? before.wayback.match(/\(HTTP (\d{3})\)/)?.[1]), waybackOn: before.on };
+    if (before && (!today || dayNumber(today) - dayNumber(before.on) < ARCHIVE_DAYS)) {
+      out[i] = reuse()!;
       continue;
     }
-    if (asked >= limit) continue;
+    if (asked >= limit) {
+      out[i] = reuse() ?? r;
+      continue;
+    }
     if (asked++) await sleep(pauseMs);
     let res = await lookup(r.target.url);
     if (res?.status === 429) {
@@ -422,21 +452,39 @@ export async function secondOpinion(
       if (res?.status === 429) asked = limit;
     }
     const rows = res?.ok ? ((await res.json().catch(() => undefined)) as string[][] | undefined) : undefined;
-    if (!rows) continue;
+    if (!rows) {
+      out[i] = reuse() ?? r;
+      continue;
+    }
     // A header row, then the latest capture, if there is one.
     const [timestamp, status, original] = rows[1] ?? [];
-    // A site whose home is 404 too looked blocked; if the archive also last
-    // saw the page as gone, it is gone (a file host with no home page).
-    const gone = r.status === "blocked" && /^(404|410)$/.test(status ?? "");
-    out[i] = {
-      ...r,
-      ...(gone && { status: "unreachable", detail: `HTTP 404, anche per la home del sito, e HTTP ${status} nell'archivio` }),
-      wayback: timestamp
+    out[i] = withArchive(
+      r,
+      timestamp
         ? `copia del ${timestamp.slice(0, 4)}-${timestamp.slice(4, 6)}-${timestamp.slice(6, 8)} (${/^\d{3}$/.test(status) ? `HTTP ${status}` : "stato non registrato"}): https://web.archive.org/web/${timestamp}/${original}`
         : "nessuna copia nell'archivio",
-    };
+      status,
+    );
   }
   return out;
+}
+
+// How long the archive's answer is reused before asking again.
+export const ARCHIVE_DAYS = 7;
+
+// A result with the archive's answer. A site whose home is 404 too looked
+// blocked; if the archive also last saw the page as gone, it is gone (a file
+// host with no home page). That holds on the nights the answer is reused
+// too, or the page would turn blocked again until the answer expires, and
+// the issue close and reopen every week.
+function withArchive(r: Result, wayback: string, status: string | undefined): Result {
+  const gone = r.status === "blocked" && /^(404|410)$/.test(status ?? "");
+  return {
+    ...r,
+    ...(gone && { status: "unreachable", detail: `HTTP 404, anche per la home del sito, e HTTP ${status} nell'archivio` }),
+    wayback,
+    ...(status && { waybackStatus: status }),
+  };
 }
 
 // When most sites gave no answer at all (no connection, no certificate the
@@ -473,17 +521,23 @@ function header(results: Result[], checkedOn: string): string {
     : `Controllo delle fonti del ${checkedOn}: ${results.length} indirizzi, ${tonightCount} ${tonightCount === 1 ? "controllato" : "controllati"} stanotte e gli altri nei giorni precedenti (i moduli ogni notte, le pagine una volta a settimana).`;
 }
 
-// Empty unless something changed or stopped answering: addresses that only
-// couldn't be checked, or that a site refused, are listed with them, but
-// don't make a report alone.
+// Empty unless something changed or stopped answering, or a site has refused
+// the checker for a week or more: then what it serves goes unchecked, forms
+// included, and a report that left it out would let the issue close as if
+// all were well. Addresses that only couldn't be checked, or that a site
+// refused for less than a week, are listed with them, but don't make a
+// report alone.
 export function report(results: Result[], checkedOn: string): string {
   const changed = results.filter((r) => r.status === "changed");
   const unreachable = results.filter((r) => r.status === "unreachable");
   const uncheckable = results.filter((r) => r.status === "uncheckable");
-  const blocked = results.filter((r) => r.status === "blocked");
-  if (!changed.length && !unreachable.length) return "";
+  const isBlocked = (r: Result) => r.status === "blocked";
+  const forAWeek = (r: Result) => dayNumber(checkedOn) - dayNumber(r.failingSince ?? checkedOn) >= DAYS;
+  const longBlocked = results.filter((r) => isBlocked(r) && forAWeek(r));
+  const blocked = results.filter((r) => isBlocked(r) && !forAWeek(r));
+  if (!changed.length && !unreachable.length && !longBlocked.length) return "";
   const item = (r: Result) =>
-    `- ${r.target.url} (${r.detail}${r.checkedOn ? `, controllato il ${r.checkedOn}` : ""})\n${
+    `- ${r.target.url} (${r.detail}${r.failingSince && r.failingSince < (r.checkedOn ?? checkedOn) ? `, dal ${r.failingSince}` : ""}${r.checkedOn ? `, controllato il ${r.checkedOn}` : ""})\n${
       r.wayback ? `  - Wayback Machine: ${r.wayback}\n` : ""
     }${r.target.refs.slice(0, MAX_REFS).map((ref) => `  - \`${ref}\``).join("\n")}${
       r.target.refs.length > MAX_REFS ? `\n  - e altre ${r.target.refs.length - MAX_REFS}` : ""
@@ -512,6 +566,16 @@ export function report(results: Result[], checkedOn: string): string {
           "Possono essere spostati, rimossi o solo bloccati per i controlli automatici: aprirli a mano prima di cambiare qualcosa.",
           "",
           ...items(unreachable),
+          "",
+        ]
+      : []),
+    ...(longBlocked.length
+      ? [
+          `## Bloccati dal sito da almeno una settimana (${longBlocked.length})`,
+          "",
+          "Il sito rifiuta il controllo automatico da almeno 7 giorni, quindi questi indirizzi non vengono più controllati (se un modulo cambia, non lo vediamo). Aprirli a mano da un browser, e confrontare i moduli con lo sha256 registrato finché il blocco dura.",
+          "",
+          ...items(longBlocked),
           "",
         ]
       : []),
