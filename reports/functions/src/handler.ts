@@ -4,6 +4,7 @@
 // hour, to limit how many reports one address can send.
 
 import { createHash } from "node:crypto";
+import { isIPv6 } from "node:net";
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import { Timestamp, type Firestore } from "firebase-admin/firestore";
@@ -72,8 +73,8 @@ export function createHandler(config: Config): Handler {
     // A form posted without JavaScript gets pages back; fetch() gets JSON.
     const type = (header(req, "content-type") ?? "").split(";")[0].trim().toLowerCase();
     const form = type === "application/x-www-form-urlencoded";
-    const fail = (status: number, error: string, message: string, details?: string[]) => {
-      if (form) res.status(status).set("Content-Type", "text/html; charset=utf-8").send(errorPage(message, siteUrl));
+    const fail = (status: number, error: string, message: string, details?: string[], fields?: string[]) => {
+      if (form) res.status(status).set("Content-Type", "text/html; charset=utf-8").send(errorPage(message, siteUrl, fields));
       else res.status(status).json({ error, message, ...(details && { details }) });
     };
     const accepted = () => {
@@ -105,17 +106,19 @@ export function createHandler(config: Config): Handler {
 
     try {
       const at = now();
-      if (!(await underLimit(db, salt, clientIp(req), at))) {
-        res.set("Retry-After", String(Math.ceil((HOUR_MS - (at.getTime() % HOUR_MS)) / 1000)));
-        return fail(429, "rate_limited", "Hai inviato troppi resoconti: riprova tra un'ora.");
-      }
-
       if (!checkReport(data)) {
-        const details = (checkReport.errors ?? []).map((e) => `${e.instancePath || "/"} ${e.message}`);
-        return fail(400, "invalid_report", "Alcuni campi del resoconto non sono validi.", details);
+        const errors = checkReport.errors ?? [];
+        const details = errors.map((e) => `${e.instancePath || "/"} ${e.message}`);
+        // The top-level field each error is about, for the form's error page.
+        const fields = [
+          ...new Set(errors.map((e) => e.instancePath.split("/")[1] || e.params.missingProperty || e.params.additionalProperty)),
+        ].filter((f): f is string => typeof f === "string");
+        return fail(400, "invalid_report", "Alcuni campi del resoconto non sono validi.", details, fields);
       }
       const report = data as Record<string, unknown> & { procedure: string; done: string; contact_email?: string };
-      if (report.done > monthInRome(at)) return fail(400, "invalid_report", "Il mese indicato è nel futuro.", ["/done is in the future"]);
+      if (report.done > monthInRome(at)) {
+        return fail(400, "invalid_report", "Il mese indicato è nel futuro.", ["/done is in the future"], ["done"]);
+      }
 
       let ids: Set<string>;
       try {
@@ -125,6 +128,12 @@ export function createHandler(config: Config): Handler {
         return fail(503, "unavailable", "Non riusciamo a ricevere resoconti in questo momento: riprova più tardi.");
       }
       if (!ids.has(report.procedure)) return fail(400, "unknown_procedure", "Questa pratica non è nella libreria.");
+
+      // Counted only for reports that would be stored, so fixing a rejected one doesn't use up the hour.
+      if (!(await underLimit(db, salt, clientIp(req), at))) {
+        res.set("Retry-After", String(Math.ceil((HOUR_MS - (at.getTime() % HOUR_MS)) / 1000)));
+        return fail(429, "rate_limited", "Hai inviato troppi resoconti: riprova tra un'ora.");
+      }
 
       const { contact_email, ...rest } = report;
       const { value, redacted } = redact(rest);
@@ -150,7 +159,7 @@ export function createHandler(config: Config): Handler {
 // one address's windows can't be linked to each other.
 async function underLimit(db: Firestore, salt: string, ip: string, at: Date): Promise<boolean> {
   const hour = Math.floor(at.getTime() / HOUR_MS);
-  const key = createHash("sha256").update(`${salt}\n${hour}\n${ip}`).digest("hex");
+  const key = createHash("sha256").update(`${salt}\n${hour}\n${rateLimitAddress(ip)}`).digest("hex");
   const ref = db.collection("ratelimits").doc(key);
   return db.runTransaction(async (tx) => {
     const count = ((await tx.get(ref)).get("count") as number | undefined) ?? 0;
@@ -165,6 +174,19 @@ async function underLimit(db: Firestore, salt: string, ip: string, at: Date): Pr
 function clientIp(req: Req): string {
   const last = header(req, "x-forwarded-for")?.split(",").at(-1)?.trim();
   return last || req.ip || "unknown";
+}
+
+// An IPv6 connection usually gets a whole /64 and can pick any address in it,
+// so those addresses count as one. IPv4 written as IPv6 counts as IPv4.
+export function rateLimitAddress(ip: string): string {
+  const v4 = /^::ffff:(\d{1,3}(?:\.\d{1,3}){3})$/i.exec(ip)?.[1];
+  if (v4 || !isIPv6(ip)) return v4 ?? ip;
+  const groups = (part: string) => (part ? part.split(":").flatMap((g) => (g.includes(".") ? ["0", "0"] : [g])) : []);
+  const [head, tail] = ip.split("%")[0].split("::");
+  const left = groups(head);
+  const right = groups(tail ?? "");
+  const full = tail === undefined ? left : [...left, ...Array(8 - left.length - right.length).fill("0"), ...right];
+  return `${full.slice(0, 4).map((g) => parseInt(g, 16).toString(16)).join(":")}::/64`;
 }
 
 // Cuts personal data out of every string in the report.
@@ -225,8 +247,10 @@ export function parseForm(body: string): Record<string, unknown> {
 
 function convert(field: string, value: string): unknown {
   if (NUMBERS.has(field)) {
-    const n = Number(value.replace(",", "."));
-    return Number.isFinite(n) ? n : value;
+    // 1.000 or 1.000,50 is Italian for a thousand; otherwise a comma or a dot is the decimal point.
+    if (/^\d{1,3}(\.\d{3})+(,\d+)?$/.test(value)) return Number(value.replace(/\./g, "").replace(",", "."));
+    if (/^\d+([.,]\d+)?$/.test(value)) return Number(value.replace(",", "."));
+    return value;
   }
   if (BOOLEANS.has(field)) {
     if (/^(true|on|1|s[iì]|yes)$/i.test(value)) return true;
@@ -239,13 +263,14 @@ function monthInRome(at: Date): string {
   return new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Rome", year: "numeric", month: "2-digit" }).format(at);
 }
 
-function errorPage(message: string, siteUrl: string): string {
+function errorPage(message: string, siteUrl: string, fields: string[] = []): string {
+  const list = fields.length ? `\n<p>Controlla: ${fields.map((f) => `<code>${escapeHtml(f)}</code>`).join(", ")}.</p>` : "";
   return `<!doctype html>
 <html lang="it">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Resoconto non inviato</title>
-<p>${escapeHtml(message)}</p>
+<p>${escapeHtml(message)}</p>${list}
 <p><a href="${escapeHtml(siteUrl)}/">Torna al sito</a></p>
 </html>
 `;

@@ -10,6 +10,7 @@
   "scripts": {
     "shared": "node scripts/copy-shared.mjs",
     "build": "npm run shared && tsc -p tsconfig.build.json",
+    "gcp-build": "",
     "typecheck": "npm run shared && tsc",
     "test": "npm run shared && node --import tsx --test \"test/**/*.test.ts\"",
     "test:emulator": "firebase emulators:exec --config ../firebase.json --only firestore --project demo-pratiche-napoli \"npm test\""

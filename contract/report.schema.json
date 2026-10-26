@@ -30,7 +30,7 @@
     "done": {
       "description": "The month the procedure ended or was last worked on, YYYY-MM",
       "type": "string",
-      "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+      "pattern": "^20[0-9]{2}-(0[1-9]|1[0-2])$"
     },
     "channel": {
       "description": "How it was done, as the procedure's channel types",
