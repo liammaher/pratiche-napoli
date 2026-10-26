@@ -54,7 +54,9 @@ export interface VaultSchema {
   categories: VaultCategory[];
   // The vault's credential rule, as whole-word patterns: secret anywhere,
   // credential (secret plus username, login...) next to SPID or the CIE.
-  credentials: { secret: string; credential: string; identity: string };
+  // account: the first word of a SPID/CieID account category (spid_poste),
+  // every field of which the vault keeps as a secret.
+  credentials: { secret: string; credential: string; identity: string; account: string };
 }
 
 export interface Extensions {
@@ -132,7 +134,7 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
     throw new Error("not a vault schema: expected { version, categories: [...] }");
   }
   const words = schema.credentials;
-  for (const key of ["secret", "credential", "identity"] as const) {
+  for (const key of ["secret", "credential", "identity", "account"] as const) {
     if (typeof words?.[key] !== "string" || !words[key].startsWith("^(") || !words[key].endsWith(")$")) {
       throw new Error(`not a vault schema: credentials.${key} must be a whole-word pattern (a vault older than schema.json?)`);
     }
@@ -200,7 +202,9 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
       throw new Error(`extensions can't add to category "${ext.name}"`);
     }
     let entry = categories.find((c) => c.name === ext.name);
-    if (!entry && isCredentialName(ext.name, credentialWords)) {
+    // The vault keeps every field of a SPID/CieID account category secret.
+    const account = new RegExp(words.account);
+    if (!entry && (isCredentialName(ext.name, credentialWords) || account.test(ext.name.split(/[_-]/)[0]))) {
       throw new Error(`extension category "${ext.name}" looks like a credential`);
     }
     if (!entry) {

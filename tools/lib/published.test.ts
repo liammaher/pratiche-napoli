@@ -20,7 +20,7 @@ function commit(repo: string, text: string): string {
   return git(repo, "rev-parse", "HEAD");
 }
 
-test("fetches what other clones pushed and pull requests' branches deleted since", () => {
+test("fetches what other clones pushed, never pull requests", () => {
   const dir = mkdtempSync(path.join(tmpdir(), "published-"));
   try {
     const origin = path.join(dir, "origin.git");
@@ -34,17 +34,19 @@ test("fetches what other clones pushed and pull requests' branches deleted since
 
     const pushed = commit(a, "published from a");
     git(a, "push", "-q", "origin", "HEAD:main");
-    git(a, "checkout", "-q", "-b", "pr");
-    const prOnly = commit(a, "only on a deleted PR branch");
-    git(a, "push", "-q", "origin", "pr");
-    git(origin, "update-ref", "refs/pull/1/head", prOnly); // as GitHub keeps it
-    git(a, "push", "-q", "origin", "--delete", "pr");
+    // Anyone can open a pull request on a public repository: GitHub keeps
+    // its head as refs/pull/<n>/head, with whatever `reported` block it made up.
+    git(a, "checkout", "-q", "-b", "stranger");
+    const stranger = commit(a, "a stranger's pull request");
+    git(a, "push", "-q", "origin", "stranger");
+    git(origin, "update-ref", "refs/pull/1/head", stranger);
+    git(a, "push", "-q", "origin", "--delete", "stranger");
 
     const all = () => git(b, "rev-list", "--all").split("\n");
     assert.ok(!all().includes(pushed));
     assert.equal(fetchPublished(b), null);
     assert.ok(all().includes(pushed), "a version pushed from another clone");
-    assert.ok(all().includes(prOnly), "a pull request's branch deleted since");
+    assert.ok(!all().includes(stranger), "a pull request's head must not be read as published");
 
     // No origin to fetch from: the history may be incomplete, so it fails.
     git(b, "remote", "remove", "origin");

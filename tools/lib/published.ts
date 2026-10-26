@@ -3,16 +3,17 @@
 
 import { spawnSync } from "node:child_process";
 
-// What others pushed from their clones is public, and so is every pull
-// request's branch, which GitHub keeps (refs/pull/<n>/head) after it is merged
-// or deleted. Without them a version would be missed, and comparing it with
-// the next one could single a report out. Returns why it failed, or null.
+// What others pushed to origin from their clones is public: without it a
+// version would be missed, and comparing it with the next one could single a
+// report out. Only origin's own branches, which only its maintainers can
+// push: not pull requests (refs/pull/*), which anyone can open on a public
+// repository with a made-up `reported` block that would stop the run or
+// shape what it publishes. Returns why it failed, or null.
 export function fetchPublished(root: string): string | null {
-  const run = spawnSync(
-    "git",
-    ["-C", root, "fetch", "--quiet", "--no-tags", "origin", "+refs/heads/*:refs/remotes/origin/*", "+refs/pull/*/head:refs/remotes/origin/pull/*"],
-    { encoding: "utf8" },
-  );
+  const run = spawnSync("git", ["-C", root, "fetch", "--quiet", "--no-tags", "origin", "+refs/heads/*:refs/remotes/origin/*"], {
+    encoding: "utf8",
+    env: { ...process.env, GIT_TERMINAL_PROMPT: "0" }, // fail, never wait for a password
+  });
   if (run.error) return run.error.message;
   if (run.status !== 0) return (run.stderr.trim() || `git fetch exited ${run.status}`).split("\n")[0];
   return null;
