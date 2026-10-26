@@ -75,12 +75,14 @@ npm run reports:aggregate               # update each procedure's `reported` blo
 reports of the last 12 months: outcomes, answer times per channel, desk waits, amounts paid,
 how often each listed document was asked for, and the maintainer's tips, rejection reasons and
 extra documents. A procedure needs at least 3 reports, and every number in the block, outcome
-and reason counts included, covers at least 3, and so does what the counts leave over beside
-the total (unless nothing is), so no one person's result can be singled out or worked out.
-Figures are rounded medians, never a smallest or largest value. Since every version of the
-block stays in the history, a block only changes once at least 3 reports came in or dropped
-out since the last one (`basis` holds a fingerprint of each report, to tell); people's own
-words are never published. A changed block moves `updated`. The page shows the figures under "Com'è andata ad altri", clearly as reports, not
+and reason counts included, covers at least 3; so does what it leaves over beside the total it
+belongs to (the count, a channel's count, the refusals), unless nothing is, so no one person's
+result can be singled out or worked out. Figures are medians, rounded more coarsely as they grow,
+never a smallest or largest value. Since every version of the block stays in the history, a
+block only changes when, against every earlier version, at least 3 reports came in or dropped
+out (`basis` holds a fingerprint of each report, to tell); a block that can't change for 90
+days is removed until it can. People's own words are never published. A changed block moves
+`updated`. The page shows the figures under "Com'è andata ad altri", clearly as reports, not
 official sources. The commands need `--project <id>` or `GCLOUD_PROJECT`, and your personal
 Google credentials (`gcloud auth application-default login`), or `FIRESTORE_EMULATOR_HOST` to
 try them on the emulator.

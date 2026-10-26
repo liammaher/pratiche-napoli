@@ -12,8 +12,9 @@ maintainer are ever published, never a report as written.
 - `reports/{id}`: the report's fields, plus `status: "pending"`, `received_at`,
   `schema_version: 0` and `pii_redacted` (true when personal data was replaced
   with `[rimosso]`, including codes with the usual slips: lower case, 0 for O,
-  other groupings, a character missing). Deleted once its month leaves the
-  12-month window the figures use, whatever its status (`expires_at`, Firestore TTL).
+  other groupings, a character missing or extra). Deleted once its month leaves the
+  12-month window the figures use, whatever its status (`expires_at`, Firestore TTL);
+  a month already outside the window is refused.
 - `contacts/{id}`: `contact_email`, only when the person ticked `consent_contact`,
   with the same id as the report. Deleted after 12 months (`expires_at`, Firestore TTL).
 - `ratelimits/{hash}`: a count per hour per salted SHA-256 of the sender's IP (for
@@ -64,9 +65,11 @@ note, no correction text, no office, no contact.
 
 For a request to see or delete someone's data, find the report by the code they got
 when they sent it (`show <id>`) or by the email they left (`find <email>`), then
-`delete <id>`. The published figures don't change at once: they are anonymous, and a
-block only changes when at least 3 reports came in or dropped out (see
-`tools/lib/reported.ts`), so the next one leaves the report out.
+`delete <id>` (it also works once the report has expired and only the contact is left).
+The published figures don't change at once: they are anonymous, and a block only changes
+when at least 3 reports came in or dropped out against every earlier version (see
+`tools/lib/reported.ts`). The report leaves them at the next change, or within 90 days,
+when a block that can't change is removed.
 
 Accepting is where one person sending three reports to reach the threshold of 3 is
 caught: reports with the same procedure, month and answers that arrived close

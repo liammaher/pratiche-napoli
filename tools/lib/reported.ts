@@ -1,11 +1,13 @@
 // Turns reviewed reports into a procedure's `reported` block: what people who
 // did it found, from the last 12 months. Every published number covers at
 // least MIN reports, outcome and reason counts included, and so does what is
-// left over beside them (the total minus the published counts), so no one
-// person's result can be singled out or worked out. Figures are medians,
-// never a smallest or largest value, which would be one person's. A block
-// only changes when at least MIN reports came in or dropped out since the
-// last one, so comparing two versions doesn't single anyone out either.
+// left over beside the total it belongs to (the count, a channel's count, the
+// refusals), unless nothing is: so no one person's result can be singled out
+// or worked out. A count whose total isn't published isn't either. Figures
+// are rounded medians, never a smallest or largest value, which would be one
+// person's. A block only changes when, against every version published
+// before it (all public, in the history), at least MIN reports came in or
+// dropped out, so comparing versions doesn't single anyone out either.
 // Tips, rejection reasons and extra documents are a maintainer's words,
 // written at review time, never a report's.
 
@@ -74,28 +76,31 @@ export function aggregate(reports: ReviewedReport[], documents: string[], today:
   const channels = safeCounts([...byChannel].map(([type, rs]) => [type, rs.length]), recent.length)
     .sort(([a, x], [b, y]) => y - x || a.localeCompare(b))
     .map(([type, count]) => {
-      const days = stat(byChannel.get(type)!.map((r) => r.days_to_answer), 1);
+      const days = stat(byChannel.get(type)!.map((r) => r.days_to_answer), count, roundDays);
       return { type, count, ...(days && { days_to_answer: days }) };
     });
   if (channels.length) out.channels = channels;
 
-  const wait = stat(recent.map((r) => r.desk_wait_minutes), 5);
+  const wait = stat(recent.map((r) => r.desk_wait_minutes), recent.length, (v) => Math.round(v / 5) * 5);
   if (wait) out.desk_wait_minutes = wait;
-  const paid = stat(recent.map((r) => r.paid_eur), 1);
+  const paid = stat(recent.map((r) => r.paid_eur), recent.length, roundEuros);
   if (paid) out.paid_eur = paid;
 
   // One answer per report and document, so a report listing a document twice
-  // counts once; both who was asked and who wasn't must be none or MIN.
+  // counts once. Who was asked, who wasn't, and who didn't say must each be
+  // none or MIN.
   const docs = documents.flatMap((name) => {
     const answers = recent.flatMap((r) => (r.documents ?? []).filter((d) => d.name === name).slice(0, 1));
     const asked = answers.filter((d) => d.asked).length;
-    return answers.length >= MIN && safe(asked) && safe(answers.length - asked) ? [{ name, asked, of: answers.length }] : [];
+    const ok = answers.length >= MIN && safe(asked) && safe(answers.length - asked) && safe(recent.length - answers.length);
+    return ok ? [{ name, asked, of: answers.length }] : [];
   });
   if (docs.length) out.documents = docs;
 
-  const extra = counted(recent.map((r) => r.extra_document));
+  const extra = counted(recent.map((r) => r.extra_document)).filter((t) => safe(recent.length - t.count));
   if (extra.length) out.extra_documents = extra;
-  const rejected = recent.filter((r) => r.outcome === "respinta");
+  // Reasons only beside a published count of refusals, which they divide.
+  const rejected = out.outcomes?.respinta ? recent.filter((r) => r.outcome === "respinta") : [];
   const reasons = safeCounts(
     counted(rejected.map((r) => r.rejection_reason)).map((t) => [t.text, t.count]),
     rejected.length,
@@ -109,25 +114,37 @@ export function aggregate(reports: ReviewedReport[], documents: string[], today:
   return out;
 }
 
-// What the procedure's block becomes: the new one, or the old one kept while
-// fewer than MIN reports came in or dropped out since it, because the
-// difference between two versions (both public, in the history) would
-// describe those few reports. `held` says why the old block stays.
+// What the procedure's block becomes. `history` is every version published
+// before (oldest first, the current one last), all public in the history:
+// the new block replaces the current one only if, against each of them, none
+// or at least MIN reports came in and none or at least MIN dropped out, since
+// the difference between any two versions describes the reports in it.
+// Otherwise the current block stays, for at most MAX_HOLD_DAYS: after that it
+// is removed (publishing nothing gives nothing away), so a report deleted on
+// request or gone from the window doesn't stay in the figures for long.
+// `held` says why.
 export function nextReported(
-  old: Reported | undefined,
+  history: Reported[],
   reports: ReviewedReport[],
   documents: string[],
   today: string,
 ): { block: Reported | undefined; held?: string } {
   const block = aggregate(reports, documents, today);
-  if (!old?.basis) return { block };
-  const now = new Set(inWindow(reports, today).map((r) => fingerprint(r.id)));
-  const before = new Set(old.basis);
-  const added = [...now].filter((f) => !before.has(f)).length;
-  const dropped = [...before].filter((f) => !now.has(f)).length;
-  if (safe(added) && safe(dropped)) return { block };
-  return { block: old, held: `${added} new and ${dropped} dropped reports since the last block; waiting for ${MIN} of each` };
+  const current = history.at(-1);
+  if (!block) return { block: undefined };
+  const now = new Set(block.basis);
+  const clash = history.find((h) => {
+    const before = new Set(h.basis ?? []);
+    return !safe([...now].filter((f) => !before.has(f)).length) || !safe([...before].filter((f) => !now.has(f)).length);
+  });
+  if (!clash) return { block };
+  const why = `fewer than ${MIN} reports in or out since the version of ${clash.generated}`;
+  if (current && dayNumber(today) - dayNumber(current.generated) <= MAX_HOLD_DAYS) return { block: current, held: `${why}; kept as it is` };
+  return { block: undefined, held: `${why}; removed until it can change` };
 }
+
+export const MAX_HOLD_DAYS = 90;
+const dayNumber = (date: string) => Math.floor(Date.parse(`${date}T00:00:00Z`) / 86_400_000);
 
 // A report's mark in the public block: part of the hash of its private
 // database id, which can't be traced back without the database.
@@ -183,15 +200,22 @@ export function withReported(text: string, block: Reported | undefined, updated:
   return out.replace(/^updated: .*$/m, `updated: ${updated}`);
 }
 
-// The median, rounded to a multiple of `step` (whole euros, 5 minutes), so it
-// doesn't give away the exact figure of the report in the middle.
-function stat(values: (number | undefined)[], step: number): Stat | undefined {
+// The median of the answers, rounded so it doesn't give away the exact figure
+// of the report in the middle, or nothing when fewer than MIN answered or
+// those who didn't (out of `total`) are 1 or 2.
+function stat(values: (number | undefined)[], total: number, round: (v: number) => number): Stat | undefined {
   const xs = values.filter((v): v is number => typeof v === "number").sort((a, b) => a - b);
-  if (xs.length < MIN) return undefined;
+  if (xs.length < MIN || !safe(total - xs.length)) return undefined;
   const mid = xs.length / 2;
   const median = xs.length % 2 ? xs[Math.floor(mid)] : (xs[mid - 1] + xs[mid]) / 2;
-  return { median: Math.round(median / step) * step, n: xs.length };
+  return { median: round(median), n: xs.length };
 }
+
+const to = (step: number) => (v: number) => Math.round(v / step) * step;
+// Coarser the longer it is: 3 days stays 3, 23 becomes 25, 47 becomes 50.
+const roundDays = (v: number) => (v < 7 ? Math.round(v) : v < 60 ? to(5)(v) : to(10)(v));
+// 16,50 € becomes 15 €, 66 € 65 €, 1.237 € 1.250 €.
+const roundEuros = (v: number) => (v < 100 ? to(5)(v) : v < 1000 ? to(10)(v) : to(50)(v));
 
 // Only texts at least MIN reports share.
 function counted(texts: (string | undefined)[]): { text: string; count: number }[] {

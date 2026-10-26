@@ -94,6 +94,9 @@ test("without check digits, the usual slips still match", () => {
     ["iban it60x0542811101000000123456 ok", "it60x0542811101000000123456"], // lower case
     ["IBAN IT60 X054 2811 1010 0000 0123 45 per", "IT60 X054 2811 1010 0000 0123 45"], // one digit short
     ["IBAN IT60  X054  2811 1010 0000 0123 456", "IT60  X054  2811 1010 0000 0123 456"], // double spaces
+    ["iban it60 x054 2811 1010 0000 0123 456 ok", "it60 x054 2811 1010 0000 0123 456"], // lower case, in groups
+    ["cf RSSMRA85T10A562SS fine", "RSSMRA85T10A562SS"], // one character extra
+    ["cf RSS\u2009MRA\u202f85T10\u2009A562S", "RSS\u2009MRA\u202f85T10\u2009A562S"], // thin spaces
   ]) {
     const ms = matchPersonalData(text, { checkDigits: false });
     assert.ok(ms.some((m) => text.slice(m.start, m.end) === found), `${text}: ${JSON.stringify(ms.map((m) => text.slice(m.start, m.end)))}`);
@@ -107,6 +110,14 @@ test("the slips don't catch ordinary text", () => {
     "es. 1250 euro per la SCIA, poi il sopralluogo dei Vigili del Fuoco in via Toledo 156.",
     "napoli/comune/tari-iscrizione-uso-abitativo",
     "Sono andato allo sportello di via Diaz alle 8, ho aspettato circa 45 minuti in coda.",
+    // In capitals, as some people type.
+    "DI VIA ROMA 25 IL 15",
+    "DEL 20 AGOSTO 2009",
+    "ISEE 2025 DSU INPS",
+    "SUAP 01234567890",
+    "BE 12 GENNAIO 2025 O",
+    "PROTOCOLLO PG 2026 0812345 DEL 12 10 2026",
+    "MOD 1 TARI CONSEGNATO IL 3 MARZO 2026 ORE 10",
   ]) {
     assert.deepEqual(matchPersonalData(text, { checkDigits: false }), [], text);
   }
