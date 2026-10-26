@@ -1,6 +1,6 @@
 node_modules/
 dist/
-site/
+/site/
 .DS_Store
 # iCloud Desktop sync makes conflict copies named "file 2.ext"; never commit them
 * [0-9].*
