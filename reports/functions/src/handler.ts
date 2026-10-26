@@ -77,9 +77,11 @@ export function createHandler(config: Config): Handler {
       if (form) res.status(status).set("Content-Type", "text/html; charset=utf-8").send(errorPage(message, siteUrl, fields));
       else res.status(status).json({ error, message, ...(details && { details }) });
     };
-    const accepted = () => {
-      if (form) res.status(303).set("Location", `${siteUrl}/grazie/`).end();
-      else res.status(201).json({ ok: true });
+    // The report's code goes back, for asking later to see or delete it. On
+    // the redirect it rides in the fragment, which browsers never send on.
+    const accepted = (id: string) => {
+      if (form) res.status(303).set("Location", `${siteUrl}/grazie/#${id}`).end();
+      else res.status(201).json({ ok: true, id });
     };
 
     if (req.method !== "POST") {
@@ -105,7 +107,7 @@ export function createHandler(config: Config): Handler {
     if (!isObject(data)) return fail(400, "bad_json", "Il resoconto deve essere un oggetto JSON.");
 
     // Answer as if it worked, so the bot learns nothing.
-    if (filled(data[HONEYPOT])) return accepted();
+    if (filled(data[HONEYPOT])) return accepted(db.collection("reports").doc().id);
     delete data[HONEYPOT];
 
     try {
@@ -122,6 +124,10 @@ export function createHandler(config: Config): Handler {
       const report = data as Record<string, unknown> & { procedure: string; done: string; contact_email?: string };
       if (report.done > monthInRome(at)) {
         return fail(400, "invalid_report", "Il mese indicato è nel futuro.", ["/done is in the future"], ["done"]);
+      }
+      // An older report would be deleted at once, unread: it has left the window.
+      if (leavesWindow(report.done) <= at) {
+        return fail(400, "invalid_report", "Raccogliamo i racconti degli ultimi 12 mesi.", ["/done is over 12 months ago"], ["done"]);
       }
 
       let ids: Set<string>;
@@ -144,14 +150,26 @@ export function createHandler(config: Config): Handler {
       const received_at = Timestamp.fromDate(at);
       const ref = db.collection("reports").doc();
       const batch = db.batch();
-      batch.set(ref, { ...(value as object), status: "pending", received_at, schema_version: 0, pii_redacted: redacted });
+      batch.set(ref, {
+        ...(value as object),
+        status: "pending",
+        received_at,
+        expires_at: Timestamp.fromDate(leavesWindow(report.done)),
+        schema_version: 0,
+        pii_redacted: redacted,
+      });
       if (contact_email) {
         const expires = new Date(at);
         expires.setUTCFullYear(expires.getUTCFullYear() + 1);
-        batch.set(db.collection("contacts").doc(ref.id), { contact_email, received_at, expires_at: Timestamp.fromDate(expires) });
+        // Lower case, so a request to find it matches however it was typed.
+        batch.set(db.collection("contacts").doc(ref.id), {
+          contact_email: contact_email.trim().toLowerCase(),
+          received_at,
+          expires_at: Timestamp.fromDate(expires),
+        });
       }
       await batch.commit();
-      return accepted();
+      return accepted(ref.id);
     } catch (err) {
       console.error("can't store a report", err);
       return fail(500, "internal", "Qualcosa è andato storto: riprova più tardi.");
@@ -195,6 +213,10 @@ export function rateLimitAddress(ip: string): string {
 
 // Cuts personal data out of every string in the report, mistyped codes too: a
 // codice fiscale with one wrong letter still identifies its owner.
+// Fields the schema already limits to ids, months and choices: never personal,
+// and left whole so the report still names its procedure.
+const STRUCTURED = new Set(["procedure", "source", "done", "channel", "outcome"]);
+
 export function redact(value: unknown): { value: unknown; redacted: boolean } {
   let redacted = false;
   const walk = (v: unknown): unknown => {
@@ -213,7 +235,9 @@ export function redact(value: unknown): { value: unknown; redacted: boolean } {
     if (isObject(v)) return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, walk(x)]));
     return v;
   };
-  return { value: walk(value), redacted };
+  if (!isObject(value)) return { value: walk(value), redacted };
+  const out = Object.fromEntries(Object.entries(value).map(([k, x]) => [k, STRUCTURED.has(k) ? x : walk(x)]));
+  return { value: out, redacted };
 }
 
 const NUMBERS = new Set(["days_to_answer", "desk_wait_minutes", "paid_eur"]);
@@ -266,6 +290,14 @@ function convert(field: string, value: string): unknown {
     if (/^(false|off|0|no)$/i.test(value)) return false;
   }
   return value;
+}
+
+// Reports are kept while the published figures can use them: until their
+// month leaves the 12-month window (a "2025-11" report on 1 November 2026).
+// Firestore's TTL deletes them after that, pending and rejected ones too.
+export function leavesWindow(done: string): Date {
+  const [y, m] = done.split("-").map(Number);
+  return new Date(Date.UTC(y, m - 1 + 12, 1));
 }
 
 function monthInRome(at: Date): string {

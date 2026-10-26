@@ -1,6 +1,7 @@
 // The maintainer's review of reports, run from the repo root:
 //   npm run reports -- list [--accepted]         pending (or accepted) reports, by procedure
 //   npm run reports -- show <id>                 one report, with its contact if any
+//   npm run reports -- find <email>              the reports someone who left this email sent
 //   npm run reports -- accept <id> [--tip "…"] [--rejection-reason "…"] [--extra-document "…"]
 //                                                 (again, to change them; "" removes one)
 //   npm run reports -- reject <id>
@@ -15,10 +16,10 @@ import path from "node:path";
 import { parseArgs } from "node:util";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
-import { accept, describe, exportAccepted, exportPath, list, reject, remove, show } from "./review";
+import { accept, describe, exportAccepted, exportPath, findByEmail, list, reject, remove, show } from "./review";
 
 const USAGE =
-  'commands: list [--accepted], show <id>, accept <id> [--tip "…"] [--rejection-reason "…"] [--extra-document "…"], reject <id>, delete <id>, export [file]; with --project <id> or GCLOUD_PROJECT';
+  'commands: list [--accepted], show <id>, find <email>, accept <id> [--tip "…"] [--rejection-reason "…"] [--extra-document "…"], reject <id>, delete <id>, export [file]; with --project <id> or GCLOUD_PROJECT';
 const ROOT = path.resolve(__dirname, "..", "..", "..");
 
 async function main(): Promise<void> {
@@ -42,8 +43,11 @@ async function main(): Promise<void> {
   const projectId = values.project ?? process.env.GCLOUD_PROJECT;
   if (!projectId) throw new Error("say which Firebase project: --project <id> or GCLOUD_PROJECT");
   const db = getFirestore(initializeApp({ projectId }));
-  const need = () => {
-    if (!arg) throw new Error(`${command} needs a report id`);
+  // Said every time, so a stray FIRESTORE_EMULATOR_HOST or GCLOUD_PROJECT shows.
+  const emulator = process.env.FIRESTORE_EMULATOR_HOST;
+  console.error(emulator ? `(emulator at ${emulator}, project ${projectId})` : `(project ${projectId})`);
+  const need = (what = "a report id") => {
+    if (!arg) throw new Error(`${command} needs ${what}`);
     return arg;
   };
 
@@ -61,8 +65,13 @@ async function main(): Promise<void> {
     }
     case "show": {
       const { report, contact } = await show(db, need());
-      console.log(JSON.stringify(report, null, 2));
+      console.log(report ? JSON.stringify(report, null, 2) : "(the report has expired; only its contact is left)");
       if (contact) console.log(`contatto: ${contact}`);
+      return;
+    }
+    case "find": {
+      const ids = await findByEmail(db, need("an email address"));
+      console.log(ids.length ? ids.join("\n") : "no reports with that email (it is deleted 12 months after the report)");
       return;
     }
     case "accept":

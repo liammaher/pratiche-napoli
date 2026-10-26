@@ -11,13 +11,21 @@ maintainer are ever published, never a report as written.
 
 - `reports/{id}`: the report's fields, plus `status: "pending"`, `received_at`,
   `schema_version: 0` and `pii_redacted` (true when personal data was replaced
-  with `[rimosso]`).
+  with `[rimosso]`, including codes with the usual slips: lower case, 0 for O,
+  other groupings, a character missing or extra). Deleted once its month leaves the
+  12-month window the figures use, whatever its status (`expires_at`, Firestore TTL);
+  a month already outside the window is refused.
 - `contacts/{id}`: `contact_email`, only when the person ticked `consent_contact`,
   with the same id as the report. Deleted after 12 months (`expires_at`, Firestore TTL).
 - `ratelimits/{hash}`: a count per hour per salted SHA-256 of the sender's IP (for
   IPv6, its /64), so at most 10 stored reports an hour come from one address.
   Rejected reports don't count. The IP itself is never
-  stored. Deleted after the hour (`expires_at`, Firestore TTL).
+  stored with a report. Deleted after the hour (`expires_at`, Firestore TTL, which
+  removes expired documents within about a day).
+
+Google Cloud keeps the function's request logs, with the sender's IP, for 30 days
+unless they're excluded: step 8 of the deploy excludes them, so that no IP can be
+matched to a report's `received_at`.
 
 `firestore.rules` denies all client access: only the function and the
 maintainer's tools, through the Admin SDK, read or write.
@@ -29,11 +37,13 @@ the request needs no CORS preflight, and malformed JSON gets this function's
 `400 bad_json` with CORS headers, where with `application/json` the hosting
 framework rejects it first with a bare HTML page. Other clients can use
 `application/json`. The answer is
-`201 {"ok": true}`, or an error with `error` and `message`, for example `400
+`201 {"ok": true, "id": "<report id>"}`, or an error with `error` and `message`, for example `400
 invalid_report`, `400 unknown_procedure`, `413` (over 10 KB) or `429` (rate limit).
 
 A form that works without JavaScript posts `application/x-www-form-urlencoded`
-and gets a `303` to `<SITE_URL>/grazie/`, or a short error page. Form fields:
+and gets a `303` to `<SITE_URL>/grazie/#<report id>`, or a short error page. The
+id is the person's receipt, for asking to see or delete their report; in the
+fragment, it never reaches a server. Form fields:
 
 - the report's fields by name; empty fields are left out, `12,50` is read as 12.5,
   and `consent_contact` is true for `on`, `true`, `1`, `si`;
@@ -48,9 +58,22 @@ function fetches on the first report and keeps for an hour.
 
 ## Reviewing reports
 
-From the repo root, `npm run reports -- list | show | accept | reject | delete | export` (see
-the main README). The export, `reports-cache.json` at the repo root, keeps only what the
-published figures need: no note, no correction text, no office, no contact.
+From the repo root, `npm run reports -- list | show | find | accept | reject | delete | export`
+(see the main README). Each command first says which database it is using. The export,
+`reports-cache.json` at the repo root, keeps only what the published figures need: no
+note, no correction text, no office, no contact.
+
+For a request to see or delete someone's data, find the report by the code they got
+when they sent it (`show <id>`) or by the email they left (`find <email>`), then
+`delete <id>` (it also works once the report has expired and only the contact is left).
+The published figures don't change at once: they are anonymous, and a block only changes
+when at least 3 reports came in or dropped out against every earlier version (see
+`tools/lib/reported.ts`). The report leaves them at the next change, or within 90 days,
+when a block that can't change is removed.
+
+Accepting is where one person sending three reports to reach the threshold of 3 is
+caught: reports with the same procedure, month and answers that arrived close
+together are one person's until shown otherwise.
 
 ## Running the tests
 
@@ -86,8 +109,8 @@ you can do them. Don't use another account that the CLI is logged into.
 2. In the [Firebase console](https://console.firebase.google.com/), signed in as
    that account, create a new project (for example `pratiche-napoli`) and move it
    to the Blaze plan (functions need it; this traffic fits in the free tier).
-3. Create the Firestore database in native mode in an EU location: `europe-west8`
-   (Milan), or the `eur3` multi-region.
+3. Create the Firestore database in native mode in `europe-west8` (Milan): the
+   privacy page says the data is in Milan.
 4. From `reports/`, point the CLI at the project and account:
    ```bash
    firebase login:use liampmaher1996@gmail.com
@@ -103,9 +126,18 @@ you can do them. Don't use another account that the CLI is logged into.
 6. If the site isn't at `https://liammaher.github.io/pratiche-napoli`, set
    `SITE_URL` in `functions/.env.prod` (no trailing slash).
 7. Deploy: `firebase deploy --only functions,firestore`. This deploys the rules,
-   the index and the TTL policies on `expires_at` for `ratelimits` and `contacts`.
-8. In the console, under Firestore → Time-to-live, check that both TTL policies
+   the index and the TTL policies on `expires_at` for `reports`, `ratelimits` and
+   `contacts`. In the console, under Firestore → Time-to-live, check that all three
    are listed and active; if not, add them for the `expires_at` field.
+8. Stop Cloud Logging keeping the function's request logs, which hold the sender's
+   IP (the privacy page says it isn't kept). The function runs as the Cloud Run
+   service `submitreport` (check the name under Cloud Run):
+   ```bash
+   gcloud logging sinks update _Default --project <project id> \
+     --add-exclusion='name=submit-report-requests,filter=resource.type="cloud_run_revision" AND resource.labels.service_name="submitreport" AND log_id("run.googleapis.com/requests")'
+   ```
+   Send a test report, then check under Logging that no request entry with its IP
+   appears. The function's own error messages don't contain the IP.
 
 The function's URL is printed at the end of the deploy; the site's form posts to it.
 Build the site with it and the address for data requests:

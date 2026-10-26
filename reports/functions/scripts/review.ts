@@ -25,10 +25,12 @@ export async function list(db: Firestore, status = "pending"): Promise<(Data & {
     .sort((a, b) => String(a.procedure).localeCompare(String(b.procedure)) || time(a) - time(b));
 }
 
-export async function show(db: Firestore, id: string): Promise<{ report: Data; contact?: string }> {
+// A report expires when its month leaves the window, often before its
+// contact does: then only the contact is left to show.
+export async function show(db: Firestore, id: string): Promise<{ report?: Data; contact?: string }> {
   const [report, contact] = await Promise.all([db.doc(`reports/${id}`).get(), db.doc(`contacts/${id}`).get()]);
-  if (!report.exists) throw new Error(`no report ${id}`);
-  return { report: report.data()!, contact: contact.data()?.contact_email };
+  if (!report.exists && !contact.exists) throw new Error(`no report ${id}`);
+  return { report: report.data(), contact: contact.data()?.contact_email };
 }
 
 // Accepting again changes the maintainer's fields: a text replaces the old
@@ -51,11 +53,20 @@ export async function reject(db: Firestore, id: string, now = new Date()): Promi
   await setStatus(db, id, "rejected", now, {});
 }
 
-// For a request to delete someone's data: the report and its contact.
+// For a request from someone who left their email: their reports' ids.
+export async function findByEmail(db: Firestore, email: string): Promise<string[]> {
+  const snap = await db.collection("contacts").where("contact_email", "==", email.trim().toLowerCase()).get();
+  return snap.docs.map((d) => d.id).sort();
+}
+
+// For a request to delete someone's data: the report and its contact,
+// whichever of them is still there.
 export async function remove(db: Firestore, id: string): Promise<void> {
-  const ref = db.doc(`reports/${id}`);
-  if (!(await ref.get()).exists) throw new Error(`no report ${id}`);
-  await db.batch().delete(ref).delete(db.doc(`contacts/${id}`)).commit();
+  const report = db.doc(`reports/${id}`);
+  const contact = db.doc(`contacts/${id}`);
+  const [r, c] = await Promise.all([report.get(), contact.get()]);
+  if (!r.exists && !c.exists) throw new Error(`no report ${id}`);
+  await db.batch().delete(report).delete(contact).commit();
 }
 
 const EXPORTED = ["procedure", "done", "channel", "outcome", "days_to_answer", "desk_wait_minutes", "paid_eur", "documents"];

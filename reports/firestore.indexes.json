@@ -11,6 +11,12 @@
   ],
   "fieldOverrides": [
     {
+      "collectionGroup": "reports",
+      "fieldPath": "expires_at",
+      "ttl": true,
+      "indexes": []
+    },
+    {
       "collectionGroup": "ratelimits",
       "fieldPath": "expires_at",
       "ttl": true,

@@ -8,7 +8,7 @@
 // Links between pages are relative, so the site works under any path; only
 // canonical URLs, the sitemap and the JSON index use the base URL.
 
-import type { Reported, Stat } from "./reported.ts";
+import type { Reported } from "./reported.ts";
 
 // Procedures are validated before they get here; this is the subset rendered.
 type Status = "verified" | "unverified" | "disputed";
@@ -900,10 +900,11 @@ const VERDICTS: [string, string][] = [
   ["confermata", "era giusta"],
 ];
 
-// The months a report can be about, newest first: the last two years.
+// The months a report can be about, newest first: the last 12, the ones the
+// figures use (the backend refuses older ones).
 function recentMonths(built: Date): [string, string][] {
   const fmt = new Intl.DateTimeFormat("it-IT", { month: "long", year: "numeric", timeZone: "UTC" });
-  return Array.from({ length: 24 }, (_, i) => {
+  return Array.from({ length: 12 }, (_, i) => {
     const d = new Date(Date.UTC(built.getUTCFullYear(), built.getUTCMonth() - i, 1));
     return [d.toISOString().slice(0, 7), fmt.format(d)] as [string, string];
   });
@@ -983,12 +984,13 @@ function renderPrivacy(site: Site): string {
 <h2>I racconti di chi ha fatto una pratica</h2>
 <p>Se compili il modulo "Racconta com'è andata", riceviamo solo quello che scrivi: il mese, il canale e l'ufficio, com'è finita, tempi, importi, quali documenti ti hanno chiesto e le tue note. Lo usiamo per un solo scopo: tenere aggiornate le pagine delle pratiche.</p>
 <ul>
-<li><strong>Cosa pubblichiamo</strong>: mai il tuo racconto così com'è. Solo statistiche, quando i racconti sono almeno 3 (per esempio "risposta in circa 23 giorni via PEC, 7 segnalazioni"), e consigli che riscriviamo noi.</li>
-<li><strong>Dati personali</strong>: non ne chiediamo e ti chiediamo di non scriverne. Codici fiscali e IBAN scritti per errore vengono tolti automaticamente all'arrivo.</li>
-<li><strong>Indirizzo IP</strong>: non lo salviamo con il racconto. Per limitare gli invii ripetuti teniamo per un'ora un codice pseudonimo ricavato dall'indirizzo, poi lo cancelliamo.</li>
+<li><strong>Cosa pubblichiamo</strong>: mai il tuo racconto così com'è. Solo statistiche in cui ogni numero viene da almeno 3 racconti (per esempio "risposta in circa 23 giorni via PEC, 7 racconti"), sempre valori tipici arrotondati e mai il più alto o il più basso, e consigli che riscriviamo noi. Le statistiche cambiano solo quando, rispetto a ogni versione precedente, sono arrivati o usciti almeno 3 racconti, così confrontando le versioni non si risale a nessuno.</li>
+<li><strong>Dati personali</strong>: non ne chiediamo e ti chiediamo di non scriverne. Codici fiscali e IBAN scritti per errore, anche con un errore di battitura, vengono tolti automaticamente all'arrivo.</li>
+<li><strong>Indirizzo IP</strong>: non lo salviamo con il racconto, e il servizio che lo riceve è impostato per non conservarlo nei suoi registri. Per limitare gli invii ripetuti teniamo un codice pseudonimo ricavato dall'indirizzo, valido un'ora e cancellato entro un giorno.</li>
 <li><strong>Email</strong>: la chiediamo solo se spunti la casella per essere ricontattato. È conservata separata dal racconto e cancellata dopo 12 mesi.</li>
 <li><strong>Dove</strong>: su Google Firebase, in un database nell'Unione europea (Milano), accessibile solo a chi cura il progetto.</li>
-<li><strong>Per quanto</strong>: i racconti restano finché servono alle statistiche, che usano quelli degli ultimi 12 mesi. Puoi chiedere in ogni momento di vederli, correggerli o cancellarli.</li>
+<li><strong>Per quanto</strong>: ogni racconto viene cancellato automaticamente quando esce dalle statistiche, che usano quelli degli ultimi 12 mesi: 12 mesi dopo il mese della pratica che racconta. Per questo il modulo accetta solo pratiche degli ultimi 12 mesi.</li>
+<li><strong>I tuoi diritti</strong>: dopo l'invio ricevi un codice del racconto. Con quel codice, o con l'email se l'hai lasciata, puoi chiederci in ogni momento di vederlo, correggerlo o cancellarlo.</li>
 <li><strong>Base giuridica</strong>: il tuo consenso, che dai inviando il modulo (e spuntando la casella, per l'email). Puoi revocarlo quando vuoi.</li>
 </ul>
 <h2>Contatti</h2>
@@ -1022,7 +1024,17 @@ function renderThanks(site: Site): string {
     },
     `<h1>Grazie!</h1>
 <p>Il tuo racconto è arrivato. Lo leggiamo prima di usarlo, e quando con altri racconti dice qualcosa di nuovo aggiorniamo la pagina della pratica.</p>
-<p><a href="../">Torna a tutte le pratiche</a></p>`,
+<p id="codice" hidden>Il codice del tuo racconto è <strong></strong>: conservalo se vorrai chiederci di vederlo o cancellarlo (<a href="../privacy/">privacy</a>).</p>
+<p><a href="../">Torna a tutte le pratiche</a></p>
+<script>
+// The backend puts the report's code in the address's fragment, which no server sees.
+const id = location.hash.slice(1);
+if (/^[A-Za-z0-9]{20}$/.test(id)) {
+  const p = document.getElementById("codice");
+  p.querySelector("strong").textContent = id;
+  p.hidden = false;
+}
+</script>`,
     site,
   );
 }
@@ -1046,9 +1058,6 @@ const nReports = (n: number) => (n === 1 ? "1 racconto" : `${n} racconti`);
 // "in giornata", "circa 1 giorno", "circa 23 giorni"; "nessuna attesa" for 0 minutes.
 const days = (n: number) => (n === 0 ? "in giornata" : `circa ${n} ${n === 1 ? "giorno" : "giorni"}`);
 const minutes = (n: number) => (n === 0 ? "nessuna attesa" : `circa ${n} ${n === 1 ? "minuto" : "minuti"}`);
-// ", tra 9 e 41 giorni" when the answers differ.
-const range = (s: Stat, show: (v: number) => string, unit = "") =>
-  s.min === s.max ? "" : `, tra ${show(s.min)} e ${show(s.max)}${unit && ` ${unit}`}`;
 
 // "circa 23 giorni via PEC (7 racconti)", per channel with enough answers.
 function answerTimes(r?: Reported): string | undefined {
@@ -1066,15 +1075,15 @@ function experiences(r: Reported, p: Procedure): string {
     ...(r.channels ?? []).flatMap((c) =>
       c.days_to_answer
         ? [
-            `<strong>Risposta via ${esc(CHANNELS[c.type] ?? c.type)}</strong>: ${days(c.days_to_answer.median)}${range(c.days_to_answer, String, "giorni")} (${nReports(c.days_to_answer.n)}).`,
+            `<strong>Risposta via ${esc(CHANNELS[c.type] ?? c.type)}</strong>: ${days(c.days_to_answer.median)} (${nReports(c.days_to_answer.n)}).`,
           ]
         : [],
     ),
     r.desk_wait_minutes
-      ? `<strong>Attesa allo sportello</strong>: ${minutes(r.desk_wait_minutes.median)}${range(r.desk_wait_minutes, String, "minuti")} (${nReports(r.desk_wait_minutes.n)}).`
+      ? `<strong>Attesa allo sportello</strong>: ${minutes(r.desk_wait_minutes.median)} (${nReports(r.desk_wait_minutes.n)}).`
       : "",
     r.paid_eur
-      ? `<strong>Pagato in tutto</strong>: circa ${euro(r.paid_eur.median)}${range(r.paid_eur, euro)} (${nReports(r.paid_eur.n)}).`
+      ? `<strong>Pagato in tutto</strong>: circa ${euro(r.paid_eur.median)} (${nReports(r.paid_eur.n)}).`
       : "",
     r.documents?.length
       ? `<strong>Documenti chiesti</strong>: ${r.documents.map((d) => `${esc(d.name)}, a ${d.asked} su ${d.of}`).join("; ")}.`
