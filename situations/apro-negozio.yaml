@@ -13,7 +13,7 @@ steps:
   - procedure: italia/inps/iscrizione-gestione-artigiani-commercianti
     when: L'iscrizione all'INPS come commerciante e i contributi
   - procedure: italia/inail/autoliquidazione
-    when: Se hai dipendenti, l'assicurazione INAIL e il premio di ogni anno
+    when: L'assicurazione INAIL e il premio di ogni anno, per chi deve averla
   - procedure: napoli/camera-di-commercio/pec-domicilio-digitale-impresa
     when: La PEC dell'impresa
   - procedure: napoli/comune/scia-esercizio-vicinato

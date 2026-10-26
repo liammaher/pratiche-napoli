@@ -114,10 +114,10 @@ deadline:
       interessi (art. 38); prima dell'accertamento è possibile il ravvedimento operoso
       (art. 28). Per le violazioni dal 1° settembre 2024, però, l'art. 13 del D.Lgs. 471/1997,
       a cui la legge rinvia per l'omesso versamento della TARI, prevede il 25%, ridotto alla metà
-      fino a 90 giorni di ritardo e a un quindicesimo per giorno fino a 15 giorni. Non calcolare
-      da sé gli importi: chiederli all'ufficio TARI.
+      fino a 90 giorni di ritardo, e per ritardi fino a 15 giorni a un quindicesimo di quella metà
+      per ogni giorno. Non calcolare da sé gli importi: chiederli all'ufficio TARI.
     status: disputed
-    source: dlgs-471-art13
+    source: regolamento-2023
 duration:
   text: >-
     Né il Mod. 7 né il regolamento dicono in quanto tempo l'ufficio risponde, e intanto il
