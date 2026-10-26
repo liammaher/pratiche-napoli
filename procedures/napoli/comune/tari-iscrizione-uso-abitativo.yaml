@@ -173,6 +173,17 @@ after:
   - >-
     Controllare che superficie tassata e numero di componenti dell'avviso corrispondano alla
     superficie calpestabile e al nucleo familiare dichiarati.
+records:
+  - field: tari.codice_contribuente
+    from: Risposta del Comune o avviso di pagamento (Cod.Contr.)
+  - field: tari.data_dichiarazione
+    from: Ricevuta della PEC o dell'email inviata, o timbro dello sportello
+  - field: tari.protocollo
+    from: Risposta del Comune, se indica il protocollo della dichiarazione
+  - field: tari.superficie_tassata_mq
+    from: Avviso di pagamento
+  - field: tari.componenti_tassati
+    from: Avviso di pagamento
 pitfalls:
   - text: >-
       La riduzione del 40% per "uso stagionale" vale solo per un'abitazione tenuta a disposizione

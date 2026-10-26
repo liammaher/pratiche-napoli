@@ -12,6 +12,9 @@
 5. **Never estimate penalties or interest.** Point to the official calculator or the desk.
 6. **Steps that only a person can do** (sign, pay, send, swear, be present) get
    `human_only: true`.
-7. Set `verification` to the level you actually reached, and add a `run_log` line when a real
+7. **Data the procedure produces** (a codice contribuente, a REA number) goes in `records`:
+   one registry field each, and `from`, the document or message it is read from. List only
+   fields the registry has; propose the others.
+8. Set `verification` to the level you actually reached, and add a `run_log` line when a real
    case used the procedure (what happened, no personal values).
-8. Run `npm run validate` and `npm test` before opening a pull request.
+9. Run `npm run validate` and `npm test` before opening a pull request.
