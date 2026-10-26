@@ -14,7 +14,8 @@ maintainer are ever published, never a report as written.
   published figures' `basis`, so the id, which is the sender's receipt, can't find it
   there; a report stored without one gets it when accepted) and `pii_redacted` (true when personal data was replaced
   with `[rimosso]`, including codes with the usual slips: lower case, 0 for O,
-  other groupings, a character missing or extra). Deleted once its month leaves the
+  other groupings, a character missing or extra, or written up against other text when its check
+  digits hold). Deleted once its month leaves the
   12-month window the figures use, whatever its status (`expires_at`, Firestore TTL);
   a month already outside the window is refused.
 - `contacts/{id}`: `contact_email`, only when the person ticked `consent_contact`,

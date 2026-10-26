@@ -154,6 +154,31 @@ test("a figure holds in each group of reports the versions tell apart, not just 
   assert.equal(d2.documents, undefined);
 });
 
+test("what a group leaves over holds beside every outcome any version showed for it, not just this one's", () => {
+  // Found in review: alpha alone shows completata and chiesto_altro (its
+  // respinta held back by the tie). With phi it would show completata and
+  // respinta; once alpha leaves, phi alone shows them too. Then alpha's
+  // respinta is V2 − V3, and its rinunciato what is left: 1.
+  const alpha = [
+    ...Array.from({ length: 3 }, () => r({ outcome: "completata" })),
+    ...Array.from({ length: 3 }, () => r({ outcome: "chiesto_altro" })),
+    ...Array.from({ length: 3 }, () => r({ outcome: "respinta" })),
+    r({ outcome: "rinunciato" }),
+  ];
+  const phi = [
+    ...Array.from({ length: 3 }, () => r({ outcome: "completata" })),
+    r({ outcome: "chiesto_altro" }),
+    ...Array.from({ length: 3 }, () => r({ outcome: "respinta" })),
+    r({ outcome: "rinunciato" }),
+    r({ outcome: "rinunciato" }),
+  ];
+  const v0 = aggregate(alpha, DOCS, TODAY)!;
+  assert.deepEqual(v0.outcomes, { completata: 3, chiesto_altro: 3 });
+  // completata, chiesto_altro and respinta together would leave alpha's 1.
+  const v2 = nextReported([v0], [...alpha, ...phi], DOCS, TODAY).block!;
+  assert.deepEqual(v2.outcomes, { completata: 6 });
+});
+
 test("reports published together leave together, however many versions are combined", () => {
   // 6 reports from November, then one (x) from December: 7. Six more: 13.
   // November leaves the window: if x stayed, the first version plus the last
