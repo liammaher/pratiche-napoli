@@ -19,7 +19,9 @@
    the other categories about a person and `ruolo.*` are the dichiarante's, in the forms and in
    `records`, while `business.*` and `locale.*` stay the business's. In a personal vault that is the owner; in a business vault,
    the person with that ruolo. Someone who is only the other side of one deal (the cedente, the
-   subentrante) stays an `ask`.
+   subentrante) stays an `ask`. `procura.*` is a procura a person gave the business, so `party`
+   and `repeat: { ruolo }` read it only from ruolo `cliente`: a procuratore holds the business's
+   procura, not one they gave it. (`repeat: famiglia` may read it: a family member's delega.)
 3. **Official sources first.** Cite the ente's own page, regulation, decision or form. Third-
    party guides are only for finding official pages.
 4. **Mark every claim honestly.** `verified` needs a `source`. If you believe something but

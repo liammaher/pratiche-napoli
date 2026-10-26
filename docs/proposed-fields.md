@@ -23,7 +23,8 @@ registry too; no form box needs them yet. The phone of the premises ("Telefono (
 
 Vault schema 12 added `procura.ente`, `oggetto`, `data_conferimento` and `data_scadenza`: a
 procura or delega a person gave the vault's principal, so a procedure can read it only from that
-person (`party`, or `*:` in a `repeat` row), never as the owner's or the dichiarante's. No
+person (`party`, or `*:` in a `repeat` row), never as the owner's or the dichiarante's; in a
+business vault, only from a `cliente`, which the validator enforces. No
 procedure uses it yet, because every procura here goes the other way: the titolare gives one to
 the procuratore or the tecnico (the SCIA and CILA quadri, the ComUnica procura), and the
 deleghe on the Agenzia delle Entrate, ADER and VVF forms are given by the dichiarante on the form
