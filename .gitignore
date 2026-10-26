@@ -4,3 +4,5 @@ dist/
 .DS_Store
 # iCloud Desktop sync makes conflict copies named "file 2.ext"; never commit them
 * [0-9].*
+# accepted reports exported by npm run reports -- export; private, never commit
+reports-cache.json

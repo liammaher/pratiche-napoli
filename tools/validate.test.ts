@@ -343,6 +343,33 @@ test("several deadline rules need a summary for In breve", () => {
   assert.deepEqual(validateProcedure(doc, PATH, ctx), []);
 });
 
+test("the reported block is checked against the schema and the procedure", () => {
+  const doc = minimal();
+  doc.documents = [{ name: "Modulo", required: true }];
+  doc.reported = {
+    generated: "2026-10-25",
+    period: { from: "2026-01", to: "2026-09" },
+    count: 3,
+    channels: [{ type: "pec", count: 3, days_to_answer: { median: 20, min: 9, max: 41, n: 3 } }],
+    documents: [{ name: "Modulo", asked: 2, of: 3 }],
+  };
+  assert.deepEqual(validateProcedure(doc, PATH, ctx), []);
+
+  doc.reported.channels[0].days_to_answer.n = 2;
+  assert.match(errorsFor(doc), /schema: \/reported\/channels\/0\/days_to_answer\/n must be >= 3/);
+  doc.reported.channels[0].days_to_answer.n = 3;
+
+  doc.reported.documents = [{ name: "Altro", asked: 4, of: 3 }];
+  doc.reported.period = { from: "2026-10", to: "2026-09" };
+  doc.reported.generated = "2026-10-26";
+  const errors = errorsFor(doc);
+  assert.match(errors, /reported document "Altro" is not in documents/);
+  assert.match(errors, /reported document "Altro" was asked more often than reported/);
+  assert.match(errors, /reported period starts after it ends/);
+  assert.match(errors, /reported was generated in the future/);
+  assert.match(errors, /updated 2026-10-25 is older than reported \(2026-10-26\)/);
+});
+
 test("payment codes have a status like any claim", () => {
   const doc = minimal();
   doc.payment = { method: "f24", codice_ente: "F839", status: "verified" };
