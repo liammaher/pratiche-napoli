@@ -175,6 +175,11 @@ test("a run where most sites gave no answer at all is inconclusive and reports n
     inconclusive([at("a.it", "unreachable", "ECONNREFUSED"), at("b.it", "unreachable", "ENOTFOUND"), at("c.it", "uncheckable", "UNABLE_TO_VERIFY_LEAF_SIGNATURE"), at("d.it", "ok")]),
     "3 siti su 4 senza risposta",
   );
+  // A redirect home or an error page is an answer too.
+  assert.equal(
+    inconclusive([at("a.it", "unreachable", "rimanda alla home: https://a.it/"), at("b.it", "unreachable", "pagina d'errore: \"404\""), at("c.it", "ok")]),
+    undefined,
+  );
   // One big site refusing (HTTP answers, or blocked) doesn't silence the rest,
   // however many of the night's addresses it has.
   const comune = Array.from({ length: 60 }, (_, i) => at(`www.comune.napoli.it/${i}`, i % 2 ? "blocked" : "unreachable", "HTTP 404"));
@@ -320,10 +325,16 @@ test("the saved state carries results across nights; old and uncited ones drop o
   assert.deepEqual(next[b.url], { status: "ok", checkedOn: "2026-10-26", validators: { etag: '"1"' } });
   // An archive answer keeps the date it was asked, however often it's reused.
   const asked = merge({}, [{ target: a, status: "unreachable", wayback: "nessuna copia nell'archivio" }], "2026-10-20", [a]);
-  const reused = merge(asked, [{ target: a, status: "unreachable", wayback: "nessuna copia nell'archivio" }], "2026-10-26", [a]);
+  const reused = merge(asked, [{ target: a, status: "unreachable", wayback: "nessuna copia nell'archivio", waybackOn: "2026-10-20" }], "2026-10-26", [a]);
   assert.equal(reused[a.url].waybackOn, "2026-10-20");
-  const fresh = merge(reused, [{ target: a, status: "unreachable", wayback: "copia del 2026-10-27 (HTTP 200): …" }], "2026-10-28", [a]);
-  assert.equal(fresh[a.url].waybackOn, "2026-10-28");
+  // Asked again a week on, with the same answer: dated then, so it's reused for another week.
+  const again = merge(reused, [{ target: a, status: "unreachable", wayback: "nessuna copia nell'archivio" }], "2026-10-28", [a]);
+  assert.equal(again[a.url].waybackOn, "2026-10-28");
+  // Still failing but not looked up tonight (the night's limit): the old answer stays.
+  const kept = merge(again, [{ target: a, status: "unreachable", detail: "HTTP 404" }], "2026-10-29", [a]);
+  assert.deepEqual([kept[a.url].wayback, kept[a.url].waybackOn], ["nessuna copia nell'archivio", "2026-10-28"]);
+  // Back up: no second opinion needed.
+  assert.equal(merge(kept, [{ target: a, status: "ok" }], "2026-10-30", [a])[a.url].wayback, undefined);
   const latest = known(next, [a, b], "2026-10-26");
   assert.deepEqual(latest.map((r) => [r.target.url, r.status, r.checkedOn]), [
     [a.url, "unreachable", "2026-10-22"],
@@ -367,7 +378,7 @@ test("the Wayback Machine gives a second opinion on pages that failed, one looku
   ];
   const pauses: number[] = [];
   const out = await secondOpinion(results, fetchFn, {
-    saved: new Map([["https://x.it/known", "copia del 2026-10-01 (HTTP 200): https://web.archive.org/web/1/https://x.it/known"]]),
+    saved: new Map([["https://x.it/known", { wayback: "copia del 2026-10-01 (HTTP 200): https://web.archive.org/web/1/https://x.it/known", on: "2026-10-22" }]]),
     sleep: async (ms) => void pauses.push(ms),
   });
   assert.ok(asked.every((u) => u.startsWith("https://web.archive.org/cdx/search/cdx?url=")));
@@ -382,7 +393,15 @@ test("the Wayback Machine gives a second opinion on pages that failed, one looku
     "copia del 2026-10-01 (HTTP 200): https://web.archive.org/web/1/https://x.it/known",
     undefined,
   ]);
+  // A reused answer keeps the date it was given; new ones have none, so they get tonight's.
+  assert.deepEqual(out.map((r) => r.waybackOn).filter(Boolean), ["2026-10-22"]);
   assert.equal((await secondOpinion(results, fetchFn, { sleep: async () => {}, limit: 1 })).filter((r) => r.wayback).length, 1);
+});
+
+test("a page blocked with its home, which the archive also saw gone, is gone", async () => {
+  const fetchFn = (async () => new Response(JSON.stringify([["timestamp", "statuscode", "original"], ["20260901000000", "404", "https://x.it/f.pdf"]]))) as unknown as typeof fetch;
+  const [r] = await secondOpinion([{ target: { url: "https://x.it/f.pdf", refs: [] }, status: "blocked", detail: "HTTP 404, anche per la home del sito" }], fetchFn, { sleep: async () => {} });
+  assert.deepEqual([r.status, r.detail], ["unreachable", "HTTP 404, anche per la home del sito, e HTTP 404 nell'archivio"]);
 });
 
 test("pages without a recent saved result are checked tonight, whatever their day", () => {
@@ -467,6 +486,7 @@ const redirected = (body: string, url: string, type = "text/html; charset=utf-8"
 test("a page sent to the home page, or answering with an error page, is reported", async () => {
   const fetchFn = (async (url: string) => {
     if (url.endsWith("/tolta")) return redirected("<title>Comune</title>", "https://x.it/");
+    if (url.endsWith("/spostata")) return redirected("<title>Servizio anagrafe</title>", "https://x.it/index.php?id=5");
     if (url.endsWith("/errore")) return new Response("<html><title> Pagina non\n trovata </title>", { headers: { "content-type": "text/html" } });
     if (url.endsWith("/m.pdf")) return redirected("<title>Accedi</title>", "https://x.it/login");
     if (url.endsWith("/n.pdf")) return new Response("<title>Accedi</title>", { headers: { "content-type": "text/html" } });
@@ -478,6 +498,7 @@ test("a page sent to the home page, or answering with an error page, is reported
     { url: "https://x.it/m.pdf", sha256: sha("v1"), refs: ["p: modulo"] },
     { url: "https://x.it/n.pdf", sha256: sha("v1"), refs: ["p: modulo"] },
     { url: "https://x.it/tari", refs: ["p: fonte"] },
+    { url: "https://x.it/spostata", refs: ["p: fonte"] },
   ];
   const results = await checkTargets(targets, fetchFn, { sleep: async () => {} });
   assert.deepEqual(
@@ -488,6 +509,7 @@ test("a page sent to the home page, or answering with an error page, is reported
       ["unreachable", "rimanda a una pagina web: https://x.it/login"],
       ["changed", "sha256 …; ora è una pagina web, forse d'errore"],
       ["ok", undefined],
+      ["ok", undefined], // /index.php?id=5 is a page, not the home
     ],
   );
 });

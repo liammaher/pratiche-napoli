@@ -39,7 +39,13 @@ const stateFile = path.resolve(values.state!);
 let state: State = {};
 try {
   const saved = JSON.parse(readFileSync(stateFile, "utf8"));
-  if (saved && typeof saved === "object" && !Array.isArray(saved)) state = saved;
+  // Entries without a status and a date would fall out of every night's
+  // share and still count as missing: they are dropped.
+  if (saved && typeof saved === "object" && !Array.isArray(saved)) {
+    state = Object.fromEntries(
+      Object.entries(saved as State).filter(([, seen]) => typeof seen?.status === "string" && /^\d{4}-\d{2}-\d{2}$/.test(String(seen.checkedOn))),
+    );
+  }
 } catch {
   // first run, or no saved state: everything is new
 }
@@ -71,7 +77,7 @@ const notModified = checked.filter((r) => r.status === "ok" && r.validators && r
 const annotated = await secondOpinion(checked, fetch, {
   saved: new Map(
     Object.entries(state).flatMap(([key, seen]) =>
-      seen.wayback && seen.waybackOn && dayNumber(today) - dayNumber(seen.waybackOn) < 7 ? [[key, seen.wayback]] : [],
+      seen.wayback && seen.waybackOn && dayNumber(today) - dayNumber(seen.waybackOn) < 7 ? [[key, { wayback: seen.wayback, on: seen.waybackOn }]] : [],
     ),
   ),
 });

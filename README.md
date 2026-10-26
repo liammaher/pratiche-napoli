@@ -108,7 +108,8 @@ offices' servers as little as possible, since some block an address that asks to
   on whether a page is gone.
 - **Listed but not reported on their own:** addresses whose certificate can't be verified (servers
   that don't send their full chain), and 404s from a site whose home page is also 404, which means
-  the site is refusing the checker rather than that the page is gone.
+  the site is refusing the checker rather than that the page is gone (unless the Wayback Machine
+  also last saw the page as 404: then it is reported as gone).
 
 The latest result per address is saved (`--state`, by default `.cache/sources-state.json`), so
 each night's report covers the whole week. A run in which most sites gave no answer at all says
