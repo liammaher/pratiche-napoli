@@ -303,6 +303,14 @@ test("with a dichiarante, a person's own data is theirs and the rest stays the v
     d.dichiarante = dichiarante;
     assert.match(errorsFor(d), /schema: \/dichiarante/, JSON.stringify(dichiarante));
   }
+  // Only someone who signs for the business: never a client's, a supplier's
+  // or an employee's identity on the business's declarations.
+  for (const ruolo of ["cliente", ["fornitore", "dipendente"], ["titolare", "procuratore"]]) {
+    const d = minimal();
+    d.applies_to.audience = ["business"];
+    d.dichiarante = { ruolo };
+    assert.match(errorsFor(d), /schema: \/dichiarante\/ruolo/, JSON.stringify(ruolo));
+  }
 });
 
 test("the schema's ruolo list is the vault's ruolo.tipo list", () => {
@@ -311,6 +319,8 @@ test("the schema's ruolo list is the vault's ruolo.tipo list", () => {
   const listed = tipo.description.match(/one or more of: ([a-z_, ]+?) \(/)?.[1].split(", ");
   const schema = JSON.parse(readFileSync(path.join(ROOT, "contract", "procedure.schema.json"), "utf8"));
   assert.deepEqual(schema.$defs.ruolo.enum, listed, "update $defs.ruolo in procedure.schema.json");
+  // Who may sign is a few of them.
+  for (const signer of schema.$defs.signer.enum) assert.ok(listed!.includes(signer), signer);
 });
 
 test("field refs: categories, wildcards and forbidden fields", () => {

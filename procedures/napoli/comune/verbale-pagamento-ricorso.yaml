@@ -361,13 +361,30 @@ forms:
       - label: in qualità di – Proprietario/a del veicolo/obbligato in solido (art. 196 CdS)
         map: { ask: "Il veicolo è intestato a lei come persona fisica (proprietario o obbligato in solido)?" }
       - label: in qualità di – Legale rappresentante/delegato della persona giuridica
-        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
-        notes: Barrare se il veicolo è intestato a una società o ditta; poi compilare i dati della persona giuridica.
-      - { label: (persona giuridica), map: { direct: business.denominazione } }
-      - { label: con sede in, map: { direct: business.sede_legale_comune } }
-      - { label: prov. (sede), map: { direct: business.sede_legale_provincia } }
-      - { label: via (sede), map: { direct: business.sede_legale_indirizzo } }
-      - { label: n (sede), map: { direct: business.sede_legale_civico } }
+        map:
+          ask: >-
+            Il veicolo è intestato a una società o a un ente che lei rappresenta? Se sì, barrare e
+            indicare se ne è il legale rappresentante o un delegato; se no, questa casella e i
+            dati della persona giuridica che seguono restano vuoti
+        notes: >-
+          Va chiesto anche quando l'archivio ha i dati di un'impresa: una multa sull'auto privata
+          di chi ha una ditta non è della ditta. Se sì, in un archivio d'impresa la qualità è
+          ruolo.tipo del firmatario.
+      - label: (persona giuridica)
+        map: { direct: business.denominazione }
+        notes: Solo se il veicolo è intestato alla società o all'ente (riga precedente); altrimenti vuoto.
+      - label: con sede in
+        map: { direct: business.sede_legale_comune }
+        notes: Solo se il veicolo è intestato alla società o all'ente; altrimenti vuoto.
+      - label: prov. (sede)
+        map: { direct: business.sede_legale_provincia }
+        notes: Solo se il veicolo è intestato alla società o all'ente; altrimenti vuoto.
+      - label: via (sede)
+        map: { direct: business.sede_legale_indirizzo }
+        notes: Solo se il veicolo è intestato alla società o all'ente; altrimenti vuoto.
+      - label: n (sede)
+        map: { direct: business.sede_legale_civico }
+        notes: Solo se il veicolo è intestato alla società o all'ente; altrimenti vuoto.
       - label: DICHIARA che era alla guida del veicolo (casella)
         map: { ask: "Era lei alla guida del veicolo al momento della violazione?" }
       - label: patente di guida/CQC n° (del dichiarante)
