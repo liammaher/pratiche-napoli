@@ -1,10 +1,22 @@
 # Proposed fields
 
 Form boxes currently mapped with `{ ask: ... }` because the field registry has nothing for
-them. Most-needed so far: the premises' phone (`locale.telefono`, 6 procedures), the country of
-residence or registered office (5), the previous holder or taker-over (4) and a second premises
-unit (3). When a field is needed by two or more procedures,
+them. Most-needed so far: the previous holder or taker-over (4 procedures, but see below: it
+stays an `ask`), then several needed by two. When a field is needed by two or more procedures,
 add it to `contract/extensions.json`, run `npm run gen:fields`, and switch those mappings from `ask` to the new field.
+
+Vault schema 13 added the fields below, and the procedures now use them:
+
+| Field | Used by |
+|---|---|
+| `locale.telefono` | `scia-esercizio-vicinato`, `scia-acconciatore-estetista`, `subingresso-attivita-commerciale`, `cessazione-attivita-commerciale`, `scia-prevenzione-incendi` (both forms), `registrazione-attivita-alimentare` |
+| `residenza.stato`, `business.sede_legale_stato` | the same first four, and `cila-lavori-edilizi` (residenza). Only for an address abroad: empty means Italia, and the rows' notes say to write it |
+| `business.tari_codice_contribuente`; `locale.tari_data_dichiarazione`, `tari_protocollo`, `tari_superficie_tassata_mq`, `tari_categoria` | the business's own TARI position (`tari.*` is the home's): `records` of `tari-iscrizione-non-domestica`, `tari-variazione-non-domestica` and `tari-autotutela-avviso-non-domestica`; the variazione's "superficie dichiarata in precedenza" |
+
+A second premises needed no new field: the vault keeps it as `locale2.*`, a numbered copy of
+`locale` with the same fields and rules, and procedures may now name numbered copies of any
+category the registry doesn't mark `one_only` (famiglia and ruolo are). The second unit's rows of
+the TARI Mod. 5, 6 and 8 read `locale2.*`.
 
 Vault schema 11 added the business fields below, and the procedures now use them:
 
@@ -19,8 +31,8 @@ Vault schema 11 added the business fields below, and the procedures now use them
 
 `business.data_inizio_attivita`, `data_costituzione`, `capitale_sociale`, `inps_matricola`, `ccnl`,
 `pec_data_scadenza`, `durc_data_scadenza`, `albo.*`, `cassa.*` and `firma_digitale.*` are in the
-registry too; no form box needs them yet. The phone of the premises ("Telefono (attività)") is still
-`ask`: it is `locale.telefono` below, not the business's.
+registry too; no form box needs them yet. The phone of the premises ("Telefono (attività)") is
+not the business's: since schema 13 it is `locale.telefono`.
 
 Vault schema 12 added `procura.ente`, `oggetto`, `data_conferimento` and `data_scadenza`: a
 procura or delega a person gave the vault's principal, so a procedure can read it only from that
@@ -45,8 +57,6 @@ The acconciatore Allegato B and estetista Allegato C both list every responsabil
 
 | Proposed field | Meaning | Needed by |
 |---|---|---|
-| `business.sede_legale_stato`, `residenza.stato` | Country of registered office / residence | `scia-esercizio-vicinato`, `scia-acconciatore-estetista`, `subingresso-attivita-commerciale`, `cessazione-attivita-commerciale`, `cila-lavori-edilizi` |
-| `locale.telefono` | Phone of the premises ("Telefono (attività)"), not the business's | `scia-esercizio-vicinato`, `scia-acconciatore-estetista`, `subingresso-attivita-commerciale`, `cessazione-attivita-commerciale`, `scia-prevenzione-incendi`, `registrazione-attivita-alimentare` |
 | `business.requisito_professionale_*` | Food professional requirement (type, details, date) | `scia-esercizio-vicinato`, `subingresso-attivita-commerciale` |
 | `locale.data_fine` | Date occupation of the premises ended | `tari-cessazione-non-domestica` |
 | `locale.motivo_cessazione` | Why the premises were left | `tari-cessazione-non-domestica` |
@@ -54,9 +64,7 @@ The acconciatore Allegato B and estetista Allegato C both list every responsabil
 | `locale.posti_a_sedere_totali`, `locale.servizi_igienici` | Seats and toilets | `concessione-suolo-pubblico-dehors` |
 | `locale.data_avvio_attivita` | Start of the activity (not of occupation) | `registrazione-attivita-alimentare` |
 | `locale.numero_registrazione_asl`, `locale.linee_attivita_osa` | ASL registration number and activity lines | `registrazione-attivita-alimentare` |
-| A second premises unit (`locale2.*` or `locale.immobile<N>_*`) | Businesses using more than one unit | `tari-*-non-domestica` |
-| Previous holder / taker-over (`subentrante.*`, `precedente_*`) | Voltura and cessione d'azienda: the other side of one deal, not a person the business keeps, so not a `ruolo` | `tari-variazione-non-domestica`, `tari-cessazione-non-domestica`, `subingresso-attivita-commerciale`, `registrazione-attivita-alimentare` |
-| `tari_ditta.codice_contribuente`, `tari_ditta.superficie_dichiarata_mq` | The business's own TARI position (`tari.*` is the home's) | `tari-*-non-domestica` |
+| Previous holder / taker-over (`subentrante.*`, `precedente_*`) | Voltura and cessione d'azienda: the other side of one deal, not a person the business keeps, so not a `ruolo`; it stays an `ask` (CONTRIBUTING), since a vault field would keep a third party's data with no ruolo or retention period | `tari-variazione-non-domestica`, `tari-cessazione-non-domestica`, `subingresso-attivita-commerciale`, `registrazione-attivita-alimentare` |
 | `suap.id_pratica` | Practice code assigned by impresainungiorno | `scia-somministrazione-alimenti-bevande` |
 | `tecnico.*` | Qualified technician: name, CF, ordine/collegio, number, PEC. The vault has `albo.*` for a person; the CILA leaves these boxes to the tecnico, so no mapping yet | `cila-lavori-edilizi` |
 | `locale.scala`, `locale.piano`, `locale.superficie_totale_mq` | More premises details | `cila-lavori-edilizi`, `scia-acconciatore-estetista` |
