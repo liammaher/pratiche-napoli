@@ -29,6 +29,7 @@ export interface Result {
   checkedOn?: string; // YYYY-MM-DD, when it isn't tonight's check
   validators?: Validators; // from an "ok" answer
   wayback?: string; // the Internet Archive's latest copy, for a page that failed
+  waybackOn?: string; // when the archive gave that answer, when it was reused from an earlier night
   // uncheckable: the server's certificate can't be verified (usually a chain
   // it doesn't send in full, which browsers fill in), so nothing is known.
   // blocked: a 404 from a site that also answers 404 for its home page, which
@@ -287,11 +288,12 @@ async function checkOne(
   };
 }
 
-// Redirected to the site's home from a page that isn't it.
+// Redirected to the site's home from a page that isn't it. "/index.php?id=5"
+// or "/?p=12" is a page, not the home.
 function sentHome(url: string, res: Response): boolean {
   if (!res.redirected || !res.url) return false;
   try {
-    const home = (u: URL) => u.pathname.replace(/\/(index\.\w+)?$/, "") === "";
+    const home = (u: URL) => u.pathname.replace(/\/(index\.\w+)?$/, "") === "" && !u.search;
     return home(new URL(res.url)) && !home(new URL(url));
   } catch {
     return false;
@@ -347,14 +349,17 @@ export function merge(state: State, results: Result[], checkedOn: string, target
       checkedOn,
       ...(r.detail && { detail: r.detail }),
       ...(r.validators && { validators: r.validators }),
-      ...(r.wayback && {
-        wayback: r.wayback,
-        waybackOn: before?.wayback === r.wayback && before.waybackOn ? before.waybackOn : checkedOn,
-      }),
+      // A new answer is dated tonight, a reused one keeps its date; a page
+      // still failing that wasn't looked up tonight keeps the one it had.
+      ...(r.wayback
+        ? { wayback: r.wayback, waybackOn: r.waybackOn ?? checkedOn }
+        : failing(r.status) && before?.wayback && { wayback: before.wayback, waybackOn: before.waybackOn ?? before.checkedOn }),
     };
   }
   return out;
 }
+
+const failing = (status: Result["status"]) => status === "unreachable" || status === "blocked";
 
 // The latest known result for every cited address checked within maxAgeDays
 // (a little over the rotation, so a missed night doesn't drop a problem).
@@ -384,7 +389,7 @@ export async function secondOpinion(
   results: Result[],
   fetchFn: typeof fetch,
   opts: {
-    saved?: Map<string, string>;
+    saved?: Map<string, { wayback: string; on: string }>;
     sleep?: (ms: number) => Promise<void>;
     pauseMs?: number;
     timeoutMs?: number;
@@ -404,7 +409,7 @@ export async function secondOpinion(
     if (r.status !== "unreachable" && r.status !== "blocked") continue;
     const before = saved?.get(targetKey(r.target));
     if (before) {
-      out[i] = { ...r, wayback: before };
+      out[i] = { ...r, wayback: before.wayback, waybackOn: before.on };
       continue;
     }
     if (asked >= limit) continue;
@@ -420,8 +425,12 @@ export async function secondOpinion(
     if (!rows) continue;
     // A header row, then the latest capture, if there is one.
     const [timestamp, status, original] = rows[1] ?? [];
+    // A site whose home is 404 too looked blocked; if the archive also last
+    // saw the page as gone, it is gone (a file host with no home page).
+    const gone = r.status === "blocked" && /^(404|410)$/.test(status ?? "");
     out[i] = {
       ...r,
+      ...(gone && { status: "unreachable", detail: `HTTP 404, anche per la home del sito, e HTTP ${status} nell'archivio` }),
       wayback: timestamp
         ? `copia del ${timestamp.slice(0, 4)}-${timestamp.slice(4, 6)}-${timestamp.slice(6, 8)} (${/^\d{3}$/.test(status) ? `HTTP ${status}` : "stato non registrato"}): https://web.archive.org/web/${timestamp}/${original}`
         : "nessuna copia nell'archivio",
@@ -439,7 +448,9 @@ export async function secondOpinion(
 // when the run can be trusted.
 export function inconclusive(results: Result[]): string | undefined {
   if (!results.length) return "nessun indirizzo da controllare";
-  const silent = (r: Result) => r.status === "uncheckable" || (r.status === "unreachable" && !/^HTTP /.test(r.detail ?? ""));
+  // An HTTP status, a redirect or an error page is still an answer.
+  const answered = (r: Result) => /^(HTTP |rimanda |pagina d'errore)/.test(r.detail ?? "");
+  const silent = (r: Result) => r.status === "uncheckable" || (r.status === "unreachable" && !answered(r));
   const bySite = new Map<string, Result[]>();
   for (const r of results) bySite.set(siteOf(r.target.url), [...(bySite.get(siteOf(r.target.url)) ?? []), r]);
   const failed = [...bySite.values()].filter((rs) => rs.every(silent)).length;

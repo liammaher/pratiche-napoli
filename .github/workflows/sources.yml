@@ -28,6 +28,9 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-latest
+    # A site that accepts connections and then stalls could otherwise hold the
+    # job for hours; cut short, it saves nothing and the next night retries.
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v5
 
@@ -63,11 +66,17 @@ jobs:
         run: |
           number=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number,title \
             --jq "map(select(.title == env.TITLE))[0].number // empty")
-          urls() { grep -o '^- https\?://[^ ]*' | sort -u; }
+          # The addresses that changed or stopped answering (not those only
+          # listed as uncheckable or blocked).
+          urls() { awk '/^## /{keep = /^## (Moduli|Non raggiungibili)/} keep && /^- https?:\/\//{print $2}' | sort -u; }
           if [ -s report.md ]; then
             if [ -n "$number" ]; then
-              # Editing the body notifies nobody, so new addresses get a comment.
-              added=$(comm -13 <(gh issue view "$number" --json body --jq .body | urls) <(urls < report.md))
+              # Editing the body notifies nobody, so new addresses get a comment
+              # (none if the old body can't be read).
+              added=""
+              if old=$(gh issue view "$number" --json body --jq .body); then
+                added=$(comm -13 <(printf '%s\n' "$old" | urls) <(urls < report.md))
+              fi
               gh issue edit "$number" --body-file report.md
               if [ -n "$added" ]; then
                 printf 'Nuovi indirizzi nel controllo di oggi:\n\n%s\n' "$added" | gh issue comment "$number" --body-file -
