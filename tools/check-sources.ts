@@ -1,11 +1,12 @@
 // Checks the official pages and forms the procedures cite (see lib/sources.ts)
 // and prints what to re-verify: every document with a sha256, and tonight's
-// seventh of the other pages (all of them with --all). The latest result for
+// seventh of the other pages (all of them with --all), but only one address
+// of a site that refused the checker last. The latest result for
 // each address, with its ETag and Last-Modified, is kept in --state between
 // runs, so the report covers the whole week. With --out, also writes the
 // report there, an empty file when everything answers as recorded: the
 // nightly workflow turns it into a GitHub issue. Exits 0 when the check ran,
-// problems or not, and 1 when it says nothing (most addresses unreached),
+// problems or not, and 1 when it says nothing (most sites gave no answer),
 // writing no report and keeping the state as it was.
 // Usage: npm run check:sources [-- --all] [--state file] [--out report.md]
 
@@ -16,6 +17,7 @@ import {
   checkTargets,
   collectTargets,
   dayNumber,
+  heldBack,
   inconclusive,
   known,
   merge,
@@ -84,7 +86,8 @@ const annotated = await secondOpinion(checked, fetch, {
   today,
 });
 
-const next = merge(state, annotated, today, targets);
+// A site that refused its probe again: the addresses it wasn't asked are refused with it.
+const next = merge(state, [...annotated, ...heldBack(targets, annotated, state)], today, targets);
 mkdirSync(path.dirname(stateFile), { recursive: true });
 writeFileSync(stateFile, JSON.stringify(next, null, 2) + "\n");
 
