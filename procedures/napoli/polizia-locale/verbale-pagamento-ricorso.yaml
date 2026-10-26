@@ -334,6 +334,8 @@ documents:
     required: false
   - name: Mandato all'avvocato, se il ricorso lo presenta un legale
     required: false
+dichiarante:
+  ruolo: [titolare, legale_rappresentante]
 forms:
   - id: comunicazione-dati-conducente
     name: Comunicazione dei dati del conducente e della patente di guida (Servizio Sanzioni Amministrative)
@@ -359,7 +361,7 @@ forms:
       - label: in qualità di – Proprietario/a del veicolo/obbligato in solido (art. 196 CdS)
         map: { ask: "Il veicolo è intestato a lei come persona fisica (proprietario o obbligato in solido)?" }
       - label: in qualità di – Legale rappresentante/delegato della persona giuridica
-        map: { direct: business.qualita_dichiarante }
+        map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
         notes: Barrare se il veicolo è intestato a una società o ditta; poi compilare i dati della persona giuridica.
       - { label: (persona giuridica), map: { direct: business.denominazione } }
       - { label: con sede in, map: { direct: business.sede_legale_comune } }

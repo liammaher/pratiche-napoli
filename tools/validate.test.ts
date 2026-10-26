@@ -241,7 +241,7 @@ test("repeat by ruolo fills one row per person with it, from what a business vau
   assert.match(row("famiglia", ["*:business.qualita_dichiarante"]), /^$/); // a member's own business, in a personal vault
 });
 
-test("with a dichiarante, a person's own data is theirs and the business's stays the vault's", () => {
+test("with a dichiarante, a person's own data is theirs and the rest stays the vault owner's", () => {
   const fields = [
     { label: "Cognome", map: { direct: "identity.last_name" } },
     { label: "Residenza", map: { concat: ["residenza.indirizzo", "residenza.civico"] } },
@@ -249,7 +249,7 @@ test("with a dichiarante, a person's own data is theirs and the business's stays
     { label: "In qualità di", map: { fallback: ["business.qualita_dichiarante", "ruolo.tipo"] } },
     { label: "Ditta", map: { direct: "business.denominazione" } },
     { label: "Locale", map: { direct: "locale.indirizzo" } },
-    { label: "TARI", map: { direct: "tari.codice_contribuente" } },
+    { label: "TARI", map: { direct: "tari.codice_contribuente" } }, // the owner's household, never rebound
   ];
   const doc = withForm(...fields);
   doc.dichiarante = { ruolo: ["titolare", "legale_rappresentante"] };
@@ -258,10 +258,29 @@ test("with a dichiarante, a person's own data is theirs and the business's stays
   delete doc.dichiarante;
   assert.match(errorsFor(doc), /ruolo.tipo is another person's field, never the vault owner's/);
 
-  const owner = withForm({ label: "Intestatario", map: { direct: "famiglia.intestatario_scheda" } });
-  assert.equal(errorsFor(owner), "");
-  owner.dichiarante = { ruolo: "titolare" };
-  assert.match(errorsFor(owner), /famiglia.intestatario_scheda is the vault owner's field only; the dichiarante can't have it/);
+  // The dichiarante is a personal vault's owner or a person with a ruolo, so
+  // a field either of them has is fine, one neither has is not.
+  const signed = (map: Record<string, unknown>) => {
+    const d = withForm({ label: "X", map });
+    d.dichiarante = { ruolo: "titolare" };
+    return errorsFor(d);
+  };
+  assert.equal(signed({ direct: "famiglia.intestatario_scheda" }), "");
+  assert.equal(signed({ direct: "ruolo.*" }), "");
+  for (const ref of ["famiglia.relazione", "famiglia.stato_famiglia"]) {
+    assert.match(signed({ direct: ref }), /no dichiarante can have it, neither the owner of a personal vault nor a person with a ruolo/, ref);
+  }
+  assert.match(signed({ direct: "identity.shoe_size" }), /unknown field "identity.shoe_size"/);
+  assert.match(signed({ direct: "cie.pin" }), /secret/);
+
+  // records are read the same way.
+  const rec = minimal();
+  rec.records = [{ field: "ruolo.data_inizio", from: "Atto di nomina" }];
+  assert.match(errorsFor(rec), /records: ruolo.data_inizio is another person's field/);
+  rec.dichiarante = { ruolo: "titolare" };
+  assert.equal(errorsFor(rec), "");
+  rec.records.push({ field: "famiglia.relazione", from: "Modulo" });
+  assert.match(errorsFor(rec), /records: famiglia.relazione: no dichiarante can have it/);
 
   for (const dichiarante of [{ ruolo: "boss" }, "titolare", { ruolo: [] }, {}]) {
     const d = minimal();
@@ -280,6 +299,10 @@ test("the schema's ruolo list is the vault's ruolo.tipo list", () => {
 
 test("field refs: categories, wildcards and forbidden fields", () => {
   const r = ctx.registry;
+  // A wildcard can't be only fields its holder never has.
+  assert.match(checkFieldRef("ruolo.*", r) ?? "", /every ruolo field is another person's, never the vault owner's/);
+  assert.equal(checkFieldRef("*:ruolo.*", r), null);
+  assert.equal(checkFieldRef("famiglia.*", r), null); // has the owner's intestatario_scheda
   assert.equal(checkFieldRef("business.partita_iva", r), null);
   assert.equal(checkFieldRef("residenza.*", r), null);
   assert.equal(checkFieldRef("documents.anything", r), null); // open category
@@ -288,7 +311,13 @@ test("field refs: categories, wildcards and forbidden fields", () => {
 });
 
 test("a malformed mapping gives one readable error", () => {
-  for (const map of [{ ask: "a", direct: "identity.email" }, { concat: ["Identity.Email"] }]) {
+  for (const map of [
+    { ask: "a", direct: "identity.email" },
+    { concat: ["Identity.Email"] },
+    { party: { ruolo: "cugino" }, direct: "identity.last_name" },
+    { party: { ruolo: ["socio", "cugino"] }, concat: ["identity.last_name", "identity.first_name"] },
+    { repeat: { ruolo: "socio", except: "titolare" }, fields: ["*:identity.last_name"] },
+  ]) {
     const errors = validateProcedure(withForm({ label: "X", map }), PATH, ctx);
     assert.equal(errors.length, 1, JSON.stringify(errors));
     assert.match(errors[0], /^schema: \/forms\/0\/fields\/0\/map must be exactly one of direct, concat/);
@@ -574,6 +603,15 @@ test("extensions add fields marked as not yet in the vault, and can't clash or r
   assert.throws(ext([{ name: "nuova", fields: [{ id: "nuova.x", description: "" }] }]), /needs a description/);
   assert.throws(ext([{ name: "nuova", description: "x", fields: [{ id: "nuova.x", description: "" }] }]), /needs a scope/);
   assert.throws(ext([{ name: "business", fields: [{ id: "locale.x", description: "" }] }]), /listed under category "business"/);
+
+  // A new category may say what it describes and where it exists; a vault one keeps the vault's.
+  const req = buildRegistry(schema, {
+    categories: [{ name: "requisito", description: "x", scope: "person", subject: "persona", kinds: ["impresa"], fields: [{ id: "requisito.tipo", description: "", kinds: ["impresa"] }] }],
+  }).categories.find((c) => c.name === "requisito")!;
+  assert.deepEqual([req.subject, req.kinds, req.fields[0].kinds], ["persona", ["impresa"], ["impresa"]]);
+  assert.throws(ext([{ name: "nuova", description: "x", scope: "person", subject: "azienda", fields: [] }]), /has subject "azienda"/);
+  assert.throws(ext([{ name: "nuova", description: "x", scope: "person", fields: [{ id: "nuova.x", description: "", kinds: ["x"] }] }]), /"nuova.x" has kinds/);
+  assert.throws(ext([{ name: "business", subject: "persona", fields: [] }]), /can't change the scope, subject or kinds of vault category "business"/);
 });
 
 test("every registry field is usable and every forbidden one is refused", () => {

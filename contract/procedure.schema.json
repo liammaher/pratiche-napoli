@@ -346,7 +346,7 @@
       }
     },
     "dichiarante": {
-      "description": "Who signs the forms for the business. In the forms, unprefixed fields of a person's own categories (subject persona, scope person: identity, residenza, cie...) and ruolo.* are the dichiarante's: in a personal vault the owner, whose role is business.qualita_dichiarante; in a business vault the person whose ruolo.tipo includes one of these. business.* and locale.* stay the vault's own",
+      "description": "Who signs the forms for the business. In the forms and records, unprefixed fields of a person's own categories (subject persona, scope person: identity, residenza, cie...) and ruolo.* are the dichiarante's: in a personal vault the owner, whose role is business.qualita_dichiarante; in a business vault the person whose ruolo.tipo includes one of these. business.* and locale.* stay the vault's own",
       "$ref": "#/$defs/party"
     },
     "forms": {
@@ -451,7 +451,7 @@
         "required": ["field", "from"],
         "properties": {
           "field": {
-            "description": "One exact field ID of the vault owner, no wildcard or member prefix",
+            "description": "One exact field ID of the vault owner (or, for a person's own data in a procedure with a dichiarante, of the dichiarante), no wildcard or member prefix",
             "type": "string",
             "pattern": "^[a-z_]+\\.[a-z0-9_]+$"
           },

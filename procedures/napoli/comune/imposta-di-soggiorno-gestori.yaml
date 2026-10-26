@@ -418,6 +418,9 @@ forms:
         map: { fallback: [business.pec, identity.pec] }
       - label: Persone fisiche – Cognome
         map: { direct: identity.last_name }
+        notes: >-
+          Questo riquadro solo se il gestore è una persona fisica (anche titolare di ditta
+          individuale); per una società si compila "Soggetti diversi dalle persone fisiche".
       - label: Persone fisiche – Nome
         map: { direct: identity.first_name }
       - label: Persone fisiche – Sesso
@@ -444,6 +447,7 @@ forms:
         map: { blank_with_reason: Solo per chi ha il domicilio fiscale all'estero. }
       - label: Soggetti diversi dalle persone fisiche – Denominazione o Ragione sociale
         map: { direct: business.denominazione }
+        notes: Solo se il gestore non è una persona fisica; chi firma per la società va in "Dichiarante diverso".
       - label: Soggetti diversi – Sede legale in Italia – Via/Piazza
         map: { direct: business.sede_legale_indirizzo }
       - label: Soggetti diversi – Sede legale in Italia – N. civico
