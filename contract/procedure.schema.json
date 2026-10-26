@@ -345,6 +345,10 @@
         }
       }
     },
+    "dichiarante": {
+      "description": "Who signs the forms for the business. In the forms, unprefixed fields of a person's own categories (subject persona, scope person: identity, residenza, cie...) and ruolo.* are the dichiarante's: in a personal vault the owner, whose role is business.qualita_dichiarante; in a business vault the person whose ruolo.tipo includes one of these. business.* and locale.* stay the vault's own",
+      "$ref": "#/$defs/party"
+    },
     "forms": {
       "type": "array",
       "items": {
@@ -605,6 +609,53 @@
         }
       }
     },
+    "ruolo": {
+      "description": "A value of the vault's ruolo.tipo: what a person in a business vault is to the business",
+      "enum": [
+        "titolare",
+        "legale_rappresentante",
+        "socio",
+        "amministratore",
+        "procuratore",
+        "preposto",
+        "responsabile_tecnico",
+        "dipendente",
+        "collaboratore",
+        "cliente",
+        "fornitore",
+        "impresa_esecutrice",
+        "altro"
+      ]
+    },
+    "party": {
+      "description": "A person picked by role: whoever's ruolo.tipo includes the ruolo, or any of the list",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ruolo"
+      ],
+      "properties": {
+        "ruolo": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ruolo"
+            },
+            {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/ruolo"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "partyRef": {
+      "description": "Read the fields from this person instead of the vault's owner. Nobody with the ruolo (always so in a personal vault): ask the person filling in; several: they pick one. The fields are written without a prefix",
+      "$ref": "#/$defs/party"
+    },
     "fieldRef": {
       "description": "A field ID (category.field) or a whole category (category.*), the vault owner's when unprefixed. A family member's carry their slug (leo:identity.first_name; io is reserved for the owner), and *: means each member (*:identity.first_name)",
       "type": "string",
@@ -619,6 +670,9 @@
             "direct"
           ],
           "properties": {
+            "party": {
+              "$ref": "#/$defs/partyRef"
+            },
             "direct": {
               "$ref": "#/$defs/fieldRef"
             }
@@ -631,6 +685,9 @@
             "concat"
           ],
           "properties": {
+            "party": {
+              "$ref": "#/$defs/partyRef"
+            },
             "concat": {
               "type": "array",
               "minItems": 2,
@@ -648,6 +705,9 @@
             "fallback"
           ],
           "properties": {
+            "party": {
+              "$ref": "#/$defs/partyRef"
+            },
             "fallback": {
               "type": "array",
               "minItems": 2,
@@ -658,7 +718,7 @@
           }
         },
         {
-          "description": "One row per family member in the vault owner's stato di famiglia (famiglia.stato_famiglia si), filled from that member's fields, written *:category.field",
+          "description": "One row per person, filled from that person's fields, written *:category.field. famiglia: each family member in the vault owner's stato di famiglia (famiglia.stato_famiglia si). { ruolo }: each person whose ruolo.tipo includes it (or any of the list); except: dichiarante leaves out the procedure's dichiarante",
           "type": "object",
           "additionalProperties": false,
           "required": [
@@ -667,7 +727,26 @@
           ],
           "properties": {
             "repeat": {
-              "const": "famiglia"
+              "oneOf": [
+                {
+                  "const": "famiglia"
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "ruolo"
+                  ],
+                  "properties": {
+                    "ruolo": {
+                      "$ref": "#/$defs/party/properties/ruolo"
+                    },
+                    "except": {
+                      "const": "dichiarante"
+                    }
+                  }
+                }
+              ]
             },
             "fields": {
               "type": "array",

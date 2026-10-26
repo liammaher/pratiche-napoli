@@ -20,21 +20,32 @@ import path from "node:path";
 // (whose fields carry their slug, leo:famiglia.relazione). Unset: both.
 type For = "owner" | "member";
 
+// The vault kinds a category or field exists in: persona (a personal vault)
+// or impresa (a business vault). Unset: both.
+type Kind = "persona" | "impresa";
+
 interface VaultField {
   id: string;
   description: string;
   sensitivity: string;
   for?: For;
+  kinds?: Kind[];
 }
 
 // person: the owner and every family member (leo:cie.numero); owner: the
 // household or the owner's own affairs (abitazione, tari), never prefixed.
 type Scope = "person" | "owner";
 
+// What a category describes: a person (identity, residenza: the dichiarante's
+// data in a business procedure) or a business (business, locale). Unset: neither.
+type Subject = "persona" | "impresa";
+
 interface VaultCategory {
   name: string;
   description: string;
   scope: Scope;
+  subject?: Subject;
+  kinds?: Kind[];
   fields: VaultField[] | null;
 }
 
@@ -55,8 +66,10 @@ export interface Registry {
     name: string;
     description: string;
     scope: Scope;
+    subject?: Subject;
+    kinds?: Kind[];
     // vault: false marks a field (or a whole category) the vault doesn't have yet.
-    fields: { id: string; description: string; for?: For; vault?: false }[];
+    fields: { id: string; description: string; for?: For; kinds?: Kind[]; vault?: false }[];
     vault?: false;
     // No fixed fields: any field name is allowed in this category.
     open?: boolean;
@@ -77,6 +90,15 @@ const EXTENSION_ID = /^[a-z_]+\.[a-z0-9_]+$/;
 const CATEGORY_NAME = /^[a-z_]+$/;
 const SCOPES = new Set(["person", "owner"]);
 const FOR = new Set([undefined, "owner", "member"]);
+const SUBJECTS = new Set([undefined, "persona", "impresa"]);
+const KINDS = new Set(["persona", "impresa"]);
+
+function checkKinds(kinds: unknown, what: string) {
+  if (kinds === undefined) return;
+  if (!Array.isArray(kinds) || kinds.length === 0 || kinds.some((k) => !KINDS.has(k)) || new Set(kinds).size !== kinds.length) {
+    throw new Error(`${what} has kinds ${JSON.stringify(kinds)}, not a list of persona and impresa`);
+  }
+}
 
 export function buildRegistry(schema: VaultSchema, extensions: Extensions = { categories: [] }): Registry {
   if (!schema || typeof schema.version !== "string" || !Array.isArray(schema.categories)) {
@@ -92,16 +114,24 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
   for (const cat of schema.categories) {
     if (FORBIDDEN_CATEGORIES.includes(cat.name) || INTERNAL_CATEGORIES.includes(cat.name)) continue;
     if (!SCOPES.has(cat.scope)) throw new Error(`category "${cat.name}" needs a scope, person or owner`);
+    if (!SUBJECTS.has(cat.subject)) throw new Error(`category "${cat.name}" has subject ${JSON.stringify(cat.subject)}, not persona or impresa`);
+    checkKinds(cat.kinds, `category "${cat.name}"`);
     const vaultFields = cat.fields ?? [];
     const fields: Registry["categories"][number]["fields"] = [];
     for (const f of vaultFields) {
       checkFieldCategory(f.id, cat.name);
       if (!FOR.has(f.for)) throw new Error(`field "${f.id}" is for ${JSON.stringify(f.for)}, not owner or member`);
+      checkKinds(f.kinds, `field "${f.id}"`);
       if (!ALLOWED_SENSITIVITY.has(f.sensitivity)) {
         forbiddenFields.push(f.id);
         continue;
       }
-      fields.push(f.for ? { id: f.id, description: f.description, for: f.for } : { id: f.id, description: f.description });
+      fields.push({
+        id: f.id,
+        description: f.description,
+        ...(f.for && { for: f.for }),
+        ...(f.kinds && { kinds: f.kinds }),
+      });
     }
     // Every field secret: the whole category is, rather than becoming open.
     if (vaultFields.length > 0 && fields.length === 0) {
@@ -112,6 +142,8 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
       name: cat.name,
       description: cat.description,
       scope: cat.scope,
+      ...(cat.subject && { subject: cat.subject }),
+      ...(cat.kinds && { kinds: cat.kinds }),
       fields,
     };
     if (vaultFields.length === 0) {
