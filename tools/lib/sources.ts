@@ -3,6 +3,12 @@
 // content hasn't changed. Pages without one are only checked for an answer:
 // their bytes change with every visit. The result is a Markdown report of
 // what to re-verify, by procedure; empty when everything is as recorded.
+//
+// To ask the offices' servers as little as possible: documents with a sha256
+// are checked every night, other pages one seventh a night (each on a fixed
+// day of the week); requests carry the ETag and Last-Modified from the last
+// check, so an unchanged file answers 304 without its body; and a saved state
+// keeps every address's latest result, so a night's report covers the week.
 
 import { createHash } from "node:crypto";
 
@@ -12,8 +18,17 @@ export interface Target {
   refs: string[]; // `napoli/comune/x: form "mod-1"`, every place that cites it
 }
 
+// What a server said about a file's version, sent back next time.
+export interface Validators {
+  etag?: string;
+  lastModified?: string;
+}
+
 export interface Result {
   target: Target;
+  checkedOn?: string; // YYYY-MM-DD, when it isn't tonight's check
+  validators?: Validators; // from an "ok" answer
+  wayback?: string; // the Internet Archive's latest copy, for a page that failed
   // uncheckable: the server's certificate can't be verified (usually a chain
   // it doesn't send in full, which browsers fill in), so nothing is known.
   // blocked: a 404 from a site that also answers 404 for its home page, which
@@ -55,7 +70,27 @@ export function collectTargets(procedures: Cited[]): Target[] {
   return [...targets.values()].sort((a, b) => a.url.localeCompare(b.url));
 }
 
+// The key a target's state is saved under: its URL, and its sha256 when
+// there is one, so a re-verified document starts afresh.
+export const targetKey = (t: Target) => (t.sha256 ? `${t.url} ${t.sha256}` : t.url);
+
+const DAYS = 7;
+
+// Days since 1970-01-01 for a YYYY-MM-DD date: tonight's slot in the rotation.
+export const dayNumber = (date: string) => Math.floor(Date.parse(`${date}T00:00:00Z`) / 86_400_000);
+
+// A page's fixed day of the week, from its URL.
+function slot(url: string): number {
+  return createHash("sha256").update(url).digest().readUInt32BE(0) % DAYS;
+}
+
+// Tonight's share: every document with a sha256, and the pages whose day it is.
+export function tonight(targets: Target[], day: number): Target[] {
+  return targets.filter((t) => t.sha256 || slot(t.url) === day % DAYS);
+}
+
 export interface CheckOptions {
+  validators?: Map<string, Validators>; // by targetKey, from the last check
   concurrency?: number; // sites checked at the same time
   pauseMs?: number; // between two requests to the same site
   timeoutMs?: number;
@@ -83,7 +118,7 @@ export async function checkTargets(targets: Target[], fetchFn: typeof fetch, opt
   } = opts;
   const results: Result[] = new Array(targets.length);
   const attempt = (target: Target) =>
-    checkOne(target, fetchFn, timeoutMs, userAgent).catch((e): Checked => {
+    checkOne(target, fetchFn, timeoutMs, userAgent, opts.validators?.get(targetKey(target))).catch((e): Checked => {
       const detail = failure(e as Error, timeoutMs);
       return { target, status: CERTIFICATE.has(detail) ? "uncheckable" : "unreachable", detail, retry: !CERTIFICATE.has(detail) };
     });
@@ -100,7 +135,12 @@ export async function checkTargets(targets: Target[], fetchFn: typeof fetch, opt
           await sleep(Math.max(result.waitMs ?? 5_000, pauseMs));
           result = await attempt(targets[i]);
         }
-        results[i] = { target: result.target, status: result.status, ...(result.detail && { detail: result.detail }) };
+        results[i] = {
+          target: result.target,
+          status: result.status,
+          ...(result.detail && { detail: result.detail }),
+          ...(result.validators && { validators: result.validators }),
+        };
       }
       const notFound = indexes.filter((i) => results[i].detail === "HTTP 404");
       if (notFound.length && home) {
@@ -146,12 +186,29 @@ function failure(e: Error, timeoutMs: number): string {
   return cause?.code ?? cause?.message ?? e.message;
 }
 
-async function checkOne(target: Target, fetchFn: typeof fetch, timeoutMs: number, userAgent?: string): Promise<Checked> {
+async function checkOne(
+  target: Target,
+  fetchFn: typeof fetch,
+  timeoutMs: number,
+  userAgent?: string,
+  known?: Validators,
+): Promise<Checked> {
+  const headers: Record<string, string> = {
+    ...(userAgent && { "user-agent": userAgent }),
+    ...(known?.etag && { "if-none-match": known.etag }),
+    ...(known?.lastModified && { "if-modified-since": known.lastModified }),
+  };
   const res = await fetchFn(target.url, {
     redirect: "follow",
     signal: AbortSignal.timeout(timeoutMs),
-    headers: userAgent ? { "user-agent": userAgent } : undefined,
+    headers: Object.keys(headers).length ? headers : undefined,
   });
+  // Unchanged since the last check, which (validators are only kept from
+  // "ok" answers) matched the sha256.
+  if (res.status === 304) {
+    await res.body?.cancel();
+    return { target, status: "ok", validators: known };
+  }
   if (!res.ok) {
     await res.body?.cancel();
     const after = Number(res.headers.get("retry-after"));
@@ -163,14 +220,121 @@ async function checkOne(target: Target, fetchFn: typeof fetch, timeoutMs: number
       ...(after > 0 && { waitMs: Math.min(after * 1000, MAX_WAIT_MS) }),
     };
   }
+  const etag = res.headers.get("etag") ?? undefined;
+  const lastModified = res.headers.get("last-modified") ?? undefined;
+  const validators = etag || lastModified ? { ...(etag && { etag }), ...(lastModified && { lastModified }) } : undefined;
   if (!target.sha256) {
     await res.body?.cancel();
-    return { target, status: "ok" };
+    return { target, status: "ok", ...(validators && { validators }) };
   }
   const actual = createHash("sha256").update(Buffer.from(await res.arrayBuffer())).digest("hex");
   return actual === target.sha256
-    ? { target, status: "ok" }
+    ? { target, status: "ok", ...(validators && { validators }) }
     : { target, status: "changed", detail: `sha256 ${actual.slice(0, 12)}…, registrato ${target.sha256.slice(0, 12)}…` };
+}
+
+// --- Saved state and the Internet Archive ---
+
+// The latest result for each address (by targetKey), across nights.
+export interface Seen {
+  status: Result["status"];
+  detail?: string;
+  checkedOn: string;
+  validators?: Validators;
+  wayback?: string;
+  waybackOn?: string; // when the archive was asked, so its answer is reused for a week only
+}
+export type State = Record<string, Seen>;
+
+// Tonight's results over the saved state, keeping only addresses still cited.
+export function merge(state: State, results: Result[], checkedOn: string, targets: Target[]): State {
+  const cited = new Set(targets.map(targetKey));
+  const out: State = Object.fromEntries(Object.entries(state).filter(([key]) => cited.has(key)));
+  for (const r of results) {
+    const before = state[targetKey(r.target)];
+    out[targetKey(r.target)] = {
+      status: r.status,
+      checkedOn,
+      ...(r.detail && { detail: r.detail }),
+      ...(r.validators && { validators: r.validators }),
+      ...(r.wayback && {
+        wayback: r.wayback,
+        waybackOn: before?.wayback === r.wayback && before.waybackOn ? before.waybackOn : checkedOn,
+      }),
+    };
+  }
+  return out;
+}
+
+// The latest known result for every cited address checked within maxAgeDays
+// (a little over the rotation, so a missed night doesn't drop a problem).
+export function known(state: State, targets: Target[], today: string, maxAgeDays = DAYS + 1): Result[] {
+  return targets.flatMap((target) => {
+    const seen = state[targetKey(target)];
+    if (!seen || dayNumber(today) - dayNumber(seen.checkedOn) > maxAgeDays) return [];
+    return [
+      {
+        target,
+        status: seen.status,
+        ...(seen.detail && { detail: seen.detail }),
+        ...(seen.checkedOn !== today && { checkedOn: seen.checkedOn }),
+        ...(seen.wayback && { wayback: seen.wayback }),
+      },
+    ];
+  });
+}
+
+// For pages that failed, what the Internet Archive last saw: a second
+// opinion on whether a page is gone or only refusing the checker. It asks the
+// Wayback Machine's CDX search for the latest capture, one page at a time
+// and at most `limit`, reusing an answer saved in the last week (`saved`, by
+// targetKey) instead of asking again; a 429 is retried once after a pause,
+// and a lookup that fails adds nothing.
+export async function secondOpinion(
+  results: Result[],
+  fetchFn: typeof fetch,
+  opts: {
+    saved?: Map<string, string>;
+    sleep?: (ms: number) => Promise<void>;
+    pauseMs?: number;
+    timeoutMs?: number;
+    limit?: number;
+  } = {},
+): Promise<Result[]> {
+  const { saved, sleep = (ms) => new Promise((r) => setTimeout(r, ms)), pauseMs = 1_000, timeoutMs = 20_000, limit = 30 } = opts;
+  const lookup = (url: string) =>
+    fetchFn(
+      `https://web.archive.org/cdx/search/cdx?url=${encodeURIComponent(url)}&output=json&limit=-1&fl=timestamp,statuscode,original`,
+      { signal: AbortSignal.timeout(timeoutMs) },
+    ).catch(() => undefined);
+  const out = [...results];
+  let asked = 0;
+  for (const [i, r] of out.entries()) {
+    if (r.status !== "unreachable" && r.status !== "blocked") continue;
+    const before = saved?.get(targetKey(r.target));
+    if (before) {
+      out[i] = { ...r, wayback: before };
+      continue;
+    }
+    if (asked >= limit) continue;
+    if (asked++) await sleep(pauseMs);
+    let res = await lookup(r.target.url);
+    if (res?.status === 429) {
+      await sleep(Math.max(pauseMs, 10_000));
+      res = await lookup(r.target.url);
+    }
+    const rows = res?.ok ? ((await res.json().catch(() => undefined)) as string[][] | undefined) : undefined;
+    if (!rows) continue;
+    // A header row, then the latest capture, if there is one.
+    const [timestamp, status, original] = rows[1] ?? [];
+    out[i] = {
+      ...r,
+      wayback: timestamp
+        ? `copia del ${timestamp.slice(0, 4)}-${timestamp.slice(4, 6)}-${timestamp.slice(6, 8)} (HTTP ${status}): https://web.archive.org/web/${timestamp}/${original}`
+        : "nessuna copia nell'archivio",
+    };
+  }
+  return out;
 }
 
 // When most addresses couldn't be reached or checked, the problem is almost
@@ -200,7 +364,9 @@ export function report(results: Result[], checkedOn: string): string {
   const blocked = results.filter((r) => r.status === "blocked");
   if (!changed.length && !unreachable.length) return "";
   const item = (r: Result) =>
-    `- ${r.target.url} (${r.detail})\n${r.target.refs.slice(0, MAX_REFS).map((ref) => `  - \`${ref}\``).join("\n")}${
+    `- ${r.target.url} (${r.detail}${r.checkedOn ? `, controllato il ${r.checkedOn}` : ""})\n${
+      r.wayback ? `  - Wayback Machine: ${r.wayback}\n` : ""
+    }${r.target.refs.slice(0, MAX_REFS).map((ref) => `  - \`${ref}\``).join("\n")}${
       r.target.refs.length > MAX_REFS ? `\n  - e altre ${r.target.refs.length - MAX_REFS}` : ""
     }`;
   const items = (rs: Result[]) => [
@@ -208,7 +374,7 @@ export function report(results: Result[], checkedOn: string): string {
     ...(rs.length > MAX_ITEMS ? [`- e altri ${rs.length - MAX_ITEMS} indirizzi: \`npm run check:sources\` li elenca tutti`] : []),
   ];
   const text = [
-    `Controllo delle fonti del ${checkedOn}: ${results.length} indirizzi controllati.`,
+    `Controllo delle fonti del ${checkedOn}: ${results.length} indirizzi con un esito negli ultimi giorni (i moduli ogni notte, le pagine a rotazione nella settimana).`,
     "",
     ...(changed.length
       ? [
