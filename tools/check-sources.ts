@@ -1,13 +1,14 @@
 // Checks every official page and form the procedures cite (see lib/sources.ts)
 // and prints what to re-verify. With --out, also writes the report there, an
 // empty file when everything answers as recorded: the nightly workflow turns
-// it into a GitHub issue. Exits 0 whenever the check ran, problems or not.
+// it into a GitHub issue. Exits 0 when the check ran, problems or not, and 1
+// when it says nothing (most addresses unreached), writing no report.
 // Usage: npm run check:sources [-- --out report.md]
 
 import { writeFileSync } from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
-import { checkTargets, collectTargets, report } from "./lib/sources.ts";
+import { checkTargets, collectTargets, inconclusive, report } from "./lib/sources.ts";
 import { ROOT, loadRegistry, todayInRome, validateDir } from "./lib/validate.ts";
 
 const { values } = parseArgs({ options: { out: { type: "string" } } });
@@ -19,6 +20,11 @@ console.log(`checking ${targets.length} addresses…`);
 const checked = await checkTargets(targets, fetch, {
   userAgent: "pratiche-napoli-source-monitor/1.0 (+https://github.com/liammaher/pratiche-napoli)",
 });
+const why = inconclusive(checked);
+if (why) {
+  console.error(`check inconclusive (${why}): probably the checker's network or certificates, not the sources; no report written`);
+  process.exit(1);
+}
 const text = report(checked, todayInRome());
 if (values.out) writeFileSync(path.resolve(values.out), text);
 const uncheckable = checked.filter((r) => r.status === "uncheckable");
