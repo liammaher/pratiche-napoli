@@ -241,7 +241,8 @@ forms:
       - label: Motivo (a, b, c, d, e)
         map: { ask: "Perché cessa l'occupazione: chiusura definitiva con cessazione della partita IVA, trasferimento in un altro comune, chiusura dell'unità locale, cessione d'azienda o cessione di ramo d'azienda?" }
       - label: a) data di cessazione della Partita IVA
-        map: { ask: "In che data è stata chiusa la partita IVA? (solo per il motivo a)" }
+        map: { direct: business.data_cessazione }
+        notes: Solo per il motivo a).
       - label: b) Trasferimento dell'attività nel Comune di – via – n°
         map: { ask: "Comune, via e numero civico della nuova sede (solo per il motivo b)" }
       - label: Nei casi d) ed e) nominativo/Ragione Sociale del subentrante

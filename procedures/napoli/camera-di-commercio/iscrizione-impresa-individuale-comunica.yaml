@@ -344,8 +344,8 @@ forms:
       - { label: N. (sede), map: { direct: business.sede_legale_civico } }
       - { label: CAP (sede), map: { direct: business.sede_legale_cap } }
       - label: Tel. (impresa individuale)
-        map: { direct: identity.phone }
-        notes: Il registro non ha un telefono dell'impresa; si usa quello del titolare.
+        map: { fallback: [business.telefono, identity.phone] }
+        notes: Il telefono dell'impresa; se manca, quello del titolare.
       - label: N. R.E.A. (se già iscritto)
         map: { direct: business.rea }
         notes: Vuoto per una prima iscrizione.

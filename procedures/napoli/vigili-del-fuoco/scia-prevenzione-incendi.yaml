@@ -376,7 +376,7 @@ forms:
       - { label: c.a.p. (sede), map: { direct: business.sede_legale_cap } }
       - { label: comune (sede), map: { direct: business.sede_legale_comune } }
       - { label: provincia (sede), map: { direct: business.sede_legale_provincia } }
-      - { label: telefono (sede), map: { ask: "Telefono dell'impresa" } }
+      - { label: telefono (sede), map: { direct: business.telefono } }
       - { label: indirizzo di posta elettronica, map: { direct: business.email } }
       - { label: indirizzo di posta elettronica certificata, map: { direct: business.pec } }
       # Riferimento alla documentazione (una sola casella)
@@ -473,7 +473,7 @@ forms:
       - { label: c.a.p. (sede), map: { direct: business.sede_legale_cap } }
       - { label: comune (sede), map: { direct: business.sede_legale_comune } }
       - { label: provincia (sede), map: { direct: business.sede_legale_provincia } }
-      - { label: telefono (sede), map: { ask: "Telefono dell'impresa" } }
+      - { label: telefono (sede), map: { direct: business.telefono } }
       - { label: indirizzo di posta elettronica, map: { direct: business.email } }
       - { label: indirizzo di posta elettronica certificata, map: { direct: business.pec } }
       - label: "DICHIARA l'assenza di variazione delle condizioni di sicurezza antincendio rispetto a quanto segnalato"
