@@ -23,7 +23,7 @@ export function checkUpdated(before: Data | undefined, after: Data, changedOn: s
   return null;
 }
 
-function canonical(value: unknown): string {
+export function canonical(value: unknown): string {
   return JSON.stringify(value, (_key, v) =>
     v && typeof v === "object" && !Array.isArray(v)
       ? Object.fromEntries(Object.keys(v).sort().map((k) => [k, (v as Data)[k]]))

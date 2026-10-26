@@ -46,6 +46,12 @@ and gets a `303` to `<SITE_URL>/grazie/`, or a short error page. Form fields:
 The `procedure` must be listed in `<SITE_URL>/procedures.json`, which the
 function fetches on the first report and keeps for an hour.
 
+## Reviewing reports
+
+From the repo root, `npm run reports -- list | show | accept | reject | delete | export` (see
+the main README). The export, `reports-cache.json` at the repo root, keeps only what the
+published figures need: no note, no correction text, no office, no contact.
+
 ## Running the tests
 
 You need Node 22, Java 21 or later and the Firebase CLI (v15). The tests use the
