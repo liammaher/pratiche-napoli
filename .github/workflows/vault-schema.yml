@@ -4,14 +4,13 @@ name: Vault schema
 # (schema.json on main of personal-vault-italia), or the registry misses a
 # new field or credential word. That repository is private, so this needs
 # the VAULT_SCHEMA_TOKEN secret: a fine-grained token with read access to
-# its contents. Pull requests from forks don't get it and only warn; the
-# nightly run and every push to main fail until the copy is regenerated.
+# its contents. Pull requests from forks don't get it and only warn; every
+# push to main fails until the copy is regenerated. There is no scheduled
+# run: after a vault-only schema change, run it by hand (workflow_dispatch).
 on:
   push:
     branches: [main]
   pull_request:
-  schedule:
-    - cron: "41 4 * * *"
   workflow_dispatch:
 
 permissions:
@@ -37,7 +36,7 @@ jobs:
           EVENT: ${{ github.event_name }}
         run: |
           if [ -z "$VAULT_SCHEMA_TOKEN" ] && [ "$EVENT" = pull_request ]; then
-            echo "::warning::VAULT_SCHEMA_TOKEN isn't available to this pull request; the nightly run compares the schemas"
+            echo "::warning::VAULT_SCHEMA_TOKEN isn't available to this pull request; the run on main compares the schemas"
             exit 0
           fi
           npm run check:vault-schema
