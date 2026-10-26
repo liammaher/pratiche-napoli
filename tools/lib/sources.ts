@@ -95,80 +95,87 @@ function slot(url: string): number {
 // back clears the report the next night rather than on its day. But a host
 // that refuses the checker (see refusing) is asked only its probe, documents
 // included, since asking every night is what keeps an address blocked; and
-// any address of it never checked (newly cited, or a document whose sha256
-// was recorded again), which would otherwise have no result at all.
+// any address of it that has never been asked (newly cited, a document whose
+// sha256 was recorded again, or one skipped every night so far) or whose
+// result is a week old, which would otherwise have no recent result at all.
+// Addresses the run's time or a silent site cut off last night go first, so
+// it isn't always the same ones that are left out.
 export function tonight(targets: Target[], day: number, state: State = {}): Target[] {
   const probes = refusing(targets, state);
-  return targets.filter((t) => {
+  const stale = (seen: Seen) => day - dayNumber(seen.checkedOn) >= DAYS;
+  const share = targets.filter((t) => {
     const seen = state[targetKey(t)];
     const probe = probes.get(hostOf(t.url));
-    if (probe) return targetKey(t) === probe || !seen;
+    if (probe) return targetKey(t) === probe || !seen?.askedAt || stale(seen);
     return (
       t.sha256 ||
       slot(t.url) === day % DAYS ||
       !seen ||
       seen.status === "unreachable" ||
       seen.status === "blocked" ||
-      day - dayNumber(seen.checkedOn) >= DAYS
+      stale(seen)
     );
   });
+  const cutOff = (t: Target) => {
+    const seen = state[targetKey(t)];
+    return seen && held(seen) && seen.status === "unreachable" ? 0 : 1;
+  };
+  return share.sort((a, b) => cutOff(a) - cutOff(b));
 }
 
-// The hosts refusing the checker: those whose latest answers, among the
-// cited addresses, were refusals (a 404 with one for the home page too,
-// whether the archive saw the page gone or not: from here the two look the
-// same). The latest by the time they were asked, not the night: a site that
-// blocks an address after so many requests answers the first ones of a night
-// and refuses the rest. It takes the last two answers (or the only one) to
-// start, so one removed file asked last on a host whose home is 404 doesn't
-// stop the rest of it being checked; on the nights after, the probe alone
-// decides. For each host, the address refused last, by targetKey: its one
-// probe a night, until it stops refusing.
+// What an answer says about its host: a refusal (a 404 with one for the home
+// page too), a page gone (the same, but the archive saw it gone too: it says
+// nothing about the host), no answer at all (a timeout, a refused connection:
+// nothing either), or an answer.
+type Answer = "refused" | "gone" | "silent" | "answered";
+function answerOf(r: { status: Result["status"]; detail?: string }): Answer {
+  if (r.detail?.startsWith(REFUSED)) return /nell'archivio/.test(r.detail) ? "gone" : "refused";
+  return r.status === "uncheckable" || (r.status === "unreachable" && !answered(r)) ? "silent" : "answered";
+}
+
+// The hosts refusing the checker: those whose last two answers that say
+// something about the host (refusals and answers, not gone pages or
+// silence), among the cited addresses, were refusals. The last by the time
+// they were asked, not the night: a site that blocks an address after so many
+// requests answers the first ones of a night and refuses the rest. Two, so
+// one removed file asked last on a host whose home is 404 doesn't stop the
+// rest being checked; on the nights after, the probe alone decides, and a
+// night it isn't asked or doesn't answer at all leaves things as they were.
+// For each host, the address refused last, by targetKey: its one probe a
+// night, until it stops refusing.
 export function refusing(targets: Target[], state: State): Map<string, string> {
-  const byHost = new Map<string, { key: string; seen: Seen }[]>();
+  const byHost = new Map<string, { key: string; at: string; answer: Answer }[]>();
   for (const t of targets) {
     const seen = state[targetKey(t)];
-    // An address not asked (held back with its host) says nothing.
-    if (!seen || held(seen)) continue;
-    byHost.set(hostOf(t.url), [...(byHost.get(hostOf(t.url)) ?? []), { key: targetKey(t), seen }]);
+    // Each address's last real answer: an address not asked keeps the one before.
+    const at = seen?.askedAt ?? (seen && !held(seen) ? seen.checkedOn : undefined);
+    const answer = seen?.answer ?? (seen && !held(seen) ? answerOf(seen) : undefined);
+    if (!at || (answer !== "refused" && answer !== "answered")) continue;
+    byHost.set(hostOf(t.url), [...(byHost.get(hostOf(t.url)) ?? []), { key: targetKey(t), at, answer }]);
   }
-  const when = (s: Seen) => s.askedAt ?? s.checkedOn;
   return new Map(
     [...byHost].flatMap(([host, answers]) => {
-      const last = answers.sort((a, b) => (when(a.seen) < when(b.seen) ? 1 : when(a.seen) > when(b.seen) ? -1 : 0)).slice(0, 2);
-      return last.every((a) => refused(a.seen)) ? [[host, last[0].key]] : [];
+      const last = answers.sort((a, b) => (a.at < b.at ? 1 : a.at > b.at ? -1 : 0)).slice(0, 2);
+      return last.every((a) => a.answer === "refused") ? [[host, last[0].key]] : [];
     }),
   );
 }
 
-const refused = (r: { detail?: string }) => !!r.detail?.startsWith(REFUSED);
-
-// The other addresses of each host that refused its probe again tonight: not
-// asked, so they count as refused with it. Their streak goes on, and after a
-// week the report says that nothing on that site is being checked. One that
-// was changed or not answering stays so, marked as not asked: a gone page or
-// a changed form mustn't drop out of the report while its host refuses.
+// The other addresses of each refusing host whose probe didn't answer
+// tonight (refused again, gone, silent, or not asked at all): not asked, so
+// they count as refused with it. Their streak goes on, and after a week the
+// report says that nothing on that site is being checked. One that was
+// changed or not answering stays so (see merge).
 export function heldBack(targets: Target[], asked: Result[], state: State): Result[] {
   const probes = refusing(targets, state);
-  const askedKeys = new Set(asked.map((r) => targetKey(r.target)));
-  const refusedAgain = new Map(
-    asked.flatMap((r) => (refused(r) && probes.get(hostOf(r.target.url)) === targetKey(r.target) ? [[hostOf(r.target.url), r.target.url]] : [])),
-  );
+  const byKey = new Map(asked.map((r) => [targetKey(r.target), r]));
   return targets.flatMap((t): Result[] => {
-    const probe = refusedAgain.get(hostOf(t.url));
-    if (!probe || askedKeys.has(targetKey(t))) return [];
-    const seen = state[targetKey(t)];
-    if (seen && (seen.status === "changed" || seen.status === "unreachable")) {
-      return [
-        {
-          target: t,
-          status: seen.status,
-          detail: held(seen) ? seen.detail : `${HELD} ${seen.detail ?? seen.status}`,
-          ...(seen.wayback && { wayback: seen.wayback, waybackStatus: seen.waybackStatus, waybackOn: seen.waybackOn ?? seen.checkedOn }),
-        },
-      ];
-    }
-    return [{ target: t, status: "blocked", detail: `${HELD} il sito rifiuta il controllo (prova: ${probe})` }];
+    const probe = probes.get(hostOf(t.url));
+    if (!probe || byKey.has(targetKey(t))) return [];
+    const answer = byKey.get(probe);
+    if (answer && !held(answer) && answerOf(answer) === "answered") return [];
+    const url = targets.find((x) => targetKey(x) === probe)?.url ?? probe;
+    return [{ target: t, status: "blocked", detail: `${HELD} il sito rifiuta il controllo (prova: ${url})` }];
   });
 }
 
@@ -176,7 +183,14 @@ const HELD = "non chiesto stanotte:";
 const REFUSED = "HTTP 404, anche per la home del sito";
 const held = (r: { detail?: string }) => !!r.detail?.startsWith(HELD);
 
-const hostOf = (url: string) => new URL(url).host;
+// "" for an address that isn't a URL, so one slip doesn't stop the run.
+const hostOf = (url: string) => {
+  try {
+    return new URL(url).host;
+  } catch {
+    return "";
+  }
+};
 
 // The ETag and Last-Modified to send tonight, by targetKey. On a document's
 // own day of the week none are sent, so it is downloaded and hashed whole: a
@@ -443,7 +457,8 @@ export interface Seen {
   status: Result["status"];
   detail?: string;
   checkedOn: string;
-  askedAt?: string;
+  askedAt?: string; // when it was last actually asked
+  answer?: Answer; // what that last answer said about its host (see refusing)
   validators?: Validators;
   wayback?: string;
   waybackStatus?: string;
@@ -458,12 +473,20 @@ export function merge(state: State, results: Result[], checkedOn: string, target
   // Results older than known() reads are dropped too: they would say nothing.
   const recent = (seen: Seen) => dayNumber(checkedOn) - dayNumber(seen.checkedOn) <= DAYS + 1;
   const out: State = Object.fromEntries(Object.entries(state).filter(([key, seen]) => cited.has(key) && recent(seen)));
-  for (const r of results) {
+  for (let r of results) {
     const before = out[targetKey(r.target)];
+    // An address not asked tonight keeps its last answer; and one that was
+    // changed or not answering stays so, marked as not asked, so a changed
+    // form or a gone page doesn't drop out of the report meanwhile.
+    const notAsked = !r.askedAt && held(r);
+    if (notAsked && before && (before.status === "changed" || before.status === "unreachable")) r = { ...r, status: before.status, detail: held(before) ? before.detail : `${HELD} ${before.detail ?? before.status}`, ...(before.wayback && { wayback: before.wayback, waybackStatus: before.waybackStatus, waybackOn: before.waybackOn ?? before.checkedOn }) };
+    const askedAt = r.askedAt ?? (notAsked ? before?.askedAt : undefined);
+    const answer = r.askedAt ? answerOf(r) : notAsked ? before?.answer : undefined;
     out[targetKey(r.target)] = {
       status: r.status,
       checkedOn,
-      ...(r.askedAt && { askedAt: r.askedAt }),
+      ...(askedAt && { askedAt }),
+      ...(answer && { answer }),
       ...(r.detail && { detail: r.detail }),
       ...(r.validators && { validators: r.validators }),
       // A new answer is dated tonight, a reused one keeps its date.
@@ -585,7 +608,7 @@ function withArchive(r: Result, wayback: string, status: string | undefined): Re
 }
 
 // An HTTP status, a redirect or an error page is still an answer.
-const answered = (r: Result) => /^(HTTP |rimanda |pagina d'errore)/.test(r.detail ?? "");
+const answered = (r: { detail?: string }) => /^(HTTP |rimanda |pagina d'errore)/.test(r.detail ?? "");
 
 // When most sites gave no answer at all (no connection, no certificate the
 // checker could verify), the problem is almost certainly on the checker's
@@ -620,7 +643,7 @@ function header(results: Result[], checkedOn: string): string {
   const asked = tonightCount === results.length - notAsked
     ? `${tonightCount === results.length ? "tutti" : tonightCount} ${tonightCount === 1 ? "controllato" : "controllati"} stanotte`
     : `${tonightCount} ${tonightCount === 1 ? "controllato" : "controllati"} stanotte e gli altri nei giorni precedenti (i moduli ogni notte, le pagine una volta a settimana)`;
-  return `Controllo delle fonti del ${checkedOn}: ${results.length} indirizzi, ${asked}${notAsked ? `; ${notAsked} non ${notAsked === 1 ? "chiesto" : "chiesti"} stanotte, a siti che non rispondono o rifiutano il controllo` : ""}.`;
+  return `Controllo delle fonti del ${checkedOn}: ${results.length} indirizzi, ${asked}${notAsked ? `; ${notAsked} non ${notAsked === 1 ? "chiesto" : "chiesti"} stanotte (siti che non rispondono o rifiutano il controllo, o tempo finito)` : ""}.`;
 }
 
 // Empty unless something changed or stopped answering, or a site has refused
