@@ -23,6 +23,7 @@ import {
   secondOpinion,
   targetKey,
   tonight,
+  validatorsTonight,
   type State,
 } from "./lib/sources.ts";
 import { ROOT, loadRegistry, todayInRome, validateDir } from "./lib/validate.ts";
@@ -37,20 +38,27 @@ const { values } = parseArgs({
 const stateFile = path.resolve(values.state!);
 let state: State = {};
 try {
-  state = JSON.parse(readFileSync(stateFile, "utf8"));
+  const saved = JSON.parse(readFileSync(stateFile, "utf8"));
+  if (saved && typeof saved === "object" && !Array.isArray(saved)) state = saved;
 } catch {
   // first run, or no saved state: everything is new
 }
 
 const today = todayInRome();
 const results = validateDir(path.join(ROOT, "procedures"), loadRegistry(), today);
+// A file that doesn't parse would silently drop its addresses, and could close the issue.
+const unread = results.filter((r) => !r.doc);
+if (unread.length) {
+  console.error(`can't read ${unread.map((r) => r.rel).join(", ")} (run npm run validate); not checking`);
+  process.exit(2);
+}
 const targets = collectTargets(results.flatMap((r) => (r.doc ? [r.doc as Parameters<typeof collectTargets>[0][number]] : [])));
 const share = values.all ? targets : tonight(targets, dayNumber(today), state);
 console.log(`checking ${share.length} of ${targets.length} addresses…`);
 
 const checked = await checkTargets(share, fetch, {
   userAgent: "pratiche-napoli-source-monitor/1.0 (+https://github.com/liammaher/pratiche-napoli)",
-  validators: new Map(Object.entries(state).flatMap(([key, seen]) => (seen.validators ? [[key, seen.validators]] : []))),
+  validators: validatorsTonight(state, share, dayNumber(today)),
 });
 const why = inconclusive(checked);
 if (why) {

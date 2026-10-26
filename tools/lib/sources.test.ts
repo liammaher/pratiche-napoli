@@ -11,8 +11,10 @@ import {
   merge,
   report,
   secondOpinion,
+  siteOf,
   targetKey,
   tonight,
+  validatorsTonight,
   type Result,
   type State,
   type Validators,
@@ -161,11 +163,22 @@ const result = (status: Result["status"], n: number, refs = 1): Result[] =>
     detail: status === "changed" ? "sha256 0123456789ab…, registrato ba9876543210…" : "HTTP 404",
   }));
 
-test("a run that reached too few addresses is inconclusive and reports nothing", () => {
+test("a run where most sites gave no answer at all is inconclusive and reports nothing", () => {
   assert.equal(inconclusive([]), "nessun indirizzo da controllare");
-  assert.equal(inconclusive([...result("ok", 10), ...result("unreachable", 4), ...result("uncheckable", 2)]), undefined);
-  assert.equal(inconclusive([...result("ok", 3), ...result("uncheckable", 4)]), "4 indirizzi su 7 non raggiunti o non controllabili");
-  assert.equal(inconclusive([...result("ok", 3), ...result("unreachable", 2), ...result("uncheckable", 2)]), "4 indirizzi su 7 non raggiunti o non controllabili");
+  const at = (site: string, status: Result["status"], detail?: string): Result => ({
+    target: { url: `https://${site}/p`, refs: ["p: fonte"] },
+    status,
+    ...(detail && { detail }),
+  });
+  // No connection to 3 sites of 4: the checker's network.
+  assert.equal(
+    inconclusive([at("a.it", "unreachable", "ECONNREFUSED"), at("b.it", "unreachable", "ENOTFOUND"), at("c.it", "uncheckable", "UNABLE_TO_VERIFY_LEAF_SIGNATURE"), at("d.it", "ok")]),
+    "3 siti su 4 senza risposta",
+  );
+  // One big site refusing (HTTP answers, or blocked) doesn't silence the rest,
+  // however many of the night's addresses it has.
+  const comune = Array.from({ length: 60 }, (_, i) => at(`www.comune.napoli.it/${i}`, i % 2 ? "blocked" : "unreachable", "HTTP 404"));
+  assert.equal(inconclusive([...comune, at("a.it", "ok"), at("b.it", "uncheckable", "UNABLE_TO_VERIFY_LEAF_SIGNATURE")]), undefined);
 });
 
 test("however many problems, the report fits in an issue and says how many are left out", () => {
@@ -235,7 +248,8 @@ test("a 404 from a site whose home page is also 404 is blocked, not dead", async
   assert.match(text, /## Bloccati dal sito \(2\)[\s\S]*down\.it\/a/);
   // Blocked pages alone don't make a report, and count as unchecked.
   assert.equal(report(results.filter((r) => r.status === "blocked"), "2026-10-26"), "");
-  assert.match(inconclusive(results.filter((r) => r.status !== "ok"))!, /3 indirizzi su 3/);
+  // The sites answered, so the run still counts.
+  assert.equal(inconclusive(results.filter((r) => r.status !== "ok")), undefined);
 });
 
 test("documents with a sha256 every night; each page on one fixed night of the week", () => {
@@ -415,4 +429,99 @@ test("the archive's revisit records are skipped, and an unknown status is said s
   });
   assert.ok(asked[0].includes("&filter=!mimetype:warc/revisit"));
   assert.equal(r.wayback, "copia del 2026-03-01 (stato non registrato): https://web.archive.org/web/20260301000000/https://x.it/a");
+});
+
+test("a page that didn't answer is checked again the next night, not only on its day", () => {
+  const day = dayNumber("2026-10-26");
+  const pages = Array.from({ length: 20 }, (_, i) => ({ url: `https://x.it/p${i}`, refs: ["p: fonte"] }));
+  const state: State = Object.fromEntries(pages.map((p, i) => [p.url, { status: i ? "ok" : "unreachable", detail: "HTTP 404", checkedOn: "2026-10-25" }]));
+  const night = tonight(pages, day, state);
+  assert.ok(night.includes(pages[0]));
+  assert.ok(night.length < pages.length);
+  // Blocked pages wait for their day, like answering ones: asking every night
+  // is what gets an address blocked.
+  const onItsDay = tonight(pages, day, { ...state, [pages[0].url]: { status: "ok", checkedOn: "2026-10-25" } }).includes(pages[0]);
+  state[pages[0].url].status = "blocked";
+  assert.equal(tonight(pages, day, state).includes(pages[0]), onItsDay);
+});
+
+test("a document is downloaded whole on its own day, without the last version", () => {
+  const forms = Array.from({ length: 14 }, (_, i) => ({ url: `https://x.it/m${i}.pdf`, sha256: sha(`v${i}`), refs: ["p: modulo"] }));
+  const state: State = Object.fromEntries(forms.map((f) => [targetKey(f), { status: "ok", checkedOn: "2026-10-25", validators: { etag: '"1"' } }]));
+  const day = dayNumber("2026-10-26");
+  const sent = Array.from({ length: 7 }, (_, n) => validatorsTonight(state, forms, day + n));
+  // Every form goes without validators on exactly one night of the week.
+  for (const f of forms) assert.equal(sent.filter((m) => !m.has(targetKey(f))).length, 1, f.url);
+});
+
+test("a 304 to a request without a version isn't taken as unchanged", async () => {
+  const fetchFn = (async () => new Response(null, { status: 304 })) as unknown as typeof fetch;
+  const [r] = await checkTargets([{ url: "https://x.it/m.pdf", sha256: sha("v1"), refs: ["p: modulo"] }], fetchFn, { sleep: async () => {} });
+  assert.deepEqual([r.status, r.detail], ["unreachable", "HTTP 304 a una richiesta senza versione"]);
+});
+
+// A response as fetch gives it after following redirects to `url`.
+const redirected = (body: string, url: string, type = "text/html; charset=utf-8") =>
+  Object.defineProperties(new Response(body, { headers: { "content-type": type } }), { redirected: { value: true }, url: { value: url } });
+
+test("a page sent to the home page, or answering with an error page, is reported", async () => {
+  const fetchFn = (async (url: string) => {
+    if (url.endsWith("/tolta")) return redirected("<title>Comune</title>", "https://x.it/");
+    if (url.endsWith("/errore")) return new Response("<html><title> Pagina non\n trovata </title>", { headers: { "content-type": "text/html" } });
+    if (url.endsWith("/m.pdf")) return redirected("<title>Accedi</title>", "https://x.it/login");
+    if (url.endsWith("/n.pdf")) return new Response("<title>Accedi</title>", { headers: { "content-type": "text/html" } });
+    return new Response("<title>Ufficio TARI</title>", { headers: { "content-type": "text/html" } });
+  }) as unknown as typeof fetch;
+  const targets = [
+    { url: "https://x.it/tolta", refs: ["p: fonte"] },
+    { url: "https://x.it/errore", refs: ["p: fonte"] },
+    { url: "https://x.it/m.pdf", sha256: sha("v1"), refs: ["p: modulo"] },
+    { url: "https://x.it/n.pdf", sha256: sha("v1"), refs: ["p: modulo"] },
+    { url: "https://x.it/tari", refs: ["p: fonte"] },
+  ];
+  const results = await checkTargets(targets, fetchFn, { sleep: async () => {} });
+  assert.deepEqual(
+    results.map((r) => [r.status, r.detail?.replace(/sha256 .*registrato [^;]*/, "sha256 …")]),
+    [
+      ["unreachable", "rimanda alla home: https://x.it/"],
+      ["unreachable", 'pagina d\'errore: "Pagina non trovata"'],
+      ["unreachable", "rimanda a una pagina web: https://x.it/login"],
+      ["changed", "sha256 …; ora è una pagina web, forse d'errore"],
+      ["ok", undefined],
+    ],
+  );
+});
+
+test("hosts of one domain are one site: one request at a time between them", async () => {
+  assert.equal(siteOf("https://www.comune.napoli.it/a"), "comune.napoli.it");
+  assert.equal(siteOf("https://static-www.comune.napoli.it/b.pdf"), "comune.napoli.it");
+  assert.equal(siteOf("https://www.agenziaentrate.gov.it/x"), "agenziaentrate.gov.it");
+  assert.equal(siteOf("https://servizi.inps.it/x"), "inps.it");
+  assert.equal(siteOf("https://www.regione.campania.it/x"), "regione.campania.it");
+  let open = 0;
+  let most = 0;
+  const fetchFn = (async () => {
+    most = Math.max(most, ++open);
+    await new Promise((r) => setTimeout(r, 5));
+    open--;
+    return new Response("ok");
+  }) as unknown as typeof fetch;
+  const urls = ["https://www.comune.napoli.it/a", "https://static-www.comune.napoli.it/b", "https://www.comune.napoli.it/c"];
+  await checkTargets(urls.map((url) => ({ url, refs: ["p: fonte"] })), fetchFn, { sleep: async () => {} });
+  assert.equal(most, 1);
+});
+
+test("after a second 429 the archive isn't asked again that night", async () => {
+  let asked = 0;
+  const fetchFn = (async () => (asked++, new Response("", { status: 429 }))) as unknown as typeof fetch;
+  const failed = Array.from({ length: 5 }, (_, i): Result => ({ target: { url: `https://x.it/${i}`, refs: ["p: fonte"] }, status: "unreachable", detail: "HTTP 404" }));
+  await secondOpinion(failed, fetchFn, { sleep: async () => {} });
+  assert.equal(asked, 2);
+});
+
+test("the saved state forgets results too old to be reported", () => {
+  const a = { url: "https://x.it/a", refs: ["p: fonte"] };
+  const b = { url: "https://x.it/b", refs: ["p: fonte"] };
+  const state: State = { [a.url]: { status: "ok", checkedOn: "2026-10-10" } };
+  assert.deepEqual(Object.keys(merge(state, [{ target: b, status: "ok" }], "2026-10-26", [a, b])), [b.url]);
 });
