@@ -513,10 +513,11 @@ forms:
       - label: codice fiscale / p. IVA
         map: { fallback: [business.codice_fiscale, business.partita_iva] }
       - label: iscritta alla C.C.I.A.A. di ... prov.
-        map: { fallback: [business.cciaa, business.rea] }
+        map: { direct: business.cciaa }
         notes: >-
-          La sigla della provincia (per esempio NA) indica la Camera di commercio e la provincia; in
-          mancanza, è quella davanti al numero REA.
+          La sigla della provincia (per esempio NA) indica la Camera di commercio e la provincia.
+          Se manca, è la sigla davanti al numero REA (business.rea, per esempio NA-123456): solo la
+          sigla, mai il numero.
       - { label: n. REA, map: { direct: business.rea } }
       - label: non ancora iscritta / non necessita di iscrizione al R.I.
         map: { ask: "L'impresa che subentra non è ancora iscritta al Registro delle imprese?" }

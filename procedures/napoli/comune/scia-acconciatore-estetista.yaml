@@ -308,10 +308,11 @@ forms:
       - label: codice fiscale / p. IVA
         map: { fallback: [business.codice_fiscale, business.partita_iva] }
       - label: iscritta alla C.C.I.A.A. di ... prov.
-        map: { fallback: [business.cciaa, business.rea] }
+        map: { direct: business.cciaa }
         notes: >-
-          La sigla della provincia (per esempio NA) indica la Camera di Commercio e la provincia; in
-          mancanza, è quella davanti al numero REA.
+          La sigla della provincia (per esempio NA) indica la Camera di Commercio e la provincia.
+          Se manca, è la sigla davanti al numero REA (business.rea, per esempio NA-123456): solo la
+          sigla, mai il numero.
       - { label: n. REA, map: { direct: business.rea } }
       - label: non ancora iscritta / non necessita di iscrizione al R.I.
         map: { ask: "L'impresa non è ancora iscritta al Registro delle imprese?" }
@@ -413,7 +414,13 @@ forms:
       - { label: "oppure: altro (specificare) – acconciatore", map: { ask: "Altro titolo di abilitazione di acconciatore (specificare)" } }
       - label: "OPPURE: il/i Responsabile/i tecnico/i è/sono (Nome, Cognome, CF; Titolare / Socio partecipante al lavoro / Familiare coadiuvante / Dipendente) – Allegato B"
         map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:identity.first_name", "*:identity.last_name", "*:identity.codice_fiscale", "*:ruolo.tipo"] }
-        notes: Uno per ogni sede; serve l'Allegato B per ciascuno.
+        notes: >-
+          Solo i responsabili tecnici dell'attività di acconciatore (riga 1.1), uno per ogni sede;
+          serve l'Allegato B per ciascuno. Chi lo è dell'estetica va nell'Allegato C, qui sotto: se
+          l'archivio non dice di quale attività, chiedere. Per il rapporto con l'impresa una sola voce:
+          Titolare, Socio partecipante al lavoro o Dipendente secondo il suo ruolo.tipo (titolare,
+          socio, dipendente), mai l'elenco intero; il familiare coadiuvante non è un ruolo
+          dell'archivio, quindi chiederlo.
       - label: "Estetista – di essere Responsabile tecnico e: qualificazione professionale di estetista (rilasciata da, in data, atto n.)"
         map: { ask: "Il dichiarante è responsabile tecnico con qualificazione di estetista? Ente che l'ha rilasciata, data e numero dell'atto" }
       - label: "oppure: abilitazione conseguita all'entrata in vigore della L. 1/1990 come titolare, socio, direttore (2 anni) o dipendente (3 anni nel quinquennio) – impresa, n. REA, periodo"
@@ -425,7 +432,12 @@ forms:
       - { label: "oppure: altro (specificare) – estetista", map: { ask: "Altro titolo di qualificazione di estetista (specificare)" } }
       - label: "OPPURE: il/i Responsabile/i tecnico/i è/sono (Nome, Cognome, CF; ruolo) – Allegato C"
         map: { repeat: { ruolo: responsabile_tecnico, except: dichiarante }, fields: ["*:identity.first_name", "*:identity.last_name", "*:identity.codice_fiscale", "*:ruolo.tipo"] }
-        notes: Uno per ogni sede; serve l'Allegato C per ciascuno.
+        notes: >-
+          Solo i responsabili tecnici dell'attività di estetista (riga 1.1), uno per ogni sede; serve
+          l'Allegato C per ciascuno. Chi lo è dell'acconciatura va nell'Allegato B, qui sopra: se
+          l'archivio non dice di quale attività, chiedere. Per il ruolo una sola voce secondo il suo
+          ruolo.tipo (titolare, socio, dipendente), mai l'elenco intero; il familiare coadiuvante non è
+          un ruolo dell'archivio, quindi chiederlo.
       # 2 – Trasferimento di sede
       - label: "2 – Trasferimento di sede (SCIA/DIA/autorizzazione prot./n., del; DA indirizzo; A indirizzo, Comune, Prov.; centro commerciale; telefono, fax)"
         map: { blank_with_reason: Non si compila per una nuova apertura. }

@@ -79,7 +79,7 @@ interface Doc {
   sources?: Source[];
   applies_to?: { audience?: string[] };
   dichiarante?: unknown;
-  forms?: { id: string; fields?: { label: string; map: Record<string, unknown> }[] }[];
+  forms?: { id: string; fields?: { label: string; map: Record<string, unknown>; notes?: string }[] }[];
   records?: { field: string }[];
   related?: string[];
   run_log?: { date: string }[];
@@ -131,7 +131,7 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
     if (formIds.has(f.id)) errors.push(`duplicate form id "${f.id}"`);
     formIds.add(f.id);
     for (const field of f.fields ?? []) {
-      for (const problem of checkMapping(field.map, ctx.registry, d.dichiarante !== undefined)) {
+      for (const problem of checkMapping(field.map, ctx.registry, d.dichiarante !== undefined, field.notes)) {
         errors.push(`form "${f.id}", field "${field.label}": ${problem}`);
       }
     }
@@ -288,10 +288,17 @@ function directRefs(map: Record<string, unknown>): string[] {
   ];
 }
 
+// The categories that are an address, and those that are a person's own:
+// an address is taken whole from one place (see addressProblem).
+const ADDRESSES = new Set(["residenza", "domicilio", "locale"]);
+const HOMES = new Set(["residenza", "domicilio"]);
+
 // dichiarante: the procedure names who signs, so a person's own data is theirs.
-function checkMapping(map: Record<string, unknown>, registry: Registry, dichiarante: boolean): string[] {
+function checkMapping(map: Record<string, unknown>, registry: Registry, dichiarante: boolean, notes?: string): string[] {
   const problems: string[] = [];
   const refs = directRefs(map);
+  const address = addressProblem(map, notes);
+  if (address) problems.push(address);
 
   for (const key of ["ask", "blank_with_reason"]) {
     if (typeof map[key] === "string" && ASKS_FOR_SECRET.test(map[key] as string)) {
@@ -320,6 +327,18 @@ function checkMapping(map: Record<string, unknown>, registry: Registry, dichiara
     }
   }
   return problems;
+}
+
+// A fallback may go from a person's domicilio to their residenza, if its
+// notes say the whole address comes from the same one (each row falls back
+// on its own, so a domicilio without an interno would get the residenza's);
+// never between a person's home and a business's premises.
+function addressProblem(map: Record<string, unknown>, notes?: string): string | null {
+  if (!Array.isArray(map.fallback)) return null;
+  const categories = [...new Set((map.fallback as string[]).map((ref) => splitMember(String(ref)).local.split(".")[0]))].filter((c) => ADDRESSES.has(c));
+  if (categories.length < 2) return null;
+  if (!categories.every((c) => HOMES.has(c))) return `fallback mixes ${categories.join(" and ")}: an address is a person's home or the business's premises, never a field from each`;
+  return notes?.trim() ? null : `fallback from ${categories.join(" to ")} needs notes saying the whole address comes from the same one`;
 }
 
 // Where a ref may appear: *: (each person) only in a repeat row, where every

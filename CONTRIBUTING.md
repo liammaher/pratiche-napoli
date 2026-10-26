@@ -31,7 +31,12 @@
    IVA or PEC on a personal pratica), first or not: read only the person's own field, or `ask`.
    Contacts (PEC, e-mail) are the person's own, and the business's only where the pratica is the
    business's. An address is taken whole from one place (residenza or domicilio, the business's
-   premises or one's home), never a box from each: say so on every row of it.
+   premises or one's home), never a box from each: say so on every row of it, and say that a
+   part it lacks stays empty. The validator refuses a `fallback` between a person's address and
+   the business's premises, and one from domicilio to residenza without notes. A field that holds
+   a list (`ruolo.tipo`) fills a box that takes one value only with notes saying which one; the
+   dichiarante's "in qualità di", `fallback: [business.qualita_dichiarante, ruolo.tipo]`, is the
+   one the pratica skill already reads as the role they sign in.
 3. **Official sources first.** Cite the ente's own page, regulation, decision or form. Third-
    party guides are only for finding official pages.
 4. **Mark every claim honestly.** `verified` needs a `source`. If you believe something but
