@@ -37,6 +37,10 @@ const MEMBER_SLUG = /^[a-z][a-z0-9-]{0,31}$/;
 // The same secrets named in an ask or blank_with_reason text. "PIN 2.1" etc.
 // are the Vigili del Fuoco form names, not PIN codes.
 const ASKS_FOR_SECRET = /\b(pin(?!\s*\d)|puk|password|passcode|otp|codice segreto)\b/i;
+// The ruoli that give a business a procura (the procura category): a client,
+// so the business can act for them. A procuratore holds the business's procura,
+// the other way round. Listed, not excluded, so a new ruolo stays refused.
+const GIVES_PROCURA = new Set(["cliente"]);
 
 export interface Context {
   registry: Registry;
@@ -225,7 +229,9 @@ function checkMapping(map: Record<string, unknown>, registry: Registry, dichiara
     }
   }
   for (const ref of refs) {
-    const problem = map.party ? checkPartyRef(ref, registry) : checkUse(ref, false, registry, dichiarante);
+    const problem = map.party
+      ? checkPartyRef(ref, registry) ?? procuraProblem(ref, (map.party as { ruolo?: unknown }).ruolo)
+      : checkUse(ref, false, registry, dichiarante);
     if (problem) problems.push(problem);
   }
   // repeat fills one row per person (a family member, or someone with a
@@ -236,7 +242,10 @@ function checkMapping(map: Record<string, unknown>, registry: Registry, dichiara
       problems.push("except: dichiarante needs the procedure's dichiarante");
     }
     for (const ref of Array.isArray(map.fields) ? (map.fields as string[]) : []) {
-      const problem = checkUse(ref, true, registry, false) ?? kindProblem(ref, registry, byRuolo ? "impresa" : "persona");
+      const problem =
+        checkUse(ref, true, registry, false) ??
+        kindProblem(ref, registry, byRuolo ? "impresa" : "persona") ??
+        (byRuolo ? procuraProblem(ref, (map.repeat as { ruolo?: unknown }).ruolo) : null);
       if (problem) problems.push(problem);
     }
   }
@@ -262,6 +271,15 @@ function checkPartyRef(ref: string, registry: Registry): string | null {
   const { member } = splitMember(ref);
   if (member) return `${ref}: inside party, write the field without a prefix; it is read from the person with that ruolo`;
   return checkFieldRef(ref, registry, "the person with that ruolo") ?? kindProblem(ref, registry, "impresa");
+}
+
+// A person picked by ruolo can be read for a procura only if every ruolo that
+// picks them is one that gives the business a procura (GIVES_PROCURA).
+function procuraProblem(ref: string, ruolo: unknown): string | null {
+  if (splitMember(ref).local.split(".")[0] !== "procura") return null;
+  const others = (Array.isArray(ruolo) ? ruolo : [ruolo]).filter((r) => !GIVES_PROCURA.has(r as string));
+  if (others.length === 0) return null;
+  return `${ref}: procura is one a person gave the business, as a client does, so read it from ruolo ${[...GIVES_PROCURA].join(", ")}, not ${others.join(", ")}`;
 }
 
 // The dichiarante is the owner of a personal vault or a person with a ruolo in

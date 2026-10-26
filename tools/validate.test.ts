@@ -242,6 +242,21 @@ test("repeat by ruolo fills one row per person with it, from what a business vau
   assert.match(row("famiglia", ["*:business.qualita_dichiarante"]), /^$/); // a member's own business, in a personal vault
 });
 
+test("a procura is read only from someone who gives one: a cliente, or a family member", () => {
+  const map = (m: Record<string, unknown>) => errorsFor(withForm({ label: "X", map: m }));
+  assert.equal(map({ party: { ruolo: "cliente" }, direct: "procura.ente" }), "");
+  assert.equal(map({ party: { ruolo: "cliente" }, concat: ["procura.oggetto", "procura.data_scadenza"] }), "");
+  assert.equal(map({ repeat: { ruolo: "cliente" }, fields: ["*:identity.last_name", "*:procura.data_scadenza"] }), "");
+  assert.equal(map({ repeat: "famiglia", fields: ["*:procura.ente"] }), ""); // a parent's delega
+  // The procuratore holds the business's procura, not one they gave it.
+  assert.match(map({ party: { ruolo: "procuratore" }, direct: "procura.ente" }), /procura is one a person gave the business.*from ruolo cliente, not procuratore/);
+  assert.match(map({ party: { ruolo: "procuratore" }, fallback: ["identity.pec", "procura.oggetto"] }), /not procuratore/);
+  assert.match(map({ party: { ruolo: ["cliente", "socio"] }, direct: "procura.*" }), /not socio$/);
+  assert.match(map({ repeat: { ruolo: ["procuratore", "cliente"] }, fields: ["*:procura.data_scadenza"] }), /not procuratore$/);
+  // Other fields of the same people are unaffected.
+  assert.equal(map({ party: { ruolo: "procuratore" }, direct: "identity.codice_fiscale" }), "");
+});
+
 test("with a dichiarante, a person's own data is theirs and the rest stays the vault owner's", () => {
   const fields = [
     { label: "Cognome", map: { direct: "identity.last_name" } },
