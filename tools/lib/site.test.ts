@@ -277,8 +277,9 @@ test("the report form is built from the procedure's own channels, documents and 
   assert.ok(!html.includes("issues/new"));
   assert.ok(body.includes('name="documents[1][asked]" value="no"'));
   assert.ok(body.includes('<option value="2026-10">ottobre 2026</option>'));
-  assert.ok(body.includes('<option value="2024-11">novembre 2024</option>'));
-  assert.ok(!body.includes('value="2024-10"'));
+  // The last 12 months: older reports are refused, having left the figures' window.
+  assert.ok(body.includes('<option value="2025-11">novembre 2025</option>'));
+  assert.ok(!body.includes('value="2025-10"'));
   for (const [id, title] of [["in-breve", "In breve"], ["come", "Come si presenta?"], ["documenti", "Quali documenti servono?"]]) {
     assert.ok(body.includes(`<option value="${id}">${esc(title)}</option>`), id);
     // The link sits under the heading, not in it, and doesn't reload the page.

@@ -65,7 +65,7 @@ async function main(): Promise<void> {
     }
     case "show": {
       const { report, contact } = await show(db, need());
-      console.log(JSON.stringify(report, null, 2));
+      console.log(report ? JSON.stringify(report, null, 2) : "(the report has expired; only its contact is left)");
       if (contact) console.log(`contatto: ${contact}`);
       return;
     }

@@ -187,6 +187,13 @@ test("a month in the future is rejected", async () => {
   assert.equal((await docs("reports")).length, 0);
 });
 
+test("a month that has left the 12-month window is rejected, not stored to be deleted at once", async () => {
+  // Now is October 2026: the window starts at November 2025.
+  assert.equal((await postJson({ ...REPORT, done: "2025-10" })).status, 400);
+  assert.equal((await postJson({ ...REPORT, done: "2025-11" })).status, 201);
+  assert.equal((await docs("reports")).length, 1);
+});
+
 test("a report about a procedure the site doesn't list is rejected", async () => {
   const reply = await postJson({ ...REPORT, procedure: "napoli/comune/non-esiste" });
   assert.equal(reply.status, 400);
@@ -258,7 +265,7 @@ test("personal data in text fields is replaced and the report flagged", async ()
 
 test("a contact email is stored only in contacts, and only with consent", async () => {
   const email = "maria@example.org";
-  const reply = await postJson({ ...REPORT, consent_contact: true, contact_email: email });
+  const reply = await postJson({ ...REPORT, consent_contact: true, contact_email: "Maria@Example.org" });
   assert.equal(reply.status, 201);
   const [report] = await docs("reports");
   assert.equal(report.get("contact_email"), undefined);

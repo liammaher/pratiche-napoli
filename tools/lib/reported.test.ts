@@ -45,15 +45,49 @@ test("each figure needs 3 reports of its own, and so does what is left over", ()
   // PEC 3 and desk 3; the desk has 1 answer about days, so none for it.
   assert.deepEqual(block.channels, [
     { type: "desk", count: 3 },
-    { type: "pec", count: 3, days_to_answer: { median: 22, n: 3 } },
+    { type: "pec", count: 3, days_to_answer: { median: 20, n: 3 } },
   ]);
-  // A median rounded to whole euros, never a smallest or largest value.
-  assert.deepEqual(block.paid_eur, { median: 17, n: 3 });
+  // Rounded medians (22 days to 20, 16,50 € to 15 €), never a smallest or largest value.
+  assert.deepEqual(block.paid_eur, { median: 15, n: 3 });
   assert.equal(block.desk_wait_minutes, undefined); // only 2 answers
   // Visura was answered twice, "Altro" isn't a listed document.
   assert.deepEqual(block.documents, [{ name: "Mod. 1", asked: 3, of: 3 }]);
   assert.equal(block.basis.length, 6);
   assert.deepEqual(block.basis, [...block.basis].sort());
+});
+
+test("a figure isn't published when 1 or 2 of its total didn't answer", () => {
+  // 3 at the desk said how long they waited, the fourth (by PEC) didn't: the
+  // channels are held back, and the wait, whose 3 of 4 would point at the PEC one, too.
+  const desk = (m: number) => r({ channel: "desk", desk_wait_minutes: m });
+  const four = aggregate([desk(10), desk(20), desk(30), r()], DOCS, TODAY)!;
+  assert.equal(four.channels, undefined);
+  assert.equal(four.desk_wait_minutes, undefined);
+  assert.deepEqual(aggregate([desk(10), desk(20), desk(30)], DOCS, TODAY)!.desk_wait_minutes, { median: 20, n: 3 });
+  // Within a channel, the same for days.
+  const pec = (d?: number) => r({ days_to_answer: d });
+  assert.equal(aggregate([pec(10), pec(20), pec(30), pec()], DOCS, TODAY)!.channels![0].days_to_answer, undefined);
+  // A document answered by 3 of 4.
+  const doc = (asked?: boolean) => r(asked === undefined ? {} : { documents: [{ name: "Visura", asked }] });
+  assert.equal(aggregate([doc(true), doc(true), doc(true), doc()], DOCS, TODAY)!.documents, undefined);
+  // Rejection reasons only beside a published count of refusals.
+  const refused = (reason: string) => r({ outcome: "respinta", rejection_reason: reason });
+  const hidden = aggregate([refused("Manca la firma"), refused("Manca la firma"), refused("Manca la firma"), r(), r()], DOCS, TODAY)!;
+  assert.equal(hidden.outcomes, undefined);
+  assert.equal(hidden.rejection_reasons, undefined);
+  const shown = aggregate([refused("Manca la firma"), refused("Manca la firma"), refused("Manca la firma"), r(), r(), r()], DOCS, TODAY)!;
+  assert.deepEqual(shown.rejection_reasons, [{ text: "Manca la firma", count: 3 }]);
+});
+
+test("medians are rounded coarser as they grow", () => {
+  const days = (...ds: number[]) => aggregate(ds.map((d) => r({ days_to_answer: d })), DOCS, TODAY)!.channels![0].days_to_answer!.median;
+  assert.equal(days(2, 3, 4), 3);
+  assert.equal(days(10, 23, 30), 25);
+  assert.equal(days(40, 64, 90), 60);
+  const paid = (...es: number[]) => aggregate(es.map((e) => r({ paid_eur: e })), DOCS, TODAY)!.paid_eur!.median;
+  assert.equal(paid(16, 16, 16), 15);
+  assert.equal(paid(200, 237, 300), 240);
+  assert.equal(paid(1000, 1237, 2000), 1250);
 });
 
 test("counts held back so that the rest is never 1 or 2", () => {
@@ -77,24 +111,48 @@ test("a document's asked and not asked are each none or 3, one answer per report
   assert.equal(ask([true, true, true], [], []), undefined);
 });
 
-test("a block changes only when at least 3 reports came in or dropped out", () => {
+test("a block changes only when, against every earlier version, at least 3 reports came in or dropped out", () => {
   const first = [r(), r(), r()];
   const old = aggregate(first, DOCS, TODAY)!;
-  assert.deepEqual(nextReported(undefined, first, DOCS, TODAY), { block: old });
+  assert.deepEqual(nextReported([], first, DOCS, TODAY), { block: old });
   // One more report: comparing the two versions would describe it.
-  const one = nextReported(old, [...first, r({ outcome: "respinta" })], DOCS, TODAY);
+  const one = nextReported([old], [...first, r({ outcome: "respinta" })], DOCS, TODAY);
   assert.equal(one.block, old);
-  assert.match(one.held!, /1 new and 0 dropped/);
+  assert.match(one.held!, /fewer than 3 reports in or out since the version of 2026-10-26; kept as it is/);
   // Three more: the new block.
-  const three = nextReported(old, [...first, r(), r(), r()], DOCS, TODAY);
+  const three = nextReported([old], [...first, r(), r(), r()], DOCS, TODAY);
   assert.equal(three.held, undefined);
   assert.equal(three.block!.count, 6);
-  // One aging out is held too, and so is the block's removal it would cause.
-  const aged = nextReported(old, [first[0], first[1], { ...first[2], done: "2025-01" }], DOCS, TODAY);
-  assert.equal(aged.block, old);
-  // All three gone: the block goes.
-  assert.deepEqual(nextReported(old, [], DOCS, TODAY), { block: undefined });
+  // Fewer than 3 left: the block goes, which publishes nothing.
+  assert.deepEqual(nextReported([old], [first[0], first[1], { ...first[2], done: "2025-01" }], DOCS, TODAY), { block: undefined });
   assert.match(fingerprint("abc"), /^[0-9a-f]{12}$/);
+});
+
+test("versions are compared with every earlier one, not just the last", () => {
+  // A = 5 reports; B = A + 3; C = B − 3 (one of A's, two of B's) + 1 refusal.
+  // B against A and C against B each move 3, but C against A is 1 out and 1 in.
+  const a = [r(), r(), r(), r(), r()];
+  const b = [...a, r(), r(), r()];
+  const vA = aggregate(a, DOCS, TODAY)!;
+  const vB = nextReported([vA], b, DOCS, TODAY).block!;
+  assert.equal(vB.count, 8);
+  const c = [...a.slice(1), b[7], r({ outcome: "respinta" })];
+  const next = nextReported([vA, vB], c, DOCS, TODAY);
+  assert.equal(next.block, vB);
+  assert.match(next.held!, /since the version of 2026-10-26/);
+});
+
+test("a block that can't change is removed after 90 days, rather than kept for ever", () => {
+  const first = [1, 2, 3, 4].map(() => r({ done: "2026-05" }));
+  const old = aggregate(first, DOCS, "2026-06-01")!;
+  // One report deleted on request: the block can't change by just that one...
+  const left = first.slice(1);
+  assert.equal(nextReported([old], left, DOCS, "2026-08-01").block, old);
+  // ...but after 90 days it goes, and the deleted report with it.
+  assert.deepEqual(nextReported([old], left, DOCS, "2026-09-15"), {
+    block: undefined,
+    held: "fewer than 3 reports in or out since the version of 2026-06-01; removed until it can change",
+  });
 });
 
 test("the maintainer's words: counts only from 3, tips kept once, newest first", () => {
@@ -104,6 +162,8 @@ test("the maintainer's words: counts only from 3, tips kept once, newest first",
       r({ tip: "Portare due copie", extra_document: "Planimetria", rejection_reason: "Manca la firma", done: "2026-09" }),
       r({ tip: "Mandare la PEC al mattino", extra_document: "Planimetria", done: "2026-08" }),
       r({ extra_document: "Visura storica", done: "2026-08" }),
+      r({ done: "2026-08" }),
+      r({ done: "2026-08" }),
     ],
     DOCS,
     TODAY,

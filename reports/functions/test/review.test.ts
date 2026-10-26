@@ -48,10 +48,17 @@ test("pending reports come grouped by procedure, oldest first", async () => {
 
 test("show gives the report and, if there is one, its contact", async () => {
   const { report: r, contact } = await show(db, "a1");
-  assert.equal(r.procedure, "napoli/comune/a");
+  assert.equal(r?.procedure, "napoli/comune/a");
   assert.equal(contact, "persona@example.org");
   assert.equal((await show(db, "b1")).contact, undefined);
   await assert.rejects(show(db, "nope"), /no report nope/);
+});
+
+test("once the report has expired, its contact can still be shown and deleted", async () => {
+  await db.doc("reports/a1").delete();
+  assert.deepEqual(await show(db, "a1"), { report: undefined, contact: "persona@example.org" });
+  await remove(db, "a1");
+  assert.equal((await db.doc("contacts/a1").get()).exists, false);
 });
 
 test("accept records the maintainer's words; reject and unknown ids", async () => {
@@ -75,6 +82,7 @@ test("accept records the maintainer's words; reject and unknown ids", async () =
 
 test("find gives the reports of someone who left their email", async () => {
   assert.deepEqual(await findByEmail(db, " persona@example.org "), ["a1"]);
+  assert.deepEqual(await findByEmail(db, "Persona@Example.ORG"), ["a1"]);
   assert.deepEqual(await findByEmail(db, "altra@example.org"), []);
 });
 

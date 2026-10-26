@@ -900,10 +900,11 @@ const VERDICTS: [string, string][] = [
   ["confermata", "era giusta"],
 ];
 
-// The months a report can be about, newest first: the last two years.
+// The months a report can be about, newest first: the last 12, the ones the
+// figures use (the backend refuses older ones).
 function recentMonths(built: Date): [string, string][] {
   const fmt = new Intl.DateTimeFormat("it-IT", { month: "long", year: "numeric", timeZone: "UTC" });
-  return Array.from({ length: 24 }, (_, i) => {
+  return Array.from({ length: 12 }, (_, i) => {
     const d = new Date(Date.UTC(built.getUTCFullYear(), built.getUTCMonth() - i, 1));
     return [d.toISOString().slice(0, 7), fmt.format(d)] as [string, string];
   });
@@ -983,12 +984,12 @@ function renderPrivacy(site: Site): string {
 <h2>I racconti di chi ha fatto una pratica</h2>
 <p>Se compili il modulo "Racconta com'è andata", riceviamo solo quello che scrivi: il mese, il canale e l'ufficio, com'è finita, tempi, importi, quali documenti ti hanno chiesto e le tue note. Lo usiamo per un solo scopo: tenere aggiornate le pagine delle pratiche.</p>
 <ul>
-<li><strong>Cosa pubblichiamo</strong>: mai il tuo racconto così com'è. Solo statistiche in cui ogni numero viene da almeno 3 racconti (per esempio "risposta in circa 23 giorni via PEC, 7 racconti"), sempre valori tipici e mai il più alto o il più basso, e consigli che riscriviamo noi. Le statistiche cambiano solo quando sono arrivati o usciti almeno 3 racconti, così confrontando due versioni non si risale a nessuno.</li>
+<li><strong>Cosa pubblichiamo</strong>: mai il tuo racconto così com'è. Solo statistiche in cui ogni numero viene da almeno 3 racconti (per esempio "risposta in circa 23 giorni via PEC, 7 racconti"), sempre valori tipici arrotondati e mai il più alto o il più basso, e consigli che riscriviamo noi. Le statistiche cambiano solo quando, rispetto a ogni versione precedente, sono arrivati o usciti almeno 3 racconti, così confrontando le versioni non si risale a nessuno.</li>
 <li><strong>Dati personali</strong>: non ne chiediamo e ti chiediamo di non scriverne. Codici fiscali e IBAN scritti per errore, anche con un errore di battitura, vengono tolti automaticamente all'arrivo.</li>
 <li><strong>Indirizzo IP</strong>: non lo salviamo con il racconto, e il servizio che lo riceve è impostato per non conservarlo nei suoi registri. Per limitare gli invii ripetuti teniamo un codice pseudonimo ricavato dall'indirizzo, valido un'ora e cancellato entro un giorno.</li>
 <li><strong>Email</strong>: la chiediamo solo se spunti la casella per essere ricontattato. È conservata separata dal racconto e cancellata dopo 12 mesi.</li>
 <li><strong>Dove</strong>: su Google Firebase, in un database nell'Unione europea (Milano), accessibile solo a chi cura il progetto.</li>
-<li><strong>Per quanto</strong>: ogni racconto viene cancellato automaticamente quando esce dalle statistiche, che usano quelli degli ultimi 12 mesi: 12 mesi dopo il mese della pratica che racconta.</li>
+<li><strong>Per quanto</strong>: ogni racconto viene cancellato automaticamente quando esce dalle statistiche, che usano quelli degli ultimi 12 mesi: 12 mesi dopo il mese della pratica che racconta. Per questo il modulo accetta solo pratiche degli ultimi 12 mesi.</li>
 <li><strong>I tuoi diritti</strong>: dopo l'invio ricevi un codice del racconto. Con quel codice, o con l'email se l'hai lasciata, puoi chiederci in ogni momento di vederlo, correggerlo o cancellarlo.</li>
 <li><strong>Base giuridica</strong>: il tuo consenso, che dai inviando il modulo (e spuntando la casella, per l'email). Puoi revocarlo quando vuoi.</li>
 </ul>

@@ -125,6 +125,10 @@ export function createHandler(config: Config): Handler {
       if (report.done > monthInRome(at)) {
         return fail(400, "invalid_report", "Il mese indicato è nel futuro.", ["/done is in the future"], ["done"]);
       }
+      // An older report would be deleted at once, unread: it has left the window.
+      if (leavesWindow(report.done) <= at) {
+        return fail(400, "invalid_report", "Raccogliamo i racconti degli ultimi 12 mesi.", ["/done is over 12 months ago"], ["done"]);
+      }
 
       let ids: Set<string>;
       try {
@@ -157,7 +161,12 @@ export function createHandler(config: Config): Handler {
       if (contact_email) {
         const expires = new Date(at);
         expires.setUTCFullYear(expires.getUTCFullYear() + 1);
-        batch.set(db.collection("contacts").doc(ref.id), { contact_email, received_at, expires_at: Timestamp.fromDate(expires) });
+        // Lower case, so a request to find it matches however it was typed.
+        batch.set(db.collection("contacts").doc(ref.id), {
+          contact_email: contact_email.trim().toLowerCase(),
+          received_at,
+          expires_at: Timestamp.fromDate(expires),
+        });
       }
       await batch.commit();
       return accepted(ref.id);

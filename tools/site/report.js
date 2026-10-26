@@ -23,6 +23,9 @@
     if (value <= newest) break;
     done.insertBefore(new Option(label.format(d), value), done.options[at++]);
   }
+  // And drop those that have since left the last 12 months, which the backend refuses.
+  const oldest = new Date(Date.UTC(year, month - 12, 1)).toISOString().slice(0, 7);
+  for (const option of [...done.options]) if (option.value && option.value < oldest) option.remove();
 
   // "Segnala" links (and a shared ?sezione= link) preset the part of the page
   // the report is about. The links point at #racconta, so nothing reloads.

@@ -498,6 +498,24 @@ test("the reported block is checked against the schema and the procedure", () =>
   assert.match(errorsFor(doc), /reported basis has 3 reports, but count is 4/);
   doc.reported.count = 3;
   doc.reported.outcomes = { completata: 3 };
+  // A figure answered by 3 of 4 points at the fourth.
+  doc.reported.count = 4;
+  doc.reported.basis.push("3456789abcde");
+  doc.reported.outcomes = { completata: 4 };
+  doc.reported.channels[0].count = 4;
+  doc.reported.paid_eur = { median: 15, n: 3 };
+  doc.reported.rejection_reasons = [{ text: "Manca la firma", count: 3 }];
+  errors = errorsFor(doc);
+  assert.match(errors, /reported paid_eur: those who didn't answer must be none or at least 3/);
+  assert.match(errors, /reported channels\/0\/days_to_answer: those who didn't answer/);
+  assert.match(errors, /reported document "Modulo": those who didn't say/);
+  assert.match(errors, /reported rejection_reasons need the count of refusals/);
+  doc.reported.count = 3;
+  doc.reported.basis.pop();
+  doc.reported.outcomes = { completata: 3 };
+  doc.reported.channels[0].count = 3;
+  delete doc.reported.paid_eur;
+  delete doc.reported.rejection_reasons;
 
   doc.reported.channels[0].days_to_answer.n = 2;
   assert.match(errorsFor(doc), /schema: \/reported\/channels\/0\/days_to_answer\/n must be >= 3/);

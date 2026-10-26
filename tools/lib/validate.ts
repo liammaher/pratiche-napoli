@@ -64,8 +64,12 @@ interface Doc {
     period: { from: string; to: string };
     count: number;
     outcomes?: Record<string, number>;
-    channels?: { count: number }[];
+    channels?: { count: number; days_to_answer?: { n: number } }[];
+    desk_wait_minutes?: { n: number };
+    paid_eur?: { n: number };
     documents?: { name: string; asked: number; of: number }[];
+    extra_documents?: { text: string; count: number }[];
+    rejection_reasons?: { count: number }[];
     basis: string[];
   };
   sources?: Source[];
@@ -177,12 +181,30 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
     const listed = new Set((d.documents ?? []).map((doc) => doc.name));
     // What the counts leave over beside the total would be someone's result.
     const leftover = (n: number) => n !== 0 && n < 3;
+    const sum = (ns: number[]) => ns.reduce((a, b) => a + b, 0);
     for (const doc of rep.documents ?? []) {
       if (!listed.has(doc.name)) errors.push(`reported document "${doc.name}" is not in documents`);
       if (doc.asked > doc.of) errors.push(`reported document "${doc.name}" was asked more often than reported`);
       else if (leftover(doc.of - doc.asked)) errors.push(`reported document "${doc.name}": those not asked must be none or at least 3`);
+      if (leftover(rep.count - doc.of)) errors.push(`reported document "${doc.name}": those who didn't say must be none or at least 3`);
     }
-    const sum = (ns: number[]) => ns.reduce((a, b) => a + b, 0);
+    // Each figure's answers, and each text's count, against the total they come from.
+    const parts: [string, number | undefined, number][] = [
+      ["desk_wait_minutes", rep.desk_wait_minutes?.n, rep.count],
+      ["paid_eur", rep.paid_eur?.n, rep.count],
+      ...(rep.channels ?? []).map((c, i): [string, number | undefined, number] => [`channels/${i}/days_to_answer`, c.days_to_answer?.n, c.count]),
+      ...(rep.extra_documents ?? []).map((d): [string, number, number] => [`extra document "${d.text}"`, d.count, rep.count]),
+    ];
+    for (const [what, n, total] of parts) {
+      if (n !== undefined && leftover(total - n)) errors.push(`reported ${what}: those who didn't answer must be none or at least 3`);
+    }
+    if (rep.rejection_reasons) {
+      const refused = rep.outcomes?.respinta;
+      if (refused === undefined) errors.push("reported rejection_reasons need the count of refusals in outcomes");
+      else if (leftover(refused - sum(rep.rejection_reasons.map((r) => r.count)))) {
+        errors.push("reported rejection_reasons leave 1 or 2 refusals over");
+      }
+    }
     if (rep.outcomes && leftover(rep.count - sum(Object.values(rep.outcomes)))) {
       errors.push("reported outcomes leave 1 or 2 reports over beside the count");
     }
