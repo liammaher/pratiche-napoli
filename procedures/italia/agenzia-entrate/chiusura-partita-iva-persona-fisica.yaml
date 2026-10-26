@@ -1,7 +1,7 @@
 schema_version: 0
 id: italia/agenzia-entrate/chiusura-partita-iva-persona-fisica
 title: Chiusura della partita IVA per persone fisiche – modello AA9/12 (Agenzia delle Entrate)
-headline: "Chiudere la partita IVA come persona fisica: cessazione attività con il modello AA9/12"
+headline: "Chiudere la partita IVA da libero professionista o lavoratore autonomo: il modello AA9/12"
 aka:
   - chiusura P.IVA
   - cancellare la partita IVA

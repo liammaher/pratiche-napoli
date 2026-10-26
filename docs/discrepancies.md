@@ -19,6 +19,7 @@ Quote at most a few words; link or name the source. Grouped by the office that c
 | 2026-10-25 | Regolamento TARI (delibera C.C. 37/2023), art. 40 | Still describes reclamo-mediazione with a 90-day stay and suspended collection under art. 17-bis D.Lgs. 546/1992, which D.Lgs. 220/2023 repealed (from 4/1/2024). | `tari-autotutela-avviso-non-domestica`, all `tari-*` | No |
 | 2026-10-25 | Mod. 7 TARI | Its AVVERTENZE are copied from the declaration forms ("valida anche per gli anni successivi"); its PDF title says "TaRSU"; it is addressed to "Servizio Gestione TARI" while the page links "Servizio IMU e TARI"; it cites D.Lgs. 196/2003. | `tari-autotutela-avviso-non-domestica` | No |
 | 2026-10-25 | Regolamento TARI art. 14 c. 7 | Describes the B&B with 2001 wording ("saltuario e non professionale", eight guests) and says nothing on business-form B&Bs. | `avvio-bed-and-breakfast`, `tari-*` | No |
+| 2026-10-26 | Regolamento TARI (delibera C.C. 37/2023), art. 35 cc. 1–2 | 30% penalty for late or missing payment (15% within 90 days, 1% a day within 15); art. 13 D.Lgs. 471/1997, to which the law refers, gives 25% for violations from 1/9/2024. | `tari-autotutela-avviso-non-domestica` | No |
 | 2026-10-26 | Mod. 1, 5, 6, 7 and 8 TARI, INFORMAZIONI | The link given to book a phone or email appointment, servizionline.comune.napoli.it/web/napoli/tributi, returns HTTP 404. | `tari-*` | No |
 
 ## Comune di Napoli – SUAP

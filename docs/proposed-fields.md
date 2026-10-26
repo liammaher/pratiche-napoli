@@ -1,7 +1,8 @@
 # Proposed fields
 
 Form boxes currently mapped with `{ ask: ... }` because the field registry has nothing for
-them. Most-needed so far: the previous holder or taker-over (4 procedures) and a second premises
+them. Most-needed so far: the premises' phone (`locale.telefono`, 5 procedures), the country of
+residence or registered office (5), the previous holder or taker-over (4) and a second premises
 unit (3). When a field is needed by two or more procedures,
 add it to `contract/extensions.json`, run `npm run gen:fields`, and switch those mappings from `ask` to the new field.
 
@@ -43,8 +44,9 @@ The acconciatore Allegato B and estetista Allegato C both list every responsabil
 
 | Proposed field | Meaning | Needed by |
 |---|---|---|
-| `business.sede_legale_stato`, `residenza.stato` | Country of registered office / residence | `scia-esercizio-vicinato`, `cila-lavori-edilizi` |
-| `business.requisito_professionale_*` | Food professional requirement (type, details, date) | `scia-esercizio-vicinato` |
+| `business.sede_legale_stato`, `residenza.stato` | Country of registered office / residence | `scia-esercizio-vicinato`, `scia-acconciatore-estetista`, `subingresso-attivita-commerciale`, `cessazione-attivita-commerciale`, `cila-lavori-edilizi` |
+| `locale.telefono` | Phone of the premises ("Telefono (attività)"), not the business's | `scia-esercizio-vicinato`, `scia-acconciatore-estetista`, `subingresso-attivita-commerciale`, `cessazione-attivita-commerciale`, `scia-prevenzione-incendi` |
+| `business.requisito_professionale_*` | Food professional requirement (type, details, date) | `scia-esercizio-vicinato`, `subingresso-attivita-commerciale` |
 | `locale.data_fine` | Date occupation of the premises ended | `tari-cessazione-non-domestica` |
 | `locale.motivo_cessazione` | Why the premises were left | `tari-cessazione-non-domestica` |
 | `locale.superficie_vendita_mq` (+ alimentare / non alimentare) | Selling area, not the whole surface | `scia-esercizio-vicinato` |
@@ -56,7 +58,7 @@ The acconciatore Allegato B and estetista Allegato C both list every responsabil
 | `tari_ditta.codice_contribuente`, `tari_ditta.superficie_dichiarata_mq` | The business's own TARI position (`tari.*` is the home's) | `tari-*-non-domestica` |
 | `suap.id_pratica` | Practice code assigned by impresainungiorno | `scia-somministrazione-alimenti-bevande` |
 | `tecnico.*` | Qualified technician: name, CF, ordine/collegio, number, PEC. The vault has `albo.*` for a person; the CILA leaves these boxes to the tecnico, so no mapping yet | `cila-lavori-edilizi` |
-| `locale.scala`, `locale.piano`, `locale.telefono`, `locale.superficie_totale_mq` | More premises details | `cila-lavori-edilizi`, `scia-acconciatore-estetista` |
+| `locale.scala`, `locale.piano`, `locale.superficie_totale_mq` | More premises details | `cila-lavori-edilizi`, `scia-acconciatore-estetista` |
 | `locale.catasto_tipo`, `locale.catasto_sezione_censuaria` | Catasto fabbricati/terreni; census section | `cila-lavori-edilizi` |
 | `locale.registrazione_*` | Registration of the lease/comodato for the premises (date, office, number, series) | `apertura-partita-iva-persona-fisica` |
 | `business.depositario_scritture_*` | Who keeps the accounting records, and where | `apertura-partita-iva-persona-fisica` |

@@ -1,7 +1,7 @@
 schema_version: 0
 id: italia/agenzia-entrate/apertura-partita-iva-persona-fisica
 title: Apertura della partita IVA per persone fisiche – modello AA9/12 (Agenzia delle Entrate)
-headline: "Aprire la partita IVA a Napoli come persona fisica: modello AA9/12"
+headline: "Aprire la partita IVA da libero professionista o lavoratore autonomo: il modello AA9/12"
 aka:
   - partita IVA libero professionista
   - partita IVA forfettaria
