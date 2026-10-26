@@ -151,7 +151,9 @@ test("wildcards can't sweep in secret fields", () => {
 });
 
 test("credential-like names are refused in open categories and member rows", () => {
-  for (const ref of ["documents.cie_pin", "documents.spid_password", "documents.otp"]) {
+  // Run together, as the vault also reads them: an identity word and a credential word.
+  for (const ref of ["documents.cie_pin", "documents.spid_password", "documents.otp",
+    "documents.ciepin", "documents.spidpassword", "documents.pinspid", "documents.cnspuk", "documents.spidusername", "documents.firmadigitalepin2"]) {
     assert.match(checkFieldRef(ref, ctx.registry) ?? "", /secret/, ref);
   }
   assert.match(errorsFor(withForm({ label: "X", map: { repeat: "famiglia", fields: ["*:documents.cie_pin"] } })), /secret/);
@@ -685,8 +687,10 @@ test("registry rejects malformed vault schemas", () => {
   const words = (credentials: unknown) => () => buildRegistry({ version: "1", categories: [], credentials } as any);
   assert.throws(words(undefined), /credentials.secret must be a whole-word pattern/);
   assert.throws(words({ ...WORDS, credential: "pin" }), /credentials.credential must be a whole-word pattern/);
-  assert.throws(words({ ...WORDS, identity: "^(?<x$" }), /Invalid regular expression/);
+  assert.throws(words({ ...WORDS, identity: "^(?<x$" }), /credentials.identity must be a whole-word pattern/);
+  assert.throws(words({ ...WORDS, identity: "^((?<x)$" }), /Invalid regular expression/);
   assert.equal(buildRegistry({ version: "1", categories: [], credentials: WORDS }).credential_word, WORDS.credential);
+  assert.equal(buildRegistry({ version: "1", categories: [], credentials: WORDS }).identity_word, WORDS.identity);
   assert.throws(
     () => buildRegistry({ version: "1", credentials: WORDS, categories: [{ name: "x", description: "", scope: "person", fields: [{ id: "y.z", description: "", sensitivity: "standard" }] }] }),
     /listed under category "x"/,
@@ -732,6 +736,13 @@ test("extensions add fields marked as not yet in the vault, and can't clash or r
   assert.throws(ext([{ name: "pratiche", fields: [{ id: "pratiche.x", description: "" }] }]), /can't add to category "pratiche"/);
   assert.throws(ext([{ name: "documents", fields: [{ id: "documents.x", description: "" }] }]), /open category "documents"/);
   assert.throws(ext([{ name: "nuova", fields: [{ id: "nuova.x", description: "" }] }]), /needs a description/);
+  assert.throws(ext([{ name: "pin_carta", description: "x", scope: "person", fields: [{ id: "pin_carta.numero", description: "" }] }]), /category "pin_carta" looks like a credential/);
+  // A SPID or CieID account, however its provider is written: the vault keeps all its fields secret.
+  for (const name of ["cieid", "spid_poste", "spidaruba", "cieid_app", "spid_aruba"]) {
+    assert.throws(ext([{ name, description: "x", scope: "person", fields: [{ id: `${name}.numero_utente`, description: "" }] }]), /looks like a credential/, name);
+  }
+  assert.doesNotThrow(ext([{ name: "spidino", description: "x", scope: "person", fields: [{ id: "spidino.nome", description: "" }] }]));
+  assert.throws(ext([{ name: "business", fields: [{ id: "business.spidpassword", description: "" }] }]), /looks like a credential/);
   assert.throws(ext([{ name: "nuova", description: "x", fields: [{ id: "nuova.x", description: "" }] }]), /needs a scope/);
   assert.throws(ext([{ name: "business", fields: [{ id: "locale.x", description: "" }] }]), /listed under category "business"/);
 

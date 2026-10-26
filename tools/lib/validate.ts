@@ -459,7 +459,7 @@ export function checkFieldRef(ref: string, registry: Registry, person?: string):
     if ((member || person) && all("owner")) return `${ref}: every ${cat} field is the vault owner's only`;
     return null;
   }
-  if (isCredentialName(field, registry.credential_word)) return secret;
+  if (isCredentialName(field, registry)) return secret;
 
   if (category.open) return null;
   const known = category.fields.find((f) => f.id === local);
