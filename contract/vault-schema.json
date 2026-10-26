@@ -1,5 +1,5 @@
 {
-  "version": "8",
+  "version": "9",
   "categories": [
     {
       "name": "identity",
@@ -52,12 +52,17 @@
         },
         {
           "id": "identity.birth_comune",
-          "description": "Comune (or foreign country) of birth",
+          "description": "Comune of birth; if born abroad, the place as written on your documents (and the country in identity.birth_country)",
           "sensitivity": "standard"
         },
         {
           "id": "identity.birth_province",
           "description": "Provincia of birth as 2-letter sigla (e.g. NA), or EE if born abroad",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "identity.birth_country",
+          "description": "Country of birth, only if born outside Italy (e.g. Regno Unito); forms ask for it as 'stato estero'",
           "sensitivity": "standard"
         },
         {
@@ -165,7 +170,7 @@
         },
         {
           "id": "residenza.provincia",
-          "description": "Provincia as 2-letter sigla (e.g. NA, validated)",
+          "description": "Provincia as 2-letter sigla (e.g. NA; the format is checked, not the list)",
           "sensitivity": "standard"
         },
         {
@@ -206,7 +211,7 @@
         },
         {
           "id": "domicilio.provincia",
-          "description": "Provincia as 2-letter sigla (e.g. NA, validated)",
+          "description": "Provincia as 2-letter sigla (e.g. NA; the format is checked, not the list)",
           "sensitivity": "standard"
         }
       ]
@@ -558,6 +563,127 @@
         {
           "id": "business.data_apertura",
           "description": "Date the partita IVA was opened (YYYY-MM-DD)",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "business.qualita_dichiarante",
+          "description": "Your role when you sign for the business: titolare or legale_rappresentante (validated)",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "business.email",
+          "description": "Business email address (not the PEC)",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "business.descrizione_attivita",
+          "description": "Short description of the activity carried on, as on SCIA and TARI forms",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "business.sede_legale_indirizzo",
+          "description": "Registered office (sede legale): street (via/piazza) without number",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "business.sede_legale_civico",
+          "description": "Registered office: street number",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "business.sede_legale_cap",
+          "description": "Registered office: CAP (5 digits, validated)",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "business.sede_legale_comune",
+          "description": "Registered office: comune",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "business.sede_legale_provincia",
+          "description": "Registered office: provincia as 2-letter sigla (e.g. NA; the format is checked, not the list)",
+          "sensitivity": "standard"
+        }
+      ]
+    },
+    {
+      "name": "locale",
+      "description": "The business premises (locali) where the activity is carried on, one unit; like abitazione for the home, but with its own address. Catasto data is on the visura catastale. Attach the visura and the lease with 'pvault doc add locale <file>'.",
+      "fields": [
+        {
+          "id": "locale.indirizzo",
+          "description": "Street (via/piazza) of the premises, without number",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "locale.civico",
+          "description": "Street number of the premises",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "locale.interno",
+          "description": "Unit number (interno), if any; 'int. 3' is saved as 3",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "locale.cap",
+          "description": "CAP of the premises (5 digits, validated)",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "locale.comune",
+          "description": "Comune of the premises",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "locale.provincia",
+          "description": "Provincia of the premises as 2-letter sigla (e.g. NA; the format is checked, not the list)",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "locale.titolo",
+          "description": "How the business holds the premises: proprietario, locatario, comodatario, usufruttuario or altro (validated)",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "locale.data_inizio",
+          "description": "Date occupation of the premises started (YYYY-MM-DD)",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "locale.catasto_sezione",
+          "description": "Sezione urbana from the visura, if any",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "locale.catasto_foglio",
+          "description": "Foglio from the visura (digits, validated)",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "locale.catasto_particella",
+          "description": "Particella (mappale) from the visura (validated)",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "locale.catasto_subalterno",
+          "description": "Subalterno from the visura, exactly as written (digits, validated)",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "locale.catasto_categoria",
+          "description": "Categoria catastale, e.g. C/1 for a shop (validated; c1 becomes C/1)",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "locale.superficie_mq",
+          "description": "Surface used for the activity, in m²",
+          "sensitivity": "standard"
+        },
+        {
+          "id": "locale.destinazione_uso",
+          "description": "Lawful use of the premises (e.g. negozio, ufficio, laboratorio, magazzino)",
           "sensitivity": "standard"
         }
       ]
