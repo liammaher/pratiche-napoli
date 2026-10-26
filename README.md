@@ -93,8 +93,9 @@ fact and source stays on the procedure. `npm run validate` checks them too, and 
 
 `npm run check:sources` re-fetches the official pages and forms the procedures cite, asking the
 offices' servers as little as possible, since some block an address that asks too much too fast:
-documents with a `sha256` every night and other pages on a fixed night of the week (`--all` checks
-everything); one request at a time per site with a pause between them; and each request carries the
+documents with a `sha256` every night and other pages on a fixed night of the week, plus any page
+without a result from the last week, so the first run (or one after the saved state is lost) checks
+everything (`--all` always does); one request at a time per site with a pause between them; and each request carries the
 ETag and Last-Modified from the last check, so an unchanged file answers 304 without its body. The
 latest result per address is saved (`--state`, by default `.cache/sources-state.json`), so each
 night's report covers the whole week. For pages that failed, the report adds what the Internet
