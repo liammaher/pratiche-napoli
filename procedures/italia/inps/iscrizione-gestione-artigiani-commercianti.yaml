@@ -1,7 +1,14 @@
 schema_version: 0
 id: italia/inps/iscrizione-gestione-artigiani-commercianti
 title: Iscrizione alla Gestione Artigiani o Commercianti e contributi 2026 (INPS)
-updated: 2026-10-25
+headline: "Iscrizione INPS artigiani e commercianti: come funziona e quanto si paga nel 2026"
+aka:
+  - contributi INPS commercianti
+  - contributi INPS artigiani
+  - minimale INPS
+  - cassetto previdenziale
+  - riduzione 35% forfettari
+updated: 2026-10-26
 summary: >-
   Il titolare di una ditta individuale artigiana o commerciale, e i familiari che lavorano con lui
   in modo abituale e prevalente, devono essere iscritti all'INPS nella Gestione Artigiani o nella
@@ -111,6 +118,14 @@ deadline:
       regolarizzazione). Non stimare sanzioni: farle calcolare dal Cassetto o dalla sede INPS.
     status: verified
     source: cassetto
+appointment:
+  text: >-
+    Non serve per iscriversi: per le imprese soggette al Registro imprese l'iscrizione parte
+    dalla Comunicazione Unica, inviata online. Per parlare con la sede INPS l'appuntamento
+    si fissa dal Cassetto previdenziale artigiani e commercianti (funzione "Gestione
+    appuntamenti").
+  status: verified
+  source: cassetto
 channels:
   - type: portal
     name: Comunicazione Unica (ComUnica) alla Camera di Commercio

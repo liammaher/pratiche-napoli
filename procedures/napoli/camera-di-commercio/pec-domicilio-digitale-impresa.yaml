@@ -1,6 +1,8 @@
 schema_version: 0
 id: napoli/camera-di-commercio/pec-domicilio-digitale-impresa
 title: PEC (domicilio digitale) dell'impresa e degli amministratori nel Registro Imprese – Camera di Commercio di Napoli
+headline: "PEC obbligatoria per imprese e amministratori: iscriverla al Registro Imprese di Napoli"
+aka: [PEC amministratori, cambio PEC impresa, PEC aziendale, INI-PEC, PEC revocata]
 updated: 2026-10-26
 summary: >-
   Ogni impresa iscritta al Registro Imprese, sia individuale sia società, deve avere un
@@ -135,6 +137,19 @@ deadline:
       del Registro Imprese.
     status: verified
     source: dl-185-2008-art16
+cost:
+  text: >-
+    Iscrivere o cambiare la PEC dell'impresa nel Registro Imprese è gratuito: niente imposta
+    di bollo né diritti di segreteria. La casella PEC si paga al gestore scelto tra quelli
+    autorizzati, con prezzi diversi da gestore a gestore.
+  status: verified
+  source: ri-indirizzo-pec
+appointment:
+  text: >-
+    Non serve: la PEC dell'impresa si comunica online con la Pratica semplice di
+    registroimprese.it, firmando digitalmente come titolare o legale rappresentante.
+  status: verified
+  source: ri-pratiche-semplici
 channels:
   - type: portal
     name: Pratica semplice – Iscrizione domicilio digitale / PEC per società o impresa individuale

@@ -1,7 +1,14 @@
 schema_version: 0
 id: italia/pagopa/send-notifiche-digitali
 title: SEND – ricevere e leggere le notifiche a valore legale della pubblica amministrazione
-updated: 2026-10-25
+headline: "Notifica a valore legale SEND: come leggerla, quando conta e quanto costa"
+aka:
+  - Servizio Notifiche Digitali
+  - notifica su app IO
+  - avviso di avvenuta ricezione
+  - raccomandata SEND
+  - codice IUN
+updated: 2026-10-26
 summary: >-
   SEND (Servizio Notifiche Digitali, gestito da PagoPA) è la piattaforma con cui comuni, enti e
   agenti della riscossione notificano atti a valore legale (multe, accertamenti, avvisi di
@@ -139,6 +146,30 @@ deadline:
       chiedere all'ente mittente, i cui riferimenti sono di solito nei documenti allegati.
     status: verified
     source: hc-domande-contenuto
+cost:
+  text: >-
+    Le spese di notifica sono a carico del destinatario e si aggiungono all'importo da
+    pagare. Per la notifica digitale il centro assistenza SEND scrive "massimo 2€", le FAQ
+    del sito "2€"; se parte la raccomandata si aggiungono stampa e invio, che variano. Al
+    Punto di ritiro la stampa dell'avviso costa 1,40 € (più IVA se prevista), e altri 1,40 €
+    quella degli atti.
+  status: disputed
+  source: hc-costi
+duration:
+  text: >-
+    La notifica si perfeziona quando il destinatario o un delegato la apre su SEND o su IO;
+    se non la apre prima, il settimo giorno dopo la consegna dell'avviso alla PEC, oppure il
+    decimo giorno dopo il perfezionamento della raccomandata con l'avviso di avvenuta
+    ricezione.
+  status: verified
+  source: dl-76-2020-art-26
+appointment:
+  text: >-
+    Non serve: la notifica si legge online su SEND o nell'app IO. Chi non ha SPID o CIE, o
+    vuole una copia cartacea, può andare a un Punto di ritiro convenzionato con l'avviso di
+    avvenuta ricezione, un documento d'identità valido e il codice fiscale.
+  status: verified
+  source: punti-di-ritiro
 channels:
   - type: portal
     name: SEND – area personale (cittadini, professionisti, ditte individuali e imprese)

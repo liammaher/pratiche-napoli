@@ -40,12 +40,17 @@ interface Source {
 export interface Procedure {
   id: string;
   title: string;
+  headline?: string;
+  aka?: string[];
   updated: string;
   summary: string;
   ente: { name: string; office?: string };
   applies_to: { events: string[]; audience: string[]; sectors?: string[]; conditions?: Claim[] };
   legal_basis?: Claim[];
   deadline?: { rules?: Claim[]; lateness?: Claim };
+  cost?: Claim;
+  duration?: Claim;
+  appointment?: Claim;
   channels: Channel[];
   payment?: {
     method: string;
@@ -197,7 +202,7 @@ function groupByEnte(procedures: Procedure[]): Ente[] {
     .map(([path, ps]) => ({
       path,
       name: ps[0].ente.name,
-      procedures: ps.sort((a, b) => a.title.localeCompare(b.title, "it")),
+      procedures: ps.sort((a, b) => heading(a).localeCompare(heading(b), "it")),
       updated: latest(ps.map((p) => p.updated)),
     }))
     .sort(
@@ -209,6 +214,8 @@ function groupByEnte(procedures: Procedure[]): Ente[] {
 }
 
 const folderOf = (id: string) => id.slice(0, id.lastIndexOf("/"));
+// What a page is called: the searcher's words when there are some, else the official name.
+const heading = (p: Procedure) => p.headline ?? p.title;
 const latest = (dates: string[]) => dates.reduce((a, b) => (b > a ? b : a), "");
 // From a page at `dir/index.html` back to the site root.
 const rootFrom = (dir: string) => (dir ? "../".repeat(dir.split("/").length) : "");
@@ -357,7 +364,7 @@ ${procedureList(e.procedures, rootFrom(e.path))}`;
 
 function procedureList(procedures: Procedure[], root: string): string {
   const items = procedures.map(
-    (p) => `<li data-search="${esc(`${p.title} ${p.summary}`)}"><a href="${root}${p.id}/">${esc(p.title)}</a>
+    (p) => `<li data-search="${esc([...new Set([heading(p), p.title, ...(p.aka ?? [])]), p.summary].join(" "))}"><a href="${root}${p.id}/">${esc(heading(p))}</a>
 <p>${esc(p.summary)}</p>
 <p class="meta">Aggiornata il ${time(p.updated)} · ${esc(levelText(p.verification.level))}</p></li>`,
   );
@@ -368,34 +375,38 @@ function renderProcedure(p: Procedure, ente: Ente, site: Site): string {
   const root = rootFrom(p.id);
   const cite = citer(p);
   const v = p.verification;
+  // Headings are the questions people ask; ids stay fixed for links.
   const sections = [
-    section("A chi serve", appliesTo(p, cite)),
-    p.legal_basis?.length ? section("Norme", claimList(p.legal_basis, cite)) : "",
-    p.deadline ? section("Scadenza", deadline(p.deadline, cite)) : "",
-    section("Come presentarla", p.channels.map((c) => channel(c, cite)).join("\n")),
-    p.payment ? section("Pagamento", payment(p.payment, cite)) : "",
-    p.documents?.length ? section("Documenti", documents(p.documents)) : "",
-    p.forms?.length ? section("Moduli", forms(p.forms, cite)) : "",
-    section("Passaggi", steps(p.steps)),
-    p.after?.length ? section("Dopo l'invio", list(p.after.map(esc))) : "",
+    section("chi", "Chi deve farla?", appliesTo(p, cite)),
+    p.legal_basis?.length ? section("norme", "Su quali norme si basa?", claimList(p.legal_basis, cite)) : "",
+    p.deadline ? section("scadenza", "Entro quando va fatta?", deadline(p.deadline, cite)) : "",
+    section("come", "Come si presenta?", p.channels.map((c) => channel(c, cite)).join("\n")),
+    p.payment ? section("pagamento", "Come si paga?", payment(p.payment, cite)) : "",
+    p.documents?.length ? section("documenti", "Quali documenti servono?", documents(p.documents)) : "",
+    p.forms?.length ? section("moduli", "Quali moduli servono?", forms(p.forms, cite)) : "",
+    section("passaggi", "Quali sono i passaggi?", steps(p.steps)),
+    p.after?.length ? section("dopo", "Cosa succede dopo l'invio?", list(p.after.map(esc))) : "",
     p.records?.length
       ? section(
+          "conservare",
           "Cosa conservare",
           list(p.records.map((r) => `<strong>${esc(humanField(r.field))}</strong>: ${esc(r.from)}`)),
         )
       : "",
-    p.pitfalls?.length ? section("Attenzione", claimList(p.pitfalls, cite)) : "",
+    p.pitfalls?.length ? section("attenzione", "A cosa fare attenzione?", claimList(p.pitfalls, cite)) : "",
     p.related?.length
       ? section(
+          "collegate",
           "Pratiche collegate",
-          list(p.related.map((id) => `<a href="${root}${id}/">${esc(site.byId.get(id)?.title ?? id)}</a>`)),
+          list(p.related.map((id) => `<a href="${root}${id}/">${esc(site.byId.has(id) ? heading(site.byId.get(id)!) : id)}</a>`)),
         )
       : "",
     p.run_log?.length
-      ? section("Casi reali", list(p.run_log.map((r) => `${time(r.date)}: ${esc(r.note)}`)))
+      ? section("casi", "Casi reali", list(p.run_log.map((r) => `${time(r.date)}: ${esc(r.note)}`)))
       : "",
-    section("Fonti", sources(p.sources)),
+    section("fonti", "Fonti", sources(p.sources)),
     section(
+      "verifica",
       "Verifica",
       `<p>Livello ${esc(v.level)}: ${esc(levelText(v.level))}. Ultima verifica il ${time(v.date)} (${esc(v.by)}).</p>
 <p>${esc(v.method)}</p>${v.notes ? `\n<p>${esc(v.notes)}</p>` : ""}
@@ -405,9 +416,10 @@ function renderProcedure(p: Procedure, ente: Ente, site: Site): string {
   const issue = `${site.opts.repoUrl}/issues/new?title=${encodeURIComponent(`Errore in ${p.id}`)}`;
   const body = `<nav class="crumbs"><a href="${root}">Tutte le pratiche</a> › <a href="${root}${ente.path}/">${esc(ente.name)}</a></nav>
 <article>
-<h1>${esc(p.title)}</h1>
-<p class="lead">${esc(p.summary)}</p>
+<h1>${esc(heading(p))}</h1>
+${p.headline ? `<p class="official">${esc(p.title)}</p>\n` : ""}${p.aka?.length ? `<p class="meta">Conosciuta anche come: ${esc(p.aka.join(", "))}</p>\n` : ""}<p class="lead">${esc(p.summary)}</p>
 <p class="meta">Aggiornata il ${time(p.updated)} · verificata il ${time(v.date)}, ${esc(levelText(v.level))} · ${esc([p.ente.name, p.ente.office].filter(Boolean).join(", "))}</p>
+${quickAnswer(p, cite)}
 ${sections.filter(Boolean).join("\n")}
 <p class="actions"><a href="${esc(issue)}">Segnala un errore</a> · <a href="${root}${p.id}.json">Questa pratica in JSON</a></p>
 </article>`;
@@ -415,14 +427,14 @@ ${sections.filter(Boolean).join("\n")}
   return page(
     {
       dir: p.id,
-      title: p.title,
-      description: p.summary,
+      title: heading(p),
+      description: describe(p),
       updated: p.updated,
       head: `<link rel="alternate" type="application/json" href="${root}${p.id}.json">\n`,
       jsonLd: {
         "@context": "https://schema.org",
         "@type": "WebPage",
-        name: p.title,
+        name: heading(p),
         description: p.summary,
         url,
         inLanguage: "it",
@@ -431,11 +443,12 @@ ${sections.filter(Boolean).join("\n")}
         isPartOf: { "@type": "WebSite", name: SITE_NAME, url: `${site.opts.baseUrl}/` },
         breadcrumb: breadcrumbs(site, [
           [ente.name, ente.path],
-          [p.title, p.id],
+          [heading(p), p.id],
         ]),
         about: {
           "@type": "GovernmentService",
           name: p.title,
+          ...(p.headline || p.aka?.length ? { alternateName: [...(p.headline ? [p.headline] : []), ...(p.aka ?? [])] } : {}),
           description: p.summary,
           provider: { "@type": "GovernmentOrganization", name: p.ente.name },
           areaServed: p.id.startsWith("napoli/") ? { "@type": "City", name: "Napoli" } : { "@type": "Country", name: "Italia" },
@@ -486,8 +499,51 @@ function citer(p: Procedure): Cite {
   return (id) => (id && n.has(id) ? ` <a class="cite" href="#fonte-${esc(id)}">[${n.get(id)}]</a>` : "");
 }
 
-function section(title: string, body: string): string {
-  return `<section>\n<h2>${esc(title)}</h2>\n${body}\n</section>`;
+function section(id: string, title: string, body: string): string {
+  return `<section id="${id}">\n<h2>${esc(title)}</h2>\n${body}\n</section>`;
+}
+
+const ONLINE = new Set(["portal", "pec", "email", "app"]);
+
+// The "In breve" box: the answers people look for first, each with its
+// status and source, linking down to the section that explains it.
+function quickAnswer(p: Procedure, cite: Cite): string {
+  const online = p.channels.filter((c) => ONLINE.has(c.type));
+  const channelName = (c: Channel) =>
+    `${CHANNELS[c.type] ?? c.type}${c.name ? ` (${c.name})` : ""}${c.auth?.length ? `, con ${c.auth.map((a) => AUTH[a] ?? a).join(", ")}` : ""}`;
+  const required = (p.documents ?? []).filter((d) => d.required).length;
+  const personal = p.steps.filter((s) => s.human_only).length;
+  const rows: [string, string][] = [
+    ...(p.deadline?.rules?.[0] ? [["Scadenza", `${claim(p.deadline.rules[0], cite)} <a href="#scadenza">Dettagli</a>`] as [string, string]] : []),
+    ...(p.cost ? [["Costo", claim(p.cost, cite)] as [string, string]] : []),
+    ...(p.duration ? [["Tempi", claim(p.duration, cite)] as [string, string]] : []),
+    [
+      "Si può fare online?",
+      `${
+        online.length
+          ? `Sì: ${esc(online.map(channelName).join("; "))}.`
+          : `No: ${esc([...new Set(p.channels.map((c) => CHANNELS[c.type] ?? c.type))].join(", ").toLowerCase())}.`
+      } <a href="#come">Dettagli</a>`,
+    ],
+    ...(p.appointment ? [["Appuntamento", claim(p.appointment, cite)] as [string, string]] : []),
+    ...(required ? [["Documenti", `${required} ${required === 1 ? "obbligatorio" : "obbligatori"}. <a href="#documenti">Elenco</a>`] as [string, string]] : []),
+    ...(personal
+      ? [["Cosa devi fare tu", `${personal === 1 ? "1 passaggio" : `${personal} passaggi`} (firmare, pagare, inviare…). <a href="#passaggi">Passaggi</a>`] as [string, string]]
+      : []),
+  ];
+  return `<section id="in-breve" class="quick">
+<h2>In breve</h2>
+<dl>
+${rows.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join("\n")}
+</dl>
+</section>`;
+}
+
+// The meta description: the summary's first sentence, then the quick facts.
+function describe(p: Procedure): string {
+  const first = p.summary.match(/^.*?[.!?](?=\s|$)/)?.[0] ?? p.summary;
+  const facts = [p.deadline?.rules?.[0], p.cost, p.duration].filter((c): c is Claim => !!c).map((c) => c.text);
+  return [first, ...facts].join(" ");
 }
 
 function list(items: string[], cls = ""): string {
@@ -636,6 +692,8 @@ function renderIndexJson(procedures: Procedure[], entes: Ente[], site: Site): st
           e.procedures.map((p) => ({
             id: p.id,
             title: p.title,
+            headline: heading(p),
+            aka: p.aka ?? [],
             summary: p.summary,
             ente: p.ente.name,
             audience: p.applies_to.audience,
@@ -689,7 +747,8 @@ function renderLlmsTxt(entes: Ente[], site: Site): string {
   for (const e of entes) {
     lines.push("", `## ${e.name}`, "");
     for (const p of e.procedures) {
-      lines.push(`- [${p.title}](${base}/${p.id}/): ${p.summary} Updated ${p.updated}, level ${p.verification.level}. JSON: ${base}/${p.id}.json`);
+      const official = p.headline ? ` Official name: ${p.title}.` : "";
+      lines.push(`- [${heading(p)}](${base}/${p.id}/): ${p.summary}${official} Updated ${p.updated}, level ${p.verification.level}. JSON: ${base}/${p.id}.json`);
     }
   }
   return lines.join("\n") + "\n";

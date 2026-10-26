@@ -1,7 +1,14 @@
 schema_version: 0
 id: italia/inail/autoliquidazione
 title: INAIL – autoliquidazione annuale del premio (artigiani e datori di lavoro)
-updated: 2026-10-25
+headline: "Autoliquidazione INAIL: come calcolare e pagare il premio entro il 16 febbraio"
+aka:
+  - premio INAIL
+  - dichiarazione salari INAIL
+  - dichiarazione delle retribuzioni
+  - AL.P.I. online
+  - F24 INAIL
+updated: 2026-10-26
 summary: >-
   Ogni anno chi è assicurato all'INAIL come impresa (artigiano, anche senza dipendenti, o datore
   di lavoro) calcola da solo il premio, cioè la rata anticipata per l'anno in corso più il
@@ -111,6 +118,13 @@ deadline:
       alla sede INAIL.
     status: verified
     source: guida-2025-2026
+appointment:
+  text: >-
+    Non serve: la dichiarazione delle retribuzioni si invia con i servizi telematici
+    dell'INAIL (AL.P.I. online o "Invio telematico dichiarazione salari") e chi ha la
+    partita IVA paga l'F24 solo in via telematica, anche tramite un intermediario.
+  status: verified
+  source: guida-2025-2026
 channels:
   - type: portal
     name: Servizi online INAIL – AL.P.I. online, Visualizza/Richiesta basi di calcolo, Riduzione presunto, Fascicolo aziende

@@ -35,7 +35,7 @@ The site shows the date on each page and publishes it in the structured data, th
 
 | Path | What |
 |---|---|
-| `/<id>/` | one page per procedure, e.g. `/napoli/comune/tari-iscrizione-uso-abitativo/` |
+| `/<id>/` | one page per procedure, e.g. `/napoli/comune/tari-iscrizione-uso-abitativo/`, titled with its `headline` and opening with an "In breve" box (deadline, cost, time, online or not, appointment, documents) |
 | `/<id>.json` | the same procedure as JSON, exactly as in its YAML file |
 | `/<ente folder>/` | the procedures of one ente, e.g. `/napoli/comune/` |
 | `/procedures.json` | index of all procedures with their `updated` dates, and the library's |

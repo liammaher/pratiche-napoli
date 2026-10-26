@@ -1,7 +1,14 @@
 schema_version: 0
 id: napoli/comune/scia-somministrazione-alimenti-bevande
 title: Aprire un bar o un ristorante – SCIA o autorizzazione per la somministrazione di alimenti e bevande (Comune di Napoli)
-updated: 2026-10-25
+headline: "Aprire un bar o un ristorante a Napoli: SCIA, autorizzazione e requisiti"
+aka:
+  - licenza bar
+  - licenza ristorante
+  - aprire una pizzeria
+  - permesso per aprire un locale
+  - pratica SUAP
+updated: 2026-10-26
 summary: >-
   Chi vuole aprire a Napoli un bar, un ristorante, una pizzeria o un altro locale dove i clienti
   consumano sul posto con servizio deve presentare la pratica al SUAP del Comune, solo online su
@@ -183,6 +190,33 @@ deadline:
       concreto lo stabilisce l'ufficio che accerta la violazione.
     status: verified
     source: lr-campania-7-2020
+cost:
+  text: >-
+    Diritti d'istruttoria SUAP (tabella 2026), da pagare con pagoPA nella pratica: fuori dal centro
+    storico UNESCO e dalla buffer zone 120 euro per bar o ristorante con notifica sanitaria, 220
+    euro se c'è anche il nulla osta di impatto acustico; nelle zone tutelate 420 euro, o 520 con il
+    nulla osta. A parte si pagano i diritti sanitari dell'ASL (vedi la procedura ASL collegata) e,
+    per la domanda di autorizzazione nelle zone tutelate, l'eventuale imposta di bollo. Il compenso
+    del tecnico non è compreso.
+  status: verified
+  source: tabella-diritti-2026
+duration:
+  text: >-
+    Fuori dalle zone tutelate (zona C) si apre il giorno stesso, appena arriva la ricevuta della
+    SCIA, e il SUAP ha 60 giorni per i controlli. Nel centro storico UNESCO e nella buffer zone
+    (zone A e B) si apre solo dopo l'autorizzazione: la L.R. Campania 7/2020 (art. 91) dà al SUAP
+    60 giorni, con silenzio-assenso se non risponde, mentre la pagina del Comune indica 90 giorni
+    per le autorizzazioni. Chiedere al SUAP quale termine applica.
+  status: disputed
+  source: servizio-suap
+appointment:
+  text: >-
+    Non serve: la pratica si presenta solo online su impresainungiorno. Per informazioni e
+    assistenza il SUAP (Piazza Cavour 42) riceve solo su prenotazione online, con il pulsante
+    "Prenota appuntamento" della pagina "Avviare, variare, chiudere un'attività produttiva" del
+    Comune.
+  status: verified
+  source: suap-contatti
 channels:
   - type: portal
     name: impresainungiorno – SUAP del Comune di Napoli

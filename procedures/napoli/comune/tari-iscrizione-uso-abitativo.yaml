@@ -1,6 +1,12 @@
 schema_version: 0
 id: napoli/comune/tari-iscrizione-uso-abitativo
 title: TARI – nuova iscrizione per uso abitativo (Comune di Napoli)
+headline: "Come iscriversi alla TARI a Napoli per una casa nuova o dopo un trasloco"
+aka:
+  - tassa sulla spazzatura
+  - tassa rifiuti
+  - denuncia TARI
+  - Mod. 1 TARI
 updated: 2026-10-26
 summary: >-
   Chi inizia a occupare o detenere un'abitazione a Napoli (proprietario, inquilino o altro)
@@ -40,6 +46,27 @@ deadline:
       calcolare l'importo dall'ufficio: norme nazionali successive possono averlo modificato.
     status: verified
     source: regolamento-2023
+cost:
+  text: >-
+    Nessun costo indicato: come dichiarazione tributaria è esente dall'imposta di bollo (D.P.R.
+    642/1972, tabella B, art. 5, testo in vigore fino al 31/12/2026) e né il modulo né la pagina
+    della modulistica chiedono diritti. La TARI si paga a parte, con F24.
+  status: verified
+  source: dpr642-tabella-b
+duration:
+  text: >-
+    Il Comune non indica un termine per rispondere alla dichiarazione. Gli avvisi di pagamento
+    arrivano per posta ordinaria prima della scadenza, ma la TARI va pagata alle scadenze anche se
+    l'avviso non arriva.
+  status: verified
+  source: mod-1
+appointment:
+  text: >-
+    Non serve: la dichiarazione si presenta online sui Servizi Tributari (POTESs, con SPID, CIE o
+    CNS), via PEC, email o raccomandata A/R, oppure agli sportelli URP delle Municipalità, senza
+    che il Comune indichi un appuntamento.
+  status: verified
+  source: modulistica
 channels:
   - type: pec
     address: entrate.tari-tares-tarsu@pec.comune.napoli.it
@@ -74,8 +101,9 @@ channels:
     hours: 9:00–13:00 (orario indicato sul modulo)
     source: mod-1
     notes: >-
-      Un appuntamento telefonico o via mail con un operatore si prenota su
-      https://servizionline.comune.napoli.it/web/napoli/tributi
+      Il modulo indica per prenotare un appuntamento telefonico o via mail
+      https://servizionline.comune.napoli.it/web/napoli/tributi, ma il 26/10/2026 la pagina
+      non esisteva (errore 404).
 payment:
   method: f24
   codice_ente: F839
@@ -255,6 +283,20 @@ sources:
     sha256: 15c491cd7e69bada6fbed48c345c72177cb147bb95cded0314b6cca75635ea6f
     official: true
     notes: Modifiche successive al 2023 non controllate.
+  - id: dpr642-tabella-b
+    label: >-
+      D.P.R. 26 ottobre 1972, n. 642, allegato B (atti esenti dall'imposta di bollo in modo
+      assoluto), art. 5 – Normattiva
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1972-10-26;642
+    retrieved: 2026-10-26
+    official: true
+    notes: >-
+      Letto il testo in vigore dal 10-12-2000 al 31-12-2026: esenti le dichiarazioni e denunzie
+      presentate ai competenti uffici ai fini dell'applicazione delle leggi tributarie, esclusi
+      ricorsi, opposizioni e altri atti difensivi del contribuente. Dal 1° gennaio 2027 l'articolo
+      è abrogato dal D.Lgs. 1 agosto 2025, n. 123 (testo unico dell'imposta di registro e degli
+      altri tributi indiretti), come modificato dal D.L. 200/2025: la norma corrispondente non è
+      stata controllata.
 verification:
   level: L1
   date: 2026-10-25

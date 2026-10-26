@@ -1,6 +1,12 @@
 schema_version: 0
 id: italia/agenzia-entrate/apertura-partita-iva-persona-fisica
 title: Apertura della partita IVA per persone fisiche – modello AA9/12 (Agenzia delle Entrate)
+headline: "Aprire la partita IVA a Napoli come persona fisica: modello AA9/12"
+aka:
+  - partita IVA libero professionista
+  - partita IVA forfettaria
+  - dichiarazione di inizio attività
+  - codice ATECO
 updated: 2026-10-26
 summary: >-
   Chi inizia da solo un'attività di lavoro autonomo (professione, arte) o un'altra attività per cui
@@ -75,6 +81,28 @@ deadline:
       ravvedimento chiedere all'ufficio dell'Agenzia o al proprio intermediario: qui non si calcola.
     status: verified
     source: dlgs471-art5
+cost:
+  text: >-
+    Il modello AA9/12 e il software di compilazione dell'Agenzia sono gratuiti, e né le
+    istruzioni né le pagine dell'Agenzia prevedono un versamento per presentarlo; nessuna
+    fonte ufficiale letta lo dice però in modo esplicito.
+  status: unverified
+  source: aa9-istruzioni
+duration:
+  text: >-
+    Con l'invio telematico il numero di partita IVA è nella comunicazione di avvenuto
+    ricevimento dell'Agenzia; allo sportello lo attribuisce l'ufficio. Le istruzioni non
+    indicano tempi in giorni.
+  status: verified
+  source: aa9-istruzioni
+appointment:
+  text: >-
+    Serve solo per consegnare il modello in ufficio: si prenota con "Prenota un
+    appuntamento" sul sito dell'Agenzia, scegliendo il servizio "Identificativi fiscali,
+    abilitazioni, consegna documenti e istanze". Online, via PEC o con raccomandata non
+    serve.
+  status: verified
+  source: ade-come-aprire
 channels:
   - type: portal
     name: Area riservata dell'Agenzia delle Entrate – servizio "Invio documenti"

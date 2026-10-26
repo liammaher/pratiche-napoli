@@ -1,7 +1,14 @@
 schema_version: 0
 id: napoli/comune/cessazione-attivita-commerciale
 title: Chiudere un negozio, un bar, un ristorante o un salone a Napoli – lista dei passaggi
-updated: 2026-10-25
+headline: "Come chiudere un'attività commerciale a Napoli: SUAP, Camera di Commercio e TARI"
+aka:
+  - cessazione attività
+  - chiusura partita IVA
+  - cancellazione ditta individuale
+  - chiudere la licenza
+  - comunicazione di cessazione
+updated: 2026-10-26
 summary: >-
   Chi chiude a Napoli un esercizio di vicinato, un bar o ristorante o un salone di acconciatore
   o estetista deve comunicare la cessazione al SUAP del Comune su impresainungiorno e poi chiudere
@@ -154,6 +161,31 @@ deadline:
       stimarle, chiedere all'ufficio.
     status: verified
     source: na-sanzioni
+cost:
+  text: >-
+    La comunicazione di cessazione al SUAP risulta gratuita nella tabella dei diritti linkata dal
+    Comune (0 euro), ma la tabella 2026 non la elenca e impresainungiorno chiede comunque la
+    ricevuta di un versamento: chiedere al SUAP prima di inviare. La cancellazione della ditta
+    individuale dal Registro Imprese costa 17,50 euro di imposta di bollo, senza diritti di
+    segreteria; la cessazione della registrazione sanitaria non ha diritti ASL né bollo. Restano
+    da pagare TARI, canoni e diritto annuale dovuti fino alla chiusura.
+  status: disputed
+  source: tabella-2021
+duration:
+  text: >-
+    La cessazione vale dalla data scelta nel modulo: il giorno stesso dell'invio della
+    comunicazione al SUAP oppure una data indicata, che deve coincidere con quella comunicata al
+    Registro Imprese e all'Agenzia delle Entrate.
+  status: verified
+  source: modulo-cessazione
+appointment:
+  text: >-
+    Non serve: la comunicazione al SUAP si presenta solo online su impresainungiorno e la
+    cancellazione dal Registro Imprese con la Comunicazione Unica su DIRE. Per informazioni il SUAP
+    (Piazza Cavour 42) riceve solo su prenotazione online, con il pulsante "Prenota appuntamento"
+    della pagina "Avviare, variare, chiudere un'attività produttiva".
+  status: verified
+  source: suap-contatti
 channels:
   - type: portal
     name: impresainungiorno – SUAP di Napoli

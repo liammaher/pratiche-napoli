@@ -1,7 +1,13 @@
 schema_version: 0
 id: napoli/comune/nulla-osta-impatto-acustico
 title: Nulla osta di impatto acustico e documentazione di impatto acustico per le attività (Comune di Napoli)
-updated: 2026-10-25
+headline: "Musica nel bar o nel locale a Napoli: il nulla osta di impatto acustico"
+aka:
+  - permesso per la musica nel bar
+  - licenza musica
+  - relazione fonometrica
+  - tecnico competente in acustica
+updated: 2026-10-26
 summary: >-
   Un'attività che a Napoli usa impianti di diffusione sonora o macchinari rumorosi (bar, ristoranti
   e pizzerie con musica, locali di intrattenimento, officine, tipografie…) deve allegare alla
@@ -161,6 +167,30 @@ deadline:
       concreto lo stabilisce l'ufficio che accerta la violazione.
     status: verified
     source: l447-art10
+cost:
+  text: >-
+    Diritti d'istruttoria SUAP (tabella 2026), con pagoPA nella pratica: 100 euro per il nulla osta
+    chiesto da solo (80 euro per le variazioni). Dentro la pratica di apertura di un bar o
+    ristorante si paga la riga combinata: 220 euro fuori dalle zone tutelate e 520 euro nelle zone
+    tutelate, notifica sanitaria compresa. Il compenso del tecnico competente in acustica non è
+    compreso; per l'imposta di bollo le fonti non dicono se è dovuta.
+  status: verified
+  source: tabella-diritti-2026
+duration:
+  text: >-
+    Le fonti del Comune non indicano un termine per il rilascio: il nulla osta arriva solo dopo che
+    il SUAP ha chiuso con esito positivo la pratica di apertura, voltura o subentro, e fino ad
+    allora non si possono usare gli impianti di diffusione sonora.
+  status: verified
+  source: avviso-nulla-osta
+appointment:
+  text: >-
+    La domanda si presenta solo dentro la pratica su impresainungiorno. Per informazioni il SUAP
+    (Piazza Cavour 42) riceve solo su prenotazione online; l'ufficio acustica del Servizio Tutela
+    dell'Ambiente (Via Speranzella 80) riceve il martedì dalle 9 alle 13, preferibilmente su
+    appuntamento telefonico.
+  status: verified
+  source: servizio-tutela-ambiente
 channels:
   - type: portal
     name: impresainungiorno – SUAP del Comune di Napoli
