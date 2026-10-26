@@ -131,8 +131,9 @@ console.log(`\n${changed} procedures updated from ${reports.length} accepted rep
 function publishedBlocks(): { blocks: { id: string; block: Reported }[]; unread: string[] } {
   // Every commit, not only those `-- procedures` keeps: history
   // simplification skips the side of a merge that ended up unchanged, a
-  // published version reverted on a branch included.
-  const commits = git("rev-list", "--all").split("\n").filter(Boolean);
+  // published version reverted on a branch included. With the reflogs, a
+  // version a branch was force-pushed away from, once fetched, stays read.
+  const commits = git("rev-list", "--all", "--reflog").split("\n").filter(Boolean);
   const out = new Map<string, { id: string; block: Reported }>();
   const unread: string[] = [];
   for (const sha of commits) {

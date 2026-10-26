@@ -737,6 +737,11 @@ test("extensions add fields marked as not yet in the vault, and can't clash or r
   assert.throws(ext([{ name: "documents", fields: [{ id: "documents.x", description: "" }] }]), /open category "documents"/);
   assert.throws(ext([{ name: "nuova", fields: [{ id: "nuova.x", description: "" }] }]), /needs a description/);
   assert.throws(ext([{ name: "pin_carta", description: "x", scope: "person", fields: [{ id: "pin_carta.numero", description: "" }] }]), /category "pin_carta" looks like a credential/);
+  // A SPID or CieID account, however its provider is written: the vault keeps all its fields secret.
+  for (const name of ["cieid", "spid_poste", "spidaruba", "cieid_app", "spid_aruba"]) {
+    assert.throws(ext([{ name, description: "x", scope: "person", fields: [{ id: `${name}.numero_utente`, description: "" }] }]), /looks like a credential/, name);
+  }
+  assert.doesNotThrow(ext([{ name: "spidino", description: "x", scope: "person", fields: [{ id: "spidino.nome", description: "" }] }]));
   assert.throws(ext([{ name: "business", fields: [{ id: "business.spidpassword", description: "" }] }]), /looks like a credential/);
   assert.throws(ext([{ name: "nuova", description: "x", fields: [{ id: "nuova.x", description: "" }] }]), /needs a scope/);
   assert.throws(ext([{ name: "business", fields: [{ id: "locale.x", description: "" }] }]), /listed under category "business"/);
