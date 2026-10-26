@@ -107,13 +107,16 @@ beforeEach(async () => {
 test("a valid JSON report is stored pending review", async () => {
   const reply = await postJson(REPORT);
   assert.equal(reply.status, 201);
-  assert.deepEqual(reply.body, { ok: true });
   const [doc, ...more] = await docs("reports");
+  // The report's code, for asking later to see or delete it.
+  assert.deepEqual(reply.body, { ok: true, id: doc.id });
   assert.equal(more.length, 0);
-  const { received_at, ...stored } = doc.data();
+  const { received_at, expires_at, ...stored } = doc.data();
   assert.deepEqual(stored, { ...REPORT, status: "pending", schema_version: 0, pii_redacted: false });
   assert.ok(received_at instanceof Timestamp);
   assert.equal(received_at.toMillis(), NOW.getTime());
+  // Deleted once its month (2026-09) leaves the 12-month window.
+  assert.equal(expires_at.toDate().toISOString(), "2027-09-01T00:00:00.000Z");
   assert.equal((await docs("contacts")).length, 0);
 });
 
@@ -140,8 +143,8 @@ test("a form post is stored and redirected to the thank-you page", async () => {
     website: "",
   });
   assert.equal(reply.status, 303);
-  assert.equal(reply.headers.location, `${SITE}/grazie/`);
   const [doc] = await docs("reports");
+  assert.equal(reply.headers.location, `${SITE}/grazie/#${doc.id}`);
   const stored = doc.data();
   assert.equal(stored.status, "pending");
   assert.equal(stored.outcome, "chiesto_altro");
@@ -194,7 +197,7 @@ test("a report about a procedure the site doesn't list is rejected", async () =>
 test("a filled honeypot is accepted and silently dropped", async () => {
   const json = await postJson({ ...REPORT, website: "https://spam.example" });
   assert.equal(json.status, 201);
-  assert.deepEqual(json.body, { ok: true });
+  assert.match((json.body as { id: string }).id, /^[A-Za-z0-9]{20}$/);
   const form = await postForm({ ...Object.fromEntries(Object.entries(REPORT).map(([k, v]) => [k, String(v)])), website: "spam" });
   assert.equal(form.status, 303);
   assert.equal((await docs("reports")).length, 0);
@@ -241,12 +244,15 @@ test("personal data in text fields is replaced and the report flagged", async ()
     note: "Il mio cf è RSS MRA 85T10 A562S, l'ho dovuto ripetere due volte (sul modulo avevo scritto RSSMRA85T10A562X)",
     documents: [{ name: "Bonifico su IT60 X054 2811 1010 0000 0123 456", asked: true }],
     claim_feedback: [{ section: "payment", verdict: "sbagliata", text: "pagato da RSSMRA85T10A562S" }],
+    extra_documents: "una copia con il cf rssmra85t1oa562s", // lower case, o for 0
   });
   assert.equal(reply.status, 201);
   const [doc] = await docs("reports");
   assert.equal(doc.get("note"), "Il mio cf è [rimosso], l'ho dovuto ripetere due volte (sul modulo avevo scritto [rimosso])");
   assert.equal(doc.get("documents")[0].name, "Bonifico su [rimosso]");
   assert.equal(doc.get("claim_feedback")[0].text, "pagato da [rimosso]");
+  assert.equal(doc.get("extra_documents"), "una copia con il cf [rimosso]");
+  assert.equal(doc.get("procedure"), REPORT.procedure);
   assert.equal(doc.get("pii_redacted"), true);
 });
 
@@ -345,9 +351,9 @@ test("through the functions framework, JSON, text/plain and form posts are store
     "application/x-www-form-urlencoded",
   );
   assert.equal(form.status, 303);
-  assert.equal(form.headers.get("location"), `${SITE}/grazie/`);
+  assert.match(form.headers.get("location")!, new RegExp(`^${SITE}/grazie/#[A-Za-z0-9]{20}$`));
   const stored = (await docs("reports")).map((d) => {
-    const { received_at, ...rest } = d.data();
+    const { received_at, expires_at, ...rest } = d.data();
     return rest;
   });
   assert.equal(stored.length, 3);

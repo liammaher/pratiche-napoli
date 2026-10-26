@@ -4,7 +4,7 @@ import { beforeEach, test } from "node:test";
 import assert from "node:assert/strict";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
-import { accept, describe, exportAccepted, exportPath, list, reject, remove, show } from "../scripts/review";
+import { accept, describe, exportAccepted, exportPath, findByEmail, list, reject, remove, show } from "../scripts/review";
 
 const PROJECT = "demo-pratiche-napoli";
 const EMULATOR = process.env.FIRESTORE_EMULATOR_HOST;
@@ -71,6 +71,11 @@ test("accept records the maintainer's words; reject and unknown ids", async () =
   await assert.rejects(accept(db, "nope", {}), /no report nope/);
   await assert.rejects(accept(db, "a1", { tip: " " }), /tip must be 1–300 characters, or empty to remove it/);
   await assert.rejects(accept(db, "a1", { tip: "x".repeat(301) }), /tip must be/);
+});
+
+test("find gives the reports of someone who left their email", async () => {
+  assert.deepEqual(await findByEmail(db, " persona@example.org "), ["a1"]);
+  assert.deepEqual(await findByEmail(db, "altra@example.org"), []);
 });
 
 test("delete removes the report and its contact", async () => {
