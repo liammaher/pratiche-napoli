@@ -52,6 +52,9 @@ interface VaultCategory {
 export interface VaultSchema {
   version: string;
   categories: VaultCategory[];
+  // The vault's credential rule, as whole-word patterns: secret anywhere,
+  // credential (secret plus username, login...) next to SPID or the CIE.
+  credentials: { secret: string; credential: string; identity: string };
 }
 
 export interface Extensions {
@@ -82,6 +85,9 @@ export interface Registry {
     open?: boolean;
   }[];
   forbidden: { categories: string[]; fields: string[] };
+  // The vault's pattern for one word of a field name (split at _ and -) that
+  // names a login secret; see isCredentialName.
+  credential_word: string;
 }
 
 const FORBIDDEN_CATEGORIES = ["spid", "payment", "medical"];
@@ -91,14 +97,20 @@ const ALLOWED_SENSITIVITY = new Set(["public", "standard", "sensitive"]);
 // Categories with no fixed fields that may hold any field name. Any other
 // empty category is treated as secret until it is reviewed and listed here.
 const OPEN_CATEGORIES = ["documents"];
-// Credential words, kept in step with validate.ts and the vault's reCredentialWord.
-const CREDENTIAL = /(^|_)(pin\d*|puk\d*|password|passwd|pwd|pw|pass|passcode|otp|totp|username|login|secret|segreto|chiave|token)(_|$)/;
 const EXTENSION_ID = /^[a-z_]+\.[a-z0-9_]+$/;
 const CATEGORY_NAME = /^[a-z_]+$/;
 const SCOPES = new Set(["person", "owner"]);
 const FOR = new Set([undefined, "owner", "member"]);
 const SUBJECTS = new Set([undefined, "persona", "impresa"]);
 const KINDS = new Set(["persona", "impresa"]);
+
+// A field name naming a login secret: a word the vault calls a credential,
+// in any category (the vault needs SPID or the CIE next to username, login
+// or pass; a public procedure has no use for any of them), or a token.
+export function isCredentialName(name: string, credentialWord: string): boolean {
+  const word = new RegExp(credentialWord);
+  return name.split(/[_-]/).some((w) => w === "token" || word.test(w));
+}
 
 function checkKinds(kinds: unknown, what: string) {
   if (kinds === undefined) return;
@@ -110,6 +122,13 @@ function checkKinds(kinds: unknown, what: string) {
 export function buildRegistry(schema: VaultSchema, extensions: Extensions = { categories: [] }): Registry {
   if (!schema || typeof schema.version !== "string" || !Array.isArray(schema.categories)) {
     throw new Error("not a vault schema: expected { version, categories: [...] }");
+  }
+  const words = schema.credentials;
+  for (const key of ["secret", "credential", "identity"] as const) {
+    if (typeof words?.[key] !== "string" || !words[key].startsWith("^") || !words[key].endsWith("$")) {
+      throw new Error(`not a vault schema: credentials.${key} must be a whole-word pattern (a vault older than schema.json?)`);
+    }
+    new RegExp(words[key]); // throws on a pattern JavaScript can't read
   }
   if (!extensions || !Array.isArray(extensions.categories)) {
     throw new Error("not an extensions file: expected { categories: [...] }");
@@ -196,7 +215,7 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
       checkFieldCategory(f.id, ext.name);
       if (!EXTENSION_ID.test(f.id)) throw new Error(`extension field "${f.id}" must look like category.field_name`);
       if (forbiddenFields.includes(f.id)) throw new Error(`extension field "${f.id}" is a secret field in the vault`);
-      if (CREDENTIAL.test(f.id.split(".")[1])) throw new Error(`extension field "${f.id}" looks like a credential`);
+      if (isCredentialName(f.id.split(".")[1], words.credential)) throw new Error(`extension field "${f.id}" looks like a credential`);
       if (vaultIds.has(f.id) || entry.fields.some((e) => e.id === f.id)) {
         throw new Error(`extension field "${f.id}" already exists; remove it from extensions.json`);
       }
@@ -210,6 +229,7 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
     source: "personal-vault RecommendedSchema + contract/extensions.json",
     categories,
     forbidden: { categories: forbiddenCategories, fields: forbiddenFields.sort() },
+    credential_word: words.credential,
   };
 }
 

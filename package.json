@@ -9,6 +9,7 @@
     "validate": "tsx tools/validate.ts",
     "check:updated": "tsx tools/check-updated.ts",
     "check:sources": "tsx tools/check-sources.ts",
+    "check:vault-schema": "tsx tools/check-vault-schema.ts",
     "build": "tsx tools/build-site.ts",
     "reports": "npm --prefix reports/functions run -s reports --",
     "reports:aggregate": "tsx tools/aggregate-reports.ts",

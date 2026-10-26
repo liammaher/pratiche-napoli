@@ -10,7 +10,7 @@ import path from "node:path";
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import { parse } from "yaml";
-import type { Registry } from "../gen-fields.ts";
+import { isCredentialName, type Registry } from "../gen-fields.ts";
 import { findPersonalData } from "./personal.ts";
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -29,12 +29,9 @@ export function todayInRome(now = new Date()): string {
   return new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Rome" }).format(now);
 }
 
-// Words that mark a credential in a field name: the vault's reCredentialWord
-// (internal/vault/italy.go) plus "token". Unlike the vault, any category counts.
-export const CREDENTIAL = /(^|_)(pin\d*|puk\d*|password|passwd|pwd|pw|pass|passcode|otp|totp|username|login|secret|segreto|chiave|token)(_|$)/;
 // A person's slug, as the vault's reMemberSlug; "io" is reserved.
 const MEMBER_SLUG = /^[a-z][a-z0-9-]{0,31}$/;
-// The same secrets named in an ask or blank_with_reason text. "PIN 2.1" etc.
+// Secrets named in an ask or blank_with_reason text. "PIN 2.1" etc.
 // are the Vigili del Fuoco form names, not PIN codes.
 const ASKS_FOR_SECRET = /\b(pin(?!\s*\d)|puk|password|passcode|otp|codice segreto)\b/i;
 // The ruoli that give a business a procura (the procura category): a client,
@@ -458,7 +455,7 @@ export function checkFieldRef(ref: string, registry: Registry, person?: string):
     if ((member || person) && all("owner")) return `${ref}: every ${cat} field is the vault owner's only`;
     return null;
   }
-  if (CREDENTIAL.test(field)) return secret;
+  if (isCredentialName(field, registry.credential_word)) return secret;
 
   if (category.open) return null;
   const known = category.fields.find((f) => f.id === local);
