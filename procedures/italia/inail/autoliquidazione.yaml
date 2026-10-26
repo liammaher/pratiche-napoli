@@ -273,6 +273,13 @@ after:
   - >-
     Diverse riduzioni (per esempio quella per prevenzione OT23) richiedono la regolarità
     contributiva e assicurativa verificata con il DURC online: pagare per tempo.
+records:
+  - field: business.inail_codice_ditta
+    from: Certificato di assicurazione INAIL (con il facsimile dell'F24)
+  - field: business.inail_pat
+    from: Certificato di assicurazione INAIL
+  - field: business.inail_codice_sede
+    from: Facsimile dell'F24 allegato al certificato di assicurazione INAIL
 pitfalls:
   - text: >-
       Pagamento mancato o tardivo di premi rilevabili dalle denunce: l'art. 116, c. 8, lett. a),

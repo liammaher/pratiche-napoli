@@ -302,12 +302,14 @@ forms:
       # 2 – Dati della ditta/società/impresa
       - label: "2 – Dati della ditta/società/impresa: Denominazione"
         map: { direct: business.denominazione }
-      - { label: Forma giuridica, map: { ask: "Forma giuridica dell'impresa (ditta individuale, s.r.l., s.n.c., ...)" } }
+      - { label: Forma giuridica, map: { direct: business.forma_giuridica } }
       - label: codice fiscale / p. IVA
         map: { fallback: [business.codice_fiscale, business.partita_iva] }
       - label: iscritta alla C.C.I.A.A. di ... prov.
-        map: { direct: business.rea }
-        notes: La sigla davanti al numero REA (per esempio NA) indica la Camera di Commercio e la provincia.
+        map: { fallback: [business.cciaa, business.rea] }
+        notes: >-
+          La sigla della provincia (per esempio NA) indica la Camera di Commercio e la provincia; in
+          mancanza, è quella davanti al numero REA.
       - { label: n. REA, map: { direct: business.rea } }
       - label: non ancora iscritta / non necessita di iscrizione al R.I.
         map: { ask: "L'impresa non è ancora iscritta al Registro delle imprese?" }
@@ -320,7 +322,7 @@ forms:
       - { label: indirizzo (sede legale), map: { direct: business.sede_legale_indirizzo } }
       - { label: n. (sede legale), map: { direct: business.sede_legale_civico } }
       - { label: C.A.P. (sede legale), map: { direct: business.sede_legale_cap } }
-      - { label: Telefono fisso / cell. (impresa), map: { ask: "Telefono dell'impresa" } }
+      - { label: Telefono fisso / cell. (impresa), map: { direct: business.telefono } }
       - { label: fax, map: { blank_with_reason: Facoltativo; il registro non ha un campo fax. } }
       - { label: PEC (impresa), map: { direct: business.pec } }
       - label: Altro domicilio elettronico per invio delle comunicazioni inerenti la pratica

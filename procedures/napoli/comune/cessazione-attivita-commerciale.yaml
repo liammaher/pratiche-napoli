@@ -364,12 +364,14 @@ forms:
         notes: Per una ditta individuale, Titolare.
       # 2 – Dati della ditta/società/impresa
       - { label: "2 – Dati della ditta: Denominazione", map: { direct: business.denominazione } }
-      - { label: Forma giuridica, map: { ask: "Forma giuridica dell'impresa (per questa lista: ditta individuale)" } }
+      - { label: Forma giuridica, map: { direct: business.forma_giuridica } }
       - label: codice fiscale / p. IVA
         map: { fallback: [business.codice_fiscale, business.partita_iva] }
       - label: iscritta alla C.C.I.A.A. di ... prov.
-        map: { direct: business.rea }
-        notes: La sigla davanti al numero REA (per esempio NA) indica la Camera di Commercio e la provincia.
+        map: { fallback: [business.cciaa, business.rea] }
+        notes: >-
+          La sigla della provincia (per esempio NA) indica la Camera di Commercio e la provincia; in
+          mancanza, è quella davanti al numero REA.
       - { label: n. REA, map: { direct: business.rea } }
       - label: non ancora iscritta / non necessita di iscrizione al R.I.
         map: { blank_with_reason: "Non si barra: chi chiude un'attività commerciale è iscritto al Registro Imprese." }
@@ -379,7 +381,7 @@ forms:
       - { label: indirizzo (sede legale), map: { direct: business.sede_legale_indirizzo } }
       - { label: n. (sede legale), map: { direct: business.sede_legale_civico } }
       - { label: C.A.P. (sede legale), map: { direct: business.sede_legale_cap } }
-      - { label: Telefono fisso / cell. (impresa), map: { ask: "Telefono dell'impresa" } }
+      - { label: Telefono fisso / cell. (impresa), map: { direct: business.telefono } }
       - { label: fax, map: { blank_with_reason: Facoltativo; il registro non ha un campo fax. } }
       - { label: PEC (impresa), map: { direct: business.pec } }
       - label: Altro domicilio elettronico per invio delle comunicazioni inerenti la pratica
@@ -437,8 +439,11 @@ forms:
       - label: del (data del titolo)
         map: { ask: "Data della SCIA, DIA o autorizzazione con cui è stata avviata l'attività" }
       - label: "Nel caso di cessazione: contestuale alla comunicazione / con decorrenza dal"
-        map: { ask: "La cessazione vale dal giorno di invio o da una data diversa (quale)?" }
-        notes: La data deve coincidere con quella comunicata al Registro Imprese e all'Agenzia delle Entrate.
+        map: { direct: business.data_cessazione }
+        notes: >-
+          Se la data è il giorno di invio si barra "contestuale", altrimenti "con decorrenza dal" e
+          la data. Deve coincidere con quella comunicata al Registro Imprese e all'Agenzia delle
+          Entrate.
       - label: "Nel caso di sospensione temporanea: contestuale / dal ... al ..."
         map: { blank_with_reason: Solo per la sospensione temporanea. }
       - { label: Data, map: { ask: Data di sottoscrizione } }
