@@ -348,8 +348,8 @@ forms:
       - label: domiciliato/a in
         map: { fallback: [domicilio.comune, residenza.comune] }
         notes: Usare comune, via e numero dello stesso indirizzo (domicilio se diverso dalla residenza).
-      - { label: alla via, map: { fallback: [domicilio.indirizzo, residenza.indirizzo] }, notes: "Dalla stessa fonte (domicilio o residenza) del comune qui sopra, mai un campo dall'una e uno dall'altra." }
-      - { label: n., map: { fallback: [domicilio.civico, residenza.civico] }, notes: "Dalla stessa fonte (domicilio o residenza) del comune qui sopra, mai un campo dall'una e uno dall'altra." }
+      - { label: alla via, map: { fallback: [domicilio.indirizzo, residenza.indirizzo] }, notes: "Dalla stessa fonte (domicilio o residenza) del comune qui sopra, mai un campo dall'una e uno dall'altra: se lì manca, resta vuoto." }
+      - { label: n., map: { fallback: [domicilio.civico, residenza.civico] }, notes: "Dalla stessa fonte (domicilio o residenza) del comune qui sopra, mai un campo dall'una e uno dall'altra: se lì manca, resta vuoto." }
       - { label: nella qualità di, map: { fallback: [business.qualita_dichiarante, ruolo.tipo] } }
       - label: dell'attività denominata
         map: { direct: business.denominazione }
@@ -376,8 +376,8 @@ forms:
       - label: domiciliato/a in
         map: { fallback: [domicilio.comune, residenza.comune] }
         notes: Usare comune, via e numero dello stesso indirizzo (domicilio se diverso dalla residenza).
-      - { label: alla via, map: { fallback: [domicilio.indirizzo, residenza.indirizzo] }, notes: "Dalla stessa fonte (domicilio o residenza) del comune qui sopra, mai un campo dall'una e uno dall'altra." }
-      - { label: n., map: { fallback: [domicilio.civico, residenza.civico] }, notes: "Dalla stessa fonte (domicilio o residenza) del comune qui sopra, mai un campo dall'una e uno dall'altra." }
+      - { label: alla via, map: { fallback: [domicilio.indirizzo, residenza.indirizzo] }, notes: "Dalla stessa fonte (domicilio o residenza) del comune qui sopra, mai un campo dall'una e uno dall'altra: se lì manca, resta vuoto." }
+      - { label: n., map: { fallback: [domicilio.civico, residenza.civico] }, notes: "Dalla stessa fonte (domicilio o residenza) del comune qui sopra, mai un campo dall'una e uno dall'altra: se lì manca, resta vuoto." }
       - { label: nella qualità di, map: { fallback: [business.qualita_dichiarante, ruolo.tipo] } }
       - label: dell'attività denominata
         map: { direct: business.denominazione }

@@ -317,7 +317,8 @@ forms:
         notes: >-
           Va chiesto anche quando l'archivio ha i dati di un'impresa: i lavori sulla propria casa di
           chi ha un'impresa non sono dell'impresa. Se sì, la qualità è business.qualita_dichiarante
-          o, in un archivio d'impresa, ruolo.tipo del firmatario.
+          o, in un archivio d'impresa, quella tra titolare e legale rappresentante che è nel ruolo.tipo
+          del firmatario, mai l'elenco intero.
       - { label: Dati della ditta o società – della ditta / società, map: { direct: business.denominazione }, notes: "Solo se il titolare agisce per un'impresa (riga «in qualità di»); altrimenti vuoto." }
       - { label: Dati della ditta o società – codice fiscale / p. IVA, map: { fallback: [business.codice_fiscale, business.partita_iva] }, notes: "Solo se il titolare agisce per un'impresa (riga «in qualità di»); altrimenti vuoto." }
       - { label: Dati della ditta o società – Iscritta alla C.C.I.A.A. di, map: { direct: business.cciaa }, notes: "Il nome della Camera di commercio: per la sigla NA, Napoli. Solo se il titolare agisce per un'impresa; altrimenti vuoto." }
