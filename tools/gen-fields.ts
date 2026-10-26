@@ -16,26 +16,36 @@ import { readFileSync, realpathSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
+// Who can have a field: only the vault's owner, or only a family member
+// (whose fields carry their slug, leo:famiglia.relazione). Unset: both.
+type For = "owner" | "member";
+
 interface VaultField {
   id: string;
   description: string;
   sensitivity: string;
+  for?: For;
 }
+
+// person: the owner and every family member (leo:cie.numero); owner: the
+// household or the owner's own affairs (abitazione, tari), never prefixed.
+type Scope = "person" | "owner";
 
 interface VaultCategory {
   name: string;
   description: string;
+  scope: Scope;
   fields: VaultField[] | null;
 }
 
-interface VaultSchema {
+export interface VaultSchema {
   version: string;
   categories: VaultCategory[];
 }
 
 export interface Extensions {
   description?: string;
-  categories: { name: string; description?: string; fields: { id: string; description: string }[] }[];
+  categories: { name: string; description?: string; scope?: Scope; fields: { id: string; description: string }[] }[];
 }
 
 export interface Registry {
@@ -44,11 +54,10 @@ export interface Registry {
   categories: {
     name: string;
     description: string;
+    scope: Scope;
     // vault: false marks a field (or a whole category) the vault doesn't have yet.
-    fields: { id: string; description: string; vault?: false }[];
+    fields: { id: string; description: string; for?: For; vault?: false }[];
     vault?: false;
-    // A pattern such as "membro<N>_<campo>": field names are built per item.
-    dynamic?: string;
     // No fixed fields: any field name is allowed in this category.
     open?: boolean;
   }[];
@@ -66,9 +75,8 @@ const OPEN_CATEGORIES = ["documents"];
 const CREDENTIAL = /(^|_)(pin\d*|puk\d*|password|passwd|pwd|pw|pass|passcode|otp|totp|username|login|secret|segreto|chiave|token)(_|$)/;
 const EXTENSION_ID = /^[a-z_]+\.[a-z0-9_]+$/;
 const CATEGORY_NAME = /^[a-z_]+$/;
-const DYNAMIC: Record<string, string> = {
-  nucleo_familiare: "membro<N>_<campo>",
-};
+const SCOPES = new Set(["person", "owner"]);
+const FOR = new Set([undefined, "owner", "member"]);
 
 export function buildRegistry(schema: VaultSchema, extensions: Extensions = { categories: [] }): Registry {
   if (!schema || typeof schema.version !== "string" || !Array.isArray(schema.categories)) {
@@ -83,15 +91,17 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
 
   for (const cat of schema.categories) {
     if (FORBIDDEN_CATEGORIES.includes(cat.name) || INTERNAL_CATEGORIES.includes(cat.name)) continue;
+    if (!SCOPES.has(cat.scope)) throw new Error(`category "${cat.name}" needs a scope, person or owner`);
     const vaultFields = cat.fields ?? [];
-    const fields = [];
+    const fields: Registry["categories"][number]["fields"] = [];
     for (const f of vaultFields) {
       checkFieldCategory(f.id, cat.name);
+      if (!FOR.has(f.for)) throw new Error(`field "${f.id}" is for ${JSON.stringify(f.for)}, not owner or member`);
       if (!ALLOWED_SENSITIVITY.has(f.sensitivity)) {
         forbiddenFields.push(f.id);
         continue;
       }
-      fields.push({ id: f.id, description: f.description });
+      fields.push(f.for ? { id: f.id, description: f.description, for: f.for } : { id: f.id, description: f.description });
     }
     // Every field secret: the whole category is, rather than becoming open.
     if (vaultFields.length > 0 && fields.length === 0) {
@@ -101,10 +111,10 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
     const entry: Registry["categories"][number] = {
       name: cat.name,
       description: cat.description,
+      scope: cat.scope,
       fields,
     };
-    if (DYNAMIC[cat.name]) entry.dynamic = DYNAMIC[cat.name];
-    else if (vaultFields.length === 0) {
+    if (vaultFields.length === 0) {
       if (!OPEN_CATEGORIES.includes(cat.name)) {
         forbiddenCategories.push(cat.name);
         continue;
@@ -125,10 +135,11 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
     let entry = categories.find((c) => c.name === ext.name);
     if (!entry) {
       if (!ext.description) throw new Error(`new category "${ext.name}" needs a description`);
-      entry = { name: ext.name, description: ext.description, vault: false, fields: [] };
+      if (!SCOPES.has(ext.scope as string)) throw new Error(`new category "${ext.name}" needs a scope, person or owner`);
+      entry = { name: ext.name, description: ext.description, scope: ext.scope!, vault: false, fields: [] };
       categories.push(entry);
-    } else if (entry.open || entry.dynamic) {
-      throw new Error(`extensions can't add fixed fields to open or per-item category "${ext.name}"`);
+    } else if (entry.open) {
+      throw new Error(`extensions can't add fixed fields to open category "${ext.name}"`);
     }
     for (const f of ext.fields) {
       checkFieldCategory(f.id, ext.name);

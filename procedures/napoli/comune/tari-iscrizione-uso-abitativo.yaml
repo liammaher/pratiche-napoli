@@ -118,7 +118,12 @@ forms:
     sha256: 2950daa429f5cfd2e19b03792cf4245638f32c3e8267b55e975443145eb8a218
     signature_required: true
     fields:
-      - { label: Il/La sottoscritto/a, map: { concat: [identity.last_name, identity.first_name] } }
+      - label: Il/La sottoscritto/a
+        map: { concat: [identity.last_name, identity.first_name] }
+        notes: >-
+          Dichiara l'intestatario della scheda di famiglia (famiglia.intestatario_scheda). Se non è
+          il titolare del vault ma un familiare, nome, nascita, C.F. e recapiti del dichiarante
+          vanno presi dai dati di quel familiare, e il titolare del vault va tra i conviventi.
       - { label: nato/a a, map: { direct: identity.birth_comune } }
       - { label: nato/a a (stato estero), map: { direct: identity.birth_country } }
       - { label: il, map: { direct: identity.date_of_birth } }
@@ -149,7 +154,21 @@ forms:
       - label: Autorimessa/cantinola/posto auto (via, dati catastali, superficie, pertinenza)
         map: { ask: "Dati del box, cantina o posto auto, se c'è; indicare se è pertinenza dell'abitazione" }
       - label: Conviventi (nominativo, luogo e data di nascita, rapporto, codice fiscale)
-        map: { repeat: nucleo_familiare.membro<N>_* }
+        map:
+          repeat: famiglia
+          fields:
+            - "*:identity.last_name"
+            - "*:identity.first_name"
+            - "*:identity.birth_comune"
+            - "*:identity.birth_country"
+            - "*:identity.date_of_birth"
+            - "*:identity.codice_fiscale"
+        notes: >-
+          Una riga per ogni familiare nello stato di famiglia (famiglia.stato_famiglia si), tranne
+          chi dichiara. Il rapporto non è un campo: è la parentela con il dichiarante, per esteso.
+          Se dichiara il titolare del vault è il relazione_label dell'elenco dei familiari
+          (moglie, figlia), non il codice di famiglia.relazione (coniuge, figlio); se dichiara un
+          altro intestatario, va riferita a lui e chiesta.
       - label: Richiesta di riduzione del 40% "Uso stagionale"
         map: { ask: "Seconda casa tenuta a disposizione, con già una posizione TARI per l'abitazione principale?" }
       - { label: Eventuali note, map: { ask: Note facoltative per l'ufficio } }
@@ -157,6 +176,10 @@ forms:
         map: { blank_with_reason: Spazio riservato all'ufficio; il codice contribuente lo assegna il Comune. }
 steps:
   - { do: "Verificare se un Mod. 1 è già stato compilato, firmato o inviato", who: anyone }
+  - do: >-
+      Verificare chi è l'intestatario della scheda di famiglia (famiglia.intestatario_scheda): è
+      lui a dichiarare e a firmare
+    who: anyone
   - { do: Compilare il Mod. 1 (dati dalla tabella dei campi), who: anyone }
   - { do: Firmare il modulo, who: owner, human_only: true }
   - do: Inviare modulo firmato e copia del documento, preferibilmente via PEC
