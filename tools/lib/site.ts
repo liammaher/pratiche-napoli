@@ -8,6 +8,8 @@
 // Links between pages are relative, so the site works under any path; only
 // canonical URLs, the sitemap and the JSON index use the base URL.
 
+import type { Reported, Stat } from "./reported.ts";
+
 // Procedures are validated before they get here; this is the subset rendered.
 type Status = "verified" | "unverified" | "disputed";
 interface Claim {
@@ -74,6 +76,7 @@ export interface Procedure {
   sources: Source[];
   verification: { level: string; date: string; by: string; method: string; notes?: string };
   run_log?: { date: string; note: string }[];
+  reported?: Reported;
 }
 
 export interface SiteOptions {
@@ -407,6 +410,7 @@ function renderProcedure(p: Procedure, ente: Ente, site: Site): string {
     p.documents?.length ? sec("documenti", "Quali documenti servono?", documents(p.documents)) : "",
     p.forms?.length ? sec("moduli", "Quali moduli servono?", forms(p.forms, cite)) : "",
     sec("passaggi", "Quali sono i passaggi?", steps(p.steps)),
+    p.reported ? sec("esperienze", "Com'è andata ad altri", experiences(p.reported, p)) : "",
     p.after?.length ? sec("dopo", "Cosa succede dopo l'invio?", list(p.after.map(esc))) : "",
     p.records?.length
       ? sec(
@@ -554,6 +558,9 @@ function quickAnswer(p: Procedure, cite: Cite, flag: boolean): string {
     ...(due ? [["Scadenza", `${claim(due, cite)} <a href="#scadenza">Dettagli</a>`] as [string, string]] : []),
     ...(p.cost ? [["Costo", claim(p.cost, cite)] as [string, string]] : []),
     ...(p.duration ? [["Tempi", claim(p.duration, cite)] as [string, string]] : []),
+    ...(answerTimes(p.reported)
+      ? [["Tempi reali", `${esc(answerTimes(p.reported)!)}, secondo chi l'ha fatta. <a href="#esperienze">Racconti</a>`] as [string, string]]
+      : []),
     [
       "Si può fare online?",
       `${
@@ -973,4 +980,69 @@ function renderThanks(site: Site): string {
 <p><a href="../">Torna a tutte le pratiche</a></p>`,
     site,
   );
+}
+
+// --- What people reported ---
+
+const OUTCOME_TEXT: Record<string, [string, string]> = {
+  completata: ["andata a buon fine", "andate a buon fine"],
+  chiesto_altro: ["con una richiesta di altri documenti", "con una richiesta di altri documenti"],
+  respinta: ["respinta", "respinte"],
+  in_attesa: ["ancora in attesa", "ancora in attesa"],
+  rinunciato: ["abbandonata", "abbandonate"],
+};
+const MONTH = new Intl.DateTimeFormat("it-IT", { month: "long", year: "numeric", timeZone: "UTC" });
+// 16 €, but 66,50 € rather than 66,5 €.
+const euro = (v: number) =>
+  new Intl.NumberFormat("it-IT", { style: "currency", currency: "EUR", minimumFractionDigits: Number.isInteger(v) ? 0 : 2 }).format(v);
+const month = (m: string) => MONTH.format(new Date(`${m}-01T00:00:00Z`));
+const nReports = (n: number) => (n === 1 ? "1 racconto" : `${n} racconti`);
+
+// "in giornata", "circa 1 giorno", "circa 23 giorni"; "nessuna attesa" for 0 minutes.
+const days = (n: number) => (n === 0 ? "in giornata" : `circa ${n} ${n === 1 ? "giorno" : "giorni"}`);
+const minutes = (n: number) => (n === 0 ? "nessuna attesa" : `circa ${n} ${n === 1 ? "minuto" : "minuti"}`);
+// ", tra 9 e 41 giorni" when the answers differ.
+const range = (s: Stat, show: (v: number) => string, unit = "") =>
+  s.min === s.max ? "" : `, tra ${show(s.min)} e ${show(s.max)}${unit && ` ${unit}`}`;
+
+// "circa 23 giorni via PEC (7 racconti)", per channel with enough answers.
+function answerTimes(r?: Reported): string | undefined {
+  const parts = (r?.channels ?? []).flatMap((c) =>
+    c.days_to_answer ? [`${days(c.days_to_answer.median)} via ${CHANNELS[c.type] ?? c.type} (${nReports(c.days_to_answer.n)})`] : [],
+  );
+  return parts.length ? parts.join("; ") : undefined;
+}
+
+// Not an official source: the section says where its figures come from.
+function experiences(r: Reported, p: Procedure): string {
+  const outcomes = Object.entries(r.outcomes ?? {}).map(([o, n]) => `${n} ${OUTCOME_TEXT[o]?.[n === 1 ? 0 : 1] ?? o}`);
+  const items = [
+    outcomes.length ? `<strong>Com'è finita</strong>: ${esc(outcomes.join(", "))}.` : "",
+    ...(r.channels ?? []).flatMap((c) =>
+      c.days_to_answer
+        ? [
+            `<strong>Risposta via ${esc(CHANNELS[c.type] ?? c.type)}</strong>: ${days(c.days_to_answer.median)}${range(c.days_to_answer, String, "giorni")} (${nReports(c.days_to_answer.n)}).`,
+          ]
+        : [],
+    ),
+    r.desk_wait_minutes
+      ? `<strong>Attesa allo sportello</strong>: ${minutes(r.desk_wait_minutes.median)}${range(r.desk_wait_minutes, String, "minuti")} (${nReports(r.desk_wait_minutes.n)}).`
+      : "",
+    r.paid_eur
+      ? `<strong>Pagato in tutto</strong>: circa ${euro(r.paid_eur.median)}${range(r.paid_eur, euro)} (${nReports(r.paid_eur.n)}).`
+      : "",
+    r.documents?.length
+      ? `<strong>Documenti chiesti</strong>: ${r.documents.map((d) => `${esc(d.name)}, a ${d.asked} su ${d.of}`).join("; ")}.`
+      : "",
+    r.extra_documents?.length
+      ? `<strong>Chiesti anche, pur non essendo in elenco</strong>: ${r.extra_documents.map((d) => `${esc(d.text)} (${nReports(d.count)})`).join("; ")}.`
+      : "",
+    r.rejection_reasons?.length
+      ? `<strong>Perché è stata respinta</strong>: ${r.rejection_reasons.map((d) => `${esc(d.text)} (${nReports(d.count)})`).join("; ")}.`
+      : "",
+  ].filter(Boolean);
+  const tips = r.tips?.length ? `<h3>Consigli</h3>\n${list(r.tips.map(esc))}` : "";
+  return `<p class="meta">Da ${nReports(r.count)} di chi ha fatto la pratica tra ${month(r.period.from)} e ${month(r.period.to)}, letti da noi prima di pubblicarli; i consigli sono riscritti da noi. Non sono una fonte ufficiale: ${p.cost || p.duration ? "costi e termini ufficiali sono più su" : "per le regole valgono le fonti ufficiali"}.</p>
+${items.length ? list(items) : ""}
+${tips}`;
 }
