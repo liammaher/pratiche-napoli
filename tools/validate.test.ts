@@ -976,6 +976,10 @@ test("a form with the business's data and a person's must say who signs", () => 
   doc.forms[0].fields[1] = { label: "Codice fiscale", map: { direct: "identity.codice_fiscale" } };
   doc.dichiarante = { ruolo: "titolare" };
   assert.deepEqual(validateProcedure(doc, PATH, ctx), []);
+  // Only for a procedure businesses do: residents sign their own.
+  doc.applies_to.audience = ["resident"];
+  assert.match(errorsFor(doc), /declares a dichiarante, who signs for a business, but applies_to\.audience has no business/);
+  doc.applies_to.audience = ["business"];
   // A person's data alone is the vault owner's, as before.
   delete doc.dichiarante;
   doc.forms[0].fields.shift();

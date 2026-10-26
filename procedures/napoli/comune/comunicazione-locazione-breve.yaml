@@ -21,7 +21,7 @@ ente:
   ipa: c_f839
 applies_to:
   events: [open]
-  audience: [resident, business]
+  audience: [resident]
   sectors: [locazioni brevi, affitti turistici fino a 30 giorni]
   conditions:
     - text: >-
@@ -350,8 +350,6 @@ documents:
   - name: Ricevuta pagoPA dei diritti d'istruttoria
     required: false
     notes: Se il portale chiede i 50 euro della riga S210 (vedi pagamento).
-dichiarante:
-  ruolo: [titolare, legale_rappresentante]
 forms:
   - id: credenziali-alloggiati-web-napoli
     name: Questura di Napoli – Modulo richiesta credenziali Alloggiati Web

@@ -77,6 +77,7 @@ interface Doc {
     basis: string[];
   };
   sources?: Source[];
+  applies_to?: { audience?: string[] };
   dichiarante?: unknown;
   forms?: { id: string; fields?: { label: string; map: Record<string, unknown> }[] }[];
   records?: { field: string }[];
@@ -142,6 +143,12 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
     recorded.add(r.field);
     const problem = checkUse(r.field, false, ctx.registry, d.dichiarante !== undefined);
     if (problem) errors.push(`records: ${problem}`);
+  }
+
+  // A dichiarante signs for a business: on a procedure only residents do, it
+  // would hand a business vault's legale rappresentante a person's own form.
+  if (d.dichiarante !== undefined && !d.applies_to?.audience?.includes("business")) {
+    errors.push("declares a dichiarante, who signs for a business, but applies_to.audience has no business");
   }
 
   // Forms or records with the business's data and a person's need to say
