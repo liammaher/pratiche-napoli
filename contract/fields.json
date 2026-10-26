@@ -1,10 +1,11 @@
 {
-  "version": "9",
+  "version": "10",
   "source": "personal-vault RecommendedSchema + contract/extensions.json",
   "categories": [
     {
       "name": "identity",
       "description": "Personal identity information",
+      "scope": "person",
       "fields": [
         {
           "id": "identity.first_name",
@@ -63,6 +64,7 @@
     {
       "name": "cie",
       "description": "Carta d'identità elettronica details. The PIN and PUK can only be stored as personal (never readable by agents).",
+      "scope": "person",
       "fields": [
         {
           "id": "cie.numero",
@@ -85,6 +87,7 @@
     {
       "name": "residenza",
       "description": "Registered residence (residenza anagrafica, as recorded in ANPR)",
+      "scope": "person",
       "fields": [
         {
           "id": "residenza.indirizzo",
@@ -119,6 +122,7 @@
     {
       "name": "domicilio",
       "description": "Domicile, only if different from residenza",
+      "scope": "person",
       "fields": [
         {
           "id": "domicilio.indirizzo",
@@ -149,6 +153,7 @@
     {
       "name": "abitazione",
       "description": "The home you live in now (the unit at your residenza or domicilio; the address stays there). Catasto data is on the visura catastale and is needed for TARI, RLI registration and ISEE. Attach the visura and APE with 'pvault doc add abitazione <file>'.",
+      "scope": "owner",
       "fields": [
         {
           "id": "abitazione.titolo",
@@ -207,6 +212,7 @@
     {
       "name": "locazione",
       "description": "Your rental contract, if you rent. Registration details (estremi di registrazione) are on the RLI receipt and are asked for by utility transfers and tax deductions. Attach the contract and receipt with 'pvault doc add locazione <file>'.",
+      "scope": "owner",
       "fields": [
         {
           "id": "locazione.tipo_contratto",
@@ -297,6 +303,7 @@
     {
       "name": "utenze",
       "description": "Utility supplies at your home. The POD and PDR identify the meters and are needed for a voltura or subentro.",
+      "scope": "owner",
       "fields": [
         {
           "id": "utenze.luce_pod",
@@ -355,6 +362,7 @@
     {
       "name": "tari",
       "description": "Your TARI (waste tax) position with the Comune. Attach the filed declaration with 'pvault doc add tari <file>'.",
+      "scope": "owner",
       "fields": [
         {
           "id": "tari.codice_contribuente",
@@ -379,23 +387,46 @@
       ]
     },
     {
-      "name": "nucleo_familiare",
-      "description": "Household (stato di famiglia). Add one set of fields per member as membro<N>_<campo>, e.g. nucleo_familiare.membro1_nome, membro1_cognome, membro1_codice_fiscale (validated), membro1_data_nascita, membro1_relazione (coniuge, figlio/a, ...)",
+      "name": "famiglia",
+      "description": "How your family members relate to you, the vault's owner (as ANPR records every relazione against the intestatario della scheda). Each member is a person with their own data under a prefix, e.g. leo:identity.codice_fiscale, leo:cie.numero; add one with 'pvault member add <slug> --relazione <relazione>'. Member fields: relazione (coniuge, unito_civilmente, convivente, figlio, nipote, genitore, nonno, fratello, nipote_collaterale, zio, cugino, altro_parente, genero_nuora, suocero, cognato, altro_affine, altro); stato_famiglia (si/no: in your stato di famiglia); a_carico_percentuale (0, 50 or 100); genitori (io and/or member slugs, e.g. io,giulia); rappresentanza (tutore, amministratore_sostegno, curatore, delega). Yours: intestatario_scheda (io or a member's slug).",
+      "scope": "person",
       "fields": [
         {
-          "id": "nucleo_familiare.numero_componenti",
-          "description": "Number of people in the household, including you"
+          "id": "famiglia.intestatario_scheda",
+          "description": "Who is the intestatario della scheda anagrafica: io (you) or a member's slug (validated)",
+          "for": "owner"
         },
         {
-          "id": "nucleo_familiare.intestatario_scheda",
-          "description": "Whether you are the intestatario della scheda anagrafica (si/no)"
+          "id": "famiglia.relazione",
+          "description": "How the member relates to you: coniuge, unito_civilmente, convivente, figlio, nipote, genitore, nonno, fratello, nipote_collaterale, zio, cugino, altro_parente, genero_nuora, suocero, cognato, altro_affine, altro (validated; moglie, figlia, madre... accepted)",
+          "for": "member"
+        },
+        {
+          "id": "famiglia.stato_famiglia",
+          "description": "Whether the member is in your stato di famiglia (famiglia anagrafica): si or no",
+          "for": "member"
+        },
+        {
+          "id": "famiglia.a_carico_percentuale",
+          "description": "Share of the member you claim as an IRPEF dependant: 0, 50 or 100",
+          "for": "member"
+        },
+        {
+          "id": "famiglia.genitori",
+          "description": "For a child: who holds responsabilità genitoriale, io and/or members' slugs (e.g. io,giulia)",
+          "for": "member"
+        },
+        {
+          "id": "famiglia.rappresentanza",
+          "description": "How you can act for an adult member: tutore, amministratore_sostegno, curatore, delega",
+          "for": "member"
         }
-      ],
-      "dynamic": "membro<N>_<campo>"
+      ]
     },
     {
       "name": "business",
       "description": "Italian business or self-employment details",
+      "scope": "person",
       "fields": [
         {
           "id": "business.partita_iva",
@@ -466,6 +497,7 @@
     {
       "name": "locale",
       "description": "The business premises (locali) where the activity is carried on, one unit; like abitazione for the home, but with its own address. Catasto data is on the visura catastale. Attach the visura and the lease with 'pvault doc add locale <file>'.",
+      "scope": "person",
       "fields": [
         {
           "id": "locale.indirizzo",
@@ -532,6 +564,7 @@
     {
       "name": "permesso_soggiorno",
       "description": "Permesso / documento di soggiorno (non-EU residents, incl. UK citizens under the Withdrawal Agreement; not needed when identity.citizenship is italiana). Attach scans with 'pvault doc add permesso_soggiorno <file>'.",
+      "scope": "person",
       "fields": [
         {
           "id": "permesso_soggiorno.numero",
@@ -558,6 +591,7 @@
     {
       "name": "passaporto",
       "description": "Passport (Italian or foreign)",
+      "scope": "person",
       "fields": [
         {
           "id": "passaporto.numero",
@@ -584,6 +618,7 @@
     {
       "name": "tessera_sanitaria",
       "description": "Tessera sanitaria / TEAM card (also shows the codice fiscale)",
+      "scope": "person",
       "fields": [
         {
           "id": "tessera_sanitaria.numero",
@@ -606,6 +641,7 @@
     {
       "name": "patente",
       "description": "Driving licence (Italian or foreign)",
+      "scope": "person",
       "fields": [
         {
           "id": "patente.numero",
@@ -636,6 +672,7 @@
     {
       "name": "addresses",
       "description": "Other or foreign addresses (e.g. a previous address abroad). For your Italian address use residenza and domicilio.",
+      "scope": "person",
       "fields": [
         {
           "id": "addresses.home_street",
@@ -662,6 +699,7 @@
     {
       "name": "financial",
       "description": "Financial and tax information",
+      "scope": "person",
       "fields": [
         {
           "id": "financial.iban",
@@ -676,6 +714,7 @@
     {
       "name": "preferences",
       "description": "User preferences",
+      "scope": "person",
       "fields": [
         {
           "id": "preferences.timezone",
@@ -694,6 +733,7 @@
     {
       "name": "employment",
       "description": "Employment information",
+      "scope": "person",
       "fields": [
         {
           "id": "employment.employer",
@@ -708,6 +748,7 @@
     {
       "name": "documents",
       "description": "Document references (user-defined fields)",
+      "scope": "person",
       "fields": [],
       "open": true
     }
