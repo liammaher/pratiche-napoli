@@ -27,9 +27,9 @@ if (why) {
 }
 const text = report(checked, todayInRome());
 if (values.out) writeFileSync(path.resolve(values.out), text);
-const uncheckable = checked.filter((r) => r.status === "uncheckable");
+const unchecked = checked.filter((r) => r.status === "uncheckable" || r.status === "blocked");
 console.log(
   text ||
-    `All ${targets.length - uncheckable.length} addresses that could be checked answer, and every recorded sha256 still matches.` +
-      (uncheckable.length ? `\n${uncheckable.length} couldn't be checked (certificate): ${uncheckable.map((r) => r.target.url).join(", ")}` : ""),
+    `All ${targets.length - unchecked.length} addresses that could be checked answer, and every recorded sha256 still matches.` +
+      (unchecked.length ? `\n${unchecked.length} couldn't be checked (certificate, or blocked by the site): ${unchecked.map((r) => r.target.url).join(", ")}` : ""),
 );
