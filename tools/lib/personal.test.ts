@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { findPersonalData, isIBAN } from "./personal.ts";
+import { findPersonalData, isIBAN, matchPersonalData } from "./personal.ts";
 
 test("IBANs are found in the formats people actually print", () => {
   for (const text of [
@@ -60,4 +60,26 @@ test("an IBAN must have its country's exact length", () => {
   assert.equal(isIBAN("IT60X0542811101000000123456"), true);
   assert.equal(isIBAN("IT60X054281110100000012345"), false); // one short
   assert.equal(isIBAN("BE68539007547034"), true);
+});
+
+test("matches cover the personal data and nothing after it", () => {
+  for (const [text, found] of [
+    ["cf RSS MRA 85T10 A562S grazie", "RSS MRA 85T10 A562S"],
+    ["Paga su ES91 2100 0418 4502 0005 1332 e conserva", "ES91 2100 0418 4502 0005 1332"],
+    ["IBAN BE68539007547034 per il rimborso", "BE68539007547034"],
+  ]) {
+    const [m] = matchPersonalData(text);
+    assert.equal(text.slice(m.start, m.end), found, text);
+  }
+});
+
+test("without check digits, mistyped codes still match", () => {
+  for (const [text, found] of [
+    ["cf RSSMRA85T10A562X grazie", "RSSMRA85T10A562X"], // wrong check letter
+    ["IBAN IT61 X054 2811 1010 0000 0123 456 per", "IT61 X054 2811 1010 0000 0123 456"], // wrong check digits
+  ]) {
+    assert.deepEqual(findPersonalData(text), [], text);
+    const [m] = matchPersonalData(text, { checkDigits: false });
+    assert.equal(text.slice(m.start, m.end), found, text);
+  }
 });

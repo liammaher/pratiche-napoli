@@ -1,0 +1,11 @@
+rules_version = '2';
+
+// Reports are private. Only the submitReport function (through the Admin SDK,
+// which ignores these rules) and the maintainer's tools read or write them.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
