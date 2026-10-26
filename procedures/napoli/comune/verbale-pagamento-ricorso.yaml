@@ -363,13 +363,14 @@ forms:
       - label: in qualità di – Legale rappresentante/delegato della persona giuridica
         map:
           ask: >-
-            Il veicolo è intestato a una società o a un ente che lei rappresenta? Se sì, barrare e
-            indicare se ne è il legale rappresentante o un delegato; se no, questa casella e i
-            dati della persona giuridica che seguono restano vuoti
+            Il veicolo è intestato a una società o a un ente di cui lei è il legale
+            rappresentante? Se sì, barrare; se no, questa casella e i dati della persona giuridica
+            che seguono restano vuoti
         notes: >-
           Va chiesto anche quando l'archivio ha i dati di un'impresa: una multa sull'auto privata
-          di chi ha una ditta non è della ditta. Se sì, in un archivio d'impresa la qualità è
-          ruolo.tipo del firmatario.
+          di chi ha un'impresa non è dell'impresa. Una ditta individuale non è una persona
+          giuridica: il suo titolare barra «Proprietario». I dati personali del modulo sono quelli
+          di chi firma, il legale rappresentante: se firma un delegato, vanno scritti a mano i suoi.
       - label: (persona giuridica)
         map: { direct: business.denominazione }
         notes: Solo se il veicolo è intestato alla società o all'ente (riga precedente); altrimenti vuoto.
@@ -389,9 +390,16 @@ forms:
         map: { ask: "Era lei alla guida del veicolo al momento della violazione?" }
       - label: patente di guida/CQC n° (del dichiarante)
         map: { direct: patente.numero }
-      - { label: rilasciata da (dichiarante), map: { direct: patente.autorita_rilascio } }
-      - { label: il (rilascio patente dichiarante), map: { direct: patente.data_rilascio } }
-      - { label: valida fino al (dichiarante), map: { direct: patente.data_scadenza } }
+        notes: Solo se era lei alla guida (riga precedente); altrimenti vuoto.
+      - label: rilasciata da (dichiarante)
+        map: { direct: patente.autorita_rilascio }
+        notes: Solo se era lei alla guida; altrimenti vuoto.
+      - label: il (rilascio patente dichiarante)
+        map: { direct: patente.data_rilascio }
+        notes: Solo se era lei alla guida; altrimenti vuoto.
+      - label: valida fino al (dichiarante)
+        map: { direct: patente.data_scadenza }
+        notes: Solo se era lei alla guida; altrimenti vuoto.
       - label: DICHIARA che il/la conducente era (casella)
         map: { ask: "Alla guida c'era un'altra persona? Se sì servono i suoi dati e la sua firma" }
       - { label: Cognome (conducente), map: { ask: Cognome del conducente } }
