@@ -338,8 +338,12 @@ forms:
       - label: Denominazione
         map: { ask: Nome (denominazione) del Bed and Breakfast }
       - label: Part.IVA/Cod.Fisc.
-        map: { fallback: [business.partita_iva, identity.codice_fiscale] }
-        notes: B&B non imprenditoriale senza partita IVA → codice fiscale del titolare.
+        map: { direct: identity.codice_fiscale }
+        notes: >-
+          Il codice fiscale del titolare, che va bene in ogni caso: il B&B è sempre di una persona
+          fisica, e per il B&B imprenditoriale (una ditta individuale) il codice fiscale
+          dell'impresa è quello del titolare. Chi lo gestisce come impresa può scrivere invece la
+          partita IVA; una partita IVA per un'altra attività non va indicata.
       - label: "Categoria: Bed & Breakfast (casella)"
         map: { blank_with_reason: "Barrare la casella Bed & Breakfast; le altre categorie restano vuote." }
       - label: "Classe (per Bed & Breakfast: Garni / Nessuna)"
@@ -355,7 +359,10 @@ forms:
       - label: Scala
         map: { ask: "Scala dell'edificio, se c'è" }
       - label: Piano
-        map: { direct: abitazione.piano }
+        map: { ask: "Piano dell'abitazione in cui si trova il B&B" }
+        notes: >-
+          È la casa del titolare (residenza o stabile domicilio). In un archivio personale è
+          abitazione.piano; in quello di un'impresa l'abitazione non c'è, perché è del titolare.
       - label: Int.
         map: { fallback: [domicilio.interno, residenza.interno] }
       - label: Comune
@@ -363,7 +370,8 @@ forms:
       - label: Prov.
         map: { fallback: [domicilio.provincia, residenza.provincia] }
       - label: "Contatti: PEC"
-        map: { fallback: [business.pec, identity.pec] }
+        map: { fallback: [identity.pec, business.pec] }
+        notes: La PEC del titolare; per un B&B imprenditoriale va bene quella dell'impresa.
       - label: "Contatti: Tel. fisso"
         map: { ask: "Telefono fisso del B&B, se c'è" }
       - label: "Contatti: cellulare"
