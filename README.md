@@ -198,8 +198,10 @@ the schema as `contract/vault-schema.json` and rebuilds `contract/fields.json`; 
 `fields.json` by hand (a test checks). The vault's credential words come with it, and the
 validator refuses any field name that uses one, so the library never keeps its own list.
 `npm run check:vault-schema` compares the saved copy with `schema.json` on the vault's main
-branch; the `Vault schema` workflow runs it every night and on every push to main, with the
-`VAULT_SCHEMA_TOKEN` secret (read access to the vault repository's contents).
+branch; the `Vault schema` workflow runs it on every pull request and push to main, with the
+`VAULT_SCHEMA_TOKEN` secret (read access to the vault repository's contents). It has no
+scheduled run, so after a schema change in the vault alone, start it from the Actions tab
+(or `gh workflow run vault-schema.yml`).
 
 ## Not legal advice
 
