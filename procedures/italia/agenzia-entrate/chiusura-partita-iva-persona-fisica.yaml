@@ -274,7 +274,9 @@ forms:
           indicano il cognome da nubile.
       - { label: Quadro C – Nome, map: { direct: identity.first_name } }
       - { label: Quadro C – Data di nascita, map: { direct: identity.date_of_birth } }
-      - { label: Quadro C – Comune (o Stato estero) di nascita, map: { direct: identity.birth_comune } }
+      - label: Quadro C – Comune (o Stato estero) di nascita
+        map: { fallback: [identity.birth_country, identity.birth_comune] }
+        notes: Chi è nato all'estero scrive lo Stato (identity.birth_country), non la città; chi è nato in Italia il comune.
       - { label: Quadro C – Provincia di nascita, map: { direct: identity.birth_province } }
       - label: Quadro C – Residenza anagrafica o domicilio fiscale – indirizzo completo
         map: { concat: [residenza.indirizzo, residenza.civico, residenza.interno] }

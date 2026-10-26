@@ -278,8 +278,9 @@ pitfalls:
     status: verified
     source: na-lettera-ordinaria
   - text: >-
-      La maggiorazione dello 0,40% (o 0,80% per chi rientra nella proroga ISA) è dovuta anche se il
-      pagamento avviene in compensazione a saldo zero, e va versata con i decimali.
+      La maggiorazione dello 0,40% è dovuta anche se il pagamento avviene in compensazione a saldo
+      zero, e va versata con i decimali. (Per la proroga ISA, con lo 0,80%, vedi la scadenza: la
+      Camera di Napoli non la cita.)
     status: verified
     source: na-lettera-ordinaria
   - text: >-
