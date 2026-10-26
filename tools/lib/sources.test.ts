@@ -330,11 +330,8 @@ test("the saved state carries results across nights; old and uncited ones drop o
   // Asked again a week on, with the same answer: dated then, so it's reused for another week.
   const again = merge(reused, [{ target: a, status: "unreachable", wayback: "nessuna copia nell'archivio" }], "2026-10-28", [a]);
   assert.equal(again[a.url].waybackOn, "2026-10-28");
-  // Still failing but not looked up tonight (the night's limit): the old answer stays.
-  const kept = merge(again, [{ target: a, status: "unreachable", detail: "HTTP 404" }], "2026-10-29", [a]);
-  assert.deepEqual([kept[a.url].wayback, kept[a.url].waybackOn], ["nessuna copia nell'archivio", "2026-10-28"]);
   // Back up: no second opinion needed.
-  assert.equal(merge(kept, [{ target: a, status: "ok" }], "2026-10-30", [a])[a.url].wayback, undefined);
+  assert.equal(merge(again, [{ target: a, status: "ok" }], "2026-10-30", [a])[a.url].wayback, undefined);
   const latest = known(next, [a, b], "2026-10-26");
   assert.deepEqual(latest.map((r) => [r.target.url, r.status, r.checkedOn]), [
     [a.url, "unreachable", "2026-10-22"],
@@ -404,6 +401,103 @@ test("a page blocked with its home, which the archive also saw gone, is gone", a
   assert.deepEqual([r.status, r.detail], ["unreachable", "HTTP 404, anche per la home del sito, e HTTP 404 nell'archivio"]);
 });
 
+test("a page the archive saw gone stays gone on the nights its answer is reused", async () => {
+  const target = { url: "https://x.it/f.pdf", refs: [] };
+  const blocked: Result = { target, status: "blocked", detail: "HTTP 404, anche per la home del sito" };
+  let lookups = 0;
+  const fetchFn = (async () => {
+    lookups++;
+    return Response.json([["timestamp", "statuscode", "original"], ["20260901000000", "404", target.url]]);
+  }) as unknown as typeof fetch;
+  // The first night asks the archive and saves its answer with the status it saw...
+  const [first] = await secondOpinion([blocked], fetchFn, { sleep: async () => {} });
+  const state = merge({}, [first], "2026-10-20", [target]);
+  assert.equal(state[target.url].waybackStatus, "404");
+  // ...the next night reuses it, and the page is still gone rather than blocked,
+  // so the issue doesn't close until the answer expires and reopen after.
+  const [next] = await secondOpinion([blocked], fetchFn, {
+    saved: new Map([[target.url, { wayback: state[target.url].wayback!, status: state[target.url].waybackStatus, on: "2026-10-20" }]]),
+    sleep: async () => {},
+  });
+  assert.equal(lookups, 1);
+  assert.deepEqual([next.status, next.detail], ["unreachable", "HTTP 404, anche per la home del sito, e HTTP 404 nell'archivio"]);
+  assert.notEqual(report([next], "2026-10-21"), "");
+});
+
+test("a site that refuses the checker for a week makes a report, so its forms aren't silently unchecked", () => {
+  const form = { url: "https://www.comune.napoli.it/mod.pdf", sha256: "a".repeat(64), refs: ["napoli/comune/x: modulo \"m\""] };
+  const blocked: Result = { target: form, status: "blocked", detail: "HTTP 404, anche per la home del sito" };
+  let state: State = {};
+  for (const day of ["2026-10-20", "2026-10-21", "2026-10-26"]) state = merge(state, [blocked], day, [form]);
+  assert.equal(state[targetKey(form)].failingSince, "2026-10-20");
+  // Six days in: listed only beside something else.
+  assert.equal(report(known(state, [form], "2026-10-26"), "2026-10-26"), "");
+  state = merge(state, [blocked], "2026-10-27", [form]);
+  const text = report(known(state, [form], "2026-10-27"), "2026-10-27");
+  assert.match(text, /## Bloccati dal sito da almeno una settimana \(1\)/);
+  assert.match(text, /\(HTTP 404, anche per la home del sito, dal 2026-10-20\)/);
+  // A night it answers ends the streak; blocked again, it starts over.
+  state = merge(state, [{ target: form, status: "ok" }], "2026-10-28", [form]);
+  state = merge(state, [blocked], "2026-10-29", [form]);
+  assert.equal(state[targetKey(form)].failingSince, "2026-10-29");
+  assert.equal(report(known(state, [form], "2026-10-29"), "2026-10-29"), "");
+});
+
+test("an old archive answer stands when it can't be renewed, and old state's status is read from its text", async () => {
+  const target = { url: "https://x.it/f.pdf", refs: [] };
+  const blocked: Result = { target, status: "blocked", detail: "HTTP 404, anche per la home del sito" };
+  const wayback = "copia del 2026-09-01 (HTTP 404): https://web.archive.org/web/20260901000000/https://x.it/f.pdf";
+  const down = (async () => new Response("", { status: 503 })) as unknown as typeof fetch;
+  // A week old, so asked again; the archive is down: still gone, with its old date.
+  const saved = new Map([[target.url, { wayback, status: "404", on: "2026-10-13" }]]);
+  const [r] = await secondOpinion([blocked], down, { saved, today: "2026-10-20", sleep: async () => {} });
+  assert.deepEqual([r.status, r.waybackOn], ["unreachable", "2026-10-13"]);
+  // The same when the night's lookups are spent.
+  const [spent] = await secondOpinion([blocked], down, { saved, today: "2026-10-20", limit: 0 });
+  assert.equal(spent.status, "unreachable");
+  // Saved before the status was: read from the text.
+  const [old] = await secondOpinion([blocked], down, { saved: new Map([[target.url, { wayback, on: "2026-10-19" }]]), today: "2026-10-20" });
+  assert.deepEqual([old.status, old.waybackStatus], ["unreachable", "404"]);
+  // A recent answer isn't asked again.
+  let asked = 0;
+  const counting = (async () => (asked++, new Response("", { status: 503 }))) as unknown as typeof fetch;
+  await secondOpinion([blocked], counting, { saved: new Map([[target.url, { wayback, status: "404", on: "2026-10-15" }]]), today: "2026-10-20" });
+  assert.equal(asked, 0);
+});
+
+test("a streak of failed nights goes on through nights the site didn't answer, and ends on a gap", () => {
+  const form = { url: "https://www.comune.napoli.it/mod.pdf", sha256: "b".repeat(64), refs: [] };
+  const blocked: Result = { target: form, status: "blocked", detail: "HTTP 404, anche per la home del sito" };
+  let state: State = {};
+  state = merge(state, [blocked], "2026-10-20", [form]);
+  // A 429 one night is no answer: the streak goes on.
+  state = merge(state, [{ target: form, status: "unreachable", detail: "HTTP 429" }], "2026-10-21", [form]);
+  state = merge(state, [blocked], "2026-10-27", [form]);
+  assert.equal(state[targetKey(form)].failingSince, "2026-10-20");
+  assert.match(report(known(state, [form], "2026-10-27"), "2026-10-27"), /Bloccati dal sito da almeno una settimana/);
+  // After weeks without a run, an old streak isn't claimed.
+  state = merge(state, [blocked], "2026-11-20", [form]);
+  assert.equal(state[targetKey(form)].failingSince, "2026-11-20");
+});
+
+test("a blocked page is checked again the night after its host answers, not on its day", () => {
+  const form = { url: "https://www.comune.napoli.it/mod.pdf", sha256: "c".repeat(64), refs: [] };
+  const page = { url: "https://www.comune.napoli.it/info", refs: [] };
+  const other = { url: "https://static-www.comune.napoli.it/info", refs: [] };
+  const on = (d: number) => new Date(d * 86_400_000).toISOString().slice(0, 10);
+  const blockedState = (day: number): State => ({
+    [targetKey(form)]: { status: "blocked", checkedOn: on(day - 1) },
+    [page.url]: { status: "blocked", checkedOn: on(day - 3) },
+    [other.url]: { status: "blocked", checkedOn: on(day - 3) },
+  });
+  // A night that is neither page's day.
+  const day = [...Array(7).keys()].map((d) => dayNumber("2026-10-26") + d).find((d) => !tonight([page, other], d, blockedState(d)).length)!;
+  const state = blockedState(day);
+  // The form on the same host answered last night: the block is over there.
+  state[targetKey(form)] = { status: "ok", checkedOn: on(day - 1) };
+  assert.deepEqual(tonight([page, other], day, state), [page]);
+});
+
 test("pages without a recent saved result are checked tonight, whatever their day", () => {
   const pages = Array.from({ length: 21 }, (_, i) => ({ url: `https://x.it/q${i}`, refs: ["p: fonte"] }));
   const day = dayNumber("2026-10-26");
@@ -458,10 +552,12 @@ test("a page that didn't answer is checked again the next night, not only on its
   assert.ok(night.includes(pages[0]));
   assert.ok(night.length < pages.length);
   // Blocked pages wait for their day, like answering ones: asking every night
-  // is what gets an address blocked.
-  const onItsDay = tonight(pages, day, { ...state, [pages[0].url]: { status: "ok", checkedOn: "2026-10-25" } }).includes(pages[0]);
-  state[pages[0].url].status = "blocked";
-  assert.equal(tonight(pages, day, state).includes(pages[0]), onItsDay);
+  // is what gets an address blocked. (Here nothing on the host answered last
+  // night; when something does, see below.)
+  const quiet: State = Object.fromEntries(Object.entries(state).map(([url, seen]) => [url, { ...seen, checkedOn: "2026-10-22" }]));
+  const onItsDay = tonight(pages, day, { ...quiet, [pages[0].url]: { status: "ok", checkedOn: "2026-10-22" } }).includes(pages[0]);
+  quiet[pages[0].url].status = "blocked";
+  assert.equal(tonight(pages, day, quiet).includes(pages[0]), onItsDay);
 });
 
 test("a document is downloaded whole on its own day, without the last version", () => {
