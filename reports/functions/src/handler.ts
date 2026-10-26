@@ -244,7 +244,11 @@ export function parseForm(body: string): Record<string, unknown> {
     const answered = [...items.entries()]
       .sort(([a], [b]) => a - b)
       .map(([, entry]) => entry)
-      .filter((entry) => (list === "documents" ? "asked" in entry : "verdict" in entry));
+      .filter((entry) => (list === "documents" ? "asked" in entry : "verdict" in entry || "text" in entry))
+      // A form can't require these together without JavaScript, so a
+      // correction isn't lost for a missing choice: no section means the page
+      // as a whole, and text with no verdict says what was found instead.
+      .map((entry) => (list === "claim_feedback" ? { section: "pagina", verdict: "sbagliata", ...entry } : entry));
     if (answered.length) out[list] = answered;
   }
   return out;

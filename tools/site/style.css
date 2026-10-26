@@ -126,7 +126,7 @@ ul.procedures p { margin: .2rem 0; }
 ul.procedures a { font-weight: 600; }
 
 .actions { margin: 2rem 0; }
-.flag { font-size: .8rem; font-weight: 400; margin-left: .4rem; }
+.flag { font-size: .85rem; margin: -.3rem 0 .6rem; }
 
 /* "Racconta com'è andata": the report form. */
 .report form { display: grid; gap: .9rem; }
@@ -146,7 +146,8 @@ ul.procedures a { font-weight: 600; }
 }
 .report fieldset { border: 1px solid var(--line); border-radius: .5rem; padding: .6rem 1rem; margin: 0; display: grid; gap: .5rem; }
 .report legend { font-weight: 600; padding: 0 .3rem; }
-.report .doc span { display: block; }
+.report fieldset.doc { border: 0; padding: 0; display: block; }
+.report fieldset.doc legend { font-weight: 400; padding: 0; }
 .report button {
   font: inherit;
   font-weight: 600;

@@ -443,7 +443,11 @@ ${p.headline ? `<p class="official">${esc(p.title)}</p>\n` : ""}${p.aka?.length 
 ${reports ? '<p class="actions"><a href="#racconta">Hai fatto questa pratica? Racconta com\'è andata</a></p>\n' : ""}${quickAnswer(p, cite, !!reports)}
 ${sections.filter(Boolean).join("\n")}
 ${reports ? reportForm(p, shown, site) : ""}
-<p class="actions"><a href="${root}${p.id}.json">Questa pratica in JSON</a></p>
+<p class="actions">${
+    reports
+      ? ""
+      : `<a href="${esc(`${site.opts.repoUrl}/issues/new?title=${encodeURIComponent(`Errore in ${p.id}`)}`)}">Segnala un errore su GitHub</a> (la segnalazione è pubblica: non scrivere dati personali) · `
+  }<a href="${root}${p.id}.json">Questa pratica in JSON</a></p>
 </article>`;
   const url = `${site.opts.baseUrl}/${p.id}/`;
   return page(
@@ -521,12 +525,15 @@ function citer(p: Procedure): Cite {
   return (id) => (id && n.has(id) ? ` <a class="cite" href="#fonte-${esc(id)}">[${n.get(id)}]</a>` : "");
 }
 
-// With `flag`, the heading links to the report form, preset to this section.
+// With `flag`, a link under the heading opens the report form preset to this
+// section (report.js presets it). It stays out of the <h2>, whose text is the
+// question people search for, and points at #racconta so the page doesn't reload.
 function section(id: string, title: string, body: string, flag = false): string {
-  return `<section id="${id}">\n<h2>${esc(title)}${flag ? flagLink(id) : ""}</h2>\n${body}\n</section>`;
+  return `<section id="${id}">\n<h2>${esc(title)}</h2>\n${flag ? flagLink(id) : ""}${body}\n</section>`;
 }
 
-const flagLink = (id: string) => ` <a class="flag" href="?sezione=${id}#racconta" data-section="${id}">Segnala</a>`;
+const flagLink = (id: string) =>
+  `<p class="flag"><a href="#racconta" data-section="${id}">Segnala un errore in questa parte</a></p>\n`;
 
 const ONLINE = new Set(["portal", "pec", "email", "app"]);
 
@@ -562,7 +569,8 @@ function quickAnswer(p: Procedure, cite: Cite, flag: boolean): string {
       : []),
   ];
   return `<section id="in-breve" class="quick">
-<h2>In breve${flag ? flagLink("in-breve") : ""}</h2>
+<h2>In breve</h2>
+${flag ? flagLink("in-breve") : ""}
 <dl>
 ${rows.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join("\n")}
 </dl>
@@ -888,14 +896,14 @@ ${OUTCOMES.map(([v, l], i) => radio("outcome", v, l, i === 0)).join("\n")}
 </fieldset>
 <label>Dopo quanti giorni ti hanno risposto? <input type="number" name="days_to_answer" min="0" max="730" inputmode="numeric"></label>
 <label>Se sei andato allo sportello, quanti minuti hai aspettato? <input type="number" name="desk_wait_minutes" min="0" max="600" inputmode="numeric"></label>
-<label>Quanto hai pagato in tutto, in euro? <input type="text" name="paid_eur" inputmode="decimal" pattern="[0-9]+([.,][0-9]{1,2})?"></label>
+<label>Quanto hai pagato in tutto, in euro? (per esempio 16, 66,50 o 1.250) <input type="text" name="paid_eur" inputmode="decimal" pattern="[0-9]{1,3}(\\.[0-9]{3})+(,[0-9]{1,2})?|[0-9]+([.,][0-9]{1,2})?" title="Un importo come 16, 66,50 o 1.250"></label>
 ${
   docs.length
     ? `<fieldset><legend>Quali di questi documenti ti hanno chiesto?</legend>
 ${docs
   .map(
-    (d, i) => `<div class="doc"><input type="hidden" name="documents[${i}][name]" value="${esc(d.name)}"><span>${esc(d.name)}</span>
-${radio(`documents[${i}][asked]`, "si", "sì")} ${radio(`documents[${i}][asked]`, "no", "no")}</div>`,
+    (d, i) => `<fieldset class="doc"><legend>${esc(d.name)}</legend><input type="hidden" name="documents[${i}][name]" value="${esc(d.name)}">
+${radio(`documents[${i}][asked]`, "si", "sì")} ${radio(`documents[${i}][asked]`, "no", "no")}</fieldset>`,
   )
   .join("\n")}
 </fieldset>`
@@ -903,7 +911,7 @@ ${radio(`documents[${i}][asked]`, "si", "sì")} ${radio(`documents[${i}][asked]`
 }
 <label>Ti hanno chiesto altri documenti? Quali? <textarea name="extra_documents" maxlength="300" rows="2"></textarea></label>
 <fieldset><legend>Qualcosa su questa pagina era sbagliato o superato?</legend>
-<label>Quale parte <select name="claim_feedback[0][section]">${options(shown, "Nessuna")}</select></label>
+<label>Quale parte <select name="claim_feedback[0][section]">${options([...shown, ["pagina", "Tutta la pagina, o non so"]], "Nessuna")}</select></label>
 <label>L'informazione <select name="claim_feedback[0][verdict]">${options(VERDICTS, "Scegli")}</select></label>
 <label>Cosa hai trovato invece? <textarea name="claim_feedback[0][text]" maxlength="500" rows="2"></textarea></label>
 </fieldset>
@@ -919,13 +927,13 @@ ${radio(`documents[${i}][asked]`, "si", "sì")} ${radio(`documents[${i}][asked]`
 function renderPrivacy(site: Site): string {
   const contact = site.opts.reports?.contact;
   const body = `<h1>Privacy</h1>
-<p>${SITE_NAME} non usa cookie né strumenti di tracciamento. Le pagine si leggono senza lasciare dati.</p>
+<p>${SITE_NAME} non usa cookie né strumenti di tracciamento. Come per ogni sito, il servizio che lo ospita registra per motivi tecnici e di sicurezza l'indirizzo IP e le pagine richieste (log di accesso); non li usiamo per nient'altro.</p>
 <h2>I racconti di chi ha fatto una pratica</h2>
 <p>Se compili il modulo "Racconta com'è andata", riceviamo solo quello che scrivi: il mese, il canale e l'ufficio, com'è finita, tempi, importi, quali documenti ti hanno chiesto e le tue note. Lo usiamo per un solo scopo: tenere aggiornate le pagine delle pratiche.</p>
 <ul>
 <li><strong>Cosa pubblichiamo</strong>: mai il tuo racconto così com'è. Solo statistiche, quando i racconti sono almeno 3 (per esempio "risposta in circa 23 giorni via PEC, 7 segnalazioni"), e consigli che riscriviamo noi.</li>
 <li><strong>Dati personali</strong>: non ne chiediamo e ti chiediamo di non scriverne. Codici fiscali e IBAN scritti per errore vengono tolti automaticamente all'arrivo.</li>
-<li><strong>Indirizzo IP</strong>: non lo conserviamo. Per un'ora teniamo un codice ricavato dall'indirizzo, che non permette di risalirci, solo per limitare gli invii ripetuti.</li>
+<li><strong>Indirizzo IP</strong>: non lo salviamo con il racconto. Per limitare gli invii ripetuti teniamo per un'ora un codice pseudonimo ricavato dall'indirizzo, poi lo cancelliamo.</li>
 <li><strong>Email</strong>: la chiediamo solo se spunti la casella per essere ricontattato. È conservata separata dal racconto e cancellata dopo 12 mesi.</li>
 <li><strong>Dove</strong>: su Google Firebase, in un database nell'Unione europea (Milano), accessibile solo a chi cura il progetto.</li>
 <li><strong>Per quanto</strong>: i racconti restano finché servono alle statistiche, che usano quelli degli ultimi 12 mesi. Puoi chiedere in ogni momento di vederli, correggerli o cancellarli.</li>
@@ -935,7 +943,7 @@ function renderPrivacy(site: Site): string {
 ${
   contact
     ? `<p>Per qualunque richiesta sui tuoi dati scrivi a <a href="mailto:${esc(contact)}">${esc(contact)}</a>. Puoi anche presentare reclamo al <a href="https://www.garanteprivacy.it/">Garante per la protezione dei dati personali</a>.</p>`
-    : "<p>Il modulo per i racconti non è ancora attivo, quindi al momento non raccogliamo alcun dato.</p>"
+    : "<p>Il modulo per i racconti non è ancora attivo: al momento, oltre ai log tecnici del servizio di hosting, non raccogliamo alcun dato.</p>"
 }`;
   return page(
     {
