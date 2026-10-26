@@ -77,7 +77,9 @@ const notModified = checked.filter((r) => r.status === "ok" && r.validators && r
 const annotated = await secondOpinion(checked, fetch, {
   saved: new Map(
     Object.entries(state).flatMap(([key, seen]) =>
-      seen.wayback && seen.waybackOn && dayNumber(today) - dayNumber(seen.waybackOn) < 7 ? [[key, { wayback: seen.wayback, on: seen.waybackOn }]] : [],
+      seen.wayback && seen.waybackOn && dayNumber(today) - dayNumber(seen.waybackOn) < 7
+        ? [[key, { wayback: seen.wayback, status: seen.waybackStatus, on: seen.waybackOn }]]
+        : [],
     ),
   ),
 });

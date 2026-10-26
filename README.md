@@ -115,7 +115,9 @@ offices' servers as little as possible, since some block an address that asks to
 - **Listed but not reported on their own:** addresses whose certificate can't be verified (servers
   that don't send their full chain), and 404s from a site whose home page is also 404, which means
   the site is refusing the checker rather than that the page is gone (unless the Wayback Machine
-  also last saw the page as 404: then it is reported as gone).
+  also last saw the page as 404: then it is reported as gone, every night until it answers). A
+  page refused for 7 days or more is reported, though: while the block lasts nothing on it is
+  checked, forms included, so the issue stays open.
 
 The latest result per address is saved (`--state`, by default `.cache/sources-state.json`), so
 each night's report covers the whole week. A run in which most sites gave no answer at all says
