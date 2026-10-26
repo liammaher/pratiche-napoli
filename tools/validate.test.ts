@@ -101,6 +101,11 @@ test("records name exact registered fields, once each, never secrets or tracking
   assert.match(errors, /records: spid.password can't be used in a public procedure/);
   assert.match(errors, /records: unknown category "pratiche"/);
 
+  const member = minimal();
+  member.records = [{ field: "famiglia.relazione", from: "Modulo" }];
+  assert.match(errorsFor(member), /records: famiglia.relazione is a family member's field, never the vault owner's/);
+  assert.doesNotMatch(errorsFor(member), /repeat/);
+
   for (const field of ["tari.*", "*:identity.first_name", "leo:cie.numero", "pratiche.tari-2026_protocollo"]) {
     const bad = minimal();
     bad.records = [{ field, from: "Modulo" }];
@@ -132,11 +137,16 @@ test("member refs: scopes, owner-only and member-only fields", () => {
   assert.equal(checkFieldRef("*:identity.*", r), null);
   assert.equal(checkFieldRef("*:famiglia.relazione", r), null);
   assert.equal(checkFieldRef("famiglia.intestatario_scheda", r), null);
-  assert.match(checkFieldRef("famiglia.relazione", r) ?? "", /family member's field: use \*:famiglia.relazione/);
+  assert.match(checkFieldRef("famiglia.relazione", r) ?? "", /family member's field, never the vault owner's/);
   assert.match(checkFieldRef("*:famiglia.intestatario_scheda", r) ?? "", /owner's field only/);
   assert.match(checkFieldRef("*:abitazione.superficie_calpestabile_mq", r) ?? "", /drop the "\*:" prefix/);
   assert.match(checkFieldRef("leo:tari.*", r) ?? "", /vault owner's \(the household's\)/);
   assert.match(checkFieldRef("io:identity.first_name", r) ?? "", /reserved for the vault's owner/);
+  for (const ref of ["Leo:identity.first_name", "leo rossi:identity.first_name", "9leo:identity.first_name", ":identity.first_name"]) {
+    assert.match(checkFieldRef(ref, r) ?? "", /invalid member/, ref);
+  }
+  // As in the vault, a ':' after the first '.' isn't a prefix.
+  assert.match(checkFieldRef("identity.a:b", r) ?? "", /unknown field "identity.a:b"/);
   assert.match(checkFieldRef("*:cie.pin", r) ?? "", /secret/);
   assert.match(checkFieldRef("*:cie.*", r) ?? "", /secret/);
   assert.match(checkFieldRef("*:identity.shoe_size", r) ?? "", /unknown field "identity.shoe_size"/);
@@ -145,7 +155,10 @@ test("member refs: scopes, owner-only and member-only fields", () => {
 test("repeat: famiglia fills each row from *: fields, and only it can use them", () => {
   const row = (fields: string[]) => errorsFor(withForm({ label: "X", map: { repeat: "famiglia", fields } }));
   assert.equal(row(["*:identity.last_name", "*:identity.codice_fiscale", "*:famiglia.relazione"]), "");
-  assert.match(row(["identity.first_name"]), /each row is a family member's, so write \*:identity.first_name/);
+  assert.match(row(["identity.first_name"]), /each row is filled from that member's fields, written \*:category.field/);
+  assert.match(row(["tari.codice_contribuente"]), /each row is filled from that member's fields/);
+  assert.match(row(["io:identity.first_name"]), /"io" is reserved/);
+  assert.match(errorsFor(withForm({ label: "X", map: { direct: "io:identity.first_name" } })), /"io" is reserved/);
   assert.match(row(["leo:identity.first_name"]), /can't name a particular family member \("leo"\)/);
   assert.match(row(["*:tari.codice_contribuente"]), /vault owner's/);
   assert.match(errorsFor(withForm({ label: "X", map: { direct: "*:identity.first_name" } })), /only repeat: famiglia can fill/);
@@ -157,13 +170,12 @@ test("repeat: famiglia fills each row from *: fields, and only it can use them",
   assert.match(errorsFor(withForm({ label: "X", map: { direct: "pratiche.slug_stato" } })), /unknown category "pratiche"/);
 });
 
-test("repeat takes only famiglia, with fields; <N> patterns and io: are refused", () => {
+test("repeat takes only famiglia, with fields, and <N> patterns are refused", () => {
   for (const map of [
     { repeat: "nucleo_familiare.membro<N>_*" },
     { repeat: "famiglia" },
     { repeat: "famiglia", fields: [] },
     { repeat: "identity.email", fields: ["*:identity.email"] },
-    { repeat: "famiglia", fields: ["io:identity.first_name"] },
     { repeat: "famiglia", fields: ["*:identity.first_name", "*:identity.first_name"] },
     { direct: "nucleo_familiare.membro<N>_nome" },
     { direct: "Leo:identity.first_name" },
