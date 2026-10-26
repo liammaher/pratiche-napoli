@@ -956,3 +956,28 @@ test("the real situations validate against the real library", () => {
   assert.ok(situations.length >= 7);
   for (const s of situations) assert.deepEqual(s.errors, [], s.rel);
 });
+
+test("a form with the business's data and a person's must say who signs", () => {
+  const doc = minimal();
+  doc.forms = [
+    {
+      id: "modulo",
+      name: "Modulo",
+      fields: [
+        { label: "Partita IVA", map: { direct: "business.partita_iva" } },
+        { label: "Codice fiscale", map: { direct: "identity.codice_fiscale" } },
+      ],
+    },
+  ];
+  assert.match(errorsFor(doc), /uses the business's business\.partita_iva and a person's identity\.codice_fiscale: say who signs/);
+  // Any field a person keeps counts, not only identity.
+  doc.forms[0].fields[1] = { label: "Recapito", map: { direct: "addresses.home_city" } };
+  assert.match(errorsFor(doc), /a person's addresses\.home_city: say who signs/);
+  doc.forms[0].fields[1] = { label: "Codice fiscale", map: { direct: "identity.codice_fiscale" } };
+  doc.dichiarante = { ruolo: "titolare" };
+  assert.deepEqual(validateProcedure(doc, PATH, ctx), []);
+  // A person's data alone is the vault owner's, as before.
+  delete doc.dichiarante;
+  doc.forms[0].fields.shift();
+  assert.deepEqual(validateProcedure(doc, PATH, ctx), []);
+});

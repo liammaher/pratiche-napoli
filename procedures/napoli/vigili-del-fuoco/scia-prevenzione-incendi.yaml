@@ -533,6 +533,7 @@ steps:
       elaborati grafici) e presentare l'istanza di valutazione del progetto (Mod. PIN 1-2023) con il
       relativo versamento; attendere il parere del Comando (entro 60 giorni dalla documentazione completa)
     who: professional
+    human_only: true
   - do: Firmare l'istanza di valutazione del progetto (categorie B e C)
     who: owner
     human_only: true

@@ -107,6 +107,10 @@ channels:
     address: 081 795 3711
     hours: 9:00–13:00 (orario indicato sul modulo)
     source: mod-5
+    notes: >-
+      Il modulo indica per prenotare un appuntamento telefonico o via mail
+      https://servizionline.comune.napoli.it/web/napoli/tributi, ma il 26/10/2026 la pagina
+      non esisteva (errore 404).
 payment:
   method: f24
   codice_ente: F839

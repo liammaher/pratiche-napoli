@@ -133,9 +133,8 @@ deadline:
 cost:
   text: >-
     Diritti d'istruttoria SUAP (tabella 2026), con pagoPA: 100 euro per una nuova insegna, 80 euro
-    per modificarla o subentrare. Se le insegne della sede superano in tutto 5 mq si paga anche il
-    canone unico, che va versato prima della SCIA e poi ogni anno; fino a 5 mq sono esenti. Il
-    compenso del tecnico e dell'installatore non è compreso.
+    per modificarla o subentrare. Il canone unico, quando è dovuto, è a parte, come il compenso del
+    tecnico e dell'installatore.
   status: verified
   source: tabella-diritti-2026
 duration:

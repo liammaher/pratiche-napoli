@@ -350,6 +350,8 @@ documents:
   - name: Ricevuta pagoPA dei diritti d'istruttoria
     required: false
     notes: Se il portale chiede i 50 euro della riga S210 (vedi pagamento).
+dichiarante:
+  ruolo: [titolare, legale_rappresentante]
 forms:
   - id: credenziali-alloggiati-web-napoli
     name: Questura di Napoli – Modulo richiesta credenziali Alloggiati Web
@@ -465,6 +467,7 @@ steps:
       napoli/comune/tari-iscrizione-uso-abitativo), indicando se si vuole il numero massimo
       potenziale di occupanti invece dei 6 convenzionali
     who: owner
+    human_only: true
   - do: >-
       Decidere con il professionista se optare per la cedolare secca nella dichiarazione dei
       redditi e quale unità indicare per l'aliquota del 21%

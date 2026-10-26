@@ -9,17 +9,19 @@ intro: >-
   vengono dalle pagine delle singole pratiche, dove ci sono anche le fonti.
 steps:
   - procedure: napoli/camera-di-commercio/iscrizione-impresa-individuale-comunica
-    when: Iscrivere la ditta al Registro Imprese della Camera di Commercio
-  - procedure: italia/agenzia-entrate/apertura-partita-iva-persona-fisica
-    when: La partita IVA
+    when: Iscrivere la ditta al Registro Imprese della Camera di Commercio, aprendo anche la partita IVA
   - procedure: italia/inps/iscrizione-gestione-artigiani-commercianti
     when: L'iscrizione all'INPS come commerciante e i contributi
+  - procedure: italia/inail/autoliquidazione
+    when: L'assicurazione INAIL e il premio di ogni anno, per chi deve averla
   - procedure: napoli/camera-di-commercio/pec-domicilio-digitale-impresa
     when: La PEC dell'impresa
   - procedure: napoli/asl-napoli-1/attestato-alimentarista
     when: La formazione per chi lavora con gli alimenti (l'ex libretto sanitario)
   - procedure: napoli/comune/scia-somministrazione-alimenti-bevande
     when: La SCIA o l'autorizzazione del Comune per aprire il locale
+  - procedure: napoli/comune/subingresso-attivita-commerciale
+    when: Se rilevi un locale già avviato, il subingresso al posto della nuova apertura
   - procedure: napoli/asl-napoli-1/registrazione-attivita-alimentare
     when: La registrazione sanitaria dell'attività alimentare
   - procedure: napoli/vigili-del-fuoco/scia-prevenzione-incendi

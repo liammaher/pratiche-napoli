@@ -14,3 +14,5 @@ steps:
     when: Il Bed and Breakfast nella casa in cui si vive
   - procedure: napoli/comune/imposta-di-soggiorno-gestori
     when: L'imposta di soggiorno, per chi ospita
+  - procedure: napoli/comune/tari-iscrizione-uso-abitativo
+    when: La TARI della casa che affitti
