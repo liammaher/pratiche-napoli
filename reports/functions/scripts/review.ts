@@ -88,11 +88,11 @@ export async function exportAccepted(db: Firestore): Promise<Data[]> {
     .sort((a, b) => String(a.procedure).localeCompare(String(b.procedure)) || String(a.done).localeCompare(String(b.done)));
 }
 
-// Where `export` writes: the path given, read from where the command was run
-// (npm runs scripts in reports/functions and keeps that place in INIT_CWD),
-// or reports-cache.json at the repo root.
-export function exportPath(arg: string | undefined, from: string, root: string): string {
-  return arg ? path.resolve(from, arg) : path.join(root, "reports-cache.json");
+// Where `export` writes, and the only place reports:aggregate reads: one
+// file at the repo root, which git ignores and accept, reject and delete
+// remove, so no export can be left elsewhere.
+export function exportPath(root: string): string {
+  return path.join(root, "reports-cache.json");
 }
 
 // One report in a few lines, for the terminal, with the maintainer's fields.

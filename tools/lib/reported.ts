@@ -190,6 +190,29 @@ export function nextReported(
   };
 }
 
+// What `npm run reports -- export` writes: the accepted reports, and when.
+export interface ReportsCache {
+  exported: string; // ISO time
+  reports: ReviewedReport[];
+}
+
+// How long an export can be used. A report deleted, rejected or accepted
+// again with other words after it was exported is still in it as it was, so
+// an old export would bring a deleted report back into the figures.
+export const CACHE_MAX_MINUTES = 60;
+
+// Whether `cache` is an export at all (so it can be removed once read), and
+// why it can't be used now, or undefined when it can.
+export function cacheProblem(cache: unknown, now: Date): { export: boolean; problem?: string } {
+  const c = cache as Partial<ReportsCache> | undefined;
+  if (Array.isArray(cache)) return { export: false, problem: "an export from before exports were dated: export the reports again" };
+  if (!c || typeof c !== "object" || typeof c.exported !== "string" || !Array.isArray(c.reports)) return { export: false, problem: "not an export of the reports" };
+  const age = (now.getTime() - Date.parse(c.exported)) / 60_000;
+  if (!(age >= 0)) return { export: true, problem: `exported at ${c.exported}, which isn't a time before now: export the reports again` };
+  if (age > CACHE_MAX_MINUTES) return { export: true, problem: `exported ${Math.ceil(age)} minutes ago, more than ${CACHE_MAX_MINUTES}: a report deleted or changed since would be in it as it was. Export the reports again` };
+  return { export: true };
+}
+
 // Marks a cache of reports must have: one each, unique, as the backend makes
 // them. An export from before marks, or two caches merged, would otherwise
 // give a basis that groups the wrong reports. The problem, or undefined.
