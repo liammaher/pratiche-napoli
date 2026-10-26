@@ -425,10 +425,25 @@ test("the description ends the first sentence where the sentence ends, not at an
   assert.equal(firstSentence("Rientra nell'Allegato I del D.P.R. 151/2011 (art. 4). Altro."), "Rientra nell'Allegato I del D.P.R. 151/2011 (art. 4).");
   assert.equal(firstSentence("Locazione breve, art. 4 D.L. 50/2017: si comunica. Poi"), "Locazione breve, art. 4 D.L. 50/2017: si comunica.");
   assert.equal(firstSentence("Una sola frase senza punto"), "Una sola frase senza punto");
+  assert.equal(firstSentence("Lo fai tu. Poi lo mandi."), "Lo fai tu.");
+  assert.equal(firstSentence('Si chiama "SCIA unica." Poi si paga.'), 'Si chiama "SCIA unica."');
+  assert.equal(firstSentence("Servono moduli, ricevute ecc. Poi si invia."), "Servono moduli, ricevute ecc.");
+  assert.equal(firstSentence("Si paga ogni anno. 2026: entro il 16 giugno."), "Si paga ogni anno.");
+  assert.equal(firstSentence("Entro il 31 dic. 2026 va pagata. Poi"), "Entro il 31 dic. 2026 va pagata.");
   const deadline = { rules: [{ text: "Entro 90 giorni dall'inizio.", status: "verified" as const, source: "page" }] };
   const html = buildSite([minimal({ summary: "Va fatta con il Mod. 1 entro 90 giorni. Altro.", deadline })], opts).get("napoli/comune/test/index.html")!;
   // The deadline the sentence already gives isn't added again.
   assert.match(html, /<meta name="description" content="Va fatta con il Mod\. 1 entro 90 giorni\.">/);
+  // A fact sharing only its opening words with the sentence is still added.
+  const strada = { rules: [{ text: "Codice della Strada: pagare entro 60 giorni.", status: "verified" as const, source: "page" }] };
+  const multa = buildSite([minimal({ summary: "Per il Codice della Strada, una multa si paga o si contesta.", deadline: strada })], opts).get("napoli/comune/test/index.html")!;
+  assert.match(multa, /content="Per il Codice della Strada, una multa si paga o si contesta\. Codice della Strada: pagare entro 60 giorni\."/);
+  // A long sentence is shortened to make room for the deadline, which is never cut.
+  const long = "Chi apre un'attività deve presentare la dichiarazione con il modulo previsto, compilato in ogni parte e firmato, allo sportello o per PEC, con i documenti richiesti e la ricevuta.";
+  const room = buildSite([minimal({ summary: long, deadline: { rules: [{ text: "Entro 90 giorni dall'inizio.", status: "verified" as const, source: "page" }] } })], opts).get("napoli/comune/test/index.html")!;
+  const description = room.match(/<meta name="description" content="([^"]*)"/)![1];
+  assert.ok(description.endsWith("… Entro 90 giorni dall&#39;inizio."), description);
+  assert.ok(description.length <= 210);
 });
 
 test("access reads naturally, also without credentials", () => {

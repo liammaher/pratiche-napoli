@@ -633,26 +633,41 @@ function deadlineSummary(p: Procedure): Claim | undefined {
 // Search snippets drop the page's badges, so only verified facts go in.
 function describe(p: Procedure): string {
   const first = firstSentence(p.summary);
-  // A fact the sentence already gives ("entro 90 giorni") isn't repeated.
-  const said = (fact: string) => first.toLowerCase().includes(fact.toLowerCase().split(/\s+/).slice(0, 3).join(" "));
+  // A fact the sentence already gives ("90 giorni") isn't repeated.
+  const said = (fact: string) => {
+    const key = fact.match(/\d+(?:[.,]\d+)?\s*(?:giorni|mesi|anni|euro|€)/i)?.[0];
+    return !!key && first.toLowerCase().includes(key.toLowerCase());
+  };
   const facts = [deadlineSummary(p), p.cost, p.duration]
     .filter((c): c is Claim => c?.status === "verified")
     .map((c) => c.text)
     .filter((t) => !said(t));
-  return [first, ...facts].join(" ");
+  // The facts that fit whole, after the sentence (shortened if that makes
+  // room): a fact cut in the middle would say less than none.
+  for (const lead of [first, clip(first, SHORT_LEAD)]) {
+    const fitting: string[] = [];
+    for (const fact of facts) if ([lead, ...fitting, fact].join(" ").length <= DESCRIPTION_MAX) fitting.push(fact);
+    if (fitting.length) return [lead, ...fitting].join(" ");
+  }
+  return first;
 }
 
-// Abbreviations a sentence doesn't end at: "con il Mod. 1", "art. 35", "D.P.R. 151/2011".
-const ABBREVIATION = /(^|[\s(])(mod|modd|art|artt|n|nn|c|cc|co|lett|all|es|ecc|cfr|pag|pagg|ss|sez|tab|reg|rif|tel|dott|sig|sigg|prof|ing|arch|geom|avv|spett|vd|v|p|pp|l|dl|dlgs|dpr|dm|dgr|dcc|dgc|dd|tu|rd|lr|[a-z]\.[a-z.]*)$/i;
+const DESCRIPTION_MAX = 200;
+const SHORT_LEAD = 120;
 
-// Up to the first full stop that ends a sentence: one followed by a capital
-// letter (or by nothing), after a word that isn't an abbreviation.
+// Abbreviations a sentence doesn't end at: "con il Mod. 1", "art. 35", "D.P.R. 151/2011".
+const ABBREVIATION =
+  /(^|[\s(])(mod|modd|art|artt|n|nn|c|cc|co|lett|all|es|cfr|pag|pagg|ss|sez|tab|reg|rif|tel|dott|sig|sigg|prof|ing|arch|geom|avv|spett|vd|v|p|pp|l|dl|dlgs|dpr|dm|dgr|dcc|dgc|dd|rd|lr|gen|feb|mar|apr|mag|giu|lug|ago|set|ott|nov|dic|[a-z]\.[a-z.]*)$/i;
+
+// Up to the first full stop that ends a sentence (with any closing quote or
+// bracket): one followed by a capital, a digit or an opening quote (or by
+// nothing), after a word that isn't an abbreviation.
 export function firstSentence(text: string): string {
-  for (const m of text.matchAll(/[.!?](?=\s+(\S)|$)/g)) {
+  for (const m of text.matchAll(/[.!?]["»”')\]]*(?=\s+(\S)|$)/g)) {
     const next = m[1];
-    if (next !== undefined && !/\p{Lu}/u.test(next)) continue;
-    if (m[0] === "." && ABBREVIATION.test(text.slice(0, m.index))) continue;
-    return text.slice(0, m.index + 1);
+    if (next !== undefined && !/[\p{Lu}\d"«“(]/u.test(next)) continue;
+    if (m[0].startsWith(".") && ABBREVIATION.test(text.slice(0, m.index))) continue;
+    return text.slice(0, m.index + m[0].length);
   }
   return text;
 }
