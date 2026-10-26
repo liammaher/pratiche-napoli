@@ -8,7 +8,7 @@
 // Links between pages are relative, so the site works under any path; only
 // canonical URLs, the sitemap and the JSON index use the base URL.
 
-import type { Reported } from "./reported.ts";
+import type { Reported, Stat } from "./reported.ts";
 
 // Procedures are validated before they get here; this is the subset rendered.
 type Status = "verified" | "unverified" | "disputed";
@@ -998,10 +998,17 @@ const euro = (v: number) =>
 const month = (m: string) => MONTH.format(new Date(`${m}-01T00:00:00Z`));
 const nReports = (n: number) => (n === 1 ? "1 racconto" : `${n} racconti`);
 
+// "in giornata", "circa 1 giorno", "circa 23 giorni"; "nessuna attesa" for 0 minutes.
+const days = (n: number) => (n === 0 ? "in giornata" : `circa ${n} ${n === 1 ? "giorno" : "giorni"}`);
+const minutes = (n: number) => (n === 0 ? "nessuna attesa" : `circa ${n} ${n === 1 ? "minuto" : "minuti"}`);
+// ", tra 9 e 41 giorni" when the answers differ.
+const range = (s: Stat, show: (v: number) => string, unit = "") =>
+  s.min === s.max ? "" : `, tra ${show(s.min)} e ${show(s.max)}${unit && ` ${unit}`}`;
+
 // "circa 23 giorni via PEC (7 racconti)", per channel with enough answers.
 function answerTimes(r?: Reported): string | undefined {
   const parts = (r?.channels ?? []).flatMap((c) =>
-    c.days_to_answer ? [`circa ${c.days_to_answer.median} giorni via ${CHANNELS[c.type] ?? c.type} (${nReports(c.days_to_answer.n)})`] : [],
+    c.days_to_answer ? [`${days(c.days_to_answer.median)} via ${CHANNELS[c.type] ?? c.type} (${nReports(c.days_to_answer.n)})`] : [],
   );
   return parts.length ? parts.join("; ") : undefined;
 }
@@ -1014,15 +1021,15 @@ function experiences(r: Reported, p: Procedure): string {
     ...(r.channels ?? []).flatMap((c) =>
       c.days_to_answer
         ? [
-            `<strong>Risposta via ${esc(CHANNELS[c.type] ?? c.type)}</strong>: circa ${c.days_to_answer.median} giorni, da ${c.days_to_answer.min} a ${c.days_to_answer.max} (${nReports(c.days_to_answer.n)}).`,
+            `<strong>Risposta via ${esc(CHANNELS[c.type] ?? c.type)}</strong>: ${days(c.days_to_answer.median)}${range(c.days_to_answer, String, "giorni")} (${nReports(c.days_to_answer.n)}).`,
           ]
         : [],
     ),
     r.desk_wait_minutes
-      ? `<strong>Attesa allo sportello</strong>: circa ${r.desk_wait_minutes.median} minuti, da ${r.desk_wait_minutes.min} a ${r.desk_wait_minutes.max} (${nReports(r.desk_wait_minutes.n)}).`
+      ? `<strong>Attesa allo sportello</strong>: ${minutes(r.desk_wait_minutes.median)}${range(r.desk_wait_minutes, String, "minuti")} (${nReports(r.desk_wait_minutes.n)}).`
       : "",
     r.paid_eur
-      ? `<strong>Pagato in tutto</strong>: circa ${euro(r.paid_eur.median)}, da ${euro(r.paid_eur.min)} a ${euro(r.paid_eur.max)} (${nReports(r.paid_eur.n)}).`
+      ? `<strong>Pagato in tutto</strong>: circa ${euro(r.paid_eur.median)}${range(r.paid_eur, euro)} (${nReports(r.paid_eur.n)}).`
       : "",
     r.documents?.length
       ? `<strong>Documenti chiesti</strong>: ${r.documents.map((d) => `${esc(d.name)}, a ${d.asked} su ${d.of}`).join("; ")}.`

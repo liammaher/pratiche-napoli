@@ -4,7 +4,7 @@ import { beforeEach, test } from "node:test";
 import assert from "node:assert/strict";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore, Timestamp } from "firebase-admin/firestore";
-import { accept, describe, exportAccepted, pending, reject, remove, show } from "../scripts/review";
+import { accept, describe, exportAccepted, exportPath, list, reject, remove, show } from "../scripts/review";
 
 const PROJECT = "demo-pratiche-napoli";
 const EMULATOR = process.env.FIRESTORE_EMULATOR_HOST;
@@ -38,8 +38,8 @@ beforeEach(async () => {
 });
 
 test("pending reports come grouped by procedure, oldest first", async () => {
-  assert.deepEqual((await pending(db)).map((r) => r.id), ["a1", "b1", "b2"]);
-  const text = describe((await pending(db))[0]);
+  assert.deepEqual((await list(db)).map((r) => r.id), ["a1", "b1", "b2"]);
+  const text = describe((await list(db))[0]);
   assert.match(text, /a1 {2}2026-09 · pec \(PEC\) · completata · 20 giorni · DATI PERSONALI RIMOSSI/);
   assert.match(text, /segnala scadenza: sbagliata – testo/);
   assert.match(text, /si può ricontattare/);
@@ -66,10 +66,10 @@ test("accept records the maintainer's words; reject and unknown ids", async () =
 
   await reject(db, "b2", at);
   assert.equal((await db.doc("reports/b2").get()).data()!.status, "rejected");
-  assert.deepEqual((await pending(db)).map((r) => r.id), ["a1"]);
+  assert.deepEqual((await list(db)).map((r) => r.id), ["a1"]);
 
   await assert.rejects(accept(db, "nope", {}), /no report nope/);
-  await assert.rejects(accept(db, "a1", { tip: " " }), /tip must be 1–300 characters/);
+  await assert.rejects(accept(db, "a1", { tip: " " }), /tip must be 1–300 characters, or empty to remove it/);
   await assert.rejects(accept(db, "a1", { tip: "x".repeat(301) }), /tip must be/);
 });
 
@@ -100,4 +100,29 @@ test("export has only accepted reports, without the person's text or contact", a
     tip: "Portare la visura",
   });
   assert.equal(out.find((r) => r.id === "b1")!.rejection_reason, "Manca la firma");
+});
+
+test("accepting again changes the maintainer's fields; an empty one is removed", async () => {
+  await accept(db, "b1", { tip: "Portare la visura stroica", extra_document: "Planimetria" });
+  await accept(db, "b1", { tip: "Portare la visura storica" });
+  let b1 = (await db.doc("reports/b1").get()).data()!;
+  assert.equal(b1.tip, "Portare la visura storica");
+  assert.equal(b1.extra_document, "Planimetria");
+  await accept(db, "b1", { extra_document: "" });
+  b1 = (await db.doc("reports/b1").get()).data()!;
+  assert.equal("extra_document" in b1, false);
+  assert.equal(b1.tip, "Portare la visura storica");
+});
+
+test("list --accepted shows accepted reports with the maintainer's fields", async () => {
+  const accepted = await list(db, "accepted");
+  assert.deepEqual(accepted.map((r) => r.id), ["done"]);
+  assert.match(describe(accepted[0]), /tip: Portare la visura/);
+});
+
+test("export writes where the command was run from, or to the repo root", () => {
+  assert.equal(exportPath("tmp/cache.json", "/repo", "/repo"), "/repo/tmp/cache.json");
+  assert.equal(exportPath("cache.json", "/repo/tools", "/repo"), "/repo/tools/cache.json");
+  assert.equal(exportPath("/abs/cache.json", "/repo", "/repo"), "/abs/cache.json");
+  assert.equal(exportPath(undefined, "/elsewhere", "/repo"), "/repo/reports-cache.json");
 });

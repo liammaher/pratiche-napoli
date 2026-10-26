@@ -1,7 +1,8 @@
 // The maintainer's review of reports, run from the repo root:
-//   npm run reports -- list                      pending reports, by procedure
+//   npm run reports -- list [--accepted]         pending (or accepted) reports, by procedure
 //   npm run reports -- show <id>                 one report, with its contact if any
 //   npm run reports -- accept <id> [--tip "…"] [--rejection-reason "…"] [--extra-document "…"]
+//                                                 (again, to change them; "" removes one)
 //   npm run reports -- reject <id>
 //   npm run reports -- delete <id>               on request: the report and its contact
 //   npm run reports -- export [file]             accepted reports for reports:aggregate
@@ -14,41 +15,48 @@ import path from "node:path";
 import { parseArgs } from "node:util";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
-import { accept, describe, exportAccepted, pending, reject, remove, show } from "./review";
+import { accept, describe, exportAccepted, exportPath, list, reject, remove, show } from "./review";
 
-const { values, positionals } = parseArgs({
-  allowPositionals: true,
-  options: {
-    project: { type: "string" },
-    tip: { type: "string" },
-    "rejection-reason": { type: "string" },
-    "extra-document": { type: "string" },
-  },
-});
-const [command, arg] = positionals;
-const projectId = values.project ?? process.env.GCLOUD_PROJECT;
-if (!projectId) {
-  console.error("say which Firebase project: --project <id> or GCLOUD_PROJECT");
-  process.exit(2);
-}
-const db = getFirestore(initializeApp({ projectId }));
+const USAGE =
+  'commands: list [--accepted], show <id>, accept <id> [--tip "…"] [--rejection-reason "…"] [--extra-document "…"], reject <id>, delete <id>, export [file]; with --project <id> or GCLOUD_PROJECT';
 const ROOT = path.resolve(__dirname, "..", "..", "..");
 
-const need = () => {
-  if (!arg) throw new Error(`${command} needs a report id`);
-  return arg;
-};
-
 async function main(): Promise<void> {
+  let parsed;
+  try {
+    parsed = parseArgs({
+      allowPositionals: true,
+      options: {
+        project: { type: "string" },
+        accepted: { type: "boolean" },
+        tip: { type: "string" },
+        "rejection-reason": { type: "string" },
+        "extra-document": { type: "string" },
+      },
+    });
+  } catch (e) {
+    throw new Error(`${(e as Error).message}\n${USAGE}`);
+  }
+  const { values, positionals } = parsed;
+  const [command, arg] = positionals;
+  const projectId = values.project ?? process.env.GCLOUD_PROJECT;
+  if (!projectId) throw new Error("say which Firebase project: --project <id> or GCLOUD_PROJECT");
+  const db = getFirestore(initializeApp({ projectId }));
+  const need = () => {
+    if (!arg) throw new Error(`${command} needs a report id`);
+    return arg;
+  };
+
   switch (command) {
     case "list": {
-      const reports = await pending(db);
+      const status = values.accepted ? "accepted" : "pending";
+      const reports = await list(db, status);
       let last = "";
       for (const r of reports) {
         if (r.procedure !== last) console.log(`\n${(last = String(r.procedure))}`);
         console.log(describe(r));
       }
-      console.log(`\n${reports.length} pending`);
+      console.log(`\n${reports.length} ${status}`);
       return;
     }
     case "show": {
@@ -74,14 +82,14 @@ async function main(): Promise<void> {
       console.log(`deleted ${arg} and its contact`);
       return;
     case "export": {
-      const file = path.resolve(arg ?? path.join(ROOT, "reports-cache.json"));
+      const file = exportPath(arg, process.env.INIT_CWD ?? process.cwd(), ROOT);
       const reports = await exportAccepted(db);
       writeFileSync(file, JSON.stringify(reports, null, 2) + "\n");
       console.log(`wrote ${reports.length} accepted reports to ${file}; now run npm run reports:aggregate`);
       return;
     }
     default:
-      throw new Error("commands: list, show <id>, accept <id>, reject <id>, delete <id>, export [file]");
+      throw new Error(USAGE);
   }
 }
 

@@ -1,8 +1,8 @@
 // Turns reviewed reports into a procedure's `reported` block: what people who
-// did it found, from the last 12 months. A figure is published only when at
-// least MIN reports cover it, so no one person can be singled out. Tips,
-// rejection reasons and extra documents are a maintainer's words, written at
-// review time, never a report's.
+// did it found, from the last 12 months. Every published number covers at
+// least MIN reports, outcome and reason counts included, so no one person's
+// result can be singled out. Tips, rejection reasons and extra documents are
+// a maintainer's words, written at review time, never a report's.
 
 import { stringify } from "yaml";
 import { canonical } from "./updated.ts";
@@ -65,7 +65,7 @@ export function aggregate(reports: ReviewedReport[], documents: string[], today:
   };
 
   const outcomes = Object.fromEntries(
-    OUTCOMES.map((o) => [o, recent.filter((r) => r.outcome === o).length]).filter(([, n]) => n),
+    OUTCOMES.map((o) => [o, recent.filter((r) => r.outcome === o).length]).filter(([, n]) => (n as number) >= MIN),
   );
   if (Object.keys(outcomes).length) out.outcomes = outcomes;
 
@@ -134,9 +134,11 @@ function stat(values: (number | undefined)[], digits: number): Stat | undefined 
   return { median: round(median), min: round(xs[0]), max: round(xs[xs.length - 1]), n: xs.length };
 }
 
+// Only texts at least MIN reports share.
 function counted(texts: (string | undefined)[]): { text: string; count: number }[] {
   return [...group(texts.flatMap((t) => (t?.trim() ? [t.trim()] : [])), (t) => t)]
     .map(([text, ts]) => ({ text, count: ts.length }))
+    .filter((t) => t.count >= MIN)
     .sort((a, b) => b.count - a.count || a.text.localeCompare(b.text, "it"));
 }
 
