@@ -1,0 +1,257 @@
+{
+  "procedure": "napoli/comune/verbale-pagamento-ricorso",
+  "form": "ricorso-prefetto",
+  "sha256": "c6061ccfdab62b3d98b997a3b99dba8377254cc7d64bd3fda5583d23bc3eac9b",
+  "font_size": 10,
+  "boxes": [
+    {
+      "label": "Riferimento verbale n.",
+      "rect": [
+        169,
+        210.1,
+        281,
+        221.1
+      ]
+    },
+    {
+      "label": "del",
+      "rect": [
+        304,
+        210.1,
+        398,
+        221.1
+      ]
+    },
+    {
+      "label": "notificato il",
+      "rect": [
+        464,
+        210.1,
+        546.7,
+        221.1
+      ]
+    },
+    {
+      "label": "Il sottoscritto",
+      "rect": [
+        113,
+        251.5,
+        543.8,
+        262.5
+      ]
+    },
+    {
+      "label": "nato a",
+      "rect": [
+        82,
+        279.1,
+        362.3,
+        290.1
+      ]
+    },
+    {
+      "label": "il",
+      "rect": [
+        376,
+        279.1,
+        542.9,
+        290.1
+      ]
+    },
+    {
+      "label": "residente in",
+      "rect": [
+        108.5,
+        306.7,
+        400.9,
+        317.7
+      ]
+    },
+    {
+      "label": "prov.",
+      "rect": [
+        430.5,
+        306.7,
+        542.9,
+        317.7
+      ]
+    },
+    {
+      "label": "Via",
+      "rect": [
+        70,
+        334.3,
+        476.6,
+        345.3
+      ]
+    },
+    {
+      "label": "n",
+      "rect": [
+        490,
+        334.3,
+        542.6,
+        345.3
+      ]
+    },
+    {
+      "label": "telefono",
+      "rect": [
+        89,
+        361.9,
+        543.5,
+        372.9
+      ]
+    },
+    {
+      "label": "in qualità di conducente / proprietario",
+      "choices": {
+        "conducente": [
+          108.6,
+          391.0,
+          114.6,
+          399.0
+        ],
+        "proprietario": [
+          176.5,
+          391.0,
+          182.5,
+          399.0
+        ]
+      }
+    },
+    {
+      "label": "del veicolo targato",
+      "rect": [
+        142,
+        418.0,
+        236.6,
+        429.0
+      ]
+    },
+    {
+      "label": "tipo",
+      "rect": [
+        263,
+        418.0,
+        393.2,
+        429.0
+      ]
+    },
+    {
+      "label": "propone RICORSO per i seguenti motivi",
+      "rect": [
+        48.3,
+        459.4,
+        540.3,
+        470.4
+      ],
+      "continuation": [
+        [
+          48.3,
+          487.0,
+          540.3,
+          498.0
+        ],
+        [
+          48.3,
+          514.6,
+          540.3,
+          525.6
+        ],
+        [
+          48.3,
+          542.2,
+          540.3,
+          553.2
+        ],
+        [
+          48.3,
+          569.8,
+          540.3,
+          580.8
+        ],
+        [
+          48.3,
+          597.4,
+          540.3,
+          608.4
+        ],
+        [
+          48.3,
+          625.0,
+          540.3,
+          636.0
+        ],
+        [
+          48.3,
+          652.6,
+          540.3,
+          663.6
+        ],
+        [
+          48.3,
+          680.2,
+          540.3,
+          691.2
+        ],
+        [
+          48.3,
+          707.8,
+          540.3,
+          718.8
+        ],
+        [
+          48.3,
+          735.4,
+          540.3,
+          746.4
+        ],
+        {
+          "page": 2,
+          "rect": [
+            48.3,
+            58.3,
+            540.3,
+            69.3
+          ]
+        },
+        {
+          "page": 2,
+          "rect": [
+            48.3,
+            85.9,
+            540.3,
+            96.9
+          ]
+        },
+        {
+          "page": 2,
+          "rect": [
+            48.3,
+            113.5,
+            540.3,
+            124.5
+          ]
+        },
+        {
+          "page": 2,
+          "rect": [
+            48.3,
+            141.1,
+            540.3,
+            152.1
+          ]
+        }
+      ]
+    },
+    {
+      "label": "data",
+      "skip": "On page 2, by the signature: the ricorrente dates it when signing."
+    },
+    {
+      "label": "firma",
+      "skip": "The signature: only the ricorrente."
+    }
+  ]
+}
