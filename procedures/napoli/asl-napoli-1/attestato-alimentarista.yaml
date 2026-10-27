@@ -3,7 +3,7 @@ id: napoli/asl-napoli-1/attestato-alimentarista
 title: Attestato di formazione per alimentaristi (ex libretto sanitario) – ASL Napoli 1 Centro e Regione Campania
 headline: "Libretto sanitario a Napoli: come ottenere l'attestato da alimentarista"
 aka: [corso HACCP, attestato HACCP, corso alimentaristi, formazione igiene alimentare]
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   In Campania il libretto sanitario per chi lavora con gli alimenti è stato sostituito da un
   corso di formazione in igiene alimentare con esame finale, al termine del quale si riceve un
@@ -148,14 +148,15 @@ channels:
     purpose: procedure
     name: UOSD Prevenzione Collettiva del distretto sanitario di appartenenza (ASL Napoli 1 Centro)
     url: https://www.aslnapoli1centro.it/area-di-coordinamento-igienistica
+    office: residenza.distretto_asl
     receipt: informal
     preferred: true
     source: asl-libretto
     notes: >-
       Le prenotazioni dei corsi ASL si fanno qui, con il modello di domanda e la ricevuta del
-      versamento. Le UOSD sono cinque (distretti 24-31-73, 25-26, 27-29, 28-30, 32-33): indirizzo,
-      orari, telefono e PEC sono nella pagina di ciascuna, raggiungibile dalla pagina dell'Area
-      di Coordinamento Igienistica. La pagina ASL non pubblica il modello di domanda.
+      versamento. Le UOSD sono cinque (distretti 24-31-73, 25-26, 27-29, 28-30, 32-33). Il
+      distretto "di appartenenza" è di norma quello di residenza di chi segue il corso; la pagina
+      ASL non lo precisa. La pagina ASL non pubblica il modello di domanda.
   - type: desk
     purpose: procedure
     name: Agenzie formative autorizzate dalla Regione Campania per la formazione degli alimentaristi
@@ -204,6 +205,7 @@ steps:
       l'aggiornamento, la fotocopia dell'attestato posseduto
     who: owner
     human_only: true
+    channel: [desk]
   - do: Frequentare il corso (in aula o, presso le agenzie che lo offrono, in FAD)
     who: owner
     human_only: true

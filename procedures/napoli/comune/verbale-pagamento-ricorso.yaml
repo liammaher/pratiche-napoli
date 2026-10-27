@@ -244,6 +244,7 @@ channels:
     source: rateizzazione-cds
   - type: post
     purpose: procedure
+    receipt: legal
     name: Ricorso al Prefetto tramite il Comune
     address: >-
       Al Prefetto di Napoli tramite Servizio Sanzioni Amministrative – Ufficio Ricorsi al
@@ -252,6 +253,7 @@ channels:
     notes: Raccomandata A/R.
   - type: post
     purpose: procedure
+    receipt: legal
     name: Ricorso direttamente al Prefetto di Napoli
     address: Prefettura di Napoli, Via Vespucci 172, Napoli
     source: cds-verbali
@@ -479,9 +481,30 @@ steps:
       Se il veicolo è intestato a lei o alla sua società e non guidava lei: compilare la
       comunicazione dei dati del conducente e farla firmare al conducente
     who: anyone
-  - do: Firmare la comunicazione del conducente e inviarla entro 60 giorni dalla notifica (PEC, raccomandata o a mano)
+  - do: >-
+      Firmare la comunicazione del conducente
     who: owner
     human_only: true
+    channel: [pec, post, desk]
+  - do: >-
+      Inviarla entro 60 giorni dalla notifica dalla propria PEC a
+      ricorsi.prefetto@pec.comune.napoli.it
+    who: owner
+    human_only: true
+    channel: [pec]
+  - do: >-
+      Spedirla entro 60 giorni dalla notifica con raccomandata A/R al Servizio Sanzioni
+      Amministrative, Via Diocleziano 330, 80124 Napoli
+    who: owner
+    human_only: true
+    channel: [post]
+  - do: >-
+      Consegnarla entro 60 giorni dalla notifica allo sportello del Servizio Sanzioni
+      Amministrative, Via Diocleziano 330 (martedì, giovedì e venerdì 8:00–13:00), e chiedere una
+      copia con il timbro di protocollo
+    who: owner
+    human_only: true
+    channel: [desk]
   - do: >-
       Scegliere: pagare (entro 5 giorni con lo sconto del 30% se previsto, altrimenti entro 60),
       chiedere la rateazione (entro 30 giorni), fare ricorso al Prefetto (entro 60 giorni) o al
@@ -495,20 +518,42 @@ steps:
   - do: Per i verbali non CdS, inviare la ricevuta di pagamento alla U.O. Ingiunzioni entro 10 giorni
     who: owner
     human_only: true
+    channel: [pec]
   - do: >-
       Per contestare un verbale CdS davanti al Prefetto: preparare il ricorso sul modello del Comune
       con motivi, documenti ed eventuale richiesta di audizione
     who: anyone
   - do: >-
-      Firmare il ricorso e depositarlo o spedirlo (Servizio Sanzioni, raccomandata A/R al Prefetto o
-      PEC) entro 60 giorni, allegando il verbale
+      Firmare il ricorso (a mano, o con firma digitale per inviarlo via PEC)
     who: owner
     human_only: true
+    channel: [pec, post, desk]
   - do: >-
-      Se si sceglie il Giudice di Pace: depositare o spedire il ricorso entro 30 giorni all'Ufficio
-      del Giudice di Pace di Napoli (originale più 5 copie)
+      Inviarlo entro 60 giorni dalla propria PEC, con il verbale allegato, a
+      ricorsi.prefetto@pec.comune.napoli.it (tramite il Comune) o, firmato digitalmente, a
+      prefettura.prefna@pec.interno.it
     who: owner
     human_only: true
+    channel: [pec]
+  - do: >-
+      Spedirlo entro 60 giorni con raccomandata A/R, con il verbale allegato, al Prefetto tramite
+      il Servizio Sanzioni Amministrative (Via Diocleziano 330, 80124 Napoli) o direttamente alla
+      Prefettura di Napoli (Via Vespucci 172)
+    who: owner
+    human_only: true
+    channel: [post]
+  - do: >-
+      Depositarlo entro 60 giorni, con il verbale allegato, allo sportello del Servizio Sanzioni
+      Amministrative, Via Diocleziano 330, e chiedere una copia con il timbro di protocollo
+    who: owner
+    human_only: true
+    channel: [desk]
+  - do: >-
+      Se si sceglie il Giudice di Pace: depositare o spedire il ricorso entro 30 giorni
+      all'Ufficio del Giudice di Pace di Napoli (originale più 5 copie)
+    who: owner
+    human_only: true
+    channel: [desk, post]
   - do: >-
       Se è stato fatto ricorso e il verbale toglie punti: inviare all'Ufficio Decurtazione Punti la
       prova del ricorso (frontespizio o ricevuta), come consiglia il Comune

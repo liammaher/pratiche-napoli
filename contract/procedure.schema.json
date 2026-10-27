@@ -240,6 +240,11 @@
           "preferred": {
             "type": "boolean"
           },
+          "office": {
+            "description": "A desk that depends on where the person is: the vault field (residenza.municipalita, locale.distretto_asl) whose value picks the office in offices/<municipalita or distretto_asl>.json. In place of one address",
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*[0-9]*\\.(municipalita|distretto_asl)$"
+          },
           "notes": {
             "$ref": "#/$defs/text"
           },
@@ -404,7 +409,7 @@
             "type": "boolean"
           },
           "signing": {
-            "description": "How each channel of the procedure takes the signature on this form (only with signature_required): a form plus a channel decides it",
+            "description": "Where this form's signature differs from contract/signing.json, the law's rule for each channel type (only with signature_required): the ente's own rule, a portal's (which has no default), or a way it disputes. A channel not listed here takes the default",
             "type": "array",
             "minItems": 1,
             "items": {
@@ -444,12 +449,7 @@
                   }
                 },
                 "id_copy": {
-                  "description": "Whether this channel wants a copy of the signer's identity document with the form: required, not_needed, or unknown",
-                  "enum": [
-                    "required",
-                    "not_needed",
-                    "unknown"
-                  ]
+                  "$ref": "#/$defs/id_copy"
                 },
                 "status": {
                   "$ref": "#/$defs/status"
@@ -607,6 +607,15 @@
             "enum": [
               "sign"
             ]
+          },
+          "channel": {
+            "description": "The routes this step belongs to, by channel type: a step done one way on one route (send by PEC, by raccomandata, at the desk) and not on the others. A step without it is on every route. Every pec, email, post and desk channel of the procedure has a step of its own",
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "$ref": "#/$defs/channel_type"
+            }
           }
         }
       }
@@ -949,6 +958,26 @@
     }
   },
   "$defs": {
+    "channel_type": {
+      "enum": [
+        "portal",
+        "pec",
+        "email",
+        "desk",
+        "post",
+        "phone",
+        "app"
+      ]
+    },
+    "id_copy": {
+      "description": "Whether the channel wants a copy of the signer's identity document with the form: required; handwritten, only when signed by hand (not with a firma digitale); not_needed; or unknown",
+      "enum": [
+        "required",
+        "handwritten",
+        "not_needed",
+        "unknown"
+      ]
+    },
     "status": {
       "description": "verified: an official source says so; unverified: believed but not yet checked; disputed: sources disagree",
       "enum": [

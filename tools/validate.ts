@@ -5,7 +5,7 @@
 // Usage: npm run validate [-- <dir>]
 
 import path from "node:path";
-import { ROOT, loadRegistry, procedureIdFromPath, todayInRome, validateDir, validateLayouts, validateSituations } from "./lib/validate.ts";
+import { ROOT, loadRegistry, procedureIdFromPath, todayInRome, validateDir, validateLayouts, validateOffices, validateSituations } from "./lib/validate.ts";
 
 const library = path.join(ROOT, "procedures");
 const target = path.resolve(process.argv[2] ?? library);
@@ -43,8 +43,14 @@ const layouts =
     ? validateLayouts(path.join(ROOT, "layouts"), results).map((r) => ({ ...r, rel: path.join("layouts", r.rel) }))
     : [];
 
+// Offices are picked by the vault fields desk channels name.
+const offices =
+  inLibrary && target === library
+    ? validateOffices(path.join(ROOT, "offices")).map((r) => ({ ...r, rel: path.join("offices", r.rel) }))
+    : [];
+
 let failed = 0;
-for (const { rel, errors } of [...results, ...situations, ...layouts]) {
+for (const { rel, errors } of [...results, ...situations, ...layouts, ...offices]) {
   if (errors.length) {
     failed++;
     console.error(`✗ ${rel}`);
@@ -53,6 +59,6 @@ for (const { rel, errors } of [...results, ...situations, ...layouts]) {
     console.log(`✓ ${rel}`);
   }
 }
-const total = results.length + situations.length + layouts.length;
-console.log(`\n${total - failed}/${total} procedures, situations and layouts valid`);
+const total = results.length + situations.length + layouts.length + offices.length;
+console.log(`\n${total - failed}/${total} procedures, situations, layouts and offices valid`);
 process.exit(failed ? 1 : 0);

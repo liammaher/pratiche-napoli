@@ -8,7 +8,7 @@ aka:
   - cancellazione TARI
   - chiusura tassa rifiuti
   - Mod. 8 TARI
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Un'impresa, un professionista o un'associazione che smette di occupare o detenere locali o aree
   a uso non abitativo a Napoli (chiusura dell'attività, trasferimento in un altro comune, chiusura
@@ -122,14 +122,19 @@ channels:
     source: mod-8
   - type: post
     purpose: procedure
+    receipt: legal
     address: Comune di Napoli, Area Entrate, Servizio IMU e TARI, Via Diocleziano 330, 80125 Napoli
     source: mod-8
     notes: Raccomandata (A/R secondo la pagina della modulistica).
   - type: desk
     purpose: procedure
     name: Sportello Unico Attività Produttive (SUAP)
-    source: modulistica
-    notes: Per le utenze non domestiche; la pagina non indica l'indirizzo.
+    address: Piazza Cavour 42 (II piano), 80137 Napoli
+    booking: Solo su appuntamento, prenotato online sul portale del cittadino del Comune.
+    source: suap-contatti
+    notes: >-
+      Per le utenze non domestiche (pagina della modulistica TARI). Dal 18 maggio 2026 il SUAP
+      riceve il pubblico solo su appuntamento.
   - type: desk
     purpose: info
     name: Sportello TARI
@@ -279,10 +284,34 @@ steps:
   - { do: Compilare il Mod. 8 (dati dalla tabella dei campi) e barrare il motivo, who: anyone }
   - { do: Firmare il modulo, who: owner, human_only: true }
   - do: >-
-      Inviare entro 90 giorni dalla cessazione modulo firmato, copia del documento d'identità e
-      allegati, preferibilmente via PEC
+      Inviare entro 90 giorni dalla cessazione il modulo firmato, la copia del documento
+      d'identità e gli allegati dalla propria PEC a entrate.tari-tares-tarsu@pec.comune.napoli.it;
+      conservare le ricevute di accettazione e di consegna
     who: owner
     human_only: true
+    channel: [pec]
+  - do: >-
+      Inviare entro 90 giorni dalla cessazione il modulo firmato, la copia del documento
+      d'identità e gli allegati per email a entrate.tari-tares-tarsu@comune.napoli.it; l'email non
+      dà una ricevuta con valore legale, quindi conservare il messaggio inviato
+    who: owner
+    human_only: true
+    channel: [email]
+  - do: >-
+      Spedire entro 90 giorni dalla cessazione il modulo firmato, la copia del documento
+      d'identità e gli allegati con raccomandata A/R a Comune di Napoli, Area Entrate, Servizio
+      IMU e TARI, Via Diocleziano 330, 80125 Napoli; conservare la ricevuta di spedizione e la
+      cartolina di ritorno
+    who: owner
+    human_only: true
+    channel: [post]
+  - do: >-
+      Consegnare entro 90 giorni dalla cessazione il modulo firmato, la copia del documento
+      d'identità e gli allegati allo sportello del SUAP e chiedere una copia con il timbro di
+      protocollo
+    who: owner
+    human_only: true
+    channel: [desk]
   - do: Calcolare con il simulatore del Comune la TARI dovuta fino alla data di cessazione
     who: anyone
   - { do: Pagare l'F24 per il periodo ancora dovuto, who: owner, human_only: true }
@@ -347,6 +376,11 @@ related:
   - napoli/comune/tari-iscrizione-non-domestica
   - napoli/comune/tari-variazione-non-domestica
 sources:
+  - id: suap-contatti
+    label: SUAP – Contatti (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/suap/contatti/
+    retrieved: 2026-10-27
+    official: true
   - id: mod-8
     label: Mod. 8 TARI – Cessazione uso non abitativo (testo, AVVERTENZE, INFORMAZIONI e CONTATTI)
     url: https://static-www.comune.napoli.it/wp-content/uploads/2020/09/MOD-8-CESSAZIONE-USO-NON-ABITATIVO.pdf

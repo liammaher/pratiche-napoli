@@ -28,8 +28,16 @@ interface Channel {
   booking?: string;
   receipt?: string;
   preferred?: boolean;
+  office?: string;
   notes?: string;
   source?: string;
+}
+type Signing = { channel: string; ways: string[]; id_copy: string; status: Status; notes?: string };
+// offices/<field>.json (contract/offices.schema.json).
+export interface Offices {
+  field: string;
+  name: string;
+  offices: Record<string, { name: string; address: string; hours?: string; phone?: string; notes?: string; source: string }>;
 }
 interface Source {
   id: string;
@@ -67,8 +75,16 @@ export interface Procedure {
     notes?: Claim[];
   };
   documents?: { name: string; required: boolean; notes?: string }[];
-  forms?: { id: string; name: string; url?: string; source?: string; signature_required?: boolean; fields: { label: string }[] }[];
-  steps: { do: string; who: string; human_only?: boolean }[];
+  forms?: {
+    id: string;
+    name: string;
+    url?: string;
+    source?: string;
+    signature_required?: boolean;
+    signing?: Signing[];
+    fields: { label: string }[];
+  }[];
+  steps: { do: string; who: string; human_only?: boolean; channel?: string[] }[];
   after?: string[];
   records?: { field: string; from: string }[];
   pitfalls?: Claim[];
@@ -96,6 +112,8 @@ export interface SiteOptions {
   css: string;
   schema: string; // contract/procedure.schema.json, published as is
   fields: string; // contract/fields.json
+  signing?: { channels: Record<string, { text: string }> }; // contract/signing.json, published as is
+  offices?: Record<string, Offices>; // offices/*.json by field, published as is
   // The report form appears only with both: where reports go, and whom
   // people can write to about their data (the privacy page names it).
   reports?: { url: string; contact: string; script: string };
@@ -145,6 +163,28 @@ const access = (auth: string[]) => {
   if (!ways.length) return "senza credenziali";
   return `con ${ways.join(", ")}${auth.includes("none") ? " o senza credenziali" : ""}`;
 };
+// A route's heading, in "Scegli come farlo".
+const ROUTE: Record<string, string> = {
+  portal: "Online",
+  pec: "Via PEC",
+  email: "Per email",
+  desk: "Allo sportello",
+  post: "Per posta",
+  phone: "Per telefono",
+  app: "Con l'app",
+};
+const WAYS: Record<string, string> = {
+  handwritten: "firma a mano",
+  digital: "firma digitale",
+  login: "accesso con SPID, CIE o CNS",
+  none: "nessuna firma",
+};
+const ID_COPY: Record<string, string> = {
+  required: "con la copia del documento d'identità",
+  handwritten: "con la copia del documento d'identità se firmato a mano",
+  not_needed: "senza copia del documento",
+  unknown: "non è detto se serve la copia del documento",
+};
 const RECEIPT: Record<string, string> = {
   legal: "ricevuta con valore legale",
   informal: "ricevuta senza valore legale",
@@ -193,6 +233,9 @@ export function buildSite(procedures: Procedure[], opts: SiteOptions, situations
   files.set("procedures.json", renderIndexJson(procedures, entes, site));
   files.set("contract/procedure.schema.json", opts.schema);
   files.set("contract/fields.json", opts.fields);
+  // What procedures point at: the law's signing rule per channel, the desks by area.
+  if (opts.signing) files.set("contract/signing.json", JSON.stringify(opts.signing, null, 2) + "\n");
+  for (const [field, o] of Object.entries(opts.offices ?? {})) files.set(`offices/${field}.json`, JSON.stringify(o, null, 2) + "\n");
   files.set("sitemap.xml", renderSitemap(procedures, entes, site));
   files.set("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${opts.baseUrl}/sitemap.xml\n`);
   files.set("llms.txt", renderLlmsTxt(entes, site));
@@ -448,13 +491,13 @@ function renderProcedure(p: Procedure, ente: Ente, site: Site): string {
       "come",
       "Come si presenta?",
       [...p.channels.filter((c) => c.purpose === "procedure"), ...p.channels.filter((c) => c.purpose !== "procedure")]
-        .map((c) => channel(c, cite))
+        .map((c) => channel(c, cite, site.opts.offices))
         .join("\n"),
     ),
     p.payment ? sec("pagamento", "Come si paga?", payment(p.payment, cite)) : "",
     p.documents?.length ? sec("documenti", "Quali documenti servono?", documents(p.documents)) : "",
     p.forms?.length ? sec("moduli", "Quali moduli servono?", forms(p.forms, cite)) : "",
-    sec("passaggi", "Quali sono i passaggi?", steps(p.steps)),
+    sec("passaggi", "Quali sono i passaggi?", steps(p, site.opts)),
     p.reported ? sec("esperienze", "Com'è andata ad altri", experiences(p.reported, p)) : "",
     p.after?.length ? sec("dopo", "Cosa succede dopo l'invio?", list(p.after.map(esc))) : "",
     p.records?.length
@@ -707,7 +750,7 @@ function deadline(d: NonNullable<Procedure["deadline"]>, cite: Cite): string {
     .join("\n");
 }
 
-function channel(c: Channel, cite: Cite): string {
+function channel(c: Channel, cite: Cite, offices?: Record<string, Offices>): string {
   const address = !c.address
     ? ""
     : c.type === "pec" || c.type === "email"
@@ -730,8 +773,27 @@ function channel(c: Channel, cite: Cite): string {
   ].filter(Boolean);
   return `<div class="card">
 <h3>${esc(CHANNELS[c.type] ?? c.type)}${c.preferred ? ' <span class="badge good">consigliato</span>' : ""}${PURPOSE[c.purpose] ? ` <span class="badge soft">${PURPOSE[c.purpose]}</span>` : ""}${cite(c.source)}</h3>
-${rows.map((r) => `<p>${r}</p>`).join("\n")}
+${rows.map((r) => `<p>${r}</p>`).join("\n")}${c.office ? officeTable(c.office, offices) : ""}
 </div>`;
+}
+
+// The desks of a channel picked by the person's municipalità or distretto.
+function officeTable(field: string, offices?: Record<string, Offices>): string {
+  const kind = field.slice(field.lastIndexOf(".") + 1);
+  const o = offices?.[kind];
+  if (!o) return "";
+  const rows = Object.entries(o.offices).map(
+    ([k, x]) =>
+      `<tr><td>${esc(k)}</td><td>${esc(x.name)}<br>${esc(x.address)}${x.notes ? `<br><span class="note">${esc(x.notes)}</span>` : ""}</td><td>${esc(x.hours ?? "")}${x.phone ? `<br>${esc(x.phone)}` : ""}</td></tr>`,
+  );
+  return `
+<p>${esc(o.name)}: quello ${kind === "municipalita" ? "della tua municipalità" : "del tuo distretto sanitario"}.</p>
+<table>
+<thead><tr><th>${kind === "municipalita" ? "Municipalità" : "Distretto"}</th><th>Indirizzo</th><th>Orari e telefono</th></tr></thead>
+<tbody>
+${rows.join("\n")}
+</tbody>
+</table>`;
 }
 
 function payment(pay: NonNullable<Procedure["payment"]>, cite: Cite): string {
@@ -785,12 +847,63 @@ ${f.signature_required ? "<p>Va firmato.</p>\n" : ""}${
     .join("\n");
 }
 
-function steps(ss: Procedure["steps"]): string {
-  const items = ss.map(
-    (s) =>
-      `<li>${esc(s.do)}<br><span class="note">${esc(WHO[s.who] ?? s.who)}${s.human_only ? ' · <span class="badge">deve farlo una persona</span>' : ""}</span></li>`,
-  );
+// The steps in order. A run of steps that belong to some routes only becomes
+// one step, "Scegli come farlo", with a heading per route: its steps,
+// how to sign there and what it gives back (GOV.UK's "or" step). A run on one
+// route only stays as steps, labelled with it.
+function steps(p: Procedure, opts: SiteOptions): string {
+  const item = (s: Procedure["steps"][number], label = "") =>
+    `<li>${label}${esc(s.do)}<br><span class="note">${esc(WHO[s.who] ?? s.who)}${s.human_only ? ' · <span class="badge">deve farlo una persona</span>' : ""}</span></li>`;
+  const facts = (c: Channel) => {
+    const signing = routeSigning(c.type, p, opts);
+    const out = [signing ? `Firma: ${esc(signing)}` : "", c.receipt ? `Ricevi una ${esc(RECEIPT[c.receipt] ?? c.receipt)}.` : ""];
+    return out.some(Boolean) ? `\n<p class="note">${out.filter(Boolean).join(" ")}</p>` : "";
+  };
+  // Each route once, the preferred first.
+  const routes = p.channels.filter((c, k, all) => c.purpose === "procedure" && all.findIndex((x) => x.purpose === "procedure" && x.type === c.type) === k);
+  const ordered = [...routes.filter((c) => c.preferred), ...routes.filter((c) => !c.preferred)];
+  const items: string[] = [];
+  for (let i = 0; i < p.steps.length; ) {
+    if (!p.steps[i].channel) {
+      items.push(item(p.steps[i++]));
+      continue;
+    }
+    const run: Procedure["steps"] = [];
+    while (i < p.steps.length && p.steps[i].channel) run.push(p.steps[i++]);
+    const on = ordered.filter((c) => run.some((s) => s.channel!.includes(c.type)));
+    if (on.length === 1) {
+      const label = `<span class="badge soft">${esc(ROUTE[on[0].type] ?? on[0].type)}</span> `;
+      const lis = run.map((s) => item(s, label));
+      lis[lis.length - 1] = lis[lis.length - 1].replace(/<\/li>$/, `${facts(on[0])}</li>`);
+      items.push(...lis);
+      continue;
+    }
+    const parts = on.map(
+      (c) => `<h3>${esc(ROUTE[c.type] ?? c.type)}${c.preferred ? ' <span class="badge good">consigliato</span>' : ""}</h3>
+<ol>
+${run
+  .filter((s) => s.channel!.includes(c.type))
+  .map((s) => item(s))
+  .join("\n")}
+</ol>${facts(c)}`,
+    );
+    items.push(`<li>Scegli come farlo:\n${parts.join("\n")}\n</li>`);
+  }
   return `<ol class="steps">\n${items.join("\n")}\n</ol>`;
+}
+
+// How the procedure's signed forms are signed on a route: a form's own rule
+// where it has one, else the law's (contract/signing.json).
+function routeSigning(type: string, p: Procedure, opts: SiteOptions): string {
+  const texts = (p.forms ?? [])
+    .filter((f) => f.signature_required)
+    .map((f) => {
+      const own = f.signing?.find((x) => x.channel === type);
+      if (!own) return opts.signing?.channels[type]?.text ?? "";
+      const how = `${own.ways.map((w) => WAYS[w] ?? w).join(" o ")}, ${ID_COPY[own.id_copy] ?? own.id_copy}.`;
+      return `${how.charAt(0).toUpperCase()}${how.slice(1)}${own.notes ? ` ${own.notes}` : ""}`;
+    });
+  return [...new Set(texts.filter(Boolean))].join(" ");
 }
 
 function sources(ss: Source[]): string {
@@ -818,6 +931,8 @@ function renderIndexJson(procedures: Procedure[], entes: Ente[], site: Site): st
         count: procedures.length,
         schema: `${base}/contract/procedure.schema.json`,
         fields: `${base}/contract/fields.json`,
+        signing: `${base}/contract/signing.json`,
+        offices: Object.keys(site.opts.offices ?? {}).map((f) => `${base}/offices/${f}.json`),
         license: { content: "CC BY-SA 4.0", code: "MIT" },
         situations: site.situations.map((s) => ({
           id: s.id,
@@ -888,6 +1003,10 @@ function renderLlmsTxt(entes: Ente[], site: Site): string {
     `- [Index of all procedures](${base}/procedures.json): id, title, summary, ente, updated date, verification and URLs`,
     `- [Procedure schema](${base}/contract/procedure.schema.json): JSON Schema of each procedure file`,
     `- [Field registry](${base}/contract/fields.json): the field IDs form fields map to`,
+    `- [Signing by channel](${base}/contract/signing.json): how PEC, email, post and desk take a signature by law, unless a form's own \`signing\` says otherwise`,
+    ...Object.keys(site.opts.offices ?? {}).map(
+      (f) => `- [Offices by ${f}](${base}/offices/${f}.json): the desk for each value of a desk channel's \`office\` field`,
+    ),
   ];
   if (site.situations.length) {
     lines.push("", "## Situations", "", "Each lists the procedures a situation involves; facts and sources are on the procedures' pages.", "");

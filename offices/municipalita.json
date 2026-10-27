@@ -1,0 +1,122 @@
+{
+  "field": "municipalita",
+  "name": "Sportello URP della Municipalità",
+  "offices": {
+    "1": {
+      "name": "Sede della Municipalità 1 (Chiaia, Posillipo, San Ferdinando)",
+      "address": "Largo Torretta 19, 80122 Napoli",
+      "phone": "081 7951743, 081 7951750",
+      "pec": "municipalita1@pec.comune.napoli.it",
+      "notes": "Il Comune non pubblica uno sportello URP per questa Municipalità: è la sede principale, dove si possono presentare le istanze al Comune. Orari non pubblicati: telefonare prima.",
+      "source": "municipalita-1"
+    },
+    "2": {
+      "name": "Sede della Municipalità 2 (Avvocata, Montecalvario, Mercato, Pendino, Porto, San Giuseppe)",
+      "address": "Piazza Dante 93, 80135 Napoli",
+      "phone": "081 7950201",
+      "pec": "municipalita2@pec.comune.napoli.it",
+      "notes": "Il Comune non pubblica uno sportello URP per questa Municipalità: è la sede principale, dove si possono presentare le istanze al Comune. Orari non pubblicati: telefonare prima.",
+      "source": "municipalita-2"
+    },
+    "3": {
+      "name": "Sede della Municipalità 3 (Stella, San Carlo all'Arena)",
+      "address": "Via Lieti 97, 80131 Napoli",
+      "pec": "municipalita3@pec.comune.napoli.it",
+      "notes": "Il Comune non pubblica uno sportello URP per questa Municipalità: è la sede principale, dove si possono presentare le istanze al Comune. Orari non pubblicati: telefonare prima.",
+      "source": "municipalita-3"
+    },
+    "4": {
+      "name": "Sede della Municipalità 4 (San Lorenzo, Vicaria, Poggioreale, Zona Industriale)",
+      "address": "Via Emanuele Gianturco 99, 80142 Napoli",
+      "phone": "081 7951305",
+      "pec": "municipalita4@pec.comune.napoli.it",
+      "notes": "Il Comune non pubblica uno sportello URP per questa Municipalità: è la sede principale, dove si possono presentare le istanze al Comune. Orari non pubblicati: telefonare prima.",
+      "source": "municipalita-4"
+    },
+    "5": {
+      "name": "Sede della Municipalità 5 (Arenella, Vomero)",
+      "address": "Via Morghen 84, 80129 Napoli",
+      "pec": "municipalita5@pec.comune.napoli.it",
+      "notes": "Il Comune non pubblica uno sportello URP per questa Municipalità: è la sede principale, dove si possono presentare le istanze al Comune. Orari non pubblicati: telefonare prima.",
+      "source": "municipalita-5"
+    },
+    "6": {
+      "name": "Sportello URP Municipalità 6 (Ponticelli, Barra, San Giovanni a Teduccio)",
+      "address": "Corso Sirena 305, 80147 Napoli",
+      "hours": "lunedì–venerdì 8:30–13:00",
+      "phone": "081 7950496",
+      "pec": "municipalita6@pec.comune.napoli.it",
+      "source": "sedi-urp"
+    },
+    "7": {
+      "name": "Sportello URP Municipalità 7 (Miano, Secondigliano, San Pietro a Patierno)",
+      "address": "Piazzetta del Casale 6, 80144 Napoli",
+      "hours": "lunedì–venerdì 8:30–13:00 e 13:30–15:30",
+      "phone": "081 7952296",
+      "pec": "municipalita7@pec.comune.napoli.it",
+      "source": "sedi-urp"
+    },
+    "8": {
+      "name": "Sportello URP Municipalità 8 (Chiaiano, Marianella, Piscinola, Scampia)",
+      "address": "Corso Chiaiano 48/54, 80145 Napoli",
+      "hours": "lunedì–venerdì 8:30–14:00",
+      "phone": "081 7950696",
+      "pec": "municipalita8@pec.comune.napoli.it",
+      "notes": "La pagina della Municipalità indica Corso Chiaiano 48/50.",
+      "source": "sedi-urp"
+    },
+    "9": {
+      "name": "Sportello URP Municipalità 9 (Pianura, Soccavo)",
+      "address": "Via Parroco Simeoli 6, 80126 Napoli",
+      "hours": "lunedì–venerdì 8:30–14:00",
+      "phone": "081 7951096",
+      "source": "sedi-urp"
+    },
+    "10": {
+      "name": "Sportello URP Municipalità 10 (Bagnoli, Fuorigrotta)",
+      "address": "Via Acate 65, 80124 Napoli",
+      "hours": "lunedì–venerdì 8:30–14:00",
+      "phone": "081 7950396",
+      "pec": "municipalita10@pec.comune.napoli.it",
+      "source": "sedi-urp"
+    }
+  },
+  "sources": [
+    {
+      "id": "sedi-urp",
+      "label": "Comune di Napoli – Sedi municipali URP",
+      "url": "https://www.comune.napoli.it/articolo_tematico/urp/centri-pubblici-di-accesso-assistito-urp-cpdaa/sedi-municipali-urp/",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "municipalita-1",
+      "label": "Comune di Napoli – Municipalità 1",
+      "url": "https://www.comune.napoli.it/amministrazione/unita_organizzativa/municipalita-1/",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "municipalita-2",
+      "label": "Comune di Napoli – Municipalità 2",
+      "url": "https://www.comune.napoli.it/amministrazione/unita_organizzativa/municipalita-2/",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "municipalita-3",
+      "label": "Comune di Napoli – Municipalità 3",
+      "url": "https://www.comune.napoli.it/amministrazione/unita_organizzativa/municipalita-3/",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "municipalita-4",
+      "label": "Comune di Napoli – Municipalità 4",
+      "url": "https://www.comune.napoli.it/amministrazione/unita_organizzativa/municipalita-4/",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "municipalita-5",
+      "label": "Comune di Napoli – Municipalità 5",
+      "url": "https://www.comune.napoli.it/amministrazione/unita_organizzativa/municipalita-5/",
+      "retrieved": "2026-10-27"
+    }
+  ]
+}
