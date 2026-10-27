@@ -541,7 +541,7 @@
                   }
                 },
                 "choices": {
-                  "description": "The row is boxes to tick: each box is ticked when the field's value (or the answer, for an ask) is one of its values. write_value also writes the value next to the box, as on an \"altro ____\"",
+                  "description": "The row is boxes to tick: each box is ticked when the field's value (or the answer, for an ask) is one of its values, compared without case, a trailing . or !, and with _ as a space (legale_rappresentante is Legale rappresentante). write_value also writes the value next to the box, as on an \"altro ____\"",
                   "type": "array",
                   "minItems": 1,
                   "items": {
@@ -1007,7 +1007,7 @@
       }
     },
     "ruolo": {
-      "description": "A value of the vault's ruolo.tipo: what a person in a business vault is to the business",
+      "description": "A value of the vault's ruolo.tipo: what a person in a business vault is to the business. The list is the vault's (ruolo.tipo values in fields.json); a test keeps this enum equal to it",
       "enum": [
         "titolare",
         "legale_rappresentante",
