@@ -403,6 +403,67 @@
           "signature_required": {
             "type": "boolean"
           },
+          "signing": {
+            "description": "How each channel of the procedure takes the signature on this form (only with signature_required): a form plus a channel decides it",
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "channel",
+                "ways",
+                "id_copy",
+                "status"
+              ],
+              "properties": {
+                "channel": {
+                  "description": "The type of one of the procedure's channels with purpose procedure",
+                  "enum": [
+                    "portal",
+                    "pec",
+                    "email",
+                    "desk",
+                    "post",
+                    "phone",
+                    "app"
+                  ]
+                },
+                "ways": {
+                  "description": "What the channel accepts as the signature: handwritten, a signed scan or paper; digital, a firma digitale; login, the SPID/CIE/CNS login on the channel is the signature (the channel needs an auth); none, the channel itself identifies the sender and nothing is signed",
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": {
+                    "enum": [
+                      "handwritten",
+                      "digital",
+                      "login",
+                      "none"
+                    ]
+                  }
+                },
+                "id_copy": {
+                  "description": "Whether this channel wants a copy of the signer's identity document with the form: required, not_needed, or unknown",
+                  "enum": [
+                    "required",
+                    "not_needed",
+                    "unknown"
+                  ]
+                },
+                "status": {
+                  "$ref": "#/$defs/status"
+                },
+                "source": {
+                  "description": "id of the source for this entry",
+                  "type": "string"
+                },
+                "notes": {
+                  "$ref": "#/$defs/text"
+                }
+              }
+            }
+          },
           "fields": {
             "type": "array",
             "items": {
@@ -540,6 +601,12 @@
           "human_only": {
             "description": "Signing, paying, sending, swearing, being present: never done by an agent",
             "type": "boolean"
+          },
+          "gate": {
+            "description": "sign: the vault's sign gate can carry this step when the way to sign is handwritten. The step stays human_only: the person's approval is the human act, and a consumer without the gate ignores this and hands the step over as any human_only step",
+            "enum": [
+              "sign"
+            ]
           }
         }
       }

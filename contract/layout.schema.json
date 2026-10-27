@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/liammaher/pratiche-napoli/contract/layout.schema.json",
   "title": "Form layout",
-  "description": "Where each field of a procedure's form goes on its PDF. layouts/<procedure id>/<form id>.json. Positions are PDF points from the top-left of a page (page 1 unless a box gives page); a rect is [x0, top, x1, bottom], the printed blank line's box. A form with fillable fields names them instead (widget, choice_widgets). A layout is for one version of the form (sha256): when the form changes, it is measured again. What goes in each box is the procedure's; a layout only says where",
+  "description": "Where each field of a procedure's form goes on its PDF, and where its signatures go. layouts/<procedure id>/<form id>.json. Positions are PDF points from the top-left of a page (page 1 unless a box or a signature gives page); a rect is [x0, top, x1, bottom], the printed blank line's box. A form with fillable fields names them instead (widget, choice_widgets). A layout is for one version of the form (sha256): when the form changes, it is measured again. What goes in each box is the procedure's; a layout only says where",
   "type": "object",
   "additionalProperties": false,
   "required": ["procedure", "form", "sha256", "boxes"],
@@ -53,6 +53,22 @@
           },
           "into_table": { "description": "An ask whose answers are more rows of another field's table, after that field's own", "type": "string", "minLength": 1 },
           "skip": { "description": "Why nothing is written here (a box for the office)", "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "signatures": {
+      "description": "Where the signer signs, and dates the signature if the form has a Data line beside it. Not fields: nothing the procedure maps fills them, only a signature a person approved. A form with signatures has signature_required in the procedure",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rect"],
+        "properties": {
+          "rect": { "description": "The signature line's box", "$ref": "#/$defs/rect" },
+          "date_rect": { "description": "The Data line next to it, if the form has one", "$ref": "#/$defs/rect" },
+          "page": { "description": "1-based page of the PDF", "type": "integer", "minimum": 1, "default": 1 },
+          "for": { "description": "Who signs here: dichiarante, the person the procedure's form is made out for, unless the form names another signer", "type": "string", "minLength": 1, "default": "dichiarante" }
         }
       }
     },
