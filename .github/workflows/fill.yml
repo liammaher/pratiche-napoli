@@ -2,16 +2,19 @@ name: Fill pilots
 
 # The personal vault's fill.py fills forms from entries and layouts here: run
 # its pilots (claude/skills/pratica/fill/pilot/regress.py, on the vault's main)
-# against this branch whenever an entry, layout or the contract changes. The
-# vault repository is private, so this needs VAULT_SCHEMA_TOKEN (read access to
-# its contents), as the Vault schema workflow does; pull requests from forks
-# don't get it and only warn. No scheduled run.
+# against this branch whenever an entry, layout, office, the contract or the
+# YAML parser it reads entries with changes. The vault repository is private,
+# so this needs VAULT_SCHEMA_TOKEN (read access to its contents), as the Vault
+# schema workflow does; pull requests from forks don't get it and only warn.
+# No scheduled run.
 on:
   pull_request:
     paths:
       - procedures/**
       - layouts/**
       - contract/**
+      - offices/**
+      - package-lock.json
       - .github/workflows/fill.yml
   push:
     branches: [main]
@@ -19,6 +22,8 @@ on:
       - procedures/**
       - layouts/**
       - contract/**
+      - offices/**
+      - package-lock.json
       - .github/workflows/fill.yml
   workflow_dispatch:
 

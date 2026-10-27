@@ -1,5 +1,5 @@
 {
-  "version": "16",
+  "version": "17",
   "categories": [
     {
       "name": "identity",
@@ -205,13 +205,37 @@
           "id": "residenza.municipalita",
           "description": "Municipalità of Napoli (1-10), computed from the address; store it only to override. A number or a Roman numeral (validated, saved as 1-10); ignored once older than the address",
           "sensitivity": "standard",
-          "derived": true
+          "derived": true,
+          "values": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ]
         },
         {
           "id": "residenza.distretto_asl",
           "description": "ASL Napoli 1 Centro distretto sanitario (24/73, 25-33), computed from the municipalità; store it only to override (validated; DS 31 is saved as 31)",
           "sensitivity": "standard",
-          "derived": true
+          "derived": true,
+          "values": [
+            "24/73",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33"
+          ]
         }
       ]
     },
@@ -261,13 +285,37 @@
           "id": "domicilio.municipalita",
           "description": "Municipalità of Napoli (1-10), computed from the address; store it only to override. A number or a Roman numeral (validated, saved as 1-10); ignored once older than the address",
           "sensitivity": "standard",
-          "derived": true
+          "derived": true,
+          "values": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ]
         },
         {
           "id": "domicilio.distretto_asl",
           "description": "ASL Napoli 1 Centro distretto sanitario (24/73, 25-33), computed from the municipalità; store it only to override (validated; DS 31 is saved as 31)",
           "sensitivity": "standard",
-          "derived": true
+          "derived": true,
+          "values": [
+            "24/73",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33"
+          ]
         }
       ]
     },
@@ -645,7 +693,22 @@
           "id": "ruolo.tipo",
           "description": "The person's roles for the business, one or more of: titolare, legale_rappresentante, socio, amministratore, procuratore, preposto, responsabile_tecnico, dipendente, collaboratore, cliente, fornitore, impresa_esecutrice, altro (validated; e.g. socio,amministratore)",
           "sensitivity": "standard",
-          "for": "member"
+          "for": "member",
+          "values": [
+            "titolare",
+            "legale_rappresentante",
+            "socio",
+            "amministratore",
+            "procuratore",
+            "preposto",
+            "responsabile_tecnico",
+            "dipendente",
+            "collaboratore",
+            "cliente",
+            "fornitore",
+            "impresa_esecutrice",
+            "altro"
+          ]
         },
         {
           "id": "ruolo.data_inizio",
@@ -883,13 +946,37 @@
           "id": "business.sede_legale_municipalita",
           "description": "Municipalità of Napoli (1-10), computed from the registered office; store it only to override. A number or a Roman numeral (validated, saved as 1-10); ignored once older than the registered office",
           "sensitivity": "standard",
-          "derived": true
+          "derived": true,
+          "values": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ]
         },
         {
           "id": "business.sede_legale_distretto_asl",
           "description": "ASL Napoli 1 Centro distretto sanitario (24/73, 25-33), computed from the municipalità; store it only to override (validated; DS 31 is saved as 31)",
           "sensitivity": "standard",
-          "derived": true
+          "derived": true,
+          "values": [
+            "24/73",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33"
+          ]
         },
         {
           "id": "business.tari_codice_contribuente",
@@ -954,13 +1041,37 @@
           "id": "locale.municipalita",
           "description": "Municipalità of Napoli (1-10), computed from the premises; store it only to override. A number or a Roman numeral (validated, saved as 1-10); ignored once older than the premises",
           "sensitivity": "standard",
-          "derived": true
+          "derived": true,
+          "values": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ]
         },
         {
           "id": "locale.distretto_asl",
           "description": "ASL Napoli 1 Centro distretto sanitario (24/73, 25-33), computed from the municipalità; store it only to override (validated; DS 31 is saved as 31)",
           "sensitivity": "standard",
-          "derived": true
+          "derived": true,
+          "values": [
+            "24/73",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31",
+            "32",
+            "33"
+          ]
         },
         {
           "id": "locale.catasto_sezione",

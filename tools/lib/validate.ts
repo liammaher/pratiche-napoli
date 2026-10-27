@@ -300,6 +300,8 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
     if (c.preferred && c.purpose !== "procedure") {
       errors.push(`channels/${i}: preferred marks the recommended way to carry out the procedure, so its purpose must be "procedure"`);
     }
+    // Nothing is filed by phone, and the vault's pratiche.canale has no phone.
+    if (c.type === "phone" && c.purpose === "procedure") errors.push(`channels/${i}: a phone channel is for questions (purpose info)`);
   });
   // One rule can stand alone in "In breve"; several need a summary that covers every case.
   if ((d.deadline?.rules?.length ?? 0) > 1 && !d.deadline?.summary) {
@@ -592,13 +594,21 @@ function checkRowExtras(row: Row, registry: Registry, dichiarante: boolean): str
       if (boxes.has(c.box)) out.push(`choices: two boxes are "${c.box}"`);
       boxes.add(c.box);
       for (const v of c.values) {
-        if (values.has(v)) out.push(`choices: "${v}" ticks both "${values.get(v)}" and "${c.box}"`);
-        values.set(v, c.box);
+        const key = said(v);
+        if (values.has(key)) out.push(`choices: "${v}" ticks both "${values.get(key)}" and "${c.box}"`);
+        values.set(key, c.box);
       }
     }
     if (row.choices.filter((c) => c.write_value).length > 1) out.push("choices: only one box can have the value written next to it");
   }
   return out;
+}
+
+// A value or answer as it is compared with a box's values, as fill.py's said()
+// does: "No." is no, legale_rappresentante is legale rappresentante.
+export function said(value: string): string {
+  return value.replace(/[’‘]/g, "'").replace(/[“”]/g, '"').replace(/–/g, "-").replace(/_/g, " ")
+    .trim().replace(/[.!]+$/, "").trim().toLowerCase();
 }
 
 // when: the row it depends on is an ask of the same form with these boxes.
@@ -974,11 +984,11 @@ export function validateSituations(dir: string, knownIds: Set<string>, today: st
 // --- Offices ---
 
 const checkOfficesSchema = ajv.compile(JSON.parse(readFileSync(path.join(ROOT, "contract", "offices.schema.json"), "utf8")));
-// Every value a vault field can take, so each person has an office.
-const OFFICE_KEYS: Record<string, string[]> = {
-  municipalita: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-  distretto_asl: ["24/73", "25", "26", "27", "28", "29", "30", "31", "32", "33"],
-};
+// Every value the vault's field can take (its values in fields.json), so each
+// person has an office.
+function officeKeys(field: string): string[] {
+  return loadRegistry().categories.flatMap((c) => c.fields).find((f) => f.id === `residenza.${field}`)?.values ?? [];
+}
 // The fields with a valid offices file under dir: the ones a desk channel's
 // office may name.
 export function officeFields(dir: string): Set<string> {
@@ -1002,7 +1012,8 @@ export function validateOffices(dir: string): FileResult[] {
     }
     const errors: string[] = [];
     if (path.basename(file, ".json") !== doc.field) errors.push(`field ${doc.field}: the file is offices/${doc.field}.json`);
-    const want = OFFICE_KEYS[doc.field] ?? [];
+    const want = officeKeys(doc.field);
+    if (!want.length) errors.push(`field ${doc.field}: the vault lists no values for residenza.${doc.field}`);
     for (const k of want) if (!doc.offices[k]) errors.push(`no office for ${doc.field} ${k}`);
     for (const k of Object.keys(doc.offices)) if (!want.includes(k)) errors.push(`${k} isn't a ${doc.field}`);
     const ids = new Set(doc.sources.map((x) => x.id));
