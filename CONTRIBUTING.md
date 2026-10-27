@@ -60,9 +60,9 @@
 8. **Say what a box needs, not only in notes.** When a box takes several fields, give the row a
    `template` (a fallback reads its place's other parts as `{.civico}`); mark fields that may be
    empty with `optional`, and with `required_if` when they are needed in some cases; make a row of
-   boxes to tick `choices`; give a deadline that runs from a date the vault keeps a `compute`. A
-   form with no fillable fields can get a layout in `layouts/` (see the README), measured on the
-   form with the `sha256` the procedure records.
+   boxes to tick `choices`, and a row that applies only after a given answer `when`; give a
+   deadline that runs from a date the vault keeps a `compute`. A form can get a layout in
+   `layouts/` (see the README), measured on the form with the `sha256` the procedure records.
 9. **Data the procedure produces** (a codice contribuente, a REA number) goes in `records`:
    one registry field each, and `from`, the document or message it is read from. List only
    fields the registry has; propose the others.

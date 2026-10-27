@@ -1159,6 +1159,15 @@ test("a deadline rule can be computed from a date the vault keeps", () => {
   assert.match(errorsFor({ ...doc, ...rule({ from: "abitazione.data_inizio", days: 0 }) }), /schema: .*compute\/days/);
 });
 
+test("a row filled only when another's answer ticks a box names that ask and its boxes", () => {
+  const ask = { label: "Come", map: { ask: "In proprio o per un'impresa?" }, choices: [{ box: "in proprio", values: ["in proprio"] }, { box: "impresa", values: ["impresa"] }] };
+  const row = (when: object) => ({ label: "Denominazione", map: { direct: "business.denominazione" }, when });
+  assert.equal(errorsFor(withForm(ask, row({ field: "Come", ticks: ["impresa"] }))), "");
+  assert.match(errorsFor(withForm(ask, row({ field: "Altro", ticks: ["impresa"] }))), /when: no other field "Altro"/);
+  assert.match(errorsFor(withForm(ask, row({ field: "Come", ticks: ["societa"] }))), /when: "Come" has no box "societa"/);
+  assert.match(errorsFor(withForm({ label: "Come", map: { ask: "?" } }, row({ field: "Come", ticks: ["impresa"] }))), /isn't an ask with boxes to tick/);
+});
+
 test("a form's fields have distinct labels", () => {
   assert.match(errorsFor(withForm({ label: "X", map: { direct: "identity.email" } }, { label: "X", map: { direct: "identity.pec" } })), /two fields are labelled "X"/);
 });
@@ -1307,4 +1316,18 @@ test("a layout places every field of its form, at the form's sha256", () => {
   assert.match(errors((l) => (l.boxes[0] = { label: "Nome", cells: [[1, 2]] })), /cells need a baseline/);
   assert.match(errors((l) => (l.unmapped[0].needed_when.box = "nessuno")), /needed_when names no box "nessuno"/);
   assert.match(errors((l) => (l.boxes[0].rect = [1, 2, 3])), /schema: \/boxes\/0\/rect/);
+  // Other pages, and a form's own fillable fields.
+  assert.equal(errors((l) => Object.assign(l.boxes[0], { page: 2, continuation: [[10, 30, 100, 40], { page: 3, rect: [10, 10, 100, 20] }] })), "");
+  assert.equal(errors((l) => (l.boxes[0] = { label: "Nome", widget: "CO_NOMINATIVO" })), "");
+  // A box with write_value still needs its write place: a text field next to fillable boxes.
+  assert.match(errors((l) => (l.boxes[1] = { label: "Titolo", choice_widgets: { proprietario: "Option 1#0", altro: "Option 1#1" } })),
+    /write must place exactly the boxes with write_value: altro/);
+  assert.equal(errors((l) => (l.boxes[1] = { label: "Titolo", choice_widgets: { proprietario: "Option 1#0", altro: "Option 1#1" }, write: { altro: "Altro testo" } })), "");
+  assert.match(errors((l) => (l.boxes[1] = { label: "Titolo", choice_widgets: { proprietario: "Option 1#0", altro: "Option 1#1" }, write: { altro: [45, 30, 100, 40] } })),
+    /write "altro": name the form's text field/);
+  assert.match(errors((l) => (l.boxes[1].write = { altro: "Altro testo" })), /write "altro": give a rect/);
+  assert.match(errors((l) => (l.boxes[1] = { label: "Titolo", choice_widgets: { proprietario: "Option 1" } })), /choices must be the field's boxes/);
+  assert.match(errors((l) => (l.boxes[0] = { label: "Nome", choice_widgets: { x: "Check 1" } })), /the field has no choices/);
+  assert.match(errors((l) => (l.boxes[0] = { label: "Nome", rect: [1, 1, 2, 2], widget: "A" })), /give exactly one of/);
+  assert.match(errors((l) => (l.boxes[0].page = 0)), /schema: \/boxes\/0\/page/);
 });
