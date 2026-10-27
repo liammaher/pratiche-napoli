@@ -170,18 +170,31 @@ forms:
     signature_required: true
     fields:
       - { label: Il/La sottoscritto/a, map: { concat: [identity.last_name, identity.first_name] } }
-      - { label: nato/a, map: { direct: identity.birth_comune } }
-      - { label: nato/a (stato estero), map: { direct: identity.birth_country } }
-      - { label: il, map: { direct: identity.date_of_birth } }
+      - label: nato/a
+        map:
+          concat: [identity.birth_comune, identity.birth_country]
+          template: "{identity.birth_comune}[ ({identity.birth_country})]"
+        optional:
+          - field: identity.birth_country
+            required_if:
+              - { field: identity.birth_province, equals: EE }
+              - { field: identity.codice_fiscale, matches: "^.{11}Z" }
+        notes: >-
+          Il modulo ha una sola riga per il luogo di nascita: per chi è nato all'estero, il luogo
+          come scritto sui documenti e lo stato tra parentesi.
+      - { label: il, map: { direct: identity.date_of_birth, template: "{identity.date_of_birth|date}" } }
       - { label: C.F., map: { direct: identity.codice_fiscale } }
       - { label: residente in, map: { direct: residenza.comune } }
       - { label: Via, map: { direct: residenza.indirizzo } }
       - { label: n°, map: { direct: residenza.civico } }
       - { label: Telefono, map: { direct: identity.phone } }
       - { label: e-mail, map: { direct: identity.email } }
-      - { label: pec, map: { direct: identity.pec } }
+      - { label: pec, map: { direct: identity.pec }, optional: [{ field: identity.pec }] }
       - label: nella sua qualità di (titolare / legale rappresentante)
         map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
+        choices:
+          - { box: titolare, values: [titolare] }
+          - { box: legale rappresentante, values: [legale_rappresentante] }
       - { label: Ragione Sociale, map: { direct: business.denominazione } }
       - label: C.F. (della ditta)
         map: { direct: business.codice_fiscale }
@@ -191,15 +204,20 @@ forms:
           non c'è, chiederlo.
       - { label: PARTITA IVA, map: { direct: business.partita_iva } }
       - label: Con sede in via
-        map: { concat: [business.sede_legale_indirizzo, business.sede_legale_civico] }
+        map:
+          concat: [business.sede_legale_indirizzo, business.sede_legale_civico]
+          template: "{business.sede_legale_indirizzo}, {business.sede_legale_civico}"
       - { label: Comune di, map: { direct: business.sede_legale_comune } }
       - { label: CAP, map: { direct: business.sede_legale_cap } }
-      - { label: e-mail (della ditta), map: { direct: business.email } }
+      - { label: e-mail (della ditta), map: { direct: business.email }, optional: [{ field: business.email }] }
       - { label: pec (della ditta), map: { direct: business.pec } }
       - { label: a decorrere dal, map: { direct: locale.data_inizio } }
       - { label: Via (immobili), map: { direct: locale.indirizzo } }
       - { label: n° (immobili), map: { direct: locale.civico } }
-      - { label: 1. Dati catastali – sez., map: { direct: locale.catasto_sezione } }
+      - label: 1. Dati catastali – sez.
+        map: { direct: locale.catasto_sezione }
+        optional: [{ field: locale.catasto_sezione }]
+        notes: La sezione urbana c'è solo se la visura la riporta.
       - { label: 1. Dati catastali – fg., map: { direct: locale.catasto_foglio } }
       - { label: 1. Dati catastali – part., map: { direct: locale.catasto_particella } }
       - { label: 1. Dati catastali – sub, map: { direct: locale.catasto_subalterno } }
@@ -207,19 +225,22 @@ forms:
       - { label: 1. destinazione d'uso, map: { direct: locale.destinazione_uso } }
       - label: 2. Dati catastali – sez.
         map: { direct: locale2.catasto_sezione }
+        optional: [{ field: locale2.catasto_sezione }]
         notes: >-
           Solo se l'attività occupa un secondo immobile, nel vault locale2.*; altrimenti vuoto. Il
           modulo ha una sola via per gli immobili: se locale2 ha un altro indirizzo, chiedere
           all'ufficio come dichiararlo.
-      - { label: 2. Dati catastali – fg., map: { direct: locale2.catasto_foglio } }
-      - { label: 2. Dati catastali – part., map: { direct: locale2.catasto_particella } }
-      - { label: 2. Dati catastali – sub, map: { direct: locale2.catasto_subalterno } }
-      - { label: 2. superficie in mq, map: { direct: locale2.superficie_mq } }
-      - { label: 2. destinazione d'uso, map: { direct: locale2.destinazione_uso } }
+      - { label: 2. Dati catastali – fg., map: { direct: locale2.catasto_foglio }, optional: [{ field: locale2.catasto_foglio }] }
+      - { label: 2. Dati catastali – part., map: { direct: locale2.catasto_particella }, optional: [{ field: locale2.catasto_particella }] }
+      - { label: 2. Dati catastali – sub, map: { direct: locale2.catasto_subalterno }, optional: [{ field: locale2.catasto_subalterno }] }
+      - { label: 2. superficie in mq, map: { direct: locale2.superficie_mq }, optional: [{ field: locale2.superficie_mq }] }
+      - { label: 2. destinazione d'uso, map: { direct: locale2.destinazione_uso }, optional: [{ field: locale2.destinazione_uso }] }
       - { label: Descrizione attività, map: { direct: business.descrizione_attivita } }
       - { label: codice ateco, map: { direct: business.codice_ateco } }
       - label: Richiesta di detassazione per la produzione di rifiuti speciali
         map: { ask: "L'attività produce rifiuti speciali e vuole chiedere la detassazione?" }
+        choices:
+          - { box: Richiesta di detassazione, values: [si, sì] }
       - { label: Eventuali note, map: { ask: Note facoltative per l'ufficio } }
       - label: Cod.Contr.
         map: { blank_with_reason: Spazio riservato all'ufficio; il codice contribuente lo assegna il Comune. }
