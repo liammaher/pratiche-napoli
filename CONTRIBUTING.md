@@ -13,7 +13,7 @@
    marked `one_only` in the registry (`famiglia`, `ruolo`) have no copies.
 
    People a business has (procuratore, preposto, soci, responsabile tecnico) are picked by
-   their `ruolo`, one of the values in `procedure.schema.json`'s `$defs/ruolo`:
+   their `ruolo`, one of the vault's `ruolo.tipo` values (`procedure.schema.json`'s `$defs/ruolo`):
    `{ party: { ruolo: procuratore }, direct: identity.codice_fiscale }` reads that person's
    field (also with `concat` or `fallback`; fields without a prefix), and
    `{ repeat: { ruolo: [socio, amministratore], except: dichiarante }, fields: [...] }` fills one
