@@ -1168,6 +1168,16 @@ test("a row filled only when another's answer ticks a box names that ask and its
   assert.match(errorsFor(withForm({ label: "Come", map: { ask: "?" } }, row({ field: "Come", ticks: ["impresa"] }))), /isn't an ask with boxes to tick/);
 });
 
+test("templates take |date, |digits and |or:TEXT; a fallback can be boxes to tick", () => {
+  const row = (template: string) => withForm({ label: "X", map: { direct: "business.rea", template } });
+  assert.equal(errorsFor(row("{business.rea|digits}")), "");
+  assert.equal(errorsFor(row("{business.rea|or:nessuno}")), "");
+  assert.match(errorsFor(row("{business.rea|upper}")), /unknown filter \|upper/);
+  const role = { label: "in qualità di", map: { fallback: ["business.qualita_dichiarante", "business.forma_giuridica"] },
+    choices: [{ box: "Titolare", values: ["titolare"] }] };
+  assert.doesNotMatch(errorsFor(withForm(role)), /choices: only a row/);
+});
+
 test("a form's fields have distinct labels", () => {
   assert.match(errorsFor(withForm({ label: "X", map: { direct: "identity.email" } }, { label: "X", map: { direct: "identity.pec" } })), /two fields are labelled "X"/);
 });
@@ -1222,7 +1232,7 @@ test("a layout places every field of its form, at the form's sha256", () => {
   assert.match(errors((l) => (l.boxes[2].table.columns = { Nome: [10, 100] })), /columns must be the field's: Cognome/);
   assert.match(errors((l) => (l.boxes[0] = { label: "Nome", into_table: "Conviventi" })), /only an ask's answers go into another field's table/);
   assert.match(errors((l) => (l.boxes[3].into_table = "Nome")), /"Nome" is no table on this form/);
-  assert.match(errors((l) => (l.boxes[0] = { label: "Nome", skip: "No." })), /only a blank_with_reason field is skipped/);
+  assert.match(errors((l) => (l.boxes[0] = { label: "Nome", skip: "No." })), /only a blank_with_reason field, or an ask a when depends on, is skipped/);
   assert.match(errors((l) => (l.boxes[0] = { label: "Nome", rect: [1, 1, 2, 2], cells: [[1, 2]] })), /give exactly one of/);
   assert.match(errors((l) => (l.boxes[0] = { label: "Nome", cells: [[1, 2]] })), /cells need a baseline/);
   assert.match(errors((l) => (l.unmapped[0].needed_when.box = "nessuno")), /needed_when names no box "nessuno"/);
@@ -1241,4 +1251,23 @@ test("a layout places every field of its form, at the form's sha256", () => {
   assert.match(errors((l) => (l.boxes[0] = { label: "Nome", choice_widgets: { x: "Check 1" } })), /the field has no choices/);
   assert.match(errors((l) => (l.boxes[0] = { label: "Nome", rect: [1, 1, 2, 2], widget: "A" })), /give exactly one of/);
   assert.match(errors((l) => (l.boxes[0].page = 0)), /schema: \/boxes\/0\/page/);
+});
+
+test("a repeat by ruolo without columns is an allegato: one box, a copy of its page per person", () => {
+  const doc = withForm(
+    { label: "Allegato – Cognome", map: { repeat: { ruolo: "socio", except: "dichiarante" }, fields: ["*:identity.last_name"] } },
+    { label: "Soci", map: { repeat: { ruolo: "socio" }, fields: ["*:identity.last_name"], columns: [{ label: "Cognome", template: "{*:identity.last_name}" }] } },
+  );
+  doc.dichiarante = { ruolo: "titolare" };
+  doc.forms[0].sha256 = "a".repeat(64);
+  const run = (boxes: unknown[]) => {
+    const dir = mkdtempSync(path.join(tmpdir(), "layouts-"));
+    const rel = path.join("napoli", "comune", "test", "mod.json");
+    mkdirSync(path.dirname(path.join(dir, rel)), { recursive: true });
+    writeFileSync(path.join(dir, rel), JSON.stringify({ procedure: "napoli/comune/test", form: "mod", sha256: "a".repeat(64), boxes }));
+    return validateLayouts(dir, [{ rel: "napoli/comune/test.yaml", errors: [], doc }]).flatMap((r) => r.errors).join("\n");
+  };
+  const table = { label: "Soci", table: { rows: [[50, 60]], columns: { Cognome: [10, 100] } } };
+  assert.equal(run([{ label: "Allegato – Cognome", page: 3, rect: [10, 10, 100, 20] }, table]), "");
+  assert.match(run([{ label: "Allegato – Cognome", page: 3, rect: [10, 10, 100, 20] }, { label: "Soci", rect: [1, 1, 2, 2] }]), /a repeat field is a table/);
 });

@@ -1157,7 +1157,7 @@
       }
     },
     "template": {
-      "description": "How a row's fields make one box's text. {category.field} is a field's value (*:category.field in a repeat's columns), {.field} that field of the place a fallback picked, {relazione} a family member's relazione as forms write it (moglie, figlio); {...|date} writes a YYYY-MM-DD date as DD/MM/YYYY, as a filler writes every date anyway. A part in [...] is left out when a field in it is empty; a field outside [...] must have a value. \\[, \\], \\{ and \\} are the characters themselves",
+      "description": "How a row's fields make one box's text. {category.field} is a field's value (*:category.field in a repeat's columns), {.field} that field of the place a fallback picked, {relazione} a family member's relazione as forms write it (moglie, figlio); {...|date} writes a YYYY-MM-DD date as DD/MM/YYYY, as a filler writes every date anyway; {...|or:TEXT} writes TEXT when the field is empty (Italia for an empty stato), so it may be; {...|digits} keeps only its digits (NA-123456 is 123456). A part in [...] is left out when a field in it is empty; a field outside [...] must have a value. \\[, \\], \\{ and \\} are the characters themselves",
       "type": "string",
       "minLength": 1
     },
