@@ -7,7 +7,7 @@ aka:
   - verbale dei vigili urbani
   - ricorso al Prefetto
   - multa ZTL
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Chi riceve un verbale della Polizia Locale di Napoli, per una violazione del Codice della Strada
   o di regolamenti comunali, commerciali o ambientali, può pagarlo in misura ridotta, comunicare
@@ -447,6 +447,9 @@ forms:
       - { label: telefono, map: { direct: identity.phone } }
       - label: in qualità di conducente / proprietario
         map: { ask: "Ricorre come conducente o come proprietario del veicolo?" }
+        choices:
+          - { box: conducente, values: [conducente] }
+          - { box: proprietario, values: [proprietario] }
       - { label: del veicolo targato, map: { ask: Targa del veicolo } }
       - { label: tipo, map: { ask: "Tipo di veicolo (autovettura, motociclo…)" } }
       - label: propone RICORSO per i seguenti motivi
@@ -454,7 +457,7 @@ forms:
         notes: >-
           Il Comune chiede anche: eventuale richiesta di audizione, nome dell'eventuale delegato,
           recapito telefonico e domicilio per le notifiche, documenti allegati.
-      - { label: data, map: { ask: Data di firma del ricorso } }
+      - { label: data, map: { blank_with_reason: "La data la scrive il ricorrente quando firma." } }
       - label: firma
         map: { blank_with_reason: Firma autografa del ricorrente (o firma digitale se inviato via PEC). }
 steps:

@@ -7,7 +7,7 @@ aka:
   - pratica edilizia
   - permesso per lavori in casa
   - spostare tramezzi
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Chi vuole fare a Napoli lavori interni che non toccano le strutture (per esempio spostare
   tramezzi, rifare bagni e impianti in un negozio, un ufficio o una casa) deve presentare prima
@@ -443,16 +443,20 @@ forms:
       - { label: in (indirizzo), map: { concat: [residenza.indirizzo, residenza.civico] } }
       - label: "in proprio / in qualità di Legale Rappresentante di"
         map: { ask: "Dichiara in proprio o come legale rappresentante di un'impresa o ente? (in proprio anche il titolare di una ditta individuale)" }
+        choices:
+          - { box: in proprio, values: [in proprio, proprio] }
+          - { box: legale rappresentante, values: [legale rappresentante, come legale rappresentante] }
         notes: >-
           Come legale rappresentante solo se la CILA è per l'impresa o l'ente (vedi "Dati della
           ditta o società"), anche quando l'archivio ha i dati di un'impresa.
       - label: "Legale Rappresentante di (denominazione)"
         map: { direct: business.denominazione }
-        notes: Solo come legale rappresentante (riga precedente); altrimenti vuoto.
+        when: { field: "in proprio / in qualità di Legale Rappresentante di", ticks: [legale rappresentante] }
       - label: C.F. (dell'impresa o ente)
         map: { direct: business.codice_fiscale }
+        when: { field: "in proprio / in qualità di Legale Rappresentante di", ticks: [legale rappresentante] }
         notes: >-
-          Solo come legale rappresentante; altrimenti vuoto. Il codice fiscale dell'impresa (per una
+          Il codice fiscale dell'impresa (per una
           ditta individuale quello del titolare, mai la partita IVA); se business.codice_fiscale non
           c'è, chiederlo.
       - label: Pec
@@ -463,8 +467,12 @@ forms:
         notes: L'e-mail del dichiarante; come legale rappresentante si può indicare quella dell'impresa (business.email).
       - label: "Dichiara di non avere pendenze verso il Comune di Napoli per IMU, Tassa rifiuti, Imposta di soggiorno, Canone di occupazione suolo pubblico (fino al 2020) e Canone patrimoniale (dal 2021)"
         map: { ask: "Il dichiarante conferma di non avere pendenze verso il Comune di Napoli per IMU, TARI, imposta di soggiorno e canoni di suolo pubblico?" }
+        choices:
+          - { box: dichiara, values: [si, sì, confermo] }
       - label: "Dichiara di non avere procedure di riscossione coattiva in corso con il concessionario per entrate del Comune di Napoli"
         map: { ask: "Il dichiarante conferma di non avere procedure di riscossione coattiva in corso per entrate del Comune di Napoli?" }
+        choices:
+          - { box: dichiara, values: [si, sì, confermo] }
       - { label: Recapiti – Telefono fisso, map: { ask: Telefono fisso (facoltativo) } }
       - { label: Recapiti – cellulare, map: { direct: identity.phone } }
       - { label: Recapiti – e-mail, map: { direct: identity.email } }

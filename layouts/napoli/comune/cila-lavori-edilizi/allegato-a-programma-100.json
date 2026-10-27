@@ -1,0 +1,94 @@
+{
+  "procedure": "napoli/comune/cila-lavori-edilizi",
+  "form": "allegato-a-programma-100",
+  "sha256": "e1628ddf58a5a13c68736f3e179a08fa124cef0dfce6a5e8a7f0cf662610a080",
+  "boxes": [
+    {
+      "label": "Il/la sottoscritto/a",
+      "widget": "Text Box 1"
+    },
+    {
+      "label": "C.F.",
+      "widget": "Text Box 1_2"
+    },
+    {
+      "label": "nato/a a",
+      "widget": "Text Box 2"
+    },
+    {
+      "label": "( ) provincia di nascita",
+      "widget": "Text Box 1_3"
+    },
+    {
+      "label": "il",
+      "widget": "Text Box 1_4"
+    },
+    {
+      "label": "e residente a",
+      "widget": "Text Box 1_5"
+    },
+    {
+      "label": "( ) provincia di residenza",
+      "widget": "Text Box 1_6"
+    },
+    {
+      "label": "in (indirizzo)",
+      "widget": "Text Box 1_7"
+    },
+    {
+      "label": "in proprio / in qualità di Legale Rappresentante di",
+      "choice_widgets": {
+        "in proprio": "Option Button 1#0",
+        "legale rappresentante": "Option Button 1#1"
+      }
+    },
+    {
+      "label": "Legale Rappresentante di (denominazione)",
+      "widget": "Text Box 3"
+    },
+    {
+      "label": "C.F. (dell'impresa o ente)",
+      "widget": "Text Box 1_8"
+    },
+    {
+      "label": "Pec",
+      "widget": "Text Box 1_9"
+    },
+    {
+      "label": "e-mail",
+      "widget": "Text Box 1_14"
+    },
+    {
+      "label": "Dichiara di non avere pendenze verso il Comune di Napoli per IMU, Tassa rifiuti, Imposta di soggiorno, Canone di occupazione suolo pubblico (fino al 2020) e Canone patrimoniale (dal 2021)",
+      "choice_widgets": {
+        "dichiara": "Check Box 1"
+      }
+    },
+    {
+      "label": "Dichiara di non avere procedure di riscossione coattiva in corso con il concessionario per entrate del Comune di Napoli",
+      "choice_widgets": {
+        "dichiara": "Check Box 1_2"
+      }
+    },
+    {
+      "label": "Recapiti – Telefono fisso",
+      "widget": "Text Box 1_10"
+    },
+    {
+      "label": "Recapiti – cellulare",
+      "widget": "Text Box 1_11"
+    },
+    {
+      "label": "Recapiti – e-mail",
+      "widget": "Text Box 1_12"
+    },
+    {
+      "label": "Data e luogo",
+      "widget": "Text Box 1_13"
+    },
+    {
+      "label": "(firma)",
+      "skip": "The signature: only the dichiarante, digitally on the portal."
+    }
+  ]
+}
