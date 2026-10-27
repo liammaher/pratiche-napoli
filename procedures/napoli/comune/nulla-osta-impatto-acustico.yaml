@@ -7,7 +7,7 @@ aka:
   - licenza musica
   - relazione fonometrica
   - tecnico competente in acustica
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Un'attività che a Napoli usa impianti di diffusione sonora o macchinari rumorosi (bar, ristoranti
   e pizzerie con musica, locali di intrattenimento, officine, tipografie…) deve allegare alla
@@ -212,6 +212,13 @@ channels:
       condizionata, autorizzazione, voltura) oppure, per un'attività già aperta, come pratica a
       sé con gli estremi del titolo. Le pratiche SUAP inviate via PEC o e-mail non vengono
       istruite.
+    use:
+      ways: [web_form, upload]
+      status: unverified
+      notes: >-
+        L'avviso del Comune dice che l'istanza sta dentro la SCIA o l'autorizzazione trasmessa su
+        impresainungiorno, ma non come si inserisce: si presume la modulistica del front office
+        con la documentazione acustica caricata come allegato firmato.
   - type: desk
     purpose: info
     name: SUAP del Comune di Napoli
@@ -320,7 +327,13 @@ steps:
     who: facilitator
   - { do: Firmare digitalmente la pratica, who: owner, human_only: true }
   - { do: Pagare i diritti d'istruttoria con pagoPA nel front office, who: owner, human_only: true }
-  - { do: Inviare la pratica su impresainungiorno, who: owner, human_only: true }
+  - do: >-
+      Accedere al front office di impresainungiorno (SUAP di Napoli), controllare che istanza di
+      nulla osta e documentazione acustica firmate digitalmente siano nella pratica e inviarla al
+      SUAP; salvare la ricevuta della pratica
+    who: owner
+    human_only: true
+    channel: [portal]
   - do: >-
       Attendere l'esito: il nulla osta arriva solo dopo la conclusione positiva della pratica SUAP;
       non usare gli impianti di diffusione sonora prima del rilascio

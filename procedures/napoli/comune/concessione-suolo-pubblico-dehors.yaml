@@ -3,7 +3,7 @@ id: napoli/comune/concessione-suolo-pubblico-dehors
 title: Dehors – concessione di suolo pubblico per bar e ristoranti e canone unico (Comune di Napoli)
 headline: "Tavolini all'aperto per bar e ristoranti a Napoli: come chiedere il dehors"
 aka: [permesso dehors, occupazione suolo pubblico, permesso tavolini e sedie, COSAP, OSAP]
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Un pubblico esercizio (bar, ristorante, pizzeria…) che vuole mettere tavoli, sedie, ombrelloni o
   una struttura coperta su suolo pubblico a Napoli deve prima ottenere la concessione dal SUAP,
@@ -185,6 +185,13 @@ channels:
       Unico canale per le pratiche telematiche SUAP: quelle inviate via PEC o e-mail non sono
       istruite. L'istanza è in bollo e i patti e condizioni della concessione si restituiscono
       firmati digitalmente; il tipo di accesso al portale non è stato verificato.
+    use:
+      ways: [web_form, upload]
+      status: unverified
+      notes: >-
+        La pagina del Comune dice che patti e condizioni firmati digitalmente e le ricevute di
+        pagamento si restituiscono tramite il SUAP; non è stato verificato se l'istanza si compila
+        nel front office o si carica come modulo firmato.
   - type: desk
     purpose: info
     name: SUAP – Unità Operativa Occupazione Suolo Pubblico
@@ -406,9 +413,13 @@ steps:
     who: anyone
   - { do: Firmare le dichiarazioni, who: owner, human_only: true }
   - { do: Pagare con PagoPA i diritti d'istruttoria SUAP e assolvere l'imposta di bollo, who: owner, human_only: true }
-  - do: Inviare l'istanza telematica con tutti gli allegati su impresainungiorno (SUAP di Napoli)
+  - do: >-
+      Accedere al front office di impresainungiorno (SUAP di Napoli), compilare l'istanza di
+      concessione, caricare dichiarazioni, progetto, relazioni e ricevute firmati digitalmente e
+      inviarla; salvare la ricevuta della pratica
     who: facilitator
     human_only: true
+    channel: [portal]
   - do: >-
       Per i tipi C e D o in aree del Centro Storico soggette alla Soprintendenza, consegnare le copie
       cartacee di progetto e relazioni entro 7 giorni dall'invio

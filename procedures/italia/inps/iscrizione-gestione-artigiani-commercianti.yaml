@@ -8,7 +8,7 @@ aka:
   - minimale INPS
   - cassetto previdenziale
   - riduzione 35% forfettari
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Il titolare di una ditta individuale artigiana o commerciale, e i familiari che lavorano con lui
   in modo abituale e prevalente, devono essere iscritti all'INPS nella Gestione Artigiani o nella
@@ -143,6 +143,14 @@ channels:
     receipt: legal
     preferred: true
     source: inps-commercianti
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dire-guida
+      notes: >-
+        La Comunicazione Unica si compila online in DIRE (registroimprese.it), con gli eventuali
+        allegati; la distinta si scarica, si firma digitalmente e si ricarica prima dell'invio. La
+        guida InfoCamere mostra queste fasi su un'altra pratica (PEC degli amministratori).
     notes: >-
       Canale dell'iscrizione per chi è soggetto al Registro imprese: quadro AC per i commercianti,
       quadro AA (Albo imprese artigiane) per gli artigiani. Dettagli nella procedura
@@ -255,9 +263,14 @@ steps:
       Compilare nella Comunicazione Unica il quadro AC (commercianti) o il quadro AA (artigiani),
       con i dati del titolare e degli eventuali collaboratori familiari
     who: facilitator
-  - do: Firmare e inviare la Comunicazione Unica entro i termini (artigiani entro 30 giorni dall'inizio)
+  - do: >-
+      In DIRE (dire.registroimprese.it), fase "Firma e invia", scaricare la distinta della
+      Comunicazione Unica, firmarla digitalmente, ricaricarla e inviare la pratica entro i termini
+      (artigiani entro 30 giorni dall'inizio); conservare le ricevute che arrivano alla PEC
+      indicata nella pratica
     who: owner
     human_only: true
+    channel: [portal]
   - do: Attendere il provvedimento di iscrizione INPS e controllare l'anagrafica nel Cassetto previdenziale
     who: owner
   - do: >-
@@ -345,6 +358,13 @@ sources:
     url: https://www.inps.it/it/it/inps-comunica/notizie/dettaglio-news-page.news.2026.02.gestioni-artigiani-e-commercianti-i-contributi-per-il-2026.html
     retrieved: 2026-10-25
     page_updated: 2026-02-09
+    official: true
+  - id: dire-guida
+    label: InfoCamere – Guida DIRE per la comunicazione della PEC degli amministratori al Registro Imprese (fasi Imposta, Compila, Completa e allega, Firma e invia)
+    url: https://registroimprese.infocamere.it/documents/d/global/dire-guida-comunicazione-pec-amministratori
+    retrieved: 2026-10-27
+    page_updated: 2026-01-14
+    sha256: 89af022229be3fd3214a0f7343205bf549e950927b80b76bded2ca89a6b4af03
     official: true
   - id: inps-commercianti
     label: INPS – Iscrizione Gestione Commercianti
