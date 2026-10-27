@@ -1,0 +1,42 @@
+{
+  "channels": {
+    "pec": {
+      "ways": ["digital", "handwritten"],
+      "id_copy": "handwritten",
+      "source": "cad-65",
+      "text": "Firma digitale sul modulo, oppure modulo firmato a mano e scansionato, con la copia del documento d'identità. Va inviato dalla propria PEC."
+    },
+    "email": {
+      "ways": ["digital", "handwritten"],
+      "id_copy": "handwritten",
+      "source": "cad-65",
+      "text": "Firma digitale sul modulo, oppure modulo firmato a mano e scansionato, con la copia del documento d'identità."
+    },
+    "post": {
+      "ways": ["handwritten"],
+      "id_copy": "required",
+      "source": "dpr-445-38",
+      "text": "Modulo firmato a mano in originale, con la fotocopia del documento d'identità."
+    },
+    "desk": {
+      "ways": ["handwritten"],
+      "id_copy": "required",
+      "source": "dpr-445-38",
+      "text": "Modulo firmato a mano con la fotocopia del documento d'identità; se lo si firma davanti all'impiegato, basta mostrare il documento."
+    }
+  },
+  "sources": [
+    {
+      "id": "cad-65",
+      "label": "D.Lgs. 82/2005 (Codice dell'amministrazione digitale), art. 65 – Istanze e dichiarazioni presentate alle pubbliche amministrazioni per via telematica",
+      "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2005-03-07;82~art65",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "dpr-445-38",
+      "label": "D.P.R. 445/2000, art. 38 – Modalità di invio e sottoscrizione delle istanze",
+      "url": "https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2000-12-28;445~art38",
+      "retrieved": "2026-10-27"
+    }
+  ]
+}

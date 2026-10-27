@@ -9,8 +9,8 @@
 
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { buildSite, type Procedure, type Situation } from "./lib/site.ts";
-import { ROOT, loadRegistry, procedureIdFromPath, todayInRome, validateDir, validateLayouts, validateSituations } from "./lib/validate.ts";
+import { buildSite, type Offices, type Procedure, type Situation } from "./lib/site.ts";
+import { ROOT, SIGNING, loadRegistry, procedureIdFromPath, todayInRome, validateDir, validateLayouts, validateOffices, validateSituations } from "./lib/validate.ts";
 
 const library = path.join(ROOT, "procedures");
 const out = path.resolve(process.argv[2] ?? path.join(ROOT, "site"));
@@ -24,9 +24,10 @@ const situationResults = validateSituations(
   todayInRome(),
 );
 const layoutResults = validateLayouts(path.join(ROOT, "layouts"), results);
-const invalid = [...results, ...situationResults, ...layoutResults].filter((r) => r.errors.length);
+const officeResults = validateOffices(path.join(ROOT, "offices"));
+const invalid = [...results, ...situationResults, ...layoutResults, ...officeResults].filter((r) => r.errors.length);
 if (invalid.length) {
-  console.error(`not building: ${invalid.length} procedures, situations or layouts don't validate (run npm run validate)`);
+  console.error(`not building: ${invalid.length} procedures, situations, layouts or offices don't validate (run npm run validate)`);
   for (const r of invalid) console.error(`✗ ${r.rel}`);
   process.exit(1);
 }
@@ -45,6 +46,8 @@ const files = buildSite(procedures, {
   css: read("tools", "site", "style.css"),
   schema: read("contract", "procedure.schema.json"),
   fields: read("contract", "fields.json"),
+  signing: SIGNING.channels,
+  offices: Object.fromEntries(officeResults.map((r) => [(r.doc as Offices).field, r.doc as Offices])),
   reports: REPORTS_URL && CONTACT_EMAIL ? { url: REPORTS_URL, contact: CONTACT_EMAIL, script: read("tools", "site", "report.js") } : undefined,
 }, situationResults.map((r) => r.doc as Situation));
 

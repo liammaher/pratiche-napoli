@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/liammaher/pratiche-napoli/contract/offices.schema.json",
+  "title": "Offices by area",
+  "description": "The desks of one kind across Napoli, keyed by the value of a vault field: offices/municipalita.json by municipalità (1-10), offices/distretto_asl.json by ASL Napoli 1 Centro distretto (24/73, 25-33). A procedure's desk channel names the field (office: residenza.municipalita) and a reader picks the person's office",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["field", "name", "offices", "sources"],
+  "properties": {
+    "field": { "description": "The vault field's name the keys are values of", "enum": ["municipalita", "distretto_asl"] },
+    "name": { "description": "What these offices are, as the procedures call them", "type": "string", "minLength": 1 },
+    "offices": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "address", "source"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "address": { "type": "string", "minLength": 1 },
+          "hours": { "type": "string", "minLength": 1 },
+          "phone": { "type": "string", "minLength": 1 },
+          "email": { "type": "string", "minLength": 1 },
+          "pec": { "type": "string", "minLength": 1 },
+          "notes": { "type": "string", "minLength": 1 },
+          "source": { "description": "id of one of sources", "type": "string" }
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label", "url", "retrieved"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "label": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "pattern": "^https://" },
+          "retrieved": { "type": "string", "format": "date" }
+        }
+      }
+    }
+  }
+}

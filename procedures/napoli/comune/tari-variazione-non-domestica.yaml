@@ -8,7 +8,7 @@ aka:
   - voltura TARI
   - cambio superficie TARI
   - Mod. 6 TARI
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Un'impresa, un professionista o un'associazione già iscritti alla TARI a Napoli per locali a uso
   non abitativo devono comunicare con il Mod. 6, entro 90 giorni, ogni cambiamento che modifica la
@@ -127,14 +127,19 @@ channels:
     source: mod-6
   - type: post
     purpose: procedure
+    receipt: legal
     address: Comune di Napoli, Area Entrate, Servizio IMU e TARI, Via Diocleziano 330, 80125 Napoli
     source: mod-6
     notes: Raccomandata (A/R secondo la pagina della modulistica).
   - type: desk
     purpose: procedure
     name: Sportello Unico Attività Produttive (SUAP)
-    source: modulistica
-    notes: Per le utenze non domestiche; la pagina non indica l'indirizzo.
+    address: Piazza Cavour 42 (II piano), 80137 Napoli
+    booking: Solo su appuntamento, prenotato online sul portale del cittadino del Comune.
+    source: suap-contatti
+    notes: >-
+      Per le utenze non domestiche (pagina della modulistica TARI). Dal 18 maggio 2026 il SUAP
+      riceve il pubblico solo su appuntamento.
   - type: desk
     purpose: info
     name: Sportello TARI
@@ -330,9 +335,34 @@ steps:
   - { do: Firmare il modulo, who: owner, human_only: true }
   - do: >-
       Inviare entro 90 giorni dalla variazione il modulo firmato, la copia del documento
-      d'identità e la planimetria, preferibilmente via PEC
+      d'identità e la planimetria dalla propria PEC a
+      entrate.tari-tares-tarsu@pec.comune.napoli.it; conservare le ricevute di accettazione e di
+      consegna
     who: owner
     human_only: true
+    channel: [pec]
+  - do: >-
+      Inviare entro 90 giorni dalla variazione il modulo firmato, la copia del documento
+      d'identità e la planimetria per email a entrate.tari-tares-tarsu@comune.napoli.it; l'email
+      non dà una ricevuta con valore legale, quindi conservare il messaggio inviato
+    who: owner
+    human_only: true
+    channel: [email]
+  - do: >-
+      Spedire entro 90 giorni dalla variazione il modulo firmato, la copia del documento
+      d'identità e la planimetria con raccomandata A/R a Comune di Napoli, Area Entrate, Servizio
+      IMU e TARI, Via Diocleziano 330, 80125 Napoli; conservare la ricevuta di spedizione e la
+      cartolina di ritorno
+    who: owner
+    human_only: true
+    channel: [post]
+  - do: >-
+      Consegnare entro 90 giorni dalla variazione il modulo firmato, la copia del documento
+      d'identità e la planimetria allo sportello del SUAP (il modulo si può anche firmare lì,
+      davanti all'impiegato) e chiedere una copia con il timbro di protocollo
+    who: owner
+    human_only: true
+    channel: [desk]
   - { do: Ricalcolare la tassa con il simulatore del Comune, who: anyone }
   - { do: Pagare l'F24 alle scadenze, who: owner, human_only: true }
 after:
@@ -412,6 +442,11 @@ related:
   - napoli/comune/tari-iscrizione-non-domestica
   - napoli/comune/tari-cessazione-non-domestica
 sources:
+  - id: suap-contatti
+    label: SUAP – Contatti (Comune di Napoli)
+    url: https://www.comune.napoli.it/articolo_tematico/suap/contatti/
+    retrieved: 2026-10-27
+    official: true
   - id: mod-6
     label: Mod. 6 TARI – Variazione uso non abitativo (testo, AVVERTENZE, INFORMAZIONI e CONTATTI)
     url: https://static-www.comune.napoli.it/wp-content/uploads/2020/09/MOD-6-VARIAZIONE-USO-NON-ABITATIVO.pdf

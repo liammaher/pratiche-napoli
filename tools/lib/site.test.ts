@@ -482,3 +482,60 @@ test("long headlines aren't lengthened by the site's name; static pages carry no
   assert.ok(sitemap.includes(`<url><loc>${opts.baseUrl}/privacy/</loc></url>`));
   assert.ok(sitemap.includes(`<url><loc>${opts.baseUrl}/come-lavoriamo/</loc></url>`));
 });
+
+test("steps of one route become one step with a heading per route, its signing and receipt", () => {
+  const p = minimal({
+    channels: [
+      { type: "pec", purpose: "procedure", address: "ufficio@pec.comune.napoli.it", receipt: "legal", preferred: true },
+      { type: "post", purpose: "procedure", address: "Via Roma 1, Napoli" },
+      { type: "desk", purpose: "procedure", name: "URP", office: "residenza.municipalita" },
+    ],
+    forms: [{ id: "mod", name: "Modulo", signature_required: true, fields: [] }],
+    steps: [
+      { do: "Compila il modulo", who: "anyone" },
+      { do: "Invialo dalla tua PEC", who: "owner", channel: ["pec"] },
+      { do: "Spediscilo con raccomandata A/R", who: "owner", channel: ["post"] },
+      { do: "Consegnalo allo sportello", who: "owner", channel: ["desk"] },
+      { do: "Paga l'F24", who: "owner" },
+    ],
+  });
+  const offices = {
+    municipalita: {
+      field: "municipalita",
+      name: "URP della Municipalità",
+      offices: { "1": { name: "URP Municipalità 1", address: "Piazza Santa Maria degli Angeli 1", hours: "lun–ven 9–12" } },
+    },
+  };
+  const html = buildSite([p], { ...opts, signing: { pec: { text: "Firma digitale, o a mano con il documento." } }, offices }).get(`${p.id}/index.html`)!;
+  const stepsHtml = html.slice(html.indexOf('id="passaggi"'));
+  // Fill, choose a route, pay: in that order.
+  assert.ok(stepsHtml.indexOf("Compila il modulo") < stepsHtml.indexOf("Scegli come presentarla"));
+  assert.ok(stepsHtml.indexOf("Scegli come presentarla") < stepsHtml.indexOf("Paga l&#39;F24"));
+  // The preferred route first, each with its own steps.
+  assert.ok(stepsHtml.indexOf("Via PEC") < stepsHtml.indexOf("Per posta"));
+  assert.ok(stepsHtml.indexOf("Per posta") < stepsHtml.indexOf("Allo sportello"));
+  assert.match(stepsHtml, /Via PEC <span class="badge good">consigliato<\/span><\/h3>\n<ol>\n<li>Invialo dalla tua PEC/);
+  assert.match(stepsHtml, /Firma: Firma digitale, o a mano con il documento\. Ricevi una ricevuta con valore legale\./);
+  // The desk picked by municipalità lists every office.
+  assert.match(html, /URP della Municipalità: quello della tua municipalità\./);
+  assert.match(html, /URP Municipalità 1<br>Piazza Santa Maria degli Angeli 1<\/td><td>lun–ven 9–12/);
+});
+
+test("a form's own signing for a route replaces the law's rule; a single route stays a labelled step", () => {
+  const p = minimal({
+    forms: [
+      {
+        id: "mod",
+        name: "Modulo",
+        signature_required: true,
+        signing: [{ channel: "pec", ways: ["digital"], id_copy: "not_needed", status: "verified", notes: "Il Comune vuole la firma digitale." }],
+        fields: [],
+      },
+    ],
+    steps: [{ do: "Invia via PEC", who: "owner", channel: ["pec"] }],
+  });
+  const html = buildSite([p], { ...opts, signing: { pec: { text: "La regola generale." } } }).get(`${p.id}/index.html`)!;
+  assert.match(html, /<li><span class="badge soft">Via PEC<\/span> Invia via PEC/);
+  assert.match(html, /Firma: Firma digitale, senza copia del documento\. Il Comune vuole la firma digitale\./);
+  assert.ok(!html.includes("La regola generale.") && !html.includes("Scegli come presentarla"));
+});
