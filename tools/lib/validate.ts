@@ -232,7 +232,7 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
     if (problem) errors.push(`channels/${i}: office ${problem}`);
     const keyedBy = (ctx.offices ?? officeLists(path.join(ROOT, "offices"))).get(list);
     if (keyedBy === undefined) errors.push(`channels/${i}: office: no valid offices/${list}.json`);
-    else if (!problem && from.slice(from.lastIndexOf(".") + 1) !== keyedBy) {
+    else if (!problem && !from.endsWith(`.${keyedBy}`) && from !== `business.sede_legale_${keyedBy}`) {
       errors.push(`channels/${i}: office: offices/${list}.json is by ${keyedBy}, so from must be an address's ${keyedBy}, not ${from}`);
     }
   });
