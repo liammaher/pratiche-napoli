@@ -1,4 +1,5 @@
-// Checks the official pages and forms the procedures cite (see lib/sources.ts)
+// Checks the official pages and forms the procedures cite, and the pages the
+// office lists (offices/*.json) were read from (see lib/sources.ts),
 // and prints what to re-verify: every document with a sha256, and tonight's
 // seventh of the other pages (all of them with --all), but only one address
 // of a site that refuses the checker (a 403, a 429, a 404 with its home's).
@@ -28,7 +29,7 @@ import {
   validatorsTonight,
   type State,
 } from "./lib/sources.ts";
-import { ROOT, loadRegistry, todayInRome, validateDir } from "./lib/validate.ts";
+import { ROOT, loadRegistry, todayInRome, validateDir, validateOffices } from "./lib/validate.ts";
 
 const { values } = parseArgs({
   options: {
@@ -54,13 +55,19 @@ try {
 
 const today = todayInRome();
 const results = validateDir(path.join(ROOT, "procedures"), loadRegistry(), today);
+// An office's address is a source like a procedure's: a moved desk shows as a changed page.
+const offices = validateOffices(path.join(ROOT, "offices"));
 // A file that doesn't parse would silently drop its addresses, and could close the issue.
-const unread = results.filter((r) => !r.doc);
+const unread = [...results, ...offices].filter((r) => !r.doc);
 if (unread.length) {
   console.error(`can't read ${unread.map((r) => r.rel).join(", ")} (run npm run validate); not checking`);
   process.exit(2);
 }
-const targets = collectTargets(results.flatMap((r) => (r.doc ? [r.doc as Parameters<typeof collectTargets>[0][number]] : [])));
+type Cited = Parameters<typeof collectTargets>[0][number];
+const targets = collectTargets([
+  ...results.map((r) => r.doc as Cited),
+  ...offices.map((r) => ({ id: `offices/${path.basename(r.rel, ".json")}`, sources: (r.doc as Cited).sources })),
+]);
 const share = values.all ? targets : tonight(targets, dayNumber(today), state);
 console.log(`checking ${share.length} of ${targets.length} addresses…`);
 

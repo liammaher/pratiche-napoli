@@ -59,7 +59,9 @@
    `human_only: true`. **Map every route end to end**: where a step is done differently on a
    channel (send by PEC, by raccomandata A/R, at the desk), write one step per channel with
    `channel: [pec]` and say exactly where it goes and what to keep as proof. A desk needs an
-   address, a `url` that finds it, or `office:` when it depends on where the person lives. A form's
+   address, a `url` that finds it, or `office: { list, from }` when it depends on where the
+   person lives: the list of the service that does it (`offices/<list>.json`; add one, with
+   an office for every value and the page each comes from, when no list is that service). A form's
    `signing` lists only what differs from `contract/signing.json`.
 8. **Say what a box needs, not only in notes.** When a box takes several fields, give the row a
    `template` (a fallback reads its place's other parts as `{.civico}`); mark fields that may be

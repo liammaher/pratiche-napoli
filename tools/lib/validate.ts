@@ -70,9 +70,9 @@ export interface Context {
   // ids of every procedure in the library (from file paths), for `related`
   knownIds: Set<string>;
   today: string; // YYYY-MM-DD
-  // fields with a valid offices/<field>.json, which a desk's office may name
-  // (default: this library's)
-  offices?: Set<string>;
+  // the office lists that validate (offices/<list>.json), each with the field
+  // it is keyed by, which a desk's office may name (default: this library's)
+  offices?: Map<string, string>;
 }
 
 // Procedure documents are plain YAML data; this is the subset the checks read.
@@ -95,7 +95,7 @@ interface Source {
 interface Doc {
   id?: string;
   updated?: string;
-  channels?: { type?: string; purpose?: string; preferred?: boolean; auth?: string[]; address?: string; url?: string; office?: string }[];
+  channels?: { type?: string; purpose?: string; preferred?: boolean; auth?: string[]; address?: string; url?: string; office?: { list: string; from: string } }[];
   deadline?: { summary?: unknown; rules?: { compute?: { from: string; days: number } }[] };
   documents?: { name: string }[];
   reported?: {
@@ -222,16 +222,18 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
   }
   (d.channels ?? []).forEach((c, i) => {
     if (c.type === "desk" && c.purpose === "procedure" && !c.address && !c.office && !c.url) {
-      errors.push(`channels/${i}: a desk needs an address, an office (residenza.municipalita) or a url that finds one`);
+      errors.push(`channels/${i}: a desk needs an address, an office ({ list, from: residenza.municipalita }) or a url that finds one`);
     }
     if (!c.office) return;
-    const kind = c.office.slice(c.office.lastIndexOf(".") + 1);
-    const problem = checkUse(c.office, false, ctx.registry, d.dichiarante !== undefined);
+    const { list, from } = c.office;
+    const problem = checkUse(from, false, ctx.registry, d.dichiarante !== undefined);
     if (c.type !== "desk") errors.push(`channels/${i}: office is for a desk, not ${c.type}`);
     if (c.address) errors.push(`channels/${i}: office picks the address, so give one or the other`);
     if (problem) errors.push(`channels/${i}: office ${problem}`);
-    else if (!(ctx.offices ?? officeFields(path.join(ROOT, "offices"))).has(kind)) {
-      errors.push(`channels/${i}: office ${c.office}: no valid offices/${kind}.json`);
+    const keyedBy = (ctx.offices ?? officeLists(path.join(ROOT, "offices"))).get(list);
+    if (keyedBy === undefined) errors.push(`channels/${i}: office: no valid offices/${list}.json`);
+    else if (!problem && from.slice(from.lastIndexOf(".") + 1) !== keyedBy) {
+      errors.push(`channels/${i}: office: offices/${list}.json is by ${keyedBy}, so from must be an address's ${keyedBy}, not ${from}`);
     }
   });
 
@@ -873,7 +875,7 @@ export function validateDir(dir: string, registry: Registry, today: string, only
   const files = listYaml(dir);
   const idOf = (file: string) => procedureIdFromPath(path.relative(dir, file));
   const knownIds = new Set(files.map(idOf));
-  const ctx: Context = { registry, knownIds, today, offices: officeFields(path.join(path.dirname(dir), "offices")) };
+  const ctx: Context = { registry, knownIds, today, offices: officeLists(path.join(path.dirname(dir), "offices")) };
   const sameId = new Map<string, string[]>();
   for (const file of files) sameId.set(idOf(file), [...(sameId.get(idOf(file)) ?? []), path.relative(dir, file)]);
   const inScope = (file: string) => !only || file === only || file.startsWith(only + path.sep);
@@ -989,14 +991,18 @@ const checkOfficesSchema = ajv.compile(JSON.parse(readFileSync(path.join(ROOT, "
 function officeKeys(field: string): string[] {
   return loadRegistry().categories.flatMap((c) => c.fields).find((f) => f.id === `residenza.${field}`)?.values ?? [];
 }
-// The fields with a valid offices file under dir: the ones a desk channel's
-// office may name.
-export function officeFields(dir: string): Set<string> {
-  return new Set(validateOffices(dir).filter((r) => !r.errors.length).map((r) => path.basename(r.rel, ".json")));
+// The office lists under dir that validate, each with the field it is keyed
+// by: the ones a desk channel's office may name.
+export function officeLists(dir: string): Map<string, string> {
+  return new Map(
+    validateOffices(dir)
+      .filter((r) => !r.errors.length)
+      .map((r) => [path.basename(r.rel, ".json"), (r.doc as { field: string }).field]),
+  );
 }
 
-// Validates offices/<field>.json: the schema, an office for every value of the
-// field, and sources that exist.
+// Validates offices/<list>.json: the schema, an office for every value of the
+// field it is keyed by, and sources that exist.
 export function validateOffices(dir: string): FileResult[] {
   if (!existsDir(dir)) return [];
   return listFiles(dir, /\.json$/i).map((file) => {
@@ -1011,7 +1017,7 @@ export function validateOffices(dir: string): FileResult[] {
       return { rel, errors: (checkOfficesSchema.errors ?? []).map((e) => `schema: ${e.instancePath || "/"} ${e.message}`) };
     }
     const errors: string[] = [];
-    if (path.basename(file, ".json") !== doc.field) errors.push(`field ${doc.field}: the file is offices/${doc.field}.json`);
+    if (!/^[a-z0-9-]+$/.test(path.basename(file, ".json"))) errors.push(`${rel}: name a list in lower case, digits and -, for its service`);
     const want = officeKeys(doc.field);
     if (!want.length) errors.push(`field ${doc.field}: the vault lists no values for residenza.${doc.field}`);
     for (const k of want) if (!doc.offices[k]) errors.push(`no office for ${doc.field} ${k}`);

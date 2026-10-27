@@ -148,7 +148,7 @@ channels:
     purpose: procedure
     name: UOSD Prevenzione Collettiva del distretto sanitario di appartenenza (ASL Napoli 1 Centro)
     url: https://www.aslnapoli1centro.it/area-di-coordinamento-igienistica
-    office: residenza.distretto_asl
+    office: { list: asl-prevenzione-collettiva, from: residenza.distretto_asl }
     receipt: informal
     preferred: true
     source: asl-libretto

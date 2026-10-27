@@ -28,15 +28,16 @@ interface Channel {
   booking?: string;
   receipt?: string;
   preferred?: boolean;
-  office?: string;
+  office?: { list: string; from: string };
   notes?: string;
   source?: string;
 }
 type Signing = { channel: string; ways: string[]; id_copy: string; status: Status; notes?: string };
-// offices/<field>.json (contract/offices.schema.json).
+// offices/<list>.json (contract/offices.schema.json).
 export interface Offices {
   field: string;
   name: string;
+  serves: string;
   offices: Record<string, { name: string; address: string; hours?: string; phone?: string; notes?: string; source: string }>;
 }
 interface Source {
@@ -113,7 +114,7 @@ export interface SiteOptions {
   schema: string; // contract/procedure.schema.json, published as is
   fields: string; // contract/fields.json
   signing?: { channels: Record<string, { text: string }> }; // contract/signing.json, published as is
-  offices?: Record<string, Offices>; // offices/*.json by field, published as is
+  offices?: Record<string, Offices>; // offices/<list>.json by list, published as is
   // The report form appears only with both: where reports go, and whom
   // people can write to about their data (the privacy page names it).
   reports?: { url: string; contact: string; script: string };
@@ -235,7 +236,7 @@ export function buildSite(procedures: Procedure[], opts: SiteOptions, situations
   files.set("contract/fields.json", opts.fields);
   // What procedures point at: the law's signing rule per channel, the desks by area.
   if (opts.signing) files.set("contract/signing.json", JSON.stringify(opts.signing, null, 2) + "\n");
-  for (const [field, o] of Object.entries(opts.offices ?? {})) files.set(`offices/${field}.json`, JSON.stringify(o, null, 2) + "\n");
+  for (const [list, o] of Object.entries(opts.offices ?? {})) files.set(`offices/${list}.json`, JSON.stringify(o, null, 2) + "\n");
   files.set("sitemap.xml", renderSitemap(procedures, entes, site));
   files.set("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${opts.baseUrl}/sitemap.xml\n`);
   files.set("llms.txt", renderLlmsTxt(entes, site));
@@ -778,16 +779,16 @@ ${rows.map((r) => `<p>${r}</p>`).join("\n")}${c.office ? officeTable(c.office, o
 }
 
 // The desks of a channel picked by the person's municipalità or distretto.
-function officeTable(field: string, offices?: Record<string, Offices>): string {
-  const kind = field.slice(field.lastIndexOf(".") + 1);
-  const o = offices?.[kind];
+function officeTable(office: { list: string }, offices?: Record<string, Offices>): string {
+  const o = offices?.[office.list];
   if (!o) return "";
+  const kind = o.field;
   const rows = Object.entries(o.offices).map(
     ([k, x]) =>
       `<tr><td>${esc(k)}</td><td>${esc(x.name)}<br>${esc(x.address)}${x.notes ? `<br><span class="note">${esc(x.notes)}</span>` : ""}</td><td>${esc(x.hours ?? "")}${x.phone ? `<br>${esc(x.phone)}` : ""}</td></tr>`,
   );
   return `
-<p>${esc(o.name)}: quello ${kind === "municipalita" ? "della tua municipalità" : "del tuo distretto sanitario"}.</p>
+<p>${esc(o.name)}: quello ${kind === "municipalita" ? "della tua municipalità" : "del tuo distretto sanitario"}. ${esc(o.serves)}.</p>
 <table>
 <thead><tr><th>${kind === "municipalita" ? "Municipalità" : "Distretto"}</th><th>Indirizzo</th><th>Orari e telefono</th></tr></thead>
 <tbody>
@@ -1004,8 +1005,8 @@ function renderLlmsTxt(entes: Ente[], site: Site): string {
     `- [Procedure schema](${base}/contract/procedure.schema.json): JSON Schema of each procedure file`,
     `- [Field registry](${base}/contract/fields.json): the field IDs form fields map to`,
     `- [Signing by channel](${base}/contract/signing.json): how PEC, email, post and desk take a signature by law, unless a form's own \`signing\` says otherwise`,
-    ...Object.keys(site.opts.offices ?? {}).map(
-      (f) => `- [Offices by ${f}](${base}/offices/${f}.json): the desk for each value of a desk channel's \`office\` field`,
+    ...Object.entries(site.opts.offices ?? {}).map(
+      ([list, o]) => `- [${o.name}](${base}/offices/${list}.json): ${o.serves}; the desk for each ${o.field}, as a desk channel's \`office\` names it`,
     ),
   ];
   if (site.situations.length) {

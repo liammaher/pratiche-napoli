@@ -1,0 +1,160 @@
+{
+  "field": "distretto_asl",
+  "name": "Ufficio Anagrafe Sanitaria del distretto (ASL Napoli 1 Centro)",
+  "serves": "Lo sportello dei residenti del distretto: scelta e revoca del medico di base e del pediatra, tessera sanitaria, esenzioni dal ticket. Spesso non è nella sede della Direzione del distretto; non è la Prevenzione Collettiva (alimentaristi, attività)",
+  "offices": {
+    "24/73": {
+      "name": "Ufficio Anagrafe Sanitaria del Distretto 24/73",
+      "address": "Corso Vittorio Emanuele 690, 80121 Napoli",
+      "hours": "lunedì e mercoledì 8:30–13:00",
+      "phone": "081 2547117",
+      "email": "ufficioanagrafe.ds24@aslnapoli1centro.it",
+      "notes": "Non è nella sede del distretto (Direzione: Via Schipa 9). Per Capri e Anacapri c'è il presidio di Via Le Botteghe 30, Capri.",
+      "source": "ds24"
+    },
+    "25": {
+      "name": "Ufficio Anagrafe Sanitaria del Distretto 25",
+      "address": "Via Davide Winspeare 67, Napoli",
+      "hours": "lunedì–venerdì 8:30–13:00",
+      "phone": "081 2548154",
+      "email": "ufficioanagrafe.ds25@aslnapoli1centro.it",
+      "notes": "Non è nella sede del distretto (Direzione: Via Francesco Degni 25).",
+      "source": "ds25"
+    },
+    "26": {
+      "name": "Ufficio Anagrafe Sanitaria del Distretto 26",
+      "address": "Via Canonico Scherillo 12, Napoli (primo piano)",
+      "hours": "lunedì, mercoledì e venerdì 8:30–13:00",
+      "phone": "081 2548343, 081 2548318",
+      "email": "direzione.ds26@aslnapoli1centro.it",
+      "notes": "Martedì e giovedì pomeriggio solo rinnovo delle esenzioni per reddito.",
+      "source": "ds26"
+    },
+    "27": {
+      "name": "Ufficio Anagrafe Sanitaria del Distretto 27",
+      "address": "Via San Gennaro ad Antignano 42, I piano, Napoli",
+      "hours": "lunedì–venerdì 8:30–13:00",
+      "phone": "081 2549900",
+      "pec": "anagrafe.ds27@pec.aslna1centro.it",
+      "notes": "Le pratiche si possono mandare alla PEC con i documenti allegati.",
+      "source": "ds27"
+    },
+    "28": {
+      "name": "Ufficio Anagrafe Sanitaria del Distretto 28 (Poliambulatorio di Scampia)",
+      "address": "Viale della Resistenza 25, 2° piano, Napoli",
+      "hours": "lunedì e mercoledì 8:30–13:00",
+      "phone": "081 2546523",
+      "email": "ufficioanagrafe.ds28@aslnapoli1centro.it",
+      "notes": "Scelta e revoca del medico anche via email.",
+      "source": "ds28"
+    },
+    "29": {
+      "name": "Ufficio Anagrafe Sanitaria del Distretto 29 (Presidio San Gennaro)",
+      "address": "Via San Gennaro dei Poveri 25, Napoli",
+      "hours": "cambio del medico martedì e giovedì 8:45–12:00 (50 numeri al giorno); esenzioni per patologia mercoledì 9:00–12:00, per reddito martedì e giovedì 14:00–16:00",
+      "phone": "081 2545093",
+      "email": "anagrafe.ds29@aslnapoli1centro.it",
+      "notes": "Si entra solo con il numero; i documenti si possono mandare all'email.",
+      "source": "ds29"
+    },
+    "30": {
+      "name": "Ufficio Anagrafe Sanitaria del Distretto 30 (Casa di Comunità S. Bellone)",
+      "address": "Piazzetta del Casale di Secondigliano 22, Napoli",
+      "hours": "martedì e giovedì 8:00–12:30",
+      "phone": "081 2546973",
+      "email": "ufficioanagrafe.ds30@aslnapoli1centro.it",
+      "notes": "Non è nella sede del distretto (Direzione: Casa di Comunità di Miano, Vico Vincenzo Valente 31).",
+      "source": "ds30"
+    },
+    "31": {
+      "name": "Assistenza Sanitaria di Base e Anagrafe Sanitaria del Distretto 31",
+      "address": "Via Amerigo Vespucci 9, II piano, 80142 Napoli",
+      "hours": "Anagrafe Sanitaria lunedì–giovedì 8:30–13:00; Assistenza Sanitaria di Base lunedì–venerdì 8:30–13:00",
+      "phone": "081 2542342, 081 2542257, 081 2542258",
+      "email": "uoasb.ds31@aslnapoli1centro.it",
+      "pec": "uoas.ds31@pec.aslna1centro.it",
+      "source": "ds31"
+    },
+    "32": {
+      "name": "Ufficio Anagrafe Sanitaria del Distretto 32",
+      "address": "Viale Fratelli Grimm 167, Napoli",
+      "hours": "lunedì, mercoledì e giovedì 8:30–12:30",
+      "phone": "081 2544332",
+      "email": "direzione.ds32@aslnapoli1centro.it",
+      "pec": "direzione.ds32@pec.aslna1centro.it",
+      "notes": "La pagina dell'Assistenza Sanitaria di Base dà il civico 178 e lunedì–venerdì: telefonare prima.",
+      "source": "ds32"
+    },
+    "33": {
+      "name": "Ufficio Anagrafe Sanitaria del Distretto 33",
+      "address": "Piazza Nazionale 95, Napoli",
+      "hours": "martedì e giovedì 8:30–13:00",
+      "phone": "081 2544504, 081 2544819",
+      "email": "ufficioanagrafe.ds33@aslnapoli1centro.it",
+      "notes": "Le esenzioni per patologia e malattie rare sono al civico 94.",
+      "source": "ds33"
+    }
+  },
+  "sources": [
+    {
+      "id": "ds24",
+      "label": "ASL Napoli 1 Centro – Ufficio Anagrafe Sanitaria DS 24/73",
+      "url": "https://www.aslnapoli1centro.it/ufficio-anagrafe-sanitaria-ds24",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "ds25",
+      "label": "ASL Napoli 1 Centro – Ufficio Anagrafe Sanitaria DS 25",
+      "url": "https://www.aslnapoli1centro.it/ufficio-anagrafe-sanitaria-ds25",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "ds26",
+      "label": "ASL Napoli 1 Centro – Ufficio Anagrafe Sanitaria DS 26",
+      "url": "https://www.aslnapoli1centro.it/ufficio-anagrafe-sanitaria-ds26",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "ds27",
+      "label": "ASL Napoli 1 Centro – Ufficio Anagrafe Sanitaria DS 27",
+      "url": "https://www.aslnapoli1centro.it/ufficio-anagrafe-sanitaria-ds27",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "ds28",
+      "label": "ASL Napoli 1 Centro – Ufficio Anagrafe Sanitaria DS 28",
+      "url": "https://www.aslnapoli1centro.it/ufficio-anagrafe-sanitaria-ds28",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "ds29",
+      "label": "ASL Napoli 1 Centro – Ufficio Anagrafe Sanitaria DS 29",
+      "url": "https://www.aslnapoli1centro.it/ufficio-anagrafe-sanitaria-ds29",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "ds30",
+      "label": "ASL Napoli 1 Centro – Ufficio Anagrafe Sanitaria DS 30",
+      "url": "https://www.aslnapoli1centro.it/ufficio-anagrafe-sanitaria-ds30",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "ds31",
+      "label": "ASL Napoli 1 Centro – U.O. Assistenza Sanitaria di Base DS 31",
+      "url": "https://www.aslnapoli1centro.it/u.o.-assistenza-sanitaria-di-base-31",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "ds32",
+      "label": "ASL Napoli 1 Centro – Ufficio Anagrafe Sanitaria DS 32",
+      "url": "https://www.aslnapoli1centro.it/ufficio-anagrafe-sanitaria-ds32",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "ds33",
+      "label": "ASL Napoli 1 Centro – Ufficio Anagrafe Sanitaria DS 33",
+      "url": "https://www.aslnapoli1centro.it/ufficio-anagrafe-sanitaria-ds33",
+      "retrieved": "2026-10-27"
+    }
+  ]
+}

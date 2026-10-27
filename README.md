@@ -42,7 +42,7 @@ The site shows the date on each page and publishes it in the structured data, th
 | `/come-lavoriamo/`, `/aggiornamenti/` | how the library is written and verified; the 50 latest changes |
 | `/procedures.json` | index of all procedures with their `updated` dates, and the library's |
 | `/contract/*.json` | the procedure schema, the field registry and `signing.json` (the law's signing rule per channel type) |
-| `/offices/<field>.json` | the desks by area, keyed by the vault field that picks one (`municipalita`, `distretto_asl`) |
+| `/offices/<list>.json` | one service's desks by area (the Municipalità's sede or URP, its Anagrafe, the ASL's Anagrafe Sanitaria, its Prevenzione Collettiva), keyed by the vault field that picks one (`municipalita`, `distretto_asl`) |
 | `/sitemap.xml`, `/robots.txt`, `/llms.txt` | for search engines and AI assistants |
 
 Set `SITE_URL` to the public address (default `https://liammaher.github.io/pratiche-napoli`);
@@ -156,9 +156,14 @@ Each procedure channel is a route, and every route is mapped end to end. A step 
 belongs to those routes only ("Inviare dalla propria PEC a …", "Spedire con raccomandata A/R a …",
 "Consegnare allo sportello …"); a step without it is on every route. The validator wants a step of
 its own for every `pec`, `email`, `post` and `desk` channel, and an address, a `url` or an
-`office` for every desk. A desk that depends on where the person lives names the vault field that
-picks it (`office: residenza.municipalita`, `residenza.distretto_asl`), and
-[`offices/`](offices/) holds one office per value, each from an official page. The site shows the
+`office` for every desk. A desk that depends on where the person lives names the list of offices
+of its service and the vault field that picks one in it
+(`office: { list: asl-prevenzione-collettiva, from: residenza.distretto_asl }`).
+[`offices/`](offices/) holds one list per service (an area has several desks: the ASL district's
+Anagrafe Sanitaria is not its Prevenzione Collettiva), each saying what it `serves`, with one
+office per value of its field from an official page; the validator checks the list exists, is
+keyed by that field and covers every value the vault gives it, and the source monitor watches
+those pages as it does the procedures'. The site shows the
 shared steps in order and, where the routes part, one step with a heading per route: its steps,
 how to sign there and what it gives back.
 
@@ -222,7 +227,7 @@ contract/extensions.json         fields procedures need before the vault has the
 procedures/<ente>/<slug>.yaml    one file per procedure
 situations/<id>.yaml             the procedures of one situation
 layouts/<id>/<form>.json         a form's layout, for one version of it
-offices/<field>.json             the desk for each municipalità or ASL distretto
+offices/<list>.json              one service's desk for each municipalità or ASL distretto
 docs/discrepancies.md            wrong or contradictory official information we found
 tools/                           validator, site builder and generators
 tools/site/style.css             the site's stylesheet

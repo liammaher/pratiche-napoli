@@ -1,6 +1,7 @@
 {
   "field": "municipalita",
   "name": "Sportello URP della Municipalità",
+  "serves": "Lo sportello del Comune nella propria Municipalità (URP, o la sede dove l'URP non c'è): istanze e dichiarazioni al Comune che si consegnano a mano, come la TARI. Non è l'Anagrafe (certificati, carta d'identità, residenza)",
   "offices": {
     "1": {
       "name": "Sede della Municipalità 1 (Chiaia, Posillipo, San Ferdinando)",
@@ -36,6 +37,7 @@
     "5": {
       "name": "Sede della Municipalità 5 (Arenella, Vomero)",
       "address": "Via Morghen 84, 80129 Napoli",
+      "phone": "081 7952732 (Direzione)",
       "pec": "municipalita5@pec.comune.napoli.it",
       "notes": "Il Comune non pubblica uno sportello URP per questa Municipalità: è la sede principale, dove si possono presentare le istanze al Comune. Orari non pubblicati: telefonare prima.",
       "source": "municipalita-5"
