@@ -58,9 +58,10 @@
       }
     },
     "signatures": {
-      "description": "Where the signer signs, and dates the signature if the form has a Data line beside it. Not fields: nothing the procedure maps fills them, only a signature a person approved. A form with signatures has signature_required in the procedure",
+      "description": "Where the signer signs, and dates the signature if the form has a Data line beside it. Not fields: nothing the procedure maps fills them, only a signature a person approved. A form with signatures has signature_required in the procedure. At most 8, as many as the vault's sign gate stamps",
       "type": "array",
       "minItems": 1,
+      "maxItems": 8,
       "items": {
         "type": "object",
         "additionalProperties": false,
