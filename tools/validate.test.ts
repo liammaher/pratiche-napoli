@@ -533,6 +533,8 @@ test("a procedure needs a channel that carries it out", () => {
   const doc = minimal();
   doc.channels.push({ type: "email", purpose: "info", preferred: true });
   assert.match(errorsFor(doc), /channels\/1: preferred marks the recommended way/);
+  doc.channels[1] = { type: "phone", purpose: "procedure" };
+  assert.match(errorsFor(doc), /channels\/1: a phone channel is for questions/);
   doc.channels.pop();
   doc.channels[0].purpose = "info";
   assert.match(errorsFor(doc), /channels: at least one must have purpose "procedure"/);
@@ -1148,6 +1150,8 @@ test("choices are boxes to tick from one field or an ask", () => {
   assert.equal(row({ ask: "Uso stagionale?" }, [{ box: "Riduzione", values: ["si"] }]), "");
   assert.match(row({ concat: ["identity.last_name", "identity.first_name"] }, titolo), /only a row of one field/);
   assert.match(row({ direct: "abitazione.titolo" }, [{ box: "a", values: ["x"] }, { box: "b", values: ["x"] }]), /"x" ticks both "a" and "b"/);
+  // Compared as fill.py ticks them, so these are the same answer.
+  assert.match(row({ ask: "Ruolo?" }, [{ box: "a", values: ["legale_rappresentante"] }, { box: "b", values: ["Legale rappresentante."] }]), /ticks both "a" and "b"/);
   assert.match(row({ direct: "abitazione.titolo" }, [{ box: "a", values: ["x"], write_value: true }, { box: "b", values: ["y"], write_value: true }]), /only one box/);
   assert.match(row({ direct: "abitazione.titolo" }, [{ box: "a", values: ["x"] }, { box: "a", values: ["y"] }]), /two boxes are "a"/);
 });
@@ -1446,4 +1450,10 @@ test("a desk's office names only offices files that validate", () => {
   doc.channels.push({ type: "desk", purpose: "procedure", name: "URP", office: "residenza.municipalita" });
   doc.steps.push({ do: "Consegnare allo sportello", who: "owner", channel: ["desk"] });
   assert.match(validateProcedure(doc, "napoli/comune/test.yaml", { ...ctx, offices: new Set() }).join("\n"), /no valid offices\/municipalita.json/);
+});
+
+test("the ruolo list is the vault's", () => {
+  const schema = JSON.parse(readFileSync(path.join(ROOT, "contract", "procedure.schema.json"), "utf8"));
+  const tipo = loadRegistry().categories.flatMap((c) => c.fields).find((f) => f.id === "ruolo.tipo");
+  assert.deepEqual(schema.$defs.ruolo.enum, tipo?.values);
 });

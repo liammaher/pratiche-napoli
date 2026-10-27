@@ -30,6 +30,9 @@ interface VaultField {
   sensitivity: string;
   for?: For;
   kinds?: Kind[];
+  // What the field may hold (each item of a list, as ruolo.tipo): the vault's
+  // own list, so nothing here keeps a copy (validate.ts reads it from fields.json).
+  values?: string[];
 }
 
 // person: the owner and every family member (leo:cie.numero); owner: the
@@ -86,7 +89,7 @@ export interface Registry {
     // No numbered copies (see VaultCategory); a procedure may name locale2 but not famiglia2.
     one_only?: true;
     // vault: false marks a field (or a whole category) the vault doesn't have yet.
-    fields: { id: string; description: string; for?: For; kinds?: Kind[]; vault?: false }[];
+    fields: { id: string; description: string; for?: For; kinds?: Kind[]; values?: string[]; vault?: false }[];
     vault?: false;
     // No fixed fields: any field name is allowed in this category.
     open?: boolean;
@@ -165,6 +168,9 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
       checkFieldCategory(f.id, cat.name);
       if (!FOR.has(f.for)) throw new Error(`field "${f.id}" is for ${JSON.stringify(f.for)}, not owner or member`);
       checkKinds(f.kinds, `field "${f.id}"`);
+      if (f.values !== undefined && !(Array.isArray(f.values) && f.values.every((v) => typeof v === "string"))) {
+        throw new Error(`field "${f.id}" has values ${JSON.stringify(f.values)}, not a list of strings`);
+      }
       if (!ALLOWED_SENSITIVITY.has(f.sensitivity)) {
         forbiddenFields.push(f.id);
         continue;
@@ -174,6 +180,7 @@ export function buildRegistry(schema: VaultSchema, extensions: Extensions = { ca
         description: f.description,
         ...(f.for && { for: f.for }),
         ...(f.kinds && { kinds: f.kinds }),
+        ...(f.values && { values: f.values }),
       });
     }
     // Every field secret: the whole category is, rather than becoming open.

@@ -41,7 +41,8 @@ The site shows the date on each page and publishes it in the structured data, th
 | `/situazioni/<id>/` | the procedures of one situation, e.g. `/situazioni/apro-bar-ristorante/` |
 | `/come-lavoriamo/`, `/aggiornamenti/` | how the library is written and verified; the 50 latest changes |
 | `/procedures.json` | index of all procedures with their `updated` dates, and the library's |
-| `/contract/*.json` | the procedure schema and field registry |
+| `/contract/*.json` | the procedure schema, the field registry and `signing.json` (the law's signing rule per channel type) |
+| `/offices/<field>.json` | the desks by area, keyed by the vault field that picks one (`municipalita`, `distretto_asl`) |
 | `/sitemap.xml`, `/robots.txt`, `/llms.txt` | for search engines and AI assistants |
 
 Set `SITE_URL` to the public address (default `https://liammaher.github.io/pratiche-napoli`);
