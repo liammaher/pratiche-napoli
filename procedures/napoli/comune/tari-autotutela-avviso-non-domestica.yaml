@@ -8,7 +8,7 @@ aka:
   - bolletta spazzatura sbagliata
   - annullamento avviso TARI
   - Mod. 7 TARI
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Un'impresa, un professionista o un'associazione che riceve dal Comune di Napoli un avviso di
   pagamento TARI (avviso bonario) sbagliato per locali a uso non abitativo (superficie,
@@ -149,6 +149,7 @@ channels:
     source: mod-7
   - type: post
     purpose: procedure
+    receipt: legal
     address: Comune di Napoli, Area Entrate, Servizio Gestione TARI, Via Diocleziano 330, 80125 Napoli
     source: mod-7
     notes: Raccomandata (A/R secondo la pagina della modulistica).
@@ -299,10 +300,27 @@ steps:
     who: anyone
   - { do: Firmare il modulo, who: owner, human_only: true }
   - do: >-
-      Inviare modulo firmato, copia del documento d'identità, copia dell'avviso e prove,
-      preferibilmente via PEC
+      Inviare il modulo firmato, la copia del documento d'identità, la copia dell'avviso e le
+      prove dalla propria PEC a entrate.tari-tares-tarsu@pec.comune.napoli.it; conservare le
+      ricevute di accettazione e di consegna
     who: owner
     human_only: true
+    channel: [pec]
+  - do: >-
+      Inviare il modulo firmato, la copia del documento d'identità, la copia dell'avviso e le
+      prove per email a entrate.tari-tares-tarsu@comune.napoli.it; l'email non dà una ricevuta con
+      valore legale, quindi conservare il messaggio inviato
+    who: owner
+    human_only: true
+    channel: [email]
+  - do: >-
+      Spedire il modulo firmato, la copia del documento d'identità, la copia dell'avviso e le
+      prove con raccomandata A/R a Comune di Napoli, Area Entrate, Servizio Gestione TARI, Via
+      Diocleziano 330, 80125 Napoli; conservare la ricevuta di spedizione e la cartolina di
+      ritorno
+    who: owner
+    human_only: true
+    channel: [post]
   - { do: Annotare data e ricevuta dell'invio e attendere la risposta dell'ufficio, who: owner }
 after:
   - Conservare la ricevuta della PEC, il modulo inviato e le quietanze F24.

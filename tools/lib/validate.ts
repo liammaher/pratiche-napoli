@@ -20,6 +20,29 @@ const ajv = new Ajv2020.default({ allErrors: true, strict: true });
 addFormats.default(ajv);
 const checkSchema = ajv.compile(schema);
 
+// The law's rule for signing on each channel type (contract/signing.json); a
+// form's own signing lists only where it differs.
+export interface SigningRule {
+  ways: string[];
+  id_copy: string;
+  source: string;
+  text: string;
+}
+type Signing = { channels: Record<string, SigningRule>; sources: { id: string }[] };
+const checkSigning = ajv.compile(JSON.parse(readFileSync(path.join(ROOT, "contract", "signing.schema.json"), "utf8")));
+export const SIGNING: Signing = (() => {
+  const doc: Signing = JSON.parse(readFileSync(path.join(ROOT, "contract", "signing.json"), "utf8"));
+  if (!checkSigning(doc)) throw new Error(`contract/signing.json: ${JSON.stringify(checkSigning.errors)}`);
+  const ids = new Set(doc.sources.map((x) => x.id));
+  for (const [t, r] of Object.entries(doc.channels)) {
+    if (!ids.has(r.source)) throw new Error(`contract/signing.json: ${t} cites unknown source ${r.source}`);
+  }
+  return doc;
+})();
+
+// Channel types sent or handed in one way each, so each needs a step of its own.
+const ROUTES_WITH_STEPS = new Set(["pec", "email", "post", "desk"]);
+
 export function loadRegistry(): Registry {
   return JSON.parse(readFileSync(path.join(ROOT, "contract", "fields.json"), "utf8"));
 }
@@ -47,6 +70,9 @@ export interface Context {
   // ids of every procedure in the library (from file paths), for `related`
   knownIds: Set<string>;
   today: string; // YYYY-MM-DD
+  // fields with a valid offices/<field>.json, which a desk's office may name
+  // (default: this library's)
+  offices?: Set<string>;
 }
 
 // Procedure documents are plain YAML data; this is the subset the checks read.
@@ -69,7 +95,7 @@ interface Source {
 interface Doc {
   id?: string;
   updated?: string;
-  channels?: { type?: string; purpose?: string; preferred?: boolean; auth?: string[] }[];
+  channels?: { type?: string; purpose?: string; preferred?: boolean; auth?: string[]; address?: string; url?: string; office?: string }[];
   deadline?: { summary?: unknown; rules?: { compute?: { from: string; days: number } }[] };
   documents?: { name: string }[];
   reported?: {
@@ -88,8 +114,14 @@ interface Doc {
   sources?: Source[];
   applies_to?: { audience?: string[] };
   dichiarante?: unknown;
-  forms?: { id: string; sha256?: string; signature_required?: boolean; signing?: { channel: string; ways: string[] }[]; fields?: Row[] }[];
-  steps?: { human_only?: boolean; gate?: string }[];
+  forms?: {
+    id: string;
+    sha256?: string;
+    signature_required?: boolean;
+    signing?: { channel: string; ways: string[]; id_copy: string; status: string }[];
+    fields?: Row[];
+  }[];
+  steps?: { human_only?: boolean; gate?: string; channel?: string[] }[];
   records?: { field: string }[];
   related?: string[];
   run_log?: { date: string }[];
@@ -169,10 +201,38 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
       } else if (entry.ways.includes("login") && !channels.some((c) => (c.auth ?? []).some((a) => a !== "none"))) {
         errors.push(`form "${f.id}": signing way "login" on channel ${entry.channel}, which lists no auth (spid, cie, cns) to sign in with`);
       }
+      const rule = SIGNING.channels[entry.channel];
+      if (rule && entry.status !== "disputed" && sameSet(entry.ways, rule.ways) && entry.id_copy === rule.id_copy) {
+        errors.push(`form "${f.id}": signing for channel ${entry.channel} repeats contract/signing.json: drop it`);
+      }
     }
   }
+  const procedureTypes = new Set((d.channels ?? []).filter((c) => c.purpose === "procedure").map((c) => c.type));
   (d.steps ?? []).forEach((step, i) => {
     if (step.gate && !step.human_only) errors.push(`steps/${i}: gate ${step.gate} carries a human_only step, so it needs human_only: true`);
+    for (const t of step.channel ?? []) {
+      if (!procedureTypes.has(t)) errors.push(`steps/${i}: channel ${t}, which the procedure doesn't list with purpose "procedure"`);
+    }
+  });
+  // Every route is mapped end to end: how to send or hand in the form that way.
+  for (const t of procedureTypes) {
+    if (t && ROUTES_WITH_STEPS.has(t) && !(d.steps ?? []).some((s) => s.channel?.includes(t))) {
+      errors.push(`channel ${t} has no step of its own: add one with channel: [${t}] saying how to send or hand it in that way`);
+    }
+  }
+  (d.channels ?? []).forEach((c, i) => {
+    if (c.type === "desk" && c.purpose === "procedure" && !c.address && !c.office && !c.url) {
+      errors.push(`channels/${i}: a desk needs an address, an office (residenza.municipalita) or a url that finds one`);
+    }
+    if (!c.office) return;
+    const kind = c.office.slice(c.office.lastIndexOf(".") + 1);
+    const problem = checkUse(c.office, false, ctx.registry, d.dichiarante !== undefined);
+    if (c.type !== "desk") errors.push(`channels/${i}: office is for a desk, not ${c.type}`);
+    if (c.address) errors.push(`channels/${i}: office picks the address, so give one or the other`);
+    if (problem) errors.push(`channels/${i}: office ${problem}`);
+    else if (!(ctx.offices ?? officeFields(path.join(ROOT, "offices"))).has(kind)) {
+      errors.push(`channels/${i}: office ${c.office}: no valid offices/${kind}.json`);
+    }
   });
 
   (d.deadline?.rules ?? []).forEach((rule, i) => {
@@ -319,6 +379,10 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
   }
 
   return errors;
+}
+
+function sameSet(a: string[], b: string[]): boolean {
+  return a.length === b.length && a.every((x) => b.includes(x));
 }
 
 export function procedureIdFromPath(relPath: string): string {
@@ -799,7 +863,7 @@ export function validateDir(dir: string, registry: Registry, today: string, only
   const files = listYaml(dir);
   const idOf = (file: string) => procedureIdFromPath(path.relative(dir, file));
   const knownIds = new Set(files.map(idOf));
-  const ctx: Context = { registry, knownIds, today };
+  const ctx: Context = { registry, knownIds, today, offices: officeFields(path.join(path.dirname(dir), "offices")) };
   const sameId = new Map<string, string[]>();
   for (const file of files) sameId.set(idOf(file), [...(sameId.get(idOf(file)) ?? []), path.relative(dir, file)]);
   const inScope = (file: string) => !only || file === only || file.startsWith(only + path.sep);
@@ -903,6 +967,46 @@ export function validateSituations(dir: string, knownIds: Set<string>, today: st
       if (typeof value !== "string") return;
       for (const what of new Set(findPersonalData(value))) errors.push(`${p}: looks like a ${what}; situations must not contain personal data`);
     });
+    return { rel, errors, doc };
+  });
+}
+
+// --- Offices ---
+
+const checkOfficesSchema = ajv.compile(JSON.parse(readFileSync(path.join(ROOT, "contract", "offices.schema.json"), "utf8")));
+// Every value a vault field can take, so each person has an office.
+const OFFICE_KEYS: Record<string, string[]> = {
+  municipalita: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+  distretto_asl: ["24/73", "25", "26", "27", "28", "29", "30", "31", "32", "33"],
+};
+// The fields with a valid offices file under dir: the ones a desk channel's
+// office may name.
+export function officeFields(dir: string): Set<string> {
+  return new Set(validateOffices(dir).filter((r) => !r.errors.length).map((r) => path.basename(r.rel, ".json")));
+}
+
+// Validates offices/<field>.json: the schema, an office for every value of the
+// field, and sources that exist.
+export function validateOffices(dir: string): FileResult[] {
+  if (!existsDir(dir)) return [];
+  return listFiles(dir, /\.json$/i).map((file) => {
+    const rel = path.relative(dir, file);
+    let doc: { field: string; offices: Record<string, { source: string }>; sources: { id: string }[] };
+    try {
+      doc = JSON.parse(readFileSync(file, "utf8"));
+    } catch (e) {
+      return { rel, errors: [`not valid JSON: ${(e as Error).message}`] };
+    }
+    if (!checkOfficesSchema(doc)) {
+      return { rel, errors: (checkOfficesSchema.errors ?? []).map((e) => `schema: ${e.instancePath || "/"} ${e.message}`) };
+    }
+    const errors: string[] = [];
+    if (path.basename(file, ".json") !== doc.field) errors.push(`field ${doc.field}: the file is offices/${doc.field}.json`);
+    const want = OFFICE_KEYS[doc.field] ?? [];
+    for (const k of want) if (!doc.offices[k]) errors.push(`no office for ${doc.field} ${k}`);
+    for (const k of Object.keys(doc.offices)) if (!want.includes(k)) errors.push(`${k} isn't a ${doc.field}`);
+    const ids = new Set(doc.sources.map((x) => x.id));
+    for (const [k, o] of Object.entries(doc.offices)) if (!ids.has(o.source)) errors.push(`offices/${k}: unknown source ${o.source}`);
     return { rel, errors, doc };
   });
 }

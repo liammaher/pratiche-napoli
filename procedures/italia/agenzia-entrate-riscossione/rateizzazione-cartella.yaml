@@ -8,7 +8,7 @@ aka:
   - Rateizza adesso
   - piano di rateizzazione
   - rate ADER
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Chi ha ricevuto una cartella di pagamento (o un avviso di accertamento esecutivo o un avviso di
   addebito INPS) affidato ad Agenzia delle entrate-Riscossione e non riesce a pagare tutto subito
@@ -393,17 +393,34 @@ steps:
       oltre 120.000 euro
     who: anyone
   - do: >-
-      Online: accedere con la propria identità digitale e completare "Rateizza adesso"
+      Accedere con la propria identità digitale all'area riservata o all'app Equiclick e
+      completare "Rateizza adesso"
     who: owner
     human_only: true
-  - do: In alternativa, compilare il modello RS con i dati della tabella dei campi
-    who: anyone
-  - { do: Firmare il modello RS (ed eventualmente la delega), who: owner, human_only: true }
+    channel: [portal, app]
   - do: >-
-      Inviare il modello firmato con copia del documento d'identità alla PEC rateazioni.na (cartelle
-      emesse per la provincia di Napoli), oppure consegnarlo allo sportello su appuntamento
+      Compilare il modello RS con i dati della tabella dei campi
+    who: anyone
+    channel: [pec, desk]
+  - do: >-
+      Firmare il modello RS (ed eventualmente la delega)
     who: owner
     human_only: true
+    channel: [pec, desk]
+  - do: >-
+      Inviare dalla propria PEC il modello firmato con la copia del documento d'identità alla
+      casella rateazioni della provincia che ha emesso la cartella (rateazioni.na per Napoli;
+      CAM.rateazioni per i modelli RDF e RDG)
+    who: owner
+    human_only: true
+    channel: [pec]
+  - do: >-
+      Prenotare un appuntamento con "Trova lo sportello e prenota" o al 060101 e consegnare allo
+      sportello il modello firmato con il documento d'identità; chiedere una copia con il timbro
+      di ricevuta
+    who: owner
+    human_only: true
+    channel: [desk]
   - do: >-
       Se arriva un preavviso di rigetto, rispondere entro 10 giorni sanando quanto richiesto
     who: owner

@@ -89,14 +89,16 @@ channels:
     source: mod-1
   - type: post
     purpose: procedure
+    receipt: legal
     address: Comune di Napoli, Area Entrate, Servizio IMU e TARI, Via Diocleziano 330, 80125 Napoli
     source: mod-1
     notes: Raccomandata A/R.
   - type: desk
     purpose: procedure
     name: Sportelli URP delle Municipalità
+    office: residenza.municipalita
     source: modulistica
-    notes: Per le utenze domestiche; la pagina non indica gli indirizzi.
+    notes: Per le utenze domestiche, l'URP della Municipalità in cui si trova la casa.
   - type: desk
     purpose: info
     name: Sportello TARI
@@ -162,8 +164,8 @@ forms:
         status: unverified
         source: mod-1
         notes: >-
-          Il modulo chiede la dichiarazione sottoscritta e la copia del documento d'identità
-          (AVVERTENZE, punto 2), ma non dice come si può firmare; il Comune non lo ha confermato.
+          Il modulo chiede la copia del documento d'identità in ogni caso (AVVERTENZE, punto 2),
+          anche con la firma digitale; il Comune non lo ha confermato.
       - channel: portal
         ways: [login]
         id_copy: unknown
@@ -176,15 +178,7 @@ forms:
         id_copy: required
         status: unverified
         source: mod-1
-        notes: >-
-          Come per la PEC. L'email ordinaria non identifica chi scrive, quindi qui la firma pesa di
-          più; il Comune non ha detto se la accetta.
-      - channel: post
-        ways: [handwritten]
-        id_copy: required
-        status: unverified
-        source: mod-1
-        notes: Raccomandata A/R con il modulo firmato in originale e la fotocopia del documento.
+        notes: Come per la PEC; il Comune non ha detto se accetta l'email ordinaria.
     fields:
       - label: Il/La sottoscritto/a
         map: { concat: [identity.last_name, identity.first_name] }
@@ -289,9 +283,33 @@ steps:
     who: anyone
   - { do: Compilare il Mod. 1 (dati dalla tabella dei campi), who: anyone }
   - { do: Firmare il modulo, who: owner, human_only: true, gate: sign }
-  - do: Inviare modulo firmato e copia del documento, preferibilmente via PEC
+  - do: >-
+      Inviare il modulo firmato e la copia del documento d'identità dalla propria PEC a
+      entrate.tari-tares-tarsu@pec.comune.napoli.it; conservare le ricevute di accettazione e di
+      consegna
     who: owner
     human_only: true
+    channel: [pec]
+  - do: >-
+      Inviare il modulo firmato e la copia del documento d'identità per email a
+      entrate.tari-tares-tarsu@comune.napoli.it; l'email non dà una ricevuta con valore legale,
+      quindi conservare il messaggio inviato
+    who: owner
+    human_only: true
+    channel: [email]
+  - do: >-
+      Spedire il modulo firmato e la copia del documento d'identità con raccomandata A/R a Comune
+      di Napoli, Area Entrate, Servizio IMU e TARI, Via Diocleziano 330, 80125 Napoli; conservare
+      la ricevuta di spedizione e la cartolina di ritorno
+    who: owner
+    human_only: true
+    channel: [post]
+  - do: >-
+      Consegnare il modulo firmato e la copia del documento d'identità all'URP della Municipalità
+      in cui si trova la casa e chiedere una copia con il timbro di protocollo
+    who: owner
+    human_only: true
+    channel: [desk]
   - { do: Calcolare l'F24 con il simulatore del Comune o usare l'avviso di pagamento, who: anyone }
   - { do: Pagare l'F24 alle scadenze, who: owner, human_only: true }
   - { do: Annotare il codice contribuente quando il Comune lo comunica, who: owner }

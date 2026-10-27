@@ -56,7 +56,11 @@
    stays the official name. `aka` lists the everyday names people type ("tassa sulla
    spazzatura").
 7. **Steps that only a person can do** (sign, pay, send, swear, be present) get
-   `human_only: true`.
+   `human_only: true`. **Map every route end to end**: where a step is done differently on a
+   channel (send by PEC, by raccomandata A/R, at the desk), write one step per channel with
+   `channel: [pec]` and say exactly where it goes and what to keep as proof. A desk needs an
+   address, a `url` that finds it, or `office:` when it depends on where the person lives. A form's
+   `signing` lists only what differs from `contract/signing.json`.
 8. **Say what a box needs, not only in notes.** When a box takes several fields, give the row a
    `template` (a fallback reads its place's other parts as `{.civico}`); mark fields that may be
    empty with `optional`, and with `required_if` when they are needed in some cases; make a row of

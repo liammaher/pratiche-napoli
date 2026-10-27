@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/liammaher/pratiche-napoli/contract/signing.schema.json",
+  "title": "Signing by channel",
+  "description": "How a form sent to a public office is signed on each type of channel, by law (contract/signing.json). A procedure's form lists only where it differs (forms[].signing). Portals and apps have no default: each takes what its own login and rules say",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["channels", "sources"],
+  "properties": {
+    "channels": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pec": { "$ref": "#/$defs/rule" },
+        "email": { "$ref": "#/$defs/rule" },
+        "post": { "$ref": "#/$defs/rule" },
+        "desk": { "$ref": "#/$defs/rule" }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label", "url", "retrieved"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "label": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "pattern": "^https://" },
+          "retrieved": { "type": "string", "format": "date" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ways", "id_copy", "source", "text"],
+      "properties": {
+        "ways": {
+          "description": "As forms[].signing ways: handwritten (signed on paper, or a scan of it) or digital (a firma digitale)",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["handwritten", "digital"] }
+        },
+        "id_copy": { "enum": ["required", "handwritten", "not_needed"] },
+        "source": { "description": "id of one of sources", "type": "string" },
+        "text": { "description": "What to do, in plain Italian, as the site and the pratica skill say it", "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}
