@@ -8,7 +8,7 @@ aka:
   - cancellazione ditta individuale
   - chiudere la licenza
   - comunicazione di cessazione
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Chi chiude a Napoli un esercizio di vicinato, un bar o ristorante o un salone di acconciatore
   o estetista deve comunicare la cessazione al SUAP del Comune su impresainungiorno e poi chiudere
@@ -329,81 +329,156 @@ forms:
     sha256: aef5908e61b8ad9001275c84d9dd0fe9f70b0c35ad1814396ba4f3b223440d57
     signature_required: false
     fields:
-      # 1 – Dati del dichiarante
-      - { label: "1 – Dati del dichiarante: Cognome", map: { direct: identity.last_name } }
-      - { label: Nome, map: { direct: identity.first_name } }
-      - { label: codice fiscale, map: { direct: identity.codice_fiscale } }
-      - { label: sesso, map: { direct: identity.sex } }
-      - { label: Nato/a a, map: { direct: identity.birth_comune } }
-      - { label: prov. (di nascita), map: { direct: identity.birth_province } }
-      - label: Stato (di nascita)
-        map: { direct: identity.birth_country }
-        notes: Solo se nato all'estero; se nato in Italia scrivere Italia.
-      - { label: il (data di nascita), map: { direct: identity.date_of_birth } }
-      - { label: cittadinanza, map: { direct: identity.citizenship } }
-      - label: estremi del documento di soggiorno
+      - label: "1 – Dati del dichiarante: Cognome"
+        map: { direct: identity.last_name }
+      - label: "Nome"
+        map: { direct: identity.first_name }
+      - label: "codice fiscale"
+        map: { direct: identity.codice_fiscale }
+      - label: sesso
+        map: { direct: identity.sex }
+      - label: "Nato/a a"
+        map: { direct: identity.birth_comune }
+      - label: "prov. (di nascita)"
+        map: { direct: identity.birth_province }
+      - label: "Stato (di nascita)"
+        map: { direct: identity.birth_country, template: "{identity.birth_country|or:Italia}" }
+        notes: "Solo per chi è nato all'estero; per chi è nato in Italia, Italia."
+      - label: "il (data di nascita)"
+        map: { direct: identity.date_of_birth }
+      - label: cittadinanza
+        map: { direct: identity.citizenship }
+      - label: "estremi del documento di soggiorno"
         map: { direct: permesso_soggiorno.numero }
-        notes: Solo per cittadini non UE.
-      - label: rilasciato da
+        optional: [{ field: permesso_soggiorno.numero }]
+        notes: "Solo per cittadini non UE."
+      - label: "rilasciato da"
         map: { direct: permesso_soggiorno.questura_rilascio }
-        notes: Solo per cittadini non UE.
-      - label: il (data di rilascio del documento di soggiorno)
+        optional: [{ field: permesso_soggiorno.questura_rilascio }]
+        notes: "Solo per cittadini non UE."
+      - label: "il (data di rilascio del documento di soggiorno)"
         map: { direct: permesso_soggiorno.data_rilascio }
-        notes: Solo per cittadini non UE.
-      - label: scadenza (del documento di soggiorno)
+        optional: [{ field: permesso_soggiorno.data_rilascio }]
+        notes: "Solo per cittadini non UE."
+      - label: "scadenza (del documento di soggiorno)"
         map: { direct: permesso_soggiorno.data_scadenza }
-        notes: Solo per cittadini non UE.
-      - { label: residente in, map: { direct: residenza.comune } }
-      - { label: prov. (di residenza), map: { direct: residenza.provincia } }
-      - { label: Stato (di residenza), map: { direct: residenza.stato }, notes: "Vuoto nel vault vuol dire Italia: scrivere Italia." }
-      - { label: indirizzo, map: { direct: residenza.indirizzo } }
-      - { label: n., map: { direct: residenza.civico } }
-      - { label: C.A.P., map: { direct: residenza.cap } }
-      - { label: PEC / posta elettronica, map: { fallback: [identity.pec, identity.email] } }
-      - { label: Telefono fisso / cellulare, map: { direct: identity.phone } }
-      - label: in qualità di (Titolare / Legale rappresentante / Altro)
+        optional: [{ field: permesso_soggiorno.data_scadenza }]
+        notes: "Solo per cittadini non UE."
+      - label: "residente in"
+        map: { direct: residenza.comune }
+      - label: "prov. (di residenza)"
+        map: { direct: residenza.provincia }
+      - label: "Stato (di residenza)"
+        map: { direct: residenza.stato, template: "{residenza.stato|or:Italia}" }
+      - label: indirizzo
+        map: { direct: residenza.indirizzo }
+      - label: n.
+        map: { direct: residenza.civico }
+      - label: "C.A.P."
+        map: { direct: residenza.cap }
+      - label: "PEC / posta elettronica"
+        map: { fallback: [identity.pec, identity.email] }
+      - label: "Telefono fisso / cellulare"
+        map: { direct: identity.phone }
+      - label: "in qualità di (Titolare / Legale rappresentante / Altro)"
         map: { fallback: [business.qualita_dichiarante, ruolo.tipo] }
-        notes: Per una ditta individuale, Titolare.
-      # 2 – Dati della ditta/società/impresa
-      - { label: "2 – Dati della ditta: Denominazione", map: { direct: business.denominazione } }
-      - { label: Forma giuridica, map: { direct: business.forma_giuridica } }
-      - label: codice fiscale / p. IVA
+        choices: [{ box: "Titolare", values: [titolare] }, { box: "Legale rappresentante", values: [legale_rappresentante] }]
+        notes: "Chi firma per l'impresa è il titolare o il legale rappresentante; Altro non si usa."
+      - label: "2 – Dati della ditta: Denominazione"
+        map: { direct: business.denominazione }
+      - label: "Forma giuridica"
+        map: { direct: business.forma_giuridica }
+      - label: "codice fiscale / p. IVA"
         map: { fallback: [business.codice_fiscale, business.partita_iva] }
-      - label: iscritta alla C.C.I.A.A. di ... prov.
+      - label: "iscritta alla C.C.I.A.A."
+        map: { ask: "L'impresa è iscritta al Registro Imprese della Camera di Commercio? (per chi chiude un'attività commerciale, sì)" }
+        choices: [{ box: iscritta, values: ["si", "sì"] }]
+      - label: "iscritta alla C.C.I.A.A. di"
         map: { direct: business.cciaa }
-        notes: >-
-          La sigla della provincia (per esempio NA) indica la Camera di Commercio e la provincia.
-          Se manca, è la sigla davanti al numero REA (business.rea, per esempio NA-123456): solo la
-          sigla, mai il numero.
-      - { label: n. REA, map: { direct: business.rea } }
-      - label: non ancora iscritta / non necessita di iscrizione al R.I.
+        when: { field: "iscritta alla C.C.I.A.A.", ticks: [iscritta] }
+        notes: "La sigla della provincia della Camera di Commercio (NA)."
+      - label: "prov. (C.C.I.A.A.)"
+        map: { direct: business.cciaa }
+        when: { field: "iscritta alla C.C.I.A.A.", ticks: [iscritta] }
+      - label: "n. REA"
+        map: { direct: business.rea, template: "{business.rea|digits}" }
+        when: { field: "iscritta alla C.C.I.A.A.", ticks: [iscritta] }
+        notes: "Solo il numero, senza la sigla della provincia."
+      - label: "non ancora iscritta / non necessita di iscrizione al R.I."
         map: { blank_with_reason: "Non si barra: chi chiude un'attività commerciale è iscritto al Registro Imprese." }
-      - { label: "con sede legale in: Comune", map: { direct: business.sede_legale_comune } }
-      - { label: prov. (sede legale), map: { direct: business.sede_legale_provincia } }
-      - { label: Stato (sede legale), map: { direct: business.sede_legale_stato }, notes: "Vuoto nel vault vuol dire Italia: scrivere Italia." }
-      - { label: indirizzo (sede legale), map: { direct: business.sede_legale_indirizzo } }
-      - { label: n. (sede legale), map: { direct: business.sede_legale_civico } }
-      - { label: C.A.P. (sede legale), map: { direct: business.sede_legale_cap } }
-      - { label: Telefono fisso / cell. (impresa), map: { direct: business.telefono } }
-      - { label: fax, map: { blank_with_reason: Facoltativo; il registro non ha un campo fax. } }
-      - { label: PEC (impresa), map: { direct: business.pec } }
-      - label: Altro domicilio elettronico per invio delle comunicazioni inerenti la pratica
+      - label: "con sede legale in: Comune"
+        map: { direct: business.sede_legale_comune }
+      - label: "prov. (sede legale)"
+        map: { direct: business.sede_legale_provincia }
+      - label: "Stato (sede legale)"
+        map: { direct: business.sede_legale_stato, template: "{business.sede_legale_stato|or:Italia}" }
+      - label: "indirizzo (sede legale)"
+        map: { direct: business.sede_legale_indirizzo }
+      - label: "n. (sede legale)"
+        map: { direct: business.sede_legale_civico }
+      - label: "C.A.P. (sede legale)"
+        map: { direct: business.sede_legale_cap }
+      - label: "Telefono fisso / cell. (impresa)"
+        map: { direct: business.telefono }
+      - label: fax
+        map: { blank_with_reason: "Facoltativo; il registro non ha un campo fax." }
+      - label: "PEC (impresa)"
+        map: { direct: business.pec }
+      - label: "Altro domicilio elettronico per invio delle comunicazioni inerenti la pratica"
         map: { ask: "Altro indirizzo elettronico per le comunicazioni sulla pratica, se diverso dalla PEC" }
-      # 3 – Dati del procuratore/delegato
-      - label: "3 – Dati del procuratore/delegato: Cognome e Nome"
-        map: { party: { ruolo: procuratore }, concat: [identity.last_name, identity.first_name] }
-        notes: Compilare solo in caso di procura.
-      - { label: codice fiscale (procuratore), map: { party: { ruolo: procuratore }, direct: identity.codice_fiscale } }
-      - { label: "Nato/a a, prov., Stato, il (procuratore)", map: { party: { ruolo: procuratore }, concat: [identity.birth_comune, identity.birth_province, identity.birth_country, identity.date_of_birth] } }
-      - label: "residente in, prov., Stato, indirizzo, n., C.A.P. (procuratore)"
-        map: { party: { ruolo: procuratore }, concat: [residenza.comune, residenza.provincia, residenza.indirizzo, residenza.civico, residenza.cap] }
-        notes: Per chi risiede in Italia lo Stato è Italia; non è nel registro.
-      - { label: PEC / posta elettronica (procuratore), map: { party: { ruolo: procuratore }, fallback: [identity.pec, identity.email] } }
-      - { label: Telefono fisso / cellulare (procuratore), map: { party: { ruolo: procuratore }, direct: identity.phone } }
-      - label: "in qualità di: Procuratore/delegato / Agenzia per le imprese – Denominazione"
-        map: { ask: "Il procuratore agisce come persona delegata o come Agenzia per le imprese (con denominazione)?" }
-      # 4 – Dati dell'attività/intervento
-      - label: 4 – Dati dell'attività/intervento
+      - label: "3 – Procura conferita (dati del procuratore/delegato)?"
+        map: { ask: "La pratica è presentata da un procuratore o delegato (con procura)? Se sì, chi è nel vault (--party procuratore=<slug>)" }
+        choices: [{ box: "si", values: ["si", "sì"] }]
+      - label: "Cognome (procuratore)"
+        map: { party: { ruolo: procuratore }, direct: identity.last_name }
+        when: { field: "3 – Procura conferita (dati del procuratore/delegato)?", ticks: ["si"] }
+      - label: "Nome (procuratore)"
+        map: { party: { ruolo: procuratore }, direct: identity.first_name }
+        when: { field: "3 – Procura conferita (dati del procuratore/delegato)?", ticks: ["si"] }
+      - label: "codice fiscale (procuratore)"
+        map: { party: { ruolo: procuratore }, direct: identity.codice_fiscale }
+        when: { field: "3 – Procura conferita (dati del procuratore/delegato)?", ticks: ["si"] }
+      - label: "Nato/a a (procuratore)"
+        map: { party: { ruolo: procuratore }, direct: identity.birth_comune }
+        when: { field: "3 – Procura conferita (dati del procuratore/delegato)?", ticks: ["si"] }
+      - label: "prov. di nascita (procuratore)"
+        map: { party: { ruolo: procuratore }, direct: identity.birth_province }
+        when: { field: "3 – Procura conferita (dati del procuratore/delegato)?", ticks: ["si"] }
+      - label: "Stato di nascita (procuratore)"
+        map: { party: { ruolo: procuratore }, direct: identity.birth_country, template: "{identity.birth_country|or:Italia}" }
+        when: { field: "3 – Procura conferita (dati del procuratore/delegato)?", ticks: ["si"] }
+      - label: "il (data di nascita del procuratore)"
+        map: { party: { ruolo: procuratore }, direct: identity.date_of_birth }
+        when: { field: "3 – Procura conferita (dati del procuratore/delegato)?", ticks: ["si"] }
+      - label: "residente in (procuratore)"
+        map: { party: { ruolo: procuratore }, direct: residenza.comune }
+        when: { field: "3 – Procura conferita (dati del procuratore/delegato)?", ticks: ["si"] }
+      - label: "prov. di residenza (procuratore)"
+        map: { party: { ruolo: procuratore }, direct: residenza.provincia }
+        when: { field: "3 – Procura conferita (dati del procuratore/delegato)?", ticks: ["si"] }
+      - label: "Stato di residenza (procuratore)"
+        map: { party: { ruolo: procuratore }, direct: residenza.stato, template: "{residenza.stato|or:Italia}" }
+        when: { field: "3 – Procura conferita (dati del procuratore/delegato)?", ticks: ["si"] }
+      - label: "indirizzo (procuratore)"
+        map: { party: { ruolo: procuratore }, direct: residenza.indirizzo }
+        when: { field: "3 – Procura conferita (dati del procuratore/delegato)?", ticks: ["si"] }
+      - label: "n. (procuratore)"
+        map: { party: { ruolo: procuratore }, direct: residenza.civico }
+        when: { field: "3 – Procura conferita (dati del procuratore/delegato)?", ticks: ["si"] }
+      - label: "C.A.P. (procuratore)"
+        map: { party: { ruolo: procuratore }, direct: residenza.cap }
+        when: { field: "3 – Procura conferita (dati del procuratore/delegato)?", ticks: ["si"] }
+      - label: "PEC / posta elettronica (procuratore)"
+        map: { party: { ruolo: procuratore }, fallback: [identity.pec, identity.email] }
+        when: { field: "3 – Procura conferita (dati del procuratore/delegato)?", ticks: ["si"] }
+      - label: "Telefono fisso / cellulare (procuratore)"
+        map: { party: { ruolo: procuratore }, direct: identity.phone }
+        when: { field: "3 – Procura conferita (dati del procuratore/delegato)?", ticks: ["si"] }
+      - label: "in qualità di: Procuratore/delegato / Agenzia per le imprese"
+        map: { ask: "Il procuratore agisce come procuratore/delegato o come Agenzia per le imprese?" }
+        choices: [{ box: "Procuratore/delegato", values: [procuratore, delegato, "procuratore/delegato"] }, { box: "Agenzia per le imprese", values: [agenzia, "agenzia per le imprese"] }]
+        when: { field: "3 – Procura conferita (dati del procuratore/delegato)?", ticks: ["si"] }
+      - label: "4 – Dati dell'attività/intervento"
         map: { blank_with_reason: "Differenziato per procedimento: per la cessazione sono i quadri del modulo di cessazione." }
   - id: comunicazione-cessazione
     name: Comunicazione di cessazione o sospensione temporanea di attività – modulistica unificata Regione Campania (DD 119/2021)

@@ -369,6 +369,13 @@ export function parseTemplate(template: string): TemplateNode[] {
   return stack[0];
 }
 
+// |date writes DD/MM/YYYY; |or:TEXT is what an empty field means (Italia
+// for an empty stato), so the field may be empty.
+function filterProblem(filter: string): string | null {
+  if (!filter || filter === "date" || filter === "digits" || /^or:\S.*$/.test(filter)) return null;
+  return `unknown filter |${filter} (only |date, |digits and |or:TEXT)`;
+}
+
 // Every {name} in a template, and whether it is inside a [...] part.
 function templateNames(nodes: TemplateNode[], inGroup = false): { name: string; filter: string; inGroup: boolean }[] {
   return nodes.flatMap((n) =>
@@ -425,7 +432,7 @@ function checkRowExtras(row: Row, registry: Registry, dichiarante: boolean): str
       out.push(`template: ${(e as Error).message}`);
     }
     for (const { name, filter } of names) {
-      if (filter && filter !== "date") out.push(`template: unknown filter |${filter} (only |date)`);
+      if (filterProblem(filter)) out.push(`template: ${filterProblem(filter)}`);
       if (name === "relazione") {
         out.push("template: {relazione} is a family member's, for a repeat: famiglia's columns");
       } else if (name.startsWith(".")) {
@@ -475,7 +482,7 @@ function checkRowExtras(row: Row, registry: Registry, dichiarante: boolean): str
         out.push(`column "${col.label}": ${(e as Error).message}`);
       }
       for (const { name, filter } of names) {
-        if (filter && filter !== "date") out.push(`column "${col.label}": unknown filter |${filter} (only |date)`);
+        if (filterProblem(filter)) out.push(`column "${col.label}": ${filterProblem(filter)}`);
         if (name === "relazione") {
           if (m.repeat !== "famiglia") out.push(`column "${col.label}": {relazione} is a family member's; people picked by ruolo have none`);
         } else if (!fields.has(name)) {
@@ -511,8 +518,10 @@ function checkRowExtras(row: Row, registry: Registry, dichiarante: boolean): str
   }
 
   if (row.choices) {
-    const one = (m.direct !== undefined && m.template === undefined && !party) || m.ask !== undefined;
-    if (!one) out.push("choices: only a row of one field (direct, without a template) or an ask is boxes to tick");
+    // A fallback's value is its first field with one: the signer's role,
+    // business.qualita_dichiarante or ruolo.tipo.
+    const one = ((m.direct !== undefined || m.fallback !== undefined) && m.template === undefined && !party) || m.ask !== undefined;
+    if (!one) out.push("choices: only a row of one field (direct or fallback, without a template) or an ask is boxes to tick");
     const boxes = new Set<string>();
     const values = new Map<string, string>();
     for (const c of row.choices) {
@@ -915,6 +924,7 @@ interface LayoutBox {
   choices?: Record<string, Rect>;
   choice_widgets?: Record<string, string>;
   write?: Record<string, Rect | string>;
+  partial?: boolean;
   table?: { rows: number[][]; columns: Record<string, number[]> };
   into_table?: string;
   skip?: string;
@@ -980,7 +990,7 @@ export function validateLayouts(dir: string, procedures: FileResult[]): FileResu
       }
       if (placed.has(box.label)) errors.push(`"${box.label}" is placed twice`);
       placed.add(box.label);
-      errors.push(...boxProblems(box, row, l.boxes).map((p) => `"${box.label}": ${p}`));
+      errors.push(...boxProblems(box, row, l.boxes, form.fields ?? []).map((p) => `"${box.label}": ${p}`));
     }
     for (const label of rows.keys()) if (!placed.has(label)) errors.push(`field "${label}" has no box`);
     for (const u of l.unmapped ?? []) {
@@ -993,7 +1003,7 @@ export function validateLayouts(dir: string, procedures: FileResult[]): FileResu
   });
 }
 
-function boxProblems(box: LayoutBox, row: Row, boxes: LayoutBox[]): string[] {
+function boxProblems(box: LayoutBox, row: Row, boxes: LayoutBox[], rows: Row[]): string[] {
   const out: string[] = [];
   const kinds = BOX_KINDS.filter((k) => box[k] !== undefined);
   if (kinds.length !== 1) return [`give exactly one of ${BOX_KINDS.join(", ")}`];
@@ -1008,7 +1018,9 @@ function boxProblems(box: LayoutBox, row: Row, boxes: LayoutBox[]): string[] {
   for (const [b, place] of Object.entries(box.write ?? {})) {
     if (named !== (typeof place === "string")) out.push(`write "${b}": ${named ? "name the form's text field" : "give a rect"}, as the boxes are`);
   }
-  if (row.choices) {
+  // An ask other rows' when depends on may have no box: a question only.
+  const gate = m.ask !== undefined && rows.some((r) => r.when?.field === box.label);
+  if (row.choices && !(kind === "skip" && gate)) {
     if (kind !== "choices" && kind !== "choice_widgets") return [...out, "the field is boxes to tick: place each under choices or choice_widgets"];
     const want = row.choices.map((c) => c.box).sort();
     const got = Object.keys(box[kind]!).sort();
@@ -1018,7 +1030,10 @@ function boxProblems(box: LayoutBox, row: Row, boxes: LayoutBox[]): string[] {
   } else if (kind === "choices" || kind === "choice_widgets") {
     out.push("the field has no choices");
   }
-  if (m.repeat !== undefined) {
+  // A repeat by ruolo without columns is one allegato per person: its box is
+  // placed once, and a consumer fills a copy of its pages for each person.
+  const allegato = typeof m.repeat === "object" && m.repeat !== null && !Array.isArray(m.columns);
+  if (m.repeat !== undefined && !allegato) {
     if (kind !== "table") return [...out, "a repeat field is a table"];
     const columns = Array.isArray(m.columns) ? (m.columns as { label: string }[]).map((c) => c.label).sort() : [];
     if (!columns.length) out.push("the field gives no columns to place");
@@ -1030,6 +1045,9 @@ function boxProblems(box: LayoutBox, row: Row, boxes: LayoutBox[]): string[] {
     if (m.ask === undefined) out.push("only an ask's answers go into another field's table");
     if (!boxes.find((b) => b.label === box.into_table)?.table) out.push(`"${box.into_table}" is no table on this form`);
   }
-  if (kind === "skip" && m.blank_with_reason === undefined) out.push("only a blank_with_reason field is skipped");
+  if (kind === "skip" && m.blank_with_reason === undefined && !gate) {
+    out.push("only a blank_with_reason field, or an ask a when depends on, is skipped");
+  }
+  if (box.partial && kind !== "cells") out.push("partial is for cells");
   return out;
 }

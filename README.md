@@ -119,7 +119,8 @@ reading the notes (a person reading the notes is still fine):
 - `map.template` writes a row's fields as the box wants them: `{identity.birth_comune}[
   ({identity.birth_country})]`. `[...]` is left out when a field in it is empty, and in a
   `fallback` `{.civico}` is the civico of the place it picked. A date is written DD/MM/YYYY,
-  as forms want it (`{...|date}` says so explicitly).
+  as forms want it (`{...|date}` says so explicitly), `{residenza.stato|or:Italia}` writes Italia
+  when the field is empty, and `{business.rea|digits}` keeps only the digits.
   A `repeat` row's `columns` are templates too, over `*:` fields and `{relazione}`.
 - `optional` lists the fields a row may leave empty; `required_if` says when one is needed after
   all (the stato estero of someone born abroad). Every other field must have a value, or the person
@@ -134,7 +135,11 @@ reading the notes (a person reading the notes is still fine):
 `layouts/<procedure id>/<form id>.json` ([schema](contract/layout.schema.json)) says where each
 field goes on the PDF, for the form's exact `sha256`: a box on any page (`page`, and continuation
 lines that run onto the next), or, on a form with fillable fields, the field's name (`widget`,
-`choice_widgets`). When the form changes, its layout no longer validates until it is measured again.
+`choice_widgets`). Cells typed as `|__|__|` take one character each (a date its eight digits; `partial`
+cells a shorter value). A repeat by ruolo without columns is an allegato: its boxes are placed once,
+and a filler copies those pages for each person. An ask that only gates other rows (`when`) may be
+`skip`ped, having no box of its own. When the form changes, its layout no longer validates until it is
+measured again.
 `npm run validate` checks that every field of the form has one box of the right kind.
 A layout's optional `signatures` (rect, `date_rect`, `page`, `for`) place the signature line, for
 a form with `signature_required`. A form's `signing` says, per channel, which ways the channel
