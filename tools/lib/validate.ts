@@ -50,6 +50,14 @@ export interface Context {
 }
 
 // Procedure documents are plain YAML data; this is the subset the checks read.
+type Condition = { field: string; equals?: string; matches?: string };
+export interface Row {
+  label: string;
+  map: Record<string, unknown>;
+  notes?: string;
+  optional?: { field: string; required_if?: Condition[] }[];
+  choices?: { box: string; values: string[]; write_value?: boolean }[];
+}
 interface Source {
   id: string;
   url?: string;
@@ -61,7 +69,7 @@ interface Doc {
   id?: string;
   updated?: string;
   channels?: { purpose?: string; preferred?: boolean }[];
-  deadline?: { summary?: unknown; rules?: unknown[] };
+  deadline?: { summary?: unknown; rules?: { compute?: { from: string; days: number } }[] };
   documents?: { name: string }[];
   reported?: {
     generated: string;
@@ -79,7 +87,7 @@ interface Doc {
   sources?: Source[];
   applies_to?: { audience?: string[] };
   dichiarante?: unknown;
-  forms?: { id: string; fields?: { label: string; map: Record<string, unknown>; notes?: string }[] }[];
+  forms?: { id: string; sha256?: string; fields?: Row[] }[];
   records?: { field: string }[];
   related?: string[];
   run_log?: { date: string }[];
@@ -130,12 +138,24 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
   for (const f of d.forms ?? []) {
     if (formIds.has(f.id)) errors.push(`duplicate form id "${f.id}"`);
     formIds.add(f.id);
+    const labels = new Set<string>();
     for (const field of f.fields ?? []) {
-      for (const problem of checkMapping(field.map, ctx.registry, d.dichiarante !== undefined, field.notes)) {
-        errors.push(`form "${f.id}", field "${field.label}": ${problem}`);
-      }
+      if (labels.has(field.label)) errors.push(`form "${f.id}": two fields are labelled "${field.label}"`);
+      labels.add(field.label);
+      const problems = [
+        ...checkMapping(field.map, ctx.registry, d.dichiarante !== undefined, field.notes),
+        ...checkRowExtras(field, ctx.registry, d.dichiarante !== undefined),
+      ];
+      for (const problem of problems) errors.push(`form "${f.id}", field "${field.label}": ${problem}`);
     }
   }
+
+  (d.deadline?.rules ?? []).forEach((rule, i) => {
+    if (!rule.compute) return;
+    const from = rule.compute.from;
+    const problem = from.endsWith(".*") ? `${from}: name one date field` : checkUse(from, false, ctx.registry, d.dichiarante !== undefined);
+    if (problem) errors.push(`deadline/rules/${i}/compute: ${problem}`);
+  });
 
   const recorded = new Set<string>();
   for (const r of d.records ?? []) {
@@ -155,7 +175,7 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
   // whose that person's is: in a business vault there's no one else it could be.
   if (d.dichiarante === undefined) {
     const refs = [
-      ...(d.forms ?? []).flatMap((f) => (f.fields ?? []).flatMap((x) => (x.map.party ? [] : directRefs(x.map)))),
+      ...(d.forms ?? []).flatMap((f) => (f.fields ?? []).flatMap((x) => (x.map.party ? [] : [...directRefs(x.map), ...templateFieldRefs(x.map)]))),
       ...(d.records ?? []).map((r) => r.field),
     ].filter((ref) => !splitMember(ref).member);
     const isBusiness = (ref: string) => ["business", "locale"].includes(categoryOf(ref));
@@ -288,6 +308,201 @@ function directRefs(map: Record<string, unknown>): string[] {
   ];
 }
 
+// --- Templates, optional fields and boxes to tick ---
+
+export type TemplateNode = { text: string } | { name: string; filter: string } | { group: TemplateNode[] };
+
+// The template language ($defs/template), as consumers read it: {name} or
+// {name|filter}, [a part left out when a field in it is empty], \x for x.
+export function parseTemplate(template: string): TemplateNode[] {
+  const stack: TemplateNode[][] = [[]];
+  const where = JSON.stringify(template);
+  for (let i = 0; i < template.length; i++) {
+    const c = template[i];
+    const top = stack[stack.length - 1];
+    if (c === "\\" && i + 1 < template.length) {
+      top.push({ text: template[++i] });
+    } else if (c === "{") {
+      const end = template.indexOf("}", i);
+      if (end < 0) throw new Error(`unclosed { in ${where}`);
+      const [name, ...filters] = template.slice(i + 1, end).split("|");
+      top.push({ name, filter: filters.join("|") });
+      i = end;
+    } else if (c === "}") {
+      throw new Error(`unmatched } in ${where}`);
+    } else if (c === "[") {
+      stack.push([]);
+    } else if (c === "]") {
+      if (stack.length === 1) throw new Error(`unmatched ] in ${where}`);
+      const group = stack.pop()!;
+      stack[stack.length - 1].push({ group });
+    } else {
+      top.push({ text: c });
+    }
+  }
+  if (stack.length !== 1) throw new Error(`unclosed [ in ${where}`);
+  return stack[0];
+}
+
+// Every {name} in a template, and whether it is inside a [...] part.
+function templateNames(nodes: TemplateNode[], inGroup = false): { name: string; filter: string; inGroup: boolean }[] {
+  return nodes.flatMap((n) =>
+    "group" in n ? templateNames(n.group, true) : "name" in n ? [{ name: n.name, filter: n.filter, inGroup }] : [],
+  );
+}
+
+// The fields a row's template names outright (not {.field} or {relazione}).
+function templateFieldRefs(map: Record<string, unknown>): string[] {
+  if (typeof map.template !== "string") return [];
+  try {
+    return templateNames(parseTemplate(map.template)).map((n) => n.name).filter((n) => n.includes(".") && !n.startsWith("."));
+  } catch {
+    return []; // reported by checkRowExtras
+  }
+}
+
+// Conditions are read by JavaScript and Python consumers alike.
+function regexProblem(source: string): string | null {
+  try {
+    new RegExp(source);
+  } catch {
+    return `${JSON.stringify(source)} isn't a regular expression`;
+  }
+  if (/\(\?<[=!]/.test(source)) return `${JSON.stringify(source)} looks behind, which not every consumer reads`;
+  if (/\(\?P?<[A-Za-z]/.test(source)) return `${JSON.stringify(source)} names a group, which not every consumer reads alike`;
+  return null;
+}
+
+// "domicilio.indirizzo" and "civico" give "domicilio.civico", keeping any person prefix.
+function siblingOf(ref: string, field: string): string {
+  const { member, local } = splitMember(ref);
+  return `${member ? `${member}:` : ""}${local.split(".")[0]}.${field}`;
+}
+
+// What a row adds to its map: a template, columns for a repeat, the fields
+// that may be empty (and when they may not), and boxes to tick.
+function checkRowExtras(row: Row, registry: Registry, dichiarante: boolean): string[] {
+  const out: string[] = [];
+  const m = row.map;
+  const fallback = Array.isArray(m.fallback) ? (m.fallback as string[]) : undefined;
+  const isRepeat = m.repeat !== undefined;
+  const party = m.party as { ruolo?: unknown } | undefined;
+  const useRef = (ref: string) =>
+    party ? checkPartyRef(ref, registry) ?? procuraProblem(ref, party.ruolo) : checkUse(ref, false, registry, dichiarante);
+  // What the row reads, which is what optional may name.
+  const reads = new Set<string>([...directRefs(m), ...(isRepeat && Array.isArray(m.fields) ? (m.fields as string[]) : [])]);
+
+  if (typeof m.template === "string") {
+    let names: ReturnType<typeof templateNames> = [];
+    try {
+      names = templateNames(parseTemplate(m.template));
+    } catch (e) {
+      out.push(`template: ${(e as Error).message}`);
+    }
+    for (const { name, filter } of names) {
+      if (filter && filter !== "date") out.push(`template: unknown filter |${filter} (only |date)`);
+      if (name === "relazione") {
+        out.push("template: {relazione} is a family member's, for a repeat: famiglia's columns");
+      } else if (name.startsWith(".")) {
+        if (!fallback) {
+          out.push(`template: {${name}} is a field of the place a fallback picked, and this row has no fallback`);
+          continue;
+        }
+        for (const f of fallback) {
+          const problem = useRef(siblingOf(f, name.slice(1)));
+          if (problem) out.push(`template: {${name}} for ${f}: ${problem}`);
+        }
+        reads.add(name);
+      } else if (name.endsWith(".*")) {
+        out.push(`template: {${name}} must name one field`);
+      } else {
+        const problem = useRef(name);
+        if (problem) out.push(`template: ${problem}`);
+        reads.add(name);
+      }
+    }
+    const used = new Set(names.map((n) => n.name));
+    const named = names.map((n) => n.name).filter((n) => n.includes(".") && !n.startsWith("."));
+    if (fallback) {
+      // The template follows whichever place the fallback picks.
+      const own = new Set(fallback.map((f) => f.split(".").pop()));
+      if (own.size !== 1) out.push("template: a fallback's sources must be the same field of each place, which {.field} names");
+      else if (!used.has(`.${[...own][0]}`)) out.push(`template: write the fallback's own field as {.${[...own][0]}}`);
+      const places = named.filter((n) => placeOf(n));
+      if (places.length) out.push(`template: ${places.join(", ")} would mix another place into the one the fallback picks`);
+    } else {
+      for (const r of directRefs(m)) if (!used.has(r)) out.push(`template: doesn't use ${r}`);
+      const places = [...new Set([...directRefs(m), ...named].flatMap((r) => placeOf(r) ?? []))];
+      if (places.length > 1) out.push(`template joins ${places.join(" and ")}: an address's parts come from one place`);
+    }
+  }
+
+  if (Array.isArray(m.columns)) {
+    const fields = new Set(Array.isArray(m.fields) ? (m.fields as string[]) : []);
+    const labels = new Set<string>();
+    for (const col of m.columns as { label: string; template: string }[]) {
+      if (labels.has(col.label)) out.push(`two columns are labelled "${col.label}"`);
+      labels.add(col.label);
+      let names: ReturnType<typeof templateNames> = [];
+      try {
+        names = templateNames(parseTemplate(col.template));
+      } catch (e) {
+        out.push(`column "${col.label}": ${(e as Error).message}`);
+      }
+      for (const { name, filter } of names) {
+        if (filter && filter !== "date") out.push(`column "${col.label}": unknown filter |${filter} (only |date)`);
+        if (name === "relazione") {
+          if (m.repeat !== "famiglia") out.push(`column "${col.label}": {relazione} is a family member's; people picked by ruolo have none`);
+        } else if (!fields.has(name)) {
+          out.push(`column "${col.label}": {${name}} isn't one of the row's fields`);
+        }
+      }
+    }
+  }
+
+  if (row.optional) {
+    if (m.ask !== undefined || m.blank_with_reason !== undefined) out.push("optional: an ask or a blank row reads no fields");
+    const seen = new Set<string>();
+    for (const o of row.optional) {
+      if (seen.has(o.field)) out.push(`optional: ${o.field} is listed twice`);
+      seen.add(o.field);
+      if (!reads.has(o.field)) out.push(`optional: ${o.field} isn't a field this row reads`);
+      for (const c of o.required_if ?? []) {
+        const each = splitMember(c.field).member === "*";
+        const problem = c.field.endsWith(".*")
+          ? `${c.field}: name one field`
+          : isRepeat
+            ? each
+              ? checkUse(c.field, true, registry, false)
+              : `${c.field}: in a repeat, a condition is on each person's fields, written *:category.field`
+            : splitMember(c.field).member
+              ? `${c.field}: write the field as the row does, without a prefix`
+              : useRef(c.field);
+        if (problem) out.push(`optional ${o.field}, required_if: ${problem}`);
+        const bad = c.matches === undefined ? null : regexProblem(c.matches);
+        if (bad) out.push(`optional ${o.field}, required_if: ${bad}`);
+      }
+    }
+  }
+
+  if (row.choices) {
+    const one = (m.direct !== undefined && m.template === undefined && !party) || m.ask !== undefined;
+    if (!one) out.push("choices: only a row of one field (direct, without a template) or an ask is boxes to tick");
+    const boxes = new Set<string>();
+    const values = new Map<string, string>();
+    for (const c of row.choices) {
+      if (boxes.has(c.box)) out.push(`choices: two boxes are "${c.box}"`);
+      boxes.add(c.box);
+      for (const v of c.values) {
+        if (values.has(v)) out.push(`choices: "${v}" ticks both "${values.get(v)}" and "${c.box}"`);
+        values.set(v, c.box);
+      }
+    }
+    if (row.choices.filter((c) => c.write_value).length > 1) out.push("choices: only one box can have the value written next to it");
+  }
+  return out;
+}
+
 // The places an address can come from: a person's residenza or domicilio,
 // the business's premises (locale) or its registered office. An address is
 // taken whole from one of them (see addressProblem).
@@ -341,8 +556,10 @@ function checkMapping(map: Record<string, unknown>, registry: Registry, dichiara
 // A concat joins one address's parts, so from one place only. A fallback may
 // go from a person's domicilio to their residenza, if its notes say the whole
 // address comes from the same one (each row falls back on its own, so a
-// domicilio without an interno would get the residenza's); never between a
-// person's home and the business's premises or registered office.
+// domicilio without an interno would get the residenza's), or its template
+// reads the parts as {.field}, from the place it picked (checkRowExtras
+// refuses any other place in it); never between a person's home and the
+// business's premises or registered office.
 function addressProblem(map: Record<string, unknown>, notes?: string): string | null {
   const places = (refs: unknown) => [...new Set((Array.isArray(refs) ? refs : []).flatMap((ref) => placeOf(String(ref)) ?? []))];
   const joined = places(map.concat);
@@ -350,7 +567,8 @@ function addressProblem(map: Record<string, unknown>, notes?: string): string | 
   const fallen = places(map.fallback);
   if (fallen.length < 2) return null;
   if (!fallen.every((p) => HOMES.has(splitCopy(p).base))) return `fallback mixes ${fallen.join(" and ")}: an address is a person's home or the business's, never a field from each`;
-  return notes?.trim() ? null : `fallback from ${fallen.join(" to ")} needs notes saying the whole address comes from the same one`;
+  if (notes?.trim() || typeof map.template === "string") return null;
+  return `fallback from ${fallen.join(" to ")} needs notes saying the whole address comes from the same one`;
 }
 
 // Where a ref may appear: *: (each person) only in a repeat row, where every
@@ -580,7 +798,11 @@ function existsDir(dir: string): boolean {
 
 // Follows symlinked directories (once each); a broken symlink named *.yaml is
 // listed so the read error is reported for it.
-function listYaml(dir: string, seen = new Set<string>()): string[] {
+function listYaml(dir: string): string[] {
+  return listFiles(dir, /\.ya?ml$/i);
+}
+
+function listFiles(dir: string, name: RegExp, seen = new Set<string>()): string[] {
   const real = realpathSync(dir);
   if (seen.has(real)) return [];
   seen.add(real);
@@ -595,8 +817,8 @@ function listYaml(dir: string, seen = new Set<string>()): string[] {
         isDir = false; // broken link
       }
     }
-    if (isDir) out.push(...listYaml(full, seen));
-    else if (/\.ya?ml$/i.test(entry.name)) out.push(full);
+    if (isDir) out.push(...listFiles(full, name, seen));
+    else if (name.test(entry.name)) out.push(full);
   }
   return out.sort();
 }
@@ -638,4 +860,119 @@ export function validateSituations(dir: string, knownIds: Set<string>, today: st
     });
     return { rel, errors, doc };
   });
+}
+
+// --- Layouts ---
+
+const checkLayoutSchema = ajv.compile(JSON.parse(readFileSync(path.join(ROOT, "contract", "layout.schema.json"), "utf8")));
+
+type Rect = number[];
+interface LayoutBox {
+  label: string;
+  rect?: Rect;
+  continuation?: Rect[];
+  cells?: number[][];
+  baseline?: number;
+  parts?: Rect[];
+  choices?: Record<string, Rect>;
+  write?: Record<string, Rect>;
+  table?: { rows: number[][]; columns: Record<string, number[]> };
+  into_table?: string;
+  skip?: string;
+}
+interface Layout {
+  procedure: string;
+  form: string;
+  sha256: string;
+  boxes: LayoutBox[];
+  unmapped?: { box: string; needed_when?: { field: string; box: string } }[];
+}
+
+const BOX_KINDS = ["rect", "cells", "parts", "choices", "table", "into_table", "skip"] as const;
+
+// Validates every layout under dir (layouts/<procedure id>/<form id>.json)
+// against the procedures it places: the form exists at that sha256, and
+// every field of it has exactly one box of the right kind.
+export function validateLayouts(dir: string, procedures: FileResult[]): FileResult[] {
+  if (!existsDir(dir)) return [];
+  const byId = new Map(procedures.filter((r) => r.doc).map((r) => [procedureIdFromPath(r.rel), r.doc as Doc]));
+  return listFiles(dir, /\.json$/i).map((file) => {
+    const rel = path.relative(dir, file);
+    let doc: unknown;
+    try {
+      doc = JSON.parse(readFileSync(file, "utf8"));
+    } catch (e) {
+      return { rel, errors: [`not valid JSON: ${(e as Error).message}`] };
+    }
+    if (!checkLayoutSchema(doc)) {
+      return { rel, errors: (checkLayoutSchema.errors ?? []).map((e) => `schema: ${e.instancePath || "/"} ${e.message}`) };
+    }
+    const l = doc as Layout;
+    const errors: string[] = [];
+    const expected = rel.replace(/\\/g, "/").replace(/\.json$/i, "");
+    if (`${l.procedure}/${l.form}` !== expected) errors.push(`procedure and form "${l.procedure}/${l.form}" must match its path "${expected}"`);
+    const form = byId.get(l.procedure)?.forms?.find((f) => f.id === l.form);
+    if (!byId.has(l.procedure)) errors.push(`no procedure ${l.procedure}`);
+    else if (!form) errors.push(`${l.procedure} has no form ${l.form}`);
+    if (!form) return { rel, errors, doc };
+    if (!form.sha256) errors.push(`form ${l.form} has no sha256, so a layout can't be tied to a version of it`);
+    else if (form.sha256 !== l.sha256) errors.push(`sha256 isn't the form's (${form.sha256.slice(0, 12)}...): the form changed, so measure it again`);
+
+    const rows = new Map((form.fields ?? []).map((r) => [r.label, r]));
+    const placed = new Set<string>();
+    for (const box of l.boxes) {
+      const row = rows.get(box.label);
+      if (!row) {
+        errors.push(`box "${box.label}" is no field of the form`);
+        continue;
+      }
+      if (placed.has(box.label)) errors.push(`"${box.label}" is placed twice`);
+      placed.add(box.label);
+      errors.push(...boxProblems(box, row, l.boxes).map((p) => `"${box.label}": ${p}`));
+    }
+    for (const label of rows.keys()) if (!placed.has(label)) errors.push(`field "${label}" has no box`);
+    for (const u of l.unmapped ?? []) {
+      const w = u.needed_when;
+      if (w && !rows.get(w.field)?.choices?.some((c) => c.box === w.box)) {
+        errors.push(`unmapped "${u.box}": needed_when names no box "${w.box}" of field "${w.field}"`);
+      }
+    }
+    return { rel, errors, doc };
+  });
+}
+
+function boxProblems(box: LayoutBox, row: Row, boxes: LayoutBox[]): string[] {
+  const out: string[] = [];
+  const kinds = BOX_KINDS.filter((k) => box[k] !== undefined);
+  if (kinds.length !== 1) return [`give exactly one of ${BOX_KINDS.join(", ")}`];
+  const kind = kinds[0];
+  const m = row.map;
+  if (box.cells && box.baseline === undefined) out.push("cells need a baseline");
+  if (box.baseline !== undefined && !box.cells) out.push("a baseline is for cells");
+  if (box.continuation && kind !== "rect") out.push("continuation lines follow a rect");
+  if (box.write && kind !== "choices") out.push("write is for boxes to tick");
+  if (row.choices) {
+    if (kind !== "choices") return [...out, "the field is boxes to tick: place each under choices"];
+    const want = row.choices.map((c) => c.box).sort();
+    const got = Object.keys(box.choices!).sort();
+    if (want.join("\n") !== got.join("\n")) out.push(`choices must be the field's boxes: ${want.join(", ")}`);
+    const writes = row.choices.filter((c) => c.write_value).map((c) => c.box).sort();
+    if (writes.join("\n") !== Object.keys(box.write ?? {}).sort().join("\n")) out.push(`write must place exactly the boxes with write_value: ${writes.join(", ") || "none"}`);
+  } else if (kind === "choices") {
+    out.push("the field has no choices");
+  }
+  if (m.repeat !== undefined) {
+    if (kind !== "table") return [...out, "a repeat field is a table"];
+    const columns = Array.isArray(m.columns) ? (m.columns as { label: string }[]).map((c) => c.label).sort() : [];
+    if (!columns.length) out.push("the field gives no columns to place");
+    else if (columns.join("\n") !== Object.keys(box.table!.columns).sort().join("\n")) out.push(`columns must be the field's: ${columns.join(", ")}`);
+  } else if (kind === "table") {
+    out.push("only a repeat field is a table");
+  }
+  if (kind === "into_table") {
+    if (m.ask === undefined) out.push("only an ask's answers go into another field's table");
+    if (!boxes.find((b) => b.label === box.into_table)?.table) out.push(`"${box.into_table}" is no table on this form`);
+  }
+  if (kind === "skip" && m.blank_with_reason === undefined) out.push("only a blank_with_reason field is skipped");
+  return out;
 }

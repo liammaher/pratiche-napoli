@@ -10,7 +10,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { buildSite, type Procedure, type Situation } from "./lib/site.ts";
-import { ROOT, loadRegistry, procedureIdFromPath, todayInRome, validateDir, validateSituations } from "./lib/validate.ts";
+import { ROOT, loadRegistry, procedureIdFromPath, todayInRome, validateDir, validateLayouts, validateSituations } from "./lib/validate.ts";
 
 const library = path.join(ROOT, "procedures");
 const out = path.resolve(process.argv[2] ?? path.join(ROOT, "site"));
@@ -23,9 +23,10 @@ const situationResults = validateSituations(
   new Set(results.map((r) => procedureIdFromPath(r.rel))),
   todayInRome(),
 );
-const invalid = [...results, ...situationResults].filter((r) => r.errors.length);
+const layoutResults = validateLayouts(path.join(ROOT, "layouts"), results);
+const invalid = [...results, ...situationResults, ...layoutResults].filter((r) => r.errors.length);
 if (invalid.length) {
-  console.error(`not building: ${invalid.length} procedures or situations don't validate (run npm run validate)`);
+  console.error(`not building: ${invalid.length} procedures, situations or layouts don't validate (run npm run validate)`);
   for (const r of invalid) console.error(`✗ ${r.rel}`);
   process.exit(1);
 }

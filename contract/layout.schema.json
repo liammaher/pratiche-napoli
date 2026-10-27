@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/liammaher/pratiche-napoli/contract/layout.schema.json",
+  "title": "Form layout",
+  "description": "Where each field of a procedure's form goes on page 1 of its PDF, for filling a form that has no fillable fields. layouts/<procedure id>/<form id>.json. Positions are PDF points from the top-left of the page; a rect is [x0, top, x1, bottom], the printed blank line's box. A layout is for one version of the form (sha256): when the form changes, it is measured again. What goes in each box is the procedure's; a layout only says where",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["procedure", "form", "sha256", "boxes"],
+  "properties": {
+    "procedure": { "type": "string", "minLength": 1 },
+    "form": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "sha256": { "description": "The form's sha256, as in the procedure", "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "font_size": { "description": "Points; a consumer shrinks text that doesn't fit", "type": "number", "minimum": 5, "maximum": 14 },
+    "boxes": {
+      "description": "One per field of the form, keyed by its label",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["label"],
+        "properties": {
+          "label": { "type": "string", "minLength": 1 },
+          "rect": { "$ref": "#/$defs/rect" },
+          "continuation": { "description": "More blank lines for text too long for rect, in order", "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/rect" } },
+          "cells": { "description": "One character per cell, as for a codice fiscale: each cell's [x0, x1]", "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/span" } },
+          "baseline": { "description": "Where the cells' characters sit", "type": "number" },
+          "parts": { "description": "A date written in parts (day, month, year), in that order", "type": "array", "minItems": 2, "maxItems": 3, "items": { "$ref": "#/$defs/rect" } },
+          "choices": { "description": "Each box to tick, by the procedure's box name", "type": "object", "minProperties": 1, "additionalProperties": { "$ref": "#/$defs/rect" } },
+          "write": { "description": "Where the value goes for a box with write_value, by box name", "type": "object", "minProperties": 1, "additionalProperties": { "$ref": "#/$defs/rect" } },
+          "table": {
+            "description": "A repeat field: the table's rows, and each column's [x0, x1] by the procedure's column label",
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["rows", "columns"],
+            "properties": {
+              "rows": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/span" } },
+              "columns": { "type": "object", "minProperties": 1, "additionalProperties": { "$ref": "#/$defs/span" } }
+            }
+          },
+          "into_table": { "description": "An ask whose answers are more rows of another field's table, after that field's own", "type": "string", "minLength": 1 },
+          "skip": { "description": "Why nothing is written here (a box for the office)", "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "unmapped": {
+      "description": "Boxes on the form that no field fills, and why",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["box", "rect", "why"],
+        "properties": {
+          "box": { "type": "string", "minLength": 1 },
+          "rect": { "$ref": "#/$defs/rect" },
+          "why": { "type": "string", "minLength": 1 },
+          "needed_when": {
+            "description": "The box must be filled by hand when this box of a field is ticked",
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["field", "box"],
+            "properties": { "field": { "type": "string", "minLength": 1 }, "box": { "type": "string", "minLength": 1 } }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "rect": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "type": "number", "minimum": 0 } },
+    "span": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number", "minimum": 0 } }
+  }
+}
