@@ -506,7 +506,7 @@ test("steps of one route become one step with a heading per route, its signing a
       serves: "Le istanze al Comune consegnate a mano",
       offices: {
         "1": { name: "URP Municipalità 1", address: "Piazza Santa Maria degli Angeli 1", hours: "lun–ven 9–12", source: "page" },
-        "2": { name: "Sede della Municipalità 2", address: "Piazza Dante 93", phone: "081 7950201", notes: "Telefonare prima.", source: "page" },
+        "2": { name: "Sede della Municipalità 2", address: "Piazza Dante 93", phone: "081 7950201", pec: "municipalita2@pec.comune.napoli.it", notes: "Telefonare prima.", source: "page" },
       },
     },
   };
@@ -523,8 +523,8 @@ test("steps of one route become one step with a heading per route, its signing a
   // The desk picked by municipalità lists every office.
   assert.match(html, /URP della Municipalità: quello della tua municipalità\. Le istanze al Comune consegnate a mano\./);
   assert.match(html, /URP Municipalità 1<br>Piazza Santa Maria degli Angeli 1<\/td><td>lun–ven 9–12<\/td>/);
-  // An office's notes and phone are shown with it.
-  assert.match(html, /Piazza Dante 93<br><span class="note">Telefonare prima\.<\/span><\/td><td><br>081 7950201<\/td>/);
+  // An office's notes and contacts are shown with it.
+  assert.match(html, /Piazza Dante 93<br><span class="note">Telefonare prima\.<\/span><\/td><td><br>081 7950201<br>PEC municipalita2@pec\.comune\.napoli\.it<\/td>/);
 });
 
 test("a form's own signing for a route replaces the law's rule; a single route stays a labelled step", () => {

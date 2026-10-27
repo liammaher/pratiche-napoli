@@ -221,10 +221,12 @@ everything is back as recorded.
 contract/procedure.schema.json   the procedure format (JSON Schema)
 contract/layout.schema.json      where a form's fields go on its PDF
 contract/signing.json            how each channel type takes a signature, by law
+contract/signing.schema.json     the format of signing.json
 contract/offices.schema.json     the format of offices/
+contract/vault-schema.json       the vault's schema.json, copied as is (a workflow compares it)
 contract/fields.json             shared field-ID registry (e.g. identity.codice_fiscale), generated
 contract/extensions.json         fields procedures need before the vault has them
-procedures/<ente>/<slug>.yaml    one file per procedure
+procedures/<napoli|italia>/<ente>/<slug>.yaml  one file per procedure
 situations/<id>.yaml             the procedures of one situation
 layouts/<id>/<form>.json         a form's layout, for one version of it
 offices/<list>.json              one service's desk for each municipalità or ASL distretto
@@ -265,7 +267,8 @@ branch; the `Vault schema` workflow runs it on every pull request and push to ma
 scheduled run, so after a schema change in the vault alone, start it from the Actions tab
 (or `gh workflow run vault-schema.yml`). The `Fill pilots` workflow, with the same secret, runs
 the vault's form filler on its pilot forms (TARI Mod. 1, ricorso al Prefetto, CILA Allegato A,
-scheda anagrafica) against every change to `procedures/`, `layouts/` or `contract/`; the vault
+scheda anagrafica) and its office lookups against every change to `procedures/`, `layouts/`,
+`contract/` or `offices/`; the vault
 runs the same pilots against this repository's main on its own changes.
 
 ## Not legal advice

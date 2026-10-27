@@ -8,7 +8,7 @@ aka:
   - partita IVA ditta individuale
   - numero REA
   - impresa artigiana
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Chi apre una ditta individuale con sede nella provincia di Napoli la iscrive al Registro delle
   Imprese della Camera di Commercio con la Comunicazione Unica (ComUnica): una sola pratica
@@ -295,6 +295,15 @@ forms:
     source: ri-procura
     sha256: 1c323ccbb232282758d3fa74754065de6b24059326470f81e092d3954876df0d
     signature_required: true
+    signing:
+      - channel: portal
+        ways: [handwritten]
+        id_copy: required
+        status: verified
+        source: ri-procura
+        notes: >-
+          Firmata a mano dal titolare, scansionata in PDF e allegata con la copia del documento;
+          la firma digitale sulla pratica è dell'intermediario.
     fields:
       - label: Codice univoco di identificazione della pratica
         map: { ask: "Codice della pratica generato da DIRE o dal software usato dall'intermediario" }
@@ -317,6 +326,15 @@ forms:
     source: na-autocert
     sha256: c7f7efcdee34ad2b0e62eeb3fbd6902dfc9e7c350b366245dea37ad46a24f133
     signature_required: true
+    signing:
+      - channel: portal
+        ways: [digital]
+        id_copy: not_needed
+        status: unverified
+        source: ri-prerequisiti
+        notes: >-
+          Allegata alla Comunicazione Unica, che chi invia firma digitalmente. Se invia un
+          intermediario, chiedere alla Camera se basta la sua firma con la procura.
     fields:
       - { label: Cognome, map: { direct: identity.last_name } }
       - { label: Nome, map: { direct: identity.first_name } }

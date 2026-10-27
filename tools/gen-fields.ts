@@ -63,6 +63,10 @@ export interface VaultSchema {
   // account: the first word of a SPID/CieID account category (spid_poste),
   // every field of which the vault keeps as a secret.
   credentials: { secret: string; credential: string; identity: string; account: string };
+  // The lists a pratica's stato and canale are checked against; a channel
+  // type is saved as its canale (canale_aliases names the ones that differ).
+  // The registry doesn't read them, so fixtures may leave them out.
+  pratiche?: { stati: string[]; chiusi: string[]; canali: string[]; canale_aliases: Record<string, string> };
 }
 
 export interface Extensions {
