@@ -121,6 +121,14 @@
       "skip": "Riservato all'ufficio."
     }
   ],
+  "signatures": [
+    {
+      "rect": [401.1, 729.0, 533.4, 759.0],
+      "date_rect": [72.0, 748.5, 172.2, 759.0],
+      "page": 1,
+      "for": "dichiarante"
+    }
+  ],
   "unmapped": [
     {
       "box": "Data",
