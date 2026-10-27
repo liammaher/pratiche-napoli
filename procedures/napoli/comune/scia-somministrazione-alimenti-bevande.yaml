@@ -246,7 +246,10 @@ channels:
       notes: >-
         Nel front office si sceglie settore, procedimento ed evento e si compila la modulistica
         pubblicata lì; in zona A o B si allegano anche i modelli del Piano (CS 1, CG 1, nota di
-        condivisione), oltre agli allegati obbligatori del front office.
+        condivisione), oltre agli allegati obbligatori del front office. Il modulo (visto il 27
+        ottobre 2026) ha sedici sezioni, ciascuna salvata a parte: sette sono dichiarazioni del
+        dichiarante. Gli allegati obbligatori si caricano solo firmati digitalmente in formato
+        CAdES (.p7m).
   - type: desk
     purpose: info
     name: SUAP del Comune di Napoli
@@ -308,7 +311,18 @@ documents:
     notes: >-
       Deve attestare il rispetto delle norme edilizie, urbanistiche, di destinazione d'uso, di
       tutela delle zone di pregio, di sicurezza sul lavoro, di sorvegliabilità, igienico-sanitarie
-      e di impatto acustico (pagina Esercizi pubblici).
+      e di impatto acustico (pagina Esercizi pubblici). Nel front office non ha uno spazio suo:
+      si carica tra gli allegati liberi.
+  - name: Planimetria quotata dei locali
+    required: true
+    notes: >-
+      Allegato obbligatorio del front office per la notifica sanitaria; accetta solo file firmati
+      digitalmente (dwf, svg, jpg o pdf in .p7m). Di solito la prepara il tecnico.
+  - name: Ricevuta di pagamento della tariffa sanitaria forfettaria (registrazione ASL)
+    required: true
+    notes: >-
+      Allegato obbligatorio del front office, solo firmato digitalmente (.p7m); la tariffa si
+      paga all'ASL a parte (vedi la procedura ASL collegata).
   - name: Dichiarazioni sostitutive sui requisiti morali e professionali (artt. 46–47 DPR 445/2000)
     required: true
     notes: >-
@@ -337,6 +351,9 @@ documents:
     notes: Solo zone A e B; vedi il modulo mappato sotto.
   - name: Ricevuta di pagamento dei diritti d'istruttoria (pagoPA) e degli eventuali diritti di altri enti
     required: true
+    notes: >-
+      I diritti SUAP si pagano con pagoPA dentro il front office; lo spazio per caricare
+      l'attestazione di versamento è facoltativo.
   - name: Titolo di disponibilità del locale (contratto di locazione, proprietà, comodato)
     required: false
     notes: >-
@@ -385,14 +402,35 @@ steps:
       zona A o B anche gli allegati CS 1 e CG 1 con il punteggio raggiunto
     who: professional
   - do: >-
-      Creare la pratica su impresainungiorno-Napoli (settore ristorazione, Ateco 55–56): in zona C
-      SCIA di apertura con la notifica sanitaria; in zona A o B il procedimento "Esercizio di
-      somministrazione di alimenti e bevande in zone tutelate" – Aprire l'attività, allegando i
-      modelli del Piano
+      Creare la pratica su impresainungiorno-Napoli: settore "Strutture Ricettive (Alloggio) e
+      Ristorazione (Ateco da 55 a 56)" → "Ristorazione e Somministrazione di alimenti e bevande";
+      in zona C "Esercizio di somministrazione di alimenti e bevande in zone NON tutelate", in zona
+      A o B "... in zone tutelate" (allegando i modelli del Piano). Tra le operazioni "Aprire
+      l'attività" e, sotto "ALTRE ESIGENZE", "Notifica ai fini della registrazione - avvio
+      attività/trasferimento"
     who: facilitator
+    channel: [portal]
+  - do: >-
+      Compilare le sezioni con i dati: scheda anagrafica (ditta, anche "non ancora iscritta" alla
+      CCIAA), domicilio digitale e PEC per le comunicazioni, ubicazione (via scelta dall'elenco
+      del Comune), dati catastali, dati dell'esercizio (insegna, superficie di somministrazione),
+      avvio, tipologia di attività per l'ASL, diritti d'istruttoria
+    who: facilitator
+    channel: [portal]
   - do: Compilare la nota di condivisione (solo zone A e B) con il codice della pratica
     who: anyone
-  - { do: Firmare la nota di condivisione e i modelli della pratica (firma digitale), who: owner, human_only: true }
+  - do: >-
+      Rendere le dichiarazioni del modulo: consapevolezza (artt. 46–47 e 75 DPR 445/2000),
+      informativa privacy, requisiti di onorabilità e professionali, rispetto delle norme sui
+      locali e sorvegliabilità, art. 6 Reg. CE 852/2004, tributi comunali
+    who: owner
+    human_only: true
+    channel: [portal]
+  - do: >-
+      Firmare digitalmente (CAdES, .p7m) la nota di condivisione, i modelli della pratica e gli
+      allegati obbligatori (planimetria quotata, ricevuta della tariffa ASL)
+    who: owner
+    human_only: true
   - { do: Pagare i diritti d'istruttoria con pagoPA nel front office, who: owner, human_only: true }
   - do: >-
       Accedere con SPID, CIE o CNS al front office di impresainungiorno-Napoli, aprire la pratica,
@@ -513,6 +551,28 @@ pitfalls:
       prevenzione incendi.
     status: verified
     source: lr-campania-7-2020
+  - text: >-
+      Gli allegati obbligatori (planimetria quotata, ricevuta della tariffa ASL) si caricano solo
+      firmati digitalmente in formato CAdES (.p7m): una firma autografa scansionata non basta, e
+      senza di essi il front office non va avanti.
+    status: verified
+    source: front-office
+  - text: >-
+      La via del locale si sceglie dall'elenco del front office, che usa la toponomastica
+      ufficiale del Comune: per esempio "viale Augusto" è VIALE OTTAVIO CESARE AUGUSTO.
+    status: verified
+    source: front-office
+  - text: >-
+      Tra gli "interventi eventuali" il front office propone anche l'insegna esterna, che così
+      entra nella stessa pratica invece che in una SCIA a parte.
+    status: verified
+    source: front-office
+  - text: >-
+      Il front office non controlla, in bozza, che il titolare sia la persona che ha fatto
+      l'accesso né che codice fiscale e partita IVA esistano: gli errori emergono solo dopo
+      l'invio.
+    status: verified
+    source: front-office
 related:
   - napoli/asl-napoli-1/registrazione-attivita-alimentare
   - napoli/comune/tari-iscrizione-non-domestica
@@ -643,9 +703,19 @@ sources:
     url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2010-03-26;59~art71
     retrieved: 2026-10-25
     official: true
+  - id: front-office
+    label: >-
+      impresainungiorno – front office del SUAP di Napoli, percorso della SCIA in zona non
+      tutelata con notifica sanitaria (pratica di prova non inviata)
+    url: https://suap.impresainungiorno.gov.it/fnsuap/cmd/create?comune=F839
+    retrieved: 2026-10-27
+    official: true
+    notes: >-
+      Accessibile solo con SPID, CIE o CNS. Visto compilando due bozze fino agli allegati, senza
+      dichiarazioni, pagamento né invio.
 verification:
   level: L1
-  date: 2026-10-25
+  date: 2026-10-27
   by: claude
   method: >-
     Desk: letti il Piano (testo coordinato) e la delibera C.C. 79/2026, l'avviso SUAP sulle zone
@@ -655,6 +725,7 @@ verification:
     SUAP 2026, la guida pagoPA, gli artt. 7, 88–100 e 149 della L.R. Campania 7/2020 e l'art. 71
     del d.lgs. 59/2010.
   notes: >-
-    Non visti i moduli del front office di impresainungiorno (richiedono accesso), quindi non
-    mappati. Non verificati con l'ufficio il termine dell'autorizzazione e il regime del
-    subingresso nelle zone tutelate.
+    Il 27 ottobre 2026 il front office è stato percorso con una pratica di prova in zona C fino
+    agli allegati (sezioni, dichiarazioni e allegati obbligatori descritti sopra); non visti i
+    passaggi di firma e invio, né il percorso in zona A o B. Non verificati con l'ufficio il
+    termine dell'autorizzazione e il regime del subingresso nelle zone tutelate.
