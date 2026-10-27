@@ -552,7 +552,10 @@ pitfalls:
       pagina dell'ufficio indicano il Modello COM via PEC alla Municipalità competente (indirizzi
       municipalitaN.territorio.economia@pec.comune.napoli.it); l'avviso del 01/07/2026 elenca gli
       "Adempimenti edilizi (inizio e fine lavori…)" tra le pratiche solo su Impresa in un giorno, e
-      la DD 501/2026 esclude la PEC. Verificare con il SUE il canale in uso.
+      la DD 501/2026 esclude la PEC. Verificare con il SUE il canale in uso. N è il numero della
+      Municipalità in cui si trovano i lavori: per la propria casa è residenza.municipalita nel
+      vault (domicilio.municipalita se i lavori sono al domicilio), per i locali dell'impresa
+      locale.municipalita; pvault locate lo calcola dall'indirizzo.
     status: disputed
     source: cila-note
   - text: >-
