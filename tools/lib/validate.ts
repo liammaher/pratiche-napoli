@@ -57,6 +57,7 @@ export interface Row {
   notes?: string;
   optional?: { field: string; required_if?: Condition[] }[];
   choices?: { box: string; values: string[]; write_value?: boolean }[];
+  when?: { field: string; ticks: string[] };
 }
 interface Source {
   id: string;
@@ -145,6 +146,7 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
       const problems = [
         ...checkMapping(field.map, ctx.registry, d.dichiarante !== undefined, field.notes),
         ...checkRowExtras(field, ctx.registry, d.dichiarante !== undefined),
+        ...whenProblems(field, f.fields ?? []),
       ];
       for (const problem of problems) errors.push(`form "${f.id}", field "${field.label}": ${problem}`);
     }
@@ -501,6 +503,17 @@ function checkRowExtras(row: Row, registry: Registry, dichiarante: boolean): str
     if (row.choices.filter((c) => c.write_value).length > 1) out.push("choices: only one box can have the value written next to it");
   }
   return out;
+}
+
+// when: the row it depends on is an ask of the same form with these boxes.
+function whenProblems(row: Row, rows: Row[]): string[] {
+  if (!row.when) return [];
+  const other = rows.find((r) => r.label === row.when!.field);
+  if (!other || other === row) return [`when: no other field "${row.when.field}" on this form`];
+  if (other.map.ask === undefined || !other.choices) return [`when: "${row.when.field}" isn't an ask with boxes to tick`];
+  if (other.when) return [`when: "${row.when.field}" has a when of its own`];
+  const boxes = new Set(other.choices.map((c) => c.box));
+  return row.when.ticks.filter((t) => !boxes.has(t)).map((t) => `when: "${row.when!.field}" has no box "${t}"`);
 }
 
 // The places an address can come from: a person's residenza or domicilio,
@@ -869,13 +882,16 @@ const checkLayoutSchema = ajv.compile(JSON.parse(readFileSync(path.join(ROOT, "c
 type Rect = number[];
 interface LayoutBox {
   label: string;
+  page?: number;
   rect?: Rect;
-  continuation?: Rect[];
+  widget?: string;
+  continuation?: (Rect | { page: number; rect: Rect })[];
   cells?: number[][];
   baseline?: number;
   parts?: Rect[];
   choices?: Record<string, Rect>;
-  write?: Record<string, Rect>;
+  choice_widgets?: Record<string, string>;
+  write?: Record<string, Rect | string>;
   table?: { rows: number[][]; columns: Record<string, number[]> };
   into_table?: string;
   skip?: string;
@@ -888,7 +904,7 @@ interface Layout {
   unmapped?: { box: string; needed_when?: { field: string; box: string } }[];
 }
 
-const BOX_KINDS = ["rect", "cells", "parts", "choices", "table", "into_table", "skip"] as const;
+const BOX_KINDS = ["rect", "widget", "cells", "parts", "choices", "choice_widgets", "table", "into_table", "skip"] as const;
 
 // Validates every layout under dir (layouts/<procedure id>/<form id>.json)
 // against the procedures it places: the form exists at that sha256, and
@@ -950,15 +966,20 @@ function boxProblems(box: LayoutBox, row: Row, boxes: LayoutBox[]): string[] {
   if (box.cells && box.baseline === undefined) out.push("cells need a baseline");
   if (box.baseline !== undefined && !box.cells) out.push("a baseline is for cells");
   if (box.continuation && kind !== "rect") out.push("continuation lines follow a rect");
-  if (box.write && kind !== "choices") out.push("write is for boxes to tick");
+  if (box.write && kind !== "choices" && kind !== "choice_widgets") out.push("write is for boxes to tick");
+  // Drawn boxes are written next to in a rect, fillable ones in a text field.
+  const named = kind === "choice_widgets";
+  for (const [b, place] of Object.entries(box.write ?? {})) {
+    if (named !== (typeof place === "string")) out.push(`write "${b}": ${named ? "name the form's text field" : "give a rect"}, as the boxes are`);
+  }
   if (row.choices) {
-    if (kind !== "choices") return [...out, "the field is boxes to tick: place each under choices"];
+    if (kind !== "choices" && kind !== "choice_widgets") return [...out, "the field is boxes to tick: place each under choices or choice_widgets"];
     const want = row.choices.map((c) => c.box).sort();
-    const got = Object.keys(box.choices!).sort();
+    const got = Object.keys(box[kind]!).sort();
     if (want.join("\n") !== got.join("\n")) out.push(`choices must be the field's boxes: ${want.join(", ")}`);
     const writes = row.choices.filter((c) => c.write_value).map((c) => c.box).sort();
     if (writes.join("\n") !== Object.keys(box.write ?? {}).sort().join("\n")) out.push(`write must place exactly the boxes with write_value: ${writes.join(", ") || "none"}`);
-  } else if (kind === "choices") {
+  } else if (kind === "choices" || kind === "choice_widgets") {
     out.push("the field has no choices");
   }
   if (m.repeat !== undefined) {
