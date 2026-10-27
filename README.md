@@ -117,19 +117,24 @@ A form's `fields` say what goes in each box; a few optional keys let a tool fill
 reading the notes (a person reading the notes is still fine):
 
 - `map.template` writes a row's fields as the box wants them: `{identity.birth_comune}[
-  ({identity.birth_country})]`. `[...]` is left out when a field in it is empty, `{...|date}`
-  writes a date as DD/MM/YYYY, and in a `fallback` `{.civico}` is the civico of the place it picked.
+  ({identity.birth_country})]`. `[...]` is left out when a field in it is empty, and in a
+  `fallback` `{.civico}` is the civico of the place it picked. A date is written DD/MM/YYYY,
+  as forms want it (`{...|date}` says so explicitly).
   A `repeat` row's `columns` are templates too, over `*:` fields and `{relazione}`.
 - `optional` lists the fields a row may leave empty; `required_if` says when one is needed after
   all (the stato estero of someone born abroad). Every other field must have a value, or the person
   is asked.
 - `choices` makes a row boxes to tick, each with the values that tick it (`write_value` writes the
   value too, as on "altro ____").
+- `when` fills a row only when another row's answer ticks one of its boxes ("legale
+  rappresentante di ____" after "in proprio / legale rappresentante"); otherwise it stays blank
+  and what it reads isn't asked for.
 - A deadline rule's `compute` dates it: `{ from: abitazione.data_inizio, days: 90 }`.
 
-For a form with no fillable fields, `layouts/<procedure id>/<form id>.json`
-([schema](contract/layout.schema.json)) says where each field goes on the PDF, for the form's exact
-`sha256`: when the form changes, its layout no longer validates until it is measured again.
+`layouts/<procedure id>/<form id>.json` ([schema](contract/layout.schema.json)) says where each
+field goes on the PDF, for the form's exact `sha256`: a box on any page (`page`, and continuation
+lines that run onto the next), or, on a form with fillable fields, the field's name (`widget`,
+`choice_widgets`). When the form changes, its layout no longer validates until it is measured again.
 `npm run validate` checks that every field of the form has one box of the right kind.
 A layout's optional `signatures` (rect, `date_rect`, `page`, `for`) place the signature line, for
 a form with `signature_required`. A form's `signing` says, per channel, which ways the channel

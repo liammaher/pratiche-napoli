@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/liammaher/pratiche-napoli/contract/layout.schema.json",
   "title": "Form layout",
-  "description": "Where each field of a procedure's form goes on page 1 of its PDF, for filling a form that has no fillable fields, and where its signatures go on any page. layouts/<procedure id>/<form id>.json. Positions are PDF points from the top-left of the page; a rect is [x0, top, x1, bottom], the printed blank line's box. Field boxes are for page 1 only; a signature names its page. A layout is for one version of the form (sha256): when the form changes, it is measured again. What goes in each box is the procedure's; a layout only says where",
+  "description": "Where each field of a procedure's form goes on its PDF, and where its signatures go. layouts/<procedure id>/<form id>.json. Positions are PDF points from the top-left of a page (page 1 unless a box or a signature gives page); a rect is [x0, top, x1, bottom], the printed blank line's box. A form with fillable fields names them instead (widget, choice_widgets). A layout is for one version of the form (sha256): when the form changes, it is measured again. What goes in each box is the procedure's; a layout only says where",
   "type": "object",
   "additionalProperties": false,
   "required": ["procedure", "form", "sha256", "boxes"],
@@ -21,13 +21,26 @@
         "required": ["label"],
         "properties": {
           "label": { "type": "string", "minLength": 1 },
+          "page": { "description": "The page the box is on, from 1 (default 1)", "type": "integer", "minimum": 1 },
           "rect": { "$ref": "#/$defs/rect" },
-          "continuation": { "description": "More blank lines for text too long for rect, in order", "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/rect" } },
+          "widget": { "description": "The form's fillable text field for the value, by name", "$ref": "#/$defs/widget" },
+          "continuation": {
+            "description": "More blank lines for text too long for rect, in order: a rect on the box's page, or {page, rect} on another",
+            "type": "array",
+            "minItems": 1,
+            "items": { "oneOf": [{ "$ref": "#/$defs/rect" }, { "$ref": "#/$defs/placed" }] }
+          },
           "cells": { "description": "One character per cell, as for a codice fiscale: each cell's [x0, x1]", "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/span" } },
           "baseline": { "description": "Where the cells' characters sit", "type": "number" },
           "parts": { "description": "A date written in parts (day, month, year), in that order", "type": "array", "minItems": 2, "maxItems": 3, "items": { "$ref": "#/$defs/rect" } },
           "choices": { "description": "Each box to tick, by the procedure's box name", "type": "object", "minProperties": 1, "additionalProperties": { "$ref": "#/$defs/rect" } },
-          "write": { "description": "Where the value goes for a box with write_value, by box name", "type": "object", "minProperties": 1, "additionalProperties": { "$ref": "#/$defs/rect" } },
+          "choice_widgets": { "description": "Each box to tick as the form's fillable checkbox or radio button, by the procedure's box name", "type": "object", "minProperties": 1, "additionalProperties": { "$ref": "#/$defs/widget" } },
+          "write": {
+            "description": "Where the value goes for a box with write_value, by box name: a rect with choices, a fillable text field's name with choice_widgets",
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": { "oneOf": [{ "$ref": "#/$defs/rect" }, { "$ref": "#/$defs/widget" }] }
+          },
           "table": {
             "description": "A repeat field: the table's rows, and each column's [x0, x1] by the procedure's column label",
             "type": "object",
@@ -68,6 +81,7 @@
         "required": ["box", "rect", "why"],
         "properties": {
           "box": { "type": "string", "minLength": 1 },
+          "page": { "type": "integer", "minimum": 1 },
           "rect": { "$ref": "#/$defs/rect" },
           "why": { "type": "string", "minLength": 1 },
           "needed_when": {
@@ -83,6 +97,13 @@
   },
   "$defs": {
     "rect": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "type": "number", "minimum": 0 } },
-    "span": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number", "minimum": 0 } }
+    "span": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number", "minimum": 0 } },
+    "placed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["page", "rect"],
+      "properties": { "page": { "type": "integer", "minimum": 1 }, "rect": { "$ref": "#/$defs/rect" } }
+    },
+    "widget": { "description": "A fillable field's name; name#i is the i-th field of that name on the page (a radio group's buttons share one)", "type": "string", "pattern": "^[^#]+(#[0-9]+)?$" }
   }
 }

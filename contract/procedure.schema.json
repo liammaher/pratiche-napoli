@@ -516,6 +516,30 @@
                     }
                   }
                 },
+                "when": {
+                  "description": "The row is filled only when the answer to another row of the form, an ask with boxes to tick, ticks one of these boxes (as \"legale rappresentante di\" after \"in proprio / legale rappresentante\"); otherwise it is left blank, and what it reads isn't asked for",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "field",
+                    "ticks"
+                  ],
+                  "properties": {
+                    "field": {
+                      "description": "The other row's label",
+                      "$ref": "#/$defs/text"
+                    },
+                    "ticks": {
+                      "type": "array",
+                      "minItems": 1,
+                      "uniqueItems": true,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                },
                 "choices": {
                   "description": "The row is boxes to tick: each box is ticked when the field's value (or the answer, for an ask) is one of its values. write_value also writes the value next to the box, as on an \"altro ____\"",
                   "type": "array",
@@ -1200,7 +1224,7 @@
       }
     },
     "template": {
-      "description": "How a row's fields make one box's text. {category.field} is a field's value (*:category.field in a repeat's columns), {.field} that field of the place a fallback picked, {relazione} a family member's relazione as forms write it (moglie, figlio); {...|date} writes a YYYY-MM-DD date as DD/MM/YYYY. A part in [...] is left out when a field in it is empty; a field outside [...] must have a value. \\[, \\], \\{ and \\} are the characters themselves",
+      "description": "How a row's fields make one box's text. {category.field} is a field's value (*:category.field in a repeat's columns), {.field} that field of the place a fallback picked, {relazione} a family member's relazione as forms write it (moglie, figlio); {...|date} writes a YYYY-MM-DD date as DD/MM/YYYY, as a filler writes every date anyway. A part in [...] is left out when a field in it is empty; a field outside [...] must have a value. \\[, \\], \\{ and \\} are the characters themselves",
       "type": "string",
       "minLength": 1
     },
