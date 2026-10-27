@@ -8,7 +8,7 @@ aka:
   - avviso di avvenuta ricezione
   - raccomandata SEND
   - codice IUN
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   SEND (Servizio Notifiche Digitali, gestito da PagoPA) è la piattaforma con cui comuni, enti e
   agenti della riscossione notificano atti a valore legale (multe, accertamenti, avvisi di
@@ -292,14 +292,25 @@ steps:
       appena possibile, sapendo che da quel momento partono i termini.
     who: owner
     human_only: true
+    channel: [portal, app]
   - do: >-
       Scaricare e salvare subito atto, allegati e avvisi di pagamento: restano su SEND 120 giorni
       dal perfezionamento, poi vanno chiesti all'ente.
     who: anyone
+    channel: [portal, app]
   - do: >-
       Nella sezione "Stato della notifica" leggere la data di perfezionamento e scaricare le
       attestazioni opponibili a terzi; annotare data e scadenze indicate nell'atto.
     who: anyone
+    channel: [portal, app]
+  - do: >-
+      Senza SPID o CIE, o per avere l'atto su carta: andare a un punto di ritiro SEND (mappa su
+      notifichedigitali.it/punti-di-ritiro) con l'avviso di avvenuta ricezione, un documento
+      d'identità valido e il codice fiscale, e farsi stampare atto e allegati (1,40 euro per
+      operazione)
+    who: owner
+    human_only: true
+    channel: [desk]
   - do: >-
       Per dubbi sul contenuto (importo, errori, rateizzazione, ricorso) contattare l'ente mittente
       ai riferimenti nell'atto, non l'assistenza SEND.

@@ -1,0 +1,113 @@
+{
+  "field": "distretto_asl",
+  "name": "UOSD Prevenzione Collettiva del distretto (ASL Napoli 1 Centro)",
+  "offices": {
+    "24/73": {
+      "name": "U.O.S.D. Prevenzione Collettiva DD.SS.BB. 24, 31 e 73",
+      "address": "Piazza Municipio 84, Napoli",
+      "hours": "martedì e giovedì 9:00–13:00, mercoledì 15:00–16:00",
+      "phone": "081 2547019, 081 2547101, 081 2547106",
+      "notes": "Per Capri c'è anche una sede sull'isola (lunedì, mercoledì e venerdì 9:00–13:00).",
+      "source": "uosd-24-31-73"
+    },
+    "25": {
+      "name": "U.O.S.D. Prevenzione Collettiva DD.SS.BB. 25 e 26",
+      "address": "Via Francesco Degni 25, 80125 Napoli",
+      "hours": "lunedì, mercoledì e venerdì 9:00–12:30",
+      "phone": "081 2548721, 081 2548007",
+      "source": "uosd-25-26"
+    },
+    "26": {
+      "name": "U.O.S.D. Prevenzione Collettiva DD.SS.BB. 25 e 26",
+      "address": "Via Francesco Degni 25, 80125 Napoli",
+      "hours": "lunedì, mercoledì e venerdì 9:00–12:30",
+      "phone": "081 2548721, 081 2548007",
+      "source": "uosd-25-26"
+    },
+    "27": {
+      "name": "U.O.S.D. Prevenzione Collettiva DD.SS.BB. 27 e 29",
+      "address": "Via Cavone delle Noci allo Scudillo, Napoli",
+      "hours": "martedì e venerdì 9:30–12:30",
+      "phone": "081 2549535, 081 2549530, 081 2549522",
+      "notes": "La pagina non indica il numero civico.",
+      "source": "uosd-27-29"
+    },
+    "28": {
+      "name": "U.O.S.D. Prevenzione Collettiva DD.SS.BB. 28 e 30",
+      "address": "Viale della Resistenza 25, Napoli",
+      "hours": "lunedì e giovedì 9:00–12:00",
+      "phone": "081 2546525, 081 2546326",
+      "source": "uosd-28-30"
+    },
+    "29": {
+      "name": "U.O.S.D. Prevenzione Collettiva DD.SS.BB. 27 e 29",
+      "address": "Via Cavone delle Noci allo Scudillo, Napoli",
+      "hours": "martedì e venerdì 9:30–12:30",
+      "phone": "081 2549535, 081 2549530, 081 2549522",
+      "notes": "La pagina non indica il numero civico.",
+      "source": "uosd-27-29"
+    },
+    "30": {
+      "name": "U.O.S.D. Prevenzione Collettiva DD.SS.BB. 28 e 30",
+      "address": "Viale della Resistenza 25, Napoli",
+      "hours": "lunedì e giovedì 9:00–12:00",
+      "phone": "081 2546525, 081 2546326",
+      "source": "uosd-28-30"
+    },
+    "31": {
+      "name": "U.O.S.D. Prevenzione Collettiva DD.SS.BB. 24, 31 e 73",
+      "address": "Piazza Municipio 84, Napoli",
+      "hours": "martedì e giovedì 9:00–13:00, mercoledì 15:00–16:00",
+      "phone": "081 2547019, 081 2547101, 081 2547106",
+      "source": "uosd-24-31-73"
+    },
+    "32": {
+      "name": "U.O.S.D. Prevenzione Collettiva DD.SS.BB. 32 e 33",
+      "address": "Via Bernardo Quaranta 2/B, 80146 Napoli",
+      "hours": "lunedì, mercoledì e venerdì 9:00–12:30",
+      "phone": "081 2545970, 081 2543731",
+      "notes": "La pagina elenca le sedi di Via Bernardo Quaranta 2/B e Via Don Bosco 4/F senza dire quale sia di quale distretto: telefonare prima.",
+      "source": "uosd-32-33"
+    },
+    "33": {
+      "name": "U.O.S.D. Prevenzione Collettiva DD.SS.BB. 32 e 33",
+      "address": "Via Don Bosco 4/F, Napoli",
+      "hours": "martedì, mercoledì e giovedì 9:00–12:30",
+      "phone": "081 2545970, 081 2543731",
+      "notes": "La pagina elenca le sedi di Via Bernardo Quaranta 2/B e Via Don Bosco 4/F senza dire quale sia di quale distretto: telefonare prima.",
+      "source": "uosd-32-33"
+    }
+  },
+  "sources": [
+    {
+      "id": "uosd-24-31-73",
+      "label": "ASL Napoli 1 Centro – U.O.S.D. Prevenzione Collettiva DD.SS.BB. 24, 31 e 73",
+      "url": "https://www.aslnapoli1centro.it/u.o.s.d.-prevenzione-collettiva-dd.ss.bb.-24-31-e-731",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "uosd-25-26",
+      "label": "ASL Napoli 1 Centro – U.O.S.D. Prevenzione Collettiva DD.SS.BB. 25 e 26",
+      "url": "https://www.aslnapoli1centro.it/u.o.s.d.-prevenzione-collettiva-dd.ss.bb.-25-e-261",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "uosd-27-29",
+      "label": "ASL Napoli 1 Centro – U.O.S.D. Prevenzione Collettiva DD.SS.BB. 27 e 29",
+      "url": "https://www.aslnapoli1centro.it/u.o.s.d.-prevenzione-collettiva-dd.ss.bb.-27-e-291",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "uosd-28-30",
+      "label": "ASL Napoli 1 Centro – U.O.S.D. Prevenzione Collettiva DD.SS.BB. 28 e 30",
+      "url": "https://www.aslnapoli1centro.it/u.o.s.d.-prevenzione-collettiva-dd.ss.bb.-28-e-301",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "uosd-32-33",
+      "label": "ASL Napoli 1 Centro – U.O.S.D. Prevenzione Collettiva DD.SS.BB. 32 e 33",
+      "url": "https://www.aslnapoli1centro.it/u.o.s.d.-prevenzione-collettiva-dd.ss.bb.-32-e-331",
+      "retrieved": "2026-10-27"
+    }
+  ]
+}

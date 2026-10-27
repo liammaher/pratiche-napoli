@@ -143,8 +143,23 @@ measured again.
 `npm run validate` checks that every field of the form has one box of the right kind.
 A layout's optional `signatures` (rect, `date_rect`, `page`, `for`) place the signature line, for
 a form with `signature_required`. A form's `signing` says, per channel, which ways the channel
-takes the signature (`handwritten`, `digital`, `login`, `none`) and whether it wants an ID copy;
+takes the signature (`handwritten`, `digital`, `login`, `none`) and whether it wants an ID copy,
+only where it differs from the law's rule for that channel type in
+[`contract/signing.json`](contract/signing.json) (PEC and email: firma digitale, or signed by hand
+with an ID copy, CAD art. 65; post and desk: signed by hand with an ID copy, DPR 445/2000 art. 38);
 a signature step may carry `gate: sign` and stays `human_only`.
+
+### Routes
+
+Each procedure channel is a route, and every route is mapped end to end. A step with `channel`
+belongs to those routes only ("Inviare dalla propria PEC a …", "Spedire con raccomandata A/R a …",
+"Consegnare allo sportello …"); a step without it is on every route. The validator wants a step of
+its own for every `pec`, `email`, `post` and `desk` channel, and an address, a `url` or an
+`office` for every desk. A desk that depends on where the person lives names the vault field that
+picks it (`office: residenza.municipalita`, `residenza.distretto_asl`), and
+[`offices/`](offices/) holds one office per value, each from an official page. The site shows the
+shared steps in order and, where the routes part, one step with a heading per route: its steps,
+how to sign there and what it gives back.
 
 ## Source monitor
 
@@ -199,11 +214,14 @@ everything is back as recorded.
 ```
 contract/procedure.schema.json   the procedure format (JSON Schema)
 contract/layout.schema.json      where a form's fields go on its PDF
+contract/signing.json            how each channel type takes a signature, by law
+contract/offices.schema.json     the format of offices/
 contract/fields.json             shared field-ID registry (e.g. identity.codice_fiscale), generated
 contract/extensions.json         fields procedures need before the vault has them
 procedures/<ente>/<slug>.yaml    one file per procedure
 situations/<id>.yaml             the procedures of one situation
 layouts/<id>/<form>.json         a form's layout, for one version of it
+offices/<field>.json             the desk for each municipalità or ASL distretto
 docs/discrepancies.md            wrong or contradictory official information we found
 tools/                           validator, site builder and generators
 tools/site/style.css             the site's stylesheet

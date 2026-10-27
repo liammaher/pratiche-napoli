@@ -7,7 +7,7 @@ aka:
   - cancellare la partita IVA
   - partita IVA inattiva
   - chiudere partita IVA forfettaria
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Il professionista, l'artista o il titolare di un'attività non iscritta al Registro delle imprese
   che smette di lavorare chiude la partita IVA presentando all'Agenzia delle Entrate il modello
@@ -344,13 +344,36 @@ steps:
       Compilare il modello AA9/12 con il tipo 3, con il software gratuito "Cessazione attività Iva"
       oppure sul PDF (dati dalla tabella dei campi)
     who: anyone
-  - { do: Firmare il modello (o firmarlo digitalmente se si invia via PEC), who: owner, human_only: true }
   - do: >-
-      Presentarlo entro 30 giorni dalla cessazione: caricamento nell'area riservata, PEC a una
-      Direzione Provinciale con oggetto "Cessazione attività", raccomandata o consegna allo sportello
-      su appuntamento
+      Firmare il modello
     who: owner
     human_only: true
+    channel: [pec, desk, post]
+  - do: >-
+      Caricarlo entro 30 giorni dalla cessazione nell'area riservata (Trasmissioni telematiche /
+      Invio documenti); la comunicazione di avvenuto ricevimento è la prova
+    who: owner
+    human_only: true
+    channel: [portal]
+  - do: >-
+      Inviarlo entro 30 giorni dalla cessazione dalla propria PEC a una delle due Direzioni
+      Provinciali di Napoli, con oggetto "Cessazione attività"
+    who: owner
+    human_only: true
+    channel: [pec]
+  - do: >-
+      Spedirlo entro 30 giorni dalla cessazione con raccomandata a un qualunque ufficio
+      dell'Agenzia, in un solo esemplare con la copia del documento d'identità; vale la data di
+      spedizione
+    who: owner
+    human_only: true
+    channel: [post]
+  - do: >-
+      Consegnarlo entro 30 giorni dalla cessazione in due esemplari a un qualunque ufficio
+      dell'Agenzia, su appuntamento; l'ufficio restituisce una copia timbrata
+    who: owner
+    human_only: true
+    channel: [desk]
   - do: Conservare la ricevuta dell'Agenzia o la PEC di attestazione della cessazione
     who: owner
   - do: >-

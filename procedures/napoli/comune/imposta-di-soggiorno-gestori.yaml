@@ -7,7 +7,7 @@ aka:
   - tourist tax
   - tassa turistica
   - dichiarazione trimestrale imposta di soggiorno
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Chi gestisce a Napoli un albergo, un B&B, un affittacamere, una casa vacanze o una locazione
   breve deve iscriversi sul portale GEIS del Comune, far pagare l'imposta di soggiorno agli
@@ -649,10 +649,11 @@ steps:
     human_only: true
   - do: >-
       Solo se GEIS è inutilizzabile: compilare il modulo di dichiarazione trimestrale del Comune,
-      firmarlo e inviarlo per PEC o e-mail con motivo, copia del versamento e documento d'identità,
-      entro la scadenza.
+      firmarlo e inviarlo per PEC o e-mail con motivo, copia del versamento e documento
+      d'identità, entro la scadenza.
     who: owner
     human_only: true
+    channel: [pec, email]
   - do: >-
       Entro il 30 giugno dell'anno successivo: presentare la dichiarazione annuale sul modello
       ministeriale nell'area riservata dell'Agenzia delle Entrate, direttamente o tramite un

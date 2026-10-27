@@ -12,6 +12,7 @@ import {
   todayInRome,
   validateDir,
   validateLayouts,
+  validateOffices,
   validateProcedure,
   validateSituations,
   type Context,
@@ -37,7 +38,7 @@ function minimal(): Record<string, any> {
     ente: { name: "Comune di Napoli" },
     applies_to: { events: ["open"], audience: ["business"] },
     channels: [{ type: "pec", purpose: "procedure", address: "ufficio@pec.comune.napoli.it" }],
-    steps: [{ do: "Invia il modulo", who: "owner", human_only: true }],
+    steps: [{ do: "Invia il modulo via PEC", who: "owner", human_only: true, channel: ["pec"] }],
     sources: [{ id: "page", label: "Pagina ufficiale", url: "https://www.comune.napoli.it/", retrieved: "2026-10-25", official: true }],
     verification: { level: "L1", date: "2026-10-25", by: "test", method: "desk" },
   };
@@ -1254,13 +1255,14 @@ test("how each channel takes a signature is checked against the procedure's chan
 
 test("a step can name the sign gate only if it stays human_only", () => {
   const doc = minimal();
-  doc.steps = [{ do: "Firmare il modulo", who: "owner", human_only: true, gate: "sign" }];
+  const send = { do: "Invia il modulo via PEC", who: "owner", channel: ["pec"] };
+  doc.steps = [{ do: "Firmare il modulo", who: "owner", human_only: true, gate: "sign" }, send];
   assert.equal(errorsFor(doc), "");
-  doc.steps = [{ do: "Firmare il modulo", who: "owner", gate: "sign" }];
+  doc.steps = [{ do: "Firmare il modulo", who: "owner", gate: "sign" }, send];
   assert.match(errorsFor(doc), /steps\/0: gate sign carries a human_only step/);
-  doc.steps = [{ do: "Firmare il modulo", who: "owner", human_only: false, gate: "sign" }];
+  doc.steps = [{ do: "Firmare il modulo", who: "owner", human_only: false, gate: "sign" }, send];
   assert.match(errorsFor(doc), /steps\/0: gate sign carries a human_only step/);
-  doc.steps = [{ do: "Firmare il modulo", who: "owner", human_only: true, gate: "pay" }];
+  doc.steps = [{ do: "Firmare il modulo", who: "owner", human_only: true, gate: "pay" }, send];
   assert.match(errorsFor(doc), /schema: .*gate/);
 });
 
@@ -1359,4 +1361,68 @@ test("a repeat by ruolo without columns is an allegato: one box, a copy of its p
   const table = { label: "Soci", table: { rows: [[50, 60]], columns: { Cognome: [10, 100] } } };
   assert.equal(run([{ label: "Allegato – Cognome", page: 3, rect: [10, 10, 100, 20] }, table]), "");
   assert.match(run([{ label: "Allegato – Cognome", page: 3, rect: [10, 10, 100, 20] }, { label: "Soci", rect: [1, 1, 2, 2] }]), /a repeat field is a table/);
+});
+
+test("every pec, email, post and desk route has a step of its own", () => {
+  const doc = minimal();
+  doc.channels.push({ type: "post", purpose: "procedure", address: "Via Roma 1, Napoli" });
+  assert.match(errorsFor(doc), /channel post has no step of its own/);
+  doc.steps.push({ do: "Spedire con raccomandata A/R", who: "owner", human_only: true, channel: ["post"] });
+  assert.equal(errorsFor(doc), "");
+  // A step names only routes the procedure has.
+  doc.steps.push({ do: "Consegnare allo sportello", who: "owner", channel: ["desk"] });
+  assert.match(errorsFor(doc), /steps\/2: channel desk, which the procedure doesn't list/);
+  // A portal and an info channel need no steps of their own.
+  doc.steps.pop();
+  doc.channels.push({ type: "portal", purpose: "procedure", url: "https://example.org" }, { type: "desk", purpose: "info", name: "URP" });
+  assert.equal(errorsFor(doc), "");
+});
+
+test("a desk says where it is: an address, an office by area, or a url that finds one", () => {
+  const doc = minimal();
+  doc.channels.push({ type: "desk", purpose: "procedure", name: "Sportelli" });
+  doc.steps.push({ do: "Consegnare allo sportello", who: "owner", channel: ["desk"] });
+  assert.match(errorsFor(doc), /channels\/1: a desk needs an address/);
+  doc.channels[1].office = "residenza.municipalita";
+  assert.equal(errorsFor(doc), "");
+  doc.channels[1].address = "Via Roma 1";
+  assert.match(errorsFor(doc), /office picks the address/);
+  delete doc.channels[1].address;
+  doc.channels[1].office = "residenza.quartiere";
+  assert.match(errorsFor(doc), /schema: .*office/);
+  doc.channels[1].office = "nessuna.municipalita";
+  assert.match(errorsFor(doc), /channels\/1: office .*nessuna/);
+});
+
+test("a form's signing lists only where it differs from the law's rule", () => {
+  const doc = withForm({ label: "Nome", map: { direct: "identity.first_name" } });
+  doc.forms[0].signature_required = true;
+  doc.forms[0].signing = [{ channel: "pec", ways: ["digital", "handwritten"], id_copy: "handwritten", status: "unverified" }];
+  assert.match(errorsFor(doc), /signing for channel pec repeats contract\/signing.json/);
+  doc.forms[0].signing[0].status = "disputed";
+  assert.equal(errorsFor(doc), "");
+  doc.forms[0].signing[0] = { channel: "pec", ways: ["digital"], id_copy: "not_needed", status: "unverified" };
+  assert.equal(errorsFor(doc), "");
+});
+
+test("the offices files cover every value of their field and cite their sources", () => {
+  const office = { name: "URP", address: "Via Roma 1", source: "page" };
+  const file = (offices: Record<string, unknown>, name = "municipalita") =>
+    validateOffices(
+      tempLibrary({
+        [`${name}.json`]: JSON.stringify({
+          field: "municipalita",
+          name: "URP della Municipalità",
+          offices,
+          sources: [{ id: "page", label: "Pagina", url: "https://example.org", retrieved: "2026-10-27" }],
+        }),
+      }),
+    )[0].errors.join("\n");
+  const all = Object.fromEntries(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].map((k) => [k, office]));
+  assert.equal(file(all), "");
+  const { 10: _, ...nine } = all;
+  assert.match(file(nine), /no office for municipalita 10/);
+  assert.match(file({ ...all, 11: office }), /11 isn't a municipalita/);
+  assert.match(file({ ...all, 1: { ...office, source: "x" } }), /offices\/1: unknown source x/);
+  assert.match(file(all, "distretto_asl"), /the file is offices\/municipalita.json/);
 });
