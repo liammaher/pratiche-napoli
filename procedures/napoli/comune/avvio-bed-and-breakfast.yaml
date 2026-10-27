@@ -7,7 +7,7 @@ aka:
   - B and B
   - camere con colazione
   - struttura ricettiva extralberghiera
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Chi vuole ospitare turisti a Napoli offrendo alloggio e prima colazione in una parte della casa
   in cui vive (al massimo 4 camere e 8 posti letto) apre un Bed and Breakfast secondo la L.R.
@@ -271,6 +271,15 @@ channels:
     address: Via Medina 75, 80133 Napoli
     source: questura-napoli
     notes: Per le credenziali Alloggiati Web la Questura rinvia al Commissariato territorialmente competente.
+  - type: desk
+    purpose: related
+    name: Commissariati di P.S. di Napoli – Ufficio Polizia Amministrativa e Sociale
+    url: https://questure.poliziadistato.it/it/servizio/commissariati/5730dc9d1d37c715746424
+    source: questura-commissariati
+    notes: >-
+      Indirizzi, telefoni, PEC e orari di ogni Commissariato. La Questura non pubblica quale
+      Commissariato è competente per ciascuna zona: chiederlo a quello più vicino alla struttura
+      prima di inviare il modulo. Chiaiano non ha l'ufficio amministrativo: rinvia a Scampia.
 payment:
   method: pagopa
   notes:
@@ -645,6 +654,11 @@ sources:
     url: https://questure.poliziadistato.it/it/Napoli/articolo/8865cd3ef6f68f1c082829213
     retrieved: 2026-10-25
     page_updated: 2026-04-23
+    official: true
+  - id: questura-commissariati
+    label: Questura di Napoli – Orari e uffici dei commissariati
+    url: https://questure.poliziadistato.it/it/servizio/commissariati/5730dc9d1d37c715746424
+    retrieved: 2026-10-27
     official: true
   - id: modulo-alloggiati
     label: Questura di Napoli – Modulo editabile richiesta credenziali Alloggiati Web

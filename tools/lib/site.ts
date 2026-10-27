@@ -38,7 +38,7 @@ export interface Offices {
   field: string;
   name: string;
   serves: string;
-  offices: Record<string, { name: string; address: string; hours?: string; phone?: string; notes?: string; source: string }>;
+  offices: Record<string, { name: string; address: string; hours?: string; phone?: string; email?: string; pec?: string; notes?: string; source: string }>;
 }
 interface Source {
   id: string;
@@ -785,12 +785,12 @@ function officeTable(office: { list: string }, offices?: Record<string, Offices>
   const kind = o.field;
   const rows = Object.entries(o.offices).map(
     ([k, x]) =>
-      `<tr><td>${esc(k)}</td><td>${esc(x.name)}<br>${esc(x.address)}${x.notes ? `<br><span class="note">${esc(x.notes)}</span>` : ""}</td><td>${esc(x.hours ?? "")}${x.phone ? `<br>${esc(x.phone)}` : ""}</td></tr>`,
+      `<tr><td>${esc(k)}</td><td>${esc(x.name)}<br>${esc(x.address)}${x.notes ? `<br><span class="note">${esc(x.notes)}</span>` : ""}</td><td>${esc(x.hours ?? "")}${[x.phone, x.email, x.pec && `PEC ${x.pec}`].map((c) => (c ? `<br>${esc(c)}` : "")).join("")}</td></tr>`,
   );
   return `
 <p>${esc(o.name)}: quello ${kind === "municipalita" ? "della tua municipalità" : "del tuo distretto sanitario"}. ${esc(o.serves)}.</p>
 <table>
-<thead><tr><th>${kind === "municipalita" ? "Municipalità" : "Distretto"}</th><th>Indirizzo</th><th>Orari e telefono</th></tr></thead>
+<thead><tr><th>${kind === "municipalita" ? "Municipalità" : "Distretto"}</th><th>Indirizzo</th><th>Orari e contatti</th></tr></thead>
 <tbody>
 ${rows.join("\n")}
 </tbody>

@@ -247,7 +247,7 @@
             "required": ["list", "from"],
             "properties": {
               "list": { "description": "The list's file name in offices/, without .json", "type": "string", "pattern": "^[a-z0-9-]+$" },
-              "from": { "type": "string", "pattern": "^[a-z][a-z0-9_]*[0-9]*\\.(municipalita|distretto_asl)$" }
+              "from": { "description": "An address's area field: residenza.municipalita, locale2.distretto_asl, or the sede legale's business.sede_legale_municipalita", "type": "string", "pattern": "^[a-z][a-z0-9_]*[0-9]*\\.(sede_legale_)?(municipalita|distretto_asl)$" }
             }
           },
           "notes": {
