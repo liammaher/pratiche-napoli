@@ -119,6 +119,15 @@ channels:
     name: POTESs – Servizi Tributari
     url: https://servizionline.comune.napoli.it/web/napoli/servizi-tributari
     auth: [spid, cie, cns]
+    use:
+      ways: [web_form, upload]
+      status: unverified
+      source: potess-tributi
+      notes: >-
+        La pagina del servizio indica, per la TARI, «presentare istanze di iscrizione, cessazione e
+        trasferimento»: non dice se voltura e variazione di superficie si presentano qui, né se i
+        dati si inseriscono online o si allega il Mod. 6 firmato; la pagina della modulistica dice
+        che le dichiarazioni si compilano sui moduli del Comune. Non controllato dentro il portale.
     source: modulistica
   - type: email
     purpose: procedure
@@ -342,6 +351,16 @@ steps:
     human_only: true
     channel: [pec]
   - do: >-
+      Entro 90 giorni dalla variazione, accedere con SPID, CIE o CNS ai Servizi Tributari di
+      POTESs (https://servizionline.comune.napoli.it/web/napoli/servizi-tributari, "Accedi al
+      Servizio") e presentare l'istanza con i dati del Mod. 6 (il servizio indica il trasferimento;
+      per voltura o superficie, se il portale non la prevede, usare un altro canale), allegando se
+      richiesti il modulo firmato, la copia del documento d'identità e la planimetria; salvare la
+      ricevuta dell'invio con data e protocollo
+    who: owner
+    human_only: true
+    channel: [portal]
+  - do: >-
       Inviare entro 90 giorni dalla variazione il modulo firmato, la copia del documento
       d'identità e la planimetria per email a entrate.tari-tares-tarsu@comune.napoli.it; l'email
       non dà una ricevuta con valore legale, quindi conservare il messaggio inviato
@@ -490,6 +509,11 @@ sources:
       è abrogato dal D.Lgs. 1 agosto 2025, n. 123 (testo unico dell'imposta di registro e degli
       altri tributi indiretti), come modificato dal D.L. 200/2025: la norma corrispondente non è
       stata controllata.
+  - id: potess-tributi
+    label: POTESs – Servizi Tributari, descrizione del servizio (Comune di Napoli)
+    url: https://servizionline.comune.napoli.it/web/napoli/servizi-tributari
+    retrieved: 2026-10-27
+    official: true
 verification:
   level: L1
   date: 2026-10-25

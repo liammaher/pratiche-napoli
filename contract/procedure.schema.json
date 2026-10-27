@@ -224,6 +224,23 @@
             },
             "uniqueItems": true
           },
+          "use": {
+            "description": "What a person does on a portal that carries out the procedure (purpose procedure; required there, and only there): upload, send the filled, signed form or other documents as files; web_form, type the data into the portal's own form, so no PDF is filled for it; read, only read or download (a notice, a receipt, a certificate). Both web_form and upload when the portal's form also asks for files",
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["ways", "status"],
+            "properties": {
+              "ways": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "enum": ["upload", "web_form", "read"] }
+              },
+              "status": { "$ref": "#/$defs/status" },
+              "source": { "description": "id of the source that says so", "type": "string" },
+              "notes": { "$ref": "#/$defs/text" }
+            }
+          },
           "hours": {
             "$ref": "#/$defs/text"
           },

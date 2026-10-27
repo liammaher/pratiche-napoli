@@ -8,7 +8,7 @@ aka:
   - aprire un'attività commerciale
   - permesso per aprire un negozio
   - pratica SUAP
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Chi vuole aprire a Napoli un negozio al dettaglio con superficie di vendita fino a 250 mq
   (esercizio di vicinato, alimentare o non alimentare) presenta una SCIA al SUAP del Comune,
@@ -139,6 +139,13 @@ channels:
       e accesso con SPID, CIE, CNS (o eIDAS, Telemaco). Percorso: Commercio (Ateco 46-47) >
       Commercio al Dettaglio in area Privata > Esercizio di vicinato (Negozio) > settore NON
       alimentare oppure Alimentare o Misto > Aprire l'attività.
+    use:
+      ways: [web_form, upload]
+      status: unverified
+      notes: >-
+        Il portale dice che vi si compila, firma e invia la pratica online; per altri procedimenti
+        il vademecum del Comune indica la modulistica del front office più gli allegati da
+        caricare. Il percorso di questo procedimento non è stato controllato dentro il portale.
   - type: pec
     purpose: info
     address: suap@pec.comune.napoli.it
@@ -509,9 +516,13 @@ steps:
   - do: Firmare digitalmente SCIA e allegati (dichiarante, soci, preposto)
     who: owner
     human_only: true
-  - do: Inviare la pratica al SUAP dal portale
+  - do: >-
+      Accedere con SPID, CIE o CNS al front office di impresainungiorno (SUAP di Napoli), aprire la
+      pratica compilata, controllare che SCIA e allegati firmati digitalmente siano caricati e
+      inviarla al SUAP; salvare la ricevuta di avvio pratica
     who: owner
     human_only: true
+    channel: [portal]
   - do: Aprire il negozio dopo aver ricevuto la ricevuta di avvio pratica
     who: owner
     human_only: true

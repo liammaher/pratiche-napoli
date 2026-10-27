@@ -158,6 +158,15 @@ channels:
     name: POTESs – Servizi Tributari
     url: https://servizionline.comune.napoli.it/web/napoli/servizi-tributari
     auth: [spid, cie, cns]
+    use:
+      ways: [web_form, upload]
+      status: unverified
+      source: potess-tributi
+      notes: >-
+        La pagina del servizio indica, per la TARI, solo «istanze di iscrizione, cessazione e
+        trasferimento» e il Mod. 7 non elenca il portale: non è detto che la richiesta di
+        autotutela si possa presentare qui, né come (dati online o Mod. 7 firmato allegato). Non
+        controllato dentro il portale.
     source: modulistica
     notes: >-
       La pagina della modulistica lo indica per le "dichiarazioni TARI"; il Mod. 7 non lo elenca
@@ -321,6 +330,15 @@ steps:
     who: owner
     human_only: true
     channel: [post]
+  - do: >-
+      Solo se i Servizi Tributari di POTESs (accesso con SPID, CIE o CNS,
+      https://servizionline.comune.napoli.it/web/napoli/servizi-tributari) offrono un'istanza per
+      correggere l'avviso: compilarla con i dati del Mod. 7 e allegare il modulo firmato, la copia
+      del documento d'identità, la copia dell'avviso e le prove; salvare la ricevuta dell'invio con
+      data e protocollo. Altrimenti usare la PEC
+    who: owner
+    human_only: true
+    channel: [portal]
   - { do: Annotare data e ricevuta dell'invio e attendere la risposta dell'ufficio, who: owner }
 after:
   - Conservare la ricevuta della PEC, il modulo inviato e le quietanze F24.
@@ -485,6 +503,11 @@ sources:
       Riporta l'articolo come abrogato dal D.Lgs. 220/2023 (testo in vigore dal 4-1-2024). La
       versione senza data (in vigore dal 1-1-2027) lo dà abrogato dal D.Lgs. 175/2024 come
       modificato dal D.L. 200/2025.
+  - id: potess-tributi
+    label: POTESs – Servizi Tributari, descrizione del servizio (Comune di Napoli)
+    url: https://servizionline.comune.napoli.it/web/napoli/servizi-tributari
+    retrieved: 2026-10-27
+    official: true
 verification:
   level: L1
   date: 2026-10-25

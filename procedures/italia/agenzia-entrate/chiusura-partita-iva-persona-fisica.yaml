@@ -140,6 +140,14 @@ channels:
     receipt: legal
     preferred: true
     source: ade-software
+    use:
+      ways: [upload]
+      status: verified
+      source: ade-software
+      notes: >-
+        Si carica il file del modello preparato con il software dell'Agenzia ("Cessazione attività
+        Iva"), con un'operazione di upload nel servizio "Invio documenti"; il PDF compilato serve per
+        PEC, sportello e raccomandata.
     notes: >-
       Si compila il modello con il software gratuito dell'Agenzia "Cessazione attività Iva" e lo si
       carica dal percorso "Trasmissione telematiche / Invio documenti". Si accede anche con le
@@ -350,8 +358,10 @@ steps:
     human_only: true
     channel: [pec, desk, post]
   - do: >-
-      Caricarlo entro 30 giorni dalla cessazione nell'area riservata (Trasmissioni telematiche /
-      Invio documenti); la comunicazione di avvenuto ricevimento è la prova
+      Accedere con SPID, CIE o CNS all'area riservata dell'Agenzia (Trasmissioni telematiche /
+      Invio documenti) e caricare entro 30 giorni dalla cessazione il file preparato con il
+      software "Cessazione attività Iva"; conservare la comunicazione di avvenuto ricevimento, che
+      è la prova
     who: owner
     human_only: true
     channel: [portal]

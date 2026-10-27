@@ -159,6 +159,13 @@ channels:
       compila online e tutti i documenti e gli allegati vanno firmati digitalmente. L'indirizzo è
       quello a cui porta il pulsante "Accedi al Servizio" della scheda POTESs; la pagina "Edilizia
       Privata" del Comune dice ancora che il link "verrà successivamente fornito".
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: potess-sue
+      notes: >-
+        Le istanze si compilano online, corredate dalla documentazione del tecnico abilitato; i
+        diritti di segreteria vanno pagati prima dell'invio.
   - type: desk
     purpose: info
     name: Servizio Sportello Unico Edilizia
@@ -504,10 +511,12 @@ steps:
     who: owner
     human_only: true
   - do: >-
-      Compilare la CILA su Impresa in un giorno (SUE di Napoli), allegare documenti e ricevuta,
-      firmare digitalmente e inviare
+      Accedere con SPID, CIE o CNS a Impresa in un giorno (Sportello Unico Edilizia di Napoli),
+      compilare online la CILA, allegare elaborati, procura, Allegato A, Modello DP e ricevuta del
+      versamento firmati digitalmente e inviarla; salvare la ricevuta di presentazione
     who: professional
     human_only: true
+    channel: [portal]
   - do: Conservare la ricevuta di presentazione e annotare numero e data della pratica
     who: owner
   - do: >-

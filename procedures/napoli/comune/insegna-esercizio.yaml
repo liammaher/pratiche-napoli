@@ -3,7 +3,7 @@ id: napoli/comune/insegna-esercizio
 title: Insegna di esercizio – SCIA e canone unico per esposizione pubblicitaria (Comune di Napoli)
 headline: "Mettere l'insegna al negozio a Napoli: SCIA e quando si paga il canone"
 aka: [permesso insegna, autorizzazione insegna, tassa insegna, imposta sulla pubblicità, vetrofanie]
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Un negozio, un locale o un'altra attività che a Napoli installa o modifica la propria insegna
   deve prima presentare una SCIA al SUAP del Comune tramite impresainungiorno. Le insegne della
@@ -164,6 +164,13 @@ channels:
     notes: >-
       È l'unico canale per presentare la SCIA: le pratiche inviate per PEC o email ordinaria non
       vengono istruite. Servono anche PEC e firma digitale (pagina del servizio SUAP).
+    use:
+      ways: [web_form, upload]
+      status: unverified
+      notes: >-
+        Il portale dice che vi si compila, firma e invia la pratica online; per altri procedimenti
+        il vademecum del Comune indica la modulistica del front office più gli allegati da
+        caricare. Il percorso della SCIA insegna non è stato controllato dentro il portale.
   - type: desk
     purpose: info
     name: Servizio SUAP
@@ -298,7 +305,14 @@ steps:
     human_only: true
   - { do: Pagare con PagoPA i diritti d'istruttoria SUAP (voce S204), who: owner, human_only: true }
   - { do: Compilare la SCIA insegna di esercizio su impresainungiorno e allegare i documenti, who: anyone }
-  - { do: Firmare digitalmente e inviare la SCIA, who: owner, human_only: true }
+  - do: >-
+      Accedere con SPID, CIE o CNS al front office di impresainungiorno (SUAP di Napoli), firmare
+      digitalmente la SCIA e gli allegati (bozzetto e foto della facciata, ricevute dei
+      pagamenti, eventuale autorizzazione della Soprintendenza), caricarli e inviare la pratica;
+      salvare la ricevuta di avvio pratica
+    who: owner
+    human_only: true
+    channel: [portal]
   - do: >-
       Installare l'insegna solo dopo la ricevuta di avvio pratica (in area paesaggistica, solo dopo
       l'autorizzazione paesaggistica)

@@ -114,6 +114,15 @@ channels:
     name: POTESs – Servizi Tributari
     url: https://servizionline.comune.napoli.it/web/napoli/servizi-tributari
     auth: [spid, cie, cns]
+    use:
+      ways: [web_form, upload]
+      status: unverified
+      source: potess-tributi
+      notes: >-
+        La pagina del servizio indica, per la TARI, «presentare istanze di iscrizione, cessazione e
+        trasferimento», ma non dice se i dati si inseriscono online o se si allega il Mod. 8 firmato;
+        la pagina della modulistica dice che le dichiarazioni si compilano sui moduli del Comune.
+        Non controllato dentro il portale.
     source: modulistica
   - type: email
     purpose: procedure
@@ -291,6 +300,15 @@ steps:
     human_only: true
     channel: [pec]
   - do: >-
+      Entro 90 giorni dalla cessazione, accedere con SPID, CIE o CNS ai Servizi Tributari di
+      POTESs (https://servizionline.comune.napoli.it/web/napoli/servizi-tributari, "Accedi al
+      Servizio"), presentare l'istanza di cessazione TARI con i dati del Mod. 8 e, se il portale lo
+      chiede, allegare il modulo firmato, la copia del documento d'identità e gli allegati; salvare
+      la ricevuta dell'invio con data e protocollo
+    who: owner
+    human_only: true
+    channel: [portal]
+  - do: >-
       Inviare entro 90 giorni dalla cessazione il modulo firmato, la copia del documento
       d'identità e gli allegati per email a entrate.tari-tares-tarsu@comune.napoli.it; l'email non
       dà una ricevuta con valore legale, quindi conservare il messaggio inviato
@@ -430,6 +448,11 @@ sources:
       è abrogato dal D.Lgs. 1 agosto 2025, n. 123 (testo unico dell'imposta di registro e degli
       altri tributi indiretti), come modificato dal D.L. 200/2025: la norma corrispondente non è
       stata controllata.
+  - id: potess-tributi
+    label: POTESs – Servizi Tributari, descrizione del servizio (Comune di Napoli)
+    url: https://servizionline.comune.napoli.it/web/napoli/servizi-tributari
+    retrieved: 2026-10-27
+    official: true
 verification:
   level: L1
   date: 2026-10-25

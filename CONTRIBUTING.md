@@ -57,8 +57,11 @@
    spazzatura").
 7. **Steps that only a person can do** (sign, pay, send, swear, be present) get
    `human_only: true`. **Map every route end to end**: where a step is done differently on a
-   channel (send by PEC, by raccomandata A/R, at the desk), write one step per channel with
-   `channel: [pec]` and say exactly where it goes and what to keep as proof. A desk needs an
+   channel (send by PEC, by raccomandata A/R, at the desk, on the portal), write one step per
+   channel with `channel: [pec]` and say exactly where it goes and what to keep as proof. A
+   portal also says what you do there, `use: { ways, status, source }`: `upload` the filled
+   form or other files, type into its own `web_form` (then the PDF isn't filled for that
+   route), or only `read`; both `web_form` and `upload` when its form asks for files. A desk needs an
    address, a `url` that finds it, or `office: { list, from }` when it depends on where the
    person lives: the list of the service that does it (`offices/<list>.json`; add one, with
    an office for every value and the page each comes from, when no list is that service). A form's

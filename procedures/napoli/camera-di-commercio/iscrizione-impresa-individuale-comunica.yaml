@@ -179,6 +179,16 @@ channels:
     receipt: legal
     preferred: true
     source: ri-strumenti
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dire-guida
+      notes: >-
+        Si compila la pratica online in DIRE (Imposta, Compila, Completa e allega), si caricano
+        gli allegati (qui la procura firmata a mano con il documento, l'autocertificazione), poi in
+        "Firma e invia" si scarica la distinta, la si firma digitalmente e la si ricarica prima di
+        inviare. La guida InfoCamere mostra queste fasi su un'altra pratica (PEC degli
+        amministratori).
     notes: >-
       Strumento gratuito del sistema camerale per compilare e inviare la Comunicazione Unica (in
       alternativa, i software di mercato). Sostituisce Fedra e ComunicaStarweb; dal 12 febbraio
@@ -423,9 +433,13 @@ steps:
   - do: Se presenta un intermediario, firmare a mano la procura e consegnarla con copia del documento d'identità
     who: owner
     human_only: true
-  - do: Selezionare bollo e diritti di segreteria, firmare digitalmente la pratica e inviarla al Registro Imprese di Napoli
+  - do: >-
+      Accedere a DIRE, selezionare bollo e diritti di segreteria; in "Firma e invia" scaricare la
+      distinta, firmarla digitalmente, ricaricarla e inviare la pratica al Registro Imprese di
+      Napoli; la pratica resta in "Lista pratiche – Inviate", e le ricevute arrivano alla PEC
     who: owner
     human_only: true
+    channel: [portal]
   - do: Pagare il diritto annuale con il prepagato Telemaco all'invio, oppure con F24 entro 30 giorni dall'invio
     who: owner
     human_only: true
@@ -625,6 +639,13 @@ sources:
     label: registroimprese.it – Registrazione a Telemaco (costi e conto)
     url: https://www.registroimprese.it/registrazione
     retrieved: 2026-10-25
+    official: true
+  - id: dire-guida
+    label: InfoCamere – Guida DIRE per la comunicazione della PEC degli amministratori al Registro Imprese (fasi Imposta, Compila, Completa e allega, Firma e invia)
+    url: https://registroimprese.infocamere.it/documents/d/global/dire-guida-comunicazione-pec-amministratori
+    retrieved: 2026-10-27
+    page_updated: 2026-01-14
+    sha256: 89af022229be3fd3214a0f7343205bf549e950927b80b76bded2ca89a6b4af03
     official: true
   - id: ri-procura
     label: registroimprese.it – Modello di procura per la Comunicazione Unica (circolare MISE 3616/C del 2008)

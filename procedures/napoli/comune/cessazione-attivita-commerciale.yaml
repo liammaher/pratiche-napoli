@@ -211,6 +211,13 @@ channels:
       cessazione attività > Cessare l'attività. Per i bar: Strutture Ricettive e Ristorazione >
       Ristorazione e Somministrazione > zona tutelata o non tutelata > Cessare l'attività. Servono
       firma digitale e PEC.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: iiug-napoli
+      notes: >-
+        Le schede del portale descrivono la comunicazione da compilare nel front office e gli
+        allegati da caricare (tra cui l'attestazione di versamento, controversa).
   - type: portal
     purpose: procedure
     name: DIRE – Depositi e Istanze al Registro imprese (Comunicazione Unica)
@@ -221,6 +228,14 @@ channels:
       Per la cancellazione dal Registro Imprese (categoria "Cancellazione", tipo "Cancellazione dal
       Registro Imprese"). Dalla stessa pratica si può aprire impresainungiorno con il pulsante SUAP e
       importare la comunicazione di cessazione per il SUAP, inviando tutto insieme.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dire-guida
+      notes: >-
+        La pratica si compila online in DIRE (Imposta, Compila, Completa e allega); in "Firma e
+        invia" si scarica la distinta, la si firma digitalmente e la si ricarica. La guida
+        InfoCamere mostra queste fasi su un'altra pratica (PEC degli amministratori).
   - type: desk
     purpose: info
     name: Servizio SUAP
@@ -577,10 +592,15 @@ steps:
     who: owner
     human_only: true
   - do: >-
-      Inviare la Comunicazione Unica entro 30 giorni dalla cessazione (bollo 17,50 euro addebitato
-      sul conto Telemaco) e la comunicazione al SUAP da impresainungiorno
+      In DIRE (dire.registroimprese.it), fase "Firma e invia", scaricare la distinta della
+      Comunicazione Unica, firmarla digitalmente, ricaricarla e inviare la pratica entro 30 giorni
+      dalla cessazione (bollo 17,50 euro addebitato sul conto Telemaco). Inviare la comunicazione
+      al SUAP dal front office di impresainungiorno (accesso con SPID, CIE o CNS), oppure
+      importata nella stessa pratica DIRE con il pulsante SUAP. Conservare le ricevute che arrivano
+      alla PEC e quella del SUAP
     who: owner
     human_only: true
+    channel: [portal]
   - do: >-
       Solo per chi non è iscritto al Registro Imprese o al REA: chiudere la partita IVA con il
       modello AA9/12 entro 30 giorni
@@ -807,6 +827,12 @@ sources:
     sha256: f95c2edefadc2e1b78e180c4c45e58abd45a1d4341156d2cb92101215ef739f3
     official: true
     notes: Testo non estraibile; letti a vista i par. 1.8 (pagina 5 dell'allegato) e 2.9.5 (pagina 16).
+  - id: dire-guida
+    label: InfoCamere – Guida DIRE per la comunicazione della PEC degli amministratori al Registro Imprese (fasi Imposta, Compila, Completa e allega, Firma e invia)
+    url: https://registroimprese.infocamere.it/documents/d/global/dire-guida-comunicazione-pec-amministratori
+    retrieved: 2026-10-27
+    page_updated: 2026-01-14
+    official: true
   - id: sari-cancellazione
     label: SARI Camera di Napoli – Cancellazione impresa individuale attiva (scheda 113872853)
     url: https://supportospecialisticori.infocamere.it/sariWeb/na?apriSchedaMadre=113872853
