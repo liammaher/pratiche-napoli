@@ -242,8 +242,7 @@ steps:
     channel: [post]
   - do: >-
       Consegnare il modulo firmato, la copia del documento d'identità e la planimetria allo
-      sportello del SUAP (il modulo si può anche firmare lì, davanti all'impiegato) e chiedere una
-      copia con il timbro di protocollo
+      sportello del SUAP e chiedere una copia con il timbro di protocollo
     who: owner
     human_only: true
     channel: [desk]

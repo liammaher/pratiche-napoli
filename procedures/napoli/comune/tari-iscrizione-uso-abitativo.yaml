@@ -306,8 +306,7 @@ steps:
     channel: [post]
   - do: >-
       Consegnare il modulo firmato e la copia del documento d'identità all'URP della Municipalità
-      in cui si trova la casa (il modulo si può anche firmare lì, davanti all'impiegato) e
-      chiedere una copia con il timbro di protocollo
+      in cui si trova la casa e chiedere una copia con il timbro di protocollo
     who: owner
     human_only: true
     channel: [desk]

@@ -70,6 +70,9 @@ export interface Context {
   // ids of every procedure in the library (from file paths), for `related`
   knownIds: Set<string>;
   today: string; // YYYY-MM-DD
+  // fields with a valid offices/<field>.json, which a desk's office may name
+  // (default: this library's)
+  offices?: Set<string>;
 }
 
 // Procedure documents are plain YAML data; this is the subset the checks read.
@@ -227,7 +230,9 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
     if (c.type !== "desk") errors.push(`channels/${i}: office is for a desk, not ${c.type}`);
     if (c.address) errors.push(`channels/${i}: office picks the address, so give one or the other`);
     if (problem) errors.push(`channels/${i}: office ${problem}`);
-    else if (!OFFICE_FIELDS.has(kind)) errors.push(`channels/${i}: office ${c.office}: no offices/${kind}.json`);
+    else if (!(ctx.offices ?? officeFields(path.join(ROOT, "offices"))).has(kind)) {
+      errors.push(`channels/${i}: office ${c.office}: no valid offices/${kind}.json`);
+    }
   });
 
   (d.deadline?.rules ?? []).forEach((rule, i) => {
@@ -858,7 +863,7 @@ export function validateDir(dir: string, registry: Registry, today: string, only
   const files = listYaml(dir);
   const idOf = (file: string) => procedureIdFromPath(path.relative(dir, file));
   const knownIds = new Set(files.map(idOf));
-  const ctx: Context = { registry, knownIds, today };
+  const ctx: Context = { registry, knownIds, today, offices: officeFields(path.join(path.dirname(dir), "offices")) };
   const sameId = new Map<string, string[]>();
   for (const file of files) sameId.set(idOf(file), [...(sameId.get(idOf(file)) ?? []), path.relative(dir, file)]);
   const inScope = (file: string) => !only || file === only || file.startsWith(only + path.sep);
@@ -974,10 +979,11 @@ const OFFICE_KEYS: Record<string, string[]> = {
   municipalita: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
   distretto_asl: ["24/73", "25", "26", "27", "28", "29", "30", "31", "32", "33"],
 };
-// The fields with an offices file: the ones a desk channel's office may name.
-const OFFICE_FIELDS = new Set(
-  existsDir(path.join(ROOT, "offices")) ? listFiles(path.join(ROOT, "offices"), /\.json$/i).map((f) => path.basename(f, ".json")) : [],
-);
+// The fields with a valid offices file under dir: the ones a desk channel's
+// office may name.
+export function officeFields(dir: string): Set<string> {
+  return new Set(validateOffices(dir).filter((r) => !r.errors.length).map((r) => path.basename(r.rel, ".json")));
+}
 
 // Validates offices/<field>.json: the schema, an office for every value of the
 // field, and sources that exist.

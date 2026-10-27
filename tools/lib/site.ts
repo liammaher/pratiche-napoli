@@ -37,7 +37,7 @@ type Signing = { channel: string; ways: string[]; id_copy: string; status: Statu
 export interface Offices {
   field: string;
   name: string;
-  offices: Record<string, { name: string; address: string; hours?: string; phone?: string; notes?: string }>;
+  offices: Record<string, { name: string; address: string; hours?: string; phone?: string; notes?: string; source: string }>;
 }
 interface Source {
   id: string;
@@ -112,8 +112,8 @@ export interface SiteOptions {
   css: string;
   schema: string; // contract/procedure.schema.json, published as is
   fields: string; // contract/fields.json
-  signing?: Record<string, { text: string }>; // contract/signing.json's channels
-  offices?: Record<string, Offices>; // offices/*.json by field
+  signing?: { channels: Record<string, { text: string }> }; // contract/signing.json, published as is
+  offices?: Record<string, Offices>; // offices/*.json by field, published as is
   // The report form appears only with both: where reports go, and whom
   // people can write to about their data (the privacy page names it).
   reports?: { url: string; contact: string; script: string };
@@ -163,7 +163,7 @@ const access = (auth: string[]) => {
   if (!ways.length) return "senza credenziali";
   return `con ${ways.join(", ")}${auth.includes("none") ? " o senza credenziali" : ""}`;
 };
-// A route's heading, in "Scegli come presentarla".
+// A route's heading, in "Scegli come farlo".
 const ROUTE: Record<string, string> = {
   portal: "Online",
   pec: "Via PEC",
@@ -233,6 +233,9 @@ export function buildSite(procedures: Procedure[], opts: SiteOptions, situations
   files.set("procedures.json", renderIndexJson(procedures, entes, site));
   files.set("contract/procedure.schema.json", opts.schema);
   files.set("contract/fields.json", opts.fields);
+  // What procedures point at: the law's signing rule per channel, the desks by area.
+  if (opts.signing) files.set("contract/signing.json", JSON.stringify(opts.signing, null, 2) + "\n");
+  for (const [field, o] of Object.entries(opts.offices ?? {})) files.set(`offices/${field}.json`, JSON.stringify(o, null, 2) + "\n");
   files.set("sitemap.xml", renderSitemap(procedures, entes, site));
   files.set("robots.txt", `User-agent: *\nAllow: /\n\nSitemap: ${opts.baseUrl}/sitemap.xml\n`);
   files.set("llms.txt", renderLlmsTxt(entes, site));
@@ -780,12 +783,13 @@ function officeTable(field: string, offices?: Record<string, Offices>): string {
   const o = offices?.[kind];
   if (!o) return "";
   const rows = Object.entries(o.offices).map(
-    ([k, x]) => `<tr><td>${esc(k)}</td><td>${esc(x.name)}<br>${esc(x.address)}</td><td>${esc(x.hours ?? "")}</td></tr>`,
+    ([k, x]) =>
+      `<tr><td>${esc(k)}</td><td>${esc(x.name)}<br>${esc(x.address)}${x.notes ? `<br><span class="note">${esc(x.notes)}</span>` : ""}</td><td>${esc(x.hours ?? "")}${x.phone ? `<br>${esc(x.phone)}` : ""}</td></tr>`,
   );
   return `
 <p>${esc(o.name)}: quello ${kind === "municipalita" ? "della tua municipalità" : "del tuo distretto sanitario"}.</p>
 <table>
-<thead><tr><th>${kind === "municipalita" ? "Municipalità" : "Distretto"}</th><th>Indirizzo</th><th>Orari</th></tr></thead>
+<thead><tr><th>${kind === "municipalita" ? "Municipalità" : "Distretto"}</th><th>Indirizzo</th><th>Orari e telefono</th></tr></thead>
 <tbody>
 ${rows.join("\n")}
 </tbody>
@@ -844,7 +848,7 @@ ${f.signature_required ? "<p>Va firmato.</p>\n" : ""}${
 }
 
 // The steps in order. A run of steps that belong to some routes only becomes
-// one step, "Scegli come presentarla", with a heading per route: its steps,
+// one step, "Scegli come farlo", with a heading per route: its steps,
 // how to sign there and what it gives back (GOV.UK's "or" step). A run on one
 // route only stays as steps, labelled with it.
 function steps(p: Procedure, opts: SiteOptions): string {
@@ -883,7 +887,7 @@ ${run
   .join("\n")}
 </ol>${facts(c)}`,
     );
-    items.push(`<li>Scegli come presentarla:\n${parts.join("\n")}\n</li>`);
+    items.push(`<li>Scegli come farlo:\n${parts.join("\n")}\n</li>`);
   }
   return `<ol class="steps">\n${items.join("\n")}\n</ol>`;
 }
@@ -895,7 +899,7 @@ function routeSigning(type: string, p: Procedure, opts: SiteOptions): string {
     .filter((f) => f.signature_required)
     .map((f) => {
       const own = f.signing?.find((x) => x.channel === type);
-      if (!own) return opts.signing?.[type]?.text ?? "";
+      if (!own) return opts.signing?.channels[type]?.text ?? "";
       const how = `${own.ways.map((w) => WAYS[w] ?? w).join(" o ")}, ${ID_COPY[own.id_copy] ?? own.id_copy}.`;
       return `${how.charAt(0).toUpperCase()}${how.slice(1)}${own.notes ? ` ${own.notes}` : ""}`;
     });
@@ -927,6 +931,8 @@ function renderIndexJson(procedures: Procedure[], entes: Ente[], site: Site): st
         count: procedures.length,
         schema: `${base}/contract/procedure.schema.json`,
         fields: `${base}/contract/fields.json`,
+        signing: `${base}/contract/signing.json`,
+        offices: Object.keys(site.opts.offices ?? {}).map((f) => `${base}/offices/${f}.json`),
         license: { content: "CC BY-SA 4.0", code: "MIT" },
         situations: site.situations.map((s) => ({
           id: s.id,
@@ -997,6 +1003,10 @@ function renderLlmsTxt(entes: Ente[], site: Site): string {
     `- [Index of all procedures](${base}/procedures.json): id, title, summary, ente, updated date, verification and URLs`,
     `- [Procedure schema](${base}/contract/procedure.schema.json): JSON Schema of each procedure file`,
     `- [Field registry](${base}/contract/fields.json): the field IDs form fields map to`,
+    `- [Signing by channel](${base}/contract/signing.json): how PEC, email, post and desk take a signature by law, unless a form's own \`signing\` says otherwise`,
+    ...Object.keys(site.opts.offices ?? {}).map(
+      (f) => `- [Offices by ${f}](${base}/offices/${f}.json): the desk for each value of a desk channel's \`office\` field`,
+    ),
   ];
   if (site.situations.length) {
     lines.push("", "## Situations", "", "Each lists the procedures a situation involves; facts and sources are on the procedures' pages.", "");
