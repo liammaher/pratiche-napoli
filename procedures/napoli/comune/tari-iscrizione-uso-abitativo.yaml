@@ -96,7 +96,7 @@ channels:
   - type: desk
     purpose: procedure
     name: Sportelli URP delle Municipalità
-    office: residenza.municipalita
+    office: { list: comune-municipalita, from: residenza.municipalita }
     source: modulistica
     notes: Per le utenze domestiche, l'URP della Municipalità in cui si trova la casa.
   - type: desk

@@ -241,9 +241,14 @@
             "type": "boolean"
           },
           "office": {
-            "description": "A desk that depends on where the person is: the vault field (residenza.municipalita, locale.distretto_asl) whose value picks the office in offices/<municipalita or distretto_asl>.json. In place of one address",
-            "type": "string",
-            "pattern": "^[a-z][a-z0-9_]*[0-9]*\\.(municipalita|distretto_asl)$"
+            "description": "A desk that depends on where the person is: which list of offices (offices/<list>.json, one per service: the Municipalità's sede, the ASL's Prevenzione Collettiva, the ASL district's own sede...) and the vault field whose value picks one in it (residenza.municipalita, locale.distretto_asl), which must be the field the list is keyed by. In place of one address",
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["list", "from"],
+            "properties": {
+              "list": { "description": "The list's file name in offices/, without .json", "type": "string", "pattern": "^[a-z0-9-]+$" },
+              "from": { "type": "string", "pattern": "^[a-z][a-z0-9_]*[0-9]*\\.(municipalita|distretto_asl)$" }
+            }
           },
           "notes": {
             "$ref": "#/$defs/text"

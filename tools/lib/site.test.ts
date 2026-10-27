@@ -488,7 +488,7 @@ test("steps of one route become one step with a heading per route, its signing a
     channels: [
       { type: "pec", purpose: "procedure", address: "ufficio@pec.comune.napoli.it", receipt: "legal", preferred: true },
       { type: "post", purpose: "procedure", address: "Via Roma 1, Napoli" },
-      { type: "desk", purpose: "procedure", name: "URP", office: "residenza.municipalita" },
+      { type: "desk", purpose: "procedure", name: "URP", office: { list: "comune-municipalita", from: "residenza.municipalita" } },
     ],
     forms: [{ id: "mod", name: "Modulo", signature_required: true, fields: [] }],
     steps: [
@@ -500,9 +500,10 @@ test("steps of one route become one step with a heading per route, its signing a
     ],
   });
   const offices = {
-    municipalita: {
+    "comune-municipalita": {
       field: "municipalita",
       name: "URP della Municipalità",
+      serves: "Le istanze al Comune consegnate a mano",
       offices: {
         "1": { name: "URP Municipalità 1", address: "Piazza Santa Maria degli Angeli 1", hours: "lun–ven 9–12", source: "page" },
         "2": { name: "Sede della Municipalità 2", address: "Piazza Dante 93", phone: "081 7950201", notes: "Telefonare prima.", source: "page" },
@@ -520,7 +521,7 @@ test("steps of one route become one step with a heading per route, its signing a
   assert.match(stepsHtml, /Via PEC <span class="badge good">consigliato<\/span><\/h3>\n<ol>\n<li>Invialo dalla tua PEC/);
   assert.match(stepsHtml, /Firma: Firma digitale, o a mano con il documento\. Ricevi una ricevuta con valore legale\./);
   // The desk picked by municipalità lists every office.
-  assert.match(html, /URP della Municipalità: quello della tua municipalità\./);
+  assert.match(html, /URP della Municipalità: quello della tua municipalità\. Le istanze al Comune consegnate a mano\./);
   assert.match(html, /URP Municipalità 1<br>Piazza Santa Maria degli Angeli 1<\/td><td>lun–ven 9–12<\/td>/);
   // An office's notes and phone are shown with it.
   assert.match(html, /Piazza Dante 93<br><span class="note">Telefonare prima\.<\/span><\/td><td><br>081 7950201<\/td>/);
@@ -547,12 +548,13 @@ test("a form's own signing for a route replaces the law's rule; a single route s
 
 test("the signing rules and offices procedures point at are published with them", () => {
   const signing = { channels: { pec: { text: "Firma digitale." } } };
-  const offices = { municipalita: { field: "municipalita", name: "URP", offices: { "1": { name: "URP 1", address: "Via 1", source: "page" } } } };
-  const site = buildSite([minimal()], { ...opts, signing, offices });
+  const urp = { field: "municipalita", name: "URP", serves: "Istanze al Comune", offices: { "1": { name: "URP 1", address: "Via 1", source: "page" } } };
+  const site = buildSite([minimal()], { ...opts, signing, offices: { "comune-municipalita": urp } });
   assert.deepEqual(JSON.parse(site.get("contract/signing.json")!), signing);
-  assert.deepEqual(JSON.parse(site.get("offices/municipalita.json")!), offices.municipalita);
+  assert.deepEqual(JSON.parse(site.get("offices/comune-municipalita.json")!), urp);
   const index = JSON.parse(site.get("procedures.json")!);
   assert.equal(index.signing, `${opts.baseUrl}/contract/signing.json`);
-  assert.deepEqual(index.offices, [`${opts.baseUrl}/offices/municipalita.json`]);
-  assert.match(site.get("llms.txt")!, /offices\/municipalita\.json/);
+  assert.deepEqual(index.offices, [`${opts.baseUrl}/offices/comune-municipalita.json`]);
+  // Each list says what it serves, so nobody takes one service's desk for another's.
+  assert.match(site.get("llms.txt")!, /\[URP\]\(.*offices\/comune-municipalita\.json\): Istanze al Comune; the desk for each municipalita/);
 });

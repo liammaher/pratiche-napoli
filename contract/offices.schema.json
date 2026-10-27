@@ -1,14 +1,15 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/liammaher/pratiche-napoli/contract/offices.schema.json",
-  "title": "Offices by area",
-  "description": "The desks of one kind across Napoli, keyed by the value of a vault field: offices/municipalita.json by municipalità (1-10), offices/distretto_asl.json by ASL Napoli 1 Centro distretto (24/73, 25-33). A procedure's desk channel names the field (office: residenza.municipalita) and a reader picks the person's office",
+  "title": "Offices of one service, by area",
+  "description": "The desks of one service across Napoli (offices/<list>.json: the Municipalità's sede, the ASL's Prevenzione Collettiva, the ASL district's sede...), keyed by every value of a vault field: municipalità (1-10) or ASL Napoli 1 Centro distretto (24/73, 25-33), the values the vault lists for it. A procedure's desk channel names the list and the field (office: { list: comune-municipalita, from: residenza.municipalita }) and a reader picks the person's office. The file is named for its service, so a list says what it serves, not only where",
   "type": "object",
   "additionalProperties": false,
-  "required": ["field", "name", "offices", "sources"],
+  "required": ["field", "name", "serves", "offices", "sources"],
   "properties": {
     "field": { "description": "The vault field's name the keys are values of", "enum": ["municipalita", "distretto_asl"] },
     "name": { "description": "What these offices are, as the procedures call them", "type": "string", "minLength": 1 },
+    "serves": { "description": "What these offices handle, in Italian, so nobody takes them for another service of the same area (\"igiene pubblica per le attività: corsi e attestato alimentarista\", not \"l'ASL del distretto\")", "type": "string", "minLength": 1 },
     "offices": {
       "type": "object",
       "minProperties": 1,
