@@ -376,16 +376,6 @@ test("with a dichiarante, a person's own data is theirs and the rest stays the v
   }
 });
 
-test("the schema's ruolo list is the vault's ruolo.tipo list", () => {
-  const vault = JSON.parse(readFileSync(VAULT_SCHEMA_PATH, "utf8")) as VaultSchema;
-  const tipo = vault.categories.find((c) => c.name === "ruolo")!.fields!.find((f) => f.id === "ruolo.tipo")!;
-  const listed = tipo.description.match(/one or more of: ([a-z_, ]+?) \(/)?.[1].split(", ");
-  const schema = JSON.parse(readFileSync(path.join(ROOT, "contract", "procedure.schema.json"), "utf8"));
-  assert.deepEqual(schema.$defs.ruolo.enum, listed, "update $defs.ruolo in procedure.schema.json");
-  // Who may sign is a few of them.
-  for (const signer of schema.$defs.signer.enum) assert.ok(listed!.includes(signer), signer);
-});
-
 test("field refs: categories, wildcards and forbidden fields", () => {
   const r = ctx.registry;
   // A wildcard can't be only fields its holder never has.
@@ -1400,6 +1390,13 @@ test("a desk says where it is: an address, an office by area, or a url that find
   // The list names the service; its field must be the one the list is keyed by.
   doc.channels[1].office = { list: "comune-municipalita", from: "residenza.distretto_asl" };
   assert.match(errorsFor(doc), /offices\/comune-municipalita\.json is by municipalita, so from must be an address's municipalita/);
+  // The sede legale's area is the business's own field, as the vault names it.
+  doc.dichiarante = { ruolo: "titolare" };
+  doc.channels[1].office = { list: "comune-municipalita", from: "business.sede_legale_municipalita" };
+  assert.equal(errorsFor(doc), "");
+  doc.channels[1].office = { list: "comune-municipalita", from: "business.sede_legale_distretto_asl" };
+  assert.match(errorsFor(doc), /is by municipalita/);
+  delete doc.dichiarante;
   doc.channels[1].office = { list: "asl", from: "residenza.distretto_asl" };
   assert.match(errorsFor(doc), /no valid offices\/asl\.json/);
   doc.channels[1].office = "residenza.municipalita";
@@ -1462,8 +1459,19 @@ test("a desk's office names only offices files that validate", () => {
   assert.match(validateProcedure(doc, "napoli/comune/test.yaml", { ...ctx, offices: new Map() }).join("\n"), /no valid offices\/comune-municipalita.json/);
 });
 
+test("every channel that can file a procedure is a canale the vault's pratiche take", () => {
+  const pratiche = (JSON.parse(readFileSync(VAULT_SCHEMA_PATH, "utf8")) as VaultSchema).pratiche!;
+  const schema = JSON.parse(readFileSync(path.join(ROOT, "contract", "procedure.schema.json"), "utf8"));
+  // fill.py saves a channel's type as the pratica's canale; phone only answers questions.
+  for (const type of schema.$defs.channel_type.enum.filter((t: string) => t !== "phone")) {
+    assert.ok(pratiche.canali.includes(pratiche.canale_aliases[type] ?? type), `${type}: no canale in the vault`);
+  }
+});
+
 test("the ruolo list is the vault's", () => {
   const schema = JSON.parse(readFileSync(path.join(ROOT, "contract", "procedure.schema.json"), "utf8"));
   const tipo = loadRegistry().categories.flatMap((c) => c.fields).find((f) => f.id === "ruolo.tipo");
-  assert.deepEqual(schema.$defs.ruolo.enum, tipo?.values);
+  assert.deepEqual(schema.$defs.ruolo.enum, tipo?.values, "update $defs.ruolo in procedure.schema.json");
+  // Who may sign is a few of them.
+  for (const signer of schema.$defs.signer.enum) assert.ok(tipo?.values?.includes(signer), signer);
 });
