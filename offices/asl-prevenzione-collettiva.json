@@ -1,6 +1,7 @@
 {
   "field": "distretto_asl",
-  "name": "UOSD Prevenzione Collettiva del distretto (ASL Napoli 1 Centro)",
+  "name": "UOSD Prevenzione Collettiva (ASL Napoli 1 Centro)",
+  "serves": "Igiene e sanità pubblica per chi lavora con gli alimenti e per le attività: corsi e attestato alimentarista. Un'unità ogni due o tre distretti; non è la sede del distretto (medico di base, tessera sanitaria, esenzioni)",
   "offices": {
     "24/73": {
       "name": "U.O.S.D. Prevenzione Collettiva DD.SS.BB. 24, 31 e 73",
