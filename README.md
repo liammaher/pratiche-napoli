@@ -9,6 +9,12 @@ Agenzia delle Entrate…). Each procedure says who it applies to, the deadline, 
 the documents and forms, the exact steps, and which steps only a person can do. Each records
 its official sources and how far it has been verified.
 
+**Where this is going:** the library is meant to be the rules behind one connector that lets a
+Naples business's own AI assistant handle its dealings with public offices, together with
+anonymised outcomes of how pratiche actually went. The library stays data, site and reports, and
+never depends on any vault. The direction and its open decisions are in `docs/north-star.md` in
+the (private) personal-vault-italia repository.
+
 ## Verification levels
 
 | Level | Meaning |
