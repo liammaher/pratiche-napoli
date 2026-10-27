@@ -32,6 +32,7 @@
           },
           "cells": { "description": "One character per cell, as for a codice fiscale: each cell's [x0, x1]", "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/span" } },
           "baseline": { "description": "Where the cells' characters sit", "type": "number" },
+          "partial": { "description": "With cells: a shorter value (a REA number) leaves the last cells empty", "type": "boolean" },
           "parts": { "description": "A date written in parts (day, month, year), in that order", "type": "array", "minItems": 2, "maxItems": 3, "items": { "$ref": "#/$defs/rect" } },
           "choices": { "description": "Each box to tick, by the procedure's box name", "type": "object", "minProperties": 1, "additionalProperties": { "$ref": "#/$defs/rect" } },
           "choice_widgets": { "description": "Each box to tick as the form's fillable checkbox or radio button, by the procedure's box name", "type": "object", "minProperties": 1, "additionalProperties": { "$ref": "#/$defs/widget" } },
