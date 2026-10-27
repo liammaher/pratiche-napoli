@@ -503,14 +503,17 @@ test("steps of one route become one step with a heading per route, its signing a
     municipalita: {
       field: "municipalita",
       name: "URP della Municipalità",
-      offices: { "1": { name: "URP Municipalità 1", address: "Piazza Santa Maria degli Angeli 1", hours: "lun–ven 9–12" } },
+      offices: {
+        "1": { name: "URP Municipalità 1", address: "Piazza Santa Maria degli Angeli 1", hours: "lun–ven 9–12", source: "page" },
+        "2": { name: "Sede della Municipalità 2", address: "Piazza Dante 93", phone: "081 7950201", notes: "Telefonare prima.", source: "page" },
+      },
     },
   };
-  const html = buildSite([p], { ...opts, signing: { pec: { text: "Firma digitale, o a mano con il documento." } }, offices }).get(`${p.id}/index.html`)!;
+  const html = buildSite([p], { ...opts, signing: { channels: { pec: { text: "Firma digitale, o a mano con il documento." } } }, offices }).get(`${p.id}/index.html`)!;
   const stepsHtml = html.slice(html.indexOf('id="passaggi"'));
   // Fill, choose a route, pay: in that order.
-  assert.ok(stepsHtml.indexOf("Compila il modulo") < stepsHtml.indexOf("Scegli come presentarla"));
-  assert.ok(stepsHtml.indexOf("Scegli come presentarla") < stepsHtml.indexOf("Paga l&#39;F24"));
+  assert.ok(stepsHtml.indexOf("Compila il modulo") < stepsHtml.indexOf("Scegli come farlo"));
+  assert.ok(stepsHtml.indexOf("Scegli come farlo") < stepsHtml.indexOf("Paga l&#39;F24"));
   // The preferred route first, each with its own steps.
   assert.ok(stepsHtml.indexOf("Via PEC") < stepsHtml.indexOf("Per posta"));
   assert.ok(stepsHtml.indexOf("Per posta") < stepsHtml.indexOf("Allo sportello"));
@@ -518,7 +521,9 @@ test("steps of one route become one step with a heading per route, its signing a
   assert.match(stepsHtml, /Firma: Firma digitale, o a mano con il documento\. Ricevi una ricevuta con valore legale\./);
   // The desk picked by municipalità lists every office.
   assert.match(html, /URP della Municipalità: quello della tua municipalità\./);
-  assert.match(html, /URP Municipalità 1<br>Piazza Santa Maria degli Angeli 1<\/td><td>lun–ven 9–12/);
+  assert.match(html, /URP Municipalità 1<br>Piazza Santa Maria degli Angeli 1<\/td><td>lun–ven 9–12<\/td>/);
+  // An office's notes and phone are shown with it.
+  assert.match(html, /Piazza Dante 93<br><span class="note">Telefonare prima\.<\/span><\/td><td><br>081 7950201<\/td>/);
 });
 
 test("a form's own signing for a route replaces the law's rule; a single route stays a labelled step", () => {
@@ -534,8 +539,20 @@ test("a form's own signing for a route replaces the law's rule; a single route s
     ],
     steps: [{ do: "Invia via PEC", who: "owner", channel: ["pec"] }],
   });
-  const html = buildSite([p], { ...opts, signing: { pec: { text: "La regola generale." } } }).get(`${p.id}/index.html`)!;
+  const html = buildSite([p], { ...opts, signing: { channels: { pec: { text: "La regola generale." } } } }).get(`${p.id}/index.html`)!;
   assert.match(html, /<li><span class="badge soft">Via PEC<\/span> Invia via PEC/);
   assert.match(html, /Firma: Firma digitale, senza copia del documento\. Il Comune vuole la firma digitale\./);
-  assert.ok(!html.includes("La regola generale.") && !html.includes("Scegli come presentarla"));
+  assert.ok(!html.includes("La regola generale.") && !html.includes("Scegli come farlo"));
+});
+
+test("the signing rules and offices procedures point at are published with them", () => {
+  const signing = { channels: { pec: { text: "Firma digitale." } } };
+  const offices = { municipalita: { field: "municipalita", name: "URP", offices: { "1": { name: "URP 1", address: "Via 1", source: "page" } } } };
+  const site = buildSite([minimal()], { ...opts, signing, offices });
+  assert.deepEqual(JSON.parse(site.get("contract/signing.json")!), signing);
+  assert.deepEqual(JSON.parse(site.get("offices/municipalita.json")!), offices.municipalita);
+  const index = JSON.parse(site.get("procedures.json")!);
+  assert.equal(index.signing, `${opts.baseUrl}/contract/signing.json`);
+  assert.deepEqual(index.offices, [`${opts.baseUrl}/offices/municipalita.json`]);
+  assert.match(site.get("llms.txt")!, /offices\/municipalita\.json/);
 });

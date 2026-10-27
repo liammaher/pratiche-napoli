@@ -46,7 +46,7 @@ const files = buildSite(procedures, {
   css: read("tools", "site", "style.css"),
   schema: read("contract", "procedure.schema.json"),
   fields: read("contract", "fields.json"),
-  signing: SIGNING.channels,
+  signing: SIGNING,
   offices: Object.fromEntries(officeResults.map((r) => [(r.doc as Offices).field, r.doc as Offices])),
   reports: REPORTS_URL && CONTACT_EMAIL ? { url: REPORTS_URL, contact: CONTACT_EMAIL, script: read("tools", "site", "report.js") } : undefined,
 }, situationResults.map((r) => r.doc as Situation));

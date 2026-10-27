@@ -9,6 +9,7 @@ import {
   ROOT,
   checkFieldRef,
   loadRegistry,
+  officeFields,
   todayInRome,
   validateDir,
   validateLayouts,
@@ -1425,4 +1426,24 @@ test("the offices files cover every value of their field and cite their sources"
   assert.match(file({ ...all, 11: office }), /11 isn't a municipalita/);
   assert.match(file({ ...all, 1: { ...office, source: "x" } }), /offices\/1: unknown source x/);
   assert.match(file(all, "distretto_asl"), /the file is offices\/municipalita.json/);
+});
+
+test("a desk's office names only offices files that validate", () => {
+  const good = { name: "URP", address: "Via Roma 1", source: "page" };
+  const file = (offices: Record<string, unknown>) =>
+    tempLibrary({
+      "municipalita.json": JSON.stringify({
+        field: "municipalita",
+        name: "URP",
+        offices,
+        sources: [{ id: "page", label: "Pagina", url: "https://example.org", retrieved: "2026-10-27" }],
+      }),
+    });
+  const all = Object.fromEntries(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].map((k) => [k, good]));
+  assert.deepEqual([...officeFields(file(all))], ["municipalita"]);
+  assert.deepEqual([...officeFields(file({ 1: good }))], []);
+  const doc = minimal();
+  doc.channels.push({ type: "desk", purpose: "procedure", name: "URP", office: "residenza.municipalita" });
+  doc.steps.push({ do: "Consegnare allo sportello", who: "owner", channel: ["desk"] });
+  assert.match(validateProcedure(doc, "napoli/comune/test.yaml", { ...ctx, offices: new Set() }).join("\n"), /no valid offices\/municipalita.json/);
 });
