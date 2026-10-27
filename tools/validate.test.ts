@@ -1163,7 +1163,7 @@ test("a form's fields have distinct labels", () => {
   assert.match(errorsFor(withForm({ label: "X", map: { direct: "identity.email" } }, { label: "X", map: { direct: "identity.pec" } })), /two fields are labelled "X"/);
 });
 
-function layoutLibrary(layout: Record<string, unknown>): { results: ReturnType<typeof validateLayouts> } {
+function layoutLibrary(layout: Record<string, unknown>, signed = false): { results: ReturnType<typeof validateLayouts> } {
   const doc = withForm(
     { label: "Nome", map: { direct: "identity.first_name" } },
     { label: "Titolo", map: { direct: "abitazione.titolo" }, choices: [{ box: "proprietario", values: ["proprietario"] }, { box: "altro", values: ["altro"], write_value: true }] },
@@ -1172,12 +1172,101 @@ function layoutLibrary(layout: Record<string, unknown>): { results: ReturnType<t
     { label: "Ufficio", map: { blank_with_reason: "Per l'ufficio." } },
   );
   doc.forms[0].sha256 = "a".repeat(64);
+  if (signed) doc.forms[0].signature_required = true;
   const dir = mkdtempSync(path.join(tmpdir(), "layouts-"));
   const rel = path.join("napoli", "comune", "test", "mod.json");
   mkdirSync(path.dirname(path.join(dir, rel)), { recursive: true });
   writeFileSync(path.join(dir, rel), JSON.stringify(layout));
   return { results: validateLayouts(dir, [{ rel: "napoli/comune/test.yaml", errors: [], doc }]) };
 }
+
+test("how each channel takes a signature is checked against the procedure's channels", () => {
+  const signed = (...signing: Record<string, unknown>[]) => {
+    const doc = withForm({ label: "Nome", map: { direct: "identity.first_name" } });
+    doc.forms[0].signature_required = true;
+    doc.forms[0].signing = signing;
+    return doc;
+  };
+  const pec = { channel: "pec", ways: ["handwritten", "digital"], id_copy: "required", status: "unverified" };
+  assert.equal(errorsFor(signed(pec)), "");
+  assert.equal(errorsFor(signed({ ...pec, source: "page", notes: "Scansione firmata." })), "");
+
+  // signing refines signature_required
+  const unsigned = signed(pec);
+  delete unsigned.forms[0].signature_required;
+  assert.match(errorsFor(unsigned), /form "mod": signing needs signature_required: true/);
+  unsigned.forms[0].signature_required = false;
+  assert.match(errorsFor(unsigned), /signing needs signature_required: true/);
+
+  // a channel the procedure has, once, with purpose procedure
+  assert.match(errorsFor(signed({ ...pec, channel: "post" })), /signing for channel post, which the procedure doesn't list/);
+  assert.match(errorsFor(signed(pec, pec)), /signing lists channel pec twice/);
+  const info = signed({ ...pec, channel: "phone" });
+  info.channels.push({ type: "phone", purpose: "info", address: "081 000 0000" });
+  assert.match(errorsFor(info), /signing for channel phone, which the procedure doesn't list with purpose "procedure"/);
+
+  // login needs an auth on the channel
+  const login = { channel: "portal", ways: ["login"], id_copy: "not_needed", status: "unverified" };
+  const portal = (auth?: string[]) => {
+    const doc = signed(login);
+    doc.channels.push({ type: "portal", purpose: "procedure", url: "https://example.org/", ...(auth ? { auth } : {}) });
+    return doc;
+  };
+  assert.equal(errorsFor(portal(["spid", "cie"])), "");
+  assert.equal(errorsFor(portal(["none", "spid"])), "");
+  assert.match(errorsFor(portal()), /way "login" on channel portal, which lists no auth/);
+  assert.match(errorsFor(portal(["none"])), /way "login" on channel portal, which lists no auth/);
+  const none = signed({ ...login, ways: ["none"] });
+  none.channels.push({ type: "portal", purpose: "procedure", url: "https://example.org/", auth: ["none"] });
+  assert.equal(errorsFor(none), "");
+
+  // closed lists, and a source must exist; verified needs an official one
+  assert.match(errorsFor(signed({ ...pec, ways: [] })), /schema: .*ways/);
+  assert.match(errorsFor(signed({ ...pec, ways: ["digital", "digital"] })), /schema: .*ways/);
+  assert.match(errorsFor(signed({ ...pec, ways: ["stamp"] })), /schema: .*ways\/0/);
+  assert.match(errorsFor(signed({ ...pec, id_copy: "maybe" })), /schema: .*id_copy/);
+  assert.match(errorsFor(signed({ ...pec, channel: "fax" })), /schema: .*channel/);
+  const { id_copy: _, ...noCopy } = pec;
+  assert.match(errorsFor(signed(noCopy)), /schema: .*id_copy/);
+  assert.match(errorsFor(signed({ ...pec, source: "nowhere" })), /signing\/0\/source: unknown source "nowhere"/);
+  assert.match(errorsFor(signed({ ...pec, status: "verified" })), /signing\/0\/status: a verified claim must cite a source/);
+  assert.equal(errorsFor(signed({ ...pec, status: "verified", source: "page" })), "");
+});
+
+test("a step can name the sign gate only if it stays human_only", () => {
+  const doc = minimal();
+  doc.steps = [{ do: "Firmare il modulo", who: "owner", human_only: true, gate: "sign" }];
+  assert.equal(errorsFor(doc), "");
+  doc.steps = [{ do: "Firmare il modulo", who: "owner", gate: "sign" }];
+  assert.match(errorsFor(doc), /steps\/0: gate sign carries a human_only step/);
+  doc.steps = [{ do: "Firmare il modulo", who: "owner", human_only: false, gate: "sign" }];
+  assert.match(errorsFor(doc), /steps\/0: gate sign carries a human_only step/);
+  doc.steps = [{ do: "Firmare il modulo", who: "owner", human_only: true, gate: "pay" }];
+  assert.match(errorsFor(doc), /schema: .*gate/);
+});
+
+test("a layout's signatures need a form that requires one", () => {
+  const sig = { rect: [300, 700, 500, 712], date_rect: [100, 700, 200, 712], page: 2, for: "dichiarante" };
+  const errors = (signed: boolean, edit: (l: Record<string, any>) => void) => {
+    const l = goodLayout();
+    edit(l);
+    return layoutLibrary(l, signed).results.flatMap((r) => r.errors).join("\n");
+  };
+  assert.equal(errors(true, (l) => (l.signatures = [sig])), "");
+  assert.equal(errors(true, (l) => (l.signatures = [{ rect: [300, 700, 500, 712] }])), "");
+  assert.equal(errors(true, () => {}), "");
+  assert.match(errors(false, (l) => (l.signatures = [sig])), /signatures place a signature, but form mod has no signature_required: true/);
+  assert.match(errors(true, (l) => (l.signatures = [{ rect: [500, 700, 300, 712] }])), /signatures\/0\/rect: must be \[x0, top, x1, bottom\] with x0 < x1 and top < bottom/);
+  assert.match(errors(true, (l) => (l.signatures = [{ rect: [300, 712, 500, 700] }])), /signatures\/0\/rect: must be/);
+  assert.match(errors(true, (l) => (l.signatures = [{ rect: [300, 700, 310, 712] }])), /signatures\/0\/rect: is 10 x 12 points; the vault needs at least 20 x 10/);
+  assert.match(errors(true, (l) => (l.signatures = [{ ...sig, date_rect: [68, 759, 172, 748] }])), /signatures\/0\/date_rect: must be/);
+  assert.match(errors(true, (l) => (l.signatures = [])), /schema: \/signatures/);
+  assert.match(errors(true, (l) => (l.signatures = [{ ...sig, rect: [1, 2, 3] }])), /schema: \/signatures\/0\/rect/);
+  assert.match(errors(true, (l) => (l.signatures = [{ ...sig, page: 0 }])), /schema: \/signatures\/0\/page/);
+  assert.match(errors(true, (l) => (l.signatures = [{ ...sig, page: 1.5 }])), /schema: \/signatures\/0\/page/);
+  assert.match(errors(true, (l) => (l.signatures = [{ ...sig, colour: "blue" }])), /schema: \/signatures\/0 must NOT have additional properties/);
+  assert.match(errors(true, (l) => (l.signatures = [{ date_rect: sig.date_rect }])), /schema: \/signatures\/0 must have required property 'rect'/);
+});
 
 function goodLayout(): Record<string, any> {
   return {

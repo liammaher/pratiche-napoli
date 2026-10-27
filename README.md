@@ -131,6 +131,10 @@ For a form with no fillable fields, `layouts/<procedure id>/<form id>.json`
 ([schema](contract/layout.schema.json)) says where each field goes on the PDF, for the form's exact
 `sha256`: when the form changes, its layout no longer validates until it is measured again.
 `npm run validate` checks that every field of the form has one box of the right kind.
+A layout's optional `signatures` (rect, `date_rect`, `page`, `for`) place the signature line, for
+a form with `signature_required`. A form's `signing` says, per channel, which ways the channel
+takes the signature (`handwritten`, `digital`, `login`, `none`) and whether it wants an ID copy;
+a signature step may carry `gate: sign` and stays `human_only`.
 
 ## Source monitor
 

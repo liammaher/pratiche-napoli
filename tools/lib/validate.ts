@@ -68,7 +68,7 @@ interface Source {
 interface Doc {
   id?: string;
   updated?: string;
-  channels?: { purpose?: string; preferred?: boolean }[];
+  channels?: { type?: string; purpose?: string; preferred?: boolean; auth?: string[] }[];
   deadline?: { summary?: unknown; rules?: { compute?: { from: string; days: number } }[] };
   documents?: { name: string }[];
   reported?: {
@@ -87,7 +87,8 @@ interface Doc {
   sources?: Source[];
   applies_to?: { audience?: string[] };
   dichiarante?: unknown;
-  forms?: { id: string; sha256?: string; fields?: Row[] }[];
+  forms?: { id: string; sha256?: string; signature_required?: boolean; signing?: { channel: string; ways: string[] }[]; fields?: Row[] }[];
+  steps?: { human_only?: boolean; gate?: string }[];
   records?: { field: string }[];
   related?: string[];
   run_log?: { date: string }[];
@@ -149,6 +150,28 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
       for (const problem of problems) errors.push(`form "${f.id}", field "${field.label}": ${problem}`);
     }
   }
+
+  // How each channel takes the signature: a form plus a channel decides it.
+  // (An unknown `source` and a verified `status` without one are caught by the walk below.)
+  const channelsOf = (type: string) => (d.channels ?? []).filter((c) => c.type === type && c.purpose === "procedure");
+  for (const f of d.forms ?? []) {
+    if (!f.signing) continue;
+    if (!f.signature_required) errors.push(`form "${f.id}": signing needs signature_required: true`);
+    const seen = new Set<string>();
+    for (const entry of f.signing) {
+      if (seen.has(entry.channel)) errors.push(`form "${f.id}": signing lists channel ${entry.channel} twice`);
+      seen.add(entry.channel);
+      const channels = channelsOf(entry.channel);
+      if (!channels.length) {
+        errors.push(`form "${f.id}": signing for channel ${entry.channel}, which the procedure doesn't list with purpose "procedure"`);
+      } else if (entry.ways.includes("login") && !channels.some((c) => (c.auth ?? []).some((a) => a !== "none"))) {
+        errors.push(`form "${f.id}": signing way "login" on channel ${entry.channel}, which lists no auth (spid, cie, cns) to sign in with`);
+      }
+    }
+  }
+  (d.steps ?? []).forEach((step, i) => {
+    if (step.gate && !step.human_only) errors.push(`steps/${i}: gate ${step.gate} carries a human_only step, so it needs human_only: true`);
+  });
 
   (d.deadline?.rules ?? []).forEach((rule, i) => {
     if (!rule.compute) return;
@@ -885,6 +908,7 @@ interface Layout {
   form: string;
   sha256: string;
   boxes: LayoutBox[];
+  signatures?: { rect?: unknown; date_rect?: unknown }[];
   unmapped?: { box: string; needed_when?: { field: string; box: string } }[];
 }
 
@@ -917,6 +941,18 @@ export function validateLayouts(dir: string, procedures: FileResult[]): FileResu
     if (!form) return { rel, errors, doc };
     if (!form.sha256) errors.push(`form ${l.form} has no sha256, so a layout can't be tied to a version of it`);
     else if (form.sha256 !== l.sha256) errors.push(`sha256 isn't the form's (${form.sha256.slice(0, 12)}...): the form changed, so measure it again`);
+
+    if (l.signatures && !form.signature_required) errors.push(`signatures place a signature, but form ${l.form} has no signature_required: true`);
+    // The vault stamps the image into each box and refuses one it can't use.
+    (l.signatures ?? []).forEach((sig, i) => {
+      for (const key of ["rect", "date_rect"] as const) {
+        const r = sig[key];
+        if (!Array.isArray(r) || r.length !== 4 || !r.every((n) => typeof n === "number")) continue;
+        const [x0, top, x1, bottom] = r as number[];
+        if (!(x0 < x1 && top < bottom)) errors.push(`signatures/${i}/${key}: must be [x0, top, x1, bottom] with x0 < x1 and top < bottom`);
+        else if (x1 - x0 < 20 || bottom - top < 10) errors.push(`signatures/${i}/${key}: is ${x1 - x0} x ${bottom - top} points; the vault needs at least 20 x 10`);
+      }
+    });
 
     const rows = new Map((form.fields ?? []).map((r) => [r.label, r]));
     const placed = new Set<string>();
