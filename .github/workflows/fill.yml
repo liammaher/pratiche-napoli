@@ -1,0 +1,82 @@
+name: Fill pilots
+
+# The personal vault's fill.py fills forms from entries and layouts here: run
+# its pilots (claude/skills/pratica/fill/pilot/regress.py, on the vault's main)
+# against this branch whenever an entry, layout or the contract changes. The
+# vault repository is private, so this needs VAULT_SCHEMA_TOKEN (read access to
+# its contents), as the Vault schema workflow does; pull requests from forks
+# don't get it and only warn. No scheduled run.
+on:
+  pull_request:
+    paths:
+      - procedures/**
+      - layouts/**
+      - contract/**
+      - .github/workflows/fill.yml
+  push:
+    branches: [main]
+    paths:
+      - procedures/**
+      - layouts/**
+      - contract/**
+      - .github/workflows/fill.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pilots:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Token
+        id: token
+        env:
+          VAULT_SCHEMA_TOKEN: ${{ secrets.VAULT_SCHEMA_TOKEN }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          if [ -n "$VAULT_SCHEMA_TOKEN" ]; then echo "ok=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          if [ "$EVENT" = pull_request ]; then
+            echo "::warning::VAULT_SCHEMA_TOKEN isn't available to this pull request; the run on main runs the pilots"
+            exit 0
+          fi
+          echo "::error::VAULT_SCHEMA_TOKEN is not set"; exit 1
+
+      - uses: actions/checkout@v5
+        if: steps.token.outputs.ok
+
+      - uses: actions/checkout@v5
+        if: steps.token.outputs.ok
+        with:
+          repository: liammaher/personal-vault-italia
+          token: ${{ secrets.VAULT_SCHEMA_TOKEN }}
+          path: vault
+
+      - uses: actions/setup-go@v5
+        if: steps.token.outputs.ok
+        with:
+          go-version-file: vault/go.mod
+          cache-dependency-path: vault/go.sum
+
+      - uses: actions/setup-node@v5
+        if: steps.token.outputs.ok
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-python@v5
+        if: steps.token.outputs.ok
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        if: steps.token.outputs.ok
+        run: |
+          npm ci --omit=dev --ignore-scripts
+          pip install pymupdf==1.27.2.3
+
+      - name: Run the pilots
+        if: steps.token.outputs.ok
+        env:
+          PRATICHE_NAPOLI_DIR: ${{ github.workspace }}
+        run: python3 -I vault/claude/skills/pratica/fill/pilot/regress.py

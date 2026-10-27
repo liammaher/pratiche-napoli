@@ -427,7 +427,7 @@ forms:
       - label: "Altro domicilio elettronico per invio delle comunicazioni inerenti la pratica"
         map: { ask: "Altro indirizzo elettronico per le comunicazioni sulla pratica, se diverso dalla PEC" }
       - label: "3 – Procura conferita (dati del procuratore/delegato)?"
-        map: { ask: "La pratica è presentata da un procuratore o delegato (con procura)? Se sì, chi è nel vault (--party procuratore=<slug>)" }
+        map: { ask: "La pratica è presentata da un procuratore o delegato (con procura)?" }
         choices: [{ box: "si", values: ["si", "sì"] }]
       - label: "Cognome (procuratore)"
         map: { party: { ruolo: procuratore }, direct: identity.last_name }

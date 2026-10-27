@@ -213,9 +213,10 @@ Form fields map to IDs in `contract/fields.json`, never to personal values. The 
 used by [personal-vault-italia](https://github.com/liammaher/personal-vault-italia), so an
 agent with the person's consent can pre-fill a form, but the library never depends on it.
 Every procedure carries the format's `schema_version`; the vault's pratica skill reads
-version 0 and uses only the sources, deadline, channels and steps of any other, so raise it
-(the `const` in `procedure.schema.json`) when a change would make an older reader misread an
-entry, such as a new kind of map.
+version 0 and uses only the sources, deadline, channels and steps of any other. Its form
+filler refuses a map, row key or template filter it doesn't know, so adding one needs no new
+version; raise it (the `const` in `procedure.schema.json`) when an older reader would misread
+an entry it accepts, such as a key renamed or given a new meaning.
 
 ## Use
 
@@ -238,7 +239,10 @@ validator refuses any field name that uses one, so the library never keeps its o
 branch; the `Vault schema` workflow runs it on every pull request and push to main, with the
 `VAULT_SCHEMA_TOKEN` secret (read access to the vault repository's contents). It has no
 scheduled run, so after a schema change in the vault alone, start it from the Actions tab
-(or `gh workflow run vault-schema.yml`).
+(or `gh workflow run vault-schema.yml`). The `Fill pilots` workflow, with the same secret, runs
+the vault's form filler on its pilot forms (TARI Mod. 1, ricorso al Prefetto, CILA Allegato A,
+scheda anagrafica) against every change to `procedures/`, `layouts/` or `contract/`; the vault
+runs the same pilots against this repository's main on its own changes.
 
 ## Not legal advice
 
