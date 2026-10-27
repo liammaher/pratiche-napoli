@@ -9,7 +9,7 @@ import {
   ROOT,
   checkFieldRef,
   loadRegistry,
-  officeFields,
+  officeLists,
   todayInRome,
   validateDir,
   validateLayouts,
@@ -1388,15 +1388,22 @@ test("a desk says where it is: an address, an office by area, or a url that find
   doc.channels.push({ type: "desk", purpose: "procedure", name: "Sportelli" });
   doc.steps.push({ do: "Consegnare allo sportello", who: "owner", channel: ["desk"] });
   assert.match(errorsFor(doc), /channels\/1: a desk needs an address/);
-  doc.channels[1].office = "residenza.municipalita";
+  doc.channels[1].office = { list: "comune-municipalita", from: "residenza.municipalita" };
   assert.equal(errorsFor(doc), "");
   doc.channels[1].address = "Via Roma 1";
   assert.match(errorsFor(doc), /office picks the address/);
   delete doc.channels[1].address;
-  doc.channels[1].office = "residenza.quartiere";
+  doc.channels[1].office = { list: "comune-municipalita", from: "residenza.quartiere" };
   assert.match(errorsFor(doc), /schema: .*office/);
-  doc.channels[1].office = "nessuna.municipalita";
+  doc.channels[1].office = { list: "comune-municipalita", from: "nessuna.municipalita" };
   assert.match(errorsFor(doc), /channels\/1: office .*nessuna/);
+  // The list names the service; its field must be the one the list is keyed by.
+  doc.channels[1].office = { list: "comune-municipalita", from: "residenza.distretto_asl" };
+  assert.match(errorsFor(doc), /offices\/comune-municipalita\.json is by municipalita, so from must be an address's municipalita/);
+  doc.channels[1].office = { list: "asl", from: "residenza.distretto_asl" };
+  assert.match(errorsFor(doc), /no valid offices\/asl\.json/);
+  doc.channels[1].office = "residenza.municipalita";
+  assert.match(errorsFor(doc), /schema: .*office/);
 });
 
 test("a form's signing lists only where it differs from the law's rule", () => {
@@ -1412,12 +1419,13 @@ test("a form's signing lists only where it differs from the law's rule", () => {
 
 test("the offices files cover every value of their field and cite their sources", () => {
   const office = { name: "URP", address: "Via Roma 1", source: "page" };
-  const file = (offices: Record<string, unknown>, name = "municipalita") =>
+  const file = (offices: Record<string, unknown>, name = "comune-municipalita", serves: string | null = "Istanze al Comune") =>
     validateOffices(
       tempLibrary({
         [`${name}.json`]: JSON.stringify({
           field: "municipalita",
           name: "URP della Municipalità",
+          ...(serves !== null && { serves }),
           offices,
           sources: [{ id: "page", label: "Pagina", url: "https://example.org", retrieved: "2026-10-27" }],
         }),
@@ -1429,27 +1437,29 @@ test("the offices files cover every value of their field and cite their sources"
   assert.match(file(nine), /no office for municipalita 10/);
   assert.match(file({ ...all, 11: office }), /11 isn't a municipalita/);
   assert.match(file({ ...all, 1: { ...office, source: "x" } }), /offices\/1: unknown source x/);
-  assert.match(file(all, "distretto_asl"), /the file is offices\/municipalita.json/);
+  assert.match(file(all, "Municipalita"), /name a list in lower case/);
+  assert.match(file(all, "comune-municipalita", null), /schema: .*serves/);
 });
 
 test("a desk's office names only offices files that validate", () => {
   const good = { name: "URP", address: "Via Roma 1", source: "page" };
   const file = (offices: Record<string, unknown>) =>
     tempLibrary({
-      "municipalita.json": JSON.stringify({
+      "comune-municipalita.json": JSON.stringify({
         field: "municipalita",
         name: "URP",
+        serves: "Istanze al Comune",
         offices,
         sources: [{ id: "page", label: "Pagina", url: "https://example.org", retrieved: "2026-10-27" }],
       }),
     });
   const all = Object.fromEntries(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"].map((k) => [k, good]));
-  assert.deepEqual([...officeFields(file(all))], ["municipalita"]);
-  assert.deepEqual([...officeFields(file({ 1: good }))], []);
+  assert.deepEqual([...officeLists(file(all))], [["comune-municipalita", "municipalita"]]);
+  assert.deepEqual([...officeLists(file({ 1: good }))], []);
   const doc = minimal();
-  doc.channels.push({ type: "desk", purpose: "procedure", name: "URP", office: "residenza.municipalita" });
+  doc.channels.push({ type: "desk", purpose: "procedure", name: "URP", office: { list: "comune-municipalita", from: "residenza.municipalita" } });
   doc.steps.push({ do: "Consegnare allo sportello", who: "owner", channel: ["desk"] });
-  assert.match(validateProcedure(doc, "napoli/comune/test.yaml", { ...ctx, offices: new Set() }).join("\n"), /no valid offices\/municipalita.json/);
+  assert.match(validateProcedure(doc, "napoli/comune/test.yaml", { ...ctx, offices: new Map() }).join("\n"), /no valid offices\/comune-municipalita.json/);
 });
 
 test("the ruolo list is the vault's", () => {

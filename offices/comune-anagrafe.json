@@ -1,0 +1,170 @@
+{
+  "field": "municipalita",
+  "name": "Servizi Demografici (Anagrafe) della Municipalità",
+  "serves": "Certificati anagrafici e di stato civile, carta d'identità elettronica e atti notori. La CIE solo su prenotazione, in qualunque sede municipale (prenotacie.comune.napoli.it o 800 776565); i cambi di residenza e domicilio solo online (ANPR, o PEC a cambi.residenza@pec.comune.napoli.it): allo sportello solo informazioni. Spesso non è nella sede della Municipalità",
+  "offices": {
+    "1": {
+      "name": "Servizi Demo-Anagrafici della Municipalità 1",
+      "address": "Via Santa Caterina a Chiaia 76, 80121 Napoli",
+      "hours": "certificati e atti notori lunedì, mercoledì e giovedì 8:30–11:30",
+      "phone": "081 7950520",
+      "email": "municipalita1.anagrafe@comune.napoli.it",
+      "pec": "municipalita1.anagrafe@pec.comune.napoli.it",
+      "notes": "Non è nella sede della Municipalità (Largo Torretta 19). Dal 14 settembre 2026 allo sportello solo estratti di nascita, morte e matrimonio e certificati storici: gli altri certificati si scaricano da ANPR.",
+      "source": "m1"
+    },
+    "2": {
+      "name": "Servizi Demoanagrafici e Stato Civile della Municipalità 2",
+      "address": "Piazza Dante 93, 80135 Napoli",
+      "hours": "certificati martedì e giovedì 8:30–13:00 (60 numeri al giorno); CIE lunedì–venerdì 8:30–13:30, giovedì anche 15:00–18:10; atti notori martedì e venerdì 8:30–13:30",
+      "phone": "081 7950217 (certificati), 081 7950231 (CIE)",
+      "pec": "municipalita2.anagrafe@pec.comune.napoli.it",
+      "source": "m2"
+    },
+    "3": {
+      "name": "Servizi Demografici della Municipalità 3 (Via Lieti)",
+      "address": "Via Lieti 97, 80131 Napoli",
+      "hours": "certificati e atti notori martedì e giovedì 8:30–13:00; CIE lunedì–venerdì 8:30–13:15, giovedì anche 15:00–18:10",
+      "phone": "081 7952419",
+      "pec": "municipalita3.anagrafe.lieti@pec.comune.napoli.it",
+      "notes": "Seconda sede: Via SS. Giovanni e Paolo 125, 80137 (certificati lunedì, mercoledì e venerdì 8:30–13:00; tel. 081 7952517).",
+      "source": "m3"
+    },
+    "4": {
+      "name": "Sportello Anagrafico della Municipalità 4 (Via Gianturco)",
+      "address": "Via Emanuele Gianturco 99, 80142 Napoli",
+      "hours": "certificati lunedì, mercoledì e venerdì 8:30–13:30",
+      "phone": "081 7951316",
+      "pec": "municipalita4.anagrafe@pec.comune.napoli.it",
+      "notes": "Seconda sede: Via Tribunali 227, 80138 (certificati martedì e giovedì 8:30–13:30; atti notori solo su appuntamento, tel. 081 7951911).",
+      "source": "m4"
+    },
+    "5": {
+      "name": "Ufficio Anagrafe della Municipalità 5",
+      "address": "Via Raffaele Morghen 84, 80129 Napoli",
+      "hours": "certificati lunedì–venerdì 8:30–13:00; atti notori e copie autentiche martedì 8:30–13:00",
+      "phone": "081 7952712, 081 7952717",
+      "email": "municipalita5.anagrafe@comune.napoli.it",
+      "pec": "municipalita5.anagrafe@pec.comune.napoli.it",
+      "notes": "Lo Stato Civile è all'Arenella, Via Giacinto Gigante 242 (tel. 081 7952703).",
+      "source": "m5"
+    },
+    "6": {
+      "name": "Servizi Demografici della Municipalità 6",
+      "address": "Via Atripaldi 64, 80146 Napoli",
+      "hours": "anagrafe lunedì–venerdì 8:30–14:00",
+      "phone": "081 7950418",
+      "pec": "municipalita6.anagrafe@pec.comune.napoli.it",
+      "notes": "Non è nella sede dell'URP (Corso Sirena 305). Il telefono è quello dei cambi di residenza; centralino della sede 081 7951801.",
+      "source": "m6"
+    },
+    "7": {
+      "name": "Servizi Demografici della Municipalità 7 (Secondigliano)",
+      "address": "Piazzetta del Casale 6/7, 80144 Napoli",
+      "hours": "certificati lunedì, mercoledì e venerdì 8:30–13:30, martedì 15:00–17:30; CIE lunedì–venerdì 8:30–13:30, giovedì 15:00–18:30",
+      "phone": "081 7952237",
+      "pec": "servizidemografici.secondigliano@pec.comune.napoli.it",
+      "source": "m7"
+    },
+    "8": {
+      "name": "Servizi Demo-Anagrafici della Municipalità 8 (Scampia)",
+      "address": "Largo della Cittadinanza Attiva 15, 80145 Napoli",
+      "phone": "081 7952110 (anagrafe), 081 7952117 (CIE)",
+      "email": "servizidemografici.scampia@comune.napoli.it",
+      "pec": "servizidemografici.scampia@pec.comune.napoli.it",
+      "notes": "Seconda sede: Chiaiano, Corso Chiaiano 48/50 (anagrafe 081 7950614). Orari non pubblicati: telefonare prima.",
+      "source": "m8"
+    },
+    "9": {
+      "name": "Anagrafe della Municipalità 9 (Soccavo)",
+      "address": "Piazza Giovanni XXIII 2, 80126 Napoli",
+      "phone": "081 7952312, 081 7952351 (certificati), 081 7952309 (CIE)",
+      "notes": "Seconda sede: Pianura, Via Parroco Simeoli 6 (certificati 081 7951028; CIE 081 7951088). Orari, email e PEC non pubblicati: telefonare prima.",
+      "source": "m9"
+    },
+    "10": {
+      "name": "Servizi Demografici della Municipalità 10 (Bagnoli)",
+      "address": "Via Acate 65, 80124 Napoli",
+      "hours": "lunedì–venerdì 8:30–13:30; giovedì anche 15:00–18:30, solo CIE",
+      "phone": "081 7950751",
+      "email": "municipalita10.bagnoli.anagrafe@comune.napoli.it",
+      "pec": "municipalita10.anagrafe.bagnoli@pec.comune.napoli.it",
+      "notes": "Seconda sede, con gli stessi orari: Fuorigrotta, Via Benedetto Cariteo 51, 80125.",
+      "source": "m10"
+    }
+  },
+  "sources": [
+    {
+      "id": "m1",
+      "label": "Comune di Napoli – Municipalità 1",
+      "url": "https://www.comune.napoli.it/amministrazione/unita_organizzativa/municipalita-1/",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "m2",
+      "label": "Comune di Napoli – Municipalità 2",
+      "url": "https://www.comune.napoli.it/amministrazione/unita_organizzativa/municipalita-2/",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "m3",
+      "label": "Comune di Napoli – Municipalità 3",
+      "url": "https://www.comune.napoli.it/amministrazione/unita_organizzativa/municipalita-3/",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "m4",
+      "label": "Comune di Napoli – Municipalità 4",
+      "url": "https://www.comune.napoli.it/amministrazione/unita_organizzativa/municipalita-4/",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "m5",
+      "label": "Comune di Napoli – Municipalità 5",
+      "url": "https://www.comune.napoli.it/amministrazione/unita_organizzativa/municipalita-5/",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "m6",
+      "label": "Comune di Napoli – Municipalità 6 (Amministrazione trasparente, servizi demografici)",
+      "url": "https://trasparenza.comune.napoli.it/flex/cm/pages/ServeBLOB.php/L/IT/IDPagina/55533",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "m7",
+      "label": "Comune di Napoli – Municipalità 7",
+      "url": "https://www.comune.napoli.it/amministrazione/unita_organizzativa/municipalita-7/",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "m8",
+      "label": "Comune di Napoli – Municipalità 8 (Amministrazione trasparente, servizi demografici)",
+      "url": "https://trasparenza.comune.napoli.it/flex/cm/pages/ServeBLOB.php/L/IT/IDPagina/55534",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "m9",
+      "label": "Comune di Napoli – Municipalità 9 (Amministrazione trasparente, servizi demografici)",
+      "url": "https://trasparenza.comune.napoli.it/flex/cm/pages/ServeBLOB.php/L/IT/IDPagina/55535",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "m10",
+      "label": "Comune di Napoli – Municipalità 10 (Amministrazione trasparente, servizi demografici)",
+      "url": "https://trasparenza.comune.napoli.it/flex/cm/pages/ServeBLOB.php/L/IT/IDPagina/55536",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "prenotacie",
+      "label": "Comune di Napoli – Prenotazione della carta d'identità elettronica",
+      "url": "https://www.comune.napoli.it/servizio/prenotacie/",
+      "retrieved": "2026-10-27"
+    },
+    {
+      "id": "cambi-residenza",
+      "label": "Comune di Napoli – Cambi di residenza",
+      "url": "https://www.comune.napoli.it/servizio/cambi-di-residenza/",
+      "retrieved": "2026-10-27"
+    }
+  ]
+}
