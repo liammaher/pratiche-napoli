@@ -155,6 +155,36 @@ forms:
     source: mod-1
     sha256: 2950daa429f5cfd2e19b03792cf4245638f32c3e8267b55e975443145eb8a218
     signature_required: true
+    signing:
+      - channel: pec
+        ways: [handwritten, digital]
+        id_copy: required
+        status: unverified
+        source: mod-1
+        notes: >-
+          Il modulo chiede la dichiarazione sottoscritta e la copia del documento d'identità
+          (AVVERTENZE, punto 2), ma non dice come si può firmare; il Comune non lo ha confermato.
+      - channel: portal
+        ways: [login]
+        id_copy: unknown
+        status: unverified
+        notes: >-
+          Si presume che l'accesso con SPID, CIE o CNS identifichi chi presenta; la pagina della
+          modulistica non lo dice e non si sa se serva il documento.
+      - channel: email
+        ways: [handwritten, digital]
+        id_copy: required
+        status: unverified
+        source: mod-1
+        notes: >-
+          Come per la PEC. L'email ordinaria non identifica chi scrive, quindi qui la firma pesa di
+          più; il Comune non ha detto se la accetta.
+      - channel: post
+        ways: [handwritten]
+        id_copy: required
+        status: unverified
+        source: mod-1
+        notes: Raccomandata A/R con il modulo firmato in originale e la fotocopia del documento.
     fields:
       - label: Il/La sottoscritto/a
         map: { concat: [identity.last_name, identity.first_name] }
@@ -258,7 +288,7 @@ steps:
       lui a dichiarare e a firmare
     who: anyone
   - { do: Compilare il Mod. 1 (dati dalla tabella dei campi), who: anyone }
-  - { do: Firmare il modulo, who: owner, human_only: true }
+  - { do: Firmare il modulo, who: owner, human_only: true, gate: sign }
   - do: Inviare modulo firmato e copia del documento, preferibilmente via PEC
     who: owner
     human_only: true

@@ -136,6 +136,10 @@ field goes on the PDF, for the form's exact `sha256`: a box on any page (`page`,
 lines that run onto the next), or, on a form with fillable fields, the field's name (`widget`,
 `choice_widgets`). When the form changes, its layout no longer validates until it is measured again.
 `npm run validate` checks that every field of the form has one box of the right kind.
+A layout's optional `signatures` (rect, `date_rect`, `page`, `for`) place the signature line, for
+a form with `signature_required`. A form's `signing` says, per channel, which ways the channel
+takes the signature (`handwritten`, `digital`, `login`, `none`) and whether it wants an ID copy;
+a signature step may carry `gate: sign` and stays `human_only`.
 
 ## Source monitor
 
