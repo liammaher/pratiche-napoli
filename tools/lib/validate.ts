@@ -40,8 +40,9 @@ export const SIGNING: Signing = (() => {
   return doc;
 })();
 
-// Channel types sent or handed in one way each, so each needs a step of its own.
-const ROUTES_WITH_STEPS = new Set(["pec", "email", "post", "desk"]);
+// Channel types each route is done on in its own way (sent, handed in, filed on
+// the portal), so each needs a step of its own.
+const ROUTES_WITH_STEPS = new Set(["portal", "pec", "email", "post", "desk"]);
 
 export function loadRegistry(): Registry {
   return JSON.parse(readFileSync(path.join(ROOT, "contract", "fields.json"), "utf8"));
@@ -95,7 +96,7 @@ interface Source {
 interface Doc {
   id?: string;
   updated?: string;
-  channels?: { type?: string; purpose?: string; preferred?: boolean; auth?: string[]; address?: string; url?: string; office?: { list: string; from: string } }[];
+  channels?: { type?: string; purpose?: string; preferred?: boolean; auth?: string[]; address?: string; url?: string; office?: { list: string; from: string }; use?: { ways: string[] } }[];
   deadline?: { summary?: unknown; rules?: { compute?: { from: string; days: number } }[] };
   documents?: { name: string }[];
   reported?: {
@@ -198,6 +199,8 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
       const channels = channelsOf(entry.channel);
       if (!channels.length) {
         errors.push(`form "${f.id}": signing for channel ${entry.channel}, which the procedure doesn't list with purpose "procedure"`);
+      } else if (channels.every((c) => c.use && !c.use.ways.includes("upload"))) {
+        errors.push(`form "${f.id}": signing for channel ${entry.channel}, whose use takes no upload: the form isn't sent there`);
       } else if (entry.ways.includes("login") && !channels.some((c) => (c.auth ?? []).some((a) => a !== "none"))) {
         errors.push(`form "${f.id}": signing way "login" on channel ${entry.channel}, which lists no auth (spid, cie, cns) to sign in with`);
       }
@@ -217,10 +220,16 @@ export function validateProcedure(doc: unknown, relPath: string, ctx: Context): 
   // Every route is mapped end to end: how to send or hand in the form that way.
   for (const t of procedureTypes) {
     if (t && ROUTES_WITH_STEPS.has(t) && !(d.steps ?? []).some((s) => s.channel?.includes(t))) {
-      errors.push(`channel ${t} has no step of its own: add one with channel: [${t}] saying how to send or hand it in that way`);
+      errors.push(`channel ${t} has no step of its own: add one with channel: [${t}] saying how to send or hand it in that way${t === "portal" ? " (where to go on the portal, what to do there, what to keep as proof)" : ""}`);
     }
   }
   (d.channels ?? []).forEach((c, i) => {
+    // What you do there (upload the form, or type into the portal's own) decides whether a PDF is filled.
+    if (c.type === "portal" && c.purpose === "procedure" && !c.use) {
+      errors.push(`channels/${i}: a portal says what you do there: use: { ways: [upload, web_form or read], status }`);
+    } else if (c.use && (c.type !== "portal" || c.purpose !== "procedure")) {
+      errors.push(`channels/${i}: use is only for a portal with purpose procedure`);
+    }
     if (c.type === "desk" && c.purpose === "procedure" && !c.address && !c.office && !c.url) {
       errors.push(`channels/${i}: a desk needs an address, an office ({ list, from: residenza.municipalita }) or a url that finds one`);
     }

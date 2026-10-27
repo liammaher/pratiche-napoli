@@ -7,7 +7,7 @@ aka:
   - Airbnb
   - locazione turistica
   - codice identificativo nazionale
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Chi, come persona fisica e senza fare impresa, affitta a Napoli un appartamento a uso abitativo
   per soggiorni fino a 30 giorni (locazione breve, art. 4 D.L. 50/2017) presenta prima di iniziare
@@ -224,6 +224,13 @@ channels:
     auth: [spid, cie, cns]
     receipt: legal
     preferred: true
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: indicazioni-rev2
+      notes: >-
+        La Comunicazione si compila online su impresainungiorno e vi si allegano i documenti (planimetria,
+        documento d'identità, eventuale procura), poi si firma digitalmente e si invia dal portale.
     source: suap-contatti
     notes: >-
       Unico canale telematico per le pratiche SUAP, compresa la Comunicazione di locazione breve.
@@ -440,9 +447,13 @@ steps:
   - do: Se il portale chiede i diritti d'istruttoria (50 euro, riga S210), pagarli con pagoPA dalla pratica
     who: owner
     human_only: true
-  - do: Firmare digitalmente la Comunicazione e inviarla al SUAP dal portale, prima di iniziare
+  - do: >-
+      Firmare digitalmente la Comunicazione e inviarla, prima di iniziare, al SUAP di Napoli dalla
+      pratica su impresainungiorno (https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839,
+      accesso con SPID, CIE o CNS); conservare la ricevuta della pratica SUAP e copia di quanto inviato
     who: owner
     human_only: true
+    channel: [portal]
   - do: Attendere il CUSR, che il Comune trasmette via email o PEC e pubblica nell'elenco CUSR
     who: office
   - do: Chiedere il CIN sulla BDSR con SPID o CIE, scegliendo "Ottieni CIN" e inserendo il CUSR

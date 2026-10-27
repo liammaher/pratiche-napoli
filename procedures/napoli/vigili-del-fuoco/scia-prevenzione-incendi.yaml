@@ -3,7 +3,7 @@ id: napoli/vigili-del-fuoco/scia-prevenzione-incendi
 title: Prevenzione incendi – valutazione del progetto, SCIA antincendio e rinnovo periodico (Vigili del Fuoco di Napoli, tramite SUAP)
 headline: "Pratica antincendio per negozi, locali e alberghi a Napoli: SCIA ai Vigili del Fuoco"
 aka: [CPI, certificato prevenzione incendi, rinnovo CPI, SCIA VVF, parere di conformità antincendio]
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Un'attività che rientra nell'elenco dell'Allegato I del D.P.R. 151/2011 (per esempio un negozio
   con più di 400 mq lordi, un albergo o affittacamere con più di 25 posti letto, un locale di
@@ -214,6 +214,13 @@ channels:
       che le trasmette al Comando (D.M. 7/8/2012, art. 10). A Napoli impresainungiorno è l'unico
       canale telematico delle pratiche SUAP; la SCIA antincendio si aggiunge di solito alla
       pratica dell'attività (SCIA unica).
+    use:
+      ways: [web_form, upload]
+      status: unverified
+      notes: >-
+        Il portale dice che vi si compila, firma e invia la pratica online; non è stato
+        verificato se la SCIA antincendio si compila nel front office o si carica il Mod. PIN 2
+        firmato digitalmente con asseverazione ed elaborati.
   - type: portal
     purpose: procedure
     name: PRINCE – Portale di servizi di prevenzione incendi dei Vigili del Fuoco
@@ -224,6 +231,13 @@ channels:
       Il Comando di Napoli accetta le istanze solo per via telematica o con inserimento diretto su
       PRINCE. Accesso con SPID; le istanze si associano tramite codice fiscale (anche del
       professionista). Assistenza tecnica: prince@vigilfuoco.it.
+    use:
+      ways: [web_form, upload]
+      status: unverified
+      notes: >-
+        Il Comando di Napoli parla di inserimento diretto su PRINCE e di documentazione firmata
+        digitalmente, con elaborati grafici in DWF o DXF; la guida PRINCE pubblicata copre solo la
+        consultazione, quindi non è verificato come si compila l'istanza nel portale.
   - type: pec
     purpose: info
     address: com.prev.napoli@cert.vigilfuoco.it
@@ -559,9 +573,15 @@ steps:
   - do: Firmare digitalmente la SCIA antincendio e la pratica SUAP (e l'eventuale procura)
     who: owner
     human_only: true
-  - do: Inviare la pratica al SUAP, che la trasmette al Comando
+  - do: >-
+      Accedere con SPID, CIE o CNS al front office di impresainungiorno (SUAP di Napoli), caricare
+      nella pratica SCIA antincendio, asseverazione e allegati firmati digitalmente (elaborati
+      grafici in DWF o DXF) e inviarla: il SUAP la trasmette al Comando. Se la SCIA non passa dal
+      SUAP, presentarla direttamente su PRINCE (prevenzioneonline.vigilfuoco.it, accesso con
+      SPID). Salvare la ricevuta di avvio pratica del SUAP o quella di PRINCE
     who: owner
     human_only: true
+    channel: [portal]
   - do: Iniziare l'esercizio solo dopo la presentazione e la ricevuta
     who: owner
     human_only: true

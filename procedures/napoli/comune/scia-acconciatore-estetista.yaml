@@ -8,7 +8,7 @@ aka:
   - aprire un salone di bellezza
   - licenza estetista
   - pratica SUAP
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Chi vuole aprire a Napoli un salone di acconciatore (parrucchiere o barbiere) o un centro di
   estetica presenta una SCIA al SUAP del Comune, solo online su impresainungiorno. Serve un
@@ -165,6 +165,13 @@ channels:
       Unico canale per le pratiche SUAP di Napoli. Servono email, PEC, kit di firma digitale e
       accesso con SPID, CIE, CNS (o eIDAS, Telemaco). Il percorso nel portale non è stato
       controllato: la sezione informativa richiede un captcha.
+    use:
+      ways: [web_form, upload]
+      status: unverified
+      notes: >-
+        Il portale dice che vi si compila, firma e invia la pratica online; per altri procedimenti
+        il vademecum del Comune indica la modulistica del front office più gli allegati da
+        caricare. Il percorso di questo procedimento non è stato controllato dentro il portale.
   - type: pec
     purpose: info
     address: suap@pec.comune.napoli.it
@@ -582,9 +589,13 @@ steps:
   - do: Firmare digitalmente SCIA e allegati (dichiarante, soci, responsabile tecnico)
     who: owner
     human_only: true
-  - do: Inviare la pratica al SUAP dal portale
+  - do: >-
+      Accedere con SPID, CIE o CNS al front office di impresainungiorno (SUAP di Napoli), aprire la
+      pratica compilata, controllare che SCIA, planimetria, relazione e Allegati firmati
+      digitalmente siano caricati e inviarla al SUAP; salvare la ricevuta di avvio pratica
     who: owner
     human_only: true
+    channel: [portal]
   - do: >-
       Aprire dopo aver ricevuto la ricevuta di avvio pratica (con AUA: solo dopo il rilascio), e
       comunque entro 60 giorni dalla SCIA

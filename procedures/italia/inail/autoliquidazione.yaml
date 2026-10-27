@@ -8,7 +8,7 @@ aka:
   - dichiarazione delle retribuzioni
   - AL.P.I. online
   - F24 INAIL
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Ogni anno chi è assicurato all'INAIL come impresa (artigiano, anche senza dipendenti, o datore
   di lavoro) calcola da solo il premio, cioè la rata anticipata per l'anno in corso più il
@@ -143,6 +143,16 @@ channels:
     receipt: informal
     preferred: true
     source: accesso-spid-cie-cns
+    use:
+      ways: [web_form, read]
+      status: verified
+      source: guida-2025-2026
+      notes: >-
+        In AL.P.I. online si indicano retribuzioni, scelta delle quattro rate e riduzione artigiani
+        per un codice ditta: il servizio prende da sé le basi di calcolo e calcola il premio. Le
+        basi di calcolo si leggono o scaricano in PDF ("Visualizza basi di calcolo", Fascicolo
+        aziende). Per più codici ditta si carica invece un file nel tracciato INAIL (txt o Json)
+        con "Invio telematico dichiarazione salari".
     notes: >-
       La dichiarazione delle retribuzioni si presenta solo online (AL.P.I. online, o "Invio
       telematico dichiarazione salari" per più codici ditta); la ricevuta con la copia della
@@ -255,11 +265,14 @@ steps:
       e 781" per la riduzione artigiani dell'anno dopo
     who: professional
   - do: >-
-      Inviare la dichiarazione entro il 28 febbraio (2 marzo nel 2026). Obbligatoria per chi ha
-      pagato retribuzioni; un artigiano senza dipendenti la invia solo per le quattro rate o per
+      Accedere con SPID, CIE o CNS ai servizi online INAIL e inviare la dichiarazione da AL.P.I.
+      online entro il 28 febbraio (2 marzo nel 2026); conservare la ricevuta che arriva per
+      posta elettronica con la riproduzione della dichiarazione. Obbligatoria per chi ha pagato
+      retribuzioni; un artigiano senza dipendenti la invia solo per le quattro rate o per
       chiedere la riduzione.
     who: owner
     human_only: true
+    channel: [portal]
   - do: Pagare la seconda, terza e quarta rata con gli interessi (importi calcolati da AL.P.I. online)
     who: owner
     human_only: true

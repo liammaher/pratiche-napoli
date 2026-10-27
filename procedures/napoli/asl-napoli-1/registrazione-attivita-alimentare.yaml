@@ -8,7 +8,7 @@ aka:
   - autorizzazione sanitaria
   - notifica 852
   - registrazione ASL alimenti
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Chi apre a Napoli un'attività che produce, trasforma, deposita, trasporta, vende o somministra
   alimenti (bar, ristorante, negozio alimentare, laboratorio…) deve notificarla all'ASL per la
@@ -150,6 +150,13 @@ channels:
       Per il Comune di Napoli è l'unico canale telematico accettato: le pratiche mandate via PEC o
       email non vengono istruite. La notifica sanitaria va inserita nella pratica SUAP (di solito
       la SCIA unica dell'attività); il SUAP la trasmette all'ASL.
+    use:
+      ways: [web_form, upload]
+      status: unverified
+      notes: >-
+        Il portale dice che vi si compila, firma e invia la pratica online; non è stato
+        verificato se la notifica si compila nel front office o si carica come modulo firmato
+        insieme a planimetria e ricevuta dei diritti ASL.
   - type: desk
     purpose: info
     name: SUAP – Comune di Napoli
@@ -378,10 +385,13 @@ steps:
   - { do: "Pagare i diritti sanitari all'ASL (20 euro per linea d'attività) e conservare la ricevuta", who: owner, human_only: true }
   - { do: Firmare la notifica e la pratica SUAP, who: owner, human_only: true }
   - do: >-
-      Inviare la pratica su impresainungiorno (SUAP di Napoli), con la notifica allegata alla SCIA
-      dell'attività, pagando con pagoPA i diritti d'istruttoria del SUAP
+      Accedere al front office di impresainungiorno (SUAP di Napoli), inserire la notifica nella
+      pratica SUAP dell'attività (di solito la SCIA unica) con planimetria e ricevuta dei diritti
+      ASL, pagare con pagoPA i diritti d'istruttoria del SUAP e inviare la pratica; salvare la
+      ricevuta del SUAP
     who: owner
     human_only: true
+    channel: [portal]
   - { do: "Conservare la ricevuta del SUAP: con la SCIA si può iniziare dalla data indicata", who: owner }
   - do: >-
       Tenere pronti per il sopralluogo dell'ASL (controllo documentale e verifica in loco) il piano

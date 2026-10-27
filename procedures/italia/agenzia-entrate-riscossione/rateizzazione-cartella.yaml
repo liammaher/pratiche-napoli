@@ -161,6 +161,14 @@ channels:
     receipt: legal
     preferred: true
     source: vademecum
+    use:
+      ways: [web_form]
+      status: verified
+      source: vademecum
+      notes: >-
+        La richiesta si fa direttamente online con il servizio, senza modello RS né allegati; il
+        provvedimento di accoglimento e il piano si ottengono subito e restano scaricabili da
+        "Rateizza il debito – Piani di rateizzazione".
     notes: >-
       Solo per la semplice richiesta (fino a 120.000 euro e 84 rate), senza allegare documenti; se
       ci sono i requisiti il piano si ottiene subito. Imprese e professionisti possono entrare anche
@@ -393,8 +401,9 @@ steps:
       oltre 120.000 euro
     who: anyone
   - do: >-
-      Accedere con la propria identità digitale all'area riservata o all'app Equiclick e
-      completare "Rateizza adesso"
+      Accedere con SPID, CIE o CNS all'area riservata ADER (Rateizza il debito – Rateizza adesso)
+      o all'app Equiclick e completare la richiesta online; scaricare e conservare il provvedimento di accoglimento con il piano delle rate (Rateizza il debito –
+      Piani di rateizzazione)
     who: owner
     human_only: true
     channel: [portal, app]

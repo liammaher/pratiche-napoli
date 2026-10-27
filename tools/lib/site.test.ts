@@ -182,7 +182,7 @@ test("In breve answers the first questions, with status and source", () => {
     channels: [
       { type: "desk", purpose: "procedure", name: "Sportello" },
       { type: "pec", purpose: "info", notes: "Solo per informazioni." },
-      { type: "portal", purpose: "procedure", name: "POTESs", auth: ["spid", "cie"] },
+      { type: "portal", purpose: "procedure", name: "POTESs", auth: ["spid", "cie"], use: { ways: ["web_form", "upload"], status: "unverified" } },
     ],
     documents: [
       { name: "Modulo", required: true },
@@ -202,7 +202,12 @@ test("In breve answers the first questions, with status and source", () => {
   assert.ok(box.includes(`<dt>Costo</dt><dd>Gratuita. ${cite}</dd>`));
   assert.ok(box.includes('<dt>Tempi</dt><dd>Risposta in 30 giorni. <span class="badge">da verificare</span></dd>'));
   // The information-only PEC is not a way to do it online.
-  assert.ok(box.includes('<dt>Si può fare online?</dt><dd>Sì: Portale online (POTESs), con SPID, CIE. <a href="#come">'));
+  // What you do on the portal: the online form, or the PDF uploaded.
+  assert.ok(
+    box.includes(
+      '<dt>Si può fare online?</dt><dd>Sì: Portale online (POTESs), con SPID, CIE: compili il modulo online e carichi il PDF firmato o i documenti (da verificare). <a href="#come">',
+    ),
+  );
   assert.ok(box.includes(`<dt>Appuntamento</dt><dd>Non serve. ${cite}</dd>`));
   assert.ok(box.includes("<dt>Documenti</dt><dd>1 obbligatorio."));
   // Only the owner's steps, not the professional's.
@@ -213,6 +218,7 @@ test("In breve answers the first questions, with status and source", () => {
   // Channels that carry out the procedure come first; the others say what they are for.
   const come = html.match(/<section id="come">(.*?)<\/section>/s)![1];
   assert.ok(come.indexOf("POTESs") < come.indexOf("<h3>PEC"));
+  assert.ok(come.includes('<p>Sul portale compili il modulo online e carichi il PDF firmato o i documenti. <span class="badge">da verificare</span></p>'));
   assert.ok(come.includes('<h3>PEC <span class="badge soft">solo informazioni</span></h3>'));
 });
 

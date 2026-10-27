@@ -190,6 +190,13 @@ channels:
     receipt: legal
     preferred: true
     source: hc-accesso
+    use:
+      ways: [read]
+      status: verified
+      source: send-cittadini
+      notes: >-
+        Si legge la notifica e si scaricano atto, allegati e attestazioni; nulla da compilare o
+        caricare. Dalla stessa area si possono pagare gli avvisi e gestire recapiti e deleghe.
     notes: >-
       Da notifichedigitali.it, "Accedi a SEND" / "Leggi le notifiche", scegliendo se entrare come
       cittadino, libero professionista, ditta individuale o impresa. SPID di livello 2 (personale o

@@ -45,6 +45,10 @@ function minimal(): Record<string, any> {
   };
 }
 
+// A portal route as every procedure portal needs: what you do there, and its step.
+const ONLINE = { ways: ["upload"], status: "unverified" };
+const PORTAL_STEP = { do: "Compilare la domanda sul portale e salvare la ricevuta", who: "owner", human_only: true, channel: ["portal"] };
+
 function errorsFor(doc: Record<string, any>): string {
   return validateProcedure(doc, PATH, ctx).join("\n");
 }
@@ -1224,15 +1228,23 @@ test("how each channel takes a signature is checked against the procedure's chan
   const login = { channel: "portal", ways: ["login"], id_copy: "not_needed", status: "unverified" };
   const portal = (auth?: string[]) => {
     const doc = signed(login);
-    doc.channels.push({ type: "portal", purpose: "procedure", url: "https://example.org/", ...(auth ? { auth } : {}) });
+    doc.channels.push({ type: "portal", purpose: "procedure", url: "https://example.org/", use: ONLINE, ...(auth ? { auth } : {}) });
+    doc.steps.push(PORTAL_STEP);
     return doc;
   };
   assert.equal(errorsFor(portal(["spid", "cie"])), "");
   assert.equal(errorsFor(portal(["none", "spid"])), "");
   assert.match(errorsFor(portal()), /way "login" on channel portal, which lists no auth/);
   assert.match(errorsFor(portal(["none"])), /way "login" on channel portal, which lists no auth/);
+  // A portal that takes no upload never sees the form, so it has no way to sign it.
+  const ownForm = portal(["spid"]);
+  ownForm.channels[1].use = { ways: ["web_form"], status: "unverified" };
+  assert.match(errorsFor(ownForm), /signing for channel portal, whose use takes no upload/);
+  ownForm.channels[1].use.ways.push("upload");
+  assert.equal(errorsFor(ownForm), "");
   const none = signed({ ...login, ways: ["none"] });
-  none.channels.push({ type: "portal", purpose: "procedure", url: "https://example.org/", auth: ["none"] });
+  none.channels.push({ type: "portal", purpose: "procedure", url: "https://example.org/", use: ONLINE, auth: ["none"] });
+  none.steps.push(PORTAL_STEP);
   assert.equal(errorsFor(none), "");
 
   // closed lists, and a source must exist; verified needs an official one
@@ -1358,7 +1370,7 @@ test("a repeat by ruolo without columns is an allegato: one box, a copy of its p
   assert.match(run([{ label: "Allegato – Cognome", page: 3, rect: [10, 10, 100, 20] }, { label: "Soci", rect: [1, 1, 2, 2] }]), /a repeat field is a table/);
 });
 
-test("every pec, email, post and desk route has a step of its own", () => {
+test("every portal, pec, email, post and desk route has a step of its own", () => {
   const doc = minimal();
   doc.channels.push({ type: "post", purpose: "procedure", address: "Via Roma 1, Napoli" });
   assert.match(errorsFor(doc), /channel post has no step of its own/);
@@ -1367,10 +1379,33 @@ test("every pec, email, post and desk route has a step of its own", () => {
   // A step names only routes the procedure has.
   doc.steps.push({ do: "Consegnare allo sportello", who: "owner", channel: ["desk"] });
   assert.match(errorsFor(doc), /steps\/2: channel desk, which the procedure doesn't list/);
-  // A portal and an info channel need no steps of their own.
+  // An info channel needs no step of its own; a portal does.
   doc.steps.pop();
-  doc.channels.push({ type: "portal", purpose: "procedure", url: "https://example.org" }, { type: "desk", purpose: "info", name: "URP" });
+  doc.channels.push({ type: "desk", purpose: "info", name: "URP" });
   assert.equal(errorsFor(doc), "");
+  doc.channels.push({ type: "portal", purpose: "procedure", url: "https://example.org", use: { ways: ["web_form"], status: "unverified" } });
+  assert.match(errorsFor(doc), /channel portal has no step of its own/);
+  doc.steps.push({ do: "Compilare la domanda nell'area riservata e salvare la ricevuta", who: "owner", human_only: true, channel: ["portal"] });
+  assert.equal(errorsFor(doc), "");
+});
+
+test("a portal that carries out the procedure says what you do there, and only it", () => {
+  const doc = minimal();
+  doc.channels.push({ type: "portal", purpose: "procedure", url: "https://example.org", auth: ["spid"] });
+  doc.steps.push({ do: "Caricare il modulo firmato nell'area riservata", who: "owner", human_only: true, channel: ["portal"] });
+  assert.match(errorsFor(doc), /channels\/1: a portal says what you do there/);
+  doc.channels[1].use = { ways: ["upload"], status: "verified" };
+  assert.match(errorsFor(doc), /use\/status: a verified claim must cite a source/);
+  doc.channels[1].use = { ways: ["web_form", "upload"], status: "verified", source: "page" };
+  assert.equal(errorsFor(doc), "");
+  doc.channels[1].use.ways = ["fax"];
+  assert.notEqual(errorsFor(doc), "");
+  // An info portal or another channel type has no use.
+  doc.channels[1].use.ways = ["upload"];
+  doc.channels.push({ type: "portal", purpose: "info", url: "https://example.org/faq", use: { ways: ["read"], status: "unverified" } });
+  assert.match(errorsFor(doc), /channels\/2: use is only for a portal with purpose procedure/);
+  doc.channels[2] = { type: "pec", purpose: "procedure", address: "a@pec.it", use: { ways: ["upload"], status: "unverified" } };
+  assert.match(errorsFor(doc), /channels\/2: use is only for a portal with purpose procedure/);
 });
 
 test("a desk says where it is: an address, an office by area, or a url that finds one", () => {
