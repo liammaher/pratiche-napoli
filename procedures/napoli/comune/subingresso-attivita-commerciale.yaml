@@ -8,7 +8,7 @@ aka:
   - passaggio di gestione
   - rilevare un'attività
   - subentro
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Chi compra o prende in affitto un'azienda commerciale già avviata a Napoli (negozio di vicinato,
   bar, ristorante) deve intestarsi il titolo del precedente gestore con una comunicazione di
@@ -206,6 +206,14 @@ channels:
       Unico canale per le pratiche SUAP di Napoli. Servono e-mail, PEC, firma digitale e accesso con
       SPID, CIE, CNS (anche eIDAS o Telemaco). Nel procedimento dell'attività si sceglie l'evento
       "Subentrare nell'esercizio dell'attività".
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: vademecum
+      notes: >-
+        Per il subingresso il vademecum indica la modulistica pubblicata nel front office e gli
+        allegati previsti dalla piattaforma (lo dice per i procedimenti delle zone tutelate; il
+        front office è lo stesso per gli altri).
   - type: pec
     purpose: info
     address: suap@pec.comune.napoli.it
@@ -591,9 +599,13 @@ steps:
   - do: Firmare digitalmente comunicazione e allegati (dichiarante, soci, preposto)
     who: owner
     human_only: true
-  - do: Inviare la pratica al SUAP dal portale
+  - do: >-
+      Accedere con SPID, CIE o CNS al front office di impresainungiorno (SUAP di Napoli), aprire la
+      pratica compilata, controllare che comunicazione e allegati firmati digitalmente siano
+      caricati e inviarla al SUAP; salvare la ricevuta di avvio pratica
     who: owner
     human_only: true
+    channel: [portal]
   - do: Iniziare a operare a proprio nome dopo la ricevuta di avvio pratica (o dalla data di decorrenza indicata)
     who: owner
     human_only: true

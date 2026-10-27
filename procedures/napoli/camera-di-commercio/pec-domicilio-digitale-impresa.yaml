@@ -3,7 +3,7 @@ id: napoli/camera-di-commercio/pec-domicilio-digitale-impresa
 title: PEC (domicilio digitale) dell'impresa e degli amministratori nel Registro Imprese – Camera di Commercio di Napoli
 headline: "PEC obbligatoria per imprese e amministratori: iscriverla al Registro Imprese di Napoli"
 aka: [PEC amministratori, cambio PEC impresa, PEC aziendale, INI-PEC, PEC revocata]
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Ogni impresa iscritta al Registro Imprese, sia individuale sia società, deve avere un
   domicilio digitale (una casella PEC attiva, intestata solo a lei) iscritto nel registro, e deve
@@ -166,6 +166,17 @@ channels:
     url: https://ipec-registroimprese.infocamere.it
     preferred: true
     source: ri-pratiche-semplici
+    use:
+      ways: [web_form]
+      status: verified
+      source: ipec-guida
+      notes: >-
+        Tre passaggi online: Compila (codice fiscale e nuova PEC), Firma (la distinta prodotta dal
+        servizio si firma online con il dispositivo di firma digitale) e Invia. Se il dispositivo
+        non firma online, si salva la distinta, la si firma offline e si allega il file .p7m. La
+        guida del servizio (2020) e la sua pagina iniziale parlano solo del titolare di impresa
+        individuale, mentre registroimprese.it cita anche il legale rappresentante di società:
+        per una società verificare prima.
     notes: >-
       Per il titolare dell'impresa individuale o il legale rappresentante della società, senza
       intermediario. Servono firma digitale, una PEC dell'impresa rilasciata da un gestore
@@ -177,6 +188,14 @@ channels:
     name: DIRE – Depositi e Istanze Registro Imprese
     url: https://dire.registroimprese.it
     source: ri-indirizzo-pec
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dire-guida
+      notes: >-
+        Si compila online (Imposta, Compila, Completa e allega: per la sola PEC degli
+        amministratori nessun allegato obbligatorio), poi in "Firma e invia" si scarica la
+        distinta, la si firma digitalmente, la si ricarica con "Carica" e si invia.
     notes: >-
       Per utenti registrati a registroimprese.it/Telemaco. Per la PEC di un amministratore la
       Camera di Napoli indica: Nuova pratica > Variazione > "Organi sociali e persone con
@@ -267,7 +286,16 @@ steps:
       Preparare la comunicazione: con la Pratica semplice (titolare o legale rappresentante con
       firma digitale), con DIRE, con un software di mercato o tramite un intermediario.
     who: anyone
-  - { do: Firmare digitalmente e inviare la pratica, who: owner, human_only: true }
+  - do: >-
+      Con la Pratica semplice (ipec-registroimprese.infocamere.it): inserire codice fiscale e nuova
+      PEC (Compila), firmare online la distinta con il dispositivo di firma digitale (Firma) e
+      inviarla (Invia); conservare il codice pratica e le e-mail di accettazione, protocollazione
+      ed evasione (alla PEC dell'impresa o all'e-mail indicata). Con DIRE: in "Firma e invia"
+      scaricare la distinta, firmarla digitalmente, ricaricarla e inviare; seguire la pratica da
+      "Lista pratiche" (Inviate).
+    who: owner
+    human_only: true
+    channel: [portal]
   - do: >-
       Controllare sulla PEC ricevute ed esito; verificare dopo qualche giorno che la nuova PEC
       compaia nella ricerca su registroimprese.it.
@@ -278,9 +306,14 @@ steps:
       comunicarla con DIRE ("Comunicazione PEC amministratori e altre persone impresa") o dentro la
       pratica di nomina o conferma.
     who: anyone
-  - do: Firmare digitalmente e inviare la comunicazione della PEC dell'amministratore
+  - do: >-
+      In DIRE, fase "Firma e invia" della pratica "Comunicazione PEC amministratori e altre persone
+      impresa": scaricare la distinta, farla firmare digitalmente al dichiarante, ricaricarla con
+      "Carica" e inviare; seguire l'istruttoria da "Lista pratiche" (Inviate, "Diario messaggi")
+      e conservare le ricevute che arrivano alla PEC
     who: owner
     human_only: true
+    channel: [portal]
   - do: >-
       Ogni anno, prima della scadenza, rinnovare il contratto della casella PEC con il gestore
       (impresa e amministratore) e controllare che la casella riceva messaggi.
@@ -496,6 +529,23 @@ sources:
     notes: >-
       Il servizio (ipec-registroimprese.infocamere.it) richiede JavaScript e non è stato aperto
       oltre la pagina di reindirizzamento.
+  - id: ipec-guida
+    label: InfoCamere – Guida per l'iscrizione della PEC di imprese individuali nel Registro delle Imprese (servizio Pratica semplice, vers. 1.5 del 12 marzo 2020)
+    url: https://ipec-registroimprese.infocamere.it/ipec/do/viewGuidaPage.action
+    retrieved: 2026-10-27
+    page_updated: 2020-03-12
+    sha256: 89800e40fb75d7632ab9a2f8695c5657b3d6bce0c59f9e64c89e198890bfbc16
+    official: true
+    notes: >-
+      Link "Guida" del servizio; la pagina invia un modulo e restituisce il PDF. La pagina
+      iniziale del servizio (letta il 27/10/2026) parla anch'essa solo di imprese individuali.
+  - id: dire-guida
+    label: InfoCamere – Guida DIRE per la comunicazione della PEC degli amministratori al Registro Imprese
+    url: https://registroimprese.infocamere.it/documents/d/global/dire-guida-comunicazione-pec-amministratori
+    retrieved: 2026-10-27
+    page_updated: 2026-01-14
+    sha256: 89af022229be3fd3214a0f7343205bf549e950927b80b76bded2ca89a6b4af03
+    official: true
   - id: inipec
     label: INI-PEC – Indice Nazionale degli Indirizzi di Posta Elettronica Certificata
     url: https://www.inipec.gov.it/

@@ -8,7 +8,7 @@ aka:
   - aprire una pizzeria
   - permesso per aprire un locale
   - pratica SUAP
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Chi vuole aprire a Napoli un bar, un ristorante, una pizzeria o un altro locale dove i clienti
   consumano sul posto con servizio deve presentare la pratica al SUAP del Comune, solo online su
@@ -239,6 +239,14 @@ channels:
       Unico canale per le pratiche SUAP. Servono firma digitale, e-mail e PEC. La pagina del
       servizio elenca come sistemi di accesso anche eIDAS e Telemaco. Pratiche inviate via PEC o
       e-mail non vengono istruite.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: vademecum
+      notes: >-
+        Nel front office si sceglie settore, procedimento ed evento e si compila la modulistica
+        pubblicata lì; in zona A o B si allegano anche i modelli del Piano (CS 1, CG 1, nota di
+        condivisione), oltre agli allegati obbligatori del front office.
   - type: desk
     purpose: info
     name: SUAP del Comune di Napoli
@@ -386,7 +394,13 @@ steps:
     who: anyone
   - { do: Firmare la nota di condivisione e i modelli della pratica (firma digitale), who: owner, human_only: true }
   - { do: Pagare i diritti d'istruttoria con pagoPA nel front office, who: owner, human_only: true }
-  - { do: Inviare la pratica su impresainungiorno, who: owner, human_only: true }
+  - do: >-
+      Accedere con SPID, CIE o CNS al front office di impresainungiorno-Napoli, aprire la pratica,
+      controllare che modelli e allegati firmati digitalmente siano caricati e inviarla al SUAP;
+      salvare la ricevuta della pratica (in zona C è la ricevuta di avvio che consente di aprire)
+    who: owner
+    human_only: true
+    channel: [portal]
   - do: >-
       Zona C: aprire dopo aver ricevuto la ricevuta elettronica. Zone A e B: attendere
       l'autorizzazione del SUAP (e il nulla osta acustico, se richiesto separatamente)

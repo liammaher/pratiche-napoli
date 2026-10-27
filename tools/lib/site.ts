@@ -29,6 +29,7 @@ interface Channel {
   receipt?: string;
   preferred?: boolean;
   office?: { list: string; from: string };
+  use?: { ways: string[]; status: Status; source?: string; notes?: string };
   notes?: string;
   source?: string;
 }
@@ -206,6 +207,13 @@ const WHO: Record<string, string> = {
   anyone: "Chiunque, anche chi ti aiuta",
 };
 const STATUS: Record<string, string> = { unverified: "da verificare", disputed: "fonti in contrasto" };
+// What you do on a portal: "compili il modulo online e carichi il PDF firmato o i documenti".
+const USE: Record<string, string> = {
+  web_form: "compili il modulo online",
+  upload: "carichi il PDF firmato o i documenti",
+  read: "leggi o scarichi i documenti",
+};
+const portalUse = (c: Channel) => (c.use ? c.use.ways.map((w) => USE[w] ?? w).join(" e ") : "");
 // Channels that don't carry out the procedure say so on their card.
 const PURPOSE: Record<string, string> = { info: "solo informazioni", payment: "per pagare", related: "servizio collegato" };
 
@@ -637,7 +645,10 @@ function quickAnswer(p: Procedure, cite: Cite, flag: boolean): string {
   // emails are for questions, and filings sent there aren't processed.
   const ways = p.channels.filter((c) => c.purpose === "procedure");
   const online = ways.filter((c) => ONLINE.has(c.type));
-  const channelName = (c: Channel) => `${CHANNELS[c.type] ?? c.type}${c.name ? ` (${c.name})` : ""}${c.auth?.length ? `, ${access(c.auth)}` : ""}`;
+  const channelName = (c: Channel) =>
+    `${CHANNELS[c.type] ?? c.type}${c.name ? ` (${c.name})` : ""}${c.auth?.length ? `, ${access(c.auth)}` : ""}${
+      c.use ? `: ${portalUse(c)}${STATUS[c.use.status] ? ` (${STATUS[c.use.status]})` : ""}` : ""
+    }`;
   const required = (p.documents ?? []).filter((d) => d.required).length;
   // Steps by a professional or the office aren't the reader's to do.
   const yours = p.steps.filter((s) => s.human_only && s.who === "owner");
@@ -767,6 +778,7 @@ function channel(c: Channel, cite: Cite, offices?: Record<string, Offices>): str
     address,
     c.url ? `<a href="${esc(c.url)}">${esc(c.url)}</a>` : "",
     c.auth?.length ? `Accesso ${esc(access(c.auth))}` : "",
+    c.use ? claim({ text: `Sul portale ${portalUse(c)}.${c.use.notes ? ` ${c.use.notes}` : ""}`, status: c.use.status, source: c.use.source }, cite) : "",
     c.hours ? `Orari: ${esc(c.hours)}` : "",
     c.booking ? `Prenotazione: ${esc(c.booking)}` : "",
     c.receipt ? `Dà una ${esc(RECEIPT[c.receipt] ?? c.receipt)}` : "",

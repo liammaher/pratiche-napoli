@@ -212,6 +212,13 @@ channels:
     auth: [spid, cie, cns]
     receipt: legal
     preferred: true
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: napoli-indicazioni
+      notes: >-
+        La SCIA si compila online su impresainungiorno e vi si allegano i documenti (planimetria,
+        documento d'identità, eventuale procura), poi si firma digitalmente e si invia dal portale.
     source: suap-contatti
     notes: >-
       Unico canale telematico per la SCIA del B&B (lo conferma anche il documento operativo del
@@ -445,9 +452,13 @@ steps:
   - do: Pagare i diritti d'istruttoria (200 euro, 220 con notifica sanitaria) con pagoPA dalla pratica
     who: owner
     human_only: true
-  - do: Firmare digitalmente la SCIA e inviarla al SUAP dal portale
+  - do: >-
+      Firmare digitalmente la SCIA e inviarla al SUAP di Napoli dalla pratica su impresainungiorno
+      (https://www.impresainungiorno.gov.it/web/guest/comune?codCatastale=F839, accesso con SPID,
+      CIE o CNS); conservare la ricevuta di avvio pratica SUAP e copia di quanto inviato
     who: owner
     human_only: true
+    channel: [portal]
   - do: Attendere il CUSR, che il Comune trasmette via email o PEC dopo i controlli e pubblica nell'elenco CUSR
     who: office
   - do: Chiedere il CIN sulla BDSR con SPID o CIE, scegliendo "Ottieni CIN" e inserendo il CUSR

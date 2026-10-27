@@ -3,7 +3,7 @@ id: napoli/camera-di-commercio/diritto-annuale
 title: Diritto annuale 2026 – Camera di Commercio di Napoli
 headline: "Diritto annuale Camera di Commercio di Napoli 2026: quanto e quando pagare"
 aka: [tassa camerale, tassa Camera di Commercio, diritto camerale, codice tributo 3850]
-updated: 2026-10-26
+updated: 2026-10-27
 summary: >-
   Il diritto annuale è il tributo che ogni impresa iscritta o annotata nel Registro delle
   Imprese, e ogni soggetto iscritto al REA, versa ogni anno alla Camera di Commercio della
@@ -136,6 +136,14 @@ channels:
     url: https://dirittoannuale.camcom.it
     preferred: true
     source: na-lettera-ordinaria
+    use:
+      ways: [web_form]
+      status: verified
+      source: na-lettera-ordinaria
+      notes: >-
+        Con la funzione "calcola e paga" si calcola online quanto dovuto e lo si paga con pagoPA;
+        nulla da caricare. Quali dati chiede il calcolo non è stato verificato (il sito non si
+        legge senza browser).
     notes: >-
       Calcola l'importo dovuto e permette di pagarlo con pagoPA (lettera 2026); secondo la pagina generale della Camera consente anche
       di stampare l'F24 precompilato. Il sito è un'applicazione web che non è stato possibile
@@ -247,8 +255,14 @@ steps:
       proroga per soggetti ISA e forfettari), meglio con il commercialista
     who: professional
   - do: >-
-      Pagare in un'unica soluzione con pagoPA da dirittoannuale.camcom.it oppure con F24 (codice
-      ente NA, codice tributo 3850, anno 2026, codice fiscale dell'impresa)
+      Pagare online in un'unica soluzione: su dirittoannuale.camcom.it, funzione "calcola e
+      paga", calcolare quanto dovuto e pagarlo con pagoPA; salvare la ricevuta del pagamento
+    who: owner
+    human_only: true
+    channel: [portal]
+  - do: >-
+      In alternativa al pagamento online, pagare in un'unica soluzione con F24 (codice ente NA,
+      codice tributo 3850, anno 2026, codice fiscale dell'impresa) da F24 Web, banca o Poste
     who: owner
     human_only: true
   - do: >-

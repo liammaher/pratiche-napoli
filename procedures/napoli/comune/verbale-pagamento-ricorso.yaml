@@ -193,6 +193,13 @@ channels:
     name: PartenoPay (pagoPA del Comune di Napoli)
     url: https://partenopay.comune.napoli.it/
     auth: [none, spid]
+    use:
+      ways: [web_form]
+      status: verified
+      source: pagamento
+      notes: >-
+        Si paga "previa compilazione del form" sul portale, online, oppure si scarica l'avviso
+        pagoPA generato; nessun modulo PDF da compilare.
     source: pagamento
     notes: >-
       Percorso indicato dal Comune: Pagamento Spontaneo, Comune di Napoli, Sanzioni
@@ -512,7 +519,18 @@ steps:
       difensivi entro 30 giorni
     who: owner
     human_only: true
-  - do: Pagare con pagoPA (PartenoPay) o con le coordinate indicate dal Comune, con numero e data del verbale in causale
+  - do: >-
+      Pagare su PartenoPay (https://partenopay.comune.napoli.it/): Pagamento Spontaneo → Comune di
+      Napoli → Sanzioni Amministrative → Multe per Violazioni al Codice della Strada, compilare il
+      form con i dati del verbale e pagare online (carta o conto), oppure scaricare l'avviso pagoPA
+      e pagarlo in posta, banca, tabaccheria o home banking CBILL; conservare la ricevuta di
+      pagamento
+    who: owner
+    human_only: true
+    channel: [portal]
+  - do: >-
+      Oppure pagare con il bollettino allegato al verbale o con bonifico alle coordinate pubblicate
+      dal Comune, con numero e data del verbale in causale
     who: owner
     human_only: true
   - do: Per i verbali non CdS, inviare la ricevuta di pagamento alla U.O. Ingiunzioni entro 10 giorni

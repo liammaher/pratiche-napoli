@@ -168,6 +168,14 @@ channels:
     auth: [spid, cie, cns]
     receipt: legal
     preferred: true
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: geis-manuale
+      notes: >-
+        Iscrizione, comunicazioni trimestrali e domande si compilano online; le domande (nuova
+        struttura, modifica) chiedono di caricare allegati, tra cui il documento d'identità, e per
+        le variazioni si può anche caricare il modello PDF compilato.
     source: geis-info
     notes: >-
       Per iscrizione, dichiarazioni trimestrali, pagamento pagoPA, delegati, variazioni e cessazione
@@ -206,6 +214,13 @@ channels:
     name: Agenzia delle Entrate – area riservata (dichiarazione annuale imposta di soggiorno)
     url: https://portale.agenziaentrate.gov.it/PortaleWeb/home
     receipt: legal
+    use:
+      ways: [web_form]
+      status: verified
+      source: mef-istruzioni
+      notes: >-
+        Si compila nell'applicazione "Imposta di soggiorno" dell'area riservata (credenziali
+        Fisconline/Entratel) e si invia con "Trasmetti"; la ricevuta resta scaricabile da lì.
     source: mef-dichiarazione
     notes: >-
       Il link "Dichiarazione" della pagina del Dipartimento delle Finanze porta qui. Si può far
@@ -639,14 +654,13 @@ steps:
       tramite piattaforme convenzionate (riga "AIRBNB" in GEIS).
     who: anyone
   - do: >-
-      Entro il 15 del mese dopo ogni trimestre: in GEIS "Comunicazione periodica" → struttura e
-      trimestre → numero di soggetti e pernottamenti per tipo di tariffa ed esenzione → salvare e
-      inviare; scaricare la ricevuta.
+      Entro il 15 del mese dopo ogni trimestre: accedere a GEIS (https://cizrm.municipia.eng.it/?ente=NAPO)
+      con SPID, CIE o CNS, "Comunicazione periodica" → struttura e trimestre → numero di soggetti e
+      pernottamenti per tipo di tariffa ed esenzione → salvare e inviare; scaricare la ricevuta PDF
+      emessa dal Comune.
     who: anyone
     human_only: true
-  - do: Generare dalla dichiarazione l'avviso pagoPA e pagarlo entro la stessa scadenza
-    who: owner
-    human_only: true
+    channel: [portal]
   - do: >-
       Solo se GEIS è inutilizzabile: compilare il modulo di dichiarazione trimestrale del Comune,
       firmarlo e inviarlo per PEC o e-mail con motivo, copia del versamento e documento
@@ -654,6 +668,9 @@ steps:
     who: owner
     human_only: true
     channel: [pec, email]
+  - do: Generare dalla dichiarazione l'avviso pagoPA e pagarlo entro la stessa scadenza
+    who: owner
+    human_only: true
   - do: >-
       Entro il 30 giugno dell'anno successivo: presentare la dichiarazione annuale sul modello
       ministeriale nell'area riservata dell'Agenzia delle Entrate, direttamente o tramite un
