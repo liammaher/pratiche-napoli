@@ -468,6 +468,7 @@ forms:
           c'è, chiederlo.
       - label: Pec
         map: { direct: identity.pec }
+        optional: [{ field: identity.pec }]
         notes: La PEC del dichiarante; come legale rappresentante si può indicare quella dell'impresa (business.pec).
       - label: e-mail
         map: { direct: identity.email }
