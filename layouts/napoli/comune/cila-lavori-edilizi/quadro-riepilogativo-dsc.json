@@ -1,0 +1,180 @@
+{
+  "procedure": "napoli/comune/cila-lavori-edilizi",
+  "form": "quadro-riepilogativo-dsc",
+  "sha256": "b016971f433ebcb3a5ef1bbaeb00541cc1c9381ea4e0d7b2951cf963891efbc4",
+  "font_size": 9,
+  "boxes": [
+    {
+      "label": "Procura/delega",
+      "page": 1,
+      "choices": {
+        "allegato": [
+          85.6,
+          243.7,
+          95.6,
+          253.2
+        ]
+      }
+    },
+    {
+      "label": "Ricevuta di versamento dei diritti di segreteria",
+      "page": 1,
+      "choices": {
+        "allegato": [
+          85.6,
+          296.9,
+          95.6,
+          306.4
+        ]
+      }
+    },
+    {
+      "label": "Copia del documento di identità del/i titolare/i e/o del tecnico",
+      "page": 1,
+      "choices": {
+        "allegato": [
+          85.6,
+          326.0,
+          95.6,
+          335.5
+        ]
+      }
+    },
+    {
+      "label": "Dichiarazione di assenso dei terzi titolari di altri diritti reali o obbligatori",
+      "page": 1,
+      "choices": {
+        "allegato": [
+          85.6,
+          365.0,
+          95.6,
+          374.5
+        ]
+      }
+    },
+    {
+      "label": "Ricevuta di versamento a titolo di oblazione – intervento in corso di esecuzione",
+      "page": 1,
+      "choices": {
+        "allegato": [
+          85.6,
+          420.1,
+          95.6,
+          429.6
+        ]
+      }
+    },
+    {
+      "label": "Ricevuta di versamento a titolo di oblazione – intervento già realizzato",
+      "page": 1,
+      "choices": {
+        "allegato": [
+          85.6,
+          481.5,
+          95.6,
+          491.0
+        ]
+      }
+    },
+    {
+      "label": "Prospetto di calcolo preventivo del contributo di costruzione",
+      "page": 1,
+      "choices": {
+        "allegato": [
+          85.6,
+          531.3,
+          95.6,
+          540.8
+        ]
+      }
+    },
+    {
+      "label": "Ricevuta di versamento del contributo di costruzione",
+      "page": 1,
+      "choices": {
+        "allegato": [
+          85.6,
+          569.4,
+          95.6,
+          578.9
+        ]
+      }
+    },
+    {
+      "label": "Notifica preliminare (articolo 99 del d.lgs. n. 81/2008)",
+      "page": 1,
+      "choices": {
+        "allegato": [
+          85.6,
+          610.2,
+          95.6,
+          619.7
+        ]
+      }
+    },
+    {
+      "label": "Autorizzazione sismica (quadro Dichiarazione di tolleranze)",
+      "page": 1,
+      "choices": {
+        "allegato": [
+          85.6,
+          681.3,
+          95.6,
+          690.8
+        ]
+      }
+    },
+    {
+      "label": "Documentazione per altre comunicazioni, segnalazioni",
+      "page": 2,
+      "choices": {
+        "allegato": [
+          75.5,
+          100.9,
+          85.5,
+          110.4
+        ]
+      }
+    },
+    {
+      "label": "Documentazione per altre comunicazioni, segnalazioni (specificare)",
+      "page": 2,
+      "rect": [
+        98,
+        103.5,
+        499,
+        113.5
+      ],
+      "continuation": [
+        [
+          98,
+          121.5,
+          149,
+          131.5
+        ]
+      ]
+    },
+    {
+      "label": "Documentazione per il rilascio di atti di assenso obbligatori",
+      "page": 2,
+      "choices": {
+        "allegato": [
+          85.3,
+          222.0,
+          95.3,
+          231.5
+        ]
+      }
+    },
+    {
+      "label": "Documentazione per il rilascio di atti di assenso obbligatori (specificare)",
+      "page": 2,
+      "rect": [
+        118.5,
+        233.5,
+        427,
+        243.5
+      ]
+    }
+  ]
+}
