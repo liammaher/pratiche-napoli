@@ -1,0 +1,207 @@
+schema_version: 0
+id: napoli/comune/permesso-di-costruire
+title: Permesso di costruire (art. 10 DPR 380/2001) – SUE del Comune di Napoli
+headline: "Permesso di costruire a Napoli: quando serve e come si chiede al SUE"
+aka:
+  - concessione edilizia
+  - nuova costruzione
+  - demolizione e ricostruzione
+updated: 2026-10-29
+summary: >-
+  Il permesso di costruire serve a Napoli per le nuove costruzioni, la ristrutturazione
+  urbanistica e le ristrutturazioni edilizie "pesanti" dell'art. 10 c. 1 c DPR 380/2001; si può
+  chiedere anche, per scelta, al posto della SCIA. Lo chiede un tecnico abilitato per conto del
+  proprietario o di chi ha titolo, allo Sportello Unico per l'Edilizia (SUE) sul portale "Impresa
+  in un giorno". L'autorizzazione paesaggistica, se serve, va ottenuta prima: è un atto autonomo e
+  presupposto del permesso.
+ente:
+  name: Comune di Napoli
+  office: Area Urbanistica – Servizio Sportello Unico Edilizia
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata]
+  conditions:
+    - text: >-
+        Sono subordinati a permesso di costruire (art. 10 c. 1 DPR 380/2001): a) la nuova
+        costruzione; b) la ristrutturazione urbanistica; c) la ristrutturazione edilizia che porta a
+        un organismo in tutto o in parte diverso dal precedente quando modifica anche la volumetria
+        complessiva, o, in zona omogenea A, il mutamento della destinazione d'uso, o modifica sagoma,
+        volumetria o prospetti di immobili tutelati dal D.Lgs. 42/2004, e la demolizione e
+        ricostruzione (o il ripristino) di edifici nelle aree tutelate dagli artt. 136 c. 1 c) e d) e
+        142 con modifiche di sagoma, prospetti, sedime, caratteristiche planivolumetriche o con
+        aumento di volume.
+      status: verified
+      source: dpr380-art10
+    - text: >-
+        È facoltà dell'interessato chiedere il permesso di costruire anche per gli interventi da SCIA
+        (art. 22 c. 7 DPR 380/2001); il modulo del Comune lo prevede alla casella a.2.
+      status: verified
+      source: pdc-modulo
+    - text: >-
+        Per gli interventi dell'art. 10 c. 1 c e per le nuove costruzioni o ristrutturazioni
+        urbanistiche disciplinate da piani con precise disposizioni plano-volumetriche, il permesso
+        ha un'alternativa: la SCIA dell'art. 23 (napoli/comune/scia-alternativa-pdc).
+      status: verified
+      source: dpr380-art23
+    - text: >-
+        Le varianti a permessi di costruire con i caratteri delle variazioni essenziali (attività 37)
+        e quelle che modificano la sagoma negli ambiti del centro storico (attività 38) chiedono
+        l'autorizzazione, cioè un permesso di costruire (Tabella A del D.Lgs. 222/2016).
+      status: verified
+      source: dlgs222-tabella-a
+    - text: >-
+        A Napoli la Delibera di Giunta comunale n. 454 del 6 giugno 2014 esclude la SCIA per la
+        demolizione e ricostruzione e per le varianti che modificano la sagoma dei fabbricati in zona
+        A della Variante generale al PRG o della Variante occidentale.
+      status: verified
+      source: scia-pagina
+    - text: >-
+        L'autorizzazione paesaggistica è un atto autonomo e presupposto rispetto al permesso di
+        costruire (art. 146 c. 4 D.Lgs. 42/2004); il modulo del Comune la tratta nel quadro 19.
+      status: verified
+      source: dlgs42-art146
+    - text: >-
+        Il modulo comprende anche casi che hanno regole proprie: il permesso in sanatoria (art. 36,
+        casella a.3; l'istanza di sanatoria va presentata in formato cartaceo), il permesso in deroga
+        agli strumenti urbanistici (art. 14, a.4), il permesso convenzionato (art. 28-bis, a.7) e gli
+        interventi delle leggi regionali (sottotetti, parcheggi, cambi d'uso, ampliamenti e
+        demolizioni e ricostruzioni della L.R. 19/2001 e della L.R. 16/2004, a.8-a.14).
+      status: verified
+      source: pdc-modulo
+legal_basis:
+  - text: "D.P.R. 380/2001, art. 10 (interventi subordinati a permesso di costruire) e art. 20 (procedimento)."
+    status: verified
+    source: dpr380-art10
+  - text: "D.Lgs. 222/2016, Tabella A, Sezione II – Edilizia (attività 37 e 38)."
+    status: verified
+    source: dlgs222-tabella-a
+deadline:
+  summary:
+    text: Prima di iniziare i lavori, che si possono iniziare solo dopo il rilascio del permesso.
+    status: unverified
+channels:
+  - type: portal
+    purpose: procedure
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    notes: >-
+      Unico canale per le pratiche del SUE dal 6 luglio 2026 (DD 501/2026). La pagina del Comune sul
+      permesso di costruire indica ancora la presentazione su carta: è superata su questo punto.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dd-501-2026
+      notes: Si compila online; elaborati e allegati firmati digitalmente.
+  - type: pec
+    purpose: info
+    address: sportello.unico.edilizia@pec.comune.napoli.it
+    receipt: legal
+    source: sue-ufficio
+    notes: Per comunicare con l'ufficio, non per chiedere il permesso.
+steps:
+  - do: Incaricare un tecnico abilitato e firmare la procura speciale
+    who: owner
+    human_only: true
+  - do: >-
+      Stabilire con il tecnico che i lavori chiedono il permesso (o che il committente lo sceglie),
+      lo stato legittimo, i vincoli e se servono prima l'autorizzazione paesaggistica o altri atti
+      di assenso
+    who: professional
+  - do: Preparare il progetto, gli elaborati e, se l'intervento tocca le strutture, gli adempimenti sismici con il progettista delle strutture
+    who: professional
+  - do: Pagare i diritti di segreteria del SUE e allegarne la ricevuta
+    who: owner
+    human_only: true
+  - do: >-
+      Accedere con SPID, CIE o CNS a Impresa in un giorno (SUE di Napoli), scegliere l'operazione
+      del permesso di costruire, compilare, allegare i documenti firmati digitalmente e inviare;
+      conservare la ricevuta
+    who: professional
+    human_only: true
+    channel: [portal]
+  - do: Dopo il rilascio, pagare il contributo di costruzione se dovuto e comunicare l'inizio dei lavori
+    who: owner
+    human_only: true
+related:
+  - napoli/comune/scia-edilizia
+  - napoli/comune/scia-alternativa-pdc
+  - napoli/comune/cila-lavori-edilizi
+  - napoli/comune/autorizzazione-paesaggistica-semplificata
+  - napoli/comune/autorizzazione-paesaggistica-ordinaria
+  - napoli/genio-civile/deposito-autorizzazione-sismica
+sources:
+  - id: dpr380-art10
+    label: D.P.R. 6 giugno 2001, n. 380, art. 10 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art10
+    retrieved: 2026-10-29
+    official: true
+  - id: dpr380-art23
+    label: D.P.R. 6 giugno 2001, n. 380, art. 23 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art23
+    retrieved: 2026-10-29
+    official: true
+  - id: dlgs222-tabella-a
+    label: D.Lgs. 25 novembre 2016, n. 222, Tabella A, Sezione II – Edilizia (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2016-11-25;222
+    retrieved: 2026-10-29
+    official: true
+    notes: Lette le attività 35-38 (varianti).
+  - id: dlgs42-art146
+    label: D.Lgs. 22 gennaio 2004, n. 42, art. 146 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2004-01-22;42~art146
+    retrieved: 2026-10-29
+    official: true
+  - id: pdc-pagina
+    label: Comune di Napoli – PC, Permesso di costruire
+    url: https://www.comune.napoli.it/articolo_tematico/urbanistica-patrimonio-politiche-per-la-casa-cimiteri-cittadini/edilizia-privata/attivita-subordinata-a-titoli-edilizi/pc-permesso-di-costruire/
+    retrieved: 2026-10-29
+    page_updated: 2025-11-11
+    official: true
+    notes: Superata sul canale di presentazione (precede il passaggio a impresainungiorno).
+  - id: pdc-modulo
+    label: Mod. PDC 23/06/2025 – Richiesta di permesso di costruire (Comune di Napoli, modulistica unificata)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2010/06/PDC_23.06.25.pdf
+    retrieved: 2026-10-29
+    sha256: e26191c6c7ecf9a6afff7adf0f8a96f1274d68e3de7f666787f1c32fce0000b5
+    official: true
+  - id: scia-pagina
+    label: Comune di Napoli – SCIA, Segnalazione Certificata di Inizio Attività Edilizia (sulla DGC 454/2014)
+    url: https://www.comune.napoli.it/articolo_tematico/urbanistica-patrimonio-politiche-per-la-casa-cimiteri-cittadini/edilizia-privata/attivita-subordinata-a-titoli-edilizi/scia-segnalazione-certificata-di-inizio-attivita-edilizia/
+    retrieved: 2026-10-29
+    page_updated: 2025-11-11
+    official: true
+  - id: dd-501-2026
+    label: Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026 – Attivazione del SUE su impresainungiorno e Linee guida per la presentazione delle istanze edilizie
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2018/04/LINEE-GUIDA_30.06.2026.pdf
+    retrieved: 2026-10-25
+    sha256: 49e604a61ec34fd88db459761f5b7b07efbfa04b243f4e95881969f1c47796c1
+    official: true
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-10-25
+    official: true
+  - id: sue-ufficio
+    label: Comune di Napoli – Servizio Sportello Unico Edilizia (scheda dell'ufficio)
+    url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-sportello-unico-edilizia/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-16
+    official: true
+verification:
+  level: L1
+  date: 2026-10-29
+  by: claude
+  method: >-
+    Desk: su Normattiva DPR 380/2001 artt. 10, 22, 23, la Tabella A del D.Lgs. 222/2016 (attività
+    35-38) e D.Lgs. 42/2004 art. 146; le pagine del Comune di Napoli sul permesso di costruire e
+    sulla SCIA, il modulo PDC del 23/06/2025; la DD 501/2026.
+  notes: >-
+    Non letti: art. 20 DPR 380/2001 (tempi del procedimento), la L.R. Campania 19/2001, la DGC
+    454/2014, la tabella dei diritti per il permesso. La pagina è minima: dice quando serve il
+    permesso e come si chiede, non ancora documenti, costi e tempi.

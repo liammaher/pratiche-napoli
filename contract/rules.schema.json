@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/liammaher/pratiche-napoli/contract/rules.schema.json",
   "title": "Rules",
-  "description": "Which pratiche the law asks for, from a few facts about the case (the activity, what happens to it, the zone...). Each rule cites a claim a procedure already marks verified, so the table states nothing of its own: it only links facts to procedures. Every combination of the facts is decided by a rule or refused by one.",
+  "description": "Which pratiche the law asks for, from a few facts about the case (the activity, what happens to it, the zone...). Each rule cites a claim a procedure already marks verified, so the table states nothing of its own: it only links facts to procedures. Every combination of the facts is decided by a rule (a main pratica, or none needed) or refused by one.",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "id", "title", "updated", "intro", "facts", "rules"],
@@ -95,12 +95,12 @@
               "required": ["role", "procedure", "regime"],
               "properties": {
                 "role": {
-                  "description": "main: the pratica for the case (one per case); also: another pratica or part the case adds",
-                  "enum": ["main", "also"]
+                  "description": "main: the pratica for the case (one per case); also: another pratica or part the case adds, filed with the main one; apart: another pratica the case needs, filed on its own with another office",
+                  "enum": ["main", "also", "apart"]
                 },
                 "procedure": { "$ref": "#/$defs/procedureId" },
                 "regime": {
-                  "enum": ["scia", "scia_unica", "autorizzazione", "comunicazione", "notifica", "concessione", "nulla_osta"]
+                  "enum": ["scia", "scia_unica", "autorizzazione", "permesso", "comunicazione", "notifica", "deposito", "concessione", "nulla_osta"]
                 },
                 "portal": {
                   "description": "Where the pratica is on impresainungiorno, by the wizard's labels; only what a crawl or a run has seen",
@@ -112,6 +112,17 @@
                     "operazione": { "$ref": "#/$defs/text" },
                     "intervento": { "$ref": "#/$defs/text" }
                   }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["none"],
+              "properties": {
+                "none": {
+                  "description": "The case needs no pratica of this table (works that need no title): why, in plain Italian. Cites the claims it rests on, as a main rule does",
+                  "$ref": "#/$defs/text"
                 }
               }
             },

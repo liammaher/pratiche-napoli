@@ -97,6 +97,9 @@ situation it belongs to, and keep `updated` current as for procedures.
 A rules table (`rules/<id>.yaml`) links facts about a case to procedures. Write the claim on the
 procedure first, verified and with its source; then cite that procedure and source in the rule.
 Never put a fact of law only in a rule. A case the library doesn't handle yet gets a rule that
-refuses it with a plain reason, so every combination of the facts is decided. When a procedure's
-claim changes, check the rules that cite it (`grep -n <procedure id> rules/`).
+refuses it with a plain reason, so every combination of the facts is decided. Works that need no
+pratica at all get a rule that says so (`then: { none: ... }`), citing its claim as a main rule does.
+A pratica the case adds is `role: also` when it is filed with the main one (in the same pratica on
+the portal) and `role: apart` when it goes on its own to another office. When a procedure's claim
+changes, check the rules that cite it (`grep -n <procedure id> rules/`).
 

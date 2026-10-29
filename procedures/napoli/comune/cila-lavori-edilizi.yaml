@@ -62,9 +62,21 @@ applies_to:
       status: verified
       source: cila-modulo
     - text: >-
-        Lavori su parti strutturali: la CILA non basta. Non è stato controllato su Normattiva quale
-        titolo serva (di norma SCIA, art. 22, più gli adempimenti sismici).
-      status: unverified
+        Lavori su parti strutturali: la CILA non basta. La manutenzione straordinaria che riguarda le
+        parti strutturali o i prospetti, e il restauro che riguarda le parti strutturali, si fanno
+        con SCIA (art. 22 c. 1 DPR 380/2001), con gli adempimenti sismici
+        (napoli/genio-civile/deposito-autorizzazione-sismica).
+      status: verified
+      source: dpr380-art22
+    - text: >-
+        Si eseguono senza alcun titolo, nel rispetto delle normative di settore e del Codice dei beni
+        culturali e del paesaggio, gli interventi dell'art. 6 c. 1 DPR 380/2001: tra gli altri la
+        manutenzione ordinaria, l'eliminazione di barriere architettoniche senza ascensori esterni o
+        manufatti che alterino la sagoma, le vetrate panoramiche amovibili (VEPA), le tende e pergole
+        con telo retrattile, le pavimentazioni e finiture di spazi esterni; le opere stagionali e
+        temporanee (lettera e-bis) chiedono invece la comunicazione di avvio dei lavori.
+      status: verified
+      source: dpr380-art6
 legal_basis:
   - text: "D.P.R. 380/2001, art. 6-bis (CILA), art. 3 c. 1 (definizioni degli interventi), art. 6 (edilizia libera)."
     status: verified
@@ -840,7 +852,12 @@ sources:
   - id: dpr380-art6
     label: D.P.R. 6 giugno 2001, n. 380, art. 6 (Normattiva)
     url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art6
-    retrieved: 2026-10-25
+    retrieved: 2026-10-29
+    official: true
+  - id: dpr380-art22
+    label: D.P.R. 6 giugno 2001, n. 380, art. 22 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art22
+    retrieved: 2026-10-29
     official: true
   - id: dpr380-art23ter
     label: D.P.R. 6 giugno 2001, n. 380, art. 23-ter (Normattiva)
@@ -868,7 +885,7 @@ verification:
     della Camera di Commercio del 02/07/2026; la DD 501/2026 con le Linee guida, la DD 603/2025
     (testo), il Mod.CILA-23-06-2025 e le note illustrative, la tabella diritti SUE 2026, la rubrica
     SUE, l'Allegato A Programma 100 e il Modello DP; su Normattiva DPR 380/2001 artt. 3, 6, 6-bis,
-    23-ter e D.Lgs. 42/2004 artt. 21 e 149.
+    22 (riletti il 29/10/2026), 23-ter e D.Lgs. 42/2004 artt. 21 e 149.
   notes: >-
     Non aperti: il portale impresainungiorno dopo l'accesso (serve SPID), il testo del DD Regione
     Campania 217/2025 e dell'Accordo CU 35/CU (citati tramite la DD 603/2025), le norme della

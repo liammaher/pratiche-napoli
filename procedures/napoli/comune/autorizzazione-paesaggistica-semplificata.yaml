@@ -1,0 +1,166 @@
+schema_version: 0
+id: napoli/comune/autorizzazione-paesaggistica-semplificata
+title: Autorizzazione paesaggistica semplificata (D.P.R. 31/2017) – Comune di Napoli, sul SUE
+headline: "Autorizzazione paesaggistica semplificata a Napoli per lavori di lieve entità"
+aka:
+  - paesaggistica semplificata
+  - vincolo paesaggistico
+  - allegato B DPR 31/2017
+updated: 2026-10-29
+summary: >-
+  Chi fa lavori di lieve entità in un'area o su un immobile sotto tutela paesaggistica (artt. 136
+  e 142 del D.Lgs. 42/2004) che alterano i luoghi o l'aspetto esteriore degli edifici, e che sono
+  nell'Allegato B del D.P.R. 31/2017, chiede l'autorizzazione paesaggistica semplificata. A Napoli
+  la rilascia il Comune e si chiede sul portale "Impresa in un giorno", da sola o nella stessa
+  pratica del titolo edilizio (con la CILA o con la SCIA). I lavori dell'Allegato A non la
+  richiedono; gli altri chiedono l'autorizzazione ordinaria.
+ente:
+  name: Comune di Napoli
+  office: Sportello Unico Edilizia (istanze sul SUE)
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata, paesaggio]
+  conditions:
+    - text: >-
+        Chi possiede o detiene immobili e aree di interesse paesaggistico tutelati per legge (art.
+        142) o in base alla legge (art. 136 e seguenti) presenta il progetto degli interventi e non
+        avvia i lavori finché non ha ottenuto l'autorizzazione (art. 146 c. 1-2 D.Lgs. 42/2004).
+      status: verified
+      source: dlgs42-art146
+    - text: >-
+        Non sono soggetti ad autorizzazione paesaggistica gli interventi dell'Allegato A del D.P.R.
+        31/2017 e quelli dell'art. 4 (art. 2 D.P.R. 31/2017).
+      status: verified
+      source: dpr31-art2
+    - text: >-
+        Non richiedono l'autorizzazione la manutenzione ordinaria, straordinaria, il consolidamento
+        statico e il restauro conservativo che non alterano lo stato dei luoghi e l'aspetto
+        esteriore degli edifici (art. 149 c. 1 a D.Lgs. 42/2004).
+      status: verified
+      source: dlgs42-art149
+    - text: >-
+        Sono soggetti al procedimento autorizzatorio semplificato gli interventi e le opere di lieve
+        entità elencati nell'Allegato B (art. 3 D.P.R. 31/2017).
+      status: verified
+      source: dpr31-art3
+    - text: >-
+        Sul SUE di Napoli l'operazione "Autorizzazione paesaggistica semplificata (DPR 31/2017 -
+        Comune)" è un adempimento degli uffici del Comune di Napoli, e si può scegliere insieme alla
+        CILA o alla SCIA nella stessa pratica.
+      status: verified
+      source: portale-sue-operazioni
+    - text: >-
+        Con la SCIA l'autorizzazione semplificata si chiede contestualmente (SCIA condizionata,
+        quadro 17.3.1 del modulo, con la relazione paesaggistica semplificata): i lavori iniziano dopo
+        il suo rilascio.
+      status: verified
+      source: scia-modulo
+    - text: >-
+        Fuori dei casi dell'art. 167 c. 4 e 5, l'autorizzazione non può essere rilasciata in
+        sanatoria dopo la realizzazione, anche parziale, degli interventi (art. 146 c. 4); per i
+        lavori già fatti c'è l'accertamento di compatibilità paesaggistica, un'altra pratica.
+      status: verified
+      source: dlgs42-art146
+legal_basis:
+  - text: "D.P.R. 13 febbraio 2017, n. 31, artt. 2-3 e Allegati A e B; D.Lgs. 42/2004, artt. 136, 142, 146, 149."
+    status: verified
+    source: dpr31-art3
+channels:
+  - type: portal
+    purpose: procedure
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    notes: Operazione "Autorizzazione paesaggistica semplificata (DPR 31/2017 - Comune)", nel gruppo Beni Paesaggistici.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dd-501-2026
+      notes: Si compila online; relazione paesaggistica semplificata ed elaborati firmati digitalmente.
+steps:
+  - do: >-
+      Stabilire con il tecnico se l'immobile è tutelato (artt. 136, 142) e se i lavori sono
+      nell'Allegato A (nessuna autorizzazione), nell'Allegato B (semplificata) o fuori (ordinaria)
+    who: professional
+  - do: Preparare la relazione paesaggistica semplificata e gli elaborati
+    who: professional
+  - do: Pagare l'imposta di bollo e i diritti dovuti
+    who: owner
+    human_only: true
+  - do: >-
+      Accedere con SPID, CIE o CNS a Impresa in un giorno (SUE di Napoli), scegliere l'operazione
+      dell'autorizzazione paesaggistica semplificata (da sola o con la CILA o la SCIA), compilare,
+      allegare i documenti firmati digitalmente e inviare
+    who: professional
+    human_only: true
+    channel: [portal]
+  - do: Iniziare i lavori solo dopo il rilascio dell'autorizzazione
+    who: owner
+related:
+  - napoli/comune/autorizzazione-paesaggistica-ordinaria
+  - napoli/comune/cila-lavori-edilizi
+  - napoli/comune/scia-edilizia
+sources:
+  - id: dlgs42-art146
+    label: D.Lgs. 22 gennaio 2004, n. 42, art. 146 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2004-01-22;42~art146
+    retrieved: 2026-10-29
+    official: true
+  - id: dlgs42-art149
+    label: D.Lgs. 22 gennaio 2004, n. 42, art. 149 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2004-01-22;42~art149
+    retrieved: 2026-10-29
+    official: true
+  - id: dpr31-art2
+    label: D.P.R. 13 febbraio 2017, n. 31, art. 2 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2017-02-13;31~art2
+    retrieved: 2026-10-29
+    official: true
+  - id: dpr31-art3
+    label: D.P.R. 13 febbraio 2017, n. 31, art. 3 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2017-02-13;31~art3
+    retrieved: 2026-10-29
+    official: true
+  - id: scia-modulo
+    label: Mod. SCIA 23/06/2025 – Segnalazione certificata di inizio attività (Comune di Napoli, modulistica unificata)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2010/11/SCIA_23.06.25.pdf
+    retrieved: 2026-10-29
+    sha256: eed015e7177ad29c8c64e8b7347dafc3b5a600174e183bdbfbb9742e67595484
+    official: true
+  - id: portale-sue-operazioni
+    label: Impresa in un giorno, SUE di Napoli – "Scelta operazioni" del settore "Edilizia e pianificazione urbana"
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-10-28
+    official: true
+    notes: >-
+      Si vede solo dopo l'accesso con SPID, creando una pratica (bozza di prova, mai inviata). Ogni
+      operazione indica l'adempimento e l'amministrazione ("UFFICI COMUNE DI NAPOLI - SUE"); più
+      operazioni si selezionano insieme in una stessa pratica (CILA o SCIA con l'autorizzazione).
+  - id: dd-501-2026
+    label: Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026 – Attivazione del SUE su impresainungiorno e Linee guida per la presentazione delle istanze edilizie
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2018/04/LINEE-GUIDA_30.06.2026.pdf
+    retrieved: 2026-10-25
+    sha256: 49e604a61ec34fd88db459761f5b7b07efbfa04b243f4e95881969f1c47796c1
+    official: true
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-10-25
+    official: true
+verification:
+  level: L1
+  date: 2026-10-29
+  by: claude
+  method: >-
+    Desk: su Normattiva D.P.R. 31/2017 artt. 2-3 e D.Lgs. 42/2004 artt. 136, 142, 146, 149; il
+    modulo SCIA del Comune (quadri b.3 e 17); le operazioni del SUE viste sul portale in una bozza
+    di prova.
+  notes: >-
+    Non letti per intero: gli Allegati A e B del D.P.R. 31/2017 (la classificazione dei lavori resta
+    del tecnico), i tempi del procedimento (art. 11), la delega regionale al Comune, i diritti e il
+    bollo. La pagina è minima.
