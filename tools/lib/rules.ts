@@ -26,7 +26,7 @@ export interface Portal {
 export interface Rule {
   id: string;
   when: Record<string, Condition>;
-  then: { role: "main" | "also"; procedure: string; regime: string; portal?: Portal } | { refuse: string };
+  then: { role: "main" | "also" | "apart"; procedure: string; regime: string; portal?: Portal } | { none: string } | { refuse: string };
   cites?: { procedure: string; source: string }[];
   status: "verified" | "unverified" | "disputed";
   note?: string;
@@ -50,9 +50,11 @@ export interface Outcome {
 export interface Decision {
   ask: string[]; // facts some rule still waits on, in the table's order
   main?: Outcome; // the case's pratica, once no fact is missing
-  also: Outcome[]; // further pratiche the case adds, one per procedure
+  none?: { rule: string; reason: string }; // no pratica needed, once no fact is missing
+  also: Outcome[]; // further pratiche the case adds, filed with the main one; one per procedure
+  apart: Outcome[]; // pratiche the case also needs, filed on their own elsewhere
   refused: { rule: string; reason: string }[]; // any one means the case isn't handled
-  conflict: string[]; // main rules that disagree: a broken table
+  conflict: string[]; // main (or none) rules that disagree: a broken table
 }
 
 // true or false once every fact the condition reads is known, else undefined.
@@ -87,22 +89,30 @@ export function decide(table: RulesTable, facts: Record<string, FactValue>): Dec
     }
     fired.push(rule);
   }
-  const d: Decision = { ask: Object.keys(table.facts).filter((f) => ask.has(f)), also: [], refused: [], conflict: [] };
+  const d: Decision = { ask: Object.keys(table.facts).filter((f) => ask.has(f)), also: [], apart: [], refused: [], conflict: [] };
   const mains: Outcome[] = [];
+  const nones: { rule: string; reason: string }[] = [];
   for (const rule of fired) {
     if (rule.status !== "verified") {
       d.refused.push({ rule: rule.id, reason: rule.note! });
     } else if ("refuse" in rule.then) {
       d.refused.push({ rule: rule.id, reason: rule.then.refuse });
+    } else if ("none" in rule.then) {
+      nones.push({ rule: rule.id, reason: rule.then.none });
     } else {
       const { procedure, regime, portal } = rule.then;
       const o: Outcome = { rule: rule.id, procedure, regime, ...(portal ? { portal } : {}) };
-      if (rule.then.role === "main") mains.push(o);
-      else if (!d.also.some((a) => a.procedure === procedure)) d.also.push(o);
+      const list = rule.then.role === "main" ? mains : rule.then.role === "also" ? d.also : d.apart;
+      if (list === mains || !list.some((a) => a.procedure === procedure)) list.push(o);
     }
   }
-  if (new Set(mains.map((m) => `${m.procedure} ${m.regime}`)).size > 1) d.conflict = mains.map((m) => m.rule);
-  else if (mains.length && !d.ask.length) d.main = mains[0];
+  // A main pratica and "none needed" disagree as two different mains do.
+  if (new Set(mains.map((m) => `${m.procedure} ${m.regime}`)).size + (nones.length ? 1 : 0) > 1) {
+    d.conflict = [...mains.map((m) => m.rule), ...nones.map((n) => n.rule)];
+  } else if (!d.ask.length) {
+    if (mains.length) d.main = mains[0];
+    else if (nones.length) d.none = nones[0];
+  }
   d.also = d.also.filter((a) => a.procedure !== d.main?.procedure);
   return d;
 }
@@ -161,7 +171,8 @@ const describe = (c: Record<string, FactValue>) => Object.entries(c).map(([k, v]
 // Validates every table under dir (rules/): the schema, its id as its file
 // name, facts and values that exist, procedures in the library, cited sources
 // that back a verified claim of that procedure, and every combination of the
-// facts decided by one main rule or refused, never by two that disagree.
+// facts decided by one main rule (or "none needed") or refused, never by two
+// that disagree.
 export function validateRules(dir: string, procedures: FileResult[], today: string): FileResult[] {
   try {
     if (!statSync(dir).isDirectory()) return [];
@@ -202,9 +213,9 @@ export function validateRules(dir: string, procedures: FileResult[], today: stri
             if (p) errors.push(`rule ${r.id}: ${p}`);
           }
         }
-        if (!("refuse" in r.then)) {
-          if (!docs.has(r.then.procedure)) errors.push(`rule ${r.id}: ${r.then.procedure} is not a procedure in the library`);
-          if (!r.cites?.length) errors.push(`rule ${r.id}: a rule that names a pratica cites the claims it rests on`);
+        if ("procedure" in r.then && !docs.has(r.then.procedure)) errors.push(`rule ${r.id}: ${r.then.procedure} is not a procedure in the library`);
+        if (!("refuse" in r.then) && !r.cites?.length) {
+          errors.push(`rule ${r.id}: a rule that ${"none" in r.then ? "says no pratica is needed" : "names a pratica"} cites the claims it rests on`);
         }
         for (const c of r.cites ?? []) {
           const p = docs.get(c.procedure);
@@ -223,7 +234,7 @@ export function validateRules(dir: string, procedures: FileResult[], today: stri
         for (const c of combinations(t)) {
           const d = decide(t, c);
           if (d.conflict.length && conflicts++ < 5) errors.push(`rules ${d.conflict.join(", ")} disagree for ${describe(c)}`);
-          if (!d.conflict.length && !d.main && !d.refused.length && undecided++ < 5) errors.push(`no rule decides ${describe(c)}`);
+          if (!d.conflict.length && !d.main && !d.none && !d.refused.length && undecided++ < 5) errors.push(`no rule decides ${describe(c)}`);
         }
         if (conflicts > 5) errors.push(`… ${conflicts - 5} more combinations with rules that disagree`);
         if (undecided > 5) errors.push(`… ${undecided - 5} more combinations no rule decides`);

@@ -127,7 +127,11 @@ closing...), the zone of the historic-centre Piano, the sales area, a sign, musi
 has its question in plain Italian; each rule names the procedure, its regime (SCIA,
 autorizzazione, comunicazione...) and, where a crawl or a run has seen it, the portal's sector
 and operation. `rules/suap-napoli.yaml` covers shops, bars and restaurants, hairdressers and
-beauticians, and B&Bs at the SUAP of Napoli.
+beauticians, and B&Bs at the SUAP of Napoli. `rules/sue-napoli.yaml` covers building works at
+the SUE: from the kind of works, the structures, the facades, the change of use and the
+protections to edilizia libera (no pratica), CILA, SCIA, SCIA alternativa or permesso di
+costruire (where the law lets the architect choose, the choice is a fact), the landscape
+authorization filed with it, and the seismic filing made apart at the Genio Civile.
 
 A rule adds no claim of its own: it cites a procedure and one of its sources, and the validator
 checks that source backs a verified claim on that procedure, so a rule changes when its
