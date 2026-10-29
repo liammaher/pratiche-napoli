@@ -65,9 +65,33 @@ test("decide gives the main pratica with its portal path once every fact is know
     ask: [],
     main: { rule: "apre", procedure: "napoli/comune/shop", regime: "scia", portal: { settore: "Vicinato", operazione: "Aprire l'attività" } },
     also: [],
+    apart: [],
     refused: [],
     conflict: [],
   });
+});
+
+test("decide says when no pratica is needed, and lists the pratiche filed apart", () => {
+  const t = table();
+  t.rules = t.rules.filter((r) => r.id !== "chiude");
+  t.rules.push(
+    { id: "chiude", when: { evento: ["cessazione"], mq: { upto: 250 } }, then: { none: "Nessuna pratica." }, cites: [{ procedure: "napoli/comune/shop", source: "law" }], status: "verified" },
+    { id: "altrove", when: { evento: ["apertura"], insegna: false }, then: { role: "apart", procedure: "napoli/comune/sign", regime: "deposito" }, cites: [{ procedure: "napoli/comune/shop", source: "law" }], status: "verified" },
+  );
+  const closed = decide(t, { evento: "cessazione", mq: 10, insegna: false });
+  assert.deepEqual(closed.none, { rule: "chiude", reason: "Nessuna pratica." });
+  assert.equal(closed.main, undefined);
+  const open = decide(t, { evento: "apertura", mq: 10, insegna: false });
+  assert.equal(open.main?.rule, "apre");
+  assert.deepEqual(open.apart, [{ rule: "altrove", procedure: "napoli/comune/sign", regime: "deposito" }]);
+  assert.deepEqual(open.also, []);
+  assert.deepEqual(validate(t), []);
+  // "none needed" and a main pratica for the same case disagree; a none rule cites what it rests on.
+  t.rules.push({ id: "niente", when: { evento: ["apertura"] }, then: { none: "Niente." }, status: "verified" });
+  const errors = validate(t).join("\n");
+  assert.match(errors, /rule niente: a rule that says no pratica is needed cites the claims it rests on/);
+  t.rules[t.rules.length - 1].cites = [{ procedure: "napoli/comune/shop", source: "law" }];
+  assert.match(validate(t).join("\n"), /rules apre, niente disagree for evento=apertura mq=0/);
 });
 
 test("decide refuses with a refusing rule's reason, and with an unverified rule's note", () => {

@@ -1,0 +1,165 @@
+schema_version: 0
+id: napoli/comune/scia-alternativa-pdc
+title: SCIA alternativa al permesso di costruire (art. 23 DPR 380/2001) – SUE del Comune di Napoli
+headline: "SCIA alternativa al permesso di costruire a Napoli: quando si può usare"
+aka:
+  - super scia
+  - scia in alternativa al permesso
+  - dia alternativa
+updated: 2026-10-29
+summary: >-
+  Per alcuni interventi che chiederebbero il permesso di costruire la legge consente, in
+  alternativa, una SCIA: le ristrutturazioni edilizie "pesanti" dell'art. 10 c. 1 c e le nuove
+  costruzioni o ristrutturazioni urbanistiche disciplinate da piani con precise disposizioni
+  plano-volumetriche. La presenta un tecnico abilitato allo Sportello Unico per l'Edilizia (SUE) di
+  Napoli sul portale "Impresa in un giorno", almeno trenta giorni prima dell'inizio dei lavori; il
+  contributo di costruzione è dovuto. Resta sempre possibile chiedere il permesso di costruire.
+ente:
+  name: Comune di Napoli
+  office: Area Urbanistica – Servizio Sportello Unico Edilizia
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata]
+  conditions:
+    - text: >-
+        In alternativa al permesso di costruire si possono realizzare con SCIA (art. 23 c. 01 DPR
+        380/2001): a) le ristrutturazioni dell'art. 10 c. 1 c; b) le nuove costruzioni o
+        ristrutturazioni urbanistiche disciplinate da piani attuativi con precise disposizioni
+        plano-volumetriche, tipologiche, formali e costruttive dichiarate dal Comune; c) le nuove
+        costruzioni in diretta esecuzione di strumenti urbanistici generali con precise disposizioni
+        plano-volumetriche. Questi interventi sono soggetti al contributo di costruzione.
+      status: verified
+      source: dpr380-art23
+    - text: >-
+        La segnalazione si presenta allo sportello unico almeno trenta giorni prima dell'effettivo
+        inizio dei lavori, con una relazione del progettista abilitato che asseveri la conformità
+        delle opere (art. 23 c. 1).
+      status: verified
+      source: dpr380-art23
+    - text: >-
+        Con la SCIA alternativa si può chiedere al Comune di acquisire gli atti di assenso necessari
+        (SCIA condizionata, quadro b.3 del modulo): i lavori iniziano dopo la comunicazione del loro
+        rilascio.
+      status: verified
+      source: sciapdc-modulo
+    - text: >-
+        A Napoli la Delibera di Giunta comunale n. 454 del 6 giugno 2014 esclude "la SCIA" per la
+        demolizione e ricostruzione in zona A della Variante generale al PRG o della Variante
+        occidentale; la pagina del Comune che lo riporta riguarda la SCIA edilizia.
+      status: verified
+      source: scia-pagina
+    - text: >-
+        Non è verificato se l'esclusione della DGC 454/2014 valga anche per la SCIA alternativa al
+        permesso di costruire: per una demolizione e ricostruzione in zona A va chiesto al SUE.
+      status: unverified
+legal_basis:
+  - text: "D.P.R. 380/2001, art. 23 (SCIA in alternativa al permesso di costruire)."
+    status: verified
+    source: dpr380-art23
+deadline:
+  summary:
+    text: Almeno trenta giorni prima dell'effettivo inizio dei lavori.
+    status: verified
+    source: dpr380-art23
+channels:
+  - type: portal
+    purpose: procedure
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    notes: >-
+      Unico canale per le pratiche del SUE dal 6 luglio 2026 (DD 501/2026). La pagina del Comune
+      descrive ancora l'invio attraverso il canale della DIA dei servizi online: è superata su
+      questo punto.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dd-501-2026
+      notes: Si compila online; elaborati e allegati firmati digitalmente.
+  - type: pec
+    purpose: info
+    address: sportello.unico.edilizia@pec.comune.napoli.it
+    receipt: legal
+    source: sue-ufficio
+    notes: Per comunicare con l'ufficio, non per presentare la segnalazione.
+steps:
+  - do: Incaricare un tecnico abilitato e firmare la procura speciale
+    who: owner
+    human_only: true
+  - do: >-
+      Stabilire con il tecnico che l'intervento rientra nell'art. 23 c. 01 e scegliere tra SCIA
+      alternativa e permesso di costruire; verificare stato legittimo, vincoli e strutture
+    who: professional
+  - do: Pagare i diritti di segreteria del SUE e allegarne la ricevuta
+    who: owner
+    human_only: true
+  - do: >-
+      Accedere con SPID, CIE o CNS a Impresa in un giorno (SUE di Napoli), scegliere l'operazione
+      della SCIA alternativa al permesso di costruire, compilare, allegare i documenti firmati
+      digitalmente e inviare; conservare la ricevuta
+    who: professional
+    human_only: true
+    channel: [portal]
+  - do: Iniziare i lavori non prima di trenta giorni dalla presentazione, pagando il contributo di costruzione come previsto
+    who: owner
+related:
+  - napoli/comune/permesso-di-costruire
+  - napoli/comune/scia-edilizia
+  - napoli/genio-civile/deposito-autorizzazione-sismica
+sources:
+  - id: dpr380-art23
+    label: D.P.R. 6 giugno 2001, n. 380, art. 23 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art23
+    retrieved: 2026-10-29
+    official: true
+  - id: sciapdc-pagina
+    label: Comune di Napoli – SCIA/PDC, Segnalazione Certificata di Inizio Attività in alternativa al Permesso di Costruire
+    url: https://www.comune.napoli.it/articolo_tematico/urbanistica-patrimonio-politiche-per-la-casa-cimiteri-cittadini/edilizia-privata/attivita-subordinata-a-titoli-edilizi/scia-pdc-segnalazione-certificata-di-inizio-attivita-in-alternativa-al-permesso-di-costruire/
+    retrieved: 2026-10-29
+    page_updated: 2025-11-11
+    official: true
+    notes: Superata sul canale di presentazione (precede il passaggio a impresainungiorno).
+  - id: sciapdc-modulo
+    label: Mod. SCIA/PDC 23/06/2025 – SCIA alternativa al permesso di costruire (Comune di Napoli, modulistica unificata)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2010/06/SCIApdc_23.06.25.pdf
+    retrieved: 2026-10-29
+    sha256: 51c94d7192993dce4701f3ec9b3fe79a9f2fb13e4bd43da9a33abe8f987db944
+    official: true
+  - id: scia-pagina
+    label: Comune di Napoli – SCIA, Segnalazione Certificata di Inizio Attività Edilizia (sulla DGC 454/2014)
+    url: https://www.comune.napoli.it/articolo_tematico/urbanistica-patrimonio-politiche-per-la-casa-cimiteri-cittadini/edilizia-privata/attivita-subordinata-a-titoli-edilizi/scia-segnalazione-certificata-di-inizio-attivita-edilizia/
+    retrieved: 2026-10-29
+    page_updated: 2025-11-11
+    official: true
+  - id: dd-501-2026
+    label: Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026 – Attivazione del SUE su impresainungiorno e Linee guida per la presentazione delle istanze edilizie
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2018/04/LINEE-GUIDA_30.06.2026.pdf
+    retrieved: 2026-10-25
+    sha256: 49e604a61ec34fd88db459761f5b7b07efbfa04b243f4e95881969f1c47796c1
+    official: true
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-10-25
+    official: true
+  - id: sue-ufficio
+    label: Comune di Napoli – Servizio Sportello Unico Edilizia (scheda dell'ufficio)
+    url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-sportello-unico-edilizia/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-16
+    official: true
+verification:
+  level: L1
+  date: 2026-10-29
+  by: claude
+  method: >-
+    Desk: su Normattiva DPR 380/2001 art. 23; le pagine del Comune di Napoli sulla SCIA alternativa
+    e sulla SCIA, il modulo SCIA/PDC del 23/06/2025; la DD 501/2026.
+  notes: >-
+    Non letti: la DGC 454/2014, la L.R. Campania 19/2001, la tabella dei diritti. La pagina è
+    minima: dice quando si può usare la SCIA alternativa e come si presenta.

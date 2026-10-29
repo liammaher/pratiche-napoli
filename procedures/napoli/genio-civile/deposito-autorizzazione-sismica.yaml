@@ -1,0 +1,146 @@
+schema_version: 0
+id: napoli/genio-civile/deposito-autorizzazione-sismica
+title: Deposito o autorizzazione sismica per lavori sulle strutture a Napoli (Genio Civile di Napoli, Regione Campania)
+headline: "Deposito o autorizzazione sismica a Napoli per lavori sulle strutture"
+aka:
+  - deposito sismico
+  - autorizzazione sismica
+  - denuncia dei lavori in zona sismica
+  - genio civile
+updated: 2026-10-29
+summary: >-
+  Napoli è in zona sismica 2. Chi costruisce, ripara o sopraeleva, cioè fa lavori che toccano le
+  strutture, deve denunciare i lavori e depositare il progetto strutturale; per gli interventi
+  "rilevanti" per la pubblica incolumità serve prima l'autorizzazione sismica. Per il Comune di
+  Napoli è competente il Genio Civile di Napoli della Regione Campania, e le istanze si presentano
+  sul portale regionale S.I.smi.C.A. È una pratica a parte rispetto al titolo edilizio presentato
+  al SUE, che la dichiara e ne allega la documentazione.
+ente:
+  name: Regione Campania
+  office: Settore Uffici territoriali del Genio Civile – Genio Civile di Napoli
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata]
+  conditions:
+    - text: Il Comune di Napoli è classificato in zona sismica 2.
+      status: verified
+      source: classificazione-sismica
+    - text: >-
+        Nelle zone sismiche chiunque intenda procedere a costruzioni, riparazioni e sopraelevazioni
+        ne dà preavviso scritto allo sportello unico, che ne trasmette copia all'ufficio tecnico
+        della regione, con il progetto firmato dal progettista e dal direttore dei lavori; il
+        preavviso con il deposito del progetto vale anche come denuncia dell'art. 65 (art. 93 DPR
+        380/2001).
+      status: verified
+      source: dpr380-art93
+    - text: >-
+        Gli interventi "rilevanti" per la pubblica incolumità (tra gli altri l'adeguamento o il
+        miglioramento sismico in zona 2 con accelerazione tra 0,20 g e 0,25 g, le nuove costruzioni
+        di particolare complessità strutturale, gli edifici strategici o rilevanti) non possono
+        iniziare senza l'autorizzazione preventiva dell'ufficio tecnico della regione; per quelli di
+        "minore rilevanza" o "privi di rilevanza" (riparazioni e interventi locali, le altre nuove
+        costruzioni) non serve l'autorizzazione preventiva (art. 94-bis DPR 380/2001).
+      status: verified
+      source: dpr380-art94bis
+    - text: >-
+        Il Comune di Napoli è tra i comuni di competenza del Genio Civile di Napoli e non tra quelli
+        a cui sono trasferite le funzioni in materia sismica (art. 4-bis L.R. 9/1983).
+      status: verified
+      source: competenza-napoli
+    - text: >-
+        Le istanze della L.R. Campania 9/1983 (difesa del territorio dal rischio sismico) si
+        presentano e si gestiscono sul portale S.I.smi.C.A. della Regione, con accesso SPID o CNS.
+      status: verified
+      source: portale-sismica
+    - text: >-
+        Quali interventi in Campania vadano ad autorizzazione e quali a deposito, i documenti e i
+        tempi sono nel Regolamento regionale 4/2010 e nelle sue modifiche, non ancora letti per la
+        libreria: li stabilisce il progettista delle strutture.
+      status: unverified
+    - text: >-
+        Non è verificato se, con il portale S.I.smi.C.A., la documentazione allegata alla SCIA o al
+        permesso presentati al SUE (quadro sulle opere strutturali) sostituisca l'istanza al Genio
+        Civile o vi si aggiunga.
+      status: unverified
+legal_basis:
+  - text: "D.P.R. 380/2001, artt. 83, 93, 94 e 94-bis; L.R. Campania 7 gennaio 1983, n. 9; Regolamento regionale n. 4/2010."
+    status: unverified
+channels:
+  - type: portal
+    purpose: procedure
+    name: S.I.smi.C.A. – Sistema Informativo della sismica in Regione Campania
+    url: https://portalesismica.regione.campania.it/
+    auth: [spid, cns]
+    preferred: true
+    source: portale-sismica
+    use:
+      ways: [web_form, upload]
+      status: unverified
+      notes: Non visto dopo l'accesso.
+steps:
+  - do: Incaricare un progettista delle strutture abilitato e un direttore dei lavori
+    who: owner
+    human_only: true
+  - do: >-
+      Stabilire con il progettista se l'intervento è rilevante (autorizzazione preventiva) o di
+      minore rilevanza o privo di rilevanza (deposito), e preparare il progetto strutturale
+    who: professional
+  - do: >-
+      Accedere con SPID o CNS al portale S.I.smi.C.A., presentare il deposito o la richiesta di
+      autorizzazione al Genio Civile di Napoli e conservarne il protocollo
+    who: professional
+    human_only: true
+    channel: [portal]
+  - do: Indicare nel titolo edilizio presentato al SUE la denuncia o l'autorizzazione sismica e allegarne la documentazione
+    who: professional
+  - do: Non iniziare i lavori rilevanti prima dell'autorizzazione
+    who: owner
+related:
+  - napoli/comune/scia-edilizia
+  - napoli/comune/permesso-di-costruire
+  - napoli/comune/scia-alternativa-pdc
+sources:
+  - id: classificazione-sismica
+    label: Dipartimento della Protezione Civile – Classificazione sismica dei comuni aggiornata a maggio 2025 (CSV)
+    url: https://rischi.protezionecivile.gov.it/static/4717c6a369cdc298b69730c9d740e39a/classificazione-sismica-aggiornata-maggio-2025.csv
+    retrieved: 2026-10-29
+    sha256: 89568b25cb346763903a097be985a69b2ec1931da5eb4a4af02704a4bcbea324
+    official: true
+    notes: Riga "Campania;Napoli;NA;Napoli;63049;2".
+  - id: dpr380-art93
+    label: D.P.R. 6 giugno 2001, n. 380, art. 93 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art93
+    retrieved: 2026-10-29
+    official: true
+  - id: dpr380-art94bis
+    label: D.P.R. 6 giugno 2001, n. 380, art. 94-bis (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art94bis
+    retrieved: 2026-10-29
+    official: true
+  - id: competenza-napoli
+    label: Regione Campania – Elenco dei Comuni di competenza del Settore Uffici territoriali del Genio Civile – Genio Civile di Napoli
+    url: https://portalesismica.regione.campania.it/UploadControls/Files/Competenza%20di%20Napoli.pdf
+    retrieved: 2026-10-29
+    sha256: d4e51d550894378cfab183d3e537e2c8f92cbadbeecedcc4c0c277b7dd31ddc6
+    official: true
+    notes: >-
+      Napoli è il n. 51, senza l'asterisco dei comuni a cui sono trasferite le funzioni (art. 4-bis
+      L.R. 9/83); non è nemmeno nell'elenco dei comuni in delega della provincia di Napoli.
+  - id: portale-sismica
+    label: Regione Campania – Il portale della S.I.smi.C.A. (home page)
+    url: https://portalesismica.regione.campania.it/
+    retrieved: 2026-10-29
+    official: true
+verification:
+  level: L1
+  date: 2026-10-29
+  by: claude
+  method: >-
+    Desk: su Normattiva DPR 380/2001 artt. 93, 94, 94-bis; la classificazione sismica della
+    Protezione Civile (maggio 2025); dal portale S.I.smi.C.A. la home page e gli elenchi dei comuni
+    di competenza del Genio Civile di Napoli e dei comuni in delega.
+  notes: >-
+    Non letti: il testo della L.R. Campania 9/1983 e del Regolamento 4/2010 con le modifiche del
+    2020, il portale dopo l'accesso, la modulistica, i contributi dovuti. La pagina è minima: dice
+    quando serve e dove si presenta, non come.
