@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/liammaher/pratiche-napoli/contract/rules.schema.json",
+  "title": "Rules",
+  "description": "Which pratiche the law asks for, from a few facts about the case (the activity, what happens to it, the zone...). Each rule cites a claim a procedure already marks verified, so the table states nothing of its own: it only links facts to procedures. Every combination of the facts is decided by a rule or refused by one.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "title", "updated", "intro", "facts", "rules"],
+  "properties": {
+    "schema_version": { "const": 0 },
+    "id": {
+      "description": "The file name under rules/ without .yaml",
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "title": { "$ref": "#/$defs/text" },
+    "updated": {
+      "description": "The last day anything in this file changed, as for procedures",
+      "type": "string",
+      "format": "date"
+    },
+    "intro": {
+      "description": "Two or three plain-Italian sentences: what the table decides and what it leaves out",
+      "$ref": "#/$defs/text"
+    },
+    "facts": {
+      "description": "The facts the rules branch on, each asked of the person in plain Italian. Declared in the order they are asked.",
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "pattern": "^[a-z][a-z0-9_]*$" },
+      "additionalProperties": { "$ref": "#/$defs/fact" }
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/rule" }
+    }
+  },
+  "$defs": {
+    "text": { "type": "string", "minLength": 1, "pattern": "\\S" },
+    "fact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "question"],
+      "properties": {
+        "type": { "enum": ["choice", "yes_no", "number"] },
+        "question": { "$ref": "#/$defs/text" },
+        "values": {
+          "description": "Each value's key and its label for the person: required for a choice, refused otherwise",
+          "type": "object",
+          "minProperties": 2,
+          "propertyNames": { "pattern": "^[a-z0-9][a-z0-9_]*$" },
+          "additionalProperties": { "$ref": "#/$defs/text" }
+        },
+        "how": {
+          "description": "How the person (or their professional) finds the answer",
+          "$ref": "#/$defs/text"
+        },
+        "unit": { "$ref": "#/$defs/text" }
+      }
+    },
+    "condition": {
+      "description": "A list of a choice fact's values (any of them), true or false for a yes_no fact, or a bound for a number",
+      "oneOf": [
+        { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string" } },
+        { "type": "boolean" },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
+          "properties": {
+            "over": { "type": "number" },
+            "upto": { "type": "number" }
+          }
+        }
+      ]
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "when", "then", "status"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+        "when": {
+          "description": "Every condition must hold; a fact not named here doesn't matter to the rule",
+          "type": "object",
+          "propertyNames": { "pattern": "^[a-z][a-z0-9_]*$" },
+          "additionalProperties": { "$ref": "#/$defs/condition" }
+        },
+        "then": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["role", "procedure", "regime"],
+              "properties": {
+                "role": {
+                  "description": "main: the pratica for the case (one per case); also: another pratica or part the case adds",
+                  "enum": ["main", "also"]
+                },
+                "procedure": { "$ref": "#/$defs/procedureId" },
+                "regime": {
+                  "enum": ["scia", "scia_unica", "autorizzazione", "comunicazione", "notifica", "concessione", "nulla_osta"]
+                },
+                "portal": {
+                  "description": "Where the pratica is on impresainungiorno, by the wizard's labels; only what a crawl or a run has seen",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["settore"],
+                  "properties": {
+                    "settore": { "$ref": "#/$defs/text" },
+                    "operazione": { "$ref": "#/$defs/text" },
+                    "intervento": { "$ref": "#/$defs/text" }
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["refuse"],
+              "properties": {
+                "refuse": {
+                  "description": "The case is known and not handled: why, in plain Italian",
+                  "$ref": "#/$defs/text"
+                }
+              }
+            }
+          ]
+        },
+        "cites": {
+          "description": "The verified claims the rule rests on: a procedure and one of its sources that backs a verified claim there",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["procedure", "source"],
+            "properties": {
+              "procedure": { "$ref": "#/$defs/procedureId" },
+              "source": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "status": {
+          "description": "verified: the cited claims say exactly this; unverified or disputed: the case is refused with the note, which they require",
+          "enum": ["verified", "unverified", "disputed"]
+        },
+        "note": { "$ref": "#/$defs/text" }
+      }
+    },
+    "procedureId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*(/[a-z0-9]+(-[a-z0-9]+)*)+$"
+    }
+  }
+}
