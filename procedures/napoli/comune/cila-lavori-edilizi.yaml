@@ -7,7 +7,7 @@ aka:
   - pratica edilizia
   - permesso per lavori in casa
   - spostare tramezzi
-updated: 2026-10-28
+updated: 2026-10-29
 summary: >-
   Chi vuole fare a Napoli lavori interni che non toccano le strutture (per esempio spostare
   tramezzi, rifare bagni e impianti in un negozio, un ufficio o una casa) deve presentare prima
@@ -486,6 +486,68 @@ forms:
       - { label: Recapiti – e-mail, map: { direct: identity.email } }
       - { label: Data e luogo, map: { ask: "Data e luogo della firma" } }
       - { label: (firma), map: { blank_with_reason: "Firma del dichiarante: la appone solo la persona (sul portale, firma digitale)." } }
+  - id: quadro-riepilogativo-dsc
+    name: Quadro riepilogativo della documentazione – CILA DSC (il modulo che il portale fa scaricare in Allega documenti)
+    source: portale-dsc
+    sha256: b016971f433ebcb3a5ef1bbaeb00541cc1c9381ea4e0d7b2951cf963891efbc4
+    signature_required: false
+    fields:
+      # Una casella per allegato: si spunta solo quello caricato in Allega documenti.
+      # "Soggetti coinvolti" ed "Elaborati grafici" sono già spuntati sul modulo.
+      - label: "Procura/delega"
+        map: { ask: "È allegata la procura speciale (la CILA la presenta un procuratore, di solito il tecnico)?" }
+        choices:
+          - { box: allegato, values: [si, sì, allegato] }
+      - label: "Ricevuta di versamento dei diritti di segreteria"
+        map: { ask: "È allegata la ricevuta dei diritti di segreteria?" }
+        choices:
+          - { box: allegato, values: [si, sì, allegato] }
+      - label: "Copia del documento di identità del/i titolare/i e/o del tecnico"
+        map: { ask: "È allegata la copia del documento d'identità (di chi non firma digitalmente, o senza procura)?" }
+        choices:
+          - { box: allegato, values: [si, sì, allegato] }
+      - label: "Dichiarazione di assenso dei terzi titolari di altri diritti reali o obbligatori"
+        map: { ask: "È allegato l'assenso dei terzi titolari (il titolare non ha titolarità esclusiva sull'intervento)?" }
+        choices:
+          - { box: allegato, values: [si, sì, allegato] }
+      - label: "Ricevuta di versamento a titolo di oblazione – intervento in corso di esecuzione"
+        map: { ask: "È allegata la ricevuta dell'oblazione per la CILA presentata a lavori in corso (art. 6-bis c. 5)?" }
+        choices:
+          - { box: allegato, values: [si, sì, allegato] }
+      - label: "Ricevuta di versamento a titolo di oblazione – intervento già realizzato"
+        map: { ask: "È allegata la ricevuta dell'oblazione per i lavori già realizzati senza CILA (art. 6-bis c. 5)?" }
+        choices:
+          - { box: allegato, values: [si, sì, allegato] }
+      - label: "Prospetto di calcolo preventivo del contributo di costruzione"
+        map: { ask: "È allegato il prospetto di calcolo del contributo di costruzione (intervento oneroso, calcolato dal tecnico)?" }
+        choices:
+          - { box: allegato, values: [si, sì, allegato] }
+      - label: "Ricevuta di versamento del contributo di costruzione"
+        map: { ask: "È allegata la ricevuta del contributo di costruzione (intervento oneroso)?" }
+        choices:
+          - { box: allegato, values: [si, sì, allegato] }
+      - label: "Notifica preliminare (articolo 99 del d.lgs. n. 81/2008)"
+        map: { ask: "È allegata la notifica preliminare (cantiere nell'ambito del d.lgs. 81/2008)?" }
+        choices:
+          - { box: allegato, values: [si, sì, allegato] }
+      - label: "Autorizzazione sismica (quadro Dichiarazione di tolleranze)"
+        map: { ask: "È allegata l'autorizzazione sismica (zona a media o alta sismicità, per le tolleranze esecutive)?" }
+        choices:
+          - { box: allegato, values: [si, sì, allegato] }
+      - label: "Documentazione per altre comunicazioni, segnalazioni"
+        map: { ask: "È allegata documentazione per altre comunicazioni o segnalazioni presentate con la CILA (SCIA unica)?" }
+        choices:
+          - { box: allegato, values: [si, sì, allegato] }
+      - label: "Documentazione per altre comunicazioni, segnalazioni (specificare)"
+        map: { ask: "Quali comunicazioni o segnalazioni, e quale documentazione?" }
+        when: { field: "Documentazione per altre comunicazioni, segnalazioni", ticks: [allegato] }
+      - label: "Documentazione per il rilascio di atti di assenso obbligatori"
+        map: { ask: "È allegata documentazione per gli atti di assenso che il SUE deve acquisire (per esempio Soprintendenza)?" }
+        choices:
+          - { box: allegato, values: [si, sì, allegato] }
+      - label: "Documentazione per il rilascio di atti di assenso obbligatori (specificare)"
+        map: { ask: "Quali atti di assenso, e quale documentazione?" }
+        when: { field: "Documentazione per il rilascio di atti di assenso obbligatori", ticks: [allegato] }
 steps:
   - do: >-
       Incaricare un tecnico abilitato (architetto, ingegnere, geometra…) con lettera d'incarico o
@@ -747,6 +809,17 @@ sources:
     retrieved: 2026-10-25
     sha256: e1628ddf58a5a13c68736f3e179a08fa124cef0dfce6a5e8a7f0cf662610a080
     official: true
+  - id: portale-dsc
+    label: >-
+      Impresa in un giorno, SUE di Napoli – "Quadro riepilogativo della documentazione già disponibile
+      e allegata – CILA DSC", file "Quadro riepilogativo_CILA.pdf" (modulo nazionale, pagine 49–50)
+    retrieved: 2026-10-29
+    sha256: b016971f433ebcb3a5ef1bbaeb00541cc1c9381ea4e0d7b2951cf963891efbc4
+    official: true
+    notes: >-
+      Si scarica solo dentro una pratica, dopo l'accesso con SPID: in Allega documenti, "Scarica il
+      documento" accanto all'allegato obbligatorio (/fnsuap/template.do?id=D3664). Il portale lo
+      vuole ricaricato (pdf accettato).
   - id: mod-dp
     label: Modello DP – Dichiarazione di pagamento (legge regionale 59/2018), pubblicato il 17/01/2019
     url: https://static-www.comune.napoli.it/wp-content/uploads/2025/06/MOD.DP_Dichiarazione_di_Pagamento.pdf
