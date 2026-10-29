@@ -9,6 +9,7 @@
 
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { validateRules } from "./lib/rules.ts";
 import { buildSite, type Offices, type Procedure, type Situation } from "./lib/site.ts";
 import { ROOT, SIGNING, loadRegistry, procedureIdFromPath, todayInRome, validateDir, validateLayouts, validateOffices, validateSituations } from "./lib/validate.ts";
 
@@ -25,9 +26,10 @@ const situationResults = validateSituations(
 );
 const layoutResults = validateLayouts(path.join(ROOT, "layouts"), results);
 const officeResults = validateOffices(path.join(ROOT, "offices"));
-const invalid = [...results, ...situationResults, ...layoutResults, ...officeResults].filter((r) => r.errors.length);
+const rulesResults = validateRules(path.join(ROOT, "rules"), results, todayInRome());
+const invalid = [...results, ...situationResults, ...rulesResults, ...layoutResults, ...officeResults].filter((r) => r.errors.length);
 if (invalid.length) {
-  console.error(`not building: ${invalid.length} procedures, situations, layouts or offices don't validate (run npm run validate)`);
+  console.error(`not building: ${invalid.length} procedures, situations, rules tables, layouts or offices don't validate (run npm run validate)`);
   for (const r of invalid) console.error(`✗ ${r.rel}`);
   process.exit(1);
 }
@@ -50,6 +52,9 @@ const files = buildSite(procedures, {
   offices: Object.fromEntries(officeResults.map((r) => [path.basename(r.rel, ".json"), r.doc as Offices])),
   reports: REPORTS_URL && CONTACT_EMAIL ? { url: REPORTS_URL, contact: CONTACT_EMAIL, script: read("tools", "site", "report.js") } : undefined,
 }, situationResults.map((r) => r.doc as Situation));
+// Rules tables are published as data only, for assistants and the vault's pre-flight.
+if (rulesResults.length) files.set("contract/rules.schema.json", read("contract", "rules.schema.json"));
+for (const r of rulesResults) files.set(`rules/${path.basename(r.rel).replace(/\.ya?ml$/i, "")}.json`, JSON.stringify(r.doc, null, 2) + "\n");
 
 if (existsSync(out) && readdirSync(out).length && !existsSync(path.join(out, "procedures.json"))) {
   console.error(`refusing to overwrite ${out}: it isn't empty and isn't an earlier build`);
