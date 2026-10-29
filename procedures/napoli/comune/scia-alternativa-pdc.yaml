@@ -51,9 +51,28 @@ applies_to:
       status: verified
       source: scia-pagina
     - text: >-
-        Non è verificato se l'esclusione della DGC 454/2014 valga anche per la SCIA alternativa al
-        permesso di costruire: per una demolizione e ricostruzione in zona A va chiesto al SUE.
-      status: unverified
+        In Campania sono soggetti a SCIA alternativa al permesso di costruire, oltre agli interventi
+        dell'art. 23 c. 01 DPR 380/2001, le modifiche della destinazione d'uso urbanisticamente
+        rilevanti, con opere e senza opere, e il recupero abitativo dei sottotetti (art. 2 c. 6 L.R.
+        13/2022).
+      status: verified
+      source: lr13-2022
+    - text: >-
+        La circolare regionale CI/2025/3 applica la SCIA alternativa al mutamento d'uso di un intero
+        immobile, nella stessa categoria o tra categorie diverse, salvi i casi a permesso di
+        costruire dell'art. 2 c. 6-8 L.R. 19/2001.
+      status: verified
+      source: circolare-salva-casa-campania
+    - text: >-
+        Per una demolizione e ricostruzione in zona A le fonti non concordano: l'art. 2 c. 8 L.R.
+        Campania 13/2022 sottopone a SCIA alternativa al permesso di costruire, nelle zone omogenee A
+        e sugli immobili tutelati, la demolizione e ricostruzione che non mantiene sagoma, prospetti,
+        sedime e caratteristiche planivolumetriche o aumenta la volumetria, "fatte salve le più
+        restrittive previsioni degli strumenti urbanistici comunali"; la pagina del Comune sulla SCIA
+        riporta che la DGC 454/2014 esclude "la SCIA" per la demolizione e ricostruzione in zona A.
+        Va chiesto al SUE, o si chiede il permesso di costruire.
+      status: disputed
+      source: lr13-2022
 legal_basis:
   - text: "D.P.R. 380/2001, art. 23 (SCIA in alternativa al permesso di costruire)."
     status: verified
@@ -117,6 +136,21 @@ sources:
     url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art23
     retrieved: 2026-10-29
     official: true
+  - id: lr13-2022
+    label: Legge Regionale Campania 10 agosto 2022, n. 13, art. 2 (testo vigente, Regione Campania – Normativa)
+    url: https://www.regione.campania.it/normativa/item.php?pgCode=G19I231R1996&id_doc_type=1&id_tema=3
+    retrieved: 2026-10-29
+    official: true
+    notes: Testo vigente con le modifiche delle L.R. 18/2022, 24/2023 e 5/2024, redatto dall'ufficio legislativo del Presidente della Giunta.
+  - id: circolare-salva-casa-campania
+    label: >-
+      Regione Campania, Direzione Generale Governo del Territorio – Circolare applicativa n.
+      CI/2025/3 del 28/01/2025 (D.L. 69/2024 "Salva Casa" in Campania; art. 33-quater L.R. 16/2004)
+    url: https://www.territorio.regione.campania.it/s/CIRCOLARE-N-CI20253_28012025.pdf
+    retrieved: 2026-10-29
+    page_updated: 2025-01-28
+    sha256: 34ffd93d92c5b61b3a9e9597ff326bc44e0b20b118fbd8b73fd71eb3ce752483
+    official: true
   - id: sciapdc-pagina
     label: Comune di Napoli – SCIA/PDC, Segnalazione Certificata di Inizio Attività in alternativa al Permesso di Costruire
     url: https://www.comune.napoli.it/articolo_tematico/urbanistica-patrimonio-politiche-per-la-casa-cimiteri-cittadini/edilizia-privata/attivita-subordinata-a-titoli-edilizi/scia-pdc-segnalazione-certificata-di-inizio-attivita-in-alternativa-al-permesso-di-costruire/
@@ -159,7 +193,8 @@ verification:
   by: claude
   method: >-
     Desk: su Normattiva DPR 380/2001 art. 23; le pagine del Comune di Napoli sulla SCIA alternativa
-    e sulla SCIA, il modulo SCIA/PDC del 23/06/2025; la DD 501/2026.
+    e sulla SCIA, il modulo SCIA/PDC del 23/06/2025; la DD 501/2026; la L.R. Campania 13/2022 (art.
+    2, testo vigente) e la circolare regionale CI/2025/3.
   notes: >-
-    Non letti: la DGC 454/2014, la L.R. Campania 19/2001, la tabella dei diritti. La pagina è
+    Non letti: la DGC 454/2014, la tabella dei diritti. La pagina è
     minima: dice quando si può usare la SCIA alternativa e come si presenta.
