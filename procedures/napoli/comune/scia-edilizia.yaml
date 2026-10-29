@@ -119,6 +119,30 @@ applies_to:
         standard, è comunque non rilevante (c. 4).
       status: unverified
     - text: >-
+        A Napoli la variante per la salvaguardia dell'offerta abitativa nel centro storico (D.C.C.
+        n. 129 del 15/09/2026) divide la categoria residenziale in sottocategorie: a.1, abitazioni
+        ordinarie; a.2, abitazioni assimilabili a strutture ricettive extralberghiere (B&B della L.R.
+        5/2001, affittacamere, case e appartamenti per vacanze, locazioni brevi non gestite in forma
+        imprenditoriale); a.3, abitazioni specialistiche e collettive (art. 21 delle norme della
+        Variante generale).
+      status: verified
+      source: variante-dcc-129
+    - text: >-
+        Nell'area di regolamentazione della tavola 7a il mutamento d'uso da a.1 ad a.2, da conseguire
+        con idoneo titolo abilitativo, è limitato da una soglia minima di residenzialità ordinaria,
+        applicata all'intera unità edilizia (foglio e particella del catasto): in prima applicazione
+        il 70% della superficie catastale delle sue unità a.1 e a.2 deve restare a.1. Il meccanismo di
+        verifica è rimesso a un separato provvedimento di Giunta (art. 63 c. 8 delle norme).
+      status: verified
+      source: variante-dcc-129
+    - text: La variante è in vigore dal 27 ottobre 2026, dopo l'avviso di approvazione sul BURC n. 58 del 26/10/2026.
+      status: verified
+      source: variante-burc-58
+    - text: >-
+        Non è stato trovato il provvedimento di Giunta sul meccanismo di verifica della soglia: per un
+        passaggio da a.1 ad a.2 nell'area della tavola 7a va chiesto al SUE.
+      status: unverified
+    - text: >-
         Il modulo SCIA del Comune elenca gli stessi cambi d'uso: senza opere o con opere dell'art. 6,
         o con opere dell'art. 6-bis, di una singola unità nella stessa categoria o tra le categorie
         a), a-bis), b) e c), e di un intero immobile nella stessa categoria (quadro c.7 e c.8).
@@ -286,6 +310,23 @@ sources:
     retrieved: 2026-10-29
     official: true
     notes: Il termine del 31/12/2026 dell'art. 26 c. 1 riguarda solo quel comma, non l'art. 27.
+  - id: variante-dcc-129
+    label: >-
+      Deliberazione C.C. n. 129 del 15/9/2026 – approvazione della variante per la salvaguardia
+      dell'offerta abitativa nel centro storico (PDF con il testo degli artt. 21 e 63 delle norme)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2026/10/delib.-Cc-n.-129-2026-approvazione-variante-offerta-abitativa-centro-storico.pdf
+    retrieved: 2026-10-29
+    sha256: c9e44e5e0fb5fde0cc21c2b8148e8d5cb9b4442b363417135d9f1cf86e7dac4b
+    official: true
+  - id: variante-burc-58
+    label: >-
+      BURC Campania n. 58 del 26/10/2026 – Comune di Napoli, avviso di approvazione della variante per
+      la salvaguardia dell'offerta abitativa nel centro storico
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/12/BURC-n.-58-del-26.10.2026-Approvazione-variante-CS.pdf
+    retrieved: 2026-10-29
+    sha256: 019b184cf12e0c9383f466e500e06834a0ea79608109fa6dacf77087fbf282d7
+    official: true
+    notes: La pagina del Comune sulla variante (aggiornata al 27/10/2026) indica l'entrata in vigore il 27 ottobre 2026.
   - id: dlgs222-tabella-a
     label: D.Lgs. 25 novembre 2016, n. 222, Tabella A, Sezione II – Edilizia (Normattiva)
     url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2016-11-25;222
@@ -345,7 +386,8 @@ verification:
     (attività 35-38), D.Lgs. 42/2004 art. 21; la pagina SCIA del Comune di Napoli e il modulo SCIA
     del 23/06/2025; la DD 501/2026; le operazioni del SUE viste sul portale in una bozza di prova;
     sui cambi d'uso in Campania la circolare regionale CI/2025/3 e i testi vigenti della L.R.
-    19/2001 (art. 2), 13/2022 (art. 2) e 31/2021 (artt. 26-27) sul sito della Regione.
+    19/2001 (art. 2), 13/2022 (art. 2) e 31/2021 (artt. 26-27) sul sito della Regione; la DCC
+    129/2026 (artt. 21 e 63 delle norme) e l'avviso di approvazione sul BURC n. 58/2026.
   notes: >-
     Non letti: il testo della DGC 454/2014 (citata dalla pagina del Comune), la L.R. Campania
     19/2001 e le norme della Variante generale al PRG, la tabella dei diritti per la SCIA. La pagina
