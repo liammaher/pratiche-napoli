@@ -1,10 +1,11 @@
 // Validates every procedure under procedures/ (or the directory given), and,
-// for the whole library, the situations under situations/ and the form
-// layouts under layouts/.
+// for the whole library, the situations under situations/, the rules tables
+// under rules/ and the form layouts under layouts/.
 // Exits non-zero on any error, or when there is nothing to validate.
 // Usage: npm run validate [-- <dir>]
 
 import path from "node:path";
+import { validateRules } from "./lib/rules.ts";
 import { ROOT, loadRegistry, procedureIdFromPath, todayInRome, validateDir, validateLayouts, validateOffices, validateSituations } from "./lib/validate.ts";
 
 const library = path.join(ROOT, "procedures");
@@ -37,6 +38,12 @@ const situations =
       ).map((r) => ({ ...r, rel: path.join("situations", r.rel) }))
     : [];
 
+// Rules tables cite the procedures' verified claims.
+const rules =
+  inLibrary && target === library
+    ? validateRules(path.join(ROOT, "rules"), results, todayInRome()).map((r) => ({ ...r, rel: path.join("rules", r.rel) }))
+    : [];
+
 // Layouts place procedures' forms, so they too need the whole library.
 const layouts =
   inLibrary && target === library
@@ -50,7 +57,7 @@ const offices =
     : [];
 
 let failed = 0;
-for (const { rel, errors } of [...results, ...situations, ...layouts, ...offices]) {
+for (const { rel, errors } of [...results, ...situations, ...rules, ...layouts, ...offices]) {
   if (errors.length) {
     failed++;
     console.error(`✗ ${rel}`);
@@ -59,6 +66,6 @@ for (const { rel, errors } of [...results, ...situations, ...layouts, ...offices
     console.log(`✓ ${rel}`);
   }
 }
-const total = results.length + situations.length + layouts.length + offices.length;
-console.log(`\n${total - failed}/${total} procedures, situations, layouts and offices valid`);
+const total = results.length + situations.length + rules.length + layouts.length + offices.length;
+console.log(`\n${total - failed}/${total} procedures, situations, rules tables, layouts and offices valid`);
 process.exit(failed ? 1 : 0);

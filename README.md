@@ -48,6 +48,7 @@ The site shows the date on each page and publishes it in the structured data, th
 | `/come-lavoriamo/`, `/aggiornamenti/` | how the library is written and verified; the 50 latest changes |
 | `/procedures.json` | index of all procedures with their `updated` dates, and the library's |
 | `/contract/*.json` | the procedure schema, the field registry and `signing.json` (the law's signing rule per channel type) |
+| `/rules/<id>.json` | a rules table: from a few facts about a case to the pratiche it needs (see Rules) |
 | `/offices/<list>.json` | one service's desks by area (the Municipalità's sede or URP, its Anagrafe, the ASL's Anagrafe Sanitaria, its Prevenzione Collettiva), keyed by the vault field that picks one (`municipalita`, `distretto_asl`) |
 | `/sitemap.xml`, `/robots.txt`, `/llms.txt` | for search engines and AI assistants |
 
@@ -117,6 +118,26 @@ situation involves, such as opening a bar or receiving a fine, with a few words 
 for. Situations only point at procedures: the page shows each procedure's own deadline, and every
 fact and source stays on the procedure. `npm run validate` checks them too, and they have an
 `updated` date like procedures.
+
+## Rules: which pratica
+
+`rules/<id>.yaml` ([schema](contract/rules.schema.json)) says which pratiche the law asks for,
+from a few facts about the case: the activity, what happens to it (opening, move, takeover,
+closing...), the zone of the historic-centre Piano, the sales area, a sign, music. Each fact
+has its question in plain Italian; each rule names the procedure, its regime (SCIA,
+autorizzazione, comunicazione...) and, where a crawl or a run has seen it, the portal's sector
+and operation. `rules/suap-napoli.yaml` covers shops, bars and restaurants, hairdressers and
+beauticians, and B&Bs at the SUAP of Napoli.
+
+A rule adds no claim of its own: it cites a procedure and one of its sources, and the validator
+checks that source backs a verified claim on that procedure, so a rule changes when its
+procedure does (and the source monitor watches the source). A rule that isn't verified, or a
+case known but not handled (a controversial regime, a branch not written yet), refuses the
+case with a reason. `npm run validate` tries every combination of the facts' values (numbers at
+each bound) and fails if one is decided by no rule, or by two main rules that disagree.
+`decide` in `tools/lib/rules.ts` is the one reading: it gives the case's main pratica and the
+others it adds, or the facts still to ask, or the refusals. The site publishes each table at
+`/rules/<id>.json`.
 
 ## Filling a form
 
@@ -229,11 +250,13 @@ contract/layout.schema.json      where a form's fields go on its PDF
 contract/signing.json            how each channel type takes a signature, by law
 contract/signing.schema.json     the format of signing.json
 contract/offices.schema.json     the format of offices/
+contract/rules.schema.json       the format of rules/
 contract/vault-schema.json       the vault's schema.json, copied as is (a workflow compares it)
 contract/fields.json             shared field-ID registry (e.g. identity.codice_fiscale), generated
 contract/extensions.json         fields procedures need before the vault has them
 procedures/<napoli|italia>/<ente>/<slug>.yaml  one file per procedure
 situations/<id>.yaml             the procedures of one situation
+rules/<id>.yaml                  which pratiche a case needs, from a few facts
 layouts/<id>/<form>.json         a form's layout, for one version of it
 offices/<list>.json              one service's desk for each municipalità or ASL distretto
 docs/discrepancies.md            wrong or contradictory official information we found

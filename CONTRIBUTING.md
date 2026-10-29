@@ -91,3 +91,12 @@ A situation (`situations/<id>.yaml`) lists the procedures someone meets in one s
 `when` says in a few words what each procedure is for there, and nothing more: no deadlines,
 amounts or rules, which belong to the procedure, with its sources. Add a procedure to every
 situation it belongs to, and keep `updated` current as for procedures.
+
+## Rules
+
+A rules table (`rules/<id>.yaml`) links facts about a case to procedures. Write the claim on the
+procedure first, verified and with its source; then cite that procedure and source in the rule.
+Never put a fact of law only in a rule. A case the library doesn't handle yet gets a rule that
+refuses it with a plain reason, so every combination of the facts is decided. When a procedure's
+claim changes, check the rules that cite it (`grep -n <procedure id> rules/`).
+
