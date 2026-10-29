@@ -1,0 +1,194 @@
+schema_version: 0
+id: napoli/comune/cil-opere-temporanee
+title: CIL – comunicazione di inizio lavori per opere stagionali e temporanee (SUE del Comune di Napoli)
+headline: "CIL a Napoli per opere temporanee o stagionali: come si comunica al SUE"
+aka:
+  - opere precarie
+  - comunicazione inizio lavori
+  - struttura temporanea
+  - stand temporaneo
+updated: 2026-10-29
+summary: >-
+  Le opere stagionali e quelle per esigenze contingenti e temporanee, da rimuovere appena cessa
+  la necessità e comunque entro 180 giorni (montaggio e smontaggio compresi), sono edilizia libera
+  ma vanno comunicate al Comune prima di iniziare: la CIL (art. 6 c. 1 e-bis DPR 380/2001). A
+  Napoli si presenta allo Sportello Unico per l'Edilizia (SUE) sul portale "Impresa in un giorno",
+  di solito tramite un tecnico con procura. Restano da rispettare le altre norme di settore, i
+  vincoli paesaggistici e la tutela dei beni culturali.
+ente:
+  name: Comune di Napoli
+  office: Area Urbanistica – Servizio Sportello Unico Edilizia
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata]
+  conditions:
+    - text: >-
+        Si eseguono senza titolo abilitativo, previa comunicazione di avvio dei lavori
+        all'amministrazione comunale, le opere stagionali e quelle dirette a soddisfare obiettive
+        esigenze, contingenti e temporanee, purché destinate a essere immediatamente rimosse al
+        cessare della temporanea necessità e comunque entro un termine non superiore a centottanta
+        giorni, comprensivo dei tempi di allestimento e smontaggio (art. 6 c. 1 e-bis DPR 380/2001).
+      status: verified
+      source: dpr380-art6
+    - text: >-
+        Anche queste opere rispettano le prescrizioni degli strumenti urbanistici comunali e le
+        normative di settore (antisismiche, di sicurezza, antincendio, igienico-sanitarie,
+        sull'efficienza energetica, sul rischio idrogeologico) e il Codice dei beni culturali e del
+        paesaggio (art. 6 c. 1).
+      status: verified
+      source: dpr380-art6
+    - text: >-
+        La pagina CIL del Comune indica ancora un termine di novanta giorni e la presentazione su
+        carta, mentre l'art. 6 c. 1 e-bis vigente dà centottanta giorni e dal 6 luglio 2026 le
+        pratiche del SUE si presentano solo su impresainungiorno (DD 501/2026).
+      status: disputed
+      source: cil-pagina
+    - text: >-
+        La pagina del Comune distingue le opere per esigenze contingenti e temporanee (opere
+        precarie: stand espositivi, installazioni per particolari eventi) da quelle stagionali, di
+        utilizzo ricorrente (piattaforme o pontili galleggianti per assistenza natanti).
+      status: verified
+      source: cil-pagina
+    - text: >-
+        Sul SUE di Napoli l'operazione "Comunicazione di Inizio Lavori per opere temporanee (C.I.L.)"
+        è un adempimento degli uffici del Comune di Napoli (art. 6 c. 1 e-bis DPR 380/2001 e n. 26
+        della Tabella A, Sez. II, D.Lgs. 222/2016).
+      status: verified
+      source: portale-sue-operazioni
+    - text: >-
+        Sui beni culturali l'esecuzione di opere e lavori di qualunque genere richiede
+        l'autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004).
+      status: verified
+      source: dlgs42-art21
+legal_basis:
+  - text: "D.P.R. 380/2001, art. 6 c. 1 lett. e-bis (opere stagionali e temporanee, previa comunicazione)."
+    status: verified
+    source: dpr380-art6
+  - text: >-
+      Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026: attivazione del SUE su
+      impresainungiorno e Linee guida vincolanti per la presentazione delle istanze.
+    status: verified
+    source: dd-501-2026
+deadline:
+  summary:
+    text: >-
+      Prima di iniziare i lavori; le opere vanno rimosse appena cessa la necessità e comunque entro
+      180 giorni, montaggio e smontaggio compresi.
+    status: verified
+    source: dpr380-art6
+cost:
+  text: >-
+    Diritti di segreteria di 100,00 euro (riga SUE 14 della tabella: "Comunicazione di inizio lavori
+    (C.I.L.) ai sensi dell'art. 6 del DPR 380/01, lett. e-bis"), da versare prima di presentare la
+    pratica. A parte c'è il compenso del tecnico.
+  status: verified
+  source: tabella-diritti
+channels:
+  - type: portal
+    purpose: procedure
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    notes: >-
+      Unico canale per le pratiche del SUE dal 6 luglio 2026 (DD 501/2026): la presentazione su
+      carta che la pagina del Comune descrive è superata.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dd-501-2026
+      notes: Si compila online; gli allegati si firmano digitalmente.
+  - type: pec
+    purpose: info
+    address: sportello.unico.edilizia@pec.comune.napoli.it
+    receipt: legal
+    source: sue-ufficio
+    notes: Per comunicare con l'ufficio, non per presentare la CIL.
+steps:
+  - do: Incaricare un tecnico (o presentare in proprio) e firmare la procura speciale se la presenta il tecnico
+    who: owner
+    human_only: true
+  - do: >-
+      Verificare che le opere siano davvero stagionali o temporanee e rimovibili entro 180 giorni, e
+      se l'area o l'edificio sono vincolati (paesaggio, bene culturale)
+    who: professional
+  - do: Pagare i diritti di segreteria (100,00 euro) e allegarne la ricevuta
+    who: owner
+    human_only: true
+  - do: >-
+      Accedere con SPID, CIE o CNS a Impresa in un giorno (SUE di Napoli), scegliere l'operazione
+      della CIL, compilare, allegare i documenti firmati digitalmente e inviare prima dell'inizio
+      dei lavori; conservare la ricevuta
+    who: professional
+    human_only: true
+    channel: [portal]
+  - do: Rimuovere le opere al cessare della necessità, entro 180 giorni, e ripristinare lo stato dei luoghi
+    who: owner
+related:
+  - napoli/comune/cila-lavori-edilizi
+  - napoli/comune/autorizzazione-paesaggistica-semplificata
+  - napoli/comune/concessione-suolo-pubblico-dehors
+sources:
+  - id: dpr380-art6
+    label: D.P.R. 6 giugno 2001, n. 380, art. 6 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art6
+    retrieved: 2026-10-29
+    official: true
+  - id: dlgs42-art21
+    label: D.Lgs. 22 gennaio 2004, n. 42, art. 21 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2004-01-22;42~art21
+    retrieved: 2026-10-29
+    official: true
+  - id: cil-pagina
+    label: Comune di Napoli – CIL, Comunicazione di inizio lavori
+    url: https://www.comune.napoli.it/articolo_tematico/urbanistica-patrimonio-politiche-per-la-casa-cimiteri-cittadini/edilizia-privata/attivita-subordinata-a-titoli-edilizi/cil-comunicazione-di-inizio-lavori/
+    retrieved: 2026-10-29
+    page_updated: 2025-06-11
+    official: true
+    notes: Superata sul canale (carta) e sul termine (novanta giorni); il modello CIL citato è del 30/06/2017.
+  - id: tabella-diritti
+    label: Tabella dei diritti d'istruttoria delle pratiche dello Sportello Unico Edilizia (agg. al 16/06/2026, delibera di G.C. n. 239 del 28 maggio 2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2011/08/tabella-diritti-agg.16_06_2026.pdf
+    retrieved: 2026-10-29
+    sha256: f12663fe2ca5d98541071c27b3d0fae169ff9d67c3a229b61922d407d2c85837
+    official: true
+  - id: portale-sue-operazioni
+    label: Impresa in un giorno, SUE di Napoli – "Scelta operazioni" del settore "Edilizia e pianificazione urbana"
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-10-28
+    official: true
+    notes: >-
+      Si vede solo dopo l'accesso con SPID, creando una pratica (bozza di prova, mai inviata). Ogni
+      operazione indica l'adempimento e l'amministrazione ("UFFICI COMUNE DI NAPOLI - SUE").
+  - id: dd-501-2026
+    label: Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026 – Attivazione del SUE su impresainungiorno e Linee guida per la presentazione delle istanze edilizie
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2018/04/LINEE-GUIDA_30.06.2026.pdf
+    retrieved: 2026-10-25
+    sha256: 49e604a61ec34fd88db459761f5b7b07efbfa04b243f4e95881969f1c47796c1
+    official: true
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-10-25
+    official: true
+  - id: sue-ufficio
+    label: Comune di Napoli – Servizio Sportello Unico Edilizia (scheda dell'ufficio)
+    url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-sportello-unico-edilizia/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-16
+    official: true
+verification:
+  level: L1
+  date: 2026-10-29
+  by: claude
+  method: >-
+    Desk: su Normattiva DPR 380/2001 art. 6 e D.Lgs. 42/2004 art. 21; la pagina CIL del Comune di
+    Napoli; la tabella dei diritti SUE 2026; la DD 501/2026; l'operazione CIL vista sul portale in
+    una bozza di prova.
+  notes: >-
+    Non letti: il modello CIL del 2017 e le note illustrative (superati dal modulo del portale), le
+    eventuali autorizzazioni per l'occupazione di suolo pubblico. La pagina è minima.

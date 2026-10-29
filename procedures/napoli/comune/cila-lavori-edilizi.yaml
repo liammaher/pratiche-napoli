@@ -711,6 +711,7 @@ pitfalls:
       Napoli gestisca su impresainungiorno le CILA collegate a una SCIA d'attività.
     status: unverified
 related:
+  - napoli/comune/cil-opere-temporanee
   - napoli/comune/scia-esercizio-vicinato
   - napoli/comune/scia-somministrazione-alimenti-bevande
   - napoli/comune/insegna-esercizio
