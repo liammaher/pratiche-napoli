@@ -59,9 +59,9 @@ applies_to:
         funzionale (art. 23-ter c. 1-bis), quello di una singola unità in un immobile delle zone A,
         B o C del D.M. 1444/1968 tra le categorie residenziale, turistico-ricettiva, produttiva e
         direzionale, commerciale (c. 1-ter) e quello di un intero immobile nella stessa categoria
-        (c. 3) si fanno con SCIA quando sono senza opere o con le sole opere dell'edilizia libera, e
-        con SCIA anche quando sono accompagnati da opere da CILA (c. 1-quinquies); negli altri casi
-        con il titolo richiesto per le opere.
+        (c. 3, salvo diversa previsione delle leggi regionali) si fanno con SCIA quando sono senza
+        opere o con le sole opere dell'edilizia libera, e con SCIA anche quando sono accompagnati da
+        opere da CILA (c. 1-quinquies); negli altri casi con il titolo richiesto per le opere.
       status: verified
       source: dpr380-art23ter
     - text: >-
@@ -71,6 +71,53 @@ applies_to:
         nelle ipotesi di SCIA elencate sopra.
       status: verified
       source: dpr380-art23ter
+    - text: >-
+        In Campania i cambi di destinazione d'uso seguono l'art. 23-ter DPR 380/2001 insieme alla
+        L.R. 19/2001 (art. 2, c. 5-8), alla L.R. 13/2022 (art. 2, c. 4 e 6) e alla L.R. 31/2021
+        (artt. 26-27). Per i titoli la circolare regionale CI/2025/3 precisa: per una singola unità
+        nella stessa categoria vale l'art. 23-ter c. 1-quinquies (SCIA senza opere o con opere di
+        edilizia libera o da CILA; altrimenti il titolo delle opere); per una singola unità tra le
+        categorie a), a-bis), b) e c) vale lo stesso c. 1-quinquies, salvo il mutamento senza opere
+        tra categorie compatibili con la zona territoriale omogenea, che è libero (art. 2 c. 5 L.R.
+        19/2001); per un intero immobile, nella stessa categoria o tra categorie diverse, serve la
+        SCIA alternativa al permesso di costruire (art. 2 c. 6 L.R. 13/2022), salvi i casi a
+        permesso di costruire dell'art. 2 c. 6-8 L.R. 19/2001 (e, tra categorie, il mutamento senza
+        opere del c. 5); il mutamento, con o senza opere, anche tra categorie diverse, che non
+        aumenta il fabbisogno di standard urbanistici è liberamente attuabile (art. 2 c. 4 L.R.
+        13/2022).
+      status: verified
+      source: circolare-salva-casa-campania
+    - text: >-
+        Non sono urbanisticamente rilevanti le modifiche di destinazione d'uso, con o senza opere,
+        che non generano incremento del fabbisogno degli standard urbanistici (art. 2 c. 4 L.R.
+        Campania 13/2022); sono soggetti a SCIA alternativa al permesso di costruire anche le
+        modifiche della destinazione d'uso urbanisticamente rilevanti, con opere e senza opere (c.
+        6).
+      status: verified
+      source: lr13-2022
+    - text: >-
+        L.R. Campania 19/2001, art. 2: il mutamento di destinazione d'uso senza opere,
+        nell'ambito di categorie compatibili alle singole zone territoriali omogenee, è libero (c.
+        5); con opere che incidano sulla sagoma dell'edificio o determinino un aumento plano
+        volumetrico è soggetto a permesso di costruire (c. 6), come con opere su sagoma, volumi e
+        superfici con passaggio di categoria (c. 7); nelle zone agricole (zona E) è sempre soggetto
+        a permesso di costruire (c. 8).
+      status: verified
+      source: lr19-2001
+    - text: >-
+        Il mutamento d'uso è rilevante quando assegna l'immobile o l'unità a un'altra categoria
+        funzionale e genera incremento del fabbisogno di standard urbanistici; la nuova destinazione
+        è ammissibile solo se lo strumento urbanistico la indica come compatibile per quella parte
+        del territorio (art. 27 c. 2 L.R. Campania 31/2021).
+      status: verified
+      source: lr31-2021
+    - text: >-
+        Per un'unità al primo piano fuori terra o seminterrata, che l'art. 23-ter c. 1-quater
+        rimette alla legge regionale, la circolare regionale CI/2025/3 non indica il titolo. Non è
+        verificato se valga la regola generale della L.R. 13/2022 (SCIA alternativa al permesso per i
+        cambi rilevanti, art. 2 c. 6): va chiesto al SUE. Se il cambio non aumenta il fabbisogno di
+        standard, è comunque non rilevante (c. 4).
+      status: unverified
     - text: >-
         Il modulo SCIA del Comune elenca gli stessi cambi d'uso: senza opere o con opere dell'art. 6,
         o con opere dell'art. 6-bis, di una singola unità nella stessa categoria o tra le categorie
@@ -211,6 +258,34 @@ sources:
     url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art23ter
     retrieved: 2026-10-29
     official: true
+  - id: circolare-salva-casa-campania
+    label: >-
+      Regione Campania, Direzione Generale Governo del Territorio – Circolare applicativa n.
+      CI/2025/3 del 28/01/2025 (D.L. 69/2024 "Salva Casa" in Campania; art. 33-quater L.R. 16/2004)
+    url: https://www.territorio.regione.campania.it/s/CIRCOLARE-N-CI20253_28012025.pdf
+    retrieved: 2026-10-29
+    page_updated: 2025-01-28
+    sha256: 34ffd93d92c5b61b3a9e9597ff326bc44e0b20b118fbd8b73fd71eb3ce752483
+    official: true
+    notes: Il paragrafo sull'art. 23-ter e i titoli per i mutamenti d'uso (punti a-e).
+  - id: lr13-2022
+    label: Legge Regionale Campania 10 agosto 2022, n. 13, art. 2 (testo vigente, Regione Campania – Normativa)
+    url: https://www.regione.campania.it/normativa/item.php?pgCode=G19I231R1996&id_doc_type=1&id_tema=3
+    retrieved: 2026-10-29
+    official: true
+    notes: Testo vigente con le modifiche delle L.R. 18/2022, 24/2023 e 5/2024, redatto dall'ufficio legislativo del Presidente della Giunta.
+  - id: lr19-2001
+    label: Legge Regionale Campania 28 novembre 2001, n. 19, art. 2 (testo vigente, Regione Campania – Normativa)
+    url: https://www.regione.campania.it/normativa/item.php?pgCode=G19I231R481&id_doc_type=1&id_tema=3
+    retrieved: 2026-10-29
+    official: true
+    notes: Testo vigente con le modifiche fino alla L.R. 16/2014.
+  - id: lr31-2021
+    label: Legge Regionale Campania 28 dicembre 2021, n. 31, art. 27 (testo vigente, Regione Campania – Normativa)
+    url: https://www.regione.campania.it/normativa/item.php?pgCode=G19I231R1973&id_doc_type=1&id_tema=9
+    retrieved: 2026-10-29
+    official: true
+    notes: Il termine del 31/12/2026 dell'art. 26 c. 1 riguarda solo quel comma, non l'art. 27.
   - id: dlgs222-tabella-a
     label: D.Lgs. 25 novembre 2016, n. 222, Tabella A, Sezione II – Edilizia (Normattiva)
     url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2016-11-25;222
@@ -268,7 +343,9 @@ verification:
   method: >-
     Desk: su Normattiva DPR 380/2001 artt. 3, 22, 23-ter e la Tabella A del D.Lgs. 222/2016
     (attività 35-38), D.Lgs. 42/2004 art. 21; la pagina SCIA del Comune di Napoli e il modulo SCIA
-    del 23/06/2025; la DD 501/2026; le operazioni del SUE viste sul portale in una bozza di prova.
+    del 23/06/2025; la DD 501/2026; le operazioni del SUE viste sul portale in una bozza di prova;
+    sui cambi d'uso in Campania la circolare regionale CI/2025/3 e i testi vigenti della L.R.
+    19/2001 (art. 2), 13/2022 (art. 2) e 31/2021 (artt. 26-27) sul sito della Regione.
   notes: >-
     Non letti: il testo della DGC 454/2014 (citata dalla pagina del Comune), la L.R. Campania
     19/2001 e le norme della Variante generale al PRG, la tabella dei diritti per la SCIA. La pagina
