@@ -58,6 +58,19 @@ applies_to:
       status: verified
       source: scia-pagina
     - text: >-
+        In Campania il mutamento di destinazione d'uso con opere che incidano sulla sagoma
+        dell'edificio o determinino un aumento plano volumetrico, e quello con opere su sagoma,
+        volumi e superfici con passaggio di categoria, sono soggetti a permesso di costruire (art. 2
+        c. 6-7 L.R. 19/2001); nelle zone agricole (zona E) il mutamento è sempre soggetto a permesso
+        di costruire (c. 8).
+      status: verified
+      source: lr19-2001
+    - text: >-
+        La circolare regionale CI/2025/3 tiene fermi questi casi a permesso di costruire per i
+        mutamenti d'uso di un intero immobile, che per il resto vanno a SCIA alternativa.
+      status: verified
+      source: circolare-salva-casa-campania
+    - text: >-
         L'autorizzazione paesaggistica è un atto autonomo e presupposto rispetto al permesso di
         costruire (art. 146 c. 4 D.Lgs. 42/2004); il modulo del Comune la tratta nel quadro 19.
       status: verified
@@ -157,6 +170,21 @@ sources:
     url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2004-01-22;42~art146
     retrieved: 2026-10-29
     official: true
+  - id: lr19-2001
+    label: Legge Regionale Campania 28 novembre 2001, n. 19, art. 2 (testo vigente, Regione Campania – Normativa)
+    url: https://www.regione.campania.it/normativa/item.php?pgCode=G19I231R481&id_doc_type=1&id_tema=3
+    retrieved: 2026-10-29
+    official: true
+    notes: Testo vigente con le modifiche fino alla L.R. 16/2014.
+  - id: circolare-salva-casa-campania
+    label: >-
+      Regione Campania, Direzione Generale Governo del Territorio – Circolare applicativa n.
+      CI/2025/3 del 28/01/2025 (D.L. 69/2024 "Salva Casa" in Campania; art. 33-quater L.R. 16/2004)
+    url: https://www.territorio.regione.campania.it/s/CIRCOLARE-N-CI20253_28012025.pdf
+    retrieved: 2026-10-29
+    page_updated: 2025-01-28
+    sha256: 34ffd93d92c5b61b3a9e9597ff326bc44e0b20b118fbd8b73fd71eb3ce752483
+    official: true
   - id: pdc-pagina
     label: Comune di Napoli – PC, Permesso di costruire
     url: https://www.comune.napoli.it/articolo_tematico/urbanistica-patrimonio-politiche-per-la-casa-cimiteri-cittadini/edilizia-privata/attivita-subordinata-a-titoli-edilizi/pc-permesso-di-costruire/
@@ -200,8 +228,9 @@ verification:
   method: >-
     Desk: su Normattiva DPR 380/2001 artt. 10, 22, 23, la Tabella A del D.Lgs. 222/2016 (attività
     35-38) e D.Lgs. 42/2004 art. 146; le pagine del Comune di Napoli sul permesso di costruire e
-    sulla SCIA, il modulo PDC del 23/06/2025; la DD 501/2026.
+    sulla SCIA, il modulo PDC del 23/06/2025; la DD 501/2026; la L.R. Campania 19/2001 (art. 2,
+    testo vigente) e la circolare regionale CI/2025/3.
   notes: >-
-    Non letti: art. 20 DPR 380/2001 (tempi del procedimento), la L.R. Campania 19/2001, la DGC
+    Non letti: art. 20 DPR 380/2001 (tempi del procedimento), la DGC
     454/2014, la tabella dei diritti per il permesso. La pagina è minima: dice quando serve il
     permesso e come si chiede, non ancora documenti, costi e tempi.

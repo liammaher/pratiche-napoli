@@ -131,7 +131,10 @@ beauticians, and B&Bs at the SUAP of Napoli. `rules/sue-napoli.yaml` covers buil
 the SUE: from the kind of works, the structures, the facades, the change of use and the
 protections to edilizia libera (no pratica), CILA, SCIA, SCIA alternativa or permesso di
 costruire (where the law lets the architect choose, the choice is a fact), the landscape
-authorization filed with it, and the seismic filing made apart at the Genio Civile.
+authorization filed with it, and the seismic filing made apart at the Genio Civile. Changes of
+use follow Campania's own laws too (L.R. 19/2001, 13/2022, 31/2021, read with the Regione's
+circolare CI/2025/3): a whole building's is a SCIA alternativa, one that doesn't raise the need for
+standard urbanistici is free.
 
 A rule adds no claim of its own: it cites a procedure and one of its sources, and the validator
 checks that source backs a verified claim on that procedure, so a rule changes when its
