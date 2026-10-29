@@ -7,7 +7,7 @@ aka:
   - B and B
   - camere con colazione
   - struttura ricettiva extralberghiera
-updated: 2026-10-27
+updated: 2026-10-29
 summary: >-
   Chi vuole ospitare turisti a Napoli offrendo alloggio e prima colazione in una parte della casa
   in cui vive (al massimo 4 camere e 8 posti letto) apre un Bed and Breakfast secondo la L.R.
@@ -88,10 +88,14 @@ applies_to:
       status: verified
       source: variante-pagina
     - text: >-
-        La variante è efficace dal giorno dopo la pubblicazione sul BURC. Non è stato controllato
-        se la pubblicazione sia già avvenuta, né se la Giunta abbia già fissato il meccanismo di
-        verifica: chiedere al SUAP o al Servizio Pianificazione urbanistica prima di presentare la
-        SCIA per un immobile nel centro storico.
+        La variante è in vigore dal 27 ottobre 2026: l'avviso di approvazione è sul BURC n. 58 del
+        26/10/2026, e la variante è efficace dal giorno successivo.
+      status: verified
+      source: variante-burc-58
+    - text: >-
+        Non è stato trovato il provvedimento di Giunta che fissa il meccanismo di verifica della soglia
+        del 70%: chiedere al SUAP o al Servizio Pianificazione urbanistica prima di presentare la SCIA
+        per un immobile nell'area della tavola 7a.
       status: unverified
 legal_basis:
   - text: >-
@@ -693,9 +697,18 @@ sources:
   - id: variante-pagina
     label: Comune di Napoli – Variante per la salvaguardia dell'offerta abitativa nel centro storico
     url: https://www.comune.napoli.it/articolo_tematico/urbana-urbanistica-napoli/puc/variante-per-la-salvaguardia-dellofferta-abitativa-nel-centro-storico/
-    retrieved: 2026-10-25
-    page_updated: 2026-10-07
+    retrieved: 2026-10-29
+    page_updated: 2026-10-27
     official: true
+  - id: variante-burc-58
+    label: >-
+      BURC Campania n. 58 del 26/10/2026 – Comune di Napoli, avviso di approvazione della variante per
+      la salvaguardia dell'offerta abitativa nel centro storico (D.C.C. n. 129 del 15/09/2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/12/BURC-n.-58-del-26.10.2026-Approvazione-variante-CS.pdf
+    retrieved: 2026-10-29
+    sha256: 019b184cf12e0c9383f466e500e06834a0ea79608109fa6dacf77087fbf282d7
+    official: true
+    notes: Copia pubblicata dal Comune nella pagina della variante, che indica l'entrata in vigore il 27/10/2026.
   - id: variante-dcc-129
     label: >-
       Deliberazione C.C. n. 129 del 15/9/2026 – approvazione della variante (PDF con la proposta
@@ -704,7 +717,7 @@ sources:
     retrieved: 2026-10-25
     sha256: c9e44e5e0fb5fde0cc21c2b8148e8d5cb9b4442b363417135d9f1cf86e7dac4b
     official: true
-    notes: Approvata con le prescrizioni dei pareri obbligatori (non letti); efficace dal giorno dopo la pubblicazione sul BURC (non verificata).
+    notes: Approvata con le prescrizioni dei pareri obbligatori (non letti); efficace dal giorno dopo la pubblicazione sul BURC (avvenuta il 26/10/2026).
   - id: proposta-legge-turismo
     label: Consiglio regionale della Campania, XII legislatura – proposta di legge "Sistema Turismo Campania", relazione illustrativa
     url: https://www.cr.campania.it/crccmsintegrationservices/rest/services/documentale/prendiAllegatoDocumento?id=434905
@@ -729,8 +742,10 @@ verification:
     della Regione; la guida regionale del 29/10/2025; su Normattiva l'art. 13-ter D.L. 145/2023 e
     l'art. 19 L. 241/1990; il portale Alloggiati Web, la pagina e il modulo della Questura di
     Napoli; l'art. 14 del Regolamento TARI; la pagina della variante del centro storico e il
-    testo della DCC 129/2026; la relazione della proposta di legge regionale sul turismo.
+    testo della DCC 129/2026, l'avviso di approvazione sul BURC n. 58/2026 (29/10/2026); la
+    relazione della proposta di legge regionale sul turismo.
   notes: >-
     Non letti il testo della L.R. 16/2019 (art. 13, CUSR), della L.R. 16/2014 e delle DGR 64/2021
     e 552/2023: le relative affermazioni vengono dalla guida regionale. Non verificati il
-    percorso del procedimento su impresainungiorno e la pubblicazione della variante sul BURC.
+    percorso del procedimento su impresainungiorno e il meccanismo di verifica della soglia della
+    variante (rimesso a un provvedimento di Giunta).
