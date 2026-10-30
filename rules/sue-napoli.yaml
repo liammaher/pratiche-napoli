@@ -12,7 +12,9 @@ intro: >-
   senza SCIA (manutenzione straordinaria sui prospetti, ristrutturazione senza strutture) la
   tabella indica la SCIA in sanatoria, per quelli che chiedevano il permesso di costruire il
   permesso in sanatoria, e per i lavori senza titolo edilizio già eseguiti in area vincolata
-  l'accertamento di compatibilità paesaggistica; le altre sanatorie e i casi che la
+  l'accertamento di compatibilità paesaggistica. La domanda di parere per esonero
+  dall'autorizzazione paesaggistica, che il portale offre, è rifiutata: a Napoli il Comune non
+  rilascia quell'attestazione. Le altre sanatorie e i casi che la
   libreria non copre ancora sono rifiutati, con il motivo.
 facts:
   intervento:
@@ -118,6 +120,9 @@ facts:
   paesaggio_volumi:
     type: yes_no
     question: "Le opere già eseguite hanno creato superfici utili o volumi, o aumentato quelli legittimamente realizzati?"
+  parere_esonero:
+    type: yes_no
+    question: "Si chiede al Comune un parere che riconosca i lavori esclusi dall'autorizzazione paesaggistica (Allegato A del D.P.R. 31/2017)?"
   bene_culturale:
     type: yes_no
     question: "L'edificio è un bene culturale tutelato dalla Parte II del D.Lgs. 42/2004 (vincolo storico-artistico)?"
@@ -309,6 +314,14 @@ rules:
       paesaggio_eseguiti: true
     then: {refuse: "L'autorizzazione paesaggistica non si rilascia per lavori già eseguiti (art. 146 c. 4 D.Lgs. 42/2004): con lavori che chiedono anche un titolo edilizio serve la sanatoria edilizia insieme all'accertamento di compatibilità paesaggistica, che la libreria non copre ancora."}
     cites: [{procedure: napoli/comune/autorizzazione-paesaggistica-ordinaria, source: dlgs42-art146}]
+    status: verified
+  # Il portale offre la domanda di parere per esonero, ma la direttiva del Comune esclude
+  # l'attestazione: l'esclusione la assevera il tecnico, nella pratica edilizia se ne serve una.
+  - id: parere-esonero
+    when: {paesaggio: [senza_autorizzazione], parere_esonero: true}
+    then: {refuse: "A Napoli il Comune non rilascia un'attestazione dell'esclusione o dell'esonero dall'autorizzazione paesaggistica, atipica e non prevista dall'ordinamento (direttiva sul paesaggio, D.D. 1072I/2024/154, § 3.2): il tecnico assevera il caso di esclusione e la voce dell'Allegato A del D.P.R. 31/2017, nella pratica edilizia se i lavori ne chiedono una."}
+    cites:
+      - {procedure: napoli/comune/parere-esonero-autorizzazione-paesaggistica, source: direttiva-paesaggio}
     status: verified
   # Lavori senza titolo edilizio ma con l'autorizzazione paesaggistica, già eseguiti:
   # l'accertamento di compatibilità, solo senza nuove superfici utili o volumi (art. 167 c. 4).
