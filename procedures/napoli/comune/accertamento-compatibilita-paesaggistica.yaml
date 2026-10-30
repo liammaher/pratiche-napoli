@@ -1,0 +1,151 @@
+schema_version: 0
+id: napoli/comune/accertamento-compatibilita-paesaggistica
+title: Accertamento di compatibilità paesaggistica (artt. 167 e 181 D.Lgs. 42/2004) – Comune di Napoli, sul SUE
+headline: "Accertamento di compatibilità paesaggistica a Napoli: lavori già fatti in area vincolata"
+aka:
+  - sanatoria paesaggistica
+  - compatibilità paesaggistica
+  - abuso paesaggistico
+  - autorizzazione paesaggistica in sanatoria
+updated: 2026-10-30
+summary: >-
+  Chi ha eseguito in un'area o su un immobile sotto tutela paesaggistica lavori che chiedevano
+  l'autorizzazione paesaggistica, senza averla o in difformità, chiede al Comune di accertarne la
+  compatibilità (art. 167 c. 4-5 e art. 181 c. 1-quater D.Lgs. 42/2004). Si può solo per i lavori
+  che non hanno creato superfici utili o volumi, per i materiali diversi da quelli autorizzati e
+  per la manutenzione ordinaria o straordinaria. A Napoli si chiede sul portale "Impresa in un
+  giorno"; decide il Comune entro 180 giorni, con il parere vincolante della Soprintendenza, e se
+  la compatibilità è accertata si paga una somma pari al maggiore tra il danno e il profitto.
+ente:
+  name: Comune di Napoli
+  office: Sportello Unico Edilizia (istanze sul SUE)
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata, paesaggio]
+  conditions:
+    - text: >-
+        L'autorità competente accerta la compatibilità paesaggistica per i lavori realizzati in
+        assenza o difformità dall'autorizzazione paesaggistica che non abbiano determinato creazione
+        di superfici utili o volumi ovvero aumento di quelli legittimamente realizzati, per l'impiego
+        di materiali in difformità dall'autorizzazione, e per i lavori configurabili come
+        manutenzione ordinaria o straordinaria (art. 167 c. 4 D.Lgs. 42/2004).
+      status: verified
+      source: dlgs42-art167
+    - text: >-
+        Il proprietario, possessore o detentore presenta domanda all'autorità preposta alla gestione
+        del vincolo, che si pronuncia entro il termine perentorio di 180 giorni, previo parere
+        vincolante della soprintendenza da rendersi entro 90 giorni; se la compatibilità è accertata
+        si paga una somma equivalente al maggiore importo tra il danno arrecato e il profitto
+        conseguito; se la domanda è respinta si applica la rimessione in pristino del comma 1 (art.
+        167 c. 5).
+      status: verified
+      source: dlgs42-art167
+    - text: >-
+        Se l'autorità accerta la compatibilità paesaggistica, il reato dell'art. 181 c. 1 non si
+        applica, ferme le sanzioni amministrative (art. 181 c. 1-ter e 1-quater).
+      status: verified
+      source: dlgs42-art181
+    - text: >-
+        Sul SUE di Napoli l'operazione "Accertamento di compatibilità paesaggistica (artt. 167-181
+        D.Lgs. 42/2004 - Comune)" è nel gruppo Beni Paesaggistici; la pratica chiede la descrizione
+        delle opere e dei loro effetti, i professionisti incaricati, la presa visione dell'art. 181,
+        la data dell'abuso e l'imposta di bollo.
+      status: verified
+      source: portale-sue-operazioni
+legal_basis:
+  - text: "D.Lgs. 42/2004, art. 167 c. 4-5 (testo in vigore dal 24/04/2008) e art. 181 c. 1-ter e 1-quater (dal 31/03/2016)."
+    status: verified
+    source: dlgs42-art167
+cost:
+  text: >-
+    Diritti di segreteria di 441,00 euro per le autorizzazioni paesaggistiche in sanatoria quando
+    sono oggetto di autonoma istanza (riga SUE 3 della tabella), l'imposta di bollo, poi la somma
+    dell'art. 167 c. 5 se la compatibilità è accertata. A parte il compenso del tecnico.
+  status: verified
+  source: tabella-diritti
+channels:
+  - type: portal
+    purpose: procedure
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    notes: Operazione "Accertamento di compatibilità paesaggistica (artt. 167-181 D.Lgs. 42/2004 - Comune)", nel gruppo Beni Paesaggistici.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dd-501-2026
+      notes: Si compila online; relazione paesaggistica, elaborati e fotografie firmati digitalmente.
+steps:
+  - do: >-
+      Stabilire con il tecnico se i lavori rientrano nell'art. 167 c. 4 (niente nuove superfici utili
+      o volumi, materiali diversi, manutenzione) e da quando sono stati eseguiti
+    who: professional
+  - do: Preparare la relazione paesaggistica, gli elaborati dello stato attuale e le fotografie
+    who: professional
+  - do: Pagare i diritti di segreteria e l'imposta di bollo
+    who: owner
+    human_only: true
+  - do: >-
+      Accedere con SPID, CIE o CNS a Impresa in un giorno (SUE di Napoli), scegliere l'operazione
+      dell'accertamento di compatibilità paesaggistica, compilare, allegare i documenti firmati
+      digitalmente e inviare
+    who: professional
+    human_only: true
+    channel: [portal]
+  - do: Se la compatibilità è accertata, pagare la somma dell'art. 167 c. 5 che il Comune determina
+    who: owner
+    human_only: true
+related:
+  - napoli/comune/autorizzazione-paesaggistica-ordinaria
+  - napoli/comune/autorizzazione-paesaggistica-semplificata
+  - napoli/comune/scia-in-sanatoria
+sources:
+  - id: dlgs42-art167
+    label: D.Lgs. 22 gennaio 2004, n. 42, art. 167 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2004-01-22;42~art167
+    retrieved: 2026-10-30
+    official: true
+  - id: dlgs42-art181
+    label: D.Lgs. 22 gennaio 2004, n. 42, art. 181 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2004-01-22;42~art181
+    retrieved: 2026-10-30
+    official: true
+  - id: tabella-diritti
+    label: Tabella dei diritti d'istruttoria delle pratiche dello Sportello Unico Edilizia (agg. al 16/06/2026, delibera di G.C. n. 239 del 28 maggio 2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2011/08/tabella-diritti-agg.16_06_2026.pdf
+    retrieved: 2026-10-30
+    sha256: f12663fe2ca5d98541071c27b3d0fae169ff9d67c3a229b61922d407d2c85837
+    official: true
+  - id: portale-sue-operazioni
+    label: Impresa in un giorno, SUE di Napoli – l'operazione dell'accertamento di compatibilità paesaggistica
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-10-30
+    official: true
+    notes: Si vede solo dopo l'accesso con SPID, creando una pratica (bozza di prova, mai inviata).
+  - id: dd-501-2026
+    label: Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026 – Attivazione del SUE su impresainungiorno e Linee guida per la presentazione delle istanze edilizie
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2018/04/LINEE-GUIDA_30.06.2026.pdf
+    retrieved: 2026-10-30
+    sha256: 49e604a61ec34fd88db459761f5b7b07efbfa04b243f4e95881969f1c47796c1
+    official: true
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-10-25
+    official: true
+verification:
+  level: L1
+  date: 2026-10-30
+  by: claude
+  method: >-
+    Desk: su Normattiva D.Lgs. 42/2004 artt. 167 e 181; la tabella dei diritti del SUE; la pratica
+    vista sul portale in una bozza di prova.
+  notes: >-
+    Non letti: come il Comune determina la somma dell'art. 167 c. 5 (danno o profitto), la delega
+    regionale al Comune, l'accertamento dentro la SCIA o il permesso in sanatoria (art. 36-bis c. 4
+    DPR 380/2001). La pagina è minima.
