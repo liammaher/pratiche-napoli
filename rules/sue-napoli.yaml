@@ -10,8 +10,9 @@ intro: >-
   SCIA e permesso, la scelta è una delle risposte. I cambi di destinazione d'uso seguono anche la
   legge regionale campana, letta con la circolare regionale CI/2025/3. Per i lavori già eseguiti
   senza SCIA (manutenzione straordinaria sui prospetti, ristrutturazione senza strutture) la
-  tabella indica la SCIA in sanatoria, e per i lavori senza titolo edilizio già eseguiti in area
-  vincolata l'accertamento di compatibilità paesaggistica; le altre sanatorie e i casi che la
+  tabella indica la SCIA in sanatoria, per quelli che chiedevano il permesso di costruire il
+  permesso in sanatoria, e per i lavori senza titolo edilizio già eseguiti in area vincolata
+  l'accertamento di compatibilità paesaggistica; le altre sanatorie e i casi che la
   libreria non copre ancora sono rifiutati, con il motivo.
 facts:
   intervento:
@@ -193,7 +194,7 @@ rules:
 
   # --- Lavori già eseguiti ---
   - id: sanatoria-titolo
-    when: {sanatoria: true, intervento: [opere_temporanee, ristrutturazione_pesante, nuova_costruzione, ristrutturazione_urbanistica, variante_pdc, variante_essenziale_pdc, variante_scia]}
+    when: {sanatoria: true, intervento: [opere_temporanee, ristrutturazione_urbanistica, variante_scia]}
     then: {refuse: "Per lavori già eseguiti senza titolo serve una sanatoria (accertamento di conformità, artt. 36 e 36-bis DPR 380/2001), che la libreria non copre ancora."}
     cites: [{procedure: napoli/comune/scia-edilizia, source: scia-modulo}]
     status: verified
@@ -211,6 +212,46 @@ rules:
     when: {sanatoria: true, intervento: [ristrutturazione], strutture: false, demolizione_zona_a: true}
     then: {refuse: "Per lavori già eseguiti che chiedevano il permesso di costruire serve il permesso in sanatoria (artt. 36 e 36-bis DPR 380/2001), che la libreria non copre ancora."}
     cites: [{procedure: napoli/comune/scia-in-sanatoria, source: dpr380-art36bis}]
+    status: verified
+  # I lavori che chiedevano il permesso di costruire (o la SCIA alternativa), già eseguiti: il
+  # permesso in sanatoria (art. 36 senza titolo, art. 36-bis in parziale difformità o con
+  # variazioni essenziali), fuori dei casi che la libreria non copre ancora.
+  - id: sanatoria-permesso-strutture
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], strutture: true}
+    then: {refuse: "Il permesso in sanatoria di lavori sulle strutture chiede la sanatoria sismica, che la libreria non copre ancora."}
+    cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}]
+    status: verified
+  - id: sanatoria-permesso-tutela
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], paesaggio: [senza_autorizzazione, semplificata, ordinaria]}
+    then: {refuse: "In un'area sotto tutela paesaggistica il permesso in sanatoria chiede anche il parere paesaggistico e la sanzione dell'art. 36-bis c. 4 e 5-bis DPR 380/2001, che la libreria non copre ancora."}
+    cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36bis}]
+    status: verified
+  - id: sanatoria-permesso-bene-culturale
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], bene_culturale: true}
+    then: {refuse: "Su un bene culturale i lavori chiedono l'autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004): la libreria non copre ancora la sanatoria con quell'autorizzazione."}
+    cites: [{procedure: napoli/comune/scia-edilizia, source: dlgs42-art21}]
+    status: verified
+  - id: sanatoria-permesso-zona-a
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], demolizione_zona_a: true}
+    then: {refuse: "Una demolizione e ricostruzione o una variante di sagoma in zona A già eseguita non è nei casi di sanatoria che la libreria copre."}
+    cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}]
+    status: verified
+  - id: sanatoria-permesso-cambio-uso
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], cambio_uso: [zona_agricola, stessa_categoria, tra_categorie, piano_terra, intero_immobile, intero_tra_categorie, altro]}
+    then: {refuse: "Un cambio di destinazione d'uso già fatto senza titolo va sanato con i lavori, e la libreria non copre ancora questa sanatoria."}
+    cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}]
+    status: verified
+  - id: permesso-sanatoria
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], strutture: false, cambio_uso: ["no", non_rilevante], paesaggio: ["no"], bene_culturale: false, demolizione_zona_a: false}
+    then:
+      role: main
+      procedure: napoli/comune/permesso-in-sanatoria
+      regime: permesso
+      portal: {settore: "Edilizia e pianificazione urbana", operazione: "Permesso di Costruire (P.d.C) - Art.10 D.P.R. 380/2001"}
+    cites:
+      - {procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}
+      - {procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36bis}
+      - {procedure: napoli/comune/permesso-in-sanatoria, source: portale-sue-operazioni}
     status: verified
   # In un'area tutelata la sanatoria chiede anche il parere paesaggistico e la sanzione dell'art.
   # 36-bis c. 4 e 5-bis; su un bene culturale, l'autorizzazione del soprintendente.
@@ -473,7 +514,7 @@ rules:
     cites: [{procedure: napoli/comune/scia-alternativa-pdc, source: lr13-2022}, {procedure: napoli/comune/permesso-di-costruire, source: dpr380-art23}]
     status: verified
   - id: permesso-zona-agricola
-    when: {intervento: [nessuna_opera, edilizia_libera, manutenzione_straordinaria, restauro, ristrutturazione, ristrutturazione_pesante], cambio_uso: [zona_agricola], uso_ammesso_prg: true}
+    when: {sanatoria: false, intervento: [nessuna_opera, edilizia_libera, manutenzione_straordinaria, restauro, ristrutturazione, ristrutturazione_pesante], cambio_uso: [zona_agricola], uso_ammesso_prg: true}
     then: *permesso
     cites: [{procedure: napoli/comune/permesso-di-costruire, source: lr19-2001}]
     status: verified
@@ -488,12 +529,12 @@ rules:
     cites: [{procedure: napoli/comune/scia-edilizia, source: dpr380-art22}, {procedure: napoli/comune/permesso-di-costruire, source: pdc-modulo}]
     status: verified
   - id: scia-variante-permesso
-    when: {intervento: [variante_pdc], demolizione_zona_a: false, permesso_per_scelta: false}
+    when: {sanatoria: false, intervento: [variante_pdc], demolizione_zona_a: false, permesso_per_scelta: false}
     then: *scia
     cites: [{procedure: napoli/comune/scia-edilizia, source: dpr380-art22}, {procedure: napoli/comune/scia-edilizia, source: dlgs222-tabella-a}]
     status: verified
   - id: permesso-per-scelta-variante
-    when: {intervento: [variante_pdc], demolizione_zona_a: false, permesso_per_scelta: true}
+    when: {sanatoria: false, intervento: [variante_pdc], demolizione_zona_a: false, permesso_per_scelta: true}
     then: *permesso
     cites: [{procedure: napoli/comune/scia-edilizia, source: dpr380-art22}]
     status: verified
@@ -513,13 +554,13 @@ rules:
     cites: [{procedure: napoli/comune/scia-alternativa-pdc, source: lr13-2022}, {procedure: napoli/comune/permesso-di-costruire, source: dpr380-art23}]
     status: verified
   - id: permesso-cambio-uso-sagoma
-    when: {intervento: [ristrutturazione, ristrutturazione_pesante], cambio_uso: [intero_immobile, intero_tra_categorie], uso_ammesso_prg: true, cambio_uso_sagoma: true}
+    when: {sanatoria: false, intervento: [ristrutturazione, ristrutturazione_pesante], cambio_uso: [intero_immobile, intero_tra_categorie], uso_ammesso_prg: true, cambio_uso_sagoma: true}
     then: *permesso
     cites: [{procedure: napoli/comune/permesso-di-costruire, source: lr19-2001}, {procedure: napoli/comune/permesso-di-costruire, source: circolare-salva-casa-campania}]
     status: verified
   # A Napoli la SCIA è esclusa per la demolizione e ricostruzione, e per le varianti che cambiano la sagoma, in zona A.
   - id: permesso-zona-a
-    when: {intervento: [ristrutturazione, variante_pdc], demolizione_zona_a: true}
+    when: {sanatoria: false, intervento: [ristrutturazione, variante_pdc], demolizione_zona_a: true}
     then: *permesso
     cites:
       - {procedure: napoli/comune/permesso-di-costruire, source: scia-pagina}
@@ -529,22 +570,22 @@ rules:
 
   # --- Permesso di costruire, o la SCIA alternativa (art. 23) ---
   - id: scia-alternativa-ristrutturazione
-    when: {intervento: [ristrutturazione_pesante], cambio_uso: ["no", non_rilevante, stessa_categoria, tra_categorie], demolizione_zona_a: false, permesso_per_scelta: false}
+    when: {sanatoria: false, intervento: [ristrutturazione_pesante], cambio_uso: ["no", non_rilevante, stessa_categoria, tra_categorie], demolizione_zona_a: false, permesso_per_scelta: false}
     then: *alternativa
     cites: [{procedure: napoli/comune/scia-alternativa-pdc, source: dpr380-art23}]
     status: verified
   - id: scia-alternativa-ristrutturazione-pesante-intero-immobile
-    when: {intervento: [ristrutturazione_pesante], cambio_uso: [intero_immobile, intero_tra_categorie], uso_ammesso_prg: true, cambio_uso_sagoma: false, demolizione_zona_a: false, permesso_per_scelta: false}
+    when: {sanatoria: false, intervento: [ristrutturazione_pesante], cambio_uso: [intero_immobile, intero_tra_categorie], uso_ammesso_prg: true, cambio_uso_sagoma: false, demolizione_zona_a: false, permesso_per_scelta: false}
     then: *alternativa
     cites: [{procedure: napoli/comune/scia-alternativa-pdc, source: dpr380-art23}, {procedure: napoli/comune/scia-alternativa-pdc, source: lr13-2022}]
     status: verified
   - id: permesso-ristrutturazione
-    when: {intervento: [ristrutturazione_pesante], permesso_per_scelta: true}
+    when: {sanatoria: false, intervento: [ristrutturazione_pesante], permesso_per_scelta: true}
     then: *permesso
     cites: [{procedure: napoli/comune/permesso-di-costruire, source: dpr380-art10}]
     status: verified
   - id: scia-alternativa-zona-a
-    when: {intervento: [ristrutturazione_pesante], demolizione_zona_a: true, permesso_per_scelta: false}
+    when: {sanatoria: false, intervento: [ristrutturazione_pesante], demolizione_zona_a: true, permesso_per_scelta: false}
     then: *alternativa
     cites: [{procedure: napoli/comune/scia-alternativa-pdc, source: lr13-2022}, {procedure: napoli/comune/scia-alternativa-pdc, source: scia-pagina}]
     status: disputed
@@ -554,22 +595,22 @@ rules:
       il Comune riporta che la DGC 454/2014 esclude la SCIA in zona A: va chiesto al SUE, o si chiede
       il permesso di costruire.
   - id: permesso-nuova-costruzione
-    when: {intervento: [nuova_costruzione, ristrutturazione_urbanistica], piano_planovolumetrico: false}
+    when: {sanatoria: false, intervento: [nuova_costruzione, ristrutturazione_urbanistica], piano_planovolumetrico: false}
     then: *permesso
     cites: [{procedure: napoli/comune/permesso-di-costruire, source: dpr380-art10}]
     status: verified
   - id: scia-alternativa-nuova-costruzione
-    when: {intervento: [nuova_costruzione, ristrutturazione_urbanistica], piano_planovolumetrico: true, permesso_per_scelta: false}
+    when: {sanatoria: false, intervento: [nuova_costruzione, ristrutturazione_urbanistica], piano_planovolumetrico: true, permesso_per_scelta: false}
     then: *alternativa
     cites: [{procedure: napoli/comune/scia-alternativa-pdc, source: dpr380-art23}]
     status: verified
   - id: permesso-per-scelta-nuova-costruzione
-    when: {intervento: [nuova_costruzione, ristrutturazione_urbanistica], piano_planovolumetrico: true, permesso_per_scelta: true}
+    when: {sanatoria: false, intervento: [nuova_costruzione, ristrutturazione_urbanistica], piano_planovolumetrico: true, permesso_per_scelta: true}
     then: *permesso
     cites: [{procedure: napoli/comune/permesso-di-costruire, source: dpr380-art10}, {procedure: napoli/comune/permesso-di-costruire, source: dpr380-art23}]
     status: verified
   - id: permesso-variante-essenziale
-    when: {intervento: [variante_essenziale_pdc]}
+    when: {sanatoria: false, intervento: [variante_essenziale_pdc]}
     then: *permesso
     cites: [{procedure: napoli/comune/permesso-di-costruire, source: dlgs222-tabella-a}]
     status: verified
