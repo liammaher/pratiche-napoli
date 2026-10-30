@@ -1,0 +1,157 @@
+schema_version: 0
+id: napoli/comune/permesso-in-sanatoria
+title: Permesso di costruire in sanatoria – lavori già eseguiti senza permesso o in difformità (SUE del Comune di Napoli)
+headline: "Permesso in sanatoria a Napoli: lavori già fatti che chiedevano il permesso di costruire"
+aka:
+  - accertamento di conformità
+  - sanatoria edilizia
+  - condono
+  - veranda abusiva
+  - salva casa
+updated: 2026-10-30
+summary: >-
+  Chi ha eseguito senza permesso di costruire (o senza SCIA alternativa), o in totale difformità,
+  lavori che ne avevano bisogno, li regolarizza con il permesso in sanatoria se sono conformi alla
+  disciplina urbanistica ed edilizia sia di quando sono stati fatti sia di oggi (art. 36 DPR
+  380/2001), pagando un'oblazione pari al doppio del contributo di costruzione. Per i lavori in
+  parziale difformità dal permesso o con variazioni essenziali vale l'art. 36-bis. A Napoli si
+  chiede allo Sportello Unico per l'Edilizia sul portale "Impresa in un giorno", rispondendo sì
+  alla domanda sulla sanatoria del permesso di costruire.
+ente:
+  name: Comune di Napoli
+  office: Area Urbanistica – Servizio Sportello Unico Edilizia
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata]
+  conditions:
+    - text: >-
+        Per gli interventi realizzati in assenza di permesso di costruire o in totale difformità, il
+        responsabile dell'abuso o l'attuale proprietario possono ottenere il permesso in sanatoria
+        se l'intervento è conforme alla disciplina urbanistica ed edilizia vigente sia al momento
+        della realizzazione sia al momento della presentazione della domanda (art. 36 c. 1 DPR
+        380/2001).
+      status: verified
+      source: dpr380-art36
+    - text: >-
+        Il rilascio è subordinato al pagamento, a titolo di oblazione, del contributo di costruzione
+        in misura doppia, o in caso di gratuità di una somma pari a quella dell'art. 16; sulla
+        domanda il Comune si pronuncia entro sessanta giorni, decorsi i quali la richiesta si
+        intende rifiutata (art. 36 c. 2-3).
+      status: verified
+      source: dpr380-art36
+    - text: >-
+        Per gli interventi in parziale difformità dal permesso di costruire, il responsabile o il
+        proprietario possono ottenere il permesso in sanatoria se l'intervento è conforme alla
+        disciplina urbanistica vigente al momento della presentazione della domanda e ai requisiti
+        della disciplina edilizia vigente al momento della realizzazione (art. 36-bis c. 1).
+      status: verified
+      source: dpr380-art36bis
+    - text: >-
+        Sul SUE di Napoli la domanda del permesso di costruire "Le opere ricadono nell'ambito della
+        Sanatoria?" aggiunge il quadro della sanatoria: in assenza o totale difformità (art. 36),
+        o in parziale difformità o con variazioni essenziali (art. 36-bis). Nel caso dell'art.
+        36-bis le due prese d'atto (l'oblazione e gli interventi a cui lo Sportello può
+        subordinare il rilascio) si escludono a vicenda sul portale, e così nell'asseverazione
+        della relazione tecnica i documenti allegati, la datazione dell'intervento e la proposta
+        di interventi: il caso non si può dichiarare per intero (rilevato il 30/10/2026).
+      status: verified
+      source: portale-sue-operazioni
+legal_basis:
+  - text: "D.P.R. 380/2001, art. 36 (accertamento di conformità in assenza di titolo) e art. 36-bis, nel testo in vigore dal 28/07/2024."
+    status: verified
+    source: dpr380-art36
+cost:
+  text: >-
+    Diritti di segreteria per gli accertamenti di conformità (artt. 36 e 36-bis): almeno 441,00 euro
+    all'atto della presentazione (riga SUE 16), poi l'importo secondo lo scaglione; per l'art.
+    36-bis c. 5 lett. b le righe SUE 17 e 18. A parte l'oblazione (il doppio del contributo di
+    costruzione) e il compenso del tecnico.
+  status: verified
+  source: tabella-diritti
+channels:
+  - type: portal
+    purpose: procedure
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    notes: Operazione del permesso di costruire, rispondendo sì alla domanda sulla sanatoria nelle scelte eventuali.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dd-501-2026
+      notes: Si compila online; elaborati e allegati firmati digitalmente.
+steps:
+  - do: Incaricare un tecnico abilitato e firmare la procura speciale
+    who: owner
+    human_only: true
+  - do: >-
+      Stabilire con il tecnico lo stato legittimo, le difformità, se vale l'art. 36 o l'art. 36-bis,
+      la data di realizzazione e il contributo di costruzione
+    who: professional
+  - do: Pagare i diritti di segreteria
+    who: owner
+    human_only: true
+  - do: >-
+      Accedere con SPID, CIE o CNS a Impresa in un giorno (SUE di Napoli), scegliere il permesso di
+      costruire e rispondere sì alla domanda sulla sanatoria, compilare, allegare i documenti
+      firmati digitalmente e inviare
+    who: professional
+    human_only: true
+    channel: [portal]
+  - do: Pagare l'oblazione che lo Sportello determina, per il rilascio del permesso in sanatoria
+    who: owner
+    human_only: true
+related:
+  - napoli/comune/permesso-di-costruire
+  - napoli/comune/scia-in-sanatoria
+  - napoli/comune/accertamento-compatibilita-paesaggistica
+sources:
+  - id: dpr380-art36
+    label: D.P.R. 6 giugno 2001, n. 380, art. 36 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art36
+    retrieved: 2026-10-30
+    official: true
+  - id: dpr380-art36bis
+    label: D.P.R. 6 giugno 2001, n. 380, art. 36-bis (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art36bis
+    retrieved: 2026-10-30
+    official: true
+  - id: tabella-diritti
+    label: Tabella dei diritti d'istruttoria delle pratiche dello Sportello Unico Edilizia (agg. al 16/06/2026, delibera di G.C. n. 239 del 28 maggio 2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2011/08/tabella-diritti-agg.16_06_2026.pdf
+    retrieved: 2026-10-30
+    sha256: f12663fe2ca5d98541071c27b3d0fae169ff9d67c3a229b61922d407d2c85837
+    official: true
+  - id: portale-sue-operazioni
+    label: Impresa in un giorno, SUE di Napoli – il permesso di costruire e le sue scelte eventuali
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-10-30
+    official: true
+    notes: Si vede solo dopo l'accesso con SPID, creando una pratica (bozza di prova, mai inviata).
+  - id: dd-501-2026
+    label: Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026 – Attivazione del SUE su impresainungiorno e Linee guida per la presentazione delle istanze edilizie
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2018/04/LINEE-GUIDA_30.06.2026.pdf
+    retrieved: 2026-10-30
+    sha256: 49e604a61ec34fd88db459761f5b7b07efbfa04b243f4e95881969f1c47796c1
+    official: true
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-10-25
+    official: true
+verification:
+  level: L1
+  date: 2026-10-30
+  by: claude
+  method: >-
+    Desk: su Normattiva D.P.R. 380/2001 artt. 36 e 36-bis (testo dal 28/07/2024); la tabella dei
+    diritti del SUE; il permesso con la sanatoria visto sul portale in una bozza di prova.
+  notes: >-
+    Non letti: il modulo del permesso di costruire del Comune per la sanatoria, l'art. 36-bis c. 5
+    lett. a (il 20% in più per le parziali difformità e le variazioni essenziali, citato dal
+    portale), la sanatoria sismica. La pagina è minima.
