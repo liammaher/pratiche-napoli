@@ -10,8 +10,9 @@ intro: >-
   SCIA e permesso, la scelta è una delle risposte. I cambi di destinazione d'uso seguono anche la
   legge regionale campana, letta con la circolare regionale CI/2025/3. Per i lavori già eseguiti
   senza SCIA (manutenzione straordinaria sui prospetti, ristrutturazione senza strutture) la
-  tabella indica la SCIA in sanatoria; le altre sanatorie e i casi che la libreria non copre
-  ancora sono rifiutati, con il motivo.
+  tabella indica la SCIA in sanatoria, e per i lavori senza titolo edilizio già eseguiti in area
+  vincolata l'accertamento di compatibilità paesaggistica; le altre sanatorie e i casi che la
+  libreria non copre ancora sono rifiutati, con il motivo.
 facts:
   intervento:
     type: choice
@@ -113,6 +114,9 @@ facts:
   paesaggio_eseguiti:
     type: yes_no
     question: "Le opere che chiedono l'autorizzazione paesaggistica sono già state eseguite, anche in parte?"
+  paesaggio_volumi:
+    type: yes_no
+    question: "Le opere già eseguite hanno creato superfici utili o volumi, o aumentato quelli legittimamente realizzati?"
   bene_culturale:
     type: yes_no
     question: "L'edificio è un bene culturale tutelato dalla Parte II del D.Lgs. 42/2004 (vincolo storico-artistico)?"
@@ -258,9 +262,30 @@ rules:
     cites: [{procedure: napoli/comune/scia-edilizia, source: scia-modulo}]
     status: verified
   - id: sanatoria-paesaggio
-    when: {paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true}
-    then: {refuse: "L'autorizzazione paesaggistica non si rilascia per lavori già eseguiti (art. 146 c. 4 D.Lgs. 42/2004): serve l'accertamento di compatibilità paesaggistica, che la libreria non copre ancora."}
+    when:
+      intervento: [opere_temporanee, nessuna_opera, manutenzione_straordinaria, restauro, ristrutturazione, ristrutturazione_pesante, nuova_costruzione, ristrutturazione_urbanistica, variante_pdc, variante_essenziale_pdc, variante_scia]
+      paesaggio: [semplificata, ordinaria]
+      paesaggio_eseguiti: true
+    then: {refuse: "L'autorizzazione paesaggistica non si rilascia per lavori già eseguiti (art. 146 c. 4 D.Lgs. 42/2004): con lavori che chiedono anche un titolo edilizio serve la sanatoria edilizia insieme all'accertamento di compatibilità paesaggistica, che la libreria non copre ancora."}
     cites: [{procedure: napoli/comune/autorizzazione-paesaggistica-ordinaria, source: dlgs42-art146}]
+    status: verified
+  # Lavori senza titolo edilizio ma con l'autorizzazione paesaggistica, già eseguiti:
+  # l'accertamento di compatibilità, solo senza nuove superfici utili o volumi (art. 167 c. 4).
+  - id: accertamento-volumi
+    when: {intervento: [edilizia_libera], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: true}
+    then: {refuse: "La compatibilità paesaggistica non si può accertare per lavori che hanno creato superfici utili o volumi o aumentato quelli legittimamente realizzati (art. 167 c. 4 a D.Lgs. 42/2004): resta la rimessione in pristino."}
+    cites: [{procedure: napoli/comune/accertamento-compatibilita-paesaggistica, source: dlgs42-art167}]
+    status: verified
+  - id: accertamento-paesaggistico
+    when: {intervento: [edilizia_libera], cambio_uso: ["no", non_rilevante], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: false}
+    then:
+      role: main
+      procedure: napoli/comune/accertamento-compatibilita-paesaggistica
+      regime: autorizzazione
+      portal: {settore: "Edilizia e pianificazione urbana", operazione: "Accertamento di compatibilità paesaggistica (artt. 167-181 D.Lgs. 42/2004 - Comune)"}
+    cites:
+      - {procedure: napoli/comune/accertamento-compatibilita-paesaggistica, source: dlgs42-art167}
+      - {procedure: napoli/comune/accertamento-compatibilita-paesaggistica, source: portale-sue-operazioni}
     status: verified
 
   # --- Edilizia libera ---
@@ -285,7 +310,7 @@ rules:
       - {procedure: napoli/comune/cila-lavori-edilizi, source: dpr380-art6}
     status: verified
   - id: edilizia-libera-paesaggistica-semplificata
-    when: {intervento: [edilizia_libera], cambio_uso: ["no", non_rilevante], paesaggio: [semplificata]}
+    when: {intervento: [edilizia_libera], cambio_uso: ["no", non_rilevante], paesaggio: [semplificata], paesaggio_eseguiti: false}
     then:
       role: main
       procedure: napoli/comune/autorizzazione-paesaggistica-semplificata
@@ -297,7 +322,7 @@ rules:
       - {procedure: napoli/comune/autorizzazione-paesaggistica-semplificata, source: portale-sue-operazioni}
     status: verified
   - id: edilizia-libera-paesaggistica-ordinaria
-    when: {intervento: [edilizia_libera], cambio_uso: ["no", non_rilevante], paesaggio: [ordinaria]}
+    when: {intervento: [edilizia_libera], cambio_uso: ["no", non_rilevante], paesaggio: [ordinaria], paesaggio_eseguiti: false}
     then:
       role: main
       procedure: napoli/comune/autorizzazione-paesaggistica-ordinaria
@@ -554,6 +579,7 @@ rules:
     when:
       intervento: [opere_temporanee, nessuna_opera, edilizia_libera, manutenzione_straordinaria, restauro, ristrutturazione, ristrutturazione_pesante, nuova_costruzione, ristrutturazione_urbanistica, variante_pdc, variante_essenziale_pdc, variante_scia]
       paesaggio: [semplificata]
+      paesaggio_eseguiti: false
     then:
       role: also
       procedure: napoli/comune/autorizzazione-paesaggistica-semplificata
@@ -568,6 +594,7 @@ rules:
     when:
       intervento: [opere_temporanee, nessuna_opera, edilizia_libera, manutenzione_straordinaria, restauro, ristrutturazione, ristrutturazione_pesante, nuova_costruzione, ristrutturazione_urbanistica, variante_pdc, variante_essenziale_pdc, variante_scia]
       paesaggio: [ordinaria]
+      paesaggio_eseguiti: false
     then:
       role: also
       procedure: napoli/comune/autorizzazione-paesaggistica-ordinaria
