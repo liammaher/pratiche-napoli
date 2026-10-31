@@ -8,7 +8,7 @@ aka:
   - salva casa
   - scia tardiva
   - difformità
-updated: 2026-10-30
+updated: 2026-10-31
 summary: >-
   Chi ha eseguito, o sta eseguendo, lavori che chiedevano la SCIA senza presentarla, o in
   difformità da quella presentata, li regolarizza con una SCIA in sanatoria (art. 36-bis DPR
@@ -44,6 +44,28 @@ applies_to:
         della presentazione (art. 36-bis c. 5 lett. b).
       status: verified
       source: dpr380-art36bis
+    - text: >-
+        Se i lavori sono stati eseguiti senza l'autorizzazione paesaggistica o in difformità da essa,
+        lo Sportello chiede all'autorità preposta al vincolo un parere vincolante sulla compatibilità
+        paesaggistica, anche per lavori che hanno creato superfici utili o volumi o aumentato quelli
+        legittimamente realizzati: l'autorità si pronuncia entro 180 giorni, previo parere della
+        Soprintendenza entro 90, e in mancanza si forma il silenzio-assenso (art. 36-bis c. 4).
+      status: verified
+      source: dpr380-art36bis
+    - text: >-
+        Accertata la compatibilità paesaggistica, si paga una sanzione pari al maggior importo tra il
+        danno arrecato e il profitto conseguito, determinata previa perizia di stima; se la domanda è
+        respinta si applica la rimessione in pristino dell'art. 167 c. 1 D.Lgs. 42/2004 (art. 36-bis
+        c. 5-bis).
+      status: verified
+      source: dpr380-art36bis
+    - text: >-
+        Nell'asseverazione della SCIA, in zona tutelata con opere che alterano i luoghi o l'aspetto
+        esteriore degli edifici, il tecnico dichiara l'intervento assoggettato all'accertamento della
+        compatibilità paesaggistica dell'art. 36-bis e allega la documentazione per il parere
+        vincolante (c. 4).
+      status: verified
+      source: portale-sue-operazioni
     - text: >-
         Il modulo SCIA del Comune distingue quattro casi (quadro d): la SCIA in corso di esecuzione
         (516 euro), la sanatoria con doppia conformità, quella con la conformità dell'art. 36-bis c. 1
@@ -181,7 +203,7 @@ sources:
     official: true
 verification:
   level: L1
-  date: 2026-10-30
+  date: 2026-10-31
   by: claude
   method: >-
     Desk: su Normattiva D.P.R. 380/2001 artt. 36-bis e 37 (testo dal 28/07/2024); il modulo SCIA del
@@ -189,5 +211,5 @@ verification:
     sue Linee guida; la SCIA con la sanatoria vista sul portale in una bozza di prova.
   notes: >-
     Non letti: la circolare del SUE sulla d.d. 913/2024 (come il SUE calcola l'aumento di valore),
-    l'art. 34-ter e l'art. 34-bis c. 3-bis richiamato per la rilevanza sismica, la sanzione dell'art.
-    36-bis c. 5-bis in area tutelata. La pagina è minima.
+    l'art. 34-ter e l'art. 34-bis c. 3-bis richiamato per la rilevanza sismica. L'art. 36-bis c. 4 e
+    5-bis (area tutelata) letti su Normattiva il 2026-10-31. La pagina è minima.
