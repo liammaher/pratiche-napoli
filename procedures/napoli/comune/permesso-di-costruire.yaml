@@ -6,7 +6,7 @@ aka:
   - concessione edilizia
   - nuova costruzione
   - demolizione e ricostruzione
-updated: 2026-10-29
+updated: 2026-10-31
 summary: >-
   Il permesso di costruire serve a Napoli per le nuove costruzioni, la ristrutturazione
   urbanistica e le ristrutturazioni edilizie "pesanti" dell'art. 10 c. 1 c DPR 380/2001; si può
@@ -83,6 +83,19 @@ applies_to:
         demolizioni e ricostruzioni della L.R. 19/2001 e della L.R. 16/2004, a.8-a.14).
       status: verified
       source: pdc-modulo
+    - text: >-
+        Il Piano casa (artt. 4, 5, 6-bis e 7 L.R. Campania 19/2009) non accetta nuove istanze: il
+        termine è stato prorogato l'ultima volta al 30 settembre 2022 (art. 28 c. 6 L.R. 31/2021).
+      status: verified
+      source: lr31-2021-piano-casa
+    - text: >-
+        La L.R. 13/2022 decide con la disciplina della L.R. 19/2009 solo le istanze pendenti alla sua
+        entrata in vigore (art. 4 c. 17). Il recupero abitativo dei sottotetti (L.R. 15/2000) vale
+        anche per i sottotetti esistenti a quella data e si assente secondo le categorie dell'art. 3
+        DPR 380/2001; con i mutamenti d'uso urbanisticamente rilevanti può andare anche a SCIA
+        alternativa al permesso (art. 2 cc. 6-7).
+      status: verified
+      source: lr13-2022
 legal_basis:
   - text: "D.P.R. 380/2001, art. 10 (interventi subordinati a permesso di costruire) e art. 20 (procedimento)."
     status: verified
@@ -184,6 +197,18 @@ sources:
     retrieved: 2026-10-29
     page_updated: 2025-01-28
     sha256: 34ffd93d92c5b61b3a9e9597ff326bc44e0b20b118fbd8b73fd71eb3ce752483
+    official: true
+  - id: lr31-2021-piano-casa
+    label: Regione Campania, Governo del Territorio – "Le novità della legge di stabilità regionale" (L.R. 31/2021, art. 28 c. 6)
+    url: https://www.territorio.regione.campania.it/news-blog/le-novit-della-legge-di-stabilit-regionale-5hdrc
+    retrieved: 2026-10-31
+    official: true
+    notes: Non risultano proroghe successive (ricerca, non sul BURC).
+  - id: lr13-2022
+    label: Legge Regionale Campania 10 agosto 2022, n. 13 (testo vigente con la L.R. 18/2022, Regione Campania)
+    url: https://www.territorio.regione.campania.it/s/LEGGE-REGIONALE-132022_AGGIORNATO.pdf
+    retrieved: 2026-10-31
+    sha256: 927dbd55114d45104bf3f829d74e298f435f3cea5b77e84d81ebeca3d7c4e247
     official: true
   - id: pdc-pagina
     label: Comune di Napoli – PC, Permesso di costruire
