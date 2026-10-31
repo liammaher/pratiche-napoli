@@ -258,18 +258,10 @@ rules:
       - {procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36bis}
       - {procedure: napoli/comune/permesso-in-sanatoria, source: portale-sue-operazioni}
     status: verified
-  # In un'area tutelata la sanatoria chiede anche il parere paesaggistico e la sanzione dell'art.
-  # 36-bis c. 4 e 5-bis; su un bene culturale, l'autorizzazione del soprintendente.
-  - id: sanatoria-tutela-prospetti
-    when: {sanatoria: true, intervento: [manutenzione_straordinaria], strutture: false, prospetti: true, paesaggio: [senza_autorizzazione, semplificata, ordinaria]}
-    then: {refuse: "In un'area sotto tutela paesaggistica la SCIA in sanatoria è subordinata anche al parere paesaggistico e alla sanzione dell'art. 36-bis c. 4 e 5-bis DPR 380/2001, che la libreria non copre ancora."}
-    cites: [{procedure: napoli/comune/scia-in-sanatoria, source: scia-modulo}]
-    status: verified
-  - id: sanatoria-tutela-ristrutturazione
-    when: {sanatoria: true, intervento: [ristrutturazione], strutture: false, paesaggio: [senza_autorizzazione, semplificata, ordinaria]}
-    then: {refuse: "In un'area sotto tutela paesaggistica la SCIA in sanatoria è subordinata anche al parere paesaggistico e alla sanzione dell'art. 36-bis c. 4 e 5-bis DPR 380/2001, che la libreria non copre ancora."}
-    cites: [{procedure: napoli/comune/scia-in-sanatoria, source: scia-modulo}]
-    status: verified
+  # In un'area tutelata la SCIA in sanatoria resta una: il parere paesaggistico vincolante lo chiede
+  # lo Sportello all'autorità del vincolo, anche per superfici utili o volumi (art. 36-bis c. 4), e
+  # la sanzione del c. 5-bis segue l'accertamento della compatibilità. Su un bene culturale serve
+  # l'autorizzazione del soprintendente.
   - id: sanatoria-bene-culturale-prospetti
     when: {sanatoria: true, intervento: [manutenzione_straordinaria], strutture: false, prospetti: true, bene_culturale: true}
     then: {refuse: "Su un bene culturale i lavori chiedono l'autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004): la libreria non copre ancora la sanatoria con quell'autorizzazione."}
@@ -307,13 +299,28 @@ rules:
     then: {refuse: "Un cambio di destinazione d'uso già fatto senza titolo va sanato (accertamento di conformità, art. 36-bis DPR 380/2001), e la libreria non copre ancora la sanatoria."}
     cites: [{procedure: napoli/comune/scia-edilizia, source: scia-modulo}]
     status: verified
+  # Lavori già eseguiti che chiedevano l'autorizzazione paesaggistica: la compatibilità la accerta
+  # solo la SCIA in sanatoria dell'art. 36-bis (c. 4), cioè per i prospetti o una ristrutturazione
+  # già fatti senza titolo; la CILA tardiva e gli altri titoli non la portano.
   - id: sanatoria-paesaggio
     when:
-      intervento: [opere_temporanee, nessuna_opera, manutenzione_straordinaria, restauro, ristrutturazione, ristrutturazione_pesante, nuova_costruzione, ristrutturazione_urbanistica, variante_pdc, variante_essenziale_pdc, variante_scia]
+      intervento: [opere_temporanee, nessuna_opera, restauro, ristrutturazione_pesante, nuova_costruzione, ristrutturazione_urbanistica, variante_pdc, variante_essenziale_pdc, variante_scia]
       paesaggio: [semplificata, ordinaria]
       paesaggio_eseguiti: true
-    then: {refuse: "L'autorizzazione paesaggistica non si rilascia per lavori già eseguiti (art. 146 c. 4 D.Lgs. 42/2004): con lavori che chiedono anche un titolo edilizio serve la sanatoria edilizia insieme all'accertamento di compatibilità paesaggistica, che la libreria non copre ancora."}
+    then: &paesaggio-eseguiti {refuse: "L'autorizzazione paesaggistica non si rilascia per lavori già eseguiti (art. 146 c. 4 D.Lgs. 42/2004): con lavori che chiedono anche un titolo edilizio serve la sanatoria edilizia insieme all'accertamento di compatibilità paesaggistica, che la libreria non copre ancora."}
     cites: [{procedure: napoli/comune/autorizzazione-paesaggistica-ordinaria, source: dlgs42-art146}]
+    status: verified
+  - id: sanatoria-paesaggio-cila
+    when: {sanatoria: true, intervento: [manutenzione_straordinaria], prospetti: false, paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true}
+    then: *paesaggio-eseguiti
+    cites: [{procedure: napoli/comune/autorizzazione-paesaggistica-ordinaria, source: dlgs42-art146}]
+    status: verified
+  - id: sanatoria-paesaggio-scia
+    when: {sanatoria: false, intervento: [manutenzione_straordinaria, ristrutturazione], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true}
+    then: {refuse: "L'autorizzazione paesaggistica non si rilascia per lavori già eseguiti (art. 146 c. 4 D.Lgs. 42/2004): per lavori edilizi già iniziati senza titolo la compatibilità paesaggistica si accerta nella SCIA in sanatoria (art. 36-bis c. 4 DPR 380/2001)."}
+    cites:
+      - {procedure: napoli/comune/autorizzazione-paesaggistica-ordinaria, source: dlgs42-art146}
+      - {procedure: napoli/comune/scia-in-sanatoria, source: dpr380-art36bis}
     status: verified
   # Il portale offre la domanda di parere per esonero, ma la direttiva del Comune esclude
   # l'attestazione: l'esclusione la assevera il tecnico, nella pratica edilizia se ne serve una.
