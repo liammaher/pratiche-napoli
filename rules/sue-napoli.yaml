@@ -42,8 +42,9 @@ facts:
       variante_essenziale_pdc: "Variante in corso d'opera a un permesso di costruire che è una variazione essenziale"
       variante_scia: "Variante in corso d'opera a una SCIA (essenziale o no)"
       altro: >-
-        Altro: permesso in deroga (art. 14), permesso convenzionato (art. 28-bis), sottotetti,
-        parcheggi o Piano casa delle leggi regionali, proroghe e volture
+        Altro: il Piano casa (L.R. 19/2009), proroghe e volture. Il permesso in deroga (art. 14), il
+        permesso convenzionato (art. 28-bis), i sottotetti (L.R. 15/2000), i parcheggi e i cambi
+        d'uso della L.R. 19/2001 sono i lavori che fanno: scegli la loro voce dell'art. 3
     how: Lo stabilisce il tecnico dalle definizioni dell'art. 3 e dall'elenco dell'art. 6 DPR 380/2001.
   sanatoria:
     type: yes_no
@@ -147,8 +148,8 @@ rules:
   # --- Casi che la libreria non copre ---
   - id: altro
     when: {intervento: [altro]}
-    then: {refuse: "Il permesso in deroga, il permesso convenzionato, gli interventi delle leggi regionali (sottotetti, parcheggi, Piano casa), le proroghe e le volture non sono ancora in questa tabella."}
-    cites: [{procedure: napoli/comune/permesso-di-costruire, source: pdc-modulo}]
+    then: {refuse: "Il Piano casa (L.R. 19/2009) non accetta nuove istanze dal 30 settembre 2022 (art. 28 c. 6 L.R. 31/2021). Le proroghe e le volture sono pratiche a sé, non in questa tabella."}
+    cites: [{procedure: napoli/comune/permesso-di-costruire, source: lr31-2021-piano-casa}]
     status: verified
   - id: opere-temporanee-bene-culturale
     when: {intervento: [opere_temporanee], bene_culturale: true}
