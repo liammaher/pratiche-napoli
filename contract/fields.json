@@ -1,5 +1,5 @@
 {
-  "version": "19",
+  "version": "20",
   "source": "personal-vault RecommendedSchema + contract/extensions.json",
   "categories": [
     {
@@ -698,6 +698,18 @@
         {
           "id": "business.inail_codice_sede",
           "description": "INAIL codice sede, as on the F24 for the autoliquidazione"
+        },
+        {
+          "id": "business.cassa_edile_sede",
+          "description": "Cassa Edile the building firm is enrolled with: its seat (e.g. Napoli), as on the DURC"
+        },
+        {
+          "id": "business.cassa_edile_codice",
+          "description": "Cassa Edile's own code (codice cassa), as on the DURC"
+        },
+        {
+          "id": "business.cassa_edile_codice_impresa",
+          "description": "The firm's code at its Cassa Edile (codice impresa), as on the DURC"
         },
         {
           "id": "business.ccnl",
