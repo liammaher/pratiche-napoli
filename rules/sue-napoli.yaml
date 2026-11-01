@@ -6,7 +6,8 @@ intro: >-
   Da poche risposte sui lavori (che cosa sono, se toccano le strutture o i prospetti, se cambiano
   l'uso, i vincoli) al titolo da presentare allo Sportello Unico per l'Edilizia di Napoli, a quello
   che va con esso (l'autorizzazione paesaggistica nella stessa pratica) e a quello che si presenta a
-  parte (il deposito o l'autorizzazione sismica al Genio Civile). Dove la legge lascia scegliere tra
+  parte (il deposito o l'autorizzazione sismica al Genio Civile; su un bene culturale, per la CILA e
+  la CIL, l'autorizzazione del soprintendente, chiesta prima). Dove la legge lascia scegliere tra
   SCIA e permesso, la scelta è una delle risposte. I cambi di destinazione d'uso seguono anche la
   legge regionale campana, letta con la circolare regionale CI/2025/3. Per i lavori già eseguiti
   senza SCIA (manutenzione straordinaria sui prospetti o sulle strutture, restauro sulle
@@ -152,11 +153,6 @@ rules:
     then: {refuse: "Il Piano casa (L.R. 19/2009) non accetta nuove istanze dal 30 settembre 2022 (art. 28 c. 6 L.R. 31/2021). Le proroghe e le volture sono pratiche a sé, non in questa tabella."}
     cites: [{procedure: napoli/comune/permesso-di-costruire, source: lr31-2021-piano-casa}]
     status: verified
-  - id: opere-temporanee-bene-culturale
-    when: {intervento: [opere_temporanee], bene_culturale: true}
-    then: {refuse: "Su un bene culturale anche le opere temporanee chiedono l'autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004): la libreria non copre ancora la CIL con quell'autorizzazione."}
-    cites: [{procedure: napoli/comune/cil-opere-temporanee, source: dlgs42-art21}]
-    status: verified
   - id: nessuna-opera-nessun-cambio
     when: {intervento: [nessuna_opera], cambio_uso: ["no"]}
     then: {refuse: "Senza lavori né cambio di destinazione d'uso non c'è una pratica edilizia da presentare."}
@@ -221,8 +217,11 @@ rules:
     status: verified
   - id: sanatoria-permesso-bene-culturale
     when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], bene_culturale: true}
-    then: {refuse: "Su un bene culturale i lavori chiedono l'autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004): la libreria non copre ancora la sanatoria con quell'autorizzazione."}
-    cites: [{procedure: napoli/comune/scia-edilizia, source: dlgs42-art21}]
+    then: &bene-culturale-eseguiti {refuse: "Su un bene culturale i lavori senza la preventiva autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004) sono un reato (art. 169) e il Codice non prevede un'autorizzazione successiva: per la Cassazione (Sez. III, n. 34437/2026) la sua mancanza esclude la sanatoria edilizia, e il modulo della Soprintendenza per il Comune di Napoli prevede solo opere a farsi, di ripristino o un condono. Va chiesto alla Soprintendenza e al SUE."}
+    cites:
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art21}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art169}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: sabap-istanza}
     status: verified
   - id: sanatoria-permesso-zona-a
     when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], demolizione_zona_a: true}
@@ -252,18 +251,27 @@ rules:
   # l'autorizzazione del soprintendente.
   - id: sanatoria-bene-culturale-prospetti
     when: {sanatoria: true, intervento: [manutenzione_straordinaria], strutture: false, prospetti: true, bene_culturale: true}
-    then: {refuse: "Su un bene culturale i lavori chiedono l'autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004): la libreria non copre ancora la sanatoria con quell'autorizzazione."}
-    cites: [{procedure: napoli/comune/scia-edilizia, source: dlgs42-art21}]
+    then: *bene-culturale-eseguiti
+    cites:
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art21}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art169}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: sabap-istanza}
     status: verified
   - id: sanatoria-bene-culturale-strutture
     when: {sanatoria: true, intervento: [manutenzione_straordinaria, restauro], strutture: true, bene_culturale: true}
-    then: {refuse: "Su un bene culturale i lavori chiedono l'autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004): la libreria non copre ancora la sanatoria con quell'autorizzazione."}
-    cites: [{procedure: napoli/comune/scia-edilizia, source: dlgs42-art21}]
+    then: *bene-culturale-eseguiti
+    cites:
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art21}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art169}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: sabap-istanza}
     status: verified
   - id: sanatoria-bene-culturale-ristrutturazione
     when: {sanatoria: true, intervento: [ristrutturazione], bene_culturale: true}
-    then: {refuse: "Su un bene culturale i lavori chiedono l'autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004): la libreria non copre ancora la sanatoria con quell'autorizzazione."}
-    cites: [{procedure: napoli/comune/scia-edilizia, source: dlgs42-art21}]
+    then: *bene-culturale-eseguiti
+    cites:
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art21}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art169}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: sabap-istanza}
     status: verified
   # La SCIA in sanatoria (art. 37 c. 5 per i lavori in corso, art. 36-bis per quelli eseguiti):
   # la SCIA con la sanatoria scelta sul portale. Con lavori sulle strutture l'asseverazione ne dice
@@ -412,8 +420,11 @@ rules:
     status: verified
   - id: edilizia-libera-bene-culturale
     when: {intervento: [edilizia_libera], cambio_uso: ["no", non_rilevante], bene_culturale: true}
-    then: {refuse: "Su un bene culturale anche i lavori senza titolo edilizio chiedono l'autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004), che la libreria non copre ancora."}
-    cites: [{procedure: napoli/comune/scia-edilizia, source: dlgs42-art21}]
+    then: {refuse: "Su un bene culturale anche i lavori senza titolo edilizio chiedono prima l'autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004), che non è una pratica del SUE: si chiede alla Soprintendenza per il Comune di Napoli, per PEC con il suo modulo (sabap-na@pec.cultura.gov.it), entro 120 giorni (art. 22)."}
+    cites:
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art21}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art22}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: sabap-modalita}
     status: verified
 
   # --- CIL ---
@@ -456,15 +467,24 @@ rules:
       - {procedure: napoli/comune/cila-lavori-edilizi, source: dpr380-art22}
       - {procedure: napoli/comune/scia-edilizia, source: lr13-2022}
     status: verified
+  # Su un bene culturale la CILA chiede prima l'autorizzazione del soprintendente: sul portale
+  # del SUE non c'è un procedimento per chiederla con la CILA, quindi si chiede a parte, prima, e
+  # la relazione la elenca tra gli atti di assenso acquisiti. Per lavori già iniziati non c'è.
   - id: cila-manutenzione-bene-culturale
-    when: {intervento: [manutenzione_straordinaria], strutture: false, prospetti: false, cambio_uso: ["no", non_rilevante], bene_culturale: true}
-    then: {refuse: "Una CILA su un bene culturale chiede anche l'autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004): la libreria non copre ancora la CILA con quell'autorizzazione."}
-    cites: [{procedure: napoli/comune/cila-lavori-edilizi, source: dlgs42-art21}]
+    when: {sanatoria: true, intervento: [manutenzione_straordinaria], strutture: false, prospetti: false, cambio_uso: ["no", non_rilevante], bene_culturale: true}
+    then: *bene-culturale-eseguiti
+    cites:
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art21}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art169}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: sabap-istanza}
     status: verified
   - id: cila-restauro-bene-culturale
-    when: {intervento: [restauro], strutture: false, cambio_uso: ["no", non_rilevante], bene_culturale: true}
-    then: {refuse: "Una CILA su un bene culturale chiede anche l'autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004): la libreria non copre ancora la CILA con quell'autorizzazione."}
-    cites: [{procedure: napoli/comune/cila-lavori-edilizi, source: dlgs42-art21}]
+    when: {sanatoria: true, intervento: [restauro], strutture: false, cambio_uso: ["no", non_rilevante], bene_culturale: true}
+    then: *bene-culturale-eseguiti
+    cites:
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art21}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art169}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: sabap-istanza}
     status: verified
 
   # --- SCIA, o il permesso di costruire per scelta (art. 22 c. 7) ---
@@ -720,4 +740,30 @@ rules:
       - {procedure: napoli/genio-civile/deposito-autorizzazione-sismica, source: classificazione-sismica}
       - {procedure: napoli/genio-civile/deposito-autorizzazione-sismica, source: lr9-1983}
       - {procedure: napoli/genio-civile/deposito-autorizzazione-sismica, source: competenza-napoli}
+    status: verified
+
+  # --- L'autorizzazione del soprintendente, a parte e prima ---
+  # La CILA e la CIL sul portale del SUE non hanno un procedimento per chiederla: si ottiene prima
+  # dalla Soprintendenza (art. 21 c. 4 D.Lgs. 42/2004). La SCIA e il permesso la fanno acquisire
+  # allo Sportello, con i documenti allegati all'asseverazione.
+  - id: soprintendenza-cil
+    when: {sanatoria: false, intervento: [opere_temporanee], bene_culturale: true}
+    then: &soprintendenza {role: apart, procedure: napoli/soprintendenza/autorizzazione-beni-culturali, regime: autorizzazione}
+    cites:
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art21}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: portale-sue-operazioni}
+    status: verified
+  - id: soprintendenza-cila-manutenzione
+    when: {sanatoria: false, intervento: [manutenzione_straordinaria], strutture: false, prospetti: false, cambio_uso: ["no", non_rilevante], bene_culturale: true}
+    then: *soprintendenza
+    cites:
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art21}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: portale-sue-operazioni}
+    status: verified
+  - id: soprintendenza-cila-restauro
+    when: {sanatoria: false, intervento: [restauro], strutture: false, cambio_uso: ["no", non_rilevante], bene_culturale: true}
+    then: *soprintendenza
+    cites:
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art21}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: portale-sue-operazioni}
     status: verified

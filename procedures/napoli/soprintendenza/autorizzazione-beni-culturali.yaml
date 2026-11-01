@@ -1,0 +1,173 @@
+schema_version: 0
+id: napoli/soprintendenza/autorizzazione-beni-culturali
+title: Autorizzazione del soprintendente per lavori su un bene culturale a Napoli (art. 21 D.Lgs. 42/2004)
+headline: "Autorizzazione della Soprintendenza per lavori su un edificio vincolato a Napoli"
+aka:
+  - autorizzazione soprintendenza
+  - nulla osta soprintendenza
+  - vincolo monumentale
+  - immobile vincolato
+  - bene culturale
+updated: 2026-11-01
+summary: >-
+  Qualunque lavoro su un bene culturale (un edificio con vincolo storico-artistico della Parte II del
+  Codice dei beni culturali) chiede prima l'autorizzazione del soprintendente, anche quando non
+  serve un titolo edilizio. A Napoli la rilascia la Soprintendenza Archeologia, Belle Arti e
+  Paesaggio per il Comune di Napoli, entro 120 giorni, su istanza in bollo inviata per PEC con il
+  suo modulo. Con una SCIA o un permesso la può acquisire lo Sportello Unico Edilizia; sul portale
+  del SUE di Napoli la CILA e la CIL non hanno un procedimento per chiederla, quindi si ottiene
+  prima, direttamente dalla Soprintendenza. Per lavori già eseguiti il Codice non prevede
+  un'autorizzazione successiva.
+ente:
+  name: Ministero della Cultura
+  office: Soprintendenza Archeologia, Belle Arti e Paesaggio per il Comune di Napoli
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata]
+  conditions:
+    - text: >-
+        L'esecuzione di opere e lavori di qualunque genere su beni culturali è subordinata ad
+        autorizzazione del soprintendente; il mutamento di destinazione d'uso gli è comunicato
+        (art. 21 c. 4). L'autorizzazione è resa su progetto o, quando basta, su descrizione tecnica
+        dell'intervento, e può contenere prescrizioni; se i lavori non iniziano entro cinque anni il
+        soprintendente può dettarne di nuove (art. 21 c. 5).
+      status: verified
+      source: dlgs42-art21
+    - text: >-
+        Per gli interventi edilizi l'autorizzazione è rilasciata entro 120 giorni dalla ricezione
+        della richiesta, sospesi se la Soprintendenza chiede chiarimenti o documenti, o per gli
+        accertamenti tecnici (non oltre 30 giorni). Non c'è silenzio assenso: scaduto il termine si
+        diffida la Soprintendenza e, dopo altri 30 giorni, si può ricorrere al giudice
+        amministrativo (art. 22).
+      status: verified
+      source: dlgs42-art22
+    - text: >-
+        Chi esegue senza autorizzazione interventi su beni culturali è punito con l'arresto da sei
+        mesi a un anno e l'ammenda da 775 a 38.734,50 euro (art. 169 c. 1 lett. a).
+      status: verified
+      source: dlgs42-art169
+    - text: >-
+        Il Codice non prevede un'autorizzazione per lavori già eseguiti. La Cassazione (Sez. III,
+        n. 34437/2026) ha ritenuto che l'autorizzazione successiva non estingue il reato dell'art.
+        169 e che la mancanza di quella preventiva esclude la doppia conformità della sanatoria
+        edilizia (letta la massima, non il testo della sentenza).
+      status: unverified
+      source: cass-34437-2026
+    - text: >-
+        Il modulo della Soprintendenza per il Comune di Napoli ("Istanza per opere su immobili
+        vincolati") prevede opere a farsi, opere di ripristino e condono (L. 47/1985 e 724/1994), e
+        fa dichiarare al proprietario che nell'immobile non sono state eseguite opere o cambi d'uso
+        senza autorizzazione, o che ne è stato chiesto il condono o la sanatoria con esito positivo.
+      status: verified
+      source: sabap-istanza
+    - text: >-
+        Sul portale del SUE di Napoli non c'è un procedimento della Soprintendenza da selezionare
+        con la CILA o la CIL (procedimenti del SUE visti il 2026-11-01); la relazione della CILA
+        elenca gli atti di assenso già acquisiti (tipologia e autorità che l'ha rilasciato).
+      status: verified
+      source: portale-sue-operazioni
+legal_basis:
+  - text: "D.Lgs. 22 gennaio 2004, n. 42 (Codice dei beni culturali e del paesaggio), Parte II, artt. 21, 22 e 169."
+    status: verified
+    source: dlgs42-art21
+cost:
+  text: >-
+    Una marca da bollo da 16 euro sull'istanza (esenti enti pubblici, ecclesiastici, morali e
+    ONLUS), emessa per via telematica con la ricevuta allegata, o sul modulo cartaceo poi
+    scansionato. A parte il compenso dei tecnici.
+  status: verified
+  source: sabap-modalita
+channels:
+  - type: pec
+    purpose: procedure
+    name: Soprintendenza ABAP per il Comune di Napoli
+    address: sabap-na@pec.cultura.gov.it
+    receipt: legal
+    preferred: true
+    source: sabap-modalita
+    notes: >-
+      Solo con il modulo della Soprintendenza; allegati in PDF firmati digitalmente, con il loro
+      elenco; al massimo 50 MB e 20 allegati per PEC (più invii con lo stesso oggetto, "invio 1 di
+      3"), niente link di condivisione. La posta ordinaria (sabap-na@cultura.gov.it) solo senza PEC,
+      mai su entrambe.
+steps:
+  - do: >-
+      Incaricare un architetto (o un ingegnere per quanto di sua competenza) per il progetto e il
+      direttore dei lavori: per i beni culturali vale l'art. 52 del R.D. 2537/1925
+    who: owner
+    human_only: true
+  - do: >-
+      Preparare gli allegati obbligatori del modulo: estratto di mappa e visura storica catastale,
+      titolo di proprietà o locazione, relazione tecnica e relazione storico-artistica, documentazione
+      fotografica, rilievo geometrico, materico e del degrado, progetto e tavole comparative
+    who: professional
+  - do: >-
+      Compilare l'"Istanza per opere su immobili vincolati" (art. 21), con la marca da bollo, la
+      firma del proprietario o del delegato e il documento d'identità, e inviarla per PEC alla
+      Soprintendenza con l'elenco degli allegati
+    who: owner
+    human_only: true
+    channel: [pec]
+  - do: >-
+      Ottenuta l'autorizzazione (entro 120 giorni, salvo sospensioni), presentare il titolo edilizio
+      al SUE indicandola tra gli atti di assenso acquisiti; non iniziare i lavori prima
+    who: professional
+related:
+  - napoli/comune/cila-lavori-edilizi
+  - napoli/comune/cil-opere-temporanee
+  - napoli/comune/scia-edilizia
+  - napoli/comune/permesso-di-costruire
+sources:
+  - id: dlgs42-art21
+    label: D.Lgs. 22 gennaio 2004, n. 42, art. 21 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2004-01-22;42~art21
+    retrieved: 2026-11-01
+    official: true
+  - id: dlgs42-art22
+    label: D.Lgs. 22 gennaio 2004, n. 42, art. 22 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2004-01-22;42~art22
+    retrieved: 2026-11-01
+    official: true
+  - id: dlgs42-art169
+    label: D.Lgs. 22 gennaio 2004, n. 42, art. 169 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2004-01-22;42~art169
+    retrieved: 2026-11-01
+    official: true
+  - id: cass-34437-2026
+    label: Corte di Cassazione, Sez. III penale, n. 34437/2026 (massima e stralci su Lexambiente)
+    url: https://www.lexambiente.it/materie/beni-culturali/cassazione-penale147/beni-culturali-non-sanabilit%C3%A0-degli-interventi-non-autorizzati-e-contestuale-preclusione-della-doppia-conformit%C3%A0-per-la-sanatoria-urbanistica.html
+    retrieved: 2026-11-01
+    official: false
+    notes: Udienza del 16/09/2026, deposito del 24/09/2026; letta la massima, non il testo integrale.
+  - id: sabap-modalita
+    label: Soprintendenza ABAP per il Comune di Napoli – Modalità di presentazione delle richieste di autorizzazioni/pareri
+    url: https://sabap.na.it/modalita-di-presentazione-delle-richieste-di-autorizzazionipareri/
+    retrieved: 2026-11-01
+    official: true
+    notes: Pagina del 22/04/2024.
+  - id: sabap-istanza
+    label: Soprintendenza ABAP per il Comune di Napoli – Istanza per opere su immobili vincolati (modulo)
+    url: https://sabap.na.it/wp-content/uploads/2017/03/Allegato_1_istanza_per_opere_su_immobili_vincolati.pdf
+    retrieved: 2026-11-01
+    sha256: 26c682c39394e54b31e311c101880344e262a398fcfe4505b3ef0bf5dbf49ee1
+    official: true
+  - id: portale-sue-operazioni
+    label: Impresa in un giorno, SUE di Napoli – i procedimenti dello Sportello Unico Edilizia
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-11-01
+    official: true
+    notes: Si vede solo dopo l'accesso con SPID, creando una pratica (bozza di prova, mai inviata).
+verification:
+  level: L1
+  date: 2026-11-01
+  by: claude
+  method: >-
+    Desk: su Normattiva D.Lgs. 42/2004 artt. 21, 22 e 169; le pagine della Soprintendenza per il
+    Comune di Napoli (modalità di presentazione, modulistica) e il suo modulo "Istanza per opere su
+    immobili vincolati"; la massima di Cass. pen. Sez. III n. 34437/2026; l'elenco dei procedimenti
+    del SUE di Napoli sul portale.
+  notes: >-
+    Non letti: la prassi della Soprintendenza di Napoli sulle istanze per lavori già eseguiti (il
+    modulo non le prevede), l'art. 58 delle norme del PRG (l'altra autorizzazione che il modulo
+    offre), la piattaforma GIADA. La pagina dice quando serve e dove si chiede.
