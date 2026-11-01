@@ -1,7 +1,7 @@
 schema_version: 0
 id: sue-napoli
 title: "SUE di Napoli: quale titolo edilizio serve per i lavori (CILA, SCIA, SCIA alternativa o permesso di costruire)"
-updated: 2026-10-30
+updated: 2026-11-01
 intro: >-
   Da poche risposte sui lavori (che cosa sono, se toccano le strutture o i prospetti, se cambiano
   l'uso, i vincoli) al titolo da presentare allo Sportello Unico per l'Edilizia di Napoli, a quello
@@ -9,9 +9,10 @@ intro: >-
   parte (il deposito o l'autorizzazione sismica al Genio Civile). Dove la legge lascia scegliere tra
   SCIA e permesso, la scelta è una delle risposte. I cambi di destinazione d'uso seguono anche la
   legge regionale campana, letta con la circolare regionale CI/2025/3. Per i lavori già eseguiti
-  senza SCIA (manutenzione straordinaria sui prospetti, ristrutturazione senza strutture) la
-  tabella indica la SCIA in sanatoria, per quelli che chiedevano il permesso di costruire il
-  permesso in sanatoria, e per i lavori senza titolo edilizio già eseguiti in area vincolata
+  senza SCIA (manutenzione straordinaria sui prospetti o sulle strutture, restauro sulle
+  strutture, ristrutturazione) la tabella indica la SCIA in sanatoria, per quelli che chiedevano il
+  permesso di costruire il permesso in sanatoria, con l'autorizzazione sismica a parte se toccano
+  le strutture, e per i lavori senza titolo edilizio già eseguiti in area vincolata
   l'accertamento di compatibilità paesaggistica. La domanda di parere per esonero
   dall'autorizzazione paesaggistica, che il portale offre, è rifiutata: a Napoli il Comune non
   rilascia quell'attestazione. Le altre sanatorie e i casi che la
@@ -204,29 +205,15 @@ rules:
     then: {refuse: "Per lavori già eseguiti senza titolo serve una sanatoria (accertamento di conformità, artt. 36 e 36-bis DPR 380/2001), che la libreria non copre ancora."}
     cites: [{procedure: napoli/comune/scia-edilizia, source: scia-modulo}]
     status: verified
-  - id: sanatoria-strutture
-    when: {sanatoria: true, intervento: [manutenzione_straordinaria, restauro], strutture: true}
-    then: {refuse: "Per lavori già eseguiti senza titolo serve una sanatoria (accertamento di conformità, artt. 36 e 36-bis DPR 380/2001), che la libreria non copre ancora."}
-    cites: [{procedure: napoli/comune/scia-edilizia, source: scia-modulo}]
-    status: verified
-  - id: sanatoria-ristrutturazione-strutture
-    when: {sanatoria: true, intervento: [ristrutturazione], strutture: true}
-    then: {refuse: "La SCIA in sanatoria di lavori sulle strutture chiede di attestarne la rilevanza strutturale in zona sismica (art. 36-bis c. 3-bis DPR 380/2001), che la libreria non copre ancora."}
-    cites: [{procedure: napoli/comune/scia-in-sanatoria, source: scia-modulo}]
-    status: verified
   - id: sanatoria-zona-a
-    when: {sanatoria: true, intervento: [ristrutturazione], strutture: false, demolizione_zona_a: true}
+    when: {sanatoria: true, intervento: [ristrutturazione], demolizione_zona_a: true}
     then: {refuse: "Per lavori già eseguiti che chiedevano il permesso di costruire serve il permesso in sanatoria (artt. 36 e 36-bis DPR 380/2001), che la libreria non copre ancora."}
     cites: [{procedure: napoli/comune/scia-in-sanatoria, source: dpr380-art36bis}]
     status: verified
   # I lavori che chiedevano il permesso di costruire (o la SCIA alternativa), già eseguiti: il
   # permesso in sanatoria (art. 36 senza titolo, art. 36-bis in parziale difformità o con
-  # variazioni essenziali), fuori dei casi che la libreria non copre ancora.
-  - id: sanatoria-permesso-strutture
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], strutture: true}
-    then: {refuse: "Il permesso in sanatoria di lavori sulle strutture chiede la sanatoria sismica, che la libreria non copre ancora."}
-    cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}]
-    status: verified
+  # variazioni essenziali), fuori dei casi che la libreria non copre ancora. Con lavori sulle
+  # strutture l'autorizzazione sismica si chiede a parte al Genio Civile (sismica-sanatoria).
   - id: sanatoria-permesso-tutela
     when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], paesaggio: [senza_autorizzazione, semplificata, ordinaria]}
     then: {refuse: "In un'area sotto tutela paesaggistica il permesso in sanatoria chiede anche il parere paesaggistico e la sanzione dell'art. 36-bis c. 4 e 5-bis DPR 380/2001, che la libreria non copre ancora."}
@@ -248,7 +235,7 @@ rules:
     cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}]
     status: verified
   - id: permesso-sanatoria
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], strutture: false, cambio_uso: ["no", non_rilevante], paesaggio: ["no"], bene_culturale: false, demolizione_zona_a: false}
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], cambio_uso: ["no", non_rilevante], paesaggio: ["no"], bene_culturale: false, demolizione_zona_a: false}
     then:
       role: main
       procedure: napoli/comune/permesso-in-sanatoria
@@ -268,13 +255,20 @@ rules:
     then: {refuse: "Su un bene culturale i lavori chiedono l'autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004): la libreria non copre ancora la sanatoria con quell'autorizzazione."}
     cites: [{procedure: napoli/comune/scia-edilizia, source: dlgs42-art21}]
     status: verified
+  - id: sanatoria-bene-culturale-strutture
+    when: {sanatoria: true, intervento: [manutenzione_straordinaria, restauro], strutture: true, bene_culturale: true}
+    then: {refuse: "Su un bene culturale i lavori chiedono l'autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004): la libreria non copre ancora la sanatoria con quell'autorizzazione."}
+    cites: [{procedure: napoli/comune/scia-edilizia, source: dlgs42-art21}]
+    status: verified
   - id: sanatoria-bene-culturale-ristrutturazione
-    when: {sanatoria: true, intervento: [ristrutturazione], strutture: false, bene_culturale: true}
+    when: {sanatoria: true, intervento: [ristrutturazione], bene_culturale: true}
     then: {refuse: "Su un bene culturale i lavori chiedono l'autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004): la libreria non copre ancora la sanatoria con quell'autorizzazione."}
     cites: [{procedure: napoli/comune/scia-edilizia, source: dlgs42-art21}]
     status: verified
   # La SCIA in sanatoria (art. 37 c. 5 per i lavori in corso, art. 36-bis per quelli eseguiti):
-  # la SCIA con la sanatoria scelta sul portale.
+  # la SCIA con la sanatoria scelta sul portale. Con lavori sulle strutture l'asseverazione ne dice
+  # la rilevanza sismica (art. 36-bis c. 3-bis) e l'autorizzazione sismica si chiede a parte al
+  # Genio Civile (sismica-sanatoria).
   - id: scia-sanatoria-prospetti
     when: {sanatoria: true, intervento: [manutenzione_straordinaria], strutture: false, prospetti: true, cambio_uso: ["no", non_rilevante]}
     then: &scia-sanatoria
@@ -287,8 +281,17 @@ rules:
       - {procedure: napoli/comune/scia-in-sanatoria, source: dpr380-art37}
       - {procedure: napoli/comune/scia-in-sanatoria, source: portale-sue-operazioni}
     status: verified
+  - id: scia-sanatoria-strutture
+    when: {sanatoria: true, intervento: [manutenzione_straordinaria, restauro], strutture: true, cambio_uso: ["no", non_rilevante]}
+    then: *scia-sanatoria
+    cites:
+      - {procedure: napoli/comune/scia-in-sanatoria, source: dpr380-art36bis}
+      - {procedure: napoli/comune/scia-in-sanatoria, source: dpr380-art37}
+      - {procedure: napoli/comune/scia-in-sanatoria, source: portale-sue-operazioni}
+      - {procedure: napoli/comune/scia-edilizia, source: dpr380-art22}
+    status: verified
   - id: scia-sanatoria-ristrutturazione
-    when: {sanatoria: true, intervento: [ristrutturazione], strutture: false, cambio_uso: ["no", non_rilevante], demolizione_zona_a: false}
+    when: {sanatoria: true, intervento: [ristrutturazione], cambio_uso: ["no", non_rilevante], demolizione_zona_a: false}
     then: *scia-sanatoria
     cites:
       - {procedure: napoli/comune/scia-in-sanatoria, source: dpr380-art36bis}
@@ -301,24 +304,36 @@ rules:
     cites: [{procedure: napoli/comune/scia-edilizia, source: scia-modulo}]
     status: verified
   # Lavori già eseguiti che chiedevano l'autorizzazione paesaggistica: la compatibilità la accerta
-  # solo la SCIA in sanatoria dell'art. 36-bis (c. 4), cioè per i prospetti o una ristrutturazione
-  # già fatti senza titolo; la CILA tardiva e gli altri titoli non la portano.
+  # solo la SCIA in sanatoria dell'art. 36-bis (c. 4), cioè per i prospetti, le strutture o una
+  # ristrutturazione già fatti senza titolo; la CILA tardiva e gli altri titoli non la portano.
   - id: sanatoria-paesaggio
     when:
-      intervento: [opere_temporanee, nessuna_opera, restauro, ristrutturazione_pesante, nuova_costruzione, ristrutturazione_urbanistica, variante_pdc, variante_essenziale_pdc, variante_scia]
+      intervento: [opere_temporanee, nessuna_opera, ristrutturazione_pesante, nuova_costruzione, ristrutturazione_urbanistica, variante_pdc, variante_essenziale_pdc, variante_scia]
       paesaggio: [semplificata, ordinaria]
       paesaggio_eseguiti: true
     then: &paesaggio-eseguiti {refuse: "L'autorizzazione paesaggistica non si rilascia per lavori già eseguiti (art. 146 c. 4 D.Lgs. 42/2004): con lavori che chiedono anche un titolo edilizio serve la sanatoria edilizia insieme all'accertamento di compatibilità paesaggistica, che la libreria non copre ancora."}
     cites: [{procedure: napoli/comune/autorizzazione-paesaggistica-ordinaria, source: dlgs42-art146}]
     status: verified
   - id: sanatoria-paesaggio-cila
-    when: {sanatoria: true, intervento: [manutenzione_straordinaria], prospetti: false, paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true}
+    when: {sanatoria: true, intervento: [manutenzione_straordinaria], strutture: false, prospetti: false, paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true}
     then: *paesaggio-eseguiti
     cites: [{procedure: napoli/comune/autorizzazione-paesaggistica-ordinaria, source: dlgs42-art146}]
     status: verified
+  - id: sanatoria-paesaggio-restauro
+    when: {intervento: [restauro], strutture: false, paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true}
+    then: *paesaggio-eseguiti
+    cites: [{procedure: napoli/comune/autorizzazione-paesaggistica-ordinaria, source: dlgs42-art146}]
+    status: verified
+  - id: sanatoria-paesaggio-scia-restauro
+    when: {sanatoria: false, intervento: [restauro], strutture: true, paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true}
+    then: &paesaggio-scia {refuse: "L'autorizzazione paesaggistica non si rilascia per lavori già eseguiti (art. 146 c. 4 D.Lgs. 42/2004): per lavori edilizi già iniziati senza titolo la compatibilità paesaggistica si accerta nella SCIA in sanatoria (art. 36-bis c. 4 DPR 380/2001)."}
+    cites:
+      - {procedure: napoli/comune/autorizzazione-paesaggistica-ordinaria, source: dlgs42-art146}
+      - {procedure: napoli/comune/scia-in-sanatoria, source: dpr380-art36bis}
+    status: verified
   - id: sanatoria-paesaggio-scia
     when: {sanatoria: false, intervento: [manutenzione_straordinaria, ristrutturazione], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true}
-    then: {refuse: "L'autorizzazione paesaggistica non si rilascia per lavori già eseguiti (art. 146 c. 4 D.Lgs. 42/2004): per lavori edilizi già iniziati senza titolo la compatibilità paesaggistica si accerta nella SCIA in sanatoria (art. 36-bis c. 4 DPR 380/2001)."}
+    then: *paesaggio-scia
     cites:
       - {procedure: napoli/comune/autorizzazione-paesaggistica-ordinaria, source: dlgs42-art146}
       - {procedure: napoli/comune/scia-in-sanatoria, source: dpr380-art36bis}
@@ -454,7 +469,7 @@ rules:
 
   # --- SCIA, o il permesso di costruire per scelta (art. 22 c. 7) ---
   - id: scia-strutture
-    when: {intervento: [manutenzione_straordinaria, restauro], strutture: true, permesso_per_scelta: false, cambio_uso: ["no", non_rilevante, stessa_categoria, tra_categorie]}
+    when: {sanatoria: false, intervento: [manutenzione_straordinaria, restauro], strutture: true, permesso_per_scelta: false, cambio_uso: ["no", non_rilevante, stessa_categoria, tra_categorie]}
     then: &scia
       role: main
       procedure: napoli/comune/scia-edilizia
@@ -463,7 +478,7 @@ rules:
     cites: [{procedure: napoli/comune/scia-edilizia, source: dpr380-art22}]
     status: verified
   - id: permesso-per-scelta-strutture
-    when: {intervento: [manutenzione_straordinaria, restauro], strutture: true, permesso_per_scelta: true, cambio_uso: ["no", non_rilevante, stessa_categoria, tra_categorie]}
+    when: {sanatoria: false, intervento: [manutenzione_straordinaria, restauro], strutture: true, permesso_per_scelta: true, cambio_uso: ["no", non_rilevante, stessa_categoria, tra_categorie]}
     then: &permesso
       role: main
       procedure: napoli/comune/permesso-di-costruire
@@ -672,6 +687,7 @@ rules:
   - id: sismica-deposito
     when:
       intervento: [manutenzione_straordinaria, restauro, ristrutturazione, ristrutturazione_pesante, nuova_costruzione, ristrutturazione_urbanistica, variante_pdc, variante_essenziale_pdc, variante_scia]
+      sanatoria: false
       strutture: true
       sismica: [deposito]
     then: {role: apart, procedure: napoli/genio-civile/deposito-autorizzazione-sismica, regime: deposito}
@@ -683,11 +699,25 @@ rules:
   - id: sismica-autorizzazione
     when:
       intervento: [manutenzione_straordinaria, restauro, ristrutturazione, ristrutturazione_pesante, nuova_costruzione, ristrutturazione_urbanistica, variante_pdc, variante_essenziale_pdc, variante_scia]
+      sanatoria: false
       strutture: true
       sismica: [autorizzazione]
     then: {role: apart, procedure: napoli/genio-civile/deposito-autorizzazione-sismica, regime: autorizzazione}
     cites:
       - {procedure: napoli/genio-civile/deposito-autorizzazione-sismica, source: classificazione-sismica}
       - {procedure: napoli/genio-civile/deposito-autorizzazione-sismica, source: dpr380-art94bis}
+      - {procedure: napoli/genio-civile/deposito-autorizzazione-sismica, source: competenza-napoli}
+    status: verified
+  # Per lavori sulle strutture iniziati senza la denuncia la legge campana chiede sempre
+  # l'autorizzazione sismica, anche dove basterebbe il deposito (art. 4 c. 1 e L.R. 9/1983).
+  - id: sismica-sanatoria
+    when:
+      sanatoria: true
+      intervento: [manutenzione_straordinaria, restauro, ristrutturazione, ristrutturazione_pesante, nuova_costruzione, variante_pdc, variante_essenziale_pdc]
+      strutture: true
+    then: {role: apart, procedure: napoli/genio-civile/deposito-autorizzazione-sismica, regime: autorizzazione}
+    cites:
+      - {procedure: napoli/genio-civile/deposito-autorizzazione-sismica, source: classificazione-sismica}
+      - {procedure: napoli/genio-civile/deposito-autorizzazione-sismica, source: lr9-1983}
       - {procedure: napoli/genio-civile/deposito-autorizzazione-sismica, source: competenza-napoli}
     status: verified

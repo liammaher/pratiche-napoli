@@ -58,6 +58,13 @@ applies_to:
         di interventi: il caso non si può dichiarare per intero (rilevato il 30/10/2026).
       status: verified
       source: portale-sue-operazioni
+    - text: >-
+        La rilevanza sismica dell'art. 36-bis c. 3-bis riguarda le sanatorie dell'art. 36-bis
+        (parziale difformità, variazioni essenziali); l'art. 36 non la richiama: le opere
+        strutturali si dichiarano nel quadro sismica dell'asseverazione, come nel permesso di
+        costruire.
+      status: verified
+      source: dpr380-art36bis
 legal_basis:
   - text: "D.P.R. 380/2001, art. 36 (accertamento di conformità in assenza di titolo) e art. 36-bis, nel testo in vigore dal 28/07/2024."
     status: verified
@@ -154,4 +161,5 @@ verification:
   notes: >-
     Non letti: il modulo del permesso di costruire del Comune per la sanatoria, l'art. 36-bis c. 5
     lett. a (il 20% in più per le parziali difformità e le variazioni essenziali, citato dal
-    portale), la sanatoria sismica. La pagina è minima.
+    portale). La sanatoria sismica (autorizzazione a parte al Genio Civile) è nella pagina del
+    Genio Civile. La pagina è minima.
