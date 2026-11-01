@@ -7,7 +7,7 @@ aka:
   - autorizzazione sismica
   - denuncia dei lavori in zona sismica
   - genio civile
-updated: 2026-10-29
+updated: 2026-11-01
 summary: >-
   Napoli è in zona sismica 2. Chi costruisce, ripara o sopraeleva, cioè fa lavori che toccano le
   strutture, deve denunciare i lavori e depositare il progetto strutturale; per gli interventi
@@ -63,6 +63,19 @@ applies_to:
         permesso presentati al SUE (quadro sulle opere strutturali) sostituisca l'istanza al Genio
         Civile o vi si aggiunga.
       status: unverified
+    - text: >-
+        In Campania sono sempre sottoposti ad autorizzazione sismica, anche nelle zone a bassa
+        sismicità, i lavori iniziati senza la denuncia e il deposito del progetto dell'art. 2 (art. 4
+        c. 1 lett. e L.R. 9/1983): per lavori sulle strutture già eseguiti o in corso senza titolo
+        (le sanatorie edilizie) si chiede l'autorizzazione, non il deposito.
+      status: verified
+      source: lr9-1983
+    - text: >-
+        Per i lavori iniziati in violazione dell'art. 2 il Genio Civile ordina la sospensione e
+        assegna un termine per presentare la denuncia in sanatoria; se non la si presenta irroga
+        una sanzione da 500 a 3.000 euro (art. 6 c. 2 e 5 L.R. 9/1983).
+      status: verified
+      source: lr9-1983
 legal_basis:
   - text: "D.P.R. 380/2001, artt. 83, 93, 94 e 94-bis; L.R. Campania 7 gennaio 1983, n. 9; Regolamento regionale n. 4/2010."
     status: unverified
@@ -127,6 +140,12 @@ sources:
     notes: >-
       Napoli è il n. 51, senza l'asterisco dei comuni a cui sono trasferite le funzioni (art. 4-bis
       L.R. 9/83); non è nemmeno nell'elenco dei comuni in delega della provincia di Napoli.
+  - id: lr9-1983
+    label: Legge Regionale Campania 7 gennaio 1983, n. 9 – Norme per l'esercizio delle funzioni regionali in materia di difesa del territorio dal rischio sismico (testo coordinato, Regione Campania)
+    url: https://www.regione.campania.it/normativa/item.php?b79f7d70f28fffc18af20b3afb0a87ac=a0227d75f7a1f2222cbe416fb2a06fa0&25a99636d340201ca19723d96c08cf6e=8b4081d5cb1112947c8b2d23111b6862&pgCode=G19I231R1270&id_doc_type=1&id_tema=6&refresh=on
+    retrieved: 2026-11-01
+    official: true
+    notes: Testo coordinato fino alla L.R. 26/2025; artt. 2, 4, 4-bis e 6.
   - id: portale-sismica
     label: Regione Campania – Il portale della S.I.smi.C.A. (home page)
     url: https://portalesismica.regione.campania.it/
@@ -134,13 +153,13 @@ sources:
     official: true
 verification:
   level: L1
-  date: 2026-10-29
+  date: 2026-11-01
   by: claude
   method: >-
     Desk: su Normattiva DPR 380/2001 artt. 93, 94, 94-bis; la classificazione sismica della
     Protezione Civile (maggio 2025); dal portale S.I.smi.C.A. la home page e gli elenchi dei comuni
-    di competenza del Genio Civile di Napoli e dei comuni in delega.
+    di competenza del Genio Civile di Napoli e dei comuni in delega; il 2026-11-01 la L.R. 9/1983
+    (artt. 2, 4 e 6, testo coordinato della Regione).
   notes: >-
-    Non letti: il testo della L.R. Campania 9/1983 e del Regolamento 4/2010 con le modifiche del
-    2020, il portale dopo l'accesso, la modulistica, i contributi dovuti. La pagina è minima: dice
+    Non letti: il Regolamento 4/2010 con le modifiche del 2020, il portale dopo l'accesso, la modulistica, i contributi dovuti. La pagina è minima: dice
     quando serve e dove si presenta, non come.
