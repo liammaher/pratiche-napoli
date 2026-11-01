@@ -8,7 +8,7 @@ aka:
   - salva casa
   - scia tardiva
   - difformità
-updated: 2026-10-31
+updated: 2026-11-01
 summary: >-
   Chi ha eseguito, o sta eseguendo, lavori che chiedevano la SCIA senza presentarla, o in
   difformità da quella presentata, li regolarizza con una SCIA in sanatoria (art. 36-bis DPR
@@ -102,6 +102,24 @@ applies_to:
         quelle non eseguite rispetto al titolo (Linee guida del SUE, punto 9).
       status: verified
       source: dd-501-2026
+    - text: >-
+        Per gli immobili nelle zone sismiche dell'art. 83, tranne quelle a bassa sismicità, si
+        applica in quanto compatibile l'art. 34-bis c. 3-bis (art. 36-bis c. 3-bis): un tecnico
+        abilitato attesta che l'intervento rispetta le norme tecniche per le costruzioni vigenti al
+        momento della realizzazione, con la documentazione dell'art. 93 c. 3, per l'autorizzazione
+        dell'ufficio tecnico regionale (art. 94), o i controlli regionali per gli interventi di
+        minore rilevanza o privi di rilevanza (art. 94-bis c. 5); il tecnico allega l'autorizzazione
+        o attesta il decorso dei termini.
+      status: verified
+      source: dpr380-art34bis
+    - text: >-
+        Sul portale la rilevanza sismica dell'art. 36-bis c. 3-bis (zona sismica, rilevanza
+        strutturale, classe dell'art. 94-bis, autorizzazione allegata o silenzio assenso) è chiesta
+        solo nel caso della conformità urbanistica (art. 36-bis c. 1, oblazione da 1.032 a 10.328
+        euro); nella doppia conformità e nei lavori in corso le opere strutturali si dichiarano nel
+        quadro sismica dell'asseverazione, come nella SCIA (visto il 2026-11-01 in una bozza di prova).
+      status: verified
+      source: portale-sue-operazioni
 legal_basis:
   - text: "D.P.R. 380/2001, art. 36-bis (accertamento di conformità) e art. 37 (interventi in assenza o difformità dalla SCIA), nel testo in vigore dal 28/07/2024."
     status: verified
@@ -167,6 +185,11 @@ sources:
     url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art36bis
     retrieved: 2026-10-30
     official: true
+  - id: dpr380-art34bis
+    label: D.P.R. 6 giugno 2001, n. 380, art. 34-bis (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art34bis
+    retrieved: 2026-11-01
+    official: true
   - id: dpr380-art37
     label: D.P.R. 6 giugno 2001, n. 380, art. 37 (Normattiva)
     url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art37
@@ -211,5 +234,6 @@ verification:
     sue Linee guida; la SCIA con la sanatoria vista sul portale in una bozza di prova.
   notes: >-
     Non letti: la circolare del SUE sulla d.d. 913/2024 (come il SUE calcola l'aumento di valore),
-    l'art. 34-ter e l'art. 34-bis c. 3-bis richiamato per la rilevanza sismica. L'art. 36-bis c. 4 e
-    5-bis (area tutelata) letti su Normattiva il 2026-10-31. La pagina è minima.
+    l'art. 34-ter. L'art. 36-bis c. 4 e 5-bis (area tutelata) letti su Normattiva il 2026-10-31,
+    l'art. 34-bis c. 3-bis (rilevanza sismica) e il quadro della sanatoria sul portale il
+    2026-11-01. La pagina è minima.
