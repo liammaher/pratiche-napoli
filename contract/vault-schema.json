@@ -1244,7 +1244,7 @@
         },
         {
           "id": "immobile.catasto_sezione",
-          "description": "Sezione urbana from the visura, if any",
+          "description": "The visura's sezione, if any: urbana for the Catasto Fabbricati, censuaria (one letter) for a plot only in the Catasto Terreni",
           "sensitivity": "standard"
         },
         {
