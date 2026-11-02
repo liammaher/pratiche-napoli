@@ -207,10 +207,54 @@ rules:
     then: {refuse: "Per lavori già eseguiti senza titolo serve una sanatoria (accertamento di conformità, artt. 36 e 36-bis DPR 380/2001), che la libreria non copre ancora."}
     cites: [{procedure: napoli/comune/scia-edilizia, source: scia-modulo}]
     status: verified
-  - id: sanatoria-zona-a
-    when: {sanatoria: true, intervento: [ristrutturazione], demolizione_zona_a: true}
-    then: {refuse: "Per lavori già eseguiti che chiedevano il permesso di costruire serve il permesso in sanatoria (artt. 36 e 36-bis DPR 380/2001), che la libreria non copre ancora."}
-    cites: [{procedure: napoli/comune/scia-in-sanatoria, source: dpr380-art36bis}]
+  # Una demolizione e ricostruzione, o una variante di sagoma, in zona A chiede a Napoli il permesso
+  # (permesso-zona-a; la SCIA alternativa della L.R. 13/2022 è contesa): già eseguita senza, si sana
+  # con il permesso in sanatoria (art. 36, che vale anche senza la SCIA alternativa). La doppia
+  # conformità alla disciplina della zona A la assevera il tecnico.
+  - id: permesso-sanatoria-zona-a
+    when: {sanatoria: true, intervento: [ristrutturazione], demolizione_zona_a: true, cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], paesaggio: ["no", senza_autorizzazione], bene_culturale: false}
+    then:
+      role: main
+      procedure: napoli/comune/permesso-in-sanatoria
+      regime: permesso
+      portal: {settore: "Edilizia e pianificazione urbana", operazione: "Permesso di Costruire (P.d.C) - Art.10 D.P.R. 380/2001"}
+    cites:
+      - {procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}
+      - {procedure: napoli/comune/permesso-di-costruire, source: scia-pagina}
+    status: verified
+  - id: sanatoria-zona-a-volumi
+    when: {sanatoria: true, intervento: [ristrutturazione], demolizione_zona_a: true, paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: true}
+    then: {refuse: "In un'area tutelata il permesso in sanatoria (art. 36 DPR 380/2001) vale solo con la compatibilità paesaggistica accertata (art. 146 c. 4 D.Lgs. 42/2004), e questa non si può accertare per lavori che hanno creato superfici utili o volumi o aumentato quelli legittimamente realizzati (art. 167 c. 4 a): resta la rimessione in pristino."}
+    cites:
+      - {procedure: napoli/comune/accertamento-compatibilita-paesaggistica, source: dlgs42-art167}
+      - {procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}
+    status: verified
+  - id: sanatoria-zona-a-paesaggio-a-farsi
+    when: {sanatoria: true, intervento: [ristrutturazione], demolizione_zona_a: true, paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: false}
+    then: {refuse: "Il permesso in sanatoria riguarda lavori già eseguiti (art. 36 DPR 380/2001): le opere ancora da fare che chiedono l'autorizzazione paesaggistica si chiedono dopo la sanatoria, con il loro permesso e l'autorizzazione, perché su un immobile non sanato non si assentono nuovi lavori."}
+    cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}]
+    status: verified
+  - id: permesso-sanatoria-zona-a-tutela
+    when: {sanatoria: true, intervento: [ristrutturazione], demolizione_zona_a: true, cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: false, bene_culturale: false}
+    then:
+      role: main
+      procedure: napoli/comune/permesso-in-sanatoria
+      regime: permesso
+      portal: {settore: "Edilizia e pianificazione urbana", operazione: "Permesso di Costruire (P.d.C) - Art.10 D.P.R. 380/2001"}
+    cites:
+      - {procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}
+      - {procedure: napoli/comune/permesso-in-sanatoria, source: portale-sue-operazioni}
+    status: verified
+  - id: accertamento-permesso-sanatoria-zona-a
+    when: {sanatoria: true, intervento: [ristrutturazione], demolizione_zona_a: true, paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: false}
+    then:
+      role: also
+      procedure: napoli/comune/accertamento-compatibilita-paesaggistica
+      regime: autorizzazione
+      portal: {settore: "Edilizia e pianificazione urbana", operazione: "Accertamento di compatibilità paesaggistica (artt. 167-181 D.Lgs. 42/2004 - Comune)"}
+    cites:
+      - {procedure: napoli/comune/accertamento-compatibilita-paesaggistica, source: dlgs42-art167}
+      - {procedure: napoli/comune/accertamento-compatibilita-paesaggistica, source: portale-sue-operazioni}
     status: verified
   # I lavori che chiedevano il permesso di costruire (o la SCIA alternativa), già eseguiti: il
   # permesso in sanatoria (art. 36 senza titolo, art. 36-bis in parziale difformità o con
@@ -245,7 +289,7 @@ rules:
     cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36bis}]
     status: verified
   - id: permesso-sanatoria-tutela
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante], cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: false, bene_culturale: false, demolizione_zona_a: false}
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante], cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: false, bene_culturale: false}
     then:
       role: main
       procedure: napoli/comune/permesso-in-sanatoria
@@ -274,18 +318,13 @@ rules:
       - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art169}
       - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: sabap-istanza}
     status: verified
-  - id: sanatoria-permesso-zona-a
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], demolizione_zona_a: true}
-    then: {refuse: "Una demolizione e ricostruzione o una variante di sagoma in zona A già eseguita non è nei casi di sanatoria che la libreria copre."}
-    cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}]
-    status: verified
   - id: sanatoria-permesso-cambio-uso
     when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], cambio_uso: [piano_terra, altro]}
     then: {refuse: "Questo cambio di destinazione d'uso (un'unità al piano terra o seminterrata verso un'altra categoria, o un caso fuori delle zone A, B e C) non è nei casi che la libreria ha verificato, e già fatto senza titolo va chiesto al SUE come sanarlo."}
     cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}]
     status: verified
   - id: permesso-sanatoria
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], paesaggio: ["no", senza_autorizzazione], bene_culturale: false, demolizione_zona_a: false}
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], paesaggio: ["no", senza_autorizzazione], bene_culturale: false}
     then:
       role: main
       procedure: napoli/comune/permesso-in-sanatoria
