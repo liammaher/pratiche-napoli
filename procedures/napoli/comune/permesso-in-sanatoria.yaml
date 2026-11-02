@@ -83,6 +83,13 @@ applies_to:
         2/11/2026, su una bozza di prova): va chiesto al SUE come presentarlo.
       status: verified
       source: portale-sue-operazioni
+    - text: >-
+        L'art. 36 c. 1 vale anche per gli interventi eseguiti in assenza della SCIA dell'art. 23 c. 01
+        (la SCIA alternativa al permesso) o in totale difformità da essa: così si sana anche il
+        mutamento di destinazione d'uso di un intero immobile, o in zona agricola, che in Campania
+        chiede la SCIA alternativa o il permesso, fatto senza titolo.
+      status: verified
+      source: dpr380-art36
 legal_basis:
   - text: "D.P.R. 380/2001, art. 36 (accertamento di conformità in assenza di titolo) e art. 36-bis, nel testo in vigore dal 28/07/2024."
     status: verified
