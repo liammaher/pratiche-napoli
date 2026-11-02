@@ -1,5 +1,5 @@
 {
-  "version": "20",
+  "version": "21",
   "source": "personal-vault RecommendedSchema + contract/extensions.json",
   "categories": [
     {
@@ -641,6 +641,10 @@
           "description": "REA number (e.g. NA-123456)"
         },
         {
+          "id": "business.data_iscrizione_rea",
+          "description": "Date the business was entered in the REA, as on the visura camerale (YYYY-MM-DD); forms ask it with the REA number"
+        },
+        {
           "id": "business.data_apertura",
           "description": "Date the partita IVA was opened (YYYY-MM-DD)"
         },
@@ -653,7 +657,7 @@
         },
         {
           "id": "business.forma_giuridica",
-          "description": "Legal form: ditta_individuale, lavoratore_autonomo, srl, srls, snc, sas, spa, sapa, cooperativa, studio_associato, stp, altro (validated; SRL, S.r.l.s., ditta... accepted)"
+          "description": "Legal form: ditta_individuale, lavoratore_autonomo, srl, srls, snc, sas, spa, sapa, cooperativa, studio_associato, stp, condominio, altro (validated; SRL, S.r.l.s., ditta... accepted)"
         },
         {
           "id": "business.telefono",
