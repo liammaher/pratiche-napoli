@@ -8,7 +8,7 @@ aka:
   - condono
   - veranda abusiva
   - salva casa
-updated: 2026-10-30
+updated: 2026-11-02
 summary: >-
   Chi ha eseguito senza permesso di costruire (o senza SCIA alternativa), o in totale difformità,
   lavori che ne avevano bisogno, li regolarizza con il permesso in sanatoria se sono conformi alla
@@ -65,6 +65,24 @@ applies_to:
         costruire.
       status: verified
       source: dpr380-art36bis
+    - text: >-
+        In un'area sotto tutela paesaggistica, per i lavori che chiedevano l'autorizzazione
+        paesaggistica, la sanatoria edilizia vale solo con la compatibilità paesaggistica accertata:
+        l'autorizzazione non si rilascia in sanatoria fuori dei casi dell'art. 167 c. 4-5 (art. 146
+        c. 4 D.Lgs. 42/2004), cioè solo per lavori che non hanno creato superfici utili o volumi né
+        aumentato quelli legittimamente realizzati, per materiali diversi e per la manutenzione.
+      status: verified
+      source: dlgs42-art167
+    - text: >-
+        Sul SUE di Napoli il permesso di costruire con la sanatoria e l'accertamento di compatibilità
+        paesaggistica (artt. 167-181 D.Lgs. 42/2004 - Comune) si scelgono insieme nella stessa
+        pratica: le sezioni sono quelle delle due operazioni. Nell'asseverazione del permesso il
+        quadro del paesaggio offre, per opere che alterano i luoghi, solo i procedimenti semplificato,
+        ordinario e di accertamento dell'art. 36-bis, e ne vuole uno ("il valore è obbligatorio"):
+        nessuno è quello dell'art. 167, così il caso non si può dichiarare com'è (rilevato il
+        2/11/2026, su una bozza di prova): va chiesto al SUE come presentarlo.
+      status: verified
+      source: portale-sue-operazioni
 legal_basis:
   - text: "D.P.R. 380/2001, art. 36 (accertamento di conformità in assenza di titolo) e art. 36-bis, nel testo in vigore dal 28/07/2024."
     status: verified
@@ -127,6 +145,11 @@ sources:
     label: D.P.R. 6 giugno 2001, n. 380, art. 36-bis (Normattiva)
     url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art36bis
     retrieved: 2026-10-30
+    official: true
+  - id: dlgs42-art167
+    label: D.Lgs. 22 gennaio 2004, n. 42, art. 167 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2004-01-22;42~art167
+    retrieved: 2026-11-02
     official: true
   - id: tabella-diritti
     label: Tabella dei diritti d'istruttoria delle pratiche dello Sportello Unico Edilizia (agg. al 16/06/2026, delibera di G.C. n. 239 del 28 maggio 2026)
