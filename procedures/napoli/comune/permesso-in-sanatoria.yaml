@@ -90,6 +90,13 @@ applies_to:
         chiede la SCIA alternativa o il permesso, fatto senza titolo.
       status: verified
       source: dpr380-art36
+    - text: >-
+        Una demolizione e ricostruzione, o una variante che cambia la sagoma, in zona A chiede a
+        Napoli il permesso di costruire (la SCIA è esclusa in zona A): già eseguita senza, si sana con
+        il permesso in sanatoria dell'art. 36, che vale anche per i lavori senza la SCIA alternativa,
+        se conforme alla disciplina della zona A sia di allora sia di oggi.
+      status: verified
+      source: dpr380-art36
 legal_basis:
   - text: "D.P.R. 380/2001, art. 36 (accertamento di conformità in assenza di titolo) e art. 36-bis, nel testo in vigore dal 28/07/2024."
     status: verified
