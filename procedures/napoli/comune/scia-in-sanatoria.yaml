@@ -8,7 +8,7 @@ aka:
   - salva casa
   - scia tardiva
   - difformità
-updated: 2026-11-01
+updated: 2026-11-02
 summary: >-
   Chi ha eseguito, o sta eseguendo, lavori che chiedevano la SCIA senza presentarla, o in
   difformità da quella presentata, li regolarizza con una SCIA in sanatoria (art. 36-bis DPR
@@ -120,6 +120,12 @@ applies_to:
         quadro sismica dell'asseverazione, come nella SCIA (visto il 2026-11-01 in una bozza di prova).
       status: verified
       source: portale-sue-operazioni
+    - text: >-
+        Un mutamento di destinazione d'uso di una singola unità che chiedeva la SCIA (art. 23-ter
+        DPR 380/2001), fatto senza, è un intervento in assenza della SCIA: si sana con la SCIA in
+        sanatoria dell'art. 36-bis c. 1, se la nuova destinazione è ammessa dal PRG in quella zona.
+      status: verified
+      source: dpr380-art36bis
 legal_basis:
   - text: "D.P.R. 380/2001, art. 36-bis (accertamento di conformità) e art. 37 (interventi in assenza o difformità dalla SCIA), nel testo in vigore dal 28/07/2024."
     status: verified
