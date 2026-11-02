@@ -1,7 +1,7 @@
 schema_version: 0
 id: sue-napoli
 title: "SUE di Napoli: quale titolo edilizio serve per i lavori (CILA, SCIA, SCIA alternativa o permesso di costruire)"
-updated: 2026-11-01
+updated: 2026-11-02
 intro: >-
   Da poche risposte sui lavori (che cosa sono, se toccano le strutture o i prospetti, se cambiano
   l'uso, i vincoli) al titolo da presentare allo Sportello Unico per l'Edilizia di Napoli, a quello
@@ -13,8 +13,9 @@ intro: >-
   senza SCIA (manutenzione straordinaria sui prospetti o sulle strutture, restauro sulle
   strutture, ristrutturazione) la tabella indica la SCIA in sanatoria, per quelli che chiedevano il
   permesso di costruire il permesso in sanatoria, con l'autorizzazione sismica a parte se toccano
-  le strutture, e per i lavori senza titolo edilizio già eseguiti in area vincolata
-  l'accertamento di compatibilità paesaggistica. La domanda di parere per esonero
+  le strutture, e per i lavori già eseguiti in area vincolata l'accertamento di compatibilità
+  paesaggistica, da solo o, per quelli che chiedevano il permesso, nella stessa pratica del
+  permesso in sanatoria. La domanda di parere per esonero
   dall'autorizzazione paesaggistica, che il portale offre, è rifiutata: a Napoli il Comune non
   rilascia quell'attestazione. Le altre sanatorie e i casi che la
   libreria non copre ancora sono rifiutati, con il motivo.
@@ -210,10 +211,50 @@ rules:
   # permesso in sanatoria (art. 36 senza titolo, art. 36-bis in parziale difformità o con
   # variazioni essenziali), fuori dei casi che la libreria non copre ancora. Con lavori sulle
   # strutture l'autorizzazione sismica si chiede a parte al Genio Civile (sismica-sanatoria).
-  - id: sanatoria-permesso-tutela
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], paesaggio: [senza_autorizzazione, semplificata, ordinaria]}
-    then: {refuse: "In un'area sotto tutela paesaggistica il permesso in sanatoria chiede anche il parere paesaggistico e la sanzione dell'art. 36-bis c. 4 e 5-bis DPR 380/2001, che la libreria non copre ancora."}
+  # In un'area tutelata, lavori che alterano i luoghi già eseguiti senza permesso (art. 36): la
+  # sanatoria edilizia vale solo con la compatibilità paesaggistica accertata (art. 146 c. 4, art.
+  # 167 c. 4-5 D.Lgs. 42/2004; Cass. pen. Sez. III n. 15726/2026), chiesta nella stessa pratica
+  # (permesso-sanatoria-tutela); non si accerta per nuove superfici utili o volumi. Le varianti in
+  # parziale difformità (art. 36-bis) hanno la compatibilità nel parere del c. 4, che l'asseverazione
+  # del permesso sul portale non sa dichiarare (il difetto pdc-36bis della libreria dei portali).
+  - id: sanatoria-permesso-volumi
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: true}
+    then: {refuse: "In un'area tutelata il permesso in sanatoria (art. 36 DPR 380/2001) vale solo con la compatibilità paesaggistica accertata (art. 146 c. 4 D.Lgs. 42/2004), e questa non si può accertare per lavori che hanno creato superfici utili o volumi o aumentato quelli legittimamente realizzati (art. 167 c. 4 a): resta la rimessione in pristino."}
+    cites:
+      - {procedure: napoli/comune/accertamento-compatibilita-paesaggistica, source: dlgs42-art167}
+      - {procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}
+    status: verified
+  - id: sanatoria-permesso-paesaggio-a-farsi
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: false}
+    then: {refuse: "Il permesso in sanatoria riguarda lavori già eseguiti (art. 36 DPR 380/2001): le opere ancora da fare che chiedono l'autorizzazione paesaggistica si chiedono dopo la sanatoria, con il loro permesso e l'autorizzazione, perché su un immobile non sanato non si assentono nuovi lavori."}
+    cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}]
+    status: verified
+  - id: sanatoria-permesso-36bis-tutela
+    when: {sanatoria: true, intervento: [variante_pdc, variante_essenziale_pdc], paesaggio: [semplificata, ordinaria]}
+    then: {refuse: "Per una variante in parziale difformità o con variazioni essenziali in un'area tutelata la compatibilità paesaggistica la chiede lo Sportello con il parere vincolante dell'art. 36-bis c. 4 DPR 380/2001, ma l'asseverazione del permesso sul portale non sa dichiarare l'art. 36-bis (un difetto del portale): va chiesto al SUE come presentarlo."}
     cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36bis}]
+    status: verified
+  - id: permesso-sanatoria-tutela
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante], cambio_uso: ["no", non_rilevante], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: false, bene_culturale: false, demolizione_zona_a: false}
+    then:
+      role: main
+      procedure: napoli/comune/permesso-in-sanatoria
+      regime: permesso
+      portal: {settore: "Edilizia e pianificazione urbana", operazione: "Permesso di Costruire (P.d.C) - Art.10 D.P.R. 380/2001"}
+    cites:
+      - {procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}
+      - {procedure: napoli/comune/permesso-in-sanatoria, source: portale-sue-operazioni}
+    status: verified
+  - id: accertamento-permesso-sanatoria
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: false}
+    then:
+      role: also
+      procedure: napoli/comune/accertamento-compatibilita-paesaggistica
+      regime: autorizzazione
+      portal: {settore: "Edilizia e pianificazione urbana", operazione: "Accertamento di compatibilità paesaggistica (artt. 167-181 D.Lgs. 42/2004 - Comune)"}
+    cites:
+      - {procedure: napoli/comune/accertamento-compatibilita-paesaggistica, source: dlgs42-art167}
+      - {procedure: napoli/comune/accertamento-compatibilita-paesaggistica, source: portale-sue-operazioni}
     status: verified
   - id: sanatoria-permesso-bene-culturale
     when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], bene_culturale: true}
@@ -234,7 +275,7 @@ rules:
     cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}]
     status: verified
   - id: permesso-sanatoria
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], cambio_uso: ["no", non_rilevante], paesaggio: ["no"], bene_culturale: false, demolizione_zona_a: false}
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], cambio_uso: ["no", non_rilevante], paesaggio: ["no", senza_autorizzazione], bene_culturale: false, demolizione_zona_a: false}
     then:
       role: main
       procedure: napoli/comune/permesso-in-sanatoria
@@ -316,11 +357,24 @@ rules:
   # ristrutturazione già fatti senza titolo; la CILA tardiva e gli altri titoli non la portano.
   - id: sanatoria-paesaggio
     when:
-      intervento: [opere_temporanee, nessuna_opera, ristrutturazione_pesante, nuova_costruzione, ristrutturazione_urbanistica, variante_pdc, variante_essenziale_pdc, variante_scia]
+      intervento: [opere_temporanee, nessuna_opera, ristrutturazione_urbanistica, variante_scia]
       paesaggio: [semplificata, ordinaria]
       paesaggio_eseguiti: true
     then: &paesaggio-eseguiti {refuse: "L'autorizzazione paesaggistica non si rilascia per lavori già eseguiti (art. 146 c. 4 D.Lgs. 42/2004): con lavori che chiedono anche un titolo edilizio serve la sanatoria edilizia insieme all'accertamento di compatibilità paesaggistica, che la libreria non copre ancora."}
     cites: [{procedure: napoli/comune/autorizzazione-paesaggistica-ordinaria, source: dlgs42-art146}]
+    status: verified
+  # Lavori da permesso con le opere paesaggistiche già eseguite sono una sanatoria: il permesso in
+  # sanatoria con l'accertamento di compatibilità (permesso-sanatoria-tutela).
+  - id: sanatoria-paesaggio-permesso
+    when:
+      sanatoria: false
+      intervento: [ristrutturazione_pesante, nuova_costruzione, variante_pdc, variante_essenziale_pdc]
+      paesaggio: [semplificata, ordinaria]
+      paesaggio_eseguiti: true
+    then: {refuse: "L'autorizzazione paesaggistica non si rilascia per lavori già eseguiti (art. 146 c. 4 D.Lgs. 42/2004): lavori che chiedevano il permesso di costruire, già eseguiti, si regolarizzano con il permesso in sanatoria e l'accertamento di compatibilità paesaggistica (rispondi che i lavori sono già iniziati o finiti senza titolo)."}
+    cites:
+      - {procedure: napoli/comune/autorizzazione-paesaggistica-ordinaria, source: dlgs42-art146}
+      - {procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}
     status: verified
   - id: sanatoria-paesaggio-cila
     when: {sanatoria: true, intervento: [manutenzione_straordinaria], strutture: false, prospetti: false, paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true}
