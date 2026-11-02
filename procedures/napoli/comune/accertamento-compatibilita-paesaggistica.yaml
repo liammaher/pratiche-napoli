@@ -7,7 +7,7 @@ aka:
   - compatibilità paesaggistica
   - abuso paesaggistico
   - autorizzazione paesaggistica in sanatoria
-updated: 2026-10-30
+updated: 2026-11-02
 summary: >-
   Chi ha eseguito in un'area o su un immobile sotto tutela paesaggistica lavori che chiedevano
   l'autorizzazione paesaggistica, senza averla o in difformità, chiede al Comune di accertarne la
@@ -52,6 +52,12 @@ applies_to:
         D.Lgs. 42/2004 - Comune)" è nel gruppo Beni Paesaggistici; la pratica chiede la descrizione
         delle opere e dei loro effetti, i professionisti incaricati, la presa visione dell'art. 181,
         la data dell'abuso e l'imposta di bollo.
+      status: verified
+      source: portale-sue-operazioni
+    - text: >-
+        Per lavori che chiedevano anche il permesso di costruire, già eseguiti senza (art. 36 DPR
+        380/2001), l'accertamento si sceglie sul SUE di Napoli insieme al permesso di costruire con
+        la sanatoria, nella stessa pratica (rilevato il 2/11/2026).
       status: verified
       source: portale-sue-operazioni
 legal_basis:
@@ -147,5 +153,5 @@ verification:
     vista sul portale in una bozza di prova.
   notes: >-
     Non letti: come il Comune determina la somma dell'art. 167 c. 5 (danno o profitto), la delega
-    regionale al Comune, l'accertamento dentro la SCIA o il permesso in sanatoria (art. 36-bis c. 4
+    regionale al Comune, l'accertamento dentro la SCIA in sanatoria (art. 36-bis c. 4
     DPR 380/2001). La pagina è minima.
