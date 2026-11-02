@@ -8,7 +8,7 @@ aka:
   - cancellazione ditta individuale
   - chiudere la licenza
   - comunicazione di cessazione
-updated: 2026-10-27
+updated: 2026-11-02
 summary: >-
   Chi chiude a Napoli un esercizio di vicinato, un bar o ristorante o un salone di acconciatore
   o estetista deve comunicare la cessazione al SUAP del Comune su impresainungiorno e poi chiudere
@@ -339,7 +339,7 @@ dichiarante:
 forms:
   - id: scheda-anagrafica
     name: Scheda anagrafica – modulistica unificata Regione Campania (parte comune a tutti i moduli SUAP)
-    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Scheda_anagrafica.pdf
+    url: https://surap.regione.campania.it/sites/surap.regione.campania.it/files/allegati/Modulistica/moduli%20comuni/Scheda_anagrafica.pdf
     source: modulo-scheda-anagrafica
     sha256: aef5908e61b8ad9001275c84d9dd0fe9f70b0c35ad1814396ba4f3b223440d57
     signature_required: false
@@ -497,7 +497,7 @@ forms:
         map: { blank_with_reason: "Differenziato per procedimento: per la cessazione sono i quadri del modulo di cessazione." }
   - id: comunicazione-cessazione
     name: Comunicazione di cessazione o sospensione temporanea di attività – modulistica unificata Regione Campania (DD 119/2021)
-    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Comunicazione_di_cessazione_o_sospensione_temporanea_di_attivit%C3%A0.pdf
+    url: https://surap.regione.campania.it/sites/surap.regione.campania.it/files/allegati/Modulistica/moduli%20comuni/Comunicazione_di_cessazione_o_sospensione_temporanea_di_attivit%C3%A0.pdf
     source: modulo-cessazione
     sha256: 4b6fde24b144eec957fe4dc8415e61abdfbda7a697c080b812d95eb257054291
     signature_required: true
@@ -774,21 +774,21 @@ sources:
       somministrazione; nessuna riga di cessazione per acconciatori ed estetisti.
   - id: modulo-cessazione
     label: Regione Campania SURAP – Comunicazione di cessazione o sospensione temporanea di attività (modulistica unificata commercio)
-    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Comunicazione_di_cessazione_o_sospensione_temporanea_di_attivit%C3%A0.pdf
-    retrieved: 2026-10-25
+    url: https://surap.regione.campania.it/sites/surap.regione.campania.it/files/allegati/Modulistica/moduli%20comuni/Comunicazione_di_cessazione_o_sospensione_temporanea_di_attivit%C3%A0.pdf
+    retrieved: 2026-11-02
     sha256: 4b6fde24b144eec957fe4dc8415e61abdfbda7a697c080b812d95eb257054291
     official: true
     notes: PDF del 9 giugno 2021, 4 pagine, informativa secondo il Reg. UE 2016/679.
   - id: modulo-scheda-anagrafica
     label: Regione Campania SURAP – Scheda anagrafica (modulistica unificata commercio)
-    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Scheda_anagrafica.pdf
-    retrieved: 2026-10-25
+    url: https://surap.regione.campania.it/sites/surap.regione.campania.it/files/allegati/Modulistica/moduli%20comuni/Scheda_anagrafica.pdf
+    retrieved: 2026-11-02
     sha256: aef5908e61b8ad9001275c84d9dd0fe9f70b0c35ad1814396ba4f3b223440d57
     official: true
   - id: surap-modulistica-commercio
     label: Regione Campania SURAP – Modulistica unificata e standardizzata per il commercio in sede fissa (aggiornata al DD 119/2021)
-    url: https://surap.regione.campania.it/index.php/modulistica/432-modulistica-unificata-e-standardizzata-attivita-commerciali-sede-fissa.html
-    retrieved: 2026-10-25
+    url: https://surap.regione.campania.it/modulistica/commercio-sede-fissa
+    retrieved: 2026-11-02
     official: true
   - id: lr-campania-7-2020
     label: Legge regionale Campania 21 aprile 2020, n. 7 – Testo unico sul commercio, testo vigente (Normativa Regione Campania)

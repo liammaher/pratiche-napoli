@@ -8,7 +8,7 @@ aka:
   - passaggio di gestione
   - rilevare un'attività
   - subentro
-updated: 2026-10-27
+updated: 2026-11-02
 summary: >-
   Chi compra o prende in affitto un'azienda commerciale già avviata a Napoli (negozio di vicinato,
   bar, ristorante) deve intestarsi il titolo del precedente gestore con una comunicazione di
@@ -315,7 +315,7 @@ forms:
     name: >-
       Comunicazione per il subingresso in attività – modulistica unificata e standardizzata, Regione
       Campania (SURAP), con Allegati A, B, C e D
-    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Comunicazione_per_il_subingresso_in_attivit%C3%A0.pdf
+    url: https://surap.regione.campania.it/sites/surap.regione.campania.it/files/allegati/Modulistica/moduli%20comuni/Comunicazione_per_il_subingresso_in_attivit%C3%A0.pdf
     source: modulo-subingresso
     sha256: a7a32a3edc89a903ce26561552b26618c848a20a865be23f2d1c01eb3b0dc1b1
     signature_required: true
@@ -473,7 +473,7 @@ forms:
     name: >-
       Scheda anagrafica (modulistica unificata e standardizzata, Regione Campania) – parte comune
       che accompagna la comunicazione di subingresso
-    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Scheda_anagrafica.pdf
+    url: https://surap.regione.campania.it/sites/surap.regione.campania.it/files/allegati/Modulistica/moduli%20comuni/Scheda_anagrafica.pdf
     source: scheda-anagrafica
     sha256: aef5908e61b8ad9001275c84d9dd0fe9f70b0c35ad1814396ba4f3b223440d57
     signature_required: true
@@ -771,20 +771,20 @@ sources:
     official: true
   - id: modulo-subingresso
     label: Regione Campania SURAP – Comunicazione per il subingresso in attività (modulistica unificata, PDF del 9 giugno 2021)
-    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Comunicazione_per_il_subingresso_in_attivit%C3%A0.pdf
-    retrieved: 2026-10-25
+    url: https://surap.regione.campania.it/sites/surap.regione.campania.it/files/allegati/Modulistica/moduli%20comuni/Comunicazione_per_il_subingresso_in_attivit%C3%A0.pdf
+    retrieved: 2026-11-02
     sha256: a7a32a3edc89a903ce26561552b26618c848a20a865be23f2d1c01eb3b0dc1b1
     official: true
   - id: scheda-anagrafica
     label: Regione Campania SURAP – Scheda anagrafica (modulistica unificata)
-    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Scheda_anagrafica.pdf
-    retrieved: 2026-10-25
+    url: https://surap.regione.campania.it/sites/surap.regione.campania.it/files/allegati/Modulistica/moduli%20comuni/Scheda_anagrafica.pdf
+    retrieved: 2026-11-02
     sha256: aef5908e61b8ad9001275c84d9dd0fe9f70b0c35ad1814396ba4f3b223440d57
     official: true
   - id: surap-modulistica
     label: SURAP Campania – Modulistica unificata e standardizzata, attività commerciali in sede fissa
-    url: https://surap.regione.campania.it/index.php/modulistica/432-modulistica-unificata-e-standardizzata-attivita-commerciali-sede-fissa.html
-    retrieved: 2026-10-25
+    url: https://surap.regione.campania.it/modulistica/commercio-sede-fissa
+    retrieved: 2026-11-02
     official: true
     notes: La stessa comunicazione di subingresso è elencata anche nella pagina della somministrazione (440).
   - id: accordo-2017
