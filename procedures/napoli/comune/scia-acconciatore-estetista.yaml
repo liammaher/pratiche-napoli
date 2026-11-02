@@ -8,7 +8,7 @@ aka:
   - aprire un salone di bellezza
   - licenza estetista
   - pratica SUAP
-updated: 2026-10-27
+updated: 2026-11-02
 summary: >-
   Chi vuole aprire a Napoli un salone di acconciatore (parrucchiere o barbiere) o un centro di
   estetica presenta una SCIA al SUAP del Comune, solo online su impresainungiorno. Serve un
@@ -268,7 +268,7 @@ forms:
     name: >-
       Scheda anagrafica (modulistica unificata e standardizzata, Regione Campania, fonte BURC) –
       parte comune a tutte le SCIA
-    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Scheda_anagrafica.pdf
+    url: https://surap.regione.campania.it/sites/surap.regione.campania.it/files/allegati/Modulistica/moduli%20comuni/Scheda_anagrafica.pdf
     source: scheda-anagrafica
     sha256: aef5908e61b8ad9001275c84d9dd0fe9f70b0c35ad1814396ba4f3b223440d57
     signature_required: true
@@ -358,7 +358,7 @@ forms:
       Segnalazione certificata di inizio attività per l'esercizio dell'attività di acconciatore e/o
       estetista, con Allegati A, B e C (modulistica unificata e standardizzata, Regione Campania,
       versione 2019)
-    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/SCIA%20per%20l'esercizio%20dell'attivit%C3%A0%20di%20acconciatore%20e_o%20estetista%202019.pdf
+    url: https://surap.regione.campania.it/sites/surap.regione.campania.it/files/allegati/Modulistica/commercio%20varie/SCIA%20per%20l'esercizio%20dell'attivit%C3%A0%20di%20acconciatore%20e_o%20estetista%202019.pdf
     source: modello-scia-campania
     sha256: 6f61dd59b80f037d1910a8004fae2419ab68e3eb0673b43ade3a7ba6e36a0181
     signature_required: true
@@ -714,17 +714,17 @@ sources:
     label: >-
       Regione Campania, SURAP – Modulistica unificata e standardizzata per attività commerciali varie:
       SCIA per l'esercizio dell'attività di acconciatore e/o estetista (2019)
-    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/SCIA%20per%20l'esercizio%20dell'attivit%C3%A0%20di%20acconciatore%20e_o%20estetista%202019.pdf
-    retrieved: 2026-10-25
+    url: https://surap.regione.campania.it/sites/surap.regione.campania.it/files/allegati/Modulistica/commercio%20varie/SCIA%20per%20l'esercizio%20dell'attivit%C3%A0%20di%20acconciatore%20e_o%20estetista%202019.pdf
+    retrieved: 2026-11-02
     sha256: 6f61dd59b80f037d1910a8004fae2419ab68e3eb0673b43ade3a7ba6e36a0181
     official: true
     notes: >-
       Pubblicato nella pagina
-      https://surap.regione.campania.it/index.php/modulistica/13-modulistica-unificata-e-standardizzata-attivita-commerciali.html
+      https://surap.regione.campania.it/modulistica/attivita-commerciali-varie
   - id: scheda-anagrafica
     label: Regione Campania, SURAP – Scheda anagrafica (modulistica unificata, fonte BURC)
-    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Scheda_anagrafica.pdf
-    retrieved: 2026-10-25
+    url: https://surap.regione.campania.it/sites/surap.regione.campania.it/files/allegati/Modulistica/moduli%20comuni/Scheda_anagrafica.pdf
+    retrieved: 2026-11-02
     sha256: aef5908e61b8ad9001275c84d9dd0fe9f70b0c35ad1814396ba4f3b223440d57
     official: true
   - id: suap-servizio

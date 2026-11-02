@@ -8,7 +8,7 @@ aka:
   - autorizzazione sanitaria
   - notifica 852
   - registrazione ASL alimenti
-updated: 2026-10-27
+updated: 2026-11-02
 summary: >-
   Chi apre a Napoli un'attività che produce, trasforma, deposita, trasporta, vende o somministra
   alimenti (bar, ristorante, negozio alimentare, laboratorio…) deve notificarla all'ASL per la
@@ -242,7 +242,7 @@ dichiarante:
 forms:
   - id: notifica-registrazione
     name: Notifica ai fini della registrazione (art. 6, Reg. CE n. 852/2004) – modulo unificato
-    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Notifica%20ai%20fini%20della%20registrazione.pdf
+    url: https://surap.regione.campania.it/sites/surap.regione.campania.it/files/allegati/Modulistica/moduli%20comuni/Notifica%20ai%20fini%20della%20registrazione.pdf
     source: notifica-form
     sha256: 71f2498786ff210c7aa1512ef5c3ea08698d05c0139c6a7cbd1c79b8e1850195
     signature_required: true
@@ -491,21 +491,21 @@ related:
 sources:
   - id: notifica-form
     label: Notifica ai fini della registrazione (art. 6, Reg. CE n. 852/2004) – modulo unificato, portale SURAP Regione Campania
-    url: https://surap.regione.campania.it/Allegati/ModulisticaUnificata/Commercio/pdf/Notifica%20ai%20fini%20della%20registrazione.pdf
-    retrieved: 2026-10-25
+    url: https://surap.regione.campania.it/sites/surap.regione.campania.it/files/allegati/Modulistica/moduli%20comuni/Notifica%20ai%20fini%20della%20registrazione.pdf
+    retrieved: 2026-11-02
     sha256: 71f2498786ff210c7aa1512ef5c3ea08698d05c0139c6a7cbd1c79b8e1850195
     official: true
     notes: PDF del 2017 (7 pagine); stesso file linkato nelle pagine della modulistica per commercio e somministrazione.
   - id: surap-modulistica-commercio
     label: SURAP – Modulistica unificata e standardizzata per commercio in sede fissa
-    url: https://surap.regione.campania.it/index.php/modulistica/432-modulistica-unificata-e-standardizzata-attivita-commerciali-sede-fissa.html
-    retrieved: 2026-10-25
+    url: https://surap.regione.campania.it/modulistica/commercio-sede-fissa
+    retrieved: 2026-11-02
     official: true
     notes: Aggiornata al Decreto Dirigenziale n. 119 del 13/05/2021.
   - id: surap-modulistica-somministrazione
     label: SURAP – Modulistica unificata e standardizzata per somministrazione di alimenti e bevande
-    url: https://surap.regione.campania.it/index.php/modulistica/440-modulistica-unificata-e-standardizzata-somministrazione-alimenti-bevande.html
-    retrieved: 2026-10-25
+    url: https://surap.regione.campania.it/modulistica/somministrazione-alimenti-bevande
+    retrieved: 2026-11-02
     official: true
     notes: Aggiornata al Decreto Dirigenziale n. 143 del 10/06/2021.
   - id: surap-disciplina
