@@ -137,8 +137,9 @@ function verifiedSources(doc: unknown): Set<string> {
 }
 
 // Every combination of the facts' values, numbers at each bound the rules use
-// and just past it.
-function combinations(table: RulesTable): Record<string, FactValue>[] {
+// and just past it, one at a time: the SUE table's 34 million don't fit in memory
+// at once (2026-11-03).
+function* combinations(table: RulesTable): Generator<Record<string, FactValue>> {
   const domain = (name: string, fact: Fact): FactValue[] => {
     if (fact.type === "choice") return Object.keys(fact.values!);
     if (fact.type === "yes_no") return [true, false];
@@ -148,11 +149,20 @@ function combinations(table: RulesTable): Record<string, FactValue>[] {
     });
     return [...new Set([0, ...bounds.flatMap((b) => [b, b + 1])])];
   };
-  let out: Record<string, FactValue>[] = [{}];
-  for (const [name, fact] of Object.entries(table.facts)) {
-    out = out.flatMap((c) => domain(name, fact).map((v) => ({ ...c, [name]: v })));
+  const facts = Object.entries(table.facts).map(([name, fact]) => [name, domain(name, fact)] as const);
+  const c: Record<string, FactValue> = {};
+  function* walk(i: number): Generator<Record<string, FactValue>> {
+    if (i === facts.length) {
+      yield { ...c };
+      return;
+    }
+    const [name, values] = facts[i];
+    for (const v of values) {
+      c[name] = v;
+      yield* walk(i + 1);
+    }
   }
-  return out;
+  yield* walk(0);
 }
 
 function conditionProblem(name: string, cond: Condition, fact: Fact): string | null {
