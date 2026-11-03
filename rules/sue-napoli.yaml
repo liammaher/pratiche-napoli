@@ -169,7 +169,7 @@ rules:
     cites: [{procedure: napoli/comune/scia-edilizia, source: lr31-2021}]
     status: verified
   - id: sanatoria-uso-non-ammesso
-    when: {sanatoria: true, intervento: [nuova_costruzione, variante_pdc, variante_essenziale_pdc], cambio_uso: [zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], uso_ammesso_prg: false}
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_urbanistica, variante_pdc, variante_essenziale_pdc], cambio_uso: [zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], uso_ammesso_prg: false}
     then: {refuse: "La nuova destinazione d'uso è ammissibile solo se il PRG la indica come compatibile per quella zona (art. 27 c. 2 L.R. Campania 31/2021): così il cambio non si può fare."}
     cites: [{procedure: napoli/comune/scia-edilizia, source: lr31-2021}]
     status: verified
@@ -203,9 +203,9 @@ rules:
 
   # --- Lavori già eseguiti ---
   - id: sanatoria-titolo
-    when: {sanatoria: true, intervento: [opere_temporanee, ristrutturazione_urbanistica, variante_scia]}
-    then: {refuse: "Per lavori già eseguiti senza titolo serve una sanatoria (accertamento di conformità, artt. 36 e 36-bis DPR 380/2001), che la libreria non copre ancora."}
-    cites: [{procedure: napoli/comune/scia-edilizia, source: scia-modulo}]
+    when: {sanatoria: true, intervento: [opere_temporanee]}
+    then: {refuse: "Per le opere temporanee la legge non prevede una sanatoria: la comunicazione va fatta prima dell'avvio (art. 6 c. 1 e-bis DPR 380/2001) e la sua sanzione è abrogata (c. 7, D.Lgs. 222/2016). Opere rimaste oltre i 180 giorni non sono più temporanee: rispondi con la voce dei lavori che sono (per esempio una nuova costruzione), che ha la sua sanatoria."}
+    cites: [{procedure: napoli/comune/cil-opere-temporanee, source: dpr380-art6}]
     status: verified
   # Una demolizione e ricostruzione, o una variante di sagoma, in zona A chiede a Napoli il permesso
   # (permesso-zona-a; la SCIA alternativa della L.R. 13/2022 è contesa): già eseguita senza, si sana
@@ -267,14 +267,14 @@ rules:
   # parziale difformità (art. 36-bis) hanno la compatibilità nel parere del c. 4, che l'asseverazione
   # del permesso sul portale non sa dichiarare (il difetto pdc-36bis della libreria dei portali).
   - id: sanatoria-permesso-volumi
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: true}
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_urbanistica, ristrutturazione_pesante], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: true}
     then: {refuse: "In un'area tutelata il permesso in sanatoria (art. 36 DPR 380/2001) vale solo con la compatibilità paesaggistica accertata (art. 146 c. 4 D.Lgs. 42/2004), e questa non si può accertare per lavori che hanno creato superfici utili o volumi o aumentato quelli legittimamente realizzati (art. 167 c. 4 a): resta la rimessione in pristino."}
     cites:
       - {procedure: napoli/comune/accertamento-compatibilita-paesaggistica, source: dlgs42-art167}
       - {procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}
     status: verified
   - id: sanatoria-permesso-paesaggio-a-farsi
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: false}
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_urbanistica, ristrutturazione_pesante], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: false}
     then: {refuse: "Il permesso in sanatoria riguarda lavori già eseguiti (art. 36 DPR 380/2001): le opere ancora da fare che chiedono l'autorizzazione paesaggistica si chiedono dopo la sanatoria, con il loro permesso e l'autorizzazione, perché su un immobile non sanato non si assentono nuovi lavori."}
     cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}]
     status: verified
@@ -289,7 +289,7 @@ rules:
     cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36bis}]
     status: verified
   - id: permesso-sanatoria-tutela
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante], cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: false, bene_culturale: false}
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_urbanistica, ristrutturazione_pesante], cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: false, bene_culturale: false}
     then:
       role: main
       procedure: napoli/comune/permesso-in-sanatoria
@@ -300,7 +300,7 @@ rules:
       - {procedure: napoli/comune/permesso-in-sanatoria, source: portale-sue-operazioni}
     status: verified
   - id: accertamento-permesso-sanatoria
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: false}
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_urbanistica, ristrutturazione_pesante], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: false}
     then:
       role: also
       procedure: napoli/comune/accertamento-compatibilita-paesaggistica
@@ -311,7 +311,7 @@ rules:
       - {procedure: napoli/comune/accertamento-compatibilita-paesaggistica, source: portale-sue-operazioni}
     status: verified
   - id: sanatoria-permesso-bene-culturale
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], bene_culturale: true}
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_urbanistica, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], bene_culturale: true}
     then: &bene-culturale-eseguiti {refuse: "Su un bene culturale i lavori senza la preventiva autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004) sono un reato (art. 169) e il Codice non prevede un'autorizzazione successiva: per la Cassazione (Sez. III, n. 34437/2026) la sua mancanza esclude la sanatoria edilizia, e il modulo della Soprintendenza per il Comune di Napoli prevede solo opere a farsi, di ripristino o un condono. Va chiesto alla Soprintendenza e al SUE."}
     cites:
       - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art21}
@@ -319,12 +319,12 @@ rules:
       - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: sabap-istanza}
     status: verified
   - id: sanatoria-permesso-cambio-uso
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], cambio_uso: [piano_terra, altro]}
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_urbanistica, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], cambio_uso: [piano_terra, altro]}
     then: {refuse: "Questo cambio di destinazione d'uso (un'unità al piano terra o seminterrata verso un'altra categoria, o un caso fuori delle zone A, B e C) non è nei casi che la libreria ha verificato, e già fatto senza titolo va chiesto al SUE come sanarlo."}
     cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}]
     status: verified
   - id: permesso-sanatoria
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], paesaggio: ["no", senza_autorizzazione], bene_culturale: false}
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_urbanistica, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], paesaggio: ["no", senza_autorizzazione], bene_culturale: false}
     then:
       role: main
       procedure: napoli/comune/permesso-in-sanatoria
@@ -396,6 +396,22 @@ rules:
       - {procedure: napoli/comune/scia-in-sanatoria, source: dpr380-art37}
       - {procedure: napoli/comune/scia-in-sanatoria, source: portale-sue-operazioni}
     status: verified
+  # Una variante in corso d'opera a una SCIA già eseguita senza depositarla: lavori in difformità
+  # dalla SCIA (art. 36-bis c. 1, anche per le variazioni essenziali), la SCIA in sanatoria.
+  - id: scia-sanatoria-variante
+    when: {sanatoria: true, intervento: [variante_scia], bene_culturale: false}
+    then: *scia-sanatoria
+    cites:
+      - {procedure: napoli/comune/scia-in-sanatoria, source: dpr380-art36bis}
+      - {procedure: napoli/comune/scia-in-sanatoria, source: portale-sue-operazioni}
+    status: verified
+  - id: sanatoria-variante-scia-bene-culturale
+    when: {sanatoria: true, intervento: [variante_scia], bene_culturale: true}
+    then: *bene-culturale-eseguiti
+    cites:
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art21}
+      - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art169}
+    status: verified
   # Un cambio di destinazione d'uso già fatto senza titolo si sana con il titolo che chiedeva: la
   # SCIA in sanatoria per quelli da SCIA (art. 36-bis c. 1, assenza della SCIA), il permesso in
   # sanatoria per quelli da SCIA alternativa o da permesso (art. 36 c. 1, che nomina la SCIA
@@ -459,7 +475,7 @@ rules:
   # ristrutturazione già fatti senza titolo; la CILA tardiva e gli altri titoli non la portano.
   - id: sanatoria-paesaggio
     when:
-      intervento: [opere_temporanee, nessuna_opera, ristrutturazione_urbanistica, variante_scia]
+      intervento: [opere_temporanee, nessuna_opera]
       paesaggio: [semplificata, ordinaria]
       paesaggio_eseguiti: true
     then: &paesaggio-eseguiti {refuse: "L'autorizzazione paesaggistica non si rilascia per lavori già eseguiti (art. 146 c. 4 D.Lgs. 42/2004): con lavori che chiedono anche un titolo edilizio serve la sanatoria edilizia insieme all'accertamento di compatibilità paesaggistica, che la libreria non copre ancora."}
@@ -470,13 +486,20 @@ rules:
   - id: sanatoria-paesaggio-permesso
     when:
       sanatoria: false
-      intervento: [ristrutturazione_pesante, nuova_costruzione, variante_pdc, variante_essenziale_pdc]
+      intervento: [ristrutturazione_pesante, nuova_costruzione, ristrutturazione_urbanistica, variante_pdc, variante_essenziale_pdc]
       paesaggio: [semplificata, ordinaria]
       paesaggio_eseguiti: true
     then: {refuse: "L'autorizzazione paesaggistica non si rilascia per lavori già eseguiti (art. 146 c. 4 D.Lgs. 42/2004): lavori che chiedevano il permesso di costruire, già eseguiti, si regolarizzano con il permesso in sanatoria e l'accertamento di compatibilità paesaggistica (rispondi che i lavori sono già iniziati o finiti senza titolo)."}
     cites:
       - {procedure: napoli/comune/autorizzazione-paesaggistica-ordinaria, source: dlgs42-art146}
       - {procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}
+    status: verified
+  - id: sanatoria-paesaggio-variante-scia
+    when: {sanatoria: false, intervento: [variante_scia], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true}
+    then: {refuse: "L'autorizzazione paesaggistica non si rilascia per lavori già eseguiti (art. 146 c. 4 D.Lgs. 42/2004): una variante a una SCIA già eseguita si regolarizza con la SCIA in sanatoria, dove la compatibilità paesaggistica si accerta con il parere dell'art. 36-bis c. 4 DPR 380/2001 (rispondi che i lavori sono già iniziati o finiti senza titolo)."}
+    cites:
+      - {procedure: napoli/comune/autorizzazione-paesaggistica-ordinaria, source: dlgs42-art146}
+      - {procedure: napoli/comune/scia-in-sanatoria, source: dpr380-art36bis}
     status: verified
   - id: sanatoria-paesaggio-cila
     when: {sanatoria: true, intervento: [manutenzione_straordinaria], strutture: false, prospetti: false, paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true}
@@ -751,7 +774,7 @@ rules:
     cites: [{procedure: napoli/comune/scia-edilizia, source: dpr380-art22}]
     status: verified
   - id: scia-variante-scia
-    when: {intervento: [variante_scia]}
+    when: {sanatoria: false, intervento: [variante_scia]}
     then: *scia
     cites: [{procedure: napoli/comune/scia-edilizia, source: scia-modulo}]
     status: verified

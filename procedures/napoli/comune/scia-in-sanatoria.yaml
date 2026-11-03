@@ -126,6 +126,12 @@ applies_to:
         sanatoria dell'art. 36-bis c. 1, se la nuova destinazione è ammessa dal PRG in quella zona.
       status: verified
       source: dpr380-art36bis
+    - text: >-
+        Una variante in corso d'opera a una SCIA eseguita senza
+        depositarla è un intervento in difformità dalla SCIA, anche quando è una variazione
+        essenziale: si sana con la SCIA in sanatoria dell'art. 36-bis c. 1, che indica la SCIA variata.
+      status: verified
+      source: dpr380-art36bis
 legal_basis:
   - text: "D.P.R. 380/2001, art. 36-bis (accertamento di conformità) e art. 37 (interventi in assenza o difformità dalla SCIA), nel testo in vigore dal 28/07/2024."
     status: verified
