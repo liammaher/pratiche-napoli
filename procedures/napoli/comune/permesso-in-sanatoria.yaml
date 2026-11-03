@@ -8,7 +8,7 @@ aka:
   - condono
   - veranda abusiva
   - salva casa
-updated: 2026-11-02
+updated: 2026-11-03
 summary: >-
   Chi ha eseguito senza permesso di costruire (o senza SCIA alternativa), o in totale difformità,
   lavori che ne avevano bisogno, li regolarizza con il permesso in sanatoria se sono conformi alla
@@ -95,6 +95,12 @@ applies_to:
         Napoli il permesso di costruire (la SCIA è esclusa in zona A): già eseguita senza, si sana con
         il permesso in sanatoria dell'art. 36, che vale anche per i lavori senza la SCIA alternativa,
         se conforme alla disciplina della zona A sia di allora sia di oggi.
+      status: verified
+      source: dpr380-art36
+    - text: >-
+        Una ristrutturazione urbanistica (art. 3 c. 1 f DPR 380/2001) chiede sempre il permesso di
+        costruire (art. 10 c. 1 c): eseguita senza, si sana con il permesso in sanatoria dell'art. 36,
+        se conforme alla disciplina urbanistica ed edilizia sia di allora sia di oggi.
       status: verified
       source: dpr380-art36
 legal_basis:

@@ -7,7 +7,7 @@ aka:
   - comunicazione inizio lavori
   - struttura temporanea
   - stand temporaneo
-updated: 2026-10-29
+updated: 2026-11-03
 summary: >-
   Le opere stagionali e quelle per esigenze contingenti e temporanee, da rimuovere appena cessa
   la necessità e comunque entro 180 giorni (montaggio e smontaggio compresi), sono edilizia libera
@@ -62,6 +62,12 @@ applies_to:
         l'autorizzazione del soprintendente (art. 21 c. 4 D.Lgs. 42/2004).
       status: verified
       source: dlgs42-art21
+    - text: >-
+        Per le opere temporanee non c'è una sanatoria: la comunicazione va fatta prima dell'avvio, e
+        la sanzione per la sua mancanza (art. 6 c. 7) è abrogata dal D.Lgs. 222/2016. Opere rimaste
+        oltre i centottanta giorni non sono più temporanee e si sanano come i lavori che sono.
+      status: verified
+      source: dpr380-art6
 legal_basis:
   - text: "D.P.R. 380/2001, art. 6 c. 1 lett. e-bis (opere stagionali e temporanee, previa comunicazione)."
     status: verified
