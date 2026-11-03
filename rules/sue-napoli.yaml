@@ -1,7 +1,7 @@
 schema_version: 0
 id: sue-napoli
 title: "SUE di Napoli: quale titolo edilizio serve per i lavori (CILA, SCIA, SCIA alternativa o permesso di costruire)"
-updated: 2026-11-02
+updated: 2026-11-03
 intro: >-
   Da poche risposte sui lavori (che cosa sono, se toccano le strutture o i prospetti, se cambiano
   l'uso, i vincoli) al titolo da presentare allo Sportello Unico per l'Edilizia di Napoli, a quello
@@ -17,8 +17,11 @@ intro: >-
   paesaggistica, da solo o, per quelli che chiedevano il permesso, nella stessa pratica del
   permesso in sanatoria. La domanda di parere per esonero
   dall'autorizzazione paesaggistica, che il portale offre, è rifiutata: a Napoli il Comune non
-  rilascia quell'attestazione. Le altre sanatorie e i casi che la
-  libreria non copre ancora sono rifiutati, con il motivo.
+  rilascia quell'attestazione. Le terre e rocce scavate che escono dal cantiere come sottoprodotti
+  aggiungono la dichiarazione di utilizzo nella stessa pratica del titolo (cantieri fino a 6.000 m³,
+  o più grandi senza VIA né AIA), o il piano di utilizzo a parte, all'autorità della VIA (cantieri
+  più grandi con VIA o AIA), e a utilizzo finito la dichiarazione di avvenuto utilizzo. Le altre
+  sanatorie e i casi che la libreria non copre ancora sono rifiutati, con il motivo.
 facts:
   intervento:
     type: choice
@@ -150,6 +153,19 @@ facts:
     question: >-
       La legge qui lascia scegliere: si chiede il permesso di costruire invece della SCIA (art. 22 c.
       7) o della SCIA alternativa (art. 23)?
+  terre_rocce:
+    type: choice
+    question: "Le terre e rocce scavate escono dal cantiere per essere usate altrove come sottoprodotti (non come rifiuti)?"
+    values:
+      "no": "No: non si scava, o le terre si riusano nello stesso sito, o si smaltiscono come rifiuti"
+      dichiarazione: >-
+        Sì, da un cantiere che ne produce fino a 6.000 m³ (dalle sezioni di progetto), o di più ma per
+        opere non soggette a VIA né ad AIA
+      piano: "Sì, da un cantiere che ne produce oltre 6.000 m³ per opere soggette a VIA o ad AIA"
+    how: >-
+      Lo stabilisce il tecnico dal progetto: i metri cubi si calcolano dalle sezioni di progetto, e
+      la VIA o l'AIA sono quelle della Parte II del D.Lgs. 152/2006 (art. 2 c. 1 t, u, v D.P.R.
+      120/2017). Le terre riusate nello stesso sito seguono l'art. 24 e non chiedono una pratica.
 rules:
   # --- Casi che la libreria non copre ---
   - id: altro
@@ -927,4 +943,41 @@ rules:
     cites:
       - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art21}
       - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: portale-sue-operazioni}
+    status: verified
+
+  # --- Le terre e rocce da scavo (D.P.R. 120/2017) ---
+  # Usate fuori del sito come sottoprodotti: dai cantieri piccoli, o grandi senza VIA né AIA, la
+  # dichiarazione dell'art. 21 va al Comune e all'ARPAC almeno 15 giorni prima degli scavi, e il SUE
+  # la prende nella stessa pratica del titolo (due adempimenti in più); dai cantieri grandi con VIA o
+  # AIA il piano di utilizzo va all'autorità della VIA (in Campania la Regione) prima che la VIA si
+  # concluda, a parte. In entrambi i casi, a utilizzo finito, la dichiarazione di avvenuto utilizzo,
+  # a parte. Per i lavori già eseguiti non si chiede: la dichiarazione precede gli scavi.
+  - id: terre-rocce-dichiarazione
+    when:
+      sanatoria: false
+      intervento: &con-titolo [opere_temporanee, manutenzione_straordinaria, restauro, ristrutturazione, ristrutturazione_pesante, nuova_costruzione, ristrutturazione_urbanistica, variante_pdc, variante_essenziale_pdc, variante_scia]
+      terre_rocce: [dichiarazione]
+    then:
+      role: also
+      procedure: napoli/comune/utilizzo-materiale-scavo-fuori-sito
+      regime: comunicazione
+      portal: {settore: "Edilizia e pianificazione urbana", operazione: "Dichiarazione di utilizzo del materiale di scavo fuori del sito di produzione ai sensi dell'art. 21 del DPR n.120/2017 (da trasmettere almeno 15 giorni prima dell'inizio dei lavori di scavo)"}
+    cites:
+      - {procedure: napoli/comune/utilizzo-materiale-scavo-fuori-sito, source: dpr120-art21}
+      - {procedure: napoli/comune/utilizzo-materiale-scavo-fuori-sito, source: dpr120-art22}
+      - {procedure: napoli/comune/utilizzo-materiale-scavo-fuori-sito, source: portale-sue-operazioni}
+    status: verified
+  - id: terre-rocce-piano
+    when: {sanatoria: false, intervento: *con-titolo, terre_rocce: [piano]}
+    then: {role: apart, procedure: napoli/valutazioni-ambientali/piano-utilizzo-terre-rocce, regime: comunicazione}
+    cites:
+      - {procedure: napoli/valutazioni-ambientali/piano-utilizzo-terre-rocce, source: dpr120-art2}
+      - {procedure: napoli/valutazioni-ambientali/piano-utilizzo-terre-rocce, source: dpr120-art9}
+      - {procedure: napoli/valutazioni-ambientali/piano-utilizzo-terre-rocce, source: procedurale-via-campania}
+    status: verified
+  - id: terre-rocce-avvenuto-utilizzo
+    when: {sanatoria: false, intervento: *con-titolo, terre_rocce: [dichiarazione, piano]}
+    then: {role: apart, procedure: napoli/comune/dichiarazione-avvenuto-utilizzo-terre, regime: comunicazione}
+    cites:
+      - {procedure: napoli/comune/dichiarazione-avvenuto-utilizzo-terre, source: dpr120-art7}
     status: verified

@@ -1,0 +1,171 @@
+schema_version: 0
+id: napoli/comune/utilizzo-materiale-scavo-fuori-sito
+title: Dichiarazione di utilizzo delle terre e rocce da scavo fuori del sito di produzione (art. 21 D.P.R. 120/2017) – Comune di Napoli e ARPAC, sul SUE
+headline: "Terre e rocce da scavo a Napoli: la dichiarazione di utilizzo per i cantieri piccoli"
+aka:
+  - dichiarazione di utilizzo terre e rocce
+  - terre e rocce da scavo sottoprodotti
+  - dichiarazione art. 21 DPR 120/2017
+  - allegato 6 DPR 120/2017
+updated: 2026-11-03
+summary: >-
+  Chi scava in un cantiere e vuole usare le terre e rocce fuori del sito come sottoprodotti, e non
+  smaltirle come rifiuti, lo dichiara prima di scavare. Nei cantieri piccoli (fino a 6.000 m³) e in
+  quelli grandi che non sono soggetti a VIA o AIA il produttore manda la dichiarazione di utilizzo al
+  Comune del luogo di produzione e all'ARPA almeno 15 giorni prima dell'inizio degli scavi. A Napoli
+  si presenta sul portale "Impresa in un giorno", da sola o nella stessa pratica del titolo edilizio
+  dei lavori. A utilizzo finito segue la dichiarazione di avvenuto utilizzo.
+ente:
+  name: Comune di Napoli
+  office: Sportello Unico Edilizia (istanze sul SUE), con ARPA Campania, Dipartimento Provinciale di Napoli
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata, ambiente]
+  conditions:
+    - text: >-
+        È cantiere di piccole dimensioni quello in cui si producono terre e rocce da scavo per non più
+        di seimila metri cubi, calcolati dalle sezioni di progetto (art. 2 c. 1 t D.P.R. 120/2017).
+      status: verified
+      source: dpr120-art2
+    - text: >-
+        Nei cantieri di piccole dimensioni il produttore attesta le condizioni dell'art. 4 con una
+        dichiarazione sostitutiva di atto di notorietà (modulo dell'Allegato 6), trasmessa anche solo
+        per via telematica al Comune del luogo di produzione e all'Agenzia di protezione ambientale
+        almeno 15 giorni prima dell'inizio dei lavori di scavo (art. 21 c. 1); la dichiarazione
+        assolve la funzione del piano di utilizzo (c. 2) e va aggiornata se i requisiti cambiano in
+        modo sostanziale (c. 3).
+      status: verified
+      source: dpr120-art21
+    - text: >-
+        Anche le terre e rocce dei cantieri di grandi dimensioni non sottoposti a VIA o AIA si
+        qualificano sottoprodotti con la dichiarazione dell'art. 21, secondo gli artt. 20 e 21 (art.
+        22).
+      status: verified
+      source: dpr120-art22
+    - text: >-
+        Le terre e rocce riutilizzate nello stesso sito in cui sono scavate, escluse dalla disciplina
+        dei rifiuti (art. 185 c. 1 c D.Lgs. 152/2006), seguono l'art. 24, non questa dichiarazione.
+      status: verified
+      source: dpr120-art24
+    - text: >-
+        Sul SUE di Napoli l'operazione "Dichiarazione di utilizzo del materiale di scavo fuori del
+        sito di produzione ai sensi dell'art. 21 del DPR n.120/2017" è nel gruppo Terre e rocce da
+        scavo e genera due adempimenti, agli uffici del Comune di Napoli - SUE e ad ARPA Campania,
+        Dipartimento Provinciale di Napoli; si sceglie insieme al titolo edilizio nella stessa
+        pratica.
+      status: verified
+      source: portale-sue-operazioni
+legal_basis:
+  - text: "D.P.R. 13 giugno 2017, n. 120, artt. 2, 4, 20, 21, 22 e Allegato 6."
+    status: verified
+    source: dpr120-art21
+deadline:
+  summary:
+    text: Almeno 15 giorni prima dell'inizio dei lavori di scavo (art. 21 c. 1).
+    status: verified
+    source: dpr120-art21
+channels:
+  - type: portal
+    purpose: procedure
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: portale-sue-operazioni
+      notes: Si compila online; la dichiarazione e gli elaborati si allegano.
+    notes: >-
+      Operazione "Dichiarazione di utilizzo del materiale di scavo fuori del sito di produzione ai
+      sensi dell'art. 21 del DPR n.120/2017", nel gruppo Terre e rocce da scavo: da sola, o spuntata
+      insieme al titolo edilizio (CIL, CILA, SCIA, SCIA alternativa, permesso di costruire).
+steps:
+  - do: >-
+      Stabilire con il tecnico se le terre e rocce escono dal sito come sottoprodotti, quanti metri
+      cubi si scavano e se l'opera è soggetta a VIA o AIA: fino a 6.000 m³, o oltre ma senza VIA né
+      AIA, si fa questa dichiarazione
+    who: professional
+  - do: >-
+      Compilare la dichiarazione (Allegato 6), sottoscritta dal produttore, con i siti di
+      destinazione, i tempi e le quantità
+    who: professional
+  - do: >-
+      Accedere con SPID, CIE o CNS a Impresa in un giorno (SUE di Napoli), scegliere l'operazione da
+      sola o insieme al titolo edilizio, compilare, allegare, firmare e inviare almeno 15 giorni
+      prima degli scavi; conservare la ricevuta
+    who: professional
+    human_only: true
+    channel: [portal]
+pitfalls:
+  - text: >-
+      La dichiarazione va prima degli scavi: dopo, le terre e rocce già portate via non sono
+      sottoprodotti, e dove la dichiarazione di avvenuto utilizzo manca nei termini perdono la
+      qualifica con effetto immediato (art. 7 c. 3).
+    status: verified
+    source: dpr120-art7
+related:
+  - napoli/comune/dichiarazione-avvenuto-utilizzo-terre
+  - napoli/valutazioni-ambientali/piano-utilizzo-terre-rocce
+  - napoli/comune/cila-lavori-edilizi
+  - napoli/comune/scia-edilizia
+  - napoli/comune/permesso-di-costruire
+sources:
+  - id: dpr120-art2
+    label: D.P.R. 13 giugno 2017, n. 120, art. 2 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2017-06-13;120~art2
+    retrieved: 2026-11-03
+    official: true
+  - id: dpr120-art7
+    label: D.P.R. 13 giugno 2017, n. 120, art. 7 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2017-06-13;120~art7
+    retrieved: 2026-11-03
+    official: true
+  - id: dpr120-art21
+    label: D.P.R. 13 giugno 2017, n. 120, art. 21 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2017-06-13;120~art21
+    retrieved: 2026-11-03
+    official: true
+  - id: dpr120-art22
+    label: D.P.R. 13 giugno 2017, n. 120, art. 22 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2017-06-13;120~art22
+    retrieved: 2026-11-03
+    official: true
+  - id: dpr120-art24
+    label: D.P.R. 13 giugno 2017, n. 120, art. 24 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2017-06-13;120~art24
+    retrieved: 2026-11-03
+    official: true
+  - id: portale-sue-operazioni
+    label: Impresa in un giorno, SUE di Napoli – "Scelta operazioni" del settore "Edilizia e pianificazione urbana", gruppo Terre e rocce da scavo
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-11-03
+    official: true
+    notes: >-
+      Si vede solo dopo l'accesso con SPID, creando una pratica (bozza di prova, mai inviata). Ogni
+      operazione del gruppo genera due adempimenti, agli uffici del Comune di Napoli - SUE e ad ARPA
+      Campania, Dipartimento Provinciale di Napoli; il portale le accetta da sole o insieme a un
+      titolo edilizio (provato il 2026-11-03 su una bozza di prova).
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-11-03
+    official: true
+verification:
+  level: L1
+  date: 2026-11-03
+  by: claude
+  method: >-
+    Desk: su Normattiva il D.P.R. 120/2017 artt. 2, 7, 21, 22 e 24 (testo in vigore dal 25/2/2023;
+    l'art. 48 c. 3 D.L. 13/2023 lo abroga solo dall'entrata in vigore del nuovo regolamento, non
+    ancora adottato il 3/11/2026, e il D.L. 177/2026 aggiunge l'art. 185-ter D.Lgs. 152/2006 per il
+    riutilizzo nel sito dei cantieri puntuali, senza toccare l'art. 21); le operazioni del SUE viste
+    sul portale in una bozza di prova.
+  notes: >-
+    Non letti: l'Allegato 6 per intero, le procedure dell'ARPAC per i controlli (art. 21 c. 6), i
+    diritti e il bollo della pratica sul SUE. Se il D.L. 177/2026 non è convertito, l'art. 185-ter
+    decade; l'art. 21 non ne dipende.
