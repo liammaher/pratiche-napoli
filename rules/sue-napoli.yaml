@@ -80,12 +80,15 @@ facts:
         Sì, di una singola unità in un immobile delle zone A, B o C del D.M. 1444/1968, tra le
         categorie residenziale, turistico-ricettiva, produttiva e direzionale, commerciale (art.
         23-ter c. 1-ter), non al piano terra né seminterrata
-      piano_terra: "Sì, di una singola unità al piano terra (primo piano fuori terra) o seminterrata, verso un'altra categoria funzionale"
+      piano_terra: >-
+        Sì, di una singola unità al piano terra (primo piano fuori terra) o seminterrata, in un
+        immobile delle zone A, B o C, tra le categorie residenziale, turistico-ricettiva, produttiva
+        e direzionale, commerciale
       intero_immobile: "Sì, di un intero immobile, restando nella stessa categoria funzionale"
       intero_tra_categorie: "Sì, di un intero immobile, verso un'altra categoria funzionale"
       altro: >-
-        Sì, in un altro modo: un'unità fuori delle zone A, B e C (o equipollenti) verso un'altra
-        categoria, o verso o dalla categoria rurale fuori della zona E
+        Sì, in un altro modo: un'unità (anche al piano terra) fuori delle zone A, B e C (o
+        equipollenti) verso un'altra categoria, o verso o dalla categoria rurale fuori della zona E
     how: >-
       Le categorie funzionali sono quelle dell'art. 23-ter c. 1 DPR 380/2001 (residenziale,
       turistico-ricettiva, produttiva e direzionale, commerciale, rurale). Il fabbisogno di
@@ -158,48 +161,24 @@ rules:
     when: {intervento: [nessuna_opera], cambio_uso: ["no"]}
     then: {refuse: "Senza lavori né cambio di destinazione d'uso non c'è una pratica edilizia da presentare."}
     status: verified
-  - id: cambio-uso-altro
-    when: {intervento: [nessuna_opera, edilizia_libera, manutenzione_straordinaria, restauro, ristrutturazione, ristrutturazione_pesante], cambio_uso: [altro]}
-    then: {refuse: "Questo cambio di destinazione d'uso (un'unità fuori delle zone A, B e C, o verso o dalla categoria rurale fuori della zona E) non è nei casi che la libreria ha verificato."}
-    cites: [{procedure: napoli/comune/scia-edilizia, source: dpr380-art23ter}]
-    status: verified
   - id: uso-non-ammesso
-    when: {intervento: [nessuna_opera, edilizia_libera, manutenzione_straordinaria, restauro, ristrutturazione, ristrutturazione_pesante], cambio_uso: [zona_agricola, non_rilevante, stessa_categoria, tra_categorie, piano_terra, intero_immobile, intero_tra_categorie], uso_ammesso_prg: false}
+    when: {intervento: [nessuna_opera, edilizia_libera, manutenzione_straordinaria, restauro, ristrutturazione, ristrutturazione_pesante], cambio_uso: [zona_agricola, non_rilevante, stessa_categoria, tra_categorie, piano_terra, intero_immobile, intero_tra_categorie, altro], uso_ammesso_prg: false}
     then: {refuse: "La nuova destinazione d'uso è ammissibile solo se il PRG la indica come compatibile per quella zona (art. 27 c. 2 L.R. Campania 31/2021): così il cambio non si può fare."}
     cites: [{procedure: napoli/comune/scia-edilizia, source: lr31-2021}]
     status: verified
   - id: sanatoria-uso-non-ammesso
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_urbanistica, variante_pdc, variante_essenziale_pdc], cambio_uso: [zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], uso_ammesso_prg: false}
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_urbanistica, variante_pdc, variante_essenziale_pdc], cambio_uso: [zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie, piano_terra, altro], uso_ammesso_prg: false}
     then: {refuse: "La nuova destinazione d'uso è ammissibile solo se il PRG la indica come compatibile per quella zona (art. 27 c. 2 L.R. Campania 31/2021): così il cambio non si può fare."}
     cites: [{procedure: napoli/comune/scia-edilizia, source: lr31-2021}]
     status: verified
   - id: centro-storico-a1-a2
     when: {intervento: [nessuna_opera, edilizia_libera, manutenzione_straordinaria, restauro, ristrutturazione, ristrutturazione_pesante], cambio_uso: [non_rilevante, stessa_categoria, intero_immobile], verso_a2_tavola_7a: true}
-    then: {refuse: "Dal 27/10/2026, nell'area della tavola 7a del centro storico il passaggio da abitazione ordinaria (a.1) a B&B, affittacamere, casa vacanze o locazione breve (a.2) è limitato da una soglia di residenzialità ordinaria del 70% dell'intero edificio (art. 63 c. 8 delle norme, D.C.C. 129/2026), e il modo di verificarla non è ancora verificato: va chiesto al SUE."}
+    then: {refuse: "Dal 27/10/2026, nell'area della tavola 7a del centro storico il passaggio da abitazione ordinaria (a.1) a B&B, affittacamere, casa vacanze o locazione breve (a.2) è limitato da una soglia di residenzialità ordinaria del 70% dell'intero edificio (art. 63 c. 8 delle norme, D.C.C. 129/2026), e la Giunta non ha ancora adottato il provvedimento che stabilisce come verificarla (art. 63 c. 8; la pagina del Comune sulla variante, letta il 3/11/2026, non lo riporta): va chiesto al SUE."}
     cites:
       - {procedure: napoli/comune/scia-edilizia, source: variante-dcc-129}
       - {procedure: napoli/comune/scia-edilizia, source: variante-burc-58}
+      - {procedure: napoli/comune/scia-edilizia, source: variante-pagina}
     status: verified
-  # Per un'unità al piano terra o seminterrata l'art. 23-ter rimette il cambio alla legge
-  # regionale, e la circolare regionale non ne indica il titolo.
-  - id: cambio-uso-piano-terra
-    when: {intervento: [nessuna_opera, edilizia_libera, manutenzione_straordinaria, restauro, ristrutturazione, ristrutturazione_pesante], cambio_uso: [piano_terra]}
-    then:
-      role: main
-      procedure: napoli/comune/scia-alternativa-pdc
-      regime: scia
-      portal: {settore: "Edilizia e pianificazione urbana", operazione: "Segnalazione Certificata Inizio Attività alternativa al Permesso di Costruire (S.C.I.A. alternativa P.d.C.)"}
-    cites:
-      - {procedure: napoli/comune/scia-edilizia, source: dpr380-art23ter}
-      - {procedure: napoli/comune/scia-alternativa-pdc, source: lr13-2022}
-    status: unverified
-    note: >-
-      Per un'unità al piano terra o seminterrata il cambio verso un'altra categoria è rimesso alla
-      legge regionale (art. 23-ter c. 1-quater DPR 380/2001), e la circolare regionale CI/2025/3 non
-      ne indica il titolo. La regola generale della L.R. Campania 13/2022 (art. 2 c. 6) porterebbe
-      alla SCIA alternativa al permesso di costruire, ma non è verificato: va chiesto al SUE. Se il
-      cambio non aumenta il fabbisogno di standard urbanistici non è rilevante ed è libero (art. 2
-      c. 4).
 
   # --- Lavori già eseguiti ---
   - id: sanatoria-titolo
@@ -212,7 +191,7 @@ rules:
   # con il permesso in sanatoria (art. 36, che vale anche senza la SCIA alternativa). La doppia
   # conformità alla disciplina della zona A la assevera il tecnico.
   - id: permesso-sanatoria-zona-a
-    when: {sanatoria: true, intervento: [ristrutturazione], demolizione_zona_a: true, cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], paesaggio: ["no", senza_autorizzazione], bene_culturale: false}
+    when: {sanatoria: true, intervento: [ristrutturazione], demolizione_zona_a: true, cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie, piano_terra, altro], paesaggio: ["no", senza_autorizzazione], bene_culturale: false}
     then:
       role: main
       procedure: napoli/comune/permesso-in-sanatoria
@@ -235,7 +214,7 @@ rules:
     cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}]
     status: verified
   - id: permesso-sanatoria-zona-a-tutela
-    when: {sanatoria: true, intervento: [ristrutturazione], demolizione_zona_a: true, cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: false, bene_culturale: false}
+    when: {sanatoria: true, intervento: [ristrutturazione], demolizione_zona_a: true, cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie, piano_terra, altro], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: false, bene_culturale: false}
     then:
       role: main
       procedure: napoli/comune/permesso-in-sanatoria
@@ -289,7 +268,7 @@ rules:
     cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36bis}]
     status: verified
   - id: permesso-sanatoria-tutela
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_urbanistica, ristrutturazione_pesante], cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: false, bene_culturale: false}
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_urbanistica, ristrutturazione_pesante], cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie, piano_terra, altro], paesaggio: [semplificata, ordinaria], paesaggio_eseguiti: true, paesaggio_volumi: false, bene_culturale: false}
     then:
       role: main
       procedure: napoli/comune/permesso-in-sanatoria
@@ -318,13 +297,8 @@ rules:
       - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art169}
       - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: sabap-istanza}
     status: verified
-  - id: sanatoria-permesso-cambio-uso
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_urbanistica, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], cambio_uso: [piano_terra, altro]}
-    then: {refuse: "Questo cambio di destinazione d'uso (un'unità al piano terra o seminterrata verso un'altra categoria, o un caso fuori delle zone A, B e C) non è nei casi che la libreria ha verificato, e già fatto senza titolo va chiesto al SUE come sanarlo."}
-    cites: [{procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}]
-    status: verified
   - id: permesso-sanatoria
-    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_urbanistica, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], paesaggio: ["no", senza_autorizzazione], bene_culturale: false}
+    when: {sanatoria: true, intervento: [nuova_costruzione, ristrutturazione_urbanistica, ristrutturazione_pesante, variante_pdc, variante_essenziale_pdc], cambio_uso: ["no", non_rilevante, zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie, piano_terra, altro], paesaggio: ["no", senza_autorizzazione], bene_culturale: false}
     then:
       role: main
       procedure: napoli/comune/permesso-in-sanatoria
@@ -443,28 +417,28 @@ rules:
       - {procedure: napoli/comune/scia-alternativa-pdc, source: lr13-2022}
     status: verified
   - id: permesso-sanatoria-cambio-uso
-    when: {sanatoria: true, intervento: [edilizia_libera, manutenzione_straordinaria, restauro], cambio_uso: [zona_agricola, intero_immobile, intero_tra_categorie], paesaggio: ["no", senza_autorizzazione]}
+    when: {sanatoria: true, intervento: [edilizia_libera, manutenzione_straordinaria, restauro], cambio_uso: [zona_agricola, intero_immobile, intero_tra_categorie, piano_terra, altro], paesaggio: ["no", senza_autorizzazione]}
     then: *permesso-sanatoria
     cites:
       - {procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}
       - {procedure: napoli/comune/scia-alternativa-pdc, source: lr13-2022}
     status: verified
   - id: permesso-sanatoria-cambio-uso-ristrutturazione
-    when: {sanatoria: true, intervento: [ristrutturazione], cambio_uso: [zona_agricola, intero_immobile, intero_tra_categorie], paesaggio: ["no", senza_autorizzazione], demolizione_zona_a: false}
+    when: {sanatoria: true, intervento: [ristrutturazione], cambio_uso: [zona_agricola, intero_immobile, intero_tra_categorie, piano_terra, altro], paesaggio: ["no", senza_autorizzazione], demolizione_zona_a: false}
     then: *permesso-sanatoria
     cites:
       - {procedure: napoli/comune/permesso-in-sanatoria, source: dpr380-art36}
       - {procedure: napoli/comune/scia-alternativa-pdc, source: lr13-2022}
     status: verified
   - id: sanatoria-cambio-uso-tutela
-    when: {sanatoria: true, intervento: [edilizia_libera, manutenzione_straordinaria, restauro, ristrutturazione], cambio_uso: [zona_agricola, intero_immobile, intero_tra_categorie], paesaggio: [semplificata, ordinaria]}
+    when: {sanatoria: true, intervento: [edilizia_libera, manutenzione_straordinaria, restauro, ristrutturazione], cambio_uso: [zona_agricola, intero_immobile, intero_tra_categorie, piano_terra, altro], paesaggio: [semplificata, ordinaria]}
     then: {refuse: "In un'area tutelata, opere che alterano i luoghi fatte senza titolo con un cambio d'uso che chiedeva la SCIA alternativa o il permesso: il permesso in sanatoria vale solo con la compatibilità paesaggistica accertata (art. 146 c. 4, art. 167 D.Lgs. 42/2004), chiesta con l'accertamento nella stessa pratica, ma l'asseverazione del permesso sul portale non sa dichiararlo (un difetto del portale): va chiesto al SUE come presentarlo."}
     cites:
       - {procedure: napoli/comune/permesso-in-sanatoria, source: dlgs42-art167}
       - {procedure: napoli/comune/permesso-in-sanatoria, source: portale-sue-operazioni}
     status: verified
   - id: sanatoria-cambio-uso-bene-culturale
-    when: {sanatoria: true, intervento: [edilizia_libera, manutenzione_straordinaria, restauro, ristrutturazione], cambio_uso: [zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie], bene_culturale: true}
+    when: {sanatoria: true, intervento: [edilizia_libera, manutenzione_straordinaria, restauro, ristrutturazione], cambio_uso: [zona_agricola, stessa_categoria, tra_categorie, intero_immobile, intero_tra_categorie, piano_terra, altro], bene_culturale: true}
     then: *bene-culturale-eseguiti
     cites:
       - {procedure: napoli/soprintendenza/autorizzazione-beni-culturali, source: dlgs42-art21}
@@ -719,8 +693,13 @@ rules:
     then: *permesso
     cites: [{procedure: napoli/comune/scia-edilizia, source: dpr380-art23ter}, {procedure: napoli/comune/scia-edilizia, source: dpr380-art22}]
     status: verified
+  # Un'unità al piano terra o seminterrata verso un'altra categoria (art. 23-ter c. 1-quater: la
+  # rimette alla legge regionale), o fuori delle zone A, B e C, o verso o dalla categoria rurale fuori
+  # della zona E: l'art. 23-ter non ne dà il titolo, e la legge della Campania lo dà come per un intero
+  # immobile (circolare CI/2025/3, d): libero senza opere (art. 2 c. 5 L.R. 19/2001), altrimenti la
+  # SCIA alternativa al permesso (art. 2 c. 6 L.R. 13/2022), il permesso con opere sulla sagoma.
   - id: cambio-uso-tra-categorie-senza-opere
-    when: {intervento: [nessuna_opera], cambio_uso: [tra_categorie, intero_tra_categorie], uso_ammesso_prg: true}
+    when: {intervento: [nessuna_opera], cambio_uso: [tra_categorie, intero_tra_categorie, piano_terra, altro], uso_ammesso_prg: true}
     then: {none: "Un cambio d'uso senza opere tra categorie compatibili con la zona del PRG è libero in Campania (art. 2 c. 5 L.R. 19/2001): non serve una pratica al SUE."}
     cites: [{procedure: napoli/comune/scia-edilizia, source: lr19-2001}, {procedure: napoli/comune/scia-edilizia, source: circolare-salva-casa-campania}]
     status: verified
@@ -739,12 +718,15 @@ rules:
     cites: [{procedure: napoli/comune/scia-alternativa-pdc, source: lr13-2022}, {procedure: napoli/comune/permesso-di-costruire, source: dpr380-art23}]
     status: verified
   - id: scia-alternativa-intero-immobile
-    when: {sanatoria: false, intervento: [edilizia_libera, manutenzione_straordinaria, restauro], cambio_uso: [intero_immobile, intero_tra_categorie], uso_ammesso_prg: true, permesso_per_scelta: false}
+    when: {sanatoria: false, intervento: [edilizia_libera, manutenzione_straordinaria, restauro], cambio_uso: [intero_immobile, intero_tra_categorie, piano_terra, altro], uso_ammesso_prg: true, permesso_per_scelta: false}
     then: *alternativa
-    cites: [{procedure: napoli/comune/scia-alternativa-pdc, source: lr13-2022}, {procedure: napoli/comune/scia-alternativa-pdc, source: circolare-salva-casa-campania}]
+    cites:
+      - {procedure: napoli/comune/scia-alternativa-pdc, source: lr13-2022}
+      - {procedure: napoli/comune/scia-alternativa-pdc, source: circolare-salva-casa-campania}
+      - {procedure: napoli/comune/scia-edilizia, source: dpr380-art23ter}
     status: verified
   - id: permesso-per-scelta-intero-immobile
-    when: {sanatoria: false, intervento: [edilizia_libera, manutenzione_straordinaria, restauro], cambio_uso: [intero_immobile, intero_tra_categorie], uso_ammesso_prg: true, permesso_per_scelta: true}
+    when: {sanatoria: false, intervento: [edilizia_libera, manutenzione_straordinaria, restauro], cambio_uso: [intero_immobile, intero_tra_categorie, piano_terra, altro], uso_ammesso_prg: true, permesso_per_scelta: true}
     then: *permesso
     cites: [{procedure: napoli/comune/scia-alternativa-pdc, source: lr13-2022}, {procedure: napoli/comune/permesso-di-costruire, source: dpr380-art23}]
     status: verified
@@ -779,17 +761,17 @@ rules:
     cites: [{procedure: napoli/comune/scia-edilizia, source: scia-modulo}]
     status: verified
   - id: scia-alternativa-ristrutturazione-intero-immobile
-    when: {sanatoria: false, intervento: [ristrutturazione], cambio_uso: [intero_immobile, intero_tra_categorie], uso_ammesso_prg: true, cambio_uso_sagoma: false, demolizione_zona_a: false, permesso_per_scelta: false}
+    when: {sanatoria: false, intervento: [ristrutturazione], cambio_uso: [intero_immobile, intero_tra_categorie, piano_terra, altro], uso_ammesso_prg: true, cambio_uso_sagoma: false, demolizione_zona_a: false, permesso_per_scelta: false}
     then: *alternativa
     cites: [{procedure: napoli/comune/scia-alternativa-pdc, source: lr13-2022}, {procedure: napoli/comune/scia-alternativa-pdc, source: circolare-salva-casa-campania}]
     status: verified
   - id: permesso-per-scelta-ristrutturazione-intero-immobile
-    when: {sanatoria: false, intervento: [ristrutturazione], cambio_uso: [intero_immobile, intero_tra_categorie], uso_ammesso_prg: true, cambio_uso_sagoma: false, demolizione_zona_a: false, permesso_per_scelta: true}
+    when: {sanatoria: false, intervento: [ristrutturazione], cambio_uso: [intero_immobile, intero_tra_categorie, piano_terra, altro], uso_ammesso_prg: true, cambio_uso_sagoma: false, demolizione_zona_a: false, permesso_per_scelta: true}
     then: *permesso
     cites: [{procedure: napoli/comune/scia-alternativa-pdc, source: lr13-2022}, {procedure: napoli/comune/permesso-di-costruire, source: dpr380-art23}]
     status: verified
   - id: permesso-cambio-uso-sagoma
-    when: {sanatoria: false, intervento: [ristrutturazione, ristrutturazione_pesante], cambio_uso: [intero_immobile, intero_tra_categorie], uso_ammesso_prg: true, cambio_uso_sagoma: true}
+    when: {sanatoria: false, intervento: [ristrutturazione, ristrutturazione_pesante], cambio_uso: [intero_immobile, intero_tra_categorie, piano_terra, altro], uso_ammesso_prg: true, cambio_uso_sagoma: true}
     then: *permesso
     cites: [{procedure: napoli/comune/permesso-di-costruire, source: lr19-2001}, {procedure: napoli/comune/permesso-di-costruire, source: circolare-salva-casa-campania}]
     status: verified
@@ -810,7 +792,7 @@ rules:
     cites: [{procedure: napoli/comune/scia-alternativa-pdc, source: dpr380-art23}]
     status: verified
   - id: scia-alternativa-ristrutturazione-pesante-intero-immobile
-    when: {sanatoria: false, intervento: [ristrutturazione_pesante], cambio_uso: [intero_immobile, intero_tra_categorie], uso_ammesso_prg: true, cambio_uso_sagoma: false, demolizione_zona_a: false, permesso_per_scelta: false}
+    when: {sanatoria: false, intervento: [ristrutturazione_pesante], cambio_uso: [intero_immobile, intero_tra_categorie, piano_terra, altro], uso_ammesso_prg: true, cambio_uso_sagoma: false, demolizione_zona_a: false, permesso_per_scelta: false}
     then: *alternativa
     cites: [{procedure: napoli/comune/scia-alternativa-pdc, source: dpr380-art23}, {procedure: napoli/comune/scia-alternativa-pdc, source: lr13-2022}]
     status: verified
