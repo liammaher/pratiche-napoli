@@ -1,0 +1,109 @@
+schema_version: 0
+id: napoli/comune/dichiarazione-avvenuto-utilizzo-terre
+title: Dichiarazione di avvenuto utilizzo delle terre e rocce da scavo (D.A.U., art. 7 D.P.R. 120/2017) – Comune di Napoli e ARPAC, sul SUE
+headline: "Terre e rocce da scavo a Napoli: la dichiarazione di avvenuto utilizzo, a utilizzo finito"
+aka:
+  - DAU terre e rocce
+  - dichiarazione di avvenuto utilizzo
+  - allegato 8 DPR 120/2017
+updated: 2026-11-03
+summary: >-
+  Finito l'utilizzo delle terre e rocce da scavo come sottoprodotti, secondo il piano di utilizzo o
+  la dichiarazione di utilizzo, l'esecutore o il produttore lo attesta con la dichiarazione di
+  avvenuto utilizzo, entro il termine di validità del piano o della dichiarazione. Va all'autorità
+  e all'ARPA del sito di destinazione e ai Comuni del sito di produzione e di destinazione. A Napoli
+  si presenta sul portale "Impresa in un giorno". Senza, le terre e rocce perdono subito la qualifica
+  di sottoprodotto.
+ente:
+  name: Comune di Napoli
+  office: Sportello Unico Edilizia (istanze sul SUE), con ARPA Campania, Dipartimento Provinciale di Napoli
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata, ambiente]
+  conditions:
+    - text: >-
+        L'utilizzo delle terre e rocce da scavo in conformità al piano di utilizzo o alla
+        dichiarazione dell'art. 21 è attestato all'autorità competente con la dichiarazione di
+        avvenuto utilizzo (art. 7 c. 1 D.P.R. 120/2017).
+      status: verified
+      source: dpr120-art7
+    - text: >-
+        La rende l'esecutore o il produttore con il modulo dell'Allegato 8, anche solo per via
+        telematica, all'autorità e all'Agenzia di protezione ambientale del sito di destinazione e
+        ai Comuni del sito di produzione e del sito di destinazione; la conserva per cinque anni (art.
+        7 c. 2).
+      status: verified
+      source: dpr120-art7
+    - text: >-
+        Sul SUE di Napoli l'operazione "Dichiarazione di avvenuto utilizzo (D.A.U.) ai sensi
+        dell'art. 7 del DPR n. 120/2017" è nel gruppo Terre e rocce da scavo e genera due
+        adempimenti, agli uffici del Comune di Napoli - SUE e ad ARPA Campania, Dipartimento
+        Provinciale di Napoli.
+      status: verified
+      source: portale-sue-operazioni
+legal_basis:
+  - text: "D.P.R. 13 giugno 2017, n. 120, art. 7 e Allegato 8."
+    status: verified
+    source: dpr120-art7
+deadline:
+  summary:
+    text: >-
+      Entro il termine di validità del piano di utilizzo o della dichiarazione dell'art. 21: dopo, le
+      terre e rocce perdono con effetto immediato la qualifica di sottoprodotto (art. 7 c. 3).
+    status: verified
+    source: dpr120-art7
+channels:
+  - type: portal
+    purpose: procedure
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: portale-sue-operazioni
+      notes: Si compila online; la dichiarazione e gli elaborati si allegano.
+    notes: Operazione "Dichiarazione di avvenuto utilizzo (D.A.U.) ai sensi dell'art. 7 del DPR n. 120/2017", nel gruppo Terre e rocce da scavo.
+steps:
+  - do: Raccogliere dal cantiere le quantità effettivamente portate a ciascun sito di destinazione e le date
+    who: professional
+  - do: >-
+      Accedere con SPID, CIE o CNS a Impresa in un giorno (SUE di Napoli), scegliere l'operazione,
+      compilare, allegare la dichiarazione (Allegato 8), firmare e inviare entro la validità del
+      piano o della dichiarazione di utilizzo; conservare la ricevuta per cinque anni
+    who: professional
+    human_only: true
+    channel: [portal]
+related:
+  - napoli/comune/utilizzo-materiale-scavo-fuori-sito
+  - napoli/valutazioni-ambientali/piano-utilizzo-terre-rocce
+sources:
+  - id: dpr120-art7
+    label: D.P.R. 13 giugno 2017, n. 120, art. 7 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2017-06-13;120~art7
+    retrieved: 2026-11-03
+    official: true
+  - id: portale-sue-operazioni
+    label: Impresa in un giorno, SUE di Napoli – "Scelta operazioni" del settore "Edilizia e pianificazione urbana", gruppo Terre e rocce da scavo
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-11-03
+    official: true
+    notes: Si vede solo dopo l'accesso con SPID, creando una pratica (bozza di prova, mai inviata).
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-11-03
+    official: true
+verification:
+  level: L1
+  date: 2026-11-03
+  by: claude
+  method: >-
+    Desk: su Normattiva il D.P.R. 120/2017 art. 7 (testo in vigore dal 25/2/2023); l'operazione del
+    SUE vista sul portale in una bozza di prova.
+  notes: Non letti l'Allegato 8 per intero, né i diritti e il bollo della pratica sul SUE.
