@@ -1,0 +1,133 @@
+schema_version: 0
+id: napoli/valutazioni-ambientali/piano-utilizzo-terre-rocce
+title: Piano di utilizzo delle terre e rocce da scavo (art. 9 D.P.R. 120/2017) per i cantieri grandi soggetti a VIA o AIA – Regione Campania e ARPAC
+headline: "Piano di utilizzo delle terre e rocce: all'autorità della VIA, non al SUE"
+aka:
+  - piano di utilizzo terre e rocce
+  - PUT terre e rocce da scavo
+  - piano art. 9 DPR 120/2017
+updated: 2026-11-03
+summary: >-
+  Nei cantieri di grandi dimensioni (oltre 6.000 m³ di terre e rocce scavate) di opere soggette a VIA
+  o AIA, le terre e rocce si usano come sottoprodotti secondo un piano di utilizzo, che il
+  proponente trasmette all'autorità competente e all'ARPA almeno novanta giorni prima dell'inizio
+  dei lavori, e prima che la VIA o l'AIA si concluda. Per quelle opere l'autorità competente è
+  quella della VIA o dell'AIA: in Campania, per la VIA regionale, lo Staff Valutazioni Ambientali
+  della Regione, con il suo modello. Il portale "Impresa in un giorno" offre a Napoli la
+  trasmissione al Comune e all'ARPAC, ma non con il titolo edilizio: si presenta a parte.
+ente:
+  name: Regione Campania – Staff Valutazioni Ambientali
+  office: Autorità competente per la VIA regionale, con ARPA Campania, Dipartimento Provinciale di Napoli
+applies_to:
+  events: [renovate]
+  audience: [business]
+  sectors: [edilizia privata, ambiente]
+  conditions:
+    - text: >-
+        È cantiere di grandi dimensioni quello in cui si producono oltre seimila metri cubi di terre e
+        rocce da scavo, calcolati dalle sezioni di progetto, in attività od opere soggette a VIA o AIA
+        (art. 2 c. 1 u D.P.R. 120/2017); oltre i seimila metri cubi senza VIA né AIA è "non sottoposto
+        a VIA o AIA" (lett. v) e segue la dichiarazione dell'art. 21.
+      status: verified
+      source: dpr120-art2
+    - text: >-
+        Per le opere soggette a VIA o AIA l'autorità competente è quella della VIA o dell'AIA (art. 5
+        c. 1 o D.Lgs. 152/2006), non quella che autorizza l'opera (art. 2 c. 1 d D.P.R. 120/2017).
+      status: verified
+      source: dpr120-art2
+    - text: >-
+        Il proponente trasmette il piano di utilizzo, anche solo per via telematica, all'autorità
+        competente e all'Agenzia di protezione ambientale almeno novanta giorni prima dell'inizio dei
+        lavori; per un'opera soggetta a VIA o AIA, prima della conclusione del procedimento (art. 9
+        c. 1).
+      status: verified
+      source: dpr120-art9
+    - text: >-
+        In Campania l'autorità competente per la VIA regionale è lo Staff Valutazioni Ambientali
+        della Regione (§ 1.1 del Procedurale); il piano di utilizzo si presenta con la VIA o il PAUR,
+        o con un'istanza sul modello regionale trasmessa insieme allo Staff e al dipartimento ARPAC
+        competente (§ 9).
+      status: verified
+      source: procedurale-via-campania
+    - text: >-
+        Sul SUE di Napoli l'operazione "Trasmissione del Piano di utilizzo delle terre e rocce da
+        scavo ai sensi dell'art. 9 del DPR n. 120/2017" è nel gruppo Terre e rocce da scavo e genera
+        due adempimenti, agli uffici del Comune di Napoli - SUE e ad ARPA Campania, Dipartimento
+        Provinciale di Napoli.
+      status: verified
+      source: portale-sue-operazioni
+legal_basis:
+  - text: "D.P.R. 13 giugno 2017, n. 120, artt. 2, 9 e Allegato 5; Regione Campania, Procedurale VIA (D.G.R. 613/2021), § 9."
+    status: verified
+    source: dpr120-art9
+deadline:
+  summary:
+    text: Almeno novanta giorni prima dell'inizio dei lavori e, per un'opera soggetta a VIA o AIA, prima della conclusione del procedimento (art. 9 c. 1).
+    status: verified
+    source: dpr120-art9
+channels:
+  - type: pec
+    purpose: procedure
+    name: Regione Campania – Staff Valutazioni Ambientali
+    address: staff.501792@pec.regione.campania.it
+    receipt: legal
+    preferred: true
+    source: procedurale-via-campania
+    notes: >-
+      Con la VIA o il PAUR, o con l'istanza sul modello regionale, in formato elettronico secondo le
+      specifiche del sito tematico VAS - VIA - VI, trasmessa insieme al dipartimento ARPAC competente
+      (Procedurale §§ 1.1 e 9). Il portale del SUE di Napoli ha anch'esso un'operazione di
+      trasmissione del piano al Comune e all'ARPAC.
+steps:
+  - do: >-
+      Stabilire con il tecnico se il cantiere supera i 6.000 m³ di scavo e se l'opera è soggetta a
+      VIA o AIA: solo allora serve il piano di utilizzo (altrimenti la dichiarazione dell'art. 21)
+    who: professional
+  - do: Redigere il piano secondo l'Allegato 5 e la dichiarazione sostitutiva dell'art. 9 c. 2
+    who: professional
+  - do: >-
+      Presentarlo con la VIA o il PAUR, o con l'istanza sul modello della Regione allo Staff
+      Valutazioni Ambientali e all'ARPAC, almeno novanta giorni prima dei lavori e prima che la VIA
+      si concluda
+    who: professional
+    human_only: true
+    channel: [pec]
+related:
+  - napoli/comune/utilizzo-materiale-scavo-fuori-sito
+  - napoli/comune/dichiarazione-avvenuto-utilizzo-terre
+  - napoli/comune/permesso-di-costruire
+sources:
+  - id: dpr120-art2
+    label: D.P.R. 13 giugno 2017, n. 120, art. 2 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2017-06-13;120~art2
+    retrieved: 2026-11-03
+    official: true
+  - id: dpr120-art9
+    label: D.P.R. 13 giugno 2017, n. 120, art. 9 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2017-06-13;120~art9
+    retrieved: 2026-11-03
+    official: true
+  - id: procedurale-via-campania
+    label: Regione Campania, Procedurale VIA (Allegato alla D.G.R. 613 del 28/12/2021, BURC n. 1 del 3 gennaio 2022), § 1.1 e § 9
+    url: https://viavas.regione.campania.it/opencms/export/sites/default/VIAVAS/download/DGR_613_28122021/Allegato_197222.pdf
+    retrieved: 2026-11-03
+    sha256: d1acddee465d48b65519fbd549dcbd715dff2d30d409e910685eabec5e8824a1
+    official: true
+  - id: portale-sue-operazioni
+    label: Impresa in un giorno, SUE di Napoli – "Scelta operazioni" del settore "Edilizia e pianificazione urbana", gruppo Terre e rocce da scavo
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-11-03
+    official: true
+    notes: Si vede solo dopo l'accesso con SPID, creando una pratica (bozza di prova, mai inviata).
+verification:
+  level: L1
+  date: 2026-11-03
+  by: claude
+  method: >-
+    Desk: su Normattiva il D.P.R. 120/2017 artt. 2 e 9 (testo in vigore dal 25/2/2023); il
+    Procedurale VIA della Regione Campania (testo del PDF, §§ 1.1 e 9); l'operazione del SUE vista
+    sul portale in una bozza di prova.
+  notes: >-
+    Non letti: l'Allegato 5, il modello regionale dell'istanza, gli oneri regionali. Non chiesto al
+    SUE che cosa fa di un piano trasmesso dal suo portale per un'opera soggetta a VIA. Le opere
+    soggette alla VIA statale hanno per autorità il Ministero, non la Regione.
