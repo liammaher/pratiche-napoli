@@ -580,7 +580,7 @@ forms:
         map: { ask: "Il tecnico ha un altro incarico, da specificare?" }
         choices: [{ box: altro, values: [si, sì] }]
       - label: A1.3 – altro (specificare)
-        map: { ask: Quale altro incarico ha il tecnico? }
+        map: { ask: "Quale altro incarico ha il tecnico?" }
         when: { field: A1.3 – altro, ticks: [altro] }
       - label: A1.3 – tipologia di lavori per i quali si è avuto l'incarico
         map: { ask: "Che lavori riguarda l'incarico (per esempio: manutenzione straordinaria dell'appartamento)?" }
