@@ -97,6 +97,12 @@ applies_to:
         se conforme alla disciplina della zona A sia di allora sia di oggi.
       status: verified
       source: dpr380-art36
+    - text: >-
+        Una ristrutturazione urbanistica (art. 3 c. 1 f DPR 380/2001) chiede sempre il permesso di
+        costruire (art. 10 c. 1 c): eseguita senza, si sana con il permesso in sanatoria dell'art. 36,
+        se conforme alla disciplina urbanistica ed edilizia sia di allora sia di oggi.
+      status: verified
+      source: dpr380-art36
 legal_basis:
   - text: "D.P.R. 380/2001, art. 36 (accertamento di conformità in assenza di titolo) e art. 36-bis, nel testo in vigore dal 28/07/2024."
     status: verified
