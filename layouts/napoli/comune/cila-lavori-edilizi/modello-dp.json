@@ -1,0 +1,602 @@
+{
+  "procedure": "napoli/comune/cila-lavori-edilizi",
+  "form": "modello-dp",
+  "sha256": "46b0506b18aaf4d83b59b1efbec364044d92e956b78624bfaad6a6052d3975dc",
+  "font_size": 9,
+  "boxes": [
+    {
+      "label": "A1 – cognome",
+      "rect": [
+        37,
+        194,
+        314,
+        206
+      ]
+    },
+    {
+      "label": "A1 – nome",
+      "rect": [
+        37,
+        221,
+        314,
+        233
+      ]
+    },
+    {
+      "label": "A1 – codice fiscale",
+      "cells": [
+        [
+          316.8,
+          331.3
+        ],
+        [
+          331.8,
+          346.8
+        ],
+        [
+          347.3,
+          362.3
+        ],
+        [
+          362.8,
+          377.8
+        ],
+        [
+          378.3,
+          393.3
+        ],
+        [
+          393.8,
+          408.8
+        ],
+        [
+          409.3,
+          424.3
+        ],
+        [
+          424.8,
+          439.8
+        ],
+        [
+          440.3,
+          455.3
+        ],
+        [
+          455.8,
+          470.8
+        ],
+        [
+          471.3,
+          486.4
+        ],
+        [
+          486.9,
+          501.9
+        ],
+        [
+          502.4,
+          517.4
+        ],
+        [
+          517.9,
+          532.9
+        ],
+        [
+          533.4,
+          548.4
+        ],
+        [
+          548.9,
+          565.1
+        ]
+      ],
+      "baseline": 231
+    },
+    {
+      "label": "A1 – nato/a a",
+      "rect": [
+        37,
+        248,
+        314,
+        260
+      ]
+    },
+    {
+      "label": "A1 – prov. di nascita",
+      "rect": [
+        319,
+        248,
+        442,
+        260
+      ]
+    },
+    {
+      "label": "A1 – il",
+      "rect": [
+        446,
+        248,
+        563,
+        260
+      ]
+    },
+    {
+      "label": "A1 – indirizzo di residenza",
+      "rect": [
+        37,
+        286,
+        314,
+        297
+      ]
+    },
+    {
+      "label": "A1 – n",
+      "rect": [
+        318,
+        286,
+        343,
+        297
+      ]
+    },
+    {
+      "label": "A1 – cap",
+      "rect": [
+        347,
+        286,
+        393,
+        297
+      ]
+    },
+    {
+      "label": "A1 – località",
+      "rect": [
+        397,
+        286,
+        520,
+        297
+      ]
+    },
+    {
+      "label": "A1 – prov",
+      "rect": [
+        524,
+        286,
+        563,
+        297
+      ]
+    },
+    {
+      "label": "A1 – telefono",
+      "rect": [
+        37,
+        324,
+        194,
+        335
+      ]
+    },
+    {
+      "label": "A1 – posta elettronica certificata",
+      "rect": [
+        319,
+        324,
+        563,
+        335
+      ]
+    },
+    {
+      "label": "A1.2 – denominazione / ragione sociale",
+      "rect": [
+        37,
+        366,
+        314,
+        378
+      ]
+    },
+    {
+      "label": "A1.2 – partita iva",
+      "cells": [
+        [
+          316.8,
+          331.3
+        ],
+        [
+          331.8,
+          346.8
+        ],
+        [
+          347.3,
+          362.3
+        ],
+        [
+          362.8,
+          377.8
+        ],
+        [
+          378.3,
+          393.3
+        ],
+        [
+          393.8,
+          408.8
+        ],
+        [
+          409.3,
+          424.3
+        ],
+        [
+          424.8,
+          439.8
+        ],
+        [
+          440.3,
+          455.3
+        ],
+        [
+          455.8,
+          470.8
+        ],
+        [
+          471.3,
+          486.4
+        ]
+      ],
+      "baseline": 376
+    },
+    {
+      "label": "A1.2 – indirizzo della sede",
+      "rect": [
+        37,
+        404,
+        314,
+        415
+      ]
+    },
+    {
+      "label": "A1.2 – n",
+      "rect": [
+        318,
+        404,
+        343,
+        415
+      ]
+    },
+    {
+      "label": "A1.2 – cap",
+      "rect": [
+        347,
+        404,
+        393,
+        415
+      ]
+    },
+    {
+      "label": "A1.2 – località",
+      "rect": [
+        397,
+        404,
+        520,
+        415
+      ]
+    },
+    {
+      "label": "A1.2 – prov",
+      "rect": [
+        524,
+        404,
+        563,
+        415
+      ]
+    },
+    {
+      "label": "A1.2 – telefono",
+      "rect": [
+        37,
+        442,
+        194,
+        453
+      ]
+    },
+    {
+      "label": "A1.2 – posta elettronica certificata",
+      "rect": [
+        319,
+        442,
+        563,
+        453
+      ]
+    },
+    {
+      "label": "A1.2 – in qualità di",
+      "rect": [
+        105,
+        457,
+        563,
+        469
+      ]
+    },
+    {
+      "label": "A1.3 – progettista",
+      "choices": {
+        "progettista": [
+          39.8,
+          486.4,
+          46.8,
+          494.4
+        ]
+      }
+    },
+    {
+      "label": "A1.3 – direttore dei lavori",
+      "choices": {
+        "direttore dei lavori": [
+          39.8,
+          496.8,
+          46.8,
+          504.8
+        ]
+      }
+    },
+    {
+      "label": "A1.3 – progettista strutturale",
+      "choices": {
+        "progettista strutturale": [
+          39.8,
+          507.1,
+          46.8,
+          515.1
+        ]
+      }
+    },
+    {
+      "label": "A1.3 – professionista asseveratore",
+      "choices": {
+        "professionista asseveratore": [
+          39.8,
+          517.5,
+          46.8,
+          525.5
+        ]
+      }
+    },
+    {
+      "label": "A1.3 – certificatore energetico",
+      "choices": {
+        "certificatore energetico": [
+          39.8,
+          527.8,
+          46.8,
+          535.8
+        ]
+      }
+    },
+    {
+      "label": "A1.3 – geologo",
+      "choices": {
+        "geologo": [
+          39.8,
+          538.2,
+          46.8,
+          546.2
+        ]
+      }
+    },
+    {
+      "label": "A1.3 – altro",
+      "choices": {
+        "altro": [
+          39.8,
+          548.5,
+          46.8,
+          556.5
+        ]
+      }
+    },
+    {
+      "label": "A1.3 – altro (specificare)",
+      "rect": [
+        123,
+        547,
+        212,
+        557.5
+      ]
+    },
+    {
+      "label": "A1.3 – tipologia di lavori per i quali si è avuto l'incarico",
+      "rect": [
+        293,
+        512,
+        555,
+        525.4
+      ],
+      "continuation": [
+        [
+          293,
+          525.4,
+          544,
+          538.8
+        ]
+      ]
+    },
+    {
+      "label": "A2.1 – cognome e nome",
+      "rect": [
+        37,
+        628,
+        314,
+        640
+      ]
+    },
+    {
+      "label": "A2.1 – codice fiscale",
+      "cells": [
+        [
+          315.3,
+          330.3
+        ],
+        [
+          330.8,
+          345.4
+        ],
+        [
+          345.9,
+          360.8
+        ],
+        [
+          361.3,
+          376.6
+        ],
+        [
+          377.1,
+          392.1
+        ],
+        [
+          392.6,
+          407.9
+        ],
+        [
+          408.4,
+          423.3
+        ],
+        [
+          423.8,
+          438.4
+        ],
+        [
+          438.9,
+          453.9
+        ],
+        [
+          454.4,
+          469.7
+        ],
+        [
+          470.2,
+          485.1
+        ],
+        [
+          485.6,
+          500.9
+        ],
+        [
+          501.4,
+          516.4
+        ],
+        [
+          516.9,
+          531.5
+        ],
+        [
+          532.0,
+          546.9
+        ],
+        [
+          547.4,
+          565.7
+        ]
+      ],
+      "baseline": 638
+    },
+    {
+      "label": "A2.1 – nato/a a",
+      "rect": [
+        37,
+        657,
+        314,
+        668
+      ]
+    },
+    {
+      "label": "A2.1 – prov. di nascita",
+      "rect": [
+        318,
+        657,
+        441,
+        668
+      ]
+    },
+    {
+      "label": "A2.1 – il",
+      "rect": [
+        445,
+        657,
+        562,
+        668
+      ]
+    },
+    {
+      "label": "Immobile oggetto dei lavori – via",
+      "rect": [
+        318,
+        686,
+        441,
+        697
+      ]
+    },
+    {
+      "label": "Immobile oggetto dei lavori – n.",
+      "rect": [
+        445,
+        686,
+        562,
+        697
+      ]
+    },
+    {
+      "label": "Dati catastali dell'immobile",
+      "rect": [
+        37,
+        715,
+        314,
+        729
+      ]
+    },
+    {
+      "label": "Pratica edilizia",
+      "rect": [
+        318,
+        715,
+        563,
+        729
+      ]
+    },
+    {
+      "label": "fattura n.",
+      "rect": [
+        389,
+        76,
+        454.6,
+        90
+      ],
+      "page": 2
+    },
+    {
+      "label": "fattura del",
+      "rect": [
+        475.5,
+        76,
+        553,
+        90
+      ],
+      "page": 2
+    },
+    {
+      "label": "Firma del dichiarante – DATA",
+      "rect": [
+        33,
+        174,
+        114,
+        198
+      ],
+      "page": 2
+    },
+    {
+      "label": "Firma del committente – DATA",
+      "rect": [
+        33,
+        254,
+        114,
+        278
+      ],
+      "page": 2
+    }
+  ]
+}

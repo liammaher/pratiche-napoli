@@ -498,6 +498,109 @@ forms:
       - { label: Recapiti – e-mail, map: { direct: identity.email } }
       - { label: Data e luogo, map: { ask: "Data e luogo della firma" } }
       - { label: (firma), map: { blank_with_reason: "Firma del dichiarante: la appone solo la persona (sul portale, firma digitale)." } }
+  - id: modello-dp
+    name: Modello DP – Dichiarazione di pagamento del professionista (L.R. Campania 59/2018), del 16/01/2019
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2025/06/MOD.DP_Dichiarazione_di_Pagamento.pdf
+    source: mod-dp
+    sha256: 46b0506b18aaf4d83b59b1efbec364044d92e956b78624bfaad6a6052d3975dc
+    signature_required: true
+    # Lo dichiara il tecnico incaricato e lo firma anche il committente, con copia firmata dei
+    # documenti d'identità di entrambi e la lettera d'incarico. Lo stesso modello va con permesso,
+    # SCIA, SCIA alternativa, agibilità e autorizzazioni paesaggistiche: si compila da qui. Dall'archivio
+    # dello studio: il dichiarante è il tecnico (il titolare o legale rappresentante dello studio), il
+    # committente è il cliente (--party cliente=<slug>). La sezione A1.2 è lo studio (ditta o società)
+    # dell'archivio; in un archivio personale resta vuota.
+    fields:
+      # A1. Dati del tecnico (persona fisica): il dichiarante.
+      - { label: A1 – cognome, map: { direct: identity.last_name } }
+      - { label: A1 – nome, map: { direct: identity.first_name } }
+      - { label: A1 – codice fiscale, map: { direct: identity.codice_fiscale } }
+      - { label: A1 – nato/a a, map: { direct: identity.birth_comune } }
+      - { label: A1 – prov. di nascita, map: { direct: identity.birth_province } }
+      - { label: A1 – il, map: { direct: identity.date_of_birth } }
+      - { label: A1 – indirizzo di residenza, map: { direct: residenza.indirizzo } }
+      - { label: A1 – n, map: { direct: residenza.civico } }
+      - { label: A1 – cap, map: { direct: residenza.cap } }
+      - { label: A1 – località, map: { direct: residenza.comune } }
+      - { label: A1 – prov, map: { direct: residenza.provincia } }
+      - { label: A1 – telefono, map: { direct: identity.phone } }
+      - label: A1 – posta elettronica certificata
+        map: { direct: identity.pec }
+        optional: [{ field: identity.pec }]
+      # A1.2 Persona giuridica: lo studio dell'archivio (ditta individuale, studio associato, società).
+      - label: A1.2 – denominazione / ragione sociale
+        map: { direct: business.denominazione }
+        optional: [{ field: business.denominazione }]
+      - label: A1.2 – partita iva
+        map: { direct: business.partita_iva }
+        optional: [{ field: business.partita_iva }]
+      - label: A1.2 – indirizzo della sede
+        map: { direct: business.sede_legale_indirizzo }
+        optional: [{ field: business.sede_legale_indirizzo }]
+      - label: A1.2 – n
+        map: { direct: business.sede_legale_civico }
+        optional: [{ field: business.sede_legale_civico }]
+      - label: A1.2 – cap
+        map: { direct: business.sede_legale_cap }
+        optional: [{ field: business.sede_legale_cap }]
+      - label: A1.2 – località
+        map: { direct: business.sede_legale_comune }
+        optional: [{ field: business.sede_legale_comune }]
+      - label: A1.2 – prov
+        map: { direct: business.sede_legale_provincia }
+        optional: [{ field: business.sede_legale_provincia }]
+      - label: A1.2 – telefono
+        map: { direct: business.telefono }
+        optional: [{ field: business.telefono }]
+      - label: A1.2 – posta elettronica certificata
+        map: { direct: business.pec }
+        optional: [{ field: business.pec }]
+      - label: A1.2 – in qualità di
+        map: { ask: "In che qualità il tecnico agisce per lo studio (titolare, legale rappresentante, socio)? \"no\" se non ha uno studio nell'archivio" }
+      # A1.3 Descrizione dell'incarico: una casella per incarico, se ne spuntano anche più d'una.
+      - label: A1.3 – progettista
+        map: { ask: "Il tecnico è il progettista dei lavori?" }
+        choices: [{ box: progettista, values: [si, sì] }]
+      - label: A1.3 – direttore dei lavori
+        map: { ask: "Il tecnico è il direttore dei lavori?" }
+        choices: [{ box: direttore dei lavori, values: [si, sì] }]
+      - label: A1.3 – progettista strutturale
+        map: { ask: "Il tecnico è il progettista strutturale?" }
+        choices: [{ box: progettista strutturale, values: [si, sì] }]
+      - label: A1.3 – professionista asseveratore
+        map: { ask: "Il tecnico assevera la pratica (professionista asseveratore)?" }
+        choices: [{ box: professionista asseveratore, values: [si, sì] }]
+      - label: A1.3 – certificatore energetico
+        map: { ask: "Il tecnico è il certificatore energetico?" }
+        choices: [{ box: certificatore energetico, values: [si, sì] }]
+      - label: A1.3 – geologo
+        map: { ask: "Il tecnico è il geologo?" }
+        choices: [{ box: geologo, values: [si, sì] }]
+      - label: A1.3 – altro
+        map: { ask: "Il tecnico ha un altro incarico, da specificare?" }
+        choices: [{ box: altro, values: [si, sì] }]
+      - label: A1.3 – altro (specificare)
+        map: { ask: Quale altro incarico ha il tecnico? }
+        when: { field: A1.3 – altro, ticks: [altro] }
+      - label: A1.3 – tipologia di lavori per i quali si è avuto l'incarico
+        map: { ask: "Che lavori riguarda l'incarico (per esempio: manutenzione straordinaria dell'appartamento)?" }
+      # A2.1 Proprietario: il committente (il cliente dello studio) e l'immobile.
+      - { label: A2.1 – cognome e nome, map: { party: { ruolo: cliente }, concat: [identity.last_name, identity.first_name] } }
+      - { label: A2.1 – codice fiscale, map: { party: { ruolo: cliente }, direct: identity.codice_fiscale } }
+      - { label: A2.1 – nato/a a, map: { party: { ruolo: cliente }, direct: identity.birth_comune } }
+      - { label: A2.1 – prov. di nascita, map: { party: { ruolo: cliente }, direct: identity.birth_province } }
+      - { label: A2.1 – il, map: { party: { ruolo: cliente }, direct: identity.date_of_birth } }
+      - { label: Immobile oggetto dei lavori – via, map: { party: { ruolo: cliente }, direct: immobile.indirizzo } }
+      - { label: Immobile oggetto dei lavori – n., map: { party: { ruolo: cliente }, direct: immobile.civico } }
+      - label: Dati catastali dell'immobile
+        map: { party: { ruolo: cliente }, direct: immobile.catasto_foglio, template: "foglio {immobile.catasto_foglio}, particella {immobile.catasto_particella}, sub {immobile.catasto_subalterno}" }
+      - { label: Pratica edilizia, map: { ask: "A quale pratica va il modello (per esempio CILA; con il numero, se il SUE l'ha già dato)?" } }
+      # Pagina 2: il tecnico dichiara (firmando) che i dati sono veri e che la fattura è stata pagata;
+      # i segni accanto sono punti elenco, non caselle. Va allegata la lettera d'incarico o il contratto.
+      - { label: fattura n., map: { ask: "Numero della fattura del tecnico che il committente ha pagato per questi lavori" } }
+      - { label: fattura del, map: { ask: Data della fattura pagata } }
+      - { label: Firma del dichiarante – DATA, map: { ask: "Data della firma del tecnico" } }
+      - { label: Firma del committente – DATA, map: { ask: "Data della firma del committente" } }
   - id: quadro-riepilogativo-dsc
     name: Quadro riepilogativo della documentazione – CILA DSC (il modulo che il portale fa scaricare in Allega documenti)
     source: portale-dsc
