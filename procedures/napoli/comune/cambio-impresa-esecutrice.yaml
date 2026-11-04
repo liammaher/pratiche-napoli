@@ -1,0 +1,161 @@
+schema_version: 0
+id: napoli/comune/cambio-impresa-esecutrice
+title: Comunicazione di cambio dell'impresa esecutrice – SUE del Comune di Napoli
+headline: "L'impresa ha lasciato il cantiere: come comunicare la nuova al SUE di Napoli"
+aka:
+  - cambio impresa
+  - sostituzione impresa esecutrice
+  - nuova impresa esecutrice
+  - cessazione impresa
+updated: 2026-11-04
+summary: >-
+  Se l'impresa che esegue i lavori cessa o viene sostituita, il committente comunica la nuova
+  impresa allo Sportello Unico per l'Edilizia, dopo averne verificato l'idoneità come per la prima:
+  visura camerale, DURC, organico e contratto collettivo, patente. Se il cantiere è soggetto alla
+  notifica preliminare già trasmessa, la notifica va aggiornata. Per aggiungere un'impresa a quella
+  che resta si usa invece la comunicazione di nomina. A Napoli si presenta sul portale "Impresa in
+  un giorno".
+ente:
+  name: Comune di Napoli
+  office: Area Urbanistica – Servizio Sportello Unico Edilizia
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata]
+  conditions:
+    - text: >-
+        Sul SUE di Napoli l'operazione "Comunicazione al Comune di cambio dell'impresa esecutrice (da
+        utilizzare in caso di cessazione della precedente impresa)" (gruppo Altri adempimenti
+        edilizi) ha una scelta per il caso in cui l'intervento ricade nel D.Lgs. 81/2008 e la
+        notifica dell'art. 99 è già stata trasmessa; tra gli allegati c'è la dichiarazione
+        sostitutiva sulle verifiche dell'art. 90 c. 9.
+      status: verified
+      source: portale-sue-operazioni
+    - text: >-
+        La comunicazione di nomina dell'impresa del SUE serve per la prima nomina o per un'impresa in
+        aggiunta alla precedente; in caso di cessazione della precedente rimanda a quella di cambio
+        dell'impresa.
+      status: verified
+      source: portale-nomina
+    - text: >-
+        Il committente o il responsabile dei lavori verifica l'idoneità tecnico-professionale delle
+        imprese, chiede la dichiarazione dell'organico e del contratto collettivo e verifica la
+        patente dell'art. 27, e trasmette all'amministrazione concedente la notifica preliminare, il
+        DURC e la dichiarazione di queste verifiche (art. 90 c. 9 D.Lgs. 81/2008); senza notifica o
+        DURC, quando previsti, l'efficacia del titolo è sospesa (c. 10).
+      status: verified
+      source: dlgs81-art90
+    - text: >-
+        La notifica preliminare si trasmette con i suoi eventuali aggiornamenti all'ASL e alla
+        direzione provinciale del lavoro, anche per i cantieri che diventano soggetti all'obbligo
+        per varianti in corso d'opera (art. 99 c. 1 D.Lgs. 81/2008).
+      status: verified
+      source: dlgs81-art99
+    - text: >-
+        Se il cambio d'impresa vada comunicato al Comune prima che la nuova impresa entri in
+        cantiere non è scritto nelle norme lette, che parlano dell'inizio dei lavori.
+      status: unverified
+legal_basis:
+  - text: "D.Lgs. 81/2008, art. 90 c. 9-10 (obblighi del committente) e art. 99 (notifica preliminare e suoi aggiornamenti)."
+    status: verified
+    source: dlgs81-art90
+channels:
+  - type: portal
+    purpose: procedure
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    notes: >-
+      Unico canale per le pratiche del SUE dal 6 luglio 2026 (DD 501/2026). Operazione
+      "Comunicazione al Comune di cambio dell'impresa esecutrice (da utilizzare in caso di
+      cessazione della precedente impresa)", gruppo Altri adempimenti edilizi.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dd-501-2026
+      notes: Si compila online; gli allegati si firmano digitalmente.
+  - type: pec
+    purpose: info
+    address: sportello.unico.edilizia@pec.comune.napoli.it
+    receipt: legal
+    source: sue-ufficio
+    notes: Per comunicare con l'ufficio, non per presentare la comunicazione.
+steps:
+  - do: Firmare la procura speciale se la comunicazione la presenta il tecnico
+    who: owner
+    human_only: true
+  - do: >-
+      Verificare la nuova impresa (visura camerale, DURC, organico medio, contratto collettivo,
+      patente dell'art. 27 D.Lgs. 81/2008) e firmare la dichiarazione sostitutiva di averlo fatto
+    who: owner
+    human_only: true
+  - do: Se la notifica preliminare era già stata trasmessa, aggiornarla presso l'ASL e la direzione provinciale del lavoro
+    who: owner
+    human_only: true
+  - do: >-
+      Accedere con SPID, CIE o CNS a Impresa in un giorno (SUE di Napoli), scegliere l'operazione
+      di cambio dell'impresa esecutrice, compilare, allegare i documenti firmati digitalmente e
+      inviare; conservare la ricevuta
+    who: professional
+    human_only: true
+    channel: [portal]
+related:
+  - napoli/comune/nomina-impresa-esecutrice
+  - napoli/comune/inizio-lavori-pdc
+  - napoli/comune/cambio-intestazione-cila-scia
+sources:
+  - id: dlgs81-art90
+    label: D.Lgs. 9 aprile 2008, n. 81, art. 90 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2008-04-09;81~art90
+    retrieved: 2026-11-04
+    official: true
+  - id: dlgs81-art99
+    label: D.Lgs. 9 aprile 2008, n. 81, art. 99 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2008-04-09;81~art99
+    retrieved: 2026-11-04
+    official: true
+  - id: portale-sue-operazioni
+    label: Impresa in un giorno, SUE di Napoli – operazione "Comunicazione al Comune di cambio dell'impresa esecutrice"
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-10-31
+    official: true
+    notes: >-
+      Si vede solo dopo l'accesso con SPID, creando una pratica: sezioni, scelte e allegati letti in
+      una bozza di prova, mai inviata.
+  - id: portale-nomina
+    label: Impresa in un giorno, SUE di Napoli – operazione "Comunicazione al Comune di nomina impresa esecutrice", sezione "oggetto dell'istanza"
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-10-31
+    official: true
+    notes: Letta in una bozza di prova, mai inviata.
+  - id: dd-501-2026
+    label: Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026 – Attivazione del SUE su impresainungiorno e Linee guida per la presentazione delle istanze edilizie
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2018/04/LINEE-GUIDA_30.06.2026.pdf
+    retrieved: 2026-10-25
+    sha256: 49e604a61ec34fd88db459761f5b7b07efbfa04b243f4e95881969f1c47796c1
+    official: true
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-10-25
+    official: true
+  - id: sue-ufficio
+    label: Comune di Napoli – Servizio Sportello Unico Edilizia (scheda dell'ufficio)
+    url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-sportello-unico-edilizia/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-16
+    official: true
+verification:
+  level: L1
+  date: 2026-11-04
+  by: claude
+  method: >-
+    Desk: su Normattiva D.Lgs. 81/2008 artt. 90 e 99; la DD 501/2026; le operazioni di nomina e di
+    cambio dell'impresa del portale lette in una bozza di prova.
+  notes: >-
+    Non letti: il Regolamento edilizio di Napoli; un termine per la comunicazione di cambio non è
+    stato trovato. La tabella dei diritti SUE 2026 non ha una riga per questa comunicazione.

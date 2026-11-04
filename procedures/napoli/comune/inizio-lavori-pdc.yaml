@@ -1,0 +1,181 @@
+schema_version: 0
+id: napoli/comune/inizio-lavori-pdc
+title: Comunicazione di inizio lavori per un permesso di costruire – SUE del Comune di Napoli
+headline: "Permesso di costruire rilasciato: come comunicare l'inizio dei lavori al SUE di Napoli"
+aka:
+  - inizio lavori
+  - comunicazione inizio lavori
+  - avvio cantiere
+updated: 2026-11-04
+summary: >-
+  Dopo il rilascio del permesso di costruire i lavori vanno iniziati entro il termine indicato nel
+  permesso, al massimo un anno, altrimenti il permesso decade. Prima di iniziare, il titolare
+  comunica la data di inizio allo Sportello Unico per l'Edilizia e con essa trasmette quello che
+  nella domanda aveva rinviato all'inizio dei lavori: l'impresa esecutrice e i suoi documenti di
+  sicurezza (DURC, notifica preliminare), il direttore dei lavori, i depositi strutturali e la
+  relazione energetica. A Napoli si presenta sul portale "Impresa in un giorno".
+ente:
+  name: Comune di Napoli
+  office: Area Urbanistica – Servizio Sportello Unico Edilizia
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata]
+  conditions:
+    - text: >-
+        Nel permesso di costruire sono indicati i termini di inizio e di ultimazione dei lavori;
+        quello di inizio non può superare un anno dal rilascio, e decorso il termine il permesso
+        decade di diritto per la parte non eseguita, salvo proroga chiesta prima della scadenza
+        (art. 15 c. 1-2 DPR 380/2001).
+      status: verified
+      source: dpr380-art15
+    - text: >-
+        Prima dell'inizio dei lavori oggetto del permesso di costruire il committente o il
+        responsabile dei lavori trasmette all'amministrazione concedente copia della notifica
+        preliminare dell'art. 99, il DURC delle imprese e dei lavoratori autonomi e una
+        dichiarazione di aver verificato la loro idoneità tecnico-professionale, l'organico e la
+        patente dell'art. 27 (art. 90 c. 9 D.Lgs. 81/2008); senza notifica o DURC, quando previsti,
+        l'efficacia del titolo è sospesa (c. 10).
+      status: verified
+      source: dlgs81-art90
+    - text: >-
+        Il modulo del permesso di costruire del Comune consente di rinviare all'inizio dei lavori
+        l'indicazione del direttore dei lavori e degli altri tecnici (h.2), dell'impresa esecutrice
+        (i.2) e le dichiarazioni sulla sicurezza (l.2), e di allegare alla comunicazione di inizio
+        lavori la relazione sul risparmio energetico dell'art. 125 (9.2.2) e la documentazione della
+        denuncia dell'art. 65 e dei lavori in zona sismica (quadro 15); il piano di lavoro per
+        l'amianto va presentato trenta giorni prima dell'inizio dei lavori (13.2.2).
+      status: verified
+      source: pdc-modulo
+    - text: >-
+        Sul SUE di Napoli l'operazione "Comunicazione inizio lavori" (gruppo Altri adempimenti
+        edilizi) chiede gli estremi del permesso (numero, data di rilascio, protocollo generale),
+        la data di inizio dei lavori, l'intestatario e l'ubicazione.
+      status: verified
+      source: portale-sue-operazioni
+    - text: >-
+        Il deposito o l'autorizzazione sismica delle opere strutturali sono un procedimento del
+        Genio Civile, da completare prima di iniziare i lavori che li richiedono.
+      status: unverified
+legal_basis:
+  - text: "D.P.R. 380/2001, art. 15 (efficacia temporale e decadenza del permesso di costruire)."
+    status: verified
+    source: dpr380-art15
+  - text: "D.Lgs. 81/2008, art. 90 c. 9-10 (obblighi del committente prima dell'inizio dei lavori) e art. 99 (notifica preliminare)."
+    status: verified
+    source: dlgs81-art90
+deadline:
+  summary:
+    text: >-
+      Prima di iniziare i lavori, ed entro il termine di inizio indicato nel permesso (al massimo un
+      anno dal rilascio, salvo proroga); il piano di lavoro per l'amianto trenta giorni prima.
+    status: verified
+    source: dpr380-art15
+channels:
+  - type: portal
+    purpose: procedure
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    notes: >-
+      Unico canale per le pratiche del SUE dal 6 luglio 2026 (DD 501/2026). Operazione
+      "Comunicazione inizio lavori", gruppo Altri adempimenti edilizi.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dd-501-2026
+      notes: Si compila online; i documenti rinviati all'inizio dei lavori si allegano firmati digitalmente.
+  - type: pec
+    purpose: info
+    address: sportello.unico.edilizia@pec.comune.napoli.it
+    receipt: legal
+    source: sue-ufficio
+    notes: Per comunicare con l'ufficio, non per presentare la comunicazione.
+steps:
+  - do: Firmare la procura speciale se la comunicazione la presenta il tecnico
+    who: owner
+    human_only: true
+  - do: >-
+      Scegliere l'impresa esecutrice e il direttore dei lavori, se non indicati nella domanda, e
+      verificare l'idoneità dell'impresa (visura camerale, DURC, organico, patente dell'art. 27 D.Lgs. 81/2008)
+    who: owner
+  - do: >-
+      Se il cantiere vi è soggetto, trasmettere la notifica preliminare dell'art. 99 D.Lgs. 81/2008
+      all'ASL e alla direzione provinciale del lavoro
+    who: owner
+    human_only: true
+  - do: >-
+      Preparare i documenti rinviati all'inizio dei lavori (relazione energetica, denuncia delle
+      strutture, deposito o autorizzazione sismica, piano amianto se dovuto)
+    who: professional
+  - do: >-
+      Prima di iniziare, accedere con SPID, CIE o CNS a Impresa in un giorno (SUE di Napoli),
+      scegliere l'operazione "Comunicazione inizio lavori", compilare, allegare i documenti firmati
+      digitalmente e inviare; conservare la ricevuta
+    who: professional
+    human_only: true
+    channel: [portal]
+related:
+  - napoli/comune/permesso-di-costruire
+  - napoli/comune/proroga-inizio-lavori
+  - napoli/comune/nomina-impresa-esecutrice
+  - napoli/comune/nomina-nuovo-direttore-lavori
+  - napoli/genio-civile/deposito-autorizzazione-sismica
+sources:
+  - id: dpr380-art15
+    label: D.P.R. 6 giugno 2001, n. 380, art. 15 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art15
+    retrieved: 2026-11-04
+    official: true
+  - id: dlgs81-art90
+    label: D.Lgs. 9 aprile 2008, n. 81, art. 90 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2008-04-09;81~art90
+    retrieved: 2026-11-04
+    official: true
+  - id: pdc-modulo
+    label: Mod. PDC 23/06/2025 – Richiesta di permesso di costruire (Comune di Napoli, modulistica unificata)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2010/06/PDC_23.06.25.pdf
+    retrieved: 2026-11-04
+    sha256: e26191c6c7ecf9a6afff7adf0f8a96f1274d68e3de7f666787f1c32fce0000b5
+    official: true
+    notes: Quadri h, i, l, 9, 13 e 15.
+  - id: portale-sue-operazioni
+    label: Impresa in un giorno, SUE di Napoli – operazione "Comunicazione inizio lavori" (settore Edilizia e pianificazione urbana)
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-10-31
+    official: true
+    notes: >-
+      Si vede solo dopo l'accesso con SPID, creando una pratica: sezioni, scelte e allegati letti in
+      una bozza di prova, mai inviata.
+  - id: dd-501-2026
+    label: Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026 – Attivazione del SUE su impresainungiorno e Linee guida per la presentazione delle istanze edilizie
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2018/04/LINEE-GUIDA_30.06.2026.pdf
+    retrieved: 2026-10-25
+    sha256: 49e604a61ec34fd88db459761f5b7b07efbfa04b243f4e95881969f1c47796c1
+    official: true
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-10-25
+    official: true
+  - id: sue-ufficio
+    label: Comune di Napoli – Servizio Sportello Unico Edilizia (scheda dell'ufficio)
+    url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-sportello-unico-edilizia/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-16
+    official: true
+verification:
+  level: L1
+  date: 2026-11-04
+  by: claude
+  method: >-
+    Desk: su Normattiva DPR 380/2001 art. 15 e D.Lgs. 81/2008 artt. 90 e 99; il modulo PDC del
+    Comune del 23/06/2025; la DD 501/2026; l'operazione del portale letta in una bozza di prova.
+  notes: >-
+    Non letti: il Regolamento edilizio di Napoli (che potrebbe fissare l'obbligo e il momento della
+    comunicazione), i tempi del Genio Civile. La tabella dei diritti SUE 2026 non ha una riga per la
+    comunicazione di inizio lavori; il portale ha comunque lo spazio per la ricevuta dei diritti.

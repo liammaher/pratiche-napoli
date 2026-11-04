@@ -1,0 +1,164 @@
+schema_version: 0
+id: napoli/comune/nomina-nuovo-direttore-lavori
+title: Comunicazione di nomina del nuovo direttore dei lavori – SUE del Comune di Napoli
+headline: "Cambio del direttore dei lavori a Napoli: come comunicarlo al SUE"
+aka:
+  - nuovo direttore dei lavori
+  - sostituzione direttore lavori
+  - nomina direttore lavori
+  - rinuncia direttore lavori
+updated: 2026-11-04
+summary: >-
+  Il direttore dei lavori risponde, con il titolare e l'impresa, della conformità delle opere al
+  titolo edilizio. Quando non era stato indicato nella domanda, o quando il direttore rinuncia o
+  viene sostituito mentre i lavori sono in corso, il nome del nuovo direttore si comunica allo
+  Sportello Unico per l'Edilizia, con la data da cui assume l'incarico e, se c'è, la rinuncia del
+  precedente. A Napoli si presenta sul portale "Impresa in un giorno", per un permesso di
+  costruire, una SCIA, una CILA, una DIA o una variante.
+ente:
+  name: Comune di Napoli
+  office: Area Urbanistica – Servizio Sportello Unico Edilizia
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata]
+  conditions:
+    - text: >-
+        Il titolare del permesso di costruire, il committente e il costruttore rispondono della
+        conformità delle opere alla normativa urbanistica e al piano e, insieme al direttore dei
+        lavori, al permesso e alle sue modalità esecutive (art. 29 c. 1 DPR 380/2001).
+      status: verified
+      source: dpr380-art29
+    - text: >-
+        Il direttore dei lavori non risponde se ha contestato agli altri soggetti la violazione delle
+        prescrizioni del permesso dandone contemporanea e motivata comunicazione al dirigente; nei
+        casi di totale difformità o variazione essenziale deve anche rinunziare all'incarico
+        contestualmente alla comunicazione, altrimenti è passibile di sospensione dall'albo da tre
+        mesi a due anni (art. 29 c. 2).
+      status: verified
+      source: dpr380-art29
+    - text: >-
+        I moduli del permesso di costruire e della SCIA del Comune consentono di dichiarare che il
+        direttore dei lavori e gli altri tecnici saranno individuati prima dell'inizio dei lavori
+        (PdC h.2, SCIA i.2).
+      status: verified
+      source: pdc-modulo
+    - text: >-
+        Sul SUE di Napoli l'operazione "Comunicazione al Comune di nomina del nuovo direttore dei
+        lavori" (gruppo Altri adempimenti edilizi) chiede i dati del nuovo direttore (albo
+        professionale e numero d'iscrizione: architetto, geometra, ingegnere, perito o altro), la
+        data da cui assume l'incarico e il titolo dei lavori (permesso di costruire, DIA, SCIA,
+        CILA o variante) con l'identificativo della pratica; tra gli allegati c'è la dichiarazione
+        di rinuncia del precedente direttore.
+      status: verified
+      source: portale-sue-operazioni
+    - text: >-
+        Un obbligo di comunicare al Comune la sostituzione del direttore dei lavori, e il suo
+        termine, non è stato trovato in una fonte ufficiale letta (il Regolamento edilizio di Napoli
+        non è stato letto).
+      status: unverified
+legal_basis:
+  - text: "D.P.R. 380/2001, art. 29 (responsabilità del titolare, del committente, del costruttore e del direttore dei lavori)."
+    status: verified
+    source: dpr380-art29
+deadline:
+  summary:
+    text: >-
+      Per una prima nomina rinviata nella domanda, prima dell'inizio dei lavori; per una
+      sostituzione nessun termine trovato.
+    status: verified
+    source: pdc-modulo
+channels:
+  - type: portal
+    purpose: procedure
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    notes: >-
+      Unico canale per le pratiche del SUE dal 6 luglio 2026 (DD 501/2026). Operazione
+      "Comunicazione al Comune di nomina del nuovo direttore dei lavori", gruppo Altri adempimenti
+      edilizi.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dd-501-2026
+      notes: Si compila online; gli allegati si firmano digitalmente.
+  - type: pec
+    purpose: info
+    address: sportello.unico.edilizia@pec.comune.napoli.it
+    receipt: legal
+    source: sue-ufficio
+    notes: Per comunicare con l'ufficio, non per presentare la comunicazione.
+steps:
+  - do: Incaricare il nuovo direttore dei lavori e firmare la procura speciale se la comunicazione la presenta lui
+    who: owner
+    human_only: true
+  - do: Farsi dare dal precedente direttore la dichiarazione di rinuncia firmata, se c'è
+    who: owner
+    human_only: true
+  - do: >-
+      Accedere con SPID, CIE o CNS a Impresa in un giorno (SUE di Napoli), scegliere l'operazione
+      "Comunicazione al Comune di nomina del nuovo direttore dei lavori", compilare, allegare i
+      documenti firmati digitalmente e inviare; conservare la ricevuta
+    who: professional
+    human_only: true
+    channel: [portal]
+related:
+  - napoli/comune/inizio-lavori-pdc
+  - napoli/comune/cambio-intestazione-cila-scia
+  - napoli/comune/permesso-di-costruire
+  - napoli/comune/scia-edilizia
+  - napoli/comune/cila-lavori-edilizi
+sources:
+  - id: dpr380-art29
+    label: D.P.R. 6 giugno 2001, n. 380, art. 29 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art29
+    retrieved: 2026-11-04
+    official: true
+  - id: pdc-modulo
+    label: Mod. PDC 23/06/2025 – Richiesta di permesso di costruire (Comune di Napoli, modulistica unificata)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2010/06/PDC_23.06.25.pdf
+    retrieved: 2026-11-04
+    sha256: e26191c6c7ecf9a6afff7adf0f8a96f1274d68e3de7f666787f1c32fce0000b5
+    official: true
+    notes: Quadro h; lo stesso rinvio è nel modulo SCIA del 23/06/2025 (quadro i.2).
+  - id: portale-sue-operazioni
+    label: Impresa in un giorno, SUE di Napoli – operazione "Comunicazione al Comune di nomina del nuovo direttore dei lavori"
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-10-31
+    official: true
+    notes: >-
+      Si vede solo dopo l'accesso con SPID, creando una pratica: sezioni, scelte e allegati letti in
+      una bozza di prova, mai inviata.
+  - id: dd-501-2026
+    label: Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026 – Attivazione del SUE su impresainungiorno e Linee guida per la presentazione delle istanze edilizie
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2018/04/LINEE-GUIDA_30.06.2026.pdf
+    retrieved: 2026-10-25
+    sha256: 49e604a61ec34fd88db459761f5b7b07efbfa04b243f4e95881969f1c47796c1
+    official: true
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-10-25
+    official: true
+  - id: sue-ufficio
+    label: Comune di Napoli – Servizio Sportello Unico Edilizia (scheda dell'ufficio)
+    url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-sportello-unico-edilizia/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-16
+    official: true
+verification:
+  level: L1
+  date: 2026-11-04
+  by: claude
+  method: >-
+    Desk: su Normattiva DPR 380/2001 art. 29; i moduli PDC e SCIA del Comune del 23/06/2025; la DD
+    501/2026; l'operazione del portale letta in una bozza di prova.
+  notes: >-
+    Non letti: il Regolamento edilizio di Napoli, che potrebbe fissare l'obbligo e il termine della
+    comunicazione di sostituzione. La tabella dei diritti SUE 2026 non ha una riga per questa
+    comunicazione.

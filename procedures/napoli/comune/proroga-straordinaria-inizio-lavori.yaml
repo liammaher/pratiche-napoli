@@ -1,0 +1,192 @@
+schema_version: 0
+id: napoli/comune/proroga-straordinaria-inizio-lavori
+title: Comunicazione integrativa della proroga straordinaria del termine di inizio lavori (art. 10-septies D.L. 21/2022) – SUE del Comune di Napoli
+headline: "Proroga straordinaria dell'inizio lavori già comunicata: come estenderla al SUE di Napoli"
+aka:
+  - comunicazione integrativa proroga
+  - proroga straordinaria inizio lavori
+  - proroga 10 septies
+  - proroga trenta mesi
+updated: 2026-11-04
+summary: >-
+  La proroga straordinaria dell'art. 10-septies è cresciuta più volte: da uno a due anni, a trenta
+  e trentasei mesi, oggi a quarantotto mesi per i titoli rilasciati o formati fino al 31 dicembre
+  2025. Chi l'aveva già comunicata per l'inizio dei lavori nella misura più breve può mandare al
+  Comune una comunicazione integrativa per avvalersi dell'estensione, purché il termine non sia già
+  scaduto. A Napoli si presenta allo Sportello Unico per l'Edilizia sul portale "Impresa in un
+  giorno", con l'operazione che il portale chiama ancora "proroga straordinaria trenta mesi".
+ente:
+  name: Comune di Napoli
+  office: Area Urbanistica – Servizio Sportello Unico Edilizia
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata]
+  conditions:
+    - text: >-
+        Sono prorogati di quarantotto mesi i termini di inizio e di ultimazione dei lavori dei
+        permessi di costruire rilasciati o formatisi fino al 31 dicembre 2025, purché non già
+        decorsi al momento della comunicazione dell'interessato e salvo contrasto con nuovi
+        strumenti urbanistici approvati o con piani o provvedimenti di tutela dei beni culturali o
+        del paesaggio; la proroga vale anche per i termini delle SCIA (art. 10-septies c. 1 a D.L.
+        21/2022, testo vigente).
+      status: verified
+      source: dl21-art10septies
+    - text: >-
+        La pagina del Comune ammette, per chi aveva comunicato la proroga di un solo anno, una
+        comunicazione integrativa per manifestare la volontà di usufruire dell'ulteriore proroga.
+      status: verified
+      source: proroga-pagina
+    - text: >-
+        Il testo dell'art. 10-septies chiede solo la comunicazione dell'interessato di volersi
+        avvalere della proroga e non nomina una comunicazione integrativa; se chi aveva già
+        comunicato una proroga più breve abbia l'estensione senza integrarla non è stato verificato
+        su una fonte ufficiale.
+      status: unverified
+    - text: >-
+        Sul SUE di Napoli l'operazione "Comunicazione integrativa proroga straordinaria trenta mesi
+        inizio lavori (art. 10 septies, Legge 51/2022)" (gruppo Altri adempimenti edilizi) chiede
+        gli estremi del permesso di costruire o della SCIA, l'oggetto, l'intestatario e la data
+        prevista di inizio dei lavori; una scelta aggiunge la dichiarazione di assenso dei terzi
+        titolari di altri diritti reali o obbligatori, se il titolare non è esclusivo.
+      status: verified
+      source: portale-sue-operazioni
+    - text: >-
+        Il nome dell'operazione sul portale parla di trenta mesi e della L. 11/2024; il testo vigente
+        dell'art. 10-septies dà quarantotto mesi (D.L. 200/2025, convertito dalla L. 26/2026).
+      status: disputed
+      source: portale-sue-operazioni
+    - text: >-
+        Nel gruppo Altri adempimenti edilizi del SUE di Napoli c'è solo questa operazione
+        integrativa per l'inizio dei lavori: per l'ultimazione ci sono sia la comunicazione sia
+        l'integrativa.
+      status: verified
+      source: portale-sue-scelta
+    - text: >-
+        Con quale operazione del portale si fa una prima comunicazione della proroga straordinaria
+        dell'inizio lavori va chiesto al SUE.
+      status: unverified
+legal_basis:
+  - text: "D.L. 21 marzo 2022, n. 21, art. 10-septies c. 1 a (convertito dalla L. 51/2022), nel testo modificato da ultimo dal D.L. 200/2025 (L. 26/2026)."
+    status: verified
+    source: dl21-art10septies
+deadline:
+  summary:
+    text: >-
+      Prima che scada il termine di inizio dei lavori: la proroga non opera per i termini già
+      decorsi al momento della comunicazione.
+    status: verified
+    source: dl21-art10septies
+pitfalls:
+  - text: >-
+      La proroga non opera se, al momento della comunicazione, il titolo contrasta con nuovi
+      strumenti urbanistici approvati o con piani o provvedimenti di tutela del paesaggio o dei
+      beni culturali.
+    status: verified
+    source: dl21-art10septies
+channels:
+  - type: portal
+    purpose: procedure
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    notes: >-
+      Unico canale per le pratiche del SUE dal 6 luglio 2026 (DD 501/2026). Operazione
+      "Comunicazione integrativa proroga straordinaria trenta mesi inizio lavori (art. 10 septies,
+      Legge 51/2022)", gruppo Altri adempimenti edilizi.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dd-501-2026
+      notes: Si compila online; gli allegati si firmano digitalmente.
+  - type: pec
+    purpose: info
+    address: sportello.unico.edilizia@pec.comune.napoli.it
+    receipt: legal
+    source: sue-ufficio
+    notes: Per comunicare con l'ufficio, non per presentare la comunicazione.
+steps:
+  - do: Firmare la procura speciale se la comunicazione la presenta il tecnico
+    who: owner
+    human_only: true
+  - do: >-
+      Ritrovare la comunicazione di proroga già presentata e verificare che il termine di inizio
+      non sia scaduto e che il titolo non contrasti con nuovi strumenti urbanistici o vincoli;
+      calcolare la nuova data di inizio
+    who: professional
+  - do: Se il titolare non è esclusivo, raccogliere la dichiarazione di assenso dei terzi titolari di diritti
+    who: owner
+    human_only: true
+  - do: >-
+      Prima della scadenza, accedere con SPID, CIE o CNS a Impresa in un giorno (SUE di Napoli),
+      scegliere l'operazione della comunicazione integrativa per l'inizio dei lavori, compilare,
+      allegare i documenti firmati digitalmente e inviare; conservare la ricevuta
+    who: professional
+    human_only: true
+    channel: [portal]
+related:
+  - napoli/comune/proroga-straordinaria-ultimazione-lavori
+  - napoli/comune/proroga-inizio-lavori
+  - napoli/comune/inizio-lavori-pdc
+  - napoli/comune/permesso-di-costruire
+sources:
+  - id: dl21-art10septies
+    label: D.L. 21 marzo 2022, n. 21, art. 10-septies (Normattiva, testo vigente)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2022-03-21;21~art10septies
+    retrieved: 2026-11-04
+    official: true
+  - id: proroga-pagina
+    label: Comune di Napoli – Proroga dei termini di inizio e di ultimazione lavori
+    url: https://www.comune.napoli.it/articolo_tematico/urbanistica-patrimonio-politiche-per-la-casa-cimiteri-cittadini/edilizia-privata/proroga-dei-termini-di-inizio-e-di-ultimazione-lavori/
+    retrieved: 2026-11-04
+    page_updated: 2025-06-12
+    official: true
+    notes: Superata sul canale (protocollo) e sulla durata della proroga straordinaria (due anni).
+  - id: portale-sue-operazioni
+    label: Impresa in un giorno, SUE di Napoli – operazione "Comunicazione integrativa proroga straordinaria trenta mesi inizio lavori (art. 10 septies, Legge 51/2022)"
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-10-31
+    official: true
+    notes: >-
+      Si vede solo dopo l'accesso con SPID, creando una pratica: sezioni, scelte e allegati letti in
+      una bozza di prova, mai inviata. Il portale descrive l'intervento come "come modificato dalla
+      Legge 11/2024".
+  - id: portale-sue-scelta
+    label: Impresa in un giorno, SUE di Napoli – "Scelta operazioni", gruppo "Altri adempimenti edilizi (inizio e fine lavori, agibilità, notifica preliminare, etc.)"
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-10-31
+    official: true
+    notes: L'elenco completo delle operazioni del gruppo, letto dopo l'accesso con SPID in una bozza di prova.
+  - id: dd-501-2026
+    label: Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026 – Attivazione del SUE su impresainungiorno e Linee guida per la presentazione delle istanze edilizie
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2018/04/LINEE-GUIDA_30.06.2026.pdf
+    retrieved: 2026-10-25
+    sha256: 49e604a61ec34fd88db459761f5b7b07efbfa04b243f4e95881969f1c47796c1
+    official: true
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-10-25
+    official: true
+  - id: sue-ufficio
+    label: Comune di Napoli – Servizio Sportello Unico Edilizia (scheda dell'ufficio)
+    url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-sportello-unico-edilizia/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-16
+    official: true
+verification:
+  level: L1
+  date: 2026-11-04
+  by: claude
+  method: >-
+    Desk: su Normattiva l'art. 10-septies D.L. 21/2022 vigente e le note di aggiornamento dell'art.
+    15 DPR 380/2001; la pagina del Comune sulle proroghe; la DD 501/2026; le operazioni del portale
+    lette in una bozza di prova.
+  notes: >-
+    Non verificati: se l'integrazione sia necessaria per avere l'estensione (la legge non la
+    prevede; il Comune la ammette), i diritti per questa comunicazione, e quale operazione usare
+    per una prima comunicazione sull'inizio dei lavori.
