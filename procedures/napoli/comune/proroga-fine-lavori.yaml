@@ -1,0 +1,181 @@
+schema_version: 0
+id: napoli/comune/proroga-fine-lavori
+title: Proroga del termine di ultimazione lavori del permesso di costruire (art. 15 c. 2 DPR 380/2001) – SUE del Comune di Napoli
+headline: "Lavori che non finiscono in tempo: come chiedere la proroga della fine lavori a Napoli"
+aka:
+  - proroga fine lavori
+  - proroga ultimazione lavori
+  - proroga ordinaria
+updated: 2026-11-04
+summary: >-
+  I lavori di un permesso di costruire vanno finiti entro il termine del permesso, al massimo tre
+  anni dall'inizio. Se non si riesce, il titolare chiede la proroga prima della scadenza: il Comune
+  la accorda con un provvedimento motivato per la mole dell'opera, le sue caratteristiche
+  tecnico-costruttive, difficoltà emerse dopo l'inizio o fatti estranei alla sua volontà. Senza
+  proroga il permesso decade per la parte non eseguita, che richiede un nuovo titolo. A Napoli la
+  domanda si presenta allo Sportello Unico per l'Edilizia sul portale "Impresa in un giorno".
+ente:
+  name: Comune di Napoli
+  office: Area Urbanistica – Servizio Sportello Unico Edilizia
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata]
+  conditions:
+    - text: >-
+        Il termine di ultimazione, entro il quale l'opera deve essere completata, non può superare
+        tre anni dall'inizio dei lavori; decorso, il permesso decade di diritto per la parte non
+        eseguita, tranne che, anteriormente alla scadenza, venga richiesta una proroga (art. 15 c. 2
+        DPR 380/2001).
+      status: verified
+      source: dpr380-art15
+    - text: >-
+        La proroga può essere accordata, con provvedimento motivato, per fatti sopravvenuti estranei
+        alla volontà del titolare, in considerazione della mole dell'opera, delle sue particolari
+        caratteristiche tecnico-costruttive o di difficoltà tecnico-esecutive emerse dopo l'inizio
+        dei lavori, o per opere pubbliche finanziate in più esercizi (art. 15 c. 2); è comunque
+        accordata se i lavori non possono essere conclusi per iniziative dell'amministrazione o
+        dell'autorità giudiziaria rivelatesi infondate (c. 2-bis).
+      status: verified
+      source: dpr380-art15
+    - text: >-
+        La parte non ultimata nel termine richiede un nuovo permesso per le opere ancora da eseguire,
+        salvo che rientrino tra quelle realizzabili con SCIA, e si ricalcola, se necessario, il
+        contributo di costruzione (art. 15 c. 3).
+      status: verified
+      source: dpr380-art15
+    - text: >-
+        Sul SUE di Napoli l'operazione "Proroga fine lavori" (gruppo Altri adempimenti edilizi) è il
+        "Provvedimento di proroga del termine di ultimazione lavori": chiede il tipo di lavori, gli
+        estremi del permesso di costruire (o della DIA), i dati catastali, l'oggetto,
+        l'intestatario, la data entro cui i lavori dovrebbero finire e quella prevista, e le
+        dichiarazioni sui diritti di segreteria e sull'imposta di bollo.
+      status: verified
+      source: portale-sue-operazioni
+    - text: >-
+        La pagina del Comune indica, per la proroga ordinaria dovuta alla mole o alle
+        caratteristiche dell'opera, la procedura del permesso di costruire; per la proroga
+        straordinaria dell'art. 10-septies basta una comunicazione.
+      status: verified
+      source: proroga-pagina
+legal_basis:
+  - text: "D.P.R. 380/2001, art. 15 c. 2, 2-bis e 3."
+    status: verified
+    source: dpr380-art15
+deadline:
+  summary:
+    text: Prima della scadenza del termine di ultimazione indicato nel permesso.
+    status: verified
+    source: dpr380-art15
+cost:
+  text: >-
+    Diritti d'istruttoria di 501,00 euro (riga SUE 11 della tabella: "Rinnovi, varianti, proroghe e
+    volture di permessi di costruire rilasciati"), più l'imposta di bollo che il portale chiede di
+    dichiarare assolta (importo non indicato dalle fonti lette). A parte c'è il compenso del tecnico.
+  status: verified
+  source: tabella-diritti
+channels:
+  - type: portal
+    purpose: procedure
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    notes: >-
+      Unico canale per le pratiche del SUE dal 6 luglio 2026 (DD 501/2026). Operazione "Proroga
+      fine lavori", gruppo Altri adempimenti edilizi.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dd-501-2026
+      notes: Si compila online; gli allegati si firmano digitalmente.
+  - type: pec
+    purpose: info
+    address: sportello.unico.edilizia@pec.comune.napoli.it
+    receipt: legal
+    source: sue-ufficio
+    notes: Per comunicare con l'ufficio, non per chiedere la proroga.
+steps:
+  - do: Firmare la procura speciale se la domanda la presenta il tecnico
+    who: owner
+    human_only: true
+  - do: >-
+      Verificare con il tecnico se basta la proroga straordinaria dell'art. 10-septies o serve
+      quella ordinaria, e motivare la richiesta (mole dell'opera, difficoltà emerse, fatti estranei
+      alla volontà del titolare) con la nuova data di fine lavori
+    who: professional
+  - do: Pagare i diritti d'istruttoria (501,00 euro) e l'imposta di bollo, e allegarne la ricevuta
+    who: owner
+    human_only: true
+  - do: >-
+      Prima della scadenza, accedere con SPID, CIE o CNS a Impresa in un giorno (SUE di Napoli),
+      scegliere l'operazione "Proroga fine lavori", compilare, allegare i documenti firmati
+      digitalmente e inviare; conservare la ricevuta
+    who: professional
+    human_only: true
+    channel: [portal]
+  - do: Attendere il provvedimento motivato del Comune
+    who: office
+related:
+  - napoli/comune/permesso-di-costruire
+  - napoli/comune/proroga-ultimazione-lavori-10-septies
+  - napoli/comune/proroga-inizio-lavori
+  - napoli/comune/fine-lavori
+sources:
+  - id: dpr380-art15
+    label: D.P.R. 6 giugno 2001, n. 380, art. 15 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art15
+    retrieved: 2026-11-04
+    official: true
+  - id: proroga-pagina
+    label: Comune di Napoli – Proroga dei termini di inizio e di ultimazione lavori
+    url: https://www.comune.napoli.it/articolo_tematico/urbanistica-patrimonio-politiche-per-la-casa-cimiteri-cittadini/edilizia-privata/proroga-dei-termini-di-inizio-e-di-ultimazione-lavori/
+    retrieved: 2026-11-04
+    page_updated: 2025-06-12
+    official: true
+    notes: Superata sul canale (protocollo) e sulla durata della proroga straordinaria (due anni).
+  - id: tabella-diritti
+    label: Tabella dei diritti d'istruttoria delle pratiche dello Sportello Unico Edilizia (agg. al 16/06/2026, delibera di G.C. n. 239 del 28 maggio 2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2011/08/tabella-diritti-agg.16_06_2026.pdf
+    retrieved: 2026-11-04
+    sha256: f12663fe2ca5d98541071c27b3d0fae169ff9d67c3a229b61922d407d2c85837
+    official: true
+  - id: portale-sue-operazioni
+    label: Impresa in un giorno, SUE di Napoli – operazione "Proroga fine lavori" (settore Edilizia e pianificazione urbana)
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-10-31
+    official: true
+    notes: >-
+      Si vede solo dopo l'accesso con SPID, creando una pratica: sezioni, scelte e allegati letti in
+      una bozza di prova, mai inviata.
+  - id: dd-501-2026
+    label: Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026 – Attivazione del SUE su impresainungiorno e Linee guida per la presentazione delle istanze edilizie
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2018/04/LINEE-GUIDA_30.06.2026.pdf
+    retrieved: 2026-10-25
+    sha256: 49e604a61ec34fd88db459761f5b7b07efbfa04b243f4e95881969f1c47796c1
+    official: true
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-10-25
+    official: true
+  - id: sue-ufficio
+    label: Comune di Napoli – Servizio Sportello Unico Edilizia (scheda dell'ufficio)
+    url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-sportello-unico-edilizia/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-16
+    official: true
+verification:
+  level: L1
+  date: 2026-11-04
+  by: claude
+  method: >-
+    Desk: su Normattiva DPR 380/2001 art. 15; la pagina del Comune sulle proroghe; la tabella dei
+    diritti SUE 2026; la DD 501/2026; l'operazione del portale letta in una bozza di prova.
+  notes: >-
+    Non letti: i tempi del procedimento di proroga, l'importo del bollo. Se la proroga vale anche
+    per una SCIA alternativa al permesso (art. 23 c. 2: efficacia massima tre anni) non è stato
+    verificato.
