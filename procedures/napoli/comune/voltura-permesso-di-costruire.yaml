@@ -1,0 +1,171 @@
+schema_version: 0
+id: napoli/comune/voltura-permesso-di-costruire
+title: Voltura del permesso di costruire (art. 11 c. 2 DPR 380/2001) – SUE del Comune di Napoli
+headline: "Comprato un immobile con un permesso di costruire: come volturarlo a Napoli"
+aka:
+  - voltura permesso di costruire
+  - voltura titolo edilizio
+  - cambio intestazione permesso di costruire
+  - subentro nel permesso
+updated: 2026-11-04
+summary: >-
+  Il permesso di costruire passa con l'immobile a chi lo acquista o vi subentra: chi diventa
+  proprietario o ha titolo chiede al Comune di intestarlo a sé, indicando l'atto di trasferimento,
+  dichiarando di conoscere le prescrizioni del permesso, chi dirige ed esegue i lavori e
+  impegnandosi a pagare il contributo di costruzione residuo se è rateizzato. A Napoli la domanda
+  si presenta allo Sportello Unico per l'Edilizia sul portale "Impresa in un giorno". Per una
+  CILA o una SCIA c'è una comunicazione di cambio d'intestazione.
+ente:
+  name: Comune di Napoli
+  office: Area Urbanistica – Servizio Sportello Unico Edilizia
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata]
+  conditions:
+    - text: >-
+        Il permesso di costruire è trasferibile, insieme all'immobile, ai successori o aventi causa;
+        non incide sulla titolarità della proprietà o di altri diritti reali ed è irrevocabile (art.
+        11 c. 2 DPR 380/2001). È rilasciato al proprietario o a chi abbia titolo per richiederlo (c.
+        1).
+      status: verified
+      source: dpr380-art11
+    - text: >-
+        Sul SUE di Napoli l'operazione "Voltura intestazione Permesso di costruire" (gruppo Altri
+        adempimenti edilizi) è la "Voltura del permesso di costruire": chiede numero e data del
+        permesso, il titolo del richiedente (proprietà, comproprietà o altro), l'atto che trasferisce
+        il titolo (data, notaio, repertorio, registrazione), la destinazione e la zona di PRG,
+        la presa visione del permesso, dei suoi allegati e dei pareri, il direttore dei lavori e
+        l'esecutore, l'impegno a versare il contributo di costruzione residuo se rateizzato, il
+        domicilio dei nuovi intestatari, e le dichiarazioni su diritti e imposta di bollo; una scelta
+        aggiunge gli altri aventi titolo, se ci sono cointestatari.
+      status: verified
+      source: portale-sue-operazioni
+    - text: >-
+        Tra gli allegati il portale prevede la dichiarazione sostitutiva sul diritto reale a
+        presentare il titolo, la copia registrata dell'atto di alienazione e la polizza fideiussoria
+        per le rate residue del contributo di costruzione intestata al nuovo titolare, o la voltura
+        della fideiussione precedente.
+      status: verified
+      source: portale-sue-operazioni
+legal_basis:
+  - text: "D.P.R. 380/2001, art. 11 (caratteristiche del permesso di costruire)."
+    status: verified
+    source: dpr380-art11
+cost:
+  text: >-
+    Diritti d'istruttoria di 501,00 euro (riga SUE 11 della tabella: "Rinnovi, varianti, proroghe e
+    volture di permessi di costruire rilasciati"), più l'imposta di bollo che il portale chiede di
+    dichiarare assolta (importo non indicato dalle fonti lette). A parte c'è il compenso del tecnico.
+  status: verified
+  source: tabella-diritti
+documents:
+  - name: Dichiarazione sostitutiva dell'atto di notorietà sul diritto reale a presentare il titolo, con documento d'identità
+    required: false
+  - name: Copia con gli estremi di registrazione dell'atto con cui è avvenuto il trasferimento
+    required: false
+  - name: Polizza fideiussoria per le rate residue del contributo di costruzione, o voltura della precedente
+    required: false
+    notes: Solo se il contributo è rateizzato e restano rate da pagare.
+  - name: Ricevuta dei diritti d'istruttoria
+    required: true
+channels:
+  - type: portal
+    purpose: procedure
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    notes: >-
+      Unico canale per le pratiche del SUE dal 6 luglio 2026 (DD 501/2026). Operazione "Voltura
+      intestazione Permesso di costruire", gruppo Altri adempimenti edilizi.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dd-501-2026
+      notes: Si compila online; gli allegati si firmano digitalmente.
+  - type: pec
+    purpose: info
+    address: sportello.unico.edilizia@pec.comune.napoli.it
+    receipt: legal
+    source: sue-ufficio
+    notes: Per comunicare con l'ufficio, non per chiedere la voltura.
+steps:
+  - do: Firmare la procura speciale se la domanda la presenta il tecnico
+    who: owner
+    human_only: true
+  - do: >-
+      Raccogliere gli estremi del permesso e dell'atto di trasferimento, prendere visione del
+      permesso, dei suoi allegati e dei pareri, e indicare direttore dei lavori ed esecutore
+    who: professional
+  - do: Se il contributo di costruzione è rateizzato, intestare a sé la fideiussione per le rate residue
+    who: owner
+    human_only: true
+  - do: Pagare i diritti d'istruttoria (501,00 euro) e l'imposta di bollo, e allegarne la ricevuta
+    who: owner
+    human_only: true
+  - do: >-
+      Accedere con SPID, CIE o CNS a Impresa in un giorno (SUE di Napoli), scegliere l'operazione
+      "Voltura intestazione Permesso di costruire", compilare, allegare i documenti firmati
+      digitalmente e inviare; conservare la ricevuta
+    who: professional
+    human_only: true
+    channel: [portal]
+  - do: Attendere la voltura del Comune
+    who: office
+related:
+  - napoli/comune/permesso-di-costruire
+  - napoli/comune/cambio-intestazione-cila-scia
+  - napoli/comune/nomina-nuovo-direttore-lavori
+  - napoli/comune/cambio-impresa-esecutrice
+sources:
+  - id: dpr380-art11
+    label: D.P.R. 6 giugno 2001, n. 380, art. 11 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art11
+    retrieved: 2026-11-04
+    official: true
+  - id: tabella-diritti
+    label: Tabella dei diritti d'istruttoria delle pratiche dello Sportello Unico Edilizia (agg. al 16/06/2026, delibera di G.C. n. 239 del 28 maggio 2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2011/08/tabella-diritti-agg.16_06_2026.pdf
+    retrieved: 2026-11-04
+    sha256: f12663fe2ca5d98541071c27b3d0fae169ff9d67c3a229b61922d407d2c85837
+    official: true
+  - id: portale-sue-operazioni
+    label: Impresa in un giorno, SUE di Napoli – operazione "Voltura intestazione Permesso di costruire" (settore Edilizia e pianificazione urbana)
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-10-31
+    official: true
+    notes: >-
+      Si vede solo dopo l'accesso con SPID, creando una pratica: sezioni, scelte e allegati letti in
+      una bozza di prova, mai inviata.
+  - id: dd-501-2026
+    label: Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026 – Attivazione del SUE su impresainungiorno e Linee guida per la presentazione delle istanze edilizie
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2018/04/LINEE-GUIDA_30.06.2026.pdf
+    retrieved: 2026-10-25
+    sha256: 49e604a61ec34fd88db459761f5b7b07efbfa04b243f4e95881969f1c47796c1
+    official: true
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-10-25
+    official: true
+  - id: sue-ufficio
+    label: Comune di Napoli – Servizio Sportello Unico Edilizia (scheda dell'ufficio)
+    url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-sportello-unico-edilizia/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-16
+    official: true
+verification:
+  level: L1
+  date: 2026-11-04
+  by: claude
+  method: >-
+    Desk: su Normattiva DPR 380/2001 art. 11; la tabella dei diritti SUE 2026; la DD 501/2026;
+    l'operazione del portale letta in una bozza di prova.
+  notes: >-
+    Non trovati: una pagina del Comune sulla voltura, un termine per chiederla, i tempi del Comune,
+    l'importo del bollo. Che la voltura vada chiesta prima che il nuovo titolare prosegua i lavori
+    non è stato verificato.

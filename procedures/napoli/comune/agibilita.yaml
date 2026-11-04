@@ -1,0 +1,259 @@
+schema_version: 0
+id: napoli/comune/agibilita
+title: Segnalazione certificata di agibilità (art. 24 DPR 380/2001) – SUE del Comune di Napoli
+headline: "Agibilità a Napoli dopo i lavori: entro 15 giorni la segnalazione certificata al SUE"
+aka:
+  - agibilità
+  - abitabilità
+  - certificato di agibilità
+  - SCAG
+  - SCIAG
+updated: 2026-11-04
+summary: >-
+  Finiti i lavori di una nuova costruzione, di una ricostruzione o sopraelevazione, o di lavori che
+  incidono su sicurezza, igiene, salubrità e risparmio energetico dell'edificio, entro quindici
+  giorni il titolare del permesso di costruire o chi ha presentato la SCIA (o chi gli è
+  subentrato) presenta allo Sportello Unico per l'Edilizia la segnalazione certificata di
+  agibilità, con l'attestazione del direttore dei lavori e i certificati di collaudo, impianti,
+  barriere e catasto. Il Comune non rilascia più un certificato: l'immobile si può usare dal
+  giorno della presentazione. A Napoli si presenta sul portale "Impresa in un giorno".
+ente:
+  name: Comune di Napoli
+  office: Area Urbanistica – Servizio Sportello Unico Edilizia
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata]
+  conditions:
+    - text: >-
+        La segnalazione certificata è dovuta per le nuove costruzioni, le ricostruzioni o
+        sopraelevazioni totali o parziali e gli interventi sugli edifici esistenti che possano
+        influire sulle condizioni di sicurezza, igiene, salubrità e risparmio energetico (art. 24 c.
+        2 DPR 380/2001).
+      status: verified
+      source: dpr380-art24
+    - text: >-
+        La presenta il titolare del permesso di costruire o chi ha presentato la SCIA, o i loro
+        successori o aventi causa (art. 24 c. 2); la pagina del Comune nomina anche la SCIA
+        alternativa al permesso.
+      status: verified
+      source: scag-pagina
+    - text: >-
+        Può riguardare anche singoli edifici o porzioni funzionalmente autonome, se le opere di
+        urbanizzazione primaria dell'intero intervento e le parti strutturali connesse sono
+        realizzate e collaudate e gli impianti delle parti comuni collaudati e certificati, oppure
+        singole unità immobiliari, se le opere strutturali connesse sono completate e collaudate,
+        gli impianti certificati e completate le parti comuni e le urbanizzazioni funzionali
+        all'edificio (agibilità parziale, art. 24 c. 4).
+      status: verified
+      source: dpr380-art24
+    - text: >-
+        Per le costruzioni ultimate prima dell'entrata in vigore del R.D. 1265/1934 il Comune non
+        chiede la segnalazione; per quanto costruito abusivamente e poi condonato, il certificato di
+        agibilità si chiede al Servizio antiabusivismo e condono edilizio, non al SUE.
+      status: verified
+      source: scag-pagina
+    - text: >-
+        Sul SUE di Napoli l'operazione "Segnalazione Certificata per l'Agibilità" (gruppo Altri
+        adempimenti edilizi) è l'adempimento dell'art. 24 DPR 380/2001 e dell'art. 19 L. 241/1990
+        degli uffici del Comune; la segnalazione può dichiarare che la comunicazione di fine lavori è
+        già stata presentata oppure valere essa stessa come comunicazione di fine lavori.
+      status: verified
+      source: portale-sue-operazioni
+    - text: >-
+        Il progettista può asseverare la conformità igienico-sanitaria anche con altezze interne tra
+        2,40 e 2,70 metri e con monolocali tra 20 e 28 metri quadrati per una persona o tra 28 e 38
+        per due, se è soddisfatta l'adattabilità del D.M. 236/1989 e l'edificio è oggetto di
+        recupero o si presenta insieme un progetto con soluzioni alternative (art. 24 c. 5-bis e
+        5-ter); restano ferme le altre deroghe di legge (c. 5-quater).
+      status: verified
+      source: dpr380-art24
+    - text: >-
+        La segnalazione si può presentare anche senza lavori per gli immobili legittimamente
+        realizzati privi di agibilità che hanno i requisiti fissati con decreto ministeriale (art. 24
+        c. 7-bis); se quel decreto sia stato adottato non è stato verificato.
+      status: unverified
+legal_basis:
+  - text: "D.P.R. 380/2001, art. 24 (agibilità), nel testo vigente; L. 241/1990, art. 19 (SCIA)."
+    status: verified
+    source: dpr380-art24
+deadline:
+  summary:
+    text: >-
+      Entro quindici giorni dall'ultimazione dei lavori di finitura dell'intervento.
+    status: verified
+    source: dpr380-art24
+  lateness:
+    text: >-
+      La mancata presentazione comporta la sanzione amministrativa pecuniaria da 77 a 464 euro (art.
+      24 c. 3). Le note illustrative del Comune (10/11/2025) la graduano secondo l'ordine di servizio
+      n. 5 del 12/10/2011: 77,00 euro dal sedicesimo al trentesimo giorno dall'ultimazione dei
+      lavori, 232,00 euro dal trentunesimo al sessantesimo, 464,00 euro oltre il sessantesimo; le
+      sanzioni versate non si rimborsano. Le note indicano ancora il versamento su conto corrente
+      postale: per il modo di pagare oggi chiedere al SUE.
+    status: verified
+    source: scag-note
+cost:
+  text: >-
+    Diritti d'istruttoria di 401,00 euro (riga SUE 10 della tabella: "Segnalazione Certificata
+    Agibilità"), da versare prima di presentare la pratica. Le note illustrative del Comune
+    (10/11/2025) aggiungono una tassa comunale per la segnalazione, calcolata come vpp/54 × 5,88
+    euro, senza spiegare la sigla. A parte c'è il compenso del tecnico.
+  status: verified
+  source: tabella-diritti
+duration:
+  text: >-
+    Non si attende un rilascio: l'immobile si può utilizzare dalla data di presentazione della
+    segnalazione completa della documentazione (art. 24 c. 6); il Comune fa i controlli, anche a
+    campione (c. 7).
+  status: verified
+  source: dpr380-art24
+pitfalls:
+  - text: >-
+      La pagina SCAG del Comune e le note illustrative (aggiornate a novembre 2025) indicano ancora
+      la presentazione su carta al Protocollo Generale, mentre dal 6 luglio 2026 le pratiche del SUE
+      si presentano solo su impresainungiorno (DD 501/2026).
+    status: disputed
+    source: scag-pagina
+  - text: >-
+      Le segnalazioni prive della documentazione essenziale indicata nel modello sono dichiarate
+      improcedibili.
+    status: verified
+    source: scag-note
+documents:
+  - name: Attestazione del direttore dei lavori o, se non nominato, di un professionista abilitato, sulle condizioni di sicurezza, igiene, salubrità e risparmio energetico (art. 24 c. 5 a)
+    required: true
+  - name: Certificato di collaudo statico (art. 67) o, per riparazioni e interventi locali, dichiarazione di regolare esecuzione del direttore dei lavori (art. 24 c. 5 b)
+    required: false
+    notes: Solo se i lavori hanno interessato le strutture; sul portale si allega o se ne indicano gli estremi.
+  - name: Dichiarazione di conformità alle norme sulle barriere architettoniche (artt. 77 e 82)
+    required: false
+  - name: Estremi della dichiarazione di aggiornamento catastale
+    required: false
+    notes: Se i lavori hanno comportato una variazione catastale.
+  - name: Dichiarazioni di conformità degli impianti dell'impresa installatrice o collaudo (art. 24 c. 5 e; D.M. 37/2008)
+    required: false
+    notes: Per gli impianti toccati dai lavori.
+  - name: Attestazione di "edificio predisposto alla banda ultra larga" (art. 24 c. 5 e-bis)
+    required: false
+    notes: Il portale la indica come obbligatoria per i nuovi edifici.
+  - name: Quadro riepilogativo della documentazione – Agibilità (modulo del portale)
+    required: false
+  - name: Ricevuta dei diritti d'istruttoria
+    required: true
+channels:
+  - type: portal
+    purpose: procedure
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    notes: >-
+      Unico canale per le pratiche del SUE dal 6 luglio 2026 (DD 501/2026): la consegna su carta al
+      Protocollo Generale che la pagina SCAG descrive è superata. Operazione "Segnalazione
+      Certificata per l'Agibilità", gruppo Altri adempimenti edilizi.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dd-501-2026
+      notes: Si compila online; attestazioni, certificati e allegati firmati digitalmente.
+  - type: pec
+    purpose: info
+    address: sportello.unico.edilizia@pec.comune.napoli.it
+    receipt: legal
+    source: sue-ufficio
+    notes: Per comunicare con l'ufficio, non per presentare la segnalazione.
+steps:
+  - do: Incaricare il tecnico e firmare la procura speciale se la presenta lui
+    who: owner
+    human_only: true
+  - do: >-
+      A lavori di finitura ultimati, raccogliere il collaudo statico o la dichiarazione di regolare
+      esecuzione, le dichiarazioni di conformità degli impianti, l'aggiornamento catastale e, se
+      serve, l'attestato di qualificazione energetica e la richiesta di numerazione civica
+    who: professional
+  - do: Redigere e firmare l'attestazione del direttore dei lavori (o del professionista abilitato)
+    who: professional
+    human_only: true
+  - do: Pagare i diritti d'istruttoria (401,00 euro) ed eventuali sanzioni per il ritardo, e allegarne la ricevuta
+    who: owner
+    human_only: true
+  - do: >-
+      Entro quindici giorni dalla fine dei lavori, accedere con SPID, CIE o CNS a Impresa in un
+      giorno (SUE di Napoli), scegliere l'operazione della segnalazione certificata per l'agibilità,
+      compilare, allegare i documenti firmati digitalmente e inviare; conservare la ricevuta, da cui
+      decorre l'utilizzo
+    who: professional
+    human_only: true
+    channel: [portal]
+related:
+  - napoli/comune/fine-lavori
+  - napoli/comune/permesso-di-costruire
+  - napoli/comune/scia-edilizia
+  - napoli/comune/scia-alternativa-pdc
+  - napoli/comune/cila-lavori-edilizi
+sources:
+  - id: dpr380-art24
+    label: D.P.R. 6 giugno 2001, n. 380, art. 24 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art24
+    retrieved: 2026-11-04
+    official: true
+  - id: scag-pagina
+    label: Comune di Napoli – SCAG, Segnalazione Certificata di Agibilità
+    url: https://www.comune.napoli.it/articolo_tematico/urbanistica-patrimonio-politiche-per-la-casa-cimiteri-cittadini/edilizia-privata/altri-procedimenti/sciag-segnalazione-certificata-di-agibilita/
+    retrieved: 2026-11-04
+    page_updated: 2025-11-11
+    official: true
+    notes: Superata sul canale di presentazione (carta, prima di impresainungiorno).
+  - id: scag-note
+    label: SCAG – Note illustrative (10/11/2025), Servizio Sportello Unico Edilizia del Comune di Napoli
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2010/06/SCAG_note_illustrative__10.11.2025_.pdf
+    retrieved: 2026-11-04
+    sha256: fc4fface7b6a3c4ee2753724e955cef35d96d2ae730b4634181ac8e644da1fbf
+    official: true
+  - id: tabella-diritti
+    label: Tabella dei diritti d'istruttoria delle pratiche dello Sportello Unico Edilizia (agg. al 16/06/2026, delibera di G.C. n. 239 del 28 maggio 2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2011/08/tabella-diritti-agg.16_06_2026.pdf
+    retrieved: 2026-11-04
+    sha256: f12663fe2ca5d98541071c27b3d0fae169ff9d67c3a229b61922d407d2c85837
+    official: true
+  - id: portale-sue-operazioni
+    label: Impresa in un giorno, SUE di Napoli – operazione "Segnalazione Certificata per l'Agibilità" (settore Edilizia e pianificazione urbana)
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-10-31
+    official: true
+    notes: >-
+      Si vede solo dopo l'accesso con SPID, creando una pratica: sezioni, scelte e allegati letti in
+      una bozza di prova, mai inviata.
+  - id: dd-501-2026
+    label: Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026 – Attivazione del SUE su impresainungiorno e Linee guida per la presentazione delle istanze edilizie
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2018/04/LINEE-GUIDA_30.06.2026.pdf
+    retrieved: 2026-10-25
+    sha256: 49e604a61ec34fd88db459761f5b7b07efbfa04b243f4e95881969f1c47796c1
+    official: true
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-10-25
+    official: true
+  - id: sue-ufficio
+    label: Comune di Napoli – Servizio Sportello Unico Edilizia (scheda dell'ufficio)
+    url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-sportello-unico-edilizia/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-16
+    official: true
+verification:
+  level: L1
+  date: 2026-11-04
+  by: claude
+  method: >-
+    Desk: su Normattiva DPR 380/2001 art. 24; la pagina SCAG del Comune di Napoli e le note
+    illustrative del 10/11/2025; la tabella dei diritti SUE 2026; la DD 501/2026; l'operazione,
+    le sezioni e gli allegati del portale letti in una bozza di prova.
+  notes: >-
+    Non letti: il modello SCAG del Comune campo per campo (sul portale il tracciato è quello
+    unificato), l'ordine di servizio n. 5/2011, il decreto dell'art. 24 c. 7-bis, il modo di
+    pagare oggi la sanzione e la tassa comunale (le note citano il conto corrente postale).

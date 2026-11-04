@@ -1,0 +1,196 @@
+schema_version: 0
+id: napoli/comune/fine-lavori
+title: Comunicazione di fine lavori – SUE del Comune di Napoli
+headline: "Come comunicare la fine dei lavori al SUE di Napoli"
+aka:
+  - fine lavori
+  - ultimazione lavori
+  - chiusura lavori
+  - collaudo finale
+updated: 2026-11-04
+summary: >-
+  Finiti i lavori di una CILA, di una SCIA o di un permesso di costruire, se ne comunica la data
+  allo Sportello Unico per l'Edilizia, indicando il titolo con cui si sono fatti e se sono finiti
+  del tutto o in parte. Con la SCIA il progettista presenta anche il certificato di collaudo finale
+  e la ricevuta della variazione catastale. A Napoli si presenta sul portale "Impresa in un giorno";
+  quando segue la segnalazione di agibilità, questa può valere anche come fine lavori.
+ente:
+  name: Comune di Napoli
+  office: Area Urbanistica – Servizio Sportello Unico Edilizia
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata]
+  conditions:
+    - text: >-
+        Sul SUE di Napoli l'operazione "Comunicazione di fine lavori" (gruppo Altri adempimenti
+        edilizi) chiede la data di fine lavori, se sono finiti completamente o in forma parziale
+        (con una planimetria allegata) e il titolo o la comunicazione che li ha legittimati, con
+        protocollo e data.
+      status: verified
+      source: portale-sue-operazioni
+    - text: >-
+        Chi ha presentato una SCIA alternativa al permesso è tenuto a comunicare allo sportello unico
+        la data di ultimazione dei lavori (art. 23 c. 2 DPR 380/2001).
+      status: verified
+      source: dpr380-art23
+    - text: >-
+        Ultimato l'intervento, il progettista o un tecnico abilitato rilascia il certificato di
+        collaudo finale, che attesta la conformità dell'opera al progetto della segnalazione, e lo
+        presenta allo sportello unico con la ricevuta della variazione catastale o la dichiarazione
+        che le opere non hanno modificato il classamento; senza, si applica la sanzione dell'art. 37
+        c. 5 (art. 23 c. 7).
+      status: verified
+      source: dpr380-art23
+    - text: >-
+        Che l'art. 23 c. 7, scritto nell'articolo sulla SCIA alternativa, valga anche per la SCIA
+        ordinaria dell'art. 22 non è stato verificato su una fonte ufficiale.
+      status: unverified
+    - text: >-
+        A fine lavori di una CILA, quando serve, l'aggiornamento catastale va presentato entro
+        trenta giorni (art. 34-quinquies c. 2 b D.L. 4/2006, come ricordano le note del Comune).
+      status: verified
+      source: cila-note
+    - text: >-
+        La segnalazione certificata di agibilità, quando è dovuta, può valere come comunicazione di
+        fine lavori (casella del portale "la presente segnalazione vale come comunicazione di fine
+        lavori").
+      status: verified
+      source: portale-agibilita
+legal_basis:
+  - text: "D.P.R. 380/2001, art. 23 c. 2 e c. 7 (fine lavori e collaudo finale della SCIA); art. 15 c. 2 (termine di ultimazione del permesso)."
+    status: verified
+    source: dpr380-art23
+deadline:
+  summary:
+    text: >-
+      La legge non dà un termine proprio alla comunicazione; i lavori vanno finiti entro il termine
+      del titolo: tre anni dall'inizio per il permesso di costruire, tre anni di efficacia per la
+      SCIA alternativa. L'agibilità, se dovuta, entro quindici giorni dalla fine dei lavori di
+      finitura.
+    status: unverified
+  rules:
+    - text: >-
+        Il termine di ultimazione del permesso di costruire non può superare tre anni dall'inizio
+        dei lavori; decorso, il permesso decade per la parte non eseguita, salvo proroga chiesta
+        prima della scadenza (art. 15 c. 2).
+      status: verified
+      source: dpr380-art15
+    - text: >-
+        La SCIA alternativa al permesso ha efficacia massima di tre anni; la parte non ultimata
+        richiede una nuova segnalazione (art. 23 c. 2).
+      status: verified
+      source: dpr380-art23
+channels:
+  - type: portal
+    purpose: procedure
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    notes: >-
+      Unico canale per le pratiche del SUE dal 6 luglio 2026 (DD 501/2026). Operazione
+      "Comunicazione di fine lavori", gruppo Altri adempimenti edilizi.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dd-501-2026
+      notes: Si compila online; collaudo, planimetria e allegati firmati digitalmente.
+  - type: pec
+    purpose: info
+    address: sportello.unico.edilizia@pec.comune.napoli.it
+    receipt: legal
+    source: sue-ufficio
+    notes: Per comunicare con l'ufficio, non per presentare la comunicazione.
+steps:
+  - do: Firmare la procura speciale se la comunicazione la presenta il tecnico
+    who: owner
+    human_only: true
+  - do: >-
+      Stabilire la data di fine lavori, se sono finiti del tutto o in parte (con la planimetria
+      della parte finita) e gli estremi del titolo; per una SCIA, preparare il collaudo finale e la
+      ricevuta della variazione catastale
+    who: professional
+  - do: Firmare il certificato di collaudo finale, se dovuto
+    who: professional
+    human_only: true
+  - do: >-
+      Accedere con SPID, CIE o CNS a Impresa in un giorno (SUE di Napoli), scegliere l'operazione
+      "Comunicazione di fine lavori", compilare, allegare i documenti firmati digitalmente e
+      inviare; conservare la ricevuta
+    who: professional
+    human_only: true
+    channel: [portal]
+  - do: Se l'intervento la richiede, presentare la segnalazione certificata di agibilità entro quindici giorni
+    who: professional
+    human_only: true
+related:
+  - napoli/comune/agibilita
+  - napoli/comune/proroga-fine-lavori
+  - napoli/comune/cila-lavori-edilizi
+  - napoli/comune/scia-edilizia
+  - napoli/comune/permesso-di-costruire
+sources:
+  - id: dpr380-art23
+    label: D.P.R. 6 giugno 2001, n. 380, art. 23 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art23
+    retrieved: 2026-11-04
+    official: true
+  - id: dpr380-art15
+    label: D.P.R. 6 giugno 2001, n. 380, art. 15 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art15
+    retrieved: 2026-11-04
+    official: true
+  - id: cila-note
+    label: CILA – Note illustrative (23/06/2025), Servizio sportello unico edilizia privata
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2010/06/CILA_note_illustrative_23_06_2025-1.pdf
+    retrieved: 2026-10-25
+    sha256: 62f90efd6fffde505c20a6d25caa5ffa65ccf5589f1d213119e8df3caf0e0f47
+    official: true
+  - id: portale-sue-operazioni
+    label: Impresa in un giorno, SUE di Napoli – operazione "Comunicazione di fine lavori" (settore Edilizia e pianificazione urbana)
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-10-31
+    official: true
+    notes: >-
+      Si vede solo dopo l'accesso con SPID, creando una pratica: sezioni, scelte e allegati letti in
+      una bozza di prova, mai inviata.
+  - id: portale-agibilita
+    label: Impresa in un giorno, SUE di Napoli – operazione "Segnalazione Certificata per l'Agibilità", sezione "dichiarazione sulla comunicazione di fine lavori"
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-10-31
+    official: true
+    notes: Letta in una bozza di prova, mai inviata.
+  - id: dd-501-2026
+    label: Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026 – Attivazione del SUE su impresainungiorno e Linee guida per la presentazione delle istanze edilizie
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2018/04/LINEE-GUIDA_30.06.2026.pdf
+    retrieved: 2026-10-25
+    sha256: 49e604a61ec34fd88db459761f5b7b07efbfa04b243f4e95881969f1c47796c1
+    official: true
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-10-25
+    official: true
+  - id: sue-ufficio
+    label: Comune di Napoli – Servizio Sportello Unico Edilizia (scheda dell'ufficio)
+    url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-sportello-unico-edilizia/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-16
+    official: true
+verification:
+  level: L1
+  date: 2026-11-04
+  by: claude
+  method: >-
+    Desk: su Normattiva DPR 380/2001 artt. 15 e 23; le note illustrative della CILA del Comune; la
+    DD 501/2026; le operazioni di fine lavori e di agibilità del portale lette in una bozza di
+    prova.
+  notes: >-
+    Non trovati: un termine di legge per la comunicazione di fine lavori, una pagina del Comune su
+    di essa e una riga della tabella dei diritti SUE 2026 che la nomini (il portale ha comunque la
+    dichiarazione sui diritti e lo spazio per la ricevuta). Non letto il Regolamento edilizio di
+    Napoli.

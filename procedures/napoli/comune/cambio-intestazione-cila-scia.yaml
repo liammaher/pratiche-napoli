@@ -1,0 +1,155 @@
+schema_version: 0
+id: napoli/comune/cambio-intestazione-cila-scia
+title: Cambio d'intestazione di una CILA, SCIA o DIA – SUE del Comune di Napoli
+headline: "Subentrare in una CILA o una SCIA a Napoli: la comunicazione di cambio d'intestazione"
+aka:
+  - cambio intestazione CILA
+  - cambio intestazione SCIA
+  - voltura SCIA
+  - voltura CILA
+  - subentro titolo edilizio
+updated: 2026-11-04
+summary: >-
+  Quando l'immobile di una CILA, di una SCIA o di una vecchia DIA cambia proprietario (o chi ha
+  titolo sui lavori cambia) mentre i lavori sono in corso, il nuovo avente titolo lo comunica allo
+  Sportello Unico per l'Edilizia: indica il titolo e l'atto con cui è subentrato, dichiara di aver
+  preso visione della pratica e dei pareri e di rispettarne le prescrizioni, e può indicare insieme
+  un nuovo direttore dei lavori o una nuova impresa. A Napoli si presenta sul portale "Impresa in
+  un giorno". Per un permesso di costruire c'è la voltura.
+ente:
+  name: Comune di Napoli
+  office: Area Urbanistica – Servizio Sportello Unico Edilizia
+  ipa: c_f839
+applies_to:
+  events: [renovate]
+  audience: [business, resident]
+  sectors: [edilizia privata]
+  conditions:
+    - text: >-
+        Sul SUE di Napoli l'operazione "Cambio intestazione CIA / SCIA / DIA" (gruppo Altri
+        adempimenti edilizi) è la "Comunicazione per cambio intestazione C.I.L.A. / S.C.I.A. /
+        D.I.A." ("Modifica degli aventi titolo"): chiede il tipo di titolo (CILA, DIA o SCIA) con
+        protocollo e data, la tipologia di attività, la presa visione della pratica, dei suoi
+        allegati e dei pareri, l'impegno a rispettarne prescrizioni e condizioni e la conoscenza di
+        progettista, direttore dei lavori ed esecutore; tre scelte aggiungono un nuovo direttore dei
+        lavori, una nuova ditta esecutrice e gli altri aventi titolo se ci sono cointestatari.
+      status: verified
+      source: portale-sue-operazioni
+    - text: >-
+        Tra gli allegati il portale prevede la dichiarazione sostitutiva sul diritto reale a
+        presentare il titolo, la copia registrata dell'atto di alienazione e la ricevuta dei
+        versamenti.
+      status: verified
+      source: portale-sue-operazioni
+    - text: >-
+        L'art. 11 c. 2 DPR 380/2001 rende trasferibile con l'immobile il permesso di costruire; il
+        testo unico non ha una regola analoga scritta per la CILA e la SCIA, e quando la
+        comunicazione di cambio d'intestazione sia obbligatoria non è stato verificato (il
+        Regolamento edilizio di Napoli non è stato letto).
+      status: unverified
+      source: dpr380-art11
+    - text: >-
+        La segnalazione di agibilità, a fine lavori, la presentano chi ha presentato la SCIA o i suoi
+        successori o aventi causa (art. 24 c. 2 DPR 380/2001).
+      status: verified
+      source: dpr380-art24
+legal_basis:
+  - text: >-
+      Nessuna norma specifica trovata; l'operazione è quella del SUE di Napoli su impresainungiorno
+      (DD 501/2026).
+    status: unverified
+channels:
+  - type: portal
+    purpose: procedure
+    name: Impresa in un giorno – Sportello Unico Edilizia del Comune di Napoli
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    auth: [spid, cie, cns]
+    receipt: legal
+    preferred: true
+    source: potess-sue
+    notes: >-
+      Unico canale per le pratiche del SUE dal 6 luglio 2026 (DD 501/2026). Operazione "Cambio
+      intestazione CIA / SCIA / DIA", gruppo Altri adempimenti edilizi.
+    use:
+      ways: [web_form, upload]
+      status: verified
+      source: dd-501-2026
+      notes: Si compila online; gli allegati si firmano digitalmente.
+  - type: pec
+    purpose: info
+    address: sportello.unico.edilizia@pec.comune.napoli.it
+    receipt: legal
+    source: sue-ufficio
+    notes: Per comunicare con l'ufficio, non per presentare la comunicazione.
+steps:
+  - do: Firmare la procura speciale se la comunicazione la presenta il tecnico
+    who: owner
+    human_only: true
+  - do: >-
+      Raccogliere gli estremi della CILA, SCIA o DIA e dell'atto di trasferimento, prendere visione
+      della pratica, dei suoi allegati e dei pareri, e stabilire se cambiano anche direttore dei
+      lavori o impresa
+    who: professional
+  - do: Se ci sono diritti da versare, pagarli e allegarne la ricevuta
+    who: owner
+    human_only: true
+  - do: >-
+      Accedere con SPID, CIE o CNS a Impresa in un giorno (SUE di Napoli), scegliere l'operazione
+      "Cambio intestazione CIA / SCIA / DIA", compilare, allegare i documenti firmati digitalmente
+      e inviare; conservare la ricevuta
+    who: professional
+    human_only: true
+    channel: [portal]
+related:
+  - napoli/comune/voltura-permesso-di-costruire
+  - napoli/comune/cila-lavori-edilizi
+  - napoli/comune/scia-edilizia
+  - napoli/comune/nomina-nuovo-direttore-lavori
+  - napoli/comune/cambio-impresa-esecutrice
+sources:
+  - id: dpr380-art24
+    label: D.P.R. 6 giugno 2001, n. 380, art. 24 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art24
+    retrieved: 2026-11-04
+    official: true
+  - id: dpr380-art11
+    label: D.P.R. 6 giugno 2001, n. 380, art. 11 (Normattiva)
+    url: https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:2001-06-06;380~art11
+    retrieved: 2026-11-04
+    official: true
+  - id: portale-sue-operazioni
+    label: Impresa in un giorno, SUE di Napoli – operazione "Cambio intestazione CIA / SCIA / DIA" (settore Edilizia e pianificazione urbana)
+    url: https://www.impresainungiorno.gov.it/route/suap?codComune=F839&locale=IT&tipoSportello=E
+    retrieved: 2026-10-31
+    official: true
+    notes: >-
+      Si vede solo dopo l'accesso con SPID, creando una pratica: sezioni, scelte e allegati letti in
+      una bozza di prova, mai inviata.
+  - id: dd-501-2026
+    label: Disposizione Dirigenziale SUE n. 501 del 23 giugno 2026 – Attivazione del SUE su impresainungiorno e Linee guida per la presentazione delle istanze edilizie
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2018/04/LINEE-GUIDA_30.06.2026.pdf
+    retrieved: 2026-10-25
+    sha256: 49e604a61ec34fd88db459761f5b7b07efbfa04b243f4e95881969f1c47796c1
+    official: true
+  - id: potess-sue
+    label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
+    url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
+    retrieved: 2026-10-25
+    official: true
+  - id: sue-ufficio
+    label: Comune di Napoli – Servizio Sportello Unico Edilizia (scheda dell'ufficio)
+    url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-sportello-unico-edilizia/
+    retrieved: 2026-10-25
+    page_updated: 2026-07-16
+    official: true
+verification:
+  level: L0
+  date: 2026-11-04
+  by: claude
+  method: >-
+    Desk: l'operazione del portale letta in una bozza di prova; su Normattiva DPR 380/2001 artt.
+    11 e 24; la DD 501/2026.
+  notes: >-
+    Bozza: nessuna fonte ufficiale trovata dice quando il cambio d'intestazione di una CILA o SCIA
+    è dovuto né con quale termine; non letti il Regolamento edilizio di Napoli né una pagina del
+    Comune su di esso. La tabella dei diritti SUE 2026 non ha una riga per questa comunicazione.
