@@ -134,7 +134,13 @@ costruire (where the law lets the architect choose, the choice is a fact), the l
 authorization filed with it, and the seismic filing made apart at the Genio Civile. Changes of
 use follow Campania's own laws too (L.R. 19/2001, 13/2022, 31/2021, read with the Regione's
 circolare CI/2025/3): a whole building's is a SCIA alternativa, one that doesn't raise the need for
-standard urbanistici is free.
+standard urbanistici is free. A landscape authorization the works already have is extended (art.
+10-septies D.L. 21/2022) or renewed (art. 7 D.P.R. 31/2017) with the title, or alone for works with no
+title; edilizia libera that digs files the dichiarazione di utilizzo. `rules/sue-napoli-adempimenti.yaml`
+covers what is filed on a title already held: the start and end of works, the agibilità, the ordinary
+(art. 15) and extraordinary (art. 10-septies) extensions with what keeps the works' landscape
+authorization in force, the voltura or change of holder, a new direttore dei lavori or firm, and the
+DAU of the excavated soil.
 
 A rule adds no claim of its own: it cites a procedure and one of its sources, and the validator
 checks that source backs a verified claim on that procedure, so a rule changes when its
