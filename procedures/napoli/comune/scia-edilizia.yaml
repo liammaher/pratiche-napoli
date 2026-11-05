@@ -7,7 +7,7 @@ aka:
   - scia ristrutturazione
   - cambio di destinazione d'uso
   - variante in corso d'opera
-updated: 2026-11-03
+updated: 2026-11-05
 summary: >-
   La SCIA edilizia serve a Napoli per i lavori che toccano le strutture o i prospetti
   dell'edificio, per le ristrutturazioni edilizie che non richiedono il permesso di costruire,
@@ -221,6 +221,21 @@ deadline:
       Sportello comunica il rilascio degli atti di assenso.
     status: verified
     source: scia-modulo
+cost:
+  text: >-
+    Diritti d'istruttoria del SUE di 401,00 euro per una SCIA a titolo gratuito (riga SUE 10
+    della tabella 2026, delibera di G.C. 239/2026). A parte il contributo di costruzione se
+    dovuto e il compenso del tecnico.
+  status: verified
+  source: tabella-diritti
+pitfalls:
+  - text: >-
+      La tabella non ha una riga per la SCIA (art. 22) a titolo oneroso: le righe SUE 7-9, per
+      scaglioni di contributo, nominano solo i permessi di costruire a titolo oneroso e la
+      SCIA in alternativa al permesso, la SUE 10 la SCIA a titolo gratuito. L'importo dei
+      diritti di una SCIA onerosa va chiesto al SUE.
+    status: unverified
+    source: tabella-diritti
 channels:
   - type: portal
     purpose: procedure
@@ -390,6 +405,12 @@ sources:
       Si vede solo dopo l'accesso con SPID, creando una pratica (bozza di prova, mai inviata). Ogni
       operazione indica l'adempimento e l'amministrazione ("UFFICI COMUNE DI NAPOLI - SUE"); più
       operazioni si selezionano insieme in una stessa pratica.
+  - id: tabella-diritti
+    label: Tabella dei diritti d'istruttoria delle pratiche dello Sportello Unico Edilizia (agg. al 16/06/2026, delibera di G.C. n. 239 del 28 maggio 2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2011/08/tabella-diritti-agg.16_06_2026.pdf
+    retrieved: 2026-11-05
+    sha256: f12663fe2ca5d98541071c27b3d0fae169ff9d67c3a229b61922d407d2c85837
+    official: true
 verification:
   level: L1
   date: 2026-10-29

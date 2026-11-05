@@ -6,7 +6,7 @@ aka:
   - super scia
   - scia in alternativa al permesso
   - dia alternativa
-updated: 2026-11-03
+updated: 2026-11-05
 summary: >-
   Per alcuni interventi che chiederebbero il permesso di costruire la legge consente, in
   alternativa, una SCIA: le ristrutturazioni edilizie "pesanti" dell'art. 10 c. 1 c e le nuove
@@ -100,6 +100,25 @@ deadline:
     text: Almeno trenta giorni prima dell'effettivo inizio dei lavori.
     status: verified
     source: dpr380-art23
+cost:
+  text: >-
+    Diritti d'istruttoria del SUE secondo la tabella 2026 (delibera di G.C. 239/2026): 401,00
+    euro se a titolo gratuito (riga SUE 10, «Permessi di costruire e Segnalazione Certificata di
+    Inizio Attività (a titolo gratuito)»); se onerosa, secondo lo scaglione del contributo di
+    costruzione (oneri di urbanizzazione + costo di costruzione), 1.003,00 euro fino a 5.000
+    euro, 1.505,00 euro da 5.000 a 30.000 euro, 1.998,00 euro oltre 30.000 euro (righe SUE 7-9,
+    «Segnalazione Certificata di Inizio Attività in alternativa al Permesso di costruire»). A
+    parte il contributo di costruzione se dovuto e il compenso del tecnico.
+  status: verified
+  source: tabella-diritti
+pitfalls:
+  - text: >-
+      La tabella mette un contributo di esattamente 5.000 euro sia nella riga SUE 7 («fino a €
+      5.000,00») sia nella SUE 8 («da € 5.000,00»); se il contributo lo calcola lo Sportello,
+      lo scaglione non si conosce alla presentazione. In questi casi l'importo dei diritti va
+      chiesto al SUE.
+    status: unverified
+    source: tabella-diritti
 channels:
   - type: portal
     purpose: procedure
@@ -204,6 +223,12 @@ sources:
     url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-sportello-unico-edilizia/
     retrieved: 2026-10-25
     page_updated: 2026-07-16
+    official: true
+  - id: tabella-diritti
+    label: Tabella dei diritti d'istruttoria delle pratiche dello Sportello Unico Edilizia (agg. al 16/06/2026, delibera di G.C. n. 239 del 28 maggio 2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2011/08/tabella-diritti-agg.16_06_2026.pdf
+    retrieved: 2026-11-05
+    sha256: f12663fe2ca5d98541071c27b3d0fae169ff9d67c3a229b61922d407d2c85837
     official: true
 verification:
   level: L1
