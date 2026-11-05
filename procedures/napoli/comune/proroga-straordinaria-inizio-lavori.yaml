@@ -7,7 +7,7 @@ aka:
   - proroga straordinaria inizio lavori
   - proroga 10 septies
   - proroga trenta mesi
-updated: 2026-11-04
+updated: 2026-11-05
 summary: >-
   La proroga straordinaria dell'art. 10-septies è cresciuta più volte: da uno a due anni, a trenta
   e trentasei mesi, oggi a quarantotto mesi per i titoli rilasciati o formati fino al 31 dicembre
@@ -85,6 +85,13 @@ pitfalls:
       beni culturali.
     status: verified
     source: dl21-art10septies
+  - text: >-
+      La tabella dei diritti SUE 2026 ha una riga per le proroghe di permessi di costruire
+      rilasciati (SUE 11, 501,00 euro); se valga anche per questa comunicazione integrativa,
+      che non chiede un provvedimento, e per un titolo che non sia un permesso, va chiesto al
+      SUE.
+    status: unverified
+    source: tabella-diritti
 channels:
   - type: portal
     purpose: procedure
@@ -177,6 +184,12 @@ sources:
     url: https://www.comune.napoli.it/amministrazione/unita_organizzativa/servizio-sportello-unico-edilizia/
     retrieved: 2026-10-25
     page_updated: 2026-07-16
+    official: true
+  - id: tabella-diritti
+    label: Tabella dei diritti d'istruttoria delle pratiche dello Sportello Unico Edilizia (agg. al 16/06/2026, delibera di G.C. n. 239 del 28 maggio 2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2011/08/tabella-diritti-agg.16_06_2026.pdf
+    retrieved: 2026-11-05
+    sha256: f12663fe2ca5d98541071c27b3d0fae169ff9d67c3a229b61922d407d2c85837
     official: true
 verification:
   level: L1

@@ -7,7 +7,7 @@ aka:
   - rinnovo autorizzazione paesaggistica
   - paesaggistica scaduta
   - art. 7 DPR 31/2017
-updated: 2026-11-04
+updated: 2026-11-05
 summary: >-
   L'autorizzazione paesaggistica vale cinque anni. Se è scaduta da non più di un anno e i lavori
   non sono stati fatti, o solo in parte, si chiede il rinnovo con il procedimento semplificato del
@@ -83,6 +83,7 @@ pitfalls:
       autorizzazioni paesaggistiche oggetto di autonoma istanza (SUE 2, 401,00 euro) va chiesto al
       SUE.
     status: unverified
+    source: tabella-diritti
   - text: >-
       Un'autorizzazione scaduta da più di un anno non si rinnova con l'art. 7: serve una nuova
       autorizzazione.
@@ -162,6 +163,12 @@ sources:
     label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
     url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
     retrieved: 2026-10-25
+    official: true
+  - id: tabella-diritti
+    label: Tabella dei diritti d'istruttoria delle pratiche dello Sportello Unico Edilizia (agg. al 16/06/2026, delibera di G.C. n. 239 del 28 maggio 2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2011/08/tabella-diritti-agg.16_06_2026.pdf
+    retrieved: 2026-11-05
+    sha256: f12663fe2ca5d98541071c27b3d0fae169ff9d67c3a229b61922d407d2c85837
     official: true
 verification:
   level: L1

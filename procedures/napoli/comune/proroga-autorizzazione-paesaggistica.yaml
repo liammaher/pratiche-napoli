@@ -6,7 +6,7 @@ aka:
   - proroga paesaggistica
   - proroga autorizzazione paesaggistica
   - proroga 10 septies paesaggistica
-updated: 2026-11-04
+updated: 2026-11-05
 summary: >-
   L'autorizzazione paesaggistica vale cinque anni, più un anno per finire i lavori iniziati nel
   quinquennio. La proroga straordinaria dell'art. 10-septies, oggi di quarantotto mesi, vale anche
@@ -82,6 +82,12 @@ pitfalls:
       sono stati eseguiti, o solo in parte, si chiede il rinnovo (art. 7 D.P.R. 31/2017).
     status: verified
     source: dpr31-art7
+  - text: >-
+      La tabella dei diritti SUE 2026 non ha una riga per la proroga dell'autorizzazione
+      paesaggistica; se valga quella delle autorizzazioni paesaggistiche oggetto di autonoma
+      istanza (SUE 2, 401,00 euro) va chiesto al SUE.
+    status: unverified
+    source: tabella-diritti
 channels:
   - type: portal
     purpose: procedure
@@ -155,6 +161,12 @@ sources:
     label: Comune di Napoli, POTESs – Edilizia Privata, "SUE – Piattaforma Impresa In Un Giorno"
     url: https://servizionline.comune.napoli.it/web/napoli/edilizia-privata
     retrieved: 2026-10-25
+    official: true
+  - id: tabella-diritti
+    label: Tabella dei diritti d'istruttoria delle pratiche dello Sportello Unico Edilizia (agg. al 16/06/2026, delibera di G.C. n. 239 del 28 maggio 2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2011/08/tabella-diritti-agg.16_06_2026.pdf
+    retrieved: 2026-11-05
+    sha256: f12663fe2ca5d98541071c27b3d0fae169ff9d67c3a229b61922d407d2c85837
     official: true
 verification:
   level: L1
