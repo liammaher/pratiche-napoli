@@ -6,7 +6,7 @@ aka:
   - concessione edilizia
   - nuova costruzione
   - demolizione e ricostruzione
-updated: 2026-10-31
+updated: 2026-11-05
 summary: >-
   Il permesso di costruire serve a Napoli per le nuove costruzioni, la ristrutturazione
   urbanistica e le ristrutturazioni edilizie "pesanti" dell'art. 10 c. 1 c DPR 380/2001; si può
@@ -107,6 +107,42 @@ deadline:
   summary:
     text: Prima di iniziare i lavori, che si possono iniziare solo dopo il rilascio del permesso.
     status: unverified
+cost:
+  text: >-
+    Diritti d'istruttoria del SUE secondo la tabella 2026 (delibera di G.C. 239/2026): 401,00
+    euro per un permesso a titolo gratuito (riga SUE 10); a titolo oneroso, secondo lo scaglione
+    del contributo di costruzione (oneri di urbanizzazione + costo di costruzione), 1.003,00
+    euro fino a 5.000 euro, 1.505,00 euro da 5.000 a 30.000 euro, 1.998,00 euro oltre 30.000
+    euro (righe SUE 7-9); per i parcheggi pertinenziali, secondo la superficie, 677,00 euro fino
+    a 300 mq, 1.129,00 euro da 301 a 1.000 mq, 1.998,00 euro oltre 1.001 mq (righe SUE 4-6);
+    501,00 euro per una variante a un permesso rilasciato (riga SUE 11). A parte l'imposta di
+    bollo, il contributo di costruzione se dovuto e il compenso del tecnico.
+  status: verified
+  source: tabella-diritti
+pitfalls:
+  - text: >-
+      I parcheggi in aree libere della L.R. Campania 19/2001 (art. 6 c. 2: permesso di
+      costruire non oneroso, anche in deroga) sono parcheggi pertinenziali: l'articolo è
+      intitolato «Norme in materia di parcheggi pertinenziali», il c. 5 rinvia all'art. 9
+      della L. 122/1989 e il c. 7 vuole i posti auto venduti in regime di pertinenzialità. I
+      loro diritti sono quelli delle righe SUE 4-6 della tabella, per i parcheggi
+      pertinenziali della legge Tognoli.
+    status: verified
+    source: lr19-2001-art6
+  - text: >-
+      La tabella mette un contributo di esattamente 5.000 euro sia nella riga SUE 7 («fino a €
+      5.000,00») sia nella SUE 8 («da € 5.000,00»); per i parcheggi non ha una riga per le
+      superfici oltre 300 e sotto 301 mq né oltre 1.000 e fino a 1.001 mq («fino a 300 mq»,
+      «da 301 mq a 1000 mq», «oltre 1001 mq») e non dice se la superficie sia lorda o utile.
+      In questi casi l'importo va chiesto al SUE.
+    status: unverified
+    source: tabella-diritti
+  - text: >-
+      Se il contributo lo calcola lo Sportello (senza il prospetto di calcolo del
+      progettista), lo scaglione dei diritti non si conosce alla presentazione: l'importo va
+      chiesto al SUE.
+    status: unverified
+    source: tabella-diritti
 channels:
   - type: portal
     purpose: procedure
@@ -246,6 +282,18 @@ sources:
     retrieved: 2026-10-25
     page_updated: 2026-07-16
     official: true
+  - id: tabella-diritti
+    label: Tabella dei diritti d'istruttoria delle pratiche dello Sportello Unico Edilizia (agg. al 16/06/2026, delibera di G.C. n. 239 del 28 maggio 2026)
+    url: https://static-www.comune.napoli.it/wp-content/uploads/2011/08/tabella-diritti-agg.16_06_2026.pdf
+    retrieved: 2026-11-05
+    sha256: f12663fe2ca5d98541071c27b3d0fae169ff9d67c3a229b61922d407d2c85837
+    official: true
+  - id: lr19-2001-art6
+    label: Legge Regionale Campania 28 novembre 2001, n. 19, art. 6 «Norme in materia di parcheggi pertinenziali» (testo vigente, Regione Campania – Normativa)
+    url: https://www.regione.campania.it/normativa/item.php?pgCode=G19I231R481&id_doc_type=1&id_tema=3
+    retrieved: 2026-11-05
+    official: true
+    notes: Testo vigente con le modifiche fino alla L.R. 16/2014.
 verification:
   level: L1
   date: 2026-10-29
