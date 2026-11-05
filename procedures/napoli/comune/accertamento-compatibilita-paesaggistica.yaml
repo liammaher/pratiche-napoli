@@ -7,7 +7,7 @@ aka:
   - compatibilità paesaggistica
   - abuso paesaggistico
   - autorizzazione paesaggistica in sanatoria
-updated: 2026-11-02
+updated: 2026-11-05
 summary: >-
   Chi ha eseguito in un'area o su un immobile sotto tutela paesaggistica lavori che chiedevano
   l'autorizzazione paesaggistica, senza averla o in difformità, chiede al Comune di accertarne la
@@ -71,6 +71,15 @@ cost:
     dell'art. 167 c. 5 se la compatibilità è accertata. A parte il compenso del tecnico.
   status: verified
   source: tabella-diritti
+pitfalls:
+  - text: >-
+      La riga SUE 3 della tabella vale solo «quando oggetto di autonoma istanza»: chiesto
+      nella stessa pratica di un permesso o una SCIA in sanatoria, l'accertamento non ha una
+      riga sua e si pagano i diritti della sanatoria (riga SUE 16). Lo stesso per la
+      dichiarazione di utilizzo delle terre e rocce e la dichiarazione di avvenuto utilizzo
+      (DAU), che la tabella non nomina.
+    status: verified
+    source: tabella-diritti
 channels:
   - type: portal
     purpose: procedure

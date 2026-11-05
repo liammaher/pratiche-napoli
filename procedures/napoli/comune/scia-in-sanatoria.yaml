@@ -8,7 +8,7 @@ aka:
   - salva casa
   - scia tardiva
   - difformità
-updated: 2026-11-03
+updated: 2026-11-05
 summary: >-
   Chi ha eseguito, o sta eseguendo, lavori che chiedevano la SCIA senza presentarla, o in
   difformità da quella presentata, li regolarizza con una SCIA in sanatoria (art. 36-bis DPR
@@ -151,6 +151,14 @@ cost:
     compenso del tecnico.
   status: verified
   source: tabella-diritti
+pitfalls:
+  - text: >-
+      La tabella non ha una riga per la SCIA presentata a lavori in corso (art. 37 c. 5, con
+      la sanzione di 516 euro): la riga SUE 16 nomina solo gli accertamenti di conformità
+      (artt. 36 e 36-bis) e le regolarizzazioni (art. 34-ter). Se valga la SUE 10 (SCIA a
+      titolo gratuito) o la SUE 16 va chiesto al SUE.
+    status: unverified
+    source: tabella-diritti
 channels:
   - type: portal
     purpose: procedure
