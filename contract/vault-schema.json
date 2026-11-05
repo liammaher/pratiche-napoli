@@ -162,12 +162,12 @@
         },
         {
           "id": "residenza.civico",
-          "description": "House number (numero civico) only, e.g. 544; scala or esponente like 12/B may follow",
+          "description": "House number (numero civico) only, e.g. 21; scala or esponente like 12/B may follow",
           "sensitivity": "sensitive"
         },
         {
           "id": "residenza.interno",
-          "description": "Flat number (interno), e.g. 13; 'int. 13' is saved as 13",
+          "description": "Flat number (interno), e.g. 4; 'int. 4' is saved as 4",
           "sensitivity": "standard"
         },
         {
@@ -252,12 +252,12 @@
         },
         {
           "id": "domicilio.civico",
-          "description": "House number (numero civico) only, e.g. 544; scala or esponente like 12/B may follow",
+          "description": "House number (numero civico) only, e.g. 21; scala or esponente like 12/B may follow",
           "sensitivity": "sensitive"
         },
         {
           "id": "domicilio.interno",
-          "description": "Flat number (interno), e.g. 13; 'int. 13' is saved as 13",
+          "description": "Flat number (interno), e.g. 4; 'int. 4' is saved as 4",
           "sensitivity": "standard"
         },
         {
@@ -365,7 +365,7 @@
         },
         {
           "id": "abitazione.catasto_rendita",
-          "description": "Rendita catastale in euro (e.g. 512.30)",
+          "description": "Rendita catastale in euro (e.g. 400.00)",
           "sensitivity": "standard"
         },
         {
@@ -431,7 +431,7 @@
         },
         {
           "id": "locazione.canone_mensile",
-          "description": "Monthly rent in euro (e.g. 750.00)",
+          "description": "Monthly rent in euro (e.g. 600.00)",
           "sensitivity": "sensitive"
         },
         {
@@ -471,7 +471,7 @@
         },
         {
           "id": "locazione.registrazione_ufficio",
-          "description": "Agenzia delle Entrate office code (e.g. TNM)",
+          "description": "Agenzia delle Entrate office code, the three letters on the registration receipt",
           "sensitivity": "standard"
         },
         {
