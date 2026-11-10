@@ -8,7 +8,7 @@ aka:
   - aprire un salone di bellezza
   - licenza estetista
   - pratica SUAP
-updated: 2026-11-02
+updated: 2026-11-10
 summary: >-
   Chi vuole aprire a Napoli un salone di acconciatore (parrucchiere o barbiere) o un centro di
   estetica presenta una SCIA al SUAP del Comune, solo online su impresainungiorno. Serve un
@@ -29,6 +29,13 @@ applies_to:
         regolamento comunale si applica a ogni forma di esercizio, dovunque e da chiunque sia svolta,
         anche a titolo gratuito (art. 3). La SCIA serve anche per trasferimento di sede e
         subingresso (art. 8); questa scheda descrive l'apertura.
+      status: verified
+      source: regolamento-napoli
+    - text: >-
+        Dopo l'avvio, ogni variazione soggettiva od oggettiva (per esempio i locali ampliati, ridotti o
+        ridistribuiti, le attrezzature, il responsabile tecnico) si comunica al SUAP entro 30 giorni: non
+        serve una nuova SCIA (artt. 7, 16 e 32, c. 2, lett. c). Sul portale è la pratica "Variazioni
+        strutturali", una per l'acconciatore e una per l'estetista.
       status: verified
       source: regolamento-napoli
     - text: >-
