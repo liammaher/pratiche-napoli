@@ -1,7 +1,7 @@
 schema_version: 0
 id: suap-napoli
 title: "SUAP di Napoli: quale pratica presentare per un negozio, un bar o ristorante, un acconciatore o un B&B"
-updated: 2026-10-29
+updated: 2026-11-10
 intro: >-
   Da poche risposte sull'attività (che cosa è, che cosa succede, dove si trova) alle pratiche da
   presentare al SUAP di Napoli e al loro regime. Ogni regola rimanda a quanto è verificato nella
@@ -222,12 +222,20 @@ rules:
     status: verified
   - id: vicinato-alimentare-variazioni-senza-consumo
     when: {attivita: [vicinato_alimentare], evento: [trasferimento, ampliamento], superficie_vendita_mq: {upto: 250}, consumo_sul_posto: false}
-    then: {role: main, procedure: napoli/comune/scia-esercizio-vicinato, regime: scia}
+    then:
+      role: main
+      procedure: napoli/comune/scia-esercizio-vicinato
+      regime: scia
+      portal: {settore: "Vicinato - settore merceologico Alimentare o Misto"}
     cites: [{procedure: napoli/comune/scia-esercizio-vicinato, source: dlgs-59-art65}]
     status: verified
   - id: vicinato-alimentare-consumo-zona-c
     when: {attivita: [vicinato_alimentare], evento: [apertura, trasferimento, ampliamento], superficie_vendita_mq: {upto: 250}, consumo_sul_posto: true, zona: [c]}
-    then: {role: main, procedure: napoli/comune/scia-esercizio-vicinato, regime: scia}
+    then:
+      role: main
+      procedure: napoli/comune/scia-esercizio-vicinato
+      regime: scia
+      portal: {settore: "Vicinato - settore merceologico Alimentare o Misto"}
     cites: [{procedure: napoli/comune/scia-esercizio-vicinato, source: zone-tutelate}]
     status: verified
   - id: vicinato-alimentare-consumo-apertura-zone-tutelate
@@ -241,7 +249,11 @@ rules:
     status: verified
   - id: vicinato-alimentare-consumo-variazioni-zone-tutelate
     when: {attivita: [vicinato_alimentare], evento: [trasferimento, ampliamento], superficie_vendita_mq: {upto: 250}, consumo_sul_posto: true, zona: [a, b]}
-    then: {role: main, procedure: napoli/comune/scia-esercizio-vicinato, regime: autorizzazione}
+    then:
+      role: main
+      procedure: napoli/comune/scia-esercizio-vicinato
+      regime: autorizzazione
+      portal: {settore: "Vicinato - settore alimentare consumo immediato (zone tutelate)"}
     cites: [{procedure: napoli/comune/scia-esercizio-vicinato, source: zone-tutelate}]
     status: verified
   - id: vicinato-non-alimentare-subingresso
