@@ -59,16 +59,16 @@ facts:
     how: Lo stabilisce il tecnico abilitato, o il Comando dei Vigili del Fuoco.
   alcolici:
     type: yes_no
-    question: "Venderà o servirà bevande alcoliche?"
+    question: "Venderai o servirai bevande alcoliche?"
   insegna:
     type: yes_no
-    question: "Avrà un'insegna, una targa o una vetrofania?"
+    question: "Avrai un'insegna, una targa o una vetrofania?"
   musica:
     type: yes_no
-    question: "Userà impianti di diffusione sonora, o farà eventi con musica o strumenti musicali?"
+    question: "Userai impianti di diffusione sonora, o farai eventi con musica o strumenti musicali?"
   dehors:
     type: yes_no
-    question: "Vuole tavoli e sedie all'aperto, su suolo pubblico?"
+    question: "Vuoi tavoli e sedie all'aperto, su suolo pubblico?"
 rules:
   # --- Bar e ristoranti ---
   - id: somministrazione-apertura-zona-c
