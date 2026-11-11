@@ -14,7 +14,8 @@ facts:
       somministrazione: "Bar, ristorante, pizzeria o altro locale dove i clienti mangiano o bevono sul posto, con servizio"
       vicinato_alimentare: "Negozio che vende alimenti (anche insieme ad altro)"
       vicinato_non_alimentare: "Negozio che non vende alimenti"
-      acconciatore_estetista: "Acconciatore, barbiere o estetista (non tatuaggio o piercing)"
+      acconciatore: "Acconciatore o barbiere"
+      estetista: "Estetista (non tatuaggio o piercing)"
       bed_and_breakfast: "Bed and breakfast in una parte della casa in cui si vive"
   evento:
     type: choice
@@ -317,16 +318,32 @@ rules:
 
   # --- Acconciatori ed estetisti ---
   - id: acconciatore-estetista-scia
-    when: {attivita: [acconciatore_estetista], evento: [apertura, trasferimento, subingresso]}
+    when: {attivita: [acconciatore, estetista], evento: [apertura, trasferimento, subingresso]}
     then: {role: main, procedure: napoli/comune/scia-acconciatore-estetista, regime: scia}
     cites: [{procedure: napoli/comune/scia-acconciatore-estetista, source: regolamento-napoli}]
     status: verified
-  - id: acconciatore-estetista-ampliamento
-    when: {attivita: [acconciatore_estetista], evento: [ampliamento]}
-    then: {refuse: "Le variazioni strutturali di un acconciatore o di un estetista non sono ancora nella libreria."}
+  # Una variazione dei locali dopo l'avvio si comunica al SUAP entro 30 giorni (artt. 16 e 32 del
+  # regolamento comunale); sul portale è un'operazione per mestiere.
+  - id: acconciatore-ampliamento
+    when: {attivita: [acconciatore], evento: [ampliamento]}
+    then:
+      role: main
+      procedure: napoli/comune/scia-acconciatore-estetista
+      regime: comunicazione
+      portal: {settore: "Acconciatore, barbiere, estetista, tatuatore e piercer", operazione: "Variazioni strutturali in attività di acconciatore"}
+    cites: [{procedure: napoli/comune/scia-acconciatore-estetista, source: regolamento-napoli}]
+    status: verified
+  - id: estetista-ampliamento
+    when: {attivita: [estetista], evento: [ampliamento]}
+    then:
+      role: main
+      procedure: napoli/comune/scia-acconciatore-estetista
+      regime: comunicazione
+      portal: {settore: "Acconciatore, barbiere, estetista, tatuatore e piercer", operazione: "Variazioni strutturali in attività di estetista"}
+    cites: [{procedure: napoli/comune/scia-acconciatore-estetista, source: regolamento-napoli}]
     status: verified
   - id: acconciatore-estetista-cessazione
-    when: {attivita: [acconciatore_estetista], evento: [cessazione]}
+    when: {attivita: [acconciatore, estetista], evento: [cessazione]}
     then: {role: main, procedure: napoli/comune/cessazione-attivita-commerciale, regime: comunicazione}
     cites: [{procedure: napoli/comune/cessazione-attivita-commerciale, source: regolamento-acconciatori}]
     status: verified
